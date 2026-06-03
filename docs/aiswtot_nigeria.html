@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nigeria AI Startup Bootcamp | 10-Day Learning Contents</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary-color: #004098;
+      --secondary-color: #005bb5;
+      --bg-light: #f8fafc;
+      --text-main: #1e293b;
+      --text-muted: #475569;
+      --border-color: #e2e8f0;
+      --accent-color: #dbeafe;
+      --card-radius: 18px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-main);
+      line-height: 1.65;
+      background: #ffffff;
+    }
+
+    h1, h2, h3, h4, p, li, span { word-break: keep-all; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section { padding: 80px 0; }
+    .bg-gray { background: var(--bg-light); }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .nav-container {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 22px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .hero {
+      margin-top: 70px;
+      padding: 120px 0 90px;
+      background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color), #002255);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: white;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      line-height: 1.2;
+      margin-bottom: 18px;
+      font-weight: 800;
+    }
+
+    .hero h2 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      opacity: 0.92;
+      margin-bottom: 22px;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      opacity: 0.9;
+      max-width: 720px;
+      margin-bottom: 28px;
+    }
+
+    .hero-box {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-box h3 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: 0.25s ease;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--primary-color);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: #f8fafc;
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.35);
+      color: white;
+      background: transparent;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      color: var(--primary-color);
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .section-desc {
+      max-width: 860px;
+      margin: 0 auto 42px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.02rem;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .overview-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      padding: 26px 20px;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    }
+
+    .overview-card .value {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .overview-card .label {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .curriculum-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 26px;
+    }
+
+    .course-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .course-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0,64,152,0.10);
+    }
+
+    .course-thumb {
+      height: 180px;
+      background: linear-gradient(135deg, #dbeafe, #eff6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .course-thumb.placeholder {
+      background: linear-gradient(135deg, #e2e8f0, #f8fafc);
+      color: #64748b;
+    }
+
+    .course-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex-grow: 1;
+    }
+
+    .day-label {
+      display: inline-block;
+      width: fit-content;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: #eaf2ff;
+      color: var(--primary-color);
+    }
+
+    .course-title {
+      font-size: 1.22rem;
+      line-height: 1.35;
+      font-weight: 800;
+      color: var(--primary-color);
+    }
+
+    .course-subtitle {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .course-desc {
+      color: var(--text-muted);
+      font-size: 0.96rem;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .meta-item {
+      background: var(--bg-light);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.93rem;
+      color: var(--text-main);
+    }
+
+    .meta-item strong {
+      color: var(--primary-color);
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .time-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .time-row {
+      border-left: 3px solid #bfdbfe;
+      padding-left: 12px;
+      font-size: 0.94rem;
+      color: var(--text-main);
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    .placeholder-note {
+      margin-top: auto;
+      padding: 14px;
+      border-radius: 12px;
+      background: #f8fafc;
+      color: #64748b;
+      font-size: 0.92rem;
+      border: 1px dashed #cbd5e1;
+    }
+
+    .footer-cta {
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 70px 20px;
+    }
+
+    .footer-cta h3 {
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+
+    .footer-cta p {
+      max-width: 760px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .overview-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-grid,
+      .overview-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 { font-size: 2.2rem; }
+      .hero h2 { font-size: 1.1rem; }
+      section { padding: 64px 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo">Nigeria AI Startup Bootcamp</a>
+      <ul class="nav-links">
+        <li><a href="#overview">프로그램 소개</a></li>
+        <li><a href="#curriculum">10일 커리큘럼</a></li>
+        <li><a href="#final">최종 결과</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1>Build an AI Startup in 10 Days</h1>
+        <h2>AI를 활용해 아이디어를 실제 POC 가능한 서비스로 구현하는 10일 실전 프로그램</h2>
+        <p>
+          이 과정은 나이지리아 현지에서 AI SW를 활용해 창업 프로젝트를 설계하고,
+          화면 기획부터 프로토타입, 개발, 배포, 데모까지 이어지는 제품 제작 경험을 목표로 합니다.
+        </p>
+        <a href="#curriculum" class="btn btn-primary">학습 콘텐츠 보기</a>
+        <a href="#final" class="btn btn-outline">최종 산출물 보기</a>
+      </div>
+      <div class="hero-box">
+        <h3>Program Focus</h3>
+        <div class="hero-badges">
+          <span class="hero-badge">AI Startup</span>
+          <span class="hero-badge">POC Product</span>
+          <span class="hero-badge">UX / Wireframe</span>
+          <span class="hero-badge">Prototype</span>
+          <span class="hero-badge">MVP Build</span>
+          <span class="hero-badge">Deployment</span>
+          <span class="hero-badge">Demo Pitch</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="overview">
+    <div class="container">
+      <h2 class="section-title">Program Overview</h2>
+      <p class="section-desc">
+        기존 프로젝트 소개 영역 대신, 이 섹션은 10일 동안 단계적으로 학습하고 제작하는
+        AI 기반 창업형 SW 교육과정을 소개하도록 구성되었습니다.
+      </p>
+
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="value">10 Days</div>
+          <div class="label">집중형 제품 개발 과정</div>
+        </div>
+        <div class="overview-card">
+          <div class="value">1 POC</div>
+          <div class="label">실제 동작 가능한 결과물 목표</div>
+        </div>
+        <div class="overview-card">
+          <div class="value">AI + SW</div>
+          <div class="label">AI 활용 서비스 설계와 구현</div>
+        </div>
+        <div class="overview-card">
+          <div class="value">Team Build</div>
+          <div class="label">협업 기반 실전 프로젝트 진행</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="curriculum" class="bg-gray">
+    <div class="container">
+      <h2 class="section-title">10-Day Learning Contents</h2>
+      <p class="section-desc">
+        Day 1은 업로드된 PDF 내용을 반영했으며, Day 2부터 Day 10까지는 이후 세부 콘텐츠를 넣을 수 있도록 placeholder 카드로 구성했습니다.
+      </p>
+
+      <div class="curriculum-grid">
+        <!-- Day 1 -->
+        <article class="course-card">
+          <div class="course-thumb">DAY 1</div>
+          <div class="course-content">
+            <span class="day-label">Day 1</span>
+            <h3 class="course-title">AI Product Wireframing with Figma</h3>
+            <p class="course-subtitle">Figma 기초를 익히고 User Flow 기반 핵심 화면 구조를 설계하는 입문 실습</p>
+            <p class="course-desc">
+              서비스 화면 설계의 기본 방법을 이해하고, Landing / Dashboard / Auth 등 핵심 화면의
+              와이어프레임을 제작하며 프로토타입 연결과 협업 기능까지 경험하는 1일차 학습 콘텐츠입니다.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>대상</strong>Figma 입문자(학생)</div>
+              <div class="meta-item"><strong>준비물</strong>노트북, Figma 계정</div>
+              <div class="meta-item"><strong>학습 목표</strong>Figma를 활용한 서비스 화면 설계 기초 습득 및 User Flow 기반 메인 화면 구조 설계</div>
+            </div>
+
+            <div class="time-list">
+              <div class="time-row"><strong>2시간</strong> Figma 사용법 및 화면 설계 방법론 이해</div>
+              <div class="time-row"><strong>3시간</strong> 핵심 화면 와이어프레임 제작 실습</div>
+              <div class="time-row"><strong>1시간</strong> 결과 발표 및 피드백 공유</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Screen Design</span>
+              <span class="tag">Wireframe</span>
+              <span class="tag">Prototyping</span>
+              <span class="tag">Collaboration</span>
+              <span class="tag">User Flow</span>
+            </div>
+
+            <div class="meta-item">
+              <strong>예상 산출물</strong>
+              주요 화면 3개 이상 와이어프레임, User Flow Diagram, 화면 간 연결 프로토타입
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 2 -->
+        <article class="course-card">
+          <div class="course-thumb placeholder">DAY 2</div>
+          <div class="course-content">
+            <span class="day-label">Day 2</span>
+            <h3 class="course-title">Placeholder for Learning Content</h3>
+            <p class="course-subtitle">추후 입력 예정</p>
+            <p class="course-desc">
+              Day 2 학습 목표, 주요 활동, 산출물, 사용 도구, 시간 구조를 여기에 입력하세요.
+            </p>
+            <div class="placeholder-note">
+              예시 항목: 제목 / 한 줄 소개 / 상세 설명 / 준비물 / 세션 구성 / 핵심 태그
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 3 -->
+        <article class="course-card">
+          <div class="course-thumb placeholder">DAY 3</div>
+          <div class="course-content">
+            <span class="day-label">Day 3</span>
+            <h3 class="course-title">Placeholder for Learning Content</h3>
+            <p class="course-subtitle">추후 입력 예정</p>
+            <p class="course-desc">
+              Day 3에 해당하는 콘텐츠 설명을 넣을 수 있도록 비워둔 카드입니다.
+            </p>
+            <div class="placeholder-note">
+              사용자 리서치, 문제 정의, 시장 검증, 서비스 콘셉트 등 원하는 주제로 교체 가능
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 4 -->
+        <article class="course-card">
+          <div class="course-thumb placeholder">DAY 4</div>
+          <div class="course-content">
+            <span class="day-label">Day 4</span>
+            <h3 class="course-title">Placeholder for Learning Content</h3>
+            <p class="course-subtitle">추후 입력 예정</p>
+            <p class="course-desc">
+              Day 4 카드 자리입니다. 텍스트와 태그, 메타 정보만 교체해서 바로 사용할 수 있습니다.
+            </p>
+            <div class="placeholder-note">
+              AI 기능 정의 / 프롬프트 설계 / 기능 우선순위 등의 주제로 구성 가능
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 5 -->
+        <article class="course-card">
+          <div class="course-thumb placeholder">DAY 5</div>
+          <div class="course-content">
+            <span class="day-label">Day 5</span>
+            <h3 class="course-title">Placeholder for Learning Content</h3>
+            <p class="course-subtitle">추후 입력 예정</p>
+            <p class="course-desc">
+              Day 5 학습 콘텐츠를 위한 placeholder 카드입니다.
+            </p>
+            <div class="placeholder-note">
+              실제 실습 중심 콘텐츠일 경우 시간표 박스나 산출물 박스를 추가하면 좋습니다.
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 6 -->
+        <article class="course-card">
+          <div class="course-thumb placeholder">DAY 6</div>
+          <div class="course-content">
+            <span class="day-label">Day 6</span>
+            <h3 class="course-title">Placeholder for Learning Content</h3>
+            <p class="course-subtitle">추후 입력 예정</p>
+            <p class="course-desc">
+              Day 6 내용 입력 전 기본 구조를 유지하기 위한 placeholder입니다.
+            </p>
+            <div class="placeholder-note">
+              프론트엔드 개발, 백엔드 연결, AI API 통합 등으로 대체 가능
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 7 -->
+        <article class="course-card">
+          <div class="course-thumb placeholder">DAY 7</div>
+          <div class="course-content">
+            <span class="day-label">Day 7</span>
+            <h3 class="course-title">Placeholder for Learning Content</h3>
+            <p class="course-subtitle">추후 입력 예정</p>
+            <p class="course-desc">
+              Day 7의 학습 주제와 결과물을 이후에 추가하면 됩니다.
+            </p>
+            <div class="placeholder-note">
+              데이터 구조 설계, 서비스 흐름 안정화, 테스트 설계 등으로 확장 가능
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 8 -->
+        <article class="course-card">
+          <div class="course-thumb placeholder">DAY 8</div>
+          <div class="course-content">
+            <span class="day-label">Day 8</span>
+            <h3 class="course-title">Placeholder for Learning Content</h3>
+            <p class="course-subtitle">추후 입력 예정</p>
+            <p class="course-desc">
+              Day 8용 카드입니다. 현재는 구조만 유지한 상태입니다.
+            </p>
+            <div class="placeholder-note">
+              품질 개선, UX 피드백, 사용자 테스트, 반복 개선 등의 내용 삽입 가능
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 9 -->
+        <article class="course-card">
+          <div class="course-thumb placeholder">DAY 9</div>
+          <div class="course-content">
+            <span class="day-label">Day 9</span>
+            <h3 class="course-title">Placeholder for Learning Content</h3>
+            <p class="course-subtitle">추후 입력 예정</p>
+            <p class="course-desc">
+              Day 9는 배포 준비 또는 피치 준비 콘텐츠로도 전환하기 좋은 자리입니다.
+            </p>
+            <div class="placeholder-note">
+              배포, 런칭 준비, 피치덱 구성, 데모 시나리오 제작 등으로 교체 가능
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 10 -->
+        <article class="course-card">
+          <div class="course-thumb placeholder">DAY 10</div>
+          <div class="course-content">
+            <span class="day-label">Day 10</span>
+            <h3 class="course-title">Placeholder for Learning Content</h3>
+            <p class="course-subtitle">추후 입력 예정</p>
+            <p class="course-desc">
+              마지막 Day 10 카드입니다. 프로그램 마무리 단계에 맞는 내용을 입력하세요.
+            </p>
+            <div class="placeholder-note">
+              Demo Day, Final Presentation, Review, Reflection, Next Action 등으로 교체 가능
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="final">
+    <div class="container">
+      <h2 class="section-title">Final Outcome</h2>
+      <p class="section-desc">
+        이 과정의 목표는 단순 학습이 아니라, 실제로 보여줄 수 있는 POC 제품과 데모 흐름을 완성하는 것입니다.
+      </p>
+
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="value">Wireframe</div>
+          <div class="label">핵심 화면 구조 설계</div>
+        </div>
+        <div class="overview-card">
+          <div class="value">Prototype</div>
+          <div class="label">클릭 가능한 사용자 흐름</div>
+        </div>
+        <div class="overview-card">
+          <div class="value">POC Build</div>
+          <div class="label">실제 동작 가능한 제품 시연</div>
+        </div>
+        <div class="overview-card">
+          <div class="value">Demo Pitch</div>
+          <div class="label">최종 발표 및 확장 가능성 검토</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-cta">
+    <h3>From Learning to Launch</h3>
+    <p>
+      10일 동안 아이디어를 구체화하고, AI를 활용한 실제 서비스 형태의 결과물로 연결하는
+      집중형 창업 프로젝트 과정을 위한 웹 페이지 구조입니다.
+    </p>
+  </footer>
+</body>
+</html>
