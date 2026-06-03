@@ -190,6 +190,11 @@
       gap: 24px;
     }
 
+    .right-col {
+      position: sticky;
+      top: 96px;
+    }
+
     .card {
       background: var(--panel);
       border: 1px solid #e2e8f0;
@@ -280,8 +285,85 @@
       font-weight: 600;
     }
 
+    /* Playlist Styles */
+    .playlist-wrap {
+      border-top: 1px solid #e2e8f0;
+      background: #fff;
+    }
+
+    .playlist-header {
+      padding: 16px 22px;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #0f172a;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .playlist {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .playlist-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 22px;
+      cursor: pointer;
+      border-bottom: 1px solid #f1f5f9;
+      transition: background 0.2s ease;
+    }
+
+    .playlist-item:last-child {
+      border-bottom: none;
+    }
+
+    .playlist-item:hover {
+      background: #f8fbff;
+    }
+
+    .playlist-item.active {
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      padding-left: 18px;
+    }
+
+    .play-icon {
+      color: #cbd5e1;
+      font-size: 1rem;
+    }
+
+    .playlist-item.active .play-icon {
+      color: var(--primary);
+    }
+
+    .playlist-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .playlist-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .playlist-item.active .playlist-title {
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+
+    .playlist-duration {
+      font-size: 0.82rem;
+      color: #64748b;
+    }
+
     .assistant-panel {
-      min-height: 720px;
+      height: calc(100vh - 120px);
+      min-height: 600px;
       display: flex;
       flex-direction: column;
     }
@@ -346,8 +428,6 @@
       display: flex;
       flex-direction: column;
       gap: 18px;
-      min-height: 460px;
-      max-height: 700px;
     }
 
     .message-row {
@@ -500,7 +580,7 @@
       }
 
       .assistant-panel {
-        min-height: 640px;
+        height: 640px;
       }
     }
 
@@ -572,7 +652,7 @@
           <div class="video-wrap">
             <div class="video-frame">
               <!-- 아래 video src를 실제 생성된 교수님 영상 URL로 교체하세요 -->
-              <video controls playsinline preload="metadata">
+              <video id="mainVideo" controls playsinline preload="metadata">
                 <source src="video-1780470675355.mp4" type="video/mp4" />
                 브라우저가 video 태그를 지원하지 않습니다.
               </video>
@@ -582,6 +662,33 @@
           <div class="video-note">
             현재 영상 소스는 생성된 실사형 교수님 설명 영상 예시 URL입니다.  
             원하는 최종 영상 URL로 교체하면 바로 사용 가능합니다.
+          </div>
+
+          <div class="playlist-wrap">
+            <div class="playlist-header">📚 전체 강의 목록</div>
+            <ul class="playlist">
+              <li class="playlist-item active" data-src="video-1780470675355.mp4">
+                <span class="play-icon">▶</span>
+                <div class="playlist-info">
+                  <div class="playlist-title">1. Figma 기초 및 화면 설계 방법론</div>
+                  <div class="playlist-duration">15:30</div>
+                </div>
+              </li>
+              <li class="playlist-item" data-src="https://www.w3schools.com/html/mov_bbb.mp4">
+                <span class="play-icon">▶</span>
+                <div class="playlist-info">
+                  <div class="playlist-title">2. 핵심 화면 와이어프레임 제작 실습</div>
+                  <div class="playlist-duration">22:15</div>
+                </div>
+              </li>
+              <li class="playlist-item" data-src="https://www.w3schools.com/html/mov_bbb.mp4">
+                <span class="play-icon">▶</span>
+                <div class="playlist-info">
+                  <div class="playlist-title">3. 프로토타입 연결 및 결과 공유 피드백</div>
+                  <div class="playlist-duration">18:45</div>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -802,6 +909,23 @@
     });
 
     renderMessages(false);
+
+    // Video Playlist Logic
+    const mainVideo = document.getElementById("mainVideo");
+    const playlistItems = document.querySelectorAll(".playlist-item");
+
+    playlistItems.forEach(item => {
+      item.addEventListener("click", function() {
+        // 모든 아이템에서 active 클래스 제거 후 클릭한 항목에 추가
+        playlistItems.forEach(el => el.classList.remove("active"));
+        this.classList.add("active");
+        
+        // 비디오 소스 변경 및 자동 재생
+        const newSrc = this.getAttribute("data-src");
+        mainVideo.src = newSrc;
+        mainVideo.play();
+      });
+    });
   </script>
 </body>
 </html>
