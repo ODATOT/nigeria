@@ -3,20 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nigeria AI Startup Bootcamp | 10-Day Learning Contents</title>
+  <title>대구디지털혁신진흥원 AI SW 파일럿 과정 | 10-Day Learning Contents</title>
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
     :root {
-      --primary-color: #004098;
-      --secondary-color: #005bb5;
-      --bg-light: #f8fafc;
-      --text-main: #1e293b;
-      --text-muted: #475569;
-      --border-color: #e2e8f0;
-      --accent-color: #dbeafe;
+      --primary-color: #3b82f6; /* Electric Blue */
+      --secondary-color: #06b6d4; /* Neon Cyan */
+      --bg-dark: #09090b; /* Primary Background: Deep Black */
+      --bg-charcoal: #111827; /* Secondary Background */
+      --bg-card: #1a1d24; /* Surface/Card: Dark Gray */
+      --text-main: #ffffff; /* Primary: White */
+      --text-muted: #e4e4e7; /* Secondary: Light Gray */
+      --text-desc: #71717a; /* Description: Gray */
+      --border-color: rgba(255, 255, 255, 0.08); /* Thin border with low opacity */
+      --accent-color: #06b6d4; /* Neon Cyan */
+      --accent-purple: #8b5cf6; /* Purple highlight */
       --card-radius: 18px;
-      --shadow-sm: 0 8px 22px rgba(0,0,0,0.05);
-      --shadow-md: 0 16px 32px rgba(0,64,152,0.10);
+      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+      --shadow-md: 0 8px 30px rgba(59, 130, 246, 0.1), 0 0 1px rgba(255, 255, 255, 0.2);
+      --glow-blue: 0 0 15px rgba(59, 130, 246, 0.35);
+      --glow-cyan: 0 0 15px rgba(6, 182, 212, 0.35);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,7 +31,12 @@
       font-family: 'Pretendard', sans-serif;
       color: var(--text-main);
       line-height: 1.65;
-      background: #ffffff;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+        linear-gradient(to bottom, #09090b 0%, #111827 100%);
+      background-attachment: fixed;
     }
 
     h1, h2, h3, h4, p, li, span, strong { word-break: keep-all; }
@@ -37,16 +48,18 @@
     }
 
     section { padding: 80px 0; }
-    .bg-gray { background: var(--bg-light); }
+    .bg-gray { background: transparent; }
 
     .navbar {
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 1000;
-      background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      background: rgba(9, 9, 11, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .nav-container {
@@ -57,10 +70,22 @@
     }
 
     .logo {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 800;
-      color: var(--primary-color);
+      color: #ffffff;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .logo::before {
+      content: "";
+      width: 8px;
+      height: 20px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      border-radius: 999px;
+      display: inline-block;
     }
 
     .nav-links {
@@ -71,18 +96,33 @@
 
     .nav-links a {
       text-decoration: none;
-      color: var(--text-main);
+      color: var(--text-muted);
       font-weight: 600;
       font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary-color);
+      text-shadow: var(--glow-cyan);
     }
 
     .hero {
       margin-top: 70px;
       padding: 120px 0 90px;
-      background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color), #002255);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: white;
+      background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1), transparent 60%), #09090b;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
     }
 
     @keyframes gradientBG {
@@ -103,6 +143,9 @@
       line-height: 1.2;
       margin-bottom: 18px;
       font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 30%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero h2 {
@@ -120,18 +163,20 @@
     }
 
     .hero-box {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(26, 29, 36, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 24px;
       padding: 28px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .hero-box h3 {
       font-size: 1.1rem;
       margin-bottom: 16px;
       font-weight: 700;
+      color: #93c5fd;
     }
 
     .hero-badges {
@@ -145,10 +190,18 @@
       align-items: center;
       padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.16);
-      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
       font-size: 0.92rem;
+      color: white;
       font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .hero-badge:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
     }
 
     .btn {
@@ -157,33 +210,51 @@
       padding: 14px 28px;
       border-radius: 999px;
       font-weight: 700;
-      transition: 0.25s ease;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       margin-right: 10px;
       margin-bottom: 10px;
     }
 
     .btn-primary {
-      background: white;
-      color: var(--primary-color);
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      color: white;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      background: #f8fafc;
+      box-shadow: 0 6px 24px rgba(59, 130, 246, 0.6), 0 0 15px rgba(6, 182, 212, 0.4);
     }
 
     .btn-outline {
-      border: 1px solid rgba(255,255,255,0.35);
+      border: 1.5px solid rgba(255,255,255,0.15);
       color: white;
-      background: transparent;
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(4px);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.4);
+      transform: translateY(-2px);
     }
 
     .section-title {
       text-align: center;
-      font-size: 2rem;
-      color: var(--primary-color);
+      font-size: 2.2rem;
+      color: #ffffff;
       font-weight: 800;
       margin-bottom: 18px;
+    }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      margin: 12px auto 0;
+      border-radius: 999px;
     }
 
     .section-desc {
@@ -201,17 +272,27 @@
     }
 
     .overview-card {
-      background: white;
-      border: 1px solid var(--border-color);
+      background: rgba(26, 29, 36, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: var(--card-radius);
       padding: 26px 20px;
       text-align: center;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .overview-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md), 0 0 15px rgba(6, 182, 212, 0.15);
+      border-color: rgba(6, 182, 212, 0.3);
     }
 
     .overview-card .value {
-      font-size: 1.5rem;
-      color: var(--primary-color);
+      font-size: 1.6rem;
+      color: var(--secondary-color);
+      text-shadow: var(--glow-cyan);
       font-weight: 800;
       margin-bottom: 6px;
     }
@@ -219,29 +300,34 @@
     .overview-card .label {
       font-size: 0.95rem;
       color: var(--text-muted);
+      font-weight: 500;
     }
 
     .curriculum-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 26px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
     }
 
     .course-card {
-      background: white;
-      border: 1px solid var(--border-color);
+      background: rgba(26, 29, 36, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: var(--card-radius);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
-      min-height: 100%;
+      height: 100%;
+      min-height: 480px; /* Vertically tall cards */
     }
 
     .course-card:hover {
       transform: translateY(-6px);
-      box-shadow: var(--shadow-md);
+      box-shadow: var(--shadow-md), 0 0 20px rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.3);
     }
 
     .course-card.is-clickable {
@@ -254,30 +340,43 @@
       position: absolute;
       top: 16px;
       right: 16px;
-      background: rgba(255,255,255,0.92);
-      color: var(--primary-color);
+      background: rgba(17, 24, 39, 0.8);
+      backdrop-filter: blur(4px);
+      color: var(--secondary-color);
       font-size: 0.78rem;
       font-weight: 800;
-      padding: 7px 10px;
+      padding: 7px 12px;
       border-radius: 999px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    .course-card.is-clickable:hover::after {
+      background: var(--primary-color);
+      color: white;
+      transform: scale(1.05);
+      box-shadow: var(--glow-blue);
     }
 
     .course-thumb {
-      height: 180px;
-      background: linear-gradient(135deg, #dbeafe, #eff6ff);
+      height: 220px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(6, 182, 212, 0.05));
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--primary-color);
-      font-size: 1.2rem;
+      color: #ffffff;
+      font-size: 1.4rem;
       font-weight: 800;
       letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
     }
 
     .course-thumb.placeholder {
-      background: linear-gradient(135deg, #e2e8f0, #f8fafc);
-      color: #64748b;
+      background: linear-gradient(135deg, rgba(26, 29, 36, 0.4), rgba(26, 29, 36, 0.8));
+      color: #71717a;
+      text-shadow: none;
     }
 
     .course-content {
@@ -286,30 +385,46 @@
       flex-direction: column;
       gap: 14px;
       flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    /* Hide detailed elements inside course-card to keep it simple, clean and concise */
+    .course-card .course-desc,
+    .course-card .meta-grid,
+    .course-card .time-list,
+    .course-card .meta-item {
+      display: none;
     }
 
     .day-label {
       display: inline-block;
       width: fit-content;
-      padding: 7px 12px;
+      padding: 6px 12px;
       border-radius: 999px;
       font-size: 0.82rem;
       font-weight: 700;
-      background: #eaf2ff;
-      color: var(--primary-color);
+      background: rgba(6, 182, 212, 0.1);
+      color: var(--secondary-color);
+      border: 1px solid rgba(6, 182, 212, 0.15);
     }
 
     .course-title {
       font-size: 1.22rem;
       line-height: 1.35;
       font-weight: 800;
-      color: var(--primary-color);
+      color: #ffffff;
+      transition: color 0.2s ease;
+    }
+
+    .course-card:hover .course-title {
+      color: var(--secondary-color);
+      text-shadow: var(--glow-cyan);
     }
 
     .course-subtitle {
       font-size: 0.98rem;
       font-weight: 600;
-      color: var(--text-main);
+      color: var(--text-muted);
     }
 
     .course-desc {
@@ -325,15 +440,16 @@
     }
 
     .meta-item {
-      background: var(--bg-light);
+      background: rgba(255, 255, 255, 0.03);
       border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
       padding: 12px 14px;
       font-size: 0.93rem;
-      color: var(--text-main);
+      color: var(--text-muted);
     }
 
     .meta-item strong {
-      color: var(--primary-color);
+      color: var(--secondary-color);
       display: inline-block;
       margin-right: 6px;
     }
@@ -345,10 +461,15 @@
     }
 
     .time-row {
-      border-left: 3px solid #bfdbfe;
+      border-left: 3px solid rgba(6, 182, 212, 0.4);
       padding-left: 12px;
       font-size: 0.94rem;
-      color: var(--text-main);
+      color: var(--text-muted);
+    }
+
+    .time-row strong {
+      color: var(--secondary-color);
+      margin-right: 6px;
     }
 
     .tag-list {
@@ -359,29 +480,38 @@
     }
 
     .tag {
-      padding: 8px 10px;
+      padding: 6px 12px;
       border-radius: 999px;
-      background: #f1f5f9;
-      color: #334155;
-      font-size: 0.84rem;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      font-size: 0.8rem;
       font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.2s ease;
+    }
+
+    .tag:hover {
+      background: rgba(59, 130, 246, 0.15);
+      color: #ffffff;
+      border-color: rgba(59, 130, 246, 0.3);
     }
 
     .placeholder-note {
       margin-top: auto;
       padding: 14px;
       border-radius: 12px;
-      background: #f8fafc;
-      color: #64748b;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-desc);
       font-size: 0.92rem;
-      border: 1px dashed #cbd5e1;
+      border: 1px dashed rgba(255, 255, 255, 0.1);
     }
 
     .footer-cta {
-      background: #0f172a;
+      background: #09090b;
       color: white;
       text-align: center;
       padding: 70px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .footer-cta h3 {
@@ -392,14 +522,15 @@
     .footer-cta p {
       max-width: 760px;
       margin: 0 auto;
-      opacity: 0.9;
+      opacity: 0.8;
+      color: var(--text-muted);
     }
 
     /* Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.76);
+      background: rgba(9, 9, 11, 0.85);
       backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
@@ -421,11 +552,12 @@
       max-width: 1100px;
       max-height: 90vh;
       overflow: auto;
-      background: white;
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 24px;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
       transform: translateY(24px) scale(0.98);
-      transition: transform 0.25s ease;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
     }
 
@@ -441,16 +573,23 @@
       height: 44px;
       border-radius: 999px;
       border: none;
-      background: rgba(255,255,255,0.96);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
       cursor: pointer;
       font-size: 1.4rem;
-      color: #334155;
+      color: #ffffff;
       z-index: 4;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: rotate(90deg);
     }
 
     .modal-hero {
-      background: linear-gradient(135deg, #0f4aa8, #0b72cf);
+      background: linear-gradient(135deg, #09090b, #111827);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       color: white;
       padding: 42px 36px 32px;
       border-radius: 24px 24px 0 0;
@@ -459,12 +598,13 @@
     .modal-day {
       display: inline-flex;
       padding: 8px 12px;
-      background: rgba(255,255,255,0.16);
-      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
       border-radius: 999px;
       font-size: 0.84rem;
       font-weight: 700;
       margin-bottom: 14px;
+      color: var(--primary-color);
     }
 
     .modal-title {
@@ -478,6 +618,7 @@
       font-size: 1.04rem;
       opacity: 0.92;
       max-width: 760px;
+      color: var(--text-muted);
     }
 
     .modal-body {
@@ -497,19 +638,20 @@
 
     .modal-section h4 {
       font-size: 1.1rem;
-      color: var(--primary-color);
+      color: var(--secondary-color);
       margin-bottom: 12px;
       font-weight: 800;
+      text-shadow: var(--glow-cyan);
     }
 
     .modal-section p {
-      color: var(--text-main);
+      color: var(--text-muted);
       margin-bottom: 10px;
     }
 
     .info-panel {
-      background: #f8fbff;
-      border: 1px solid #dbeafe;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 18px;
       padding: 20px;
       margin-bottom: 18px;
@@ -518,7 +660,7 @@
     .info-panel h5 {
       font-size: 0.96rem;
       margin-bottom: 12px;
-      color: var(--primary-color);
+      color: var(--secondary-color);
       font-weight: 800;
     }
 
@@ -529,15 +671,16 @@
     }
 
     .info-list li {
-      background: white;
-      border: 1px solid #e5eefc;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 12px;
       padding: 12px 14px;
       font-size: 0.94rem;
+      color: var(--text-muted);
     }
 
     .info-list li strong {
-      color: var(--primary-color);
+      color: var(--secondary-color);
       margin-right: 6px;
     }
 
@@ -547,18 +690,25 @@
     }
 
     .session-card {
-      border: 1px solid var(--border-color);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 16px;
       padding: 16px 18px;
-      background: white;
+      background: rgba(255, 255, 255, 0.01);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+    }
+
+    .session-card:hover {
+      border-color: rgba(59, 130, 246, 0.2);
+      background: rgba(255, 255, 255, 0.03);
     }
 
     .session-time {
       display: inline-block;
       font-size: 0.82rem;
       font-weight: 800;
-      color: var(--primary-color);
-      background: #eaf2ff;
+      color: var(--secondary-color);
+      background: rgba(6, 182, 212, 0.1);
       border-radius: 999px;
       padding: 6px 10px;
       margin-bottom: 10px;
@@ -567,11 +717,11 @@
     .session-card h5 {
       font-size: 1rem;
       margin-bottom: 8px;
-      color: #0f172a;
+      color: #ffffff;
     }
 
     .session-card p {
-      color: var(--text-muted);
+      color: #a1a1aa;
       font-size: 0.95rem;
     }
 
@@ -580,7 +730,7 @@
       gap: 8px;
       margin-top: 10px;
       padding-left: 18px;
-      color: var(--text-main);
+      color: var(--text-muted);
       font-size: 0.95rem;
     }
 
@@ -591,12 +741,13 @@
     }
 
     .outcome-tag {
-      background: #eff6ff;
-      color: #1e40af;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--secondary-color);
       font-size: 0.88rem;
       font-weight: 700;
       padding: 10px 12px;
       border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     @media (max-width: 1024px) {
@@ -622,35 +773,34 @@
       .modal-title { font-size: 1.55rem; }
     }
 
+    .ai-class-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      transition: all 0.3s ease;
+    }
 
-  .ai-class-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 18px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #0f4aa8, #0b72cf);
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.95rem;
-    box-shadow: 0 10px 24px rgba(15, 74, 168, 0.18);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .ai-class-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 28px rgba(15, 74, 168, 0.24);
-  }
-
-
+    .ai-class-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5), 0 0 10px rgba(6, 182, 212, 0.3);
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+    }
   </style>
 </head>
 <body>
   <nav class="navbar">
     <div class="container nav-container">
-      <a href="#" class="logo">Nigeria AI Startup Bootcamp</a>
+      <a href="index.html" class="logo">대구디지털혁신진흥원 AI SW 파일럿 과정</a>
       <ul class="nav-links">
+        <li><a href="index.html">과정 홈</a></li>
         <li><a href="#overview">프로그램 소개</a></li>
         <li><a href="#curriculum">10일 커리큘럼</a></li>
         <li><a href="#final">최종 결과</a></li>
@@ -664,7 +814,7 @@
         <h1>Build an AI Startup in 10 Days</h1>
         <h2>AI를 활용해 아이디어를 실제 POC 가능한 서비스로 구현하는 10일 실전 프로그램</h2>
         <p>
-          이 과정은 나이지리아 현지에서 AI SW를 활용해 창업 프로젝트를 설계하고,
+          이 과정은 대구디지털혁신진흥원(DIP) 지원 하에 AI SW를 활용해 창업 프로젝트를 설계하고,
           화면 기획부터 프로토타입, 개발, 배포, 데모까지 이어지는 제품 제작 경험을 목표로 합니다.
         </p>
         <a href="#curriculum" class="btn btn-primary">학습 콘텐츠 보기</a>
@@ -723,7 +873,7 @@
       <div class="curriculum-grid">
         <!-- Day 1 -->
         <article class="course-card is-clickable" id="openDay1Modal" tabindex="0" role="button" aria-label="Day 1 상세 커리큘럼 열기">
-          <div class="course-thumb">DAY 1</div>
+          <div class="course-thumb" style="background-image: url('img/day1_wireframe.png'); background-size: cover; background-position: center;">DAY 1</div>
           <div class="course-content">
             <span class="day-label">Day 1</span>
             <h3 class="course-title">AI Product Wireframing with Figma</h3>
@@ -769,7 +919,7 @@
 
         <!-- Day 2 -->
         <article class="course-card is-clickable" id="openDay2Modal" tabindex="0" role="button" aria-label="Day 2 상세 커리큘럼 열기">
-          <div class="course-thumb">DAY 2</div>
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); background-size: cover; background-position: center;">DAY 2</div>
           <div class="course-content">
             <span class="day-label">Day 2</span>
             <h3 class="course-title">Sequence Diagram & Data Flow Design</h3>
@@ -814,7 +964,7 @@
 
         <!-- Day 3 -->
         <article class="course-card is-clickable" id="openDay3Modal" tabindex="0" role="button" aria-label="Day 3 상세 커리큘럼 열기">
-          <div class="course-thumb">DAY 3</div>
+          <div class="course-thumb" style="background-image: url('img/day3_frontend.png'); background-size: cover; background-position: center;">DAY 3</div>
           <div class="course-content">
             <span class="day-label">Day 3</span>
             <h3 class="course-title">Data Normalization & ERD Design</h3>
@@ -858,7 +1008,7 @@
 
         <!-- Day 4 -->
         <article class="course-card is-clickable" id="openDay4Modal" tabindex="0" role="button" aria-label="Day 4 상세 커리큘럼 열기">
-          <div class="course-thumb">DAY 4</div>
+          <div class="course-thumb" style="background-image: url('img/day4_uicomponents.png'); background-size: cover; background-position: center;">DAY 4</div>
           <div class="course-content">
             <span class="day-label">Day 4</span>
             <h3 class="course-title">API Design & Swagger Specification</h3>
@@ -902,7 +1052,7 @@
 
         <!-- Day 5 -->
         <article class="course-card is-clickable" id="openDay5Modal" tabindex="0" role="button" aria-label="Day 5 상세 커리큘럼 열기">
-          <div class="course-thumb">DAY 5</div>
+          <div class="course-thumb" style="background-image: url('img/day5_ai_integration.png'); background-size: cover; background-position: center;">DAY 5</div>
           <div class="course-content">
             <span class="day-label">Day 5</span>
             <h3 class="course-title">UI/UX Design & Interaction Design</h3>
@@ -946,7 +1096,7 @@
 
         <!-- Day 6 -->
         <article class="course-card is-clickable" id="openDay6Modal" tabindex="0" role="button" aria-label="Day 6 상세 커리큘럼 열기">
-          <div class="course-thumb">DAY 6</div>
+          <div class="course-thumb" style="background-image: url('img/day6_backend.png'); background-size: cover; background-position: center;">DAY 6</div>
           <div class="course-content">
             <span class="day-label">Day 6</span>
             <h3 class="course-title">Front-End Development & API Integration</h3>
@@ -990,7 +1140,7 @@
 
         <!-- Day 7 -->
         <article class="course-card is-clickable" id="openDay7Modal" tabindex="0" role="button" aria-label="Day 7 상세 커리큘럼 열기">
-          <div class="course-thumb">DAY 7</div>
+          <div class="course-thumb" style="background-image: url('img/day7_database.png'); background-size: cover; background-position: center;">DAY 7</div>
           <div class="course-content">
             <span class="day-label">Day 7</span>
             <h3 class="course-title">Back-End Service Development</h3>
@@ -1035,7 +1185,7 @@
 
         <!-- Day 8 -->
         <article class="course-card is-clickable" id="openDay8Modal" tabindex="0" role="button" aria-label="Day 8 상세 커리큘럼 열기">
-          <div class="course-thumb">DAY 8</div>
+          <div class="course-thumb" style="background-image: url('img/day8_auth.png'); background-size: cover; background-position: center;">DAY 8</div>
           <div class="course-content">
             <span class="day-label">Day 8</span>
             <h3 class="course-title">Membership & Verification</h3>
@@ -1079,7 +1229,7 @@
         
         <!-- Day 9 -->
         <article class="course-card is-clickable" id="openDay9Modal" tabindex="0" role="button" aria-label="Day 9 상세 커리큘럼 열기">
-          <div class="course-thumb">DAY 9</div>
+          <div class="course-thumb" style="background-image: url('img/day9_deployment.png'); background-size: cover; background-position: center;">DAY 9</div>
           <div class="course-content">
             <span class="day-label">Day 9</span>
             <h3 class="course-title">Payment System Development</h3>
@@ -1124,7 +1274,7 @@
         
         <!-- Day 10 -->
         <article class="course-card is-clickable" id="openDay10Modal" tabindex="0" role="button" aria-label="Day 10 상세 커리큘럼 열기">
-          <div class="course-thumb">DAY 10</div>
+          <div class="course-thumb" style="background-image: url('img/day10_presentation.png'); background-size: cover; background-position: center;">DAY 10</div>
           <div class="course-content">
             <span class="day-label">Day 10</span>
             <h3 class="course-title">Deployment & Operation</h3>

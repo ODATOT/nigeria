@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Day 1 AI 강의실 | Nigeria AI Startup Bootcamp</title>
+  <title>Day 6 AI 강의실 | Nigeria AI Startup Bootcamp</title>
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
     :root {
@@ -182,7 +182,7 @@
       display: grid;
       grid-template-columns: 1.25fr 0.85fr;
       gap: 24px;
-      align-items: stretch;
+      align-items: start;
     }
 
     .left-col,
@@ -364,7 +364,7 @@
     }
 
     .assistant-panel {
-      height: 100%;
+      height: calc(100vh - 120px);
       min-height: 600px;
       display: flex;
       flex-direction: column;
@@ -823,113 +823,6 @@
     .wip-desc {
       color: #71717a !important;
     }
-
-    /* Tasks Section Styles */
-    .tasks-section {
-      margin-top: 40px;
-    }
-    .tasks-header {
-      margin-bottom: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .tasks-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    .task-card {
-      background: rgba(26, 29, 36, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 16px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .task-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(59, 130, 246, 0.3);
-      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
-    }
-    .task-card-thumb {
-      height: 110px;
-      background-size: cover;
-      background-position: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: rgba(255, 255, 255, 0.9);
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-    }
-    .task-card-content {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      flex-grow: 1;
-    }
-    .task-card-badge {
-      display: inline-block;
-      width: fit-content;
-      padding: 2px 8px;
-      border-radius: 99px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      background: rgba(59, 130, 246, 0.12);
-      color: #93c5fd;
-      border: 1px solid rgba(59, 130, 246, 0.2);
-    }
-    .task-card-title {
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: #ffffff;
-      line-height: 1.3;
-    }
-    .task-card-desc {
-      font-size: 0.76rem;
-      color: #a1a1aa;
-      line-height: 1.45;
-    }
-    .task-card-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      padding: 8px 12px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      color: #ffffff;
-      font-size: 0.78rem;
-      font-weight: 700;
-      margin-top: auto;
-      transition: all 0.2s ease;
-    }
-    .task-card-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
-      background: linear-gradient(135deg, #2563eb, #0891b2);
-    }
-    @media (max-width: 1200px) {
-      .tasks-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-    @media (max-width: 900px) {
-      .tasks-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (max-width: 600px) {
-      .tasks-grid {
-        grid-template-columns: 1fr;
-      }
-    }
   </style>
 </head>
 <body>
@@ -939,7 +832,7 @@
         <div class="brand-badge">AI</div>
         <div class="brand-text">
           <h1>Nigeria AI Startup Bootcamp</h1>
-          <p>Day 1 AI Lecture Classroom</p>
+          <p>프론트엔드 개발 & API 연동과 AI</p>
         </div>
       </div>
 
@@ -952,166 +845,104 @@
   <div class="page-wrap">
     <section class="hero-card">
       <div class="hero-meta">
-        <span class="chip">Day 1</span>
-        <span class="chip">AI Product Requirements &amp; Figma Wireframing</span>
+        <span class="chip">Day 6</span>
+        <span class="chip">프론트엔드 개발 & API 연동과 AI</span>
         <span class="chip">영상 + AI 챗봇 학습</span>
       </div>
-      <h2>Codex 요구사항 명세 &amp; Figma 화면 설계와 AI 학습도우미</h2>
+      <h2>프론트엔드 개발 & API 연동과 AI 학습도우미</h2>
       <p>
-        이 페이지는 Day 1 학습용 상세 페이지입니다. 아래 실습 로드맵에 따라 Codex Client 요구사항 기획 실습을 진행하고,
-        강의 영상 목록에서 Figma 화면 설계 기초를 학습해보세요. 오른쪽 AI 챗봇에게 기획 명세와 와이어프레임 설계에 대해 질문할 수 있습니다.
+        Figma UI를 실제 서비스 화면으로 구현하고, fetch/AJAX 기반 API 연동을 통해 서버 데이터를 화면에 바인딩하며 로딩·에러·빈 상태까지 처리하는 6일차 학습 콘텐츠입니다.
       </p>
       <div class="hero-stats">
-        <div class="hero-stat">대상: 기획자 &amp; 비전공 예비 창업가</div>
-        <div class="hero-stat">준비물: 노트북, Codex Client, Figma 계정</div>
+        <div class="hero-stat">대상: UI/UX 고해상도 디자인을 완료한 학생</div>
+        <div class="hero-stat">준비물: 노트북, VS Code, 웹 브라우저</div>
         <div class="hero-stat">구성: 2시간 이론 / 3시간 실습 / 1시간 공유</div>
       </div>
     </section>
 
-    <!-- 핵심 요약 노트 (Figma와 Codex Client 융합 설계) -->
-    <div class="card" style="margin-top: 24px; margin-bottom: 24px;">
-      <div class="card-head">
-        <h3>핵심 요약 노트</h3>
-        <span class="chip">Day 1 Summary</span>
-      </div>
-
-      <div class="note-body" style="padding: 22px;">
-        <h4 style="color: var(--accent); margin-bottom: 8px;">오늘의 핵심 목표</h4>
-        <p style="color: #e4e4e7; margin-bottom: 12px;">
-          Day 1에서는 Codex Client를 활용한 기획 요구사항 정의서 자동화 실습을 수행하고, Figma를 통한 화면 와이어프레임 설계 기초를 함께 학습합니다.
-        </p>
-
-        <ul style="margin-bottom: 16px; padding-left: 20px; color: #e4e4e7; display: flex; flex-direction: column; gap: 6px;">
-          <li><strong>AI 기반 요구사항 명세:</strong> Codex Client를 사용하여 회의록 전처리부터 Gmail 보고서 발송까지 자동화</li>
-          <li><strong>Figma 기초 익히기:</strong> 프레임, 오토레이아웃 등 피그마 핵심 도구 및 인터페이스 이해</li>
-          <li><strong>Landing &amp; Product Grid Setup:</strong> 12-Column 반응형 표준 가이드 그리드 셋업 (준비중)</li>
-          <li><strong>Hero &amp; Components Design:</strong> 설득력 있는 히어로 영역 스케치 및 재사용 컴포넌트 변형(Variants) 구축 (준비중)</li>
-          <li><strong>Prototyping &amp; Test:</strong> 와이어프레임 노드 연결 및 클릭 가능한 데모를 공유해 사용성 검증 (준비중)</li>
-        </ul>
-
-        <div class="tip-box" style="color: #a5f3fc;">
-          학습 팁: 오른쪽 AI 챗봇에게  
-          “Figma 오토레이아웃이 뭐야?”  
-          또는 “Codex에서 정상 흐름과 예외 흐름은 어떻게 구분해?”  
-          같은 질문을 해보세요.
-        </div>
-      </div>
-    </div>
-
-    <!-- Day 1 실습 MVP Tasks 로드맵 -->
-    <section class="tasks-section" style="margin-bottom: 24px;">
-      <div class="tasks-header">
-        <h3 style="font-size: 1.35rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px;">
-          🚀 Day 1 실습 MVP Tasks 로드맵
-        </h3>
-        <a href="day1-ai-classroom_detail_task.html" class="back-btn" style="padding: 8px 16px; font-size: 0.8rem; font-weight: 700; border-radius: 10px;">전체 Task 보드 가기 →</a>
-      </div>
-
-      <div class="tasks-grid" style="grid-template-columns: repeat(2, 1fr);">
-        <!-- Task Checklist CTA Card -->
-        <article class="task-card" style="background: rgba(6, 182, 212, 0.08); border-color: rgba(6, 182, 212, 0.2); box-shadow: 0 8px 24px rgba(6, 182, 212, 0.15);">
-          <div class="task-card-thumb" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2)); font-size: 2.2rem; display: flex; align-items: center; justify-content: center;">🚀</div>
-          <div class="task-card-content" style="padding: 16px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1;">
-            <span class="task-card-badge" style="background: rgba(6, 182, 212, 0.15); color: #a5f3fc; border-color: rgba(6, 182, 212, 0.25);">Interactive Board</span>
-            <h4 class="task-card-title" style="color: var(--accent); font-size: 0.9rem; font-weight: 800;">실습 Task 체크리스트</h4>
-            <p class="task-card-desc" style="font-size: 0.76rem; color: #a1a1aa; line-height: 1.45;">필수 태스크의 진척도를 기록하고 상세 실습 가이드라인을 확인해보세요.</p>
-            <a href="day1-ai-classroom_detail_task.html" class="task-card-btn" style="background: linear-gradient(135deg, var(--accent), var(--primary)); margin-top: auto; display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 8px 12px; border-radius: 8px; color: #ffffff; font-size: 0.78rem; font-weight: 700; transition: all 0.2s ease;">👉 상세 Task 보드 이동</a>
-          </div>
-        </article>
-
-        <!-- Task 1 (Codex Client Active) -->
-        <article class="task-card">
-          <div class="task-card-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(0deg);">TASK 1</div>
-          <div class="task-card-content">
-            <span class="task-card-badge">Codex AI</span>
-            <h4 class="task-card-title">Codex Client 기반 요구사항 정의 실습</h4>
-            <p class="task-card-desc">0단계 요약 전처리부터 5단계 Gmail 연동 발송까지의 기획서 자동화 구축 실습</p>
-            <a href="day1-ai-codex.html" class="task-card-btn" style="margin-top: auto;">Task 1 실습실 입장</a>
-          </div>
-        </article>
-
-        <!-- Task 2 (Coming Soon Placeholder) -->
-        <article class="task-card" style="opacity: 0.5;">
-          <div class="task-card-thumb" style="background: rgba(255,255,255,0.03); font-size: 1.6rem; display: flex; align-items: center; justify-content: center; height: 120px;">TASK 2</div>
-          <div class="task-card-content" style="padding: 16px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1;">
-            <span class="task-card-badge" style="background: rgba(255,255,255,0.05); color: #a1a1aa; border-color: rgba(255,255,255,0.1);">Coming Soon</span>
-            <h4 class="task-card-title" style="color: #a1a1aa; font-weight: 800;">TASK 2 (준비중)</h4>
-            <p class="task-card-desc" style="color: #71717a; font-size: 0.76rem;">다음 실습 단계가 곧 오픈됩니다.</p>
-            <button class="task-card-btn" style="background: #27272a; border-color: #3f3f46; cursor: not-allowed; margin-top: auto;" disabled>준비중</button>
-          </div>
-        </article>
-
-        <!-- Task 3 (Coming Soon Placeholder) -->
-        <article class="task-card" style="opacity: 0.5;">
-          <div class="task-card-thumb" style="background: rgba(255,255,255,0.03); font-size: 1.6rem; display: flex; align-items: center; justify-content: center; height: 120px;">TASK 3</div>
-          <div class="task-card-content" style="padding: 16px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1;">
-            <span class="task-card-badge" style="background: rgba(255,255,255,0.05); color: #a1a1aa; border-color: rgba(255,255,255,0.1);">Coming Soon</span>
-            <h4 class="task-card-title" style="color: #a1a1aa; font-weight: 800;">TASK 3 (준비중)</h4>
-            <p class="task-card-desc" style="color: #71717a; font-size: 0.76rem;">다음 실습 단계가 곧 오픈됩니다.</p>
-            <button class="task-card-btn" style="background: #27272a; border-color: #3f3f46; cursor: not-allowed; margin-top: auto;" disabled>준비중</button>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- 영상과 학습도우미 AI -->
     <main class="layout">
       <section class="left-col">
         <div class="card">
           <div class="card-head">
-            <h3>Day 1 강의 영상</h3>
+            <h3>Day 6 강의 영상</h3>
             <span class="chip">유튜브 추천 강의</span>
           </div>
 
           <div class="video-wrap">
             <div class="video-frame">
-              <iframe id="mainVideo" src="https://www.youtube.com/embed/jwCmIBJ8Jtc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe id="mainVideo" src="https://www.youtube.com/embed/PkZNo7MFNFg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </div>
 
           <div class="video-note">
-            Day 1 커리큘럼 핵심 주제(Figma 입문, User Flow, Auto Layout, Wireframe, Prototyping)에 해당하는 유튜브 추천 강의 리스트입니다.
+            Day 6 커리큘럼 핵심 주제(HTML/CSS/JS 구현, API 연동, 데이터 바인딩, 비동기 프로그래밍, 에러 핸들링)에 해당하는 유튜브 추천 강의 리스트입니다. (외부 퍼가기 및 재생이 허용된 무료 강의 영상으로 구성되었습니다.)
           </div>
 
           <div class="playlist-wrap">
             <div class="playlist-header">📚 전체 강의 목록 (5개)</div>
             <ul class="playlist">
-              <li class="playlist-item active" data-src="https://www.youtube.com/embed/jwCmIBJ8Jtc">
+              <li class="playlist-item active" data-src="https://www.youtube.com/embed/PkZNo7MFNFg">
                 <span class="play-icon">▶</span>
                 <div class="playlist-info">
-                  <div class="playlist-title">1. Figma 기초 및 화면 설계 입문 (Full Course)</div>
-                  <div class="playlist-duration">9:35:10</div>
+                  <div class="playlist-title">1. Learn JavaScript - Full Course for Beginners (freeCodeCamp)</div>
+                  <div class="playlist-duration">3:26:42</div>
                 </div>
               </li>
-              <li class="playlist-item" data-src="https://www.youtube.com/embed/c9Wg6Cb_YlU">
+              <li class="playlist-item " data-src="https://www.youtube.com/embed/w077w7FN-pg">
                 <span class="play-icon">▶</span>
                 <div class="playlist-info">
-                  <div class="playlist-title">2. User Flow 및 와이어프레임 설계 기초</div>
-                  <div class="playlist-duration">3:58:30</div>
+                  <div class="playlist-title">2. WEB3 - Ajax 수업 소개 (생활코딩)</div>
+                  <div class="playlist-duration">6:20</div>
                 </div>
               </li>
-              <li class="playlist-item" data-src="https://www.youtube.com/embed/D4NyQ5iOMF0">
+              <li class="playlist-item " data-src="https://www.youtube.com/embed/ufjCFdG_4fo">
                 <span class="play-icon">▶</span>
                 <div class="playlist-info">
-                  <div class="playlist-title">3. Figma 와이어프레임 실무 가이드</div>
-                  <div class="playlist-duration">20:45</div>
+                  <div class="playlist-title">3. WEB3 - Ajax fetch API 사용법 (생활코딩)</div>
+                  <div class="playlist-duration">8:10</div>
                 </div>
               </li>
-              <li class="playlist-item" data-src="https://www.youtube.com/embed/D56hs0Twfco">
+              <li class="playlist-item " data-src="https://www.youtube.com/embed/XbeEc_uRCsY">
                 <span class="play-icon">▶</span>
                 <div class="playlist-info">
-                  <div class="playlist-title">4. 메인 화면 와이어프레임 제작 실습</div>
-                  <div class="playlist-duration">4:12:00</div>
+                  <div class="playlist-title">4. JavaScript - jQuery Ajax 소개 (생활코딩)</div>
+                  <div class="playlist-duration">7:45</div>
                 </div>
               </li>
-              <li class="playlist-item" data-src="https://www.youtube.com/embed/RYDiDpW2VkM">
+              <li class="playlist-item " data-src="https://www.youtube.com/embed/5fb2aPlgoys">
                 <span class="play-icon">▶</span>
                 <div class="playlist-info">
-                  <div class="playlist-title">5. Figma 프로토타입 설계 및 디자인 시스템</div>
-                  <div class="playlist-duration">8:14:00</div>
+                  <div class="playlist-title">5. JavaScript DOM Manipulation – Full Course for Beginners (freeCodeCamp)</div>
+                  <div class="playlist-duration">2:15:30</div>
                 </div>
               </li>
             </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>핵심 요약 노트</h3>
+            <span class="chip">Day 6 Summary</span>
+          </div>
+
+          <div class="note-body">
+            <h4>오늘의 핵심 목표</h4>
+            <p>
+              Day 6에서는 Figma UI를 실제 서비스 화면으로 구현하고, fetch/AJAX 기반 API 연동을 통해 서버 데이터를 화면에 바인딩하며 로딩·에러·빈 상태까지 처리합니다.
+            </p>
+
+            <ul>
+              <li><strong>HTML/CSS/JS 웹 화면 구현:</strong> Figma 디자인을 시맨틱 HTML 태그와 CSS 스타일로 구현</li>
+              <li><strong>반응형 레이아웃 설계:</strong> 미디어 쿼리(Media Query) 및 Flexbox/Grid 활용</li>
+              <li><strong>fetch API 기반 데이터 요청:</strong> fetch 및 async-await를 사용한 GET/POST API 호출</li>
+              <li><strong>화면 데이터 바인딩 (Data Binding):</strong> 서버에서 받은 JSON 데이터를 DOM 요소에 적용</li>
+              <li><strong>상태 처리 및 에러 핸들링:</strong> 데이터 로딩 중, 에러 발생, 빈 데이터 상태에 따른 화면 처리</li>
+            </ul>
+
+            <div class="tip-box">
+              학습 팁: 오른쪽 AI 챗봇에게 “async/await 문법을 사용해 fetch API 호출할 때 에러 처리는 어떻게 해?” 또는 “서버에서 받아온 JSON 리스트 데이터를 HTML 화면에 동적으로 뿌리는 방법은?” 같은 질문을 해보세요.
+            </div>
           </div>
         </div>
       </section>
@@ -1163,7 +994,7 @@
     const messages = [
       {
         role: "model",
-        text: "안녕하세요! Day 1 'AI Product Wireframing with Figma' 학습 도우미 AI입니다. Figma 기초, User Flow, Landing / Dashboard / Auth 화면 설계, 프로토타입 연결에 대해 편하게 질문해주세요 😊"
+        text: "안녕하세요! Day 6 'Front-End Development & API Integration' 학습 도우미 AI입니다. HTML/CSS/JS 화면 퍼블리싱, fetch API 연동, 비동기 프로그래밍, DOM 조작에 대해 편하게 질문해주세요 😊"
       }
     ];
 
@@ -1238,7 +1069,7 @@
         ],
         systemInstruction: {
           parts: [{
-            text: "당신은 Day 1 'AI Product Wireframing with Figma'를 돕는 친절한 한국어 AI 조교입니다. 학생들에게 Figma 기초, User Flow, Landing / Dashboard / Auth 화면 구조, 와이어프레임, 프로토타입 연결을 쉽고 명확하게 설명하세요. 짧은 문단과 불릿을 적절히 사용하고, 격려하는 어조를 유지하세요."
+            text: "당신은 Day 6 'Front-End Development & API Integration'을 돕는 친절한 한국어 AI 조교입니다. 학생들에게 HTML5 시맨틱 마크업, CSS Flexbox/Grid 레이아웃, Vanilla JS DOM 조작법, fetch API 및 async/await 비동기 처리, try-catch 에러 핸들링 및 로딩/에러 화면 바인딩 기법을 쉽고 명확하게 설명하세요. 짧은 문단과 불릿을 적절히 사용하고, 격려하는 어조를 유지하세요."
           }]
         }
       };
