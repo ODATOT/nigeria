@@ -1767,6 +1767,18 @@ open-questions.md의 미결정 질문 목록을 바탕으로 아래 조건에 �
         // Run once on load
         setTimeout(updateButtons, 200);
       }
+
+      // Auto select step based on query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const stepParam = urlParams.get('step');
+      if (stepParam !== null) {
+        const targetCard = document.querySelector(`.step-card[data-step="${stepParam}"]`);
+        if (targetCard) {
+          setTimeout(() => {
+            targetCard.click();
+          }, 300);
+        }
+      }
     });
   </script>
 

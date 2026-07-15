@@ -823,6 +823,109 @@
     .wip-desc {
       color: #71717a !important;
     }
+
+    /* Tasks Section Styles */
+    .tasks-section {
+      margin-top: 24px;
+    }
+    .tasks-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .tasks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .task-card {
+      background: rgba(26, 29, 36, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .task-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+    }
+    .task-card-thumb {
+      height: 110px;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    }
+    .task-card-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-grow: 1;
+    }
+    .task-card-badge {
+      display: inline-block;
+      width: fit-content;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(59, 130, 246, 0.12);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    .task-card-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.3;
+    }
+    .task-card-desc {
+      font-size: 0.76rem;
+      color: #a1a1aa;
+      line-height: 1.45;
+    }
+    .task-card-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: auto;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .task-card-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+    }
+    @media (max-width: 1200px) {
+      .tasks-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 768px) {
+      .tasks-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -858,6 +961,116 @@
         <div class="hero-stat">대상: Figma 화면 설계를 완료한 학생</div>
         <div class="hero-stat">준비물: 노트북, 시퀀스 다이어그램 작성 도구 (Mermaid 등)</div>
         <div class="hero-stat">구성: 2시간 이론 / 3시간 실습 / 1시간 공유</div>
+      </div>
+    </section>
+
+    <!-- 핵심 요약 노트 (Figma와 Codex Client 융합 설계) -->
+    <div class="card" style="margin-top: 24px; margin-bottom: 24px;">
+      <div class="card-head">
+        <h3>핵심 요약 노트</h3>
+        <span class="chip">Day 2 Summary</span>
+      </div>
+
+      <div class="note-body" style="padding: 22px;">
+        <h4 style="color: var(--accent); margin-bottom: 8px;">오늘의 핵심 목표</h4>
+        <p style="color: #e4e4e7; margin-bottom: 12px;">
+          Day 2에서는 Figma 화면 설계를 시스템 흐름으로 연결하는 시퀀스 다이어그램 & 데이터 흐름을 설계하고, Codex AI를 프로젝트 설계 검토자(Reviewer)로 활용하여 명세서 정합성 검증, 변경 영향 범위 추적, 의사결정 아카이빙을 실습합니다.
+        </p>
+
+        <ul style="margin-bottom: 16px; padding-left: 20px; color: #e4e4e7; display: flex; flex-direction: column; gap: 6px;">
+          <li><strong>시퀀스 다이어그램 & DFD 설계:</strong> 사용자-클라이언트-서버-DB 상호작용 설계 및 DFD 개념 이해</li>
+          <li><strong>Mermaid JS 다이어그램 코딩:</strong> 코드 기반의 다이어그램 작성법 습득 및 예외 처리 흐름 시각화</li>
+          <li><strong>설계 불일치 검출 (Task 01):</strong> 회의록, 요구사항 정의서, 화면 정의서 간의 기획 모순 자동 검사</li>
+          <li><strong>변경사항 관리 & 영향 분석 (Task 02):</strong> 요구사항 변경 요건에 따른 화면 UI 및 API 명세 영향도 추적</li>
+          <li><strong>의사결정 추적 (Task 03):</strong> 회의 대화록에서 완료된 결정 사항(Why) 추출 및 미결 업무 체크리스트화</li>
+          <li><strong>변경 영향도 분석 (Task 06):</strong> 회원가입 휴대폰 인증 추가에 따른 UI, API, DB 영향 분석 및 리포트화</li>
+          <li><strong>프로젝트 이슈 리포트 (Task 07):</strong> 회의록, 변경이력, 현안 목록에서 위험 요소를 분류한 주간 보고서 자동 생성</li>
+        </ul>
+
+        <div class="tip-box" style="color: #a5f3fc; padding: 10px; border-radius: 6px; background: rgba(6,182,212,0.06); border-left: 3px solid var(--accent); font-size: 0.76rem;">
+          학습 팁: 오른쪽 AI 챗봇에게  
+          “시퀀스 다이어그램에서 동기와 비동기 메시지 차이가 뭐야?”  
+          또는 “Codex에서 기획서 간의 모순을 어떻게 검증해?”  
+          같은 질문을 해보세요.
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 2 실습 MVP Tasks 로드맵 -->
+    <section class="tasks-section" style="margin-bottom: 24px;">
+      <div class="tasks-header">
+        <h3 style="font-size: 1.35rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px;">
+          🚀 Day 2 실습 MVP Tasks 로드맵
+        </h3>
+        <a href="day2-ai-classroom_detail_task.html" class="back-btn" style="padding: 8px 16px; font-size: 0.8rem; font-weight: 700; border-radius: 10px;">전체 Task 보드 가기 →</a>
+      </div>
+
+      <div class="tasks-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <!-- Task Checklist CTA Card -->
+        <article class="task-card" style="background: rgba(6, 182, 212, 0.08); border-color: rgba(6, 182, 212, 0.2); box-shadow: 0 8px 24px rgba(6, 182, 212, 0.15);">
+          <div class="task-card-thumb" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2)); font-size: 2.2rem; display: flex; align-items: center; justify-content: center;">🚀</div>
+          <div class="task-card-content" style="padding: 16px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1;">
+            <span class="task-card-badge" style="background: rgba(6, 182, 212, 0.15); color: #a5f3fc; border-color: rgba(6, 182, 212, 0.25);">Interactive Board</span>
+            <h4 class="task-card-title" style="color: var(--accent); font-size: 0.9rem; font-weight: 800;">실습 Task 체크리스트</h4>
+            <p class="task-card-desc" style="font-size: 0.76rem; color: #a1a1aa; line-height: 1.45;">필수 태스크의 진척도를 기록하고 상세 실습 가이드라인을 확인해보세요.</p>
+            <a href="day2-ai-classroom_detail_task.html" class="task-card-btn" style="background: linear-gradient(135deg, var(--accent), var(--primary)); margin-top: auto; display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 8px 12px; border-radius: 8px; color: #ffffff; font-size: 0.78rem; font-weight: 700; transition: all 0.2s ease;">👉 상세 Task 보드 이동</a>
+          </div>
+        </article>
+
+        <!-- Task 1 (Codex Client Active) -->
+        <article class="task-card">
+          <div class="task-card-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(0deg); color: #fff;">TASK 1</div>
+          <div class="task-card-content">
+            <span class="task-card-badge">Consistency</span>
+            <h4 class="task-card-title">Task 1. 설계 불일치 검출 실습</h4>
+            <p class="task-card-desc">회의록, 요구사항 정의서, 화면 정의서를 대조하여 설계 모순을 자동 검출하고 조치 리포트를 구축합니다.</p>
+            <a href="day2-ai-codex-1.html" class="task-card-btn">Task 1 실습실 입장</a>
+          </div>
+        </article>
+
+        <!-- Task 2 (Codex Client Active) -->
+        <article class="task-card">
+          <div class="task-card-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(90deg); color: #fff;">TASK 2</div>
+          <div class="task-card-content">
+            <span class="task-card-badge">Change Management</span>
+            <h4 class="task-card-title">Task 2. 요구사항 변경 영향도 관리 실습</h4>
+            <p class="task-card-desc">요구사항 변경에 따른 프론트엔드 화면 기획서와 백엔드 API 명세서의 영향 범위를 자동 추적합니다.</p>
+            <a href="day2-ai-codex-2.html" class="task-card-btn">Task 2 실습실 입장</a>
+          </div>
+        </article>
+
+        <!-- Task 3 (Codex Client Active) -->
+        <article class="task-card">
+          <div class="task-card-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(180deg); color: #fff;">TASK 3</div>
+          <div class="task-card-content">
+            <span class="task-card-badge">Decision Tracking</span>
+            <h4 class="task-card-title">Task 3. 미팅 의사결정 이력 추적 실습</h4>
+            <p class="task-card-desc">비정형 구두 회의 및 메신저 대화록에서 완료된 비즈니스 결정 로그와 후속 미결 업무를 추출합니다.</p>
+            <a href="day2-ai-codex-3.html" class="task-card-btn">Task 3 실습실 입장</a>
+          </div>
+        </article>
+
+        <!-- Mission 1 (Task 06) -->
+        <article class="task-card">
+          <div class="task-card-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(270deg); color: #fff;">MISSION 1</div>
+          <div class="task-card-content">
+            <span class="task-card-badge" style="background: rgba(139, 92, 246, 0.15); color: #c4b5fd; border-color: rgba(139, 92, 246, 0.25);">Impact Analysis</span>
+            <h4 class="task-card-title">Mission 1. 변경 영향도 분석 실습</h4>
+            <p class="task-card-desc">회원가입 휴대폰 인증 추가 요청에 따라 영향을 받는 화면, API, DB, 문서 스키마 영향도 보고서를 도출합니다.</p>
+            <a href="day2-ai-codex-mission1.html" class="task-card-btn">Mission 1 실습실 입장</a>
+          </div>
+        </article>
+
+        <!-- Mission 2 (Task 07) -->
+        <article class="task-card">
+          <div class="task-card-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(320deg); color: #fff;">MISSION 2</div>
+          <div class="task-card-content">
+            <span class="task-card-badge" style="background: rgba(139, 92, 246, 0.15); color: #c4b5fd; border-color: rgba(139, 92, 246, 0.25);">Project Status</span>
+            <h4 class="task-card-title">Mission 2. 프로젝트 이슈 리포트 작성 실습</h4>
+            <p class="task-card-desc">회의록, 변경 이력, Action Item, 이슈 목록 등 프로젝트 원본 자료를 통합 분석하여 이슈 리포트를 자동 생성합니다.</p>
+            <a href="day2-ai-codex-mission2.html" class="task-card-btn">Mission 2 실습실 입장</a>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -918,35 +1131,6 @@
                 </div>
               </li>
             </ul>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-head">
-            <h3>핵심 요약 노트</h3>
-            <span class="chip">Day 2 Summary</span>
-          </div>
-
-          <div class="note-body">
-            <h4>오늘의 핵심 목표</h4>
-            <p>
-              Day 2에서는 Figma 화면 설계를 바탕으로 사용자 행동, 데이터 흐름, 시스템 상호작용을 시퀀스 다이어그램으로 시각화하고, 예외 상황까지 함께 설계합니다.
-            </p>
-
-            <ul>
-              <li><strong>시퀀스 다이어그램 개념 이해:</strong> 액터, 오브젝트, 생명선, 메시지 등 핵심 구성 요소 파악</li>
-              <li><strong>데이터 흐름 설계:</strong> 사용자-클라이언트-서버-DB 간 상호작용 및 데이터 전달 흐름 정리</li>
-              <li><strong>핵심 기능 시나리오 작성:</strong> 주요 기능별 시퀀스 다이어그램 작성 실습</li>
-              <li><strong>예외 대응 설계:</strong> 네트워크 지연, 서버 에러, 잘못된 입력 등 예외 상황 및 복구 흐름 명세화</li>
-              <li><strong>다이어그램 코딩 실습:</strong> Mermaid JS 등 코드 기반 다이어그램 도구 활용법 습득</li>
-            </ul>
-
-            <div class="tip-box">
-              학습 팁: 오른쪽 AI 챗봇에게  
-              “시퀀스 다이어그램에서 동기와 비동기 메시지 차이가 뭐야?”  
-              또는 “로그인 기능의 데이터 플로우를 어떻게 그려?”  
-              같은 질문을 해보세요.
-            </div>
           </div>
         </div>
       </section>
