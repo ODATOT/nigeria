@@ -936,7 +936,7 @@
     <div class="container">
       <h2 class="section-title">10-Day Learning Contents</h2>
       <p class="section-desc">
-        Day 1과 Day 2 카드는 클릭 시 상세 커리큘럼 모달이 열리며, Day 3부터 Day 10까지는 placeholder 카드로 구성했습니다.
+        각 카드를 클릭하면 10일간 진행되는 일차별 상세 커리큘럼(세션 구성, 학습 목표, 기대 산출물 등)을 확인하실 수 있습니다.
       </p>
 
       <div class="curriculum-grid">
@@ -1409,38 +1409,35 @@
             DAY 10</div>
           <div class="course-content">
             <span class="day-label">Day 10</span>
-            <h3 class="course-title">Deployment & Operation</h3>
-            <p class="course-subtitle">Docker, CI/CD, 클라우드 배포까지 로컬 서비스를 실제 운영 환경으로 연결하는 실습</p>
+            <h3 class="course-title">Service Launch: 서비스 런칭하기</h3>
+            <p class="course-subtitle">서비스 소개서 제작부터 사용자 지원 준비, 프로젝트 성과 정리, Version 2.0 로드맵 수립까지 실제 서비스 기획자의 마지막 업무 완성</p>
             <p class="course-desc">
-              Docker 기반 컨테이너화, GitHub Actions 기반 CI/CD 자동화,
-              AWS/NCP 등 클라우드 서버 배포까지 실제 운영 가능한 서비스 배포 흐름을 익히는 10일차 학습 콘텐츠입니다.
+              개발의 마침표가 아닌 서비스의 시작점입니다. Codex AI와 함께 런칭 소개서와 오픈 공지를 작성하고, 사용자가 겪을 어려움을 예측하여 FAQ와 고객 응대 가이드를 준비하며, 프로젝트 결과보고서와 Version 2.0 로드맵을 수립하는 실제 서비스 기획자의 마지막 업무 흐름을 경험합니다.
             </p>
 
             <div class="meta-grid">
-              <div class="meta-item"><strong>핵심 주제</strong>Docker, CI/CD, Cloud Deployment, Env Management, Domain/SSL
-              </div>
-              <div class="meta-item"><strong>학습 목표</strong>로컬 개발 환경을 실제 운영 환경으로 전환하고 자동 배포 흐름 이해</div>
-              <div class="meta-item"><strong>실습 방향</strong>Local → Docker → GitHub Actions → Cloud Deploy 구조로 최종 운영 연결
-              </div>
+              <div class="meta-item"><strong>핵심 주제</strong>Launch Prep, FAQ, Customer Support, Retrospective, MoSCoW, Roadmap, Presentation, Sprint Plan</div>
+              <div class="meta-item"><strong>학습 목표</strong>사용자 런칭 패키지와 성과 보고서 및 Version 2.0 기획 로드맵 수립</div>
+              <div class="meta-item"><strong>실습 방향</strong>Launch prep → Customer Support → Performance Reporting → Version 2.0 Roadmap</div>
             </div>
 
             <div class="time-list">
-              <div class="time-row"><strong>1시간</strong> 배포 아키텍처, Docker, CI/CD, 클라우드 배포 이해</div>
-              <div class="time-row"><strong>1시간</strong> Docker 실행 및 GitHub Actions 배포 자동화 실습</div>
-              <div class="time-row"><strong>1시간</strong> 배포 결과 확인 및 장애 대응 공유</div>
+              <div class="time-row"><strong>2시간</strong> 서비스 런칭 준비 및 사용자 지원 설계 (Task 01 &amp; Task 02)</div>
+              <div class="time-row"><strong>2시간</strong> 프로젝트 성과 정리 및 Version 2.0 로드맵 (Task 03)</div>
+              <div class="time-row"><strong>2시간</strong> 런칭 패키지 완성 및 최종 발표 (Mission 01 &amp; Mission 02)</div>
             </div>
 
             <div class="tag-list">
-              <span class="tag">Deployment</span>
-              <span class="tag">Docker</span>
-              <span class="tag">CI/CD</span>
-              <span class="tag">Cloud</span>
-              <span class="tag">Operation</span>
+              <span class="tag">Launch Prep</span>
+              <span class="tag">FAQ 20</span>
+              <span class="tag">KPT Retrospective</span>
+              <span class="tag">MoSCoW Roadmap</span>
+              <span class="tag">Final Presentation</span>
             </div>
 
             <div class="meta-item">
               <strong>예상 산출물</strong>
-              Dockerfile, docker run 결과, GitHub Actions workflow, 배포 체크리스트, 서비스 URL
+              런칭 자료(day10_launch_materials.md), FAQ &amp; 응대 가이드(day10_faq_guide.md), 결과보고서 &amp; 로드맵(day10_retrospective.md), 통합 런칭 패키지(day10_launch_package.md), 최종 발표자료(day10_presentation.md)
             </div>
             <div style="margin-top: 14px;">
               <a href="day10/day10-ai-classroom.html" class="ai-class-btn">
@@ -2838,10 +2835,9 @@
 
       <div class="modal-hero">
         <span class="modal-day">Day 10 Detailed Curriculum</span>
-        <h3 class="modal-title" id="day10ModalTitle">Deployment & Operation</h3>
+        <h3 class="modal-title" id="day10ModalTitle">Service Launch: 서비스 런칭하기</h3>
         <p class="modal-subtitle">
-          Docker 컨테이너화, GitHub Actions 기반 CI/CD 자동화,
-          그리고 클라우드 서버 배포까지 로컬 서비스를 실제 운영 환경으로 연결하는 10일차 학습 모듈입니다.
+          <strong>[Codex AI 연계]</strong> 개발의 마침표가 아닌 서비스의 시작점 — 서비스 소개서 제작부터 사용자 지원 준비, 프로젝트 성과 정리, Version 2.0 로드맵 수립까지 실제 서비스 기획자의 마지막 업무 흐름을 Codex AI와 함께 완성하는 10일차 실습 모듈입니다.
         </p>
       </div>
 
@@ -2851,55 +2847,56 @@
             <div class="modal-section">
               <h4>학습 개요</h4>
               <p>
-                Day 10은 지금까지 만든 제품을 로컬 환경에서 끝내지 않고 실제 운영 환경으로 배포하는 단계입니다.
-                참가자는 실행 환경을 Docker로 통일하고, 코드 변경이 자동으로 배포까지 이어지는 CI/CD 흐름을 이해합니다.
+                Day 10은 코드를 한 줄도 작성하지 않습니다. 9일간의 개발로 완성된 서비스를 세상에 공개하는 데 필요한 모든 준비를 <strong>Codex Client Workspace</strong>와 함께 수행합니다. "서비스를 가장 잘 설명하는 사람이 되는 것"이 오늘의 목표입니다.
               </p>
               <p>
-                또한 AWS/NCP 같은 클라우드 환경에 서비스를 배포하고,
-                환경 변수, 보안 설정, 도메인, SSL 같은 운영 요소까지 함께 점검하여 MVP를 실제 외부에 공개할 수 있는 수준으로 완성합니다.
+                5초 안에 이해되는 서비스 소개서와 채널별(이메일·홈페이지·SNS) 오픈 공지를 제작하고, 사용자가 겪을 어려움을 예측하여 FAQ와 고객 응대 가이드를 준비하며, 투자자에게 전달 가능한 결과보고서와 차기 버전 로드맵을 완성합니다.
+              </p>
+              <p>
+                특히 본 세션에서는 <strong>Codex Client Workspace</strong>를 밀접하게 연동하여 서비스 런칭 자료 패키지 완성(Task 01), 사용자 관점 FAQ 20개 및 응대 시나리오 구성(Task 02), MoSCoW 우선순위 Version 2.0 로드맵 수립(Task 03), 통합 런칭 패키지 제작(Mission 01), 최종 발표 및 Q&A 준비(Mission 02)를 구축합니다.
               </p>
             </div>
 
             <div class="modal-section">
-              <h4>주요 세션 구성</h4>
+              <h4>주요 세션 구성 (Codex AI 연계)</h4>
               <div class="session-list">
                 <div class="session-card">
-                  <span class="session-time">Session 1 · 1시간</span>
-                  <h5>배포 구조와 Docker 이해</h5>
+                  <span class="session-time">Session 1 · 2시간</span>
+                  <h5>서비스 런칭 준비 및 사용자 지원 설계</h5>
                   <p>
-                    로컬 실행과 운영 배포의 차이를 이해하고,
-                    컨테이너 기반 환경 통일의 필요성을 학습합니다.
+                    처음 접하는 사용자가 5초 안에 이해할 수 있는 소개서를 만들고, 첫날 쏟아질 고객 문의를 사전에 준비합니다.
                   </p>
                   <ul class="bullet-list">
-                    <li>배포 아키텍처 기본 개념 이해</li>
-                    <li>Docker 컨테이너화와 환경 일치</li>
-                    <li>배포 체크리스트와 사전 점검 항목 확인</li>
+                    <li>서비스 한 줄 설명 및 핵심 기능 3가지 기술 (Task 01)</li>
+                    <li>이메일·홈페이지·SNS 채널별 오픈 공지 제작</li>
+                    <li>FAQ 20개 (회원가입·서비스이용·결제·오류·기타 5카테고리) 작성 (Task 02)</li>
+                    <li>고객 불만 시나리오 5가지 및 응대 스크립트 구성</li>
                   </ul>
                 </div>
 
                 <div class="session-card">
-                  <span class="session-time">Session 2 · 1시간</span>
-                  <h5>CI/CD 자동화 및 클라우드 배포 실습</h5>
+                  <span class="session-time">Session 2 · 2시간</span>
+                  <h5>프로젝트 성과 정리 및 Version 2.0 로드맵</h5>
                   <p>
-                    Docker 실행과 GitHub Actions 설정을 통해 배포 자동화를 구성합니다.
+                    10일간의 개발을 객관적으로 정리하고 투자자에게 전달 가능한 보고서와 차기 기획을 완성합니다.
                   </p>
                   <ul class="bullet-list">
-                    <li>Dockerfile 작성 및 docker run 실행</li>
-                    <li>GitHub Actions workflow 설정</li>
-                    <li>클라우드 서버 배포와 환경 변수 관리</li>
+                    <li>결과보고서 (배경·목표·핵심 기능·성과·개선 과제) 작성 (Task 03)</li>
+                    <li>Keep/Problem/Try 회고 — 잘된 점 3가지·아쉬운 점 3가지 분석</li>
+                    <li>MoSCoW(Must/Should/Could/Won't) 우선순위 Version 2.0 로드맵 수립</li>
                   </ul>
                 </div>
 
                 <div class="session-card">
-                  <span class="session-time">Session 3 · 1시간</span>
-                  <h5>배포 결과 확인 및 장애 대응 공유</h5>
+                  <span class="session-time">Session 3 · 2시간</span>
+                  <h5>런칭 패키지 완성 및 최종 발표</h5>
                   <p>
-                    최종 배포 상태를 확인하고 운영 과정에서 발생할 수 있는 이슈를 검토합니다.
+                    전체 자료를 통합한 런칭 패키지를 완성하고, Codex의 피드백으로 발표 자료를 점검한 뒤 팀별 10분 발표를 진행합니다.
                   </p>
                   <ul class="bullet-list">
-                    <li>배포 결과 점검 및 접속 확인</li>
-                    <li>도메인 / SSL / 보안 설정 검토</li>
-                    <li>배포 실패 사례와 트러블슈팅 공유</li>
+                    <li>소개서·FAQ·공지·매뉴얼 통합 런칭 패키지 완성 (Mission 01)</li>
+                    <li>Codex에게 "가장 설득력이 부족한 부분" 피드백 요청</li>
+                    <li>팀별 10분 발표 + 5분 Q&A 및 3개월 스프린트 계획 발표 (Mission 02)</li>
                   </ul>
                 </div>
               </div>
@@ -2908,11 +2905,14 @@
             <div class="modal-section">
               <h4>핵심 학습 요소</h4>
               <div class="outcome-tags">
-                <span class="outcome-tag">Docker</span>
-                <span class="outcome-tag">CI/CD</span>
-                <span class="outcome-tag">Cloud Deployment</span>
-                <span class="outcome-tag">Environment Variables</span>
-                <span class="outcome-tag">Operation Checklist</span>
+                <span class="outcome-tag">Launch Prep</span>
+                <span class="outcome-tag">Service Intro Design</span>
+                <span class="outcome-tag">FAQ 20 (5 Categories)</span>
+                <span class="outcome-tag">Customer Support Script</span>
+                <span class="outcome-tag">Retrospective (KPT)</span>
+                <span class="outcome-tag">MoSCoW Roadmap</span>
+                <span class="outcome-tag">Version 2.0 Planning</span>
+                <span class="outcome-tag">Final Presentation</span>
               </div>
             </div>
           </div>
@@ -2921,40 +2921,41 @@
             <div class="info-panel">
               <h5>기본 정보</h5>
               <ul class="info-list">
-                <li><strong>총 학습 시간</strong>3시간</li>
-                <li><strong>학습 방식</strong>강의 + 실습 + 결과 공유</li>
-                <li><strong>실습 기반</strong>Docker + GitHub Actions + Cloud Server</li>
-                <li><strong>목표 결과</strong>실제 운영 가능한 서비스 배포 완료</li>
+                <li><strong>총 학습 시간</strong>6시간</li>
+                <li><strong>학습 방식</strong>AI 문서 작성 + 팀 통합 + 최종 발표</li>
+                <li><strong>실습 기반</strong>Codex Workspace + 서비스 개요 파일 + 프로젝트 요약</li>
+                <li><strong>목표 결과</strong>오늘 당장 사용자에게 배포 가능한 런칭 패키지와 투자자용 보고서 완성</li>
               </ul>
             </div>
 
             <div class="info-panel">
               <h5>학습 목표</h5>
               <ul class="info-list">
-                <li>Docker 기반 배포, CI/CD 자동화, 클라우드 배포 전체 흐름 습득</li>
-                <li>로컬 개발 환경과 운영 환경을 일치시키는 방법 이해</li>
-                <li>환경 변수 관리 및 보안 설정 적용</li>
-                <li>배포 자동화와 운영 관점의 점검 역량 강화</li>
+                <li>AI를 활용해 서비스의 핵심 가치를 5초 안에 전달하는 소개서 작성</li>
+                <li>사용자 관점에서 어려움을 예측하고 FAQ·응대 가이드를 구성하는 역량</li>
+                <li>MoSCoW 우선순위로 논리적인 Version 2.0 로드맵을 수립하는 방법 습득</li>
+                <li>Codex를 단순 도구가 아닌 "다음 프로젝트를 함께 기획하는 파트너"로 경험</li>
               </ul>
             </div>
 
             <div class="info-panel">
               <h5>기대 산출물</h5>
               <ul class="info-list">
-                <li>프로젝트 Dockerfile</li>
-                <li>docker run 실행 결과</li>
-                <li>GitHub Actions workflow 파일</li>
-                <li>최종 배포 체크리스트</li>
-                <li>서비스 접속 URL</li>
+                <li>서비스 소개서 + 채널별 공지(day10_launch_materials.md)</li>
+                <li>FAQ 20개 + 응대 가이드(day10_faq_guide.md)</li>
+                <li>결과보고서 + 회고 + 로드맵(day10_retrospective.md)</li>
+                <li>통합 런칭 패키지(day10_launch_package.md)</li>
+                <li>최종 발표자료 + 스프린트 계획(day10_presentation.md)</li>
               </ul>
             </div>
 
             <div class="info-panel">
-              <h5>활용 포인트</h5>
+              <h5>Codex AI 연계 활용 포인트</h5>
               <ul class="info-list">
-                <li>개발 결과물을 실제 서비스로 공개하는 최종 단계 경험</li>
-                <li>배포 자동화를 통해 운영 효율과 안정성 확보</li>
-                <li>MVP를 외부 사용자에게 보여줄 수 있는 실전 수준 완성</li>
+                <li>"이 소개서를 읽은 사람이 바로 서비스를 사용하고 싶게 만들어줘" — 설득력 강화</li>
+                <li>"이 발표자료에서 설득력이 부족한 부분은 어디인가요?" — 발표 자료 피드백</li>
+                <li>"팀 2명·기획자 1명 3개월 스프린트 계획을 세워줘" — Version 2.0 구체화</li>
+                <li>"투자자가 가장 궁금해할 Q&A 5가지를 준비해줘" — Q&A 리허설</li>
               </ul>
             </div>
           </div>
@@ -2965,7 +2966,7 @@
         <ul class="info-list">
           <li>
             <strong>학습 방식</strong>
-            영상 강의와 AI 챗봇 질의응답을 함께 진행
+            Codex AI와 함께하는 런칭 자료 작성 + 팀별 최종 발표
           </li>
         </ul>
         <div style="margin-top: 14px;">
