@@ -2,6 +2,55 @@
 <html lang="ko">
 
 <head>
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nigeria AI Startup Bootcamp | 10-Day Learning Contents</title>
@@ -873,6 +922,7 @@
         <li><a href="#overview">프로그램 소개</a></li>
         <li><a href="#curriculum">10일 커리큘럼</a></li>
         <li><a href="#final">최종 결과</a></li>
+        <li><a href="login/login.html" style="color: var(--secondary-color); text-shadow: var(--glow-cyan);">로그인</a></li>
       </ul>
     </div>
   </nav>
@@ -3033,6 +3083,69 @@
     setupModal('openDay8Modal', 'day8Modal', 'closeDay8Modal');
     setupModal('openDay9Modal', 'day9Modal', 'closeDay9Modal');
     setupModal('openDay10Modal', 'day10Modal', 'closeDay10Modal');
+
+    // Helper to get cookie
+    function getCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+      }
+      return null;
+    }
+
+    // Helper to delete cookie
+    function eraseCookie(name) {
+      document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    // Check cookie first
+    let loggedInUser = getCookie('currentUser');
+
+    // Fallback to localStorage session backup (for local file:// compatibility)
+    if (!loggedInUser) {
+      const sessionStr = localStorage.getItem('currentUserSession');
+      if (sessionStr) {
+        try {
+          const session = JSON.parse(sessionStr);
+          if (Date.now() < session.expiresAt) {
+            loggedInUser = session.value;
+          } else {
+            localStorage.removeItem('currentUserSession');
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+
+    if (loggedInUser) {
+      try {
+        const user = JSON.parse(loggedInUser);
+        const lastNavLink = document.querySelector('.nav-links li:last-child');
+        if (lastNavLink) {
+          lastNavLink.innerHTML = `
+            <div class="user-badge-main" style="display:flex; align-items:center; gap:8px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 50px; padding: 6px 14px; font-size: 0.9rem; font-weight: 700; color: var(--secondary-color); cursor: pointer;" onclick="logoutUser()" title="클릭하여 로그아웃">
+              <span>${user.avatar}</span>
+              <span>${user.name}</span>
+            </div>
+          `;
+        }
+      } catch (e) {
+        console.error('Error parsing user data:', e);
+      }
+    }
+
+    window.logoutUser = function() {
+      if (confirm('로그아웃 하시겠습니까?')) {
+        eraseCookie('currentUser');
+        localStorage.removeItem('currentUserSession');
+        localStorage.removeItem('currentUser'); // Clean up old storage
+        window.location.reload();
+      }
+    };
   </script>
 </body>
 
