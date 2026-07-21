@@ -101,13 +101,15 @@ li {
 .app-container {
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   position: relative;
 }
 
 /* --- Top Header / Nav --- */
 header {
+  position: sticky;
+  top: 0;
   height: 70px;
   min-height: 70px;
   display: flex;
@@ -115,10 +117,10 @@ header {
   align-items: center;
   padding: 0 30px;
   border-bottom: 1px solid var(--panel-border);
-  background: var(--panel-bg);
+  background: #080c14;
   backdrop-filter: blur(15px);
-  z-index: 100;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .logo-container {
@@ -2272,7 +2274,7 @@ header {
     --kbd-color: #111111 !important;
   }
 
-  /* Hide interactive controls, toolbars, dashboards, canvases, and guides */
+  /* Hide interactive controls, toolbars, dashboards, canvases, guides, and footer */
   header,
   .navigation-bar,
   #tools-drawer,
@@ -2281,7 +2283,8 @@ header {
   #flash-screen,
   .footer-nav-guide,
   .copy-btn,
-  .dashboard-viewport {
+  .dashboard-viewport,
+  .site-footer {
     display: none !important;
   }
 
@@ -2289,10 +2292,12 @@ header {
   html, body {
     background: #ffffff !important;
     color: #111111 !important;
-    width: auto !important;
+    width: 297mm !important;
     height: auto !important;
     overflow: visible !important;
     min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
@@ -2300,7 +2305,7 @@ header {
   .app-container,
   .main-viewport {
     display: block !important;
-    width: auto !important;
+    width: 297mm !important;
     height: auto !important;
     overflow: visible !important;
     padding: 0 !important;
@@ -2310,7 +2315,7 @@ header {
 
   .slides-wrapper {
     display: block !important;
-    width: 100% !important;
+    width: 297mm !important;
     height: auto !important;
     max-width: none !important;
     max-height: none !important;
@@ -2326,11 +2331,13 @@ header {
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
-    width: 297mm !important; /* Standard A4 Width */
-    height: 209.9mm !important; /* Fit exactly on A4 height (210mm) without bleeding to next page */
+    width: 297mm !important; /* Standard A4 Landscape Width */
+    height: 210mm !important; /* Exact A4 Landscape Height */
+    max-width: 297mm !important;
+    max-height: 210mm !important;
     box-sizing: border-box !important;
     margin: 0 auto !important;
-    padding: 40px 50px !important;
+    padding: 30px 40px !important;
     border: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;
@@ -2339,9 +2346,17 @@ header {
     transform: none !important;
     page-break-after: always !important;
     break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
     overflow: hidden !important;
     background: #ffffff !important;
     backdrop-filter: none !important;
+  }
+
+  .slide-card:last-child,
+  .slide-card:last-of-type {
+    page-break-after: auto !important;
+    break-after: auto !important;
   }
 
   /* Disable CSS transitions during printing */
