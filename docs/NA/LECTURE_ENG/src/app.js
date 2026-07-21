@@ -198,7 +198,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   // --- View Control (Presentation vs Dashboard) ---
   function setViewMode(mode) {
     state.viewMode = mode;
+    const appContainer = document.querySelector('.app-container');
     if (mode === 'presentation') {
+      if (appContainer) appContainer.classList.remove('dashboard-mode');
       presentationViewport.style.display = 'flex';
       dashboardViewport.style.display = 'none';
       document.querySelector('.navigation-bar').style.display = 'flex';
@@ -212,7 +214,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Close draw mode and drawer when leaving dashboard just to be clean
       handleResize();
     } else {
-      presentationViewport.style.display ='none';
+      if (appContainer) appContainer.classList.add('dashboard-mode');
+      presentationViewport.style.display = 'none';
       dashboardViewport.style.display = 'block';
       document.querySelector('.navigation-bar').style.display = 'none';
       toggleViewBtn.classList.add('active');
@@ -236,6 +239,52 @@ document.addEventListener('DOMContentLoaded', async () => {
       window.print();
     });
   }
+
+  // --- Mouse Wheel & Touch Scroll Navigation (Presentation View) ---
+  let wheelTimeout = null;
+  window.addEventListener('wheel', (e) => {
+    if (state.viewMode !== 'presentation') return;
+    if (state.drawerOpen || state.isDrawing) return;
+
+    // Avoid hijacking scroll inside code boxes or presenter notes
+    const scrollable = e.target.closest('.code-container, .presenter-tools-drawer, .script-display-box');
+    if (scrollable && scrollable.scrollHeight > scrollable.clientHeight) {
+      return;
+    }
+
+    if (wheelTimeout) return;
+
+    if (e.deltaY > 15 || e.deltaX > 15) {
+      nextSlide();
+      wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 300);
+    } else if (e.deltaY < -15 || e.deltaX < -15) {
+      prevSlide();
+      wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 300);
+    }
+  }, { passive: true });
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+  window.addEventListener('touchstart', (e) => {
+    if (state.viewMode !== 'presentation') return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    if (state.viewMode !== 'presentation') return;
+    if (state.drawerOpen || state.isDrawing) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX;
+    const deltaY = e.changedTouches[0].clientY - touchStartY;
+
+    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX < 0) {
+        nextSlide();
+      } else if (deltaX > 0) {
+        prevSlide();
+      }
+    }
+  }, { passive: true });
 
   // --- Presenter Drawer Toggle ---
   toolsToggle.addEventListener('click', () => {
