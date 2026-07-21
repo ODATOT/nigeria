@@ -110,8 +110,11 @@ li {
 header {
   position: sticky;
   top: 0;
+  left: 0;
+  width: 100%;
   height: 70px;
   min-height: 70px;
+  flex-shrink: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -121,6 +124,7 @@ header {
   backdrop-filter: blur(15px);
   z-index: 1000;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
 }
 
 .logo-container {
@@ -208,7 +212,8 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px 15px 85px 15px;
+  padding: 55px 20px 95px 20px;
+  box-sizing: border-box;
 }
 
 /* --- Presentation Mode --- */
@@ -6202,9 +6207,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const designWidth = 1366;
     const designHeight = 768;
 
-    // Viewport padding (defined in CSS: 15px left/right/top, 85px bottom)
-    const paddingX = 30; // 15px * 2
-    const paddingY = 100; // 15px + 85px
+    // Viewport padding (defined in CSS: 55px top, 95px bottom, 20px left/right)
+    const paddingX = 40; // 20px * 2
+    const paddingY = 150; // 55px top + 95px bottom
 
     const availableWidth = mainViewport.clientWidth - paddingX;
     const availableHeight = mainViewport.clientHeight - paddingY;

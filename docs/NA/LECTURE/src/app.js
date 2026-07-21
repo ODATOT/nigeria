@@ -157,9 +157,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const designWidth = 1366;
     const designHeight = 768;
 
-    // Viewport padding (defined in CSS: 15px left/right/top, 85px bottom)
-    const paddingX = 30; // 15px * 2
-    const paddingY = 100; // 15px + 85px
+    // Viewport padding (defined in CSS: 55px top, 95px bottom, 20px left/right)
+    const paddingX = 40; // 20px * 2
+    const paddingY = 150; // 55px top + 95px bottom
 
     const availableWidth = mainViewport.clientWidth - paddingX;
     const availableHeight = mainViewport.clientHeight - paddingY;
