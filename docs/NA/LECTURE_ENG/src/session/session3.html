@@ -1,0 +1,283 @@
+<!-- Slide 34: [Divider Slide] SESSION 03 -->
+<section class="slide-card divider-slide session-3" id="slide-34">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 3 | 3rd session. Technical design (data normalization)</div>
+    <div class="slide-title">[Session Opening] Day 3. Technical design (data normalization)</div>
+  </div>
+
+  <div class="divider-content">
+    <div class="divider-day">DAY 3</div>
+    <div class="divider-tag">SESSION 03</div>
+    <h1 class="divider-title">Technical design (data normalization)</h1>
+    <p class="divider-subtitle">Data model (ERD) consensus, domain terminology unification, change impact sharing, and edge case safety design</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> ERD Modeling & Terminology Dictionary (Task 01/02)</div>
+      <div class="topic-badge"><span>02</span> Schema change impact (Task 03)</div>
+      <div class="topic-badge"><span>03</span> Decision Logging & Edge Case Defense (Mission 01/02)</div>
+    </div>
+  </div>
+
+  <div class="slide-body" style="display: none;">
+    <p>3rd session. Technical design (data normalization) session begins</p>
+  </div>
+  <div class="presenter-notes" style="display:none;">In the third day session, you will learn to clearly derive data structures and relationships (ERD) from a plan written in natural language, build a dictionary of fragmented terms, and learn concurrency and soft delete exception case defense strategies.</div>
+</section>
+
+<!-- Slide 35: Day 3 opening & 7th session information -->
+<section class="slide-card session-3" id="slide-35">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">7th session. Data normalization and ERD modeling</div>
+      <div class="slide-title">3rd day opening & 7th session information</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 3</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">subject:</span> Data Structure Alignment</li>
+      <li><span class="highlight">Core Values:</span> Avoid missing data modeling designs by narrowing the concept design gap between planners and developers</li>
+      <li><span class="highlight">Time plan (total 180 minutes):</span>
+        <ul>
+          <li>Introduction (30 minutes) - Principles for deriving entities and relationships (cardinality) from meeting minutes scenarios</li>
+          <li>Lab Description (30 minutes) - Introduction to day3_meeting_notes.md file components</li>
+          <li>Hands-on training (90 minutes) - Automatically build ERD specification and Mermaid ERD code</li>
+          <li>Sharing and Feedback (30 minutes) - User/Expert/Reservation/Payment map check</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">In the 7th session, you will learn the process of extracting data structures (entities) from Julgeul planning and building 1:N and 1:1 relationships.</div>
+    <div class="visual-guide-notes" style="display:none;">Dark blue and purple harmonious relational diagram background application.</div>
+  </div>
+</section>
+
+<!-- Slide 36: Introduction question: Gap between planner's writing and developer's relational DB design -->
+<section class="slide-card session-3" id="slide-36">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">7th session. Data normalization and ERD modeling</div>
+      <div class="slide-title">Introduction question: Gap between planner's writing and developer's relational DB design</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 3</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">Planning description:</span> “Users choose a professional, book, and once approved, complete payment to confirm.” (Simple one-step flow)</li>
+          <li><span class="highlight">Developer mapping design:</span>
+            <ul>
+              <li>`Users` (membership information)</li>
+              <li>`Experts`</li>
+              <li>`Reservations` (status value Pending/Approved)</li>
+              <li>`Payments` (payment amount and method)</li>
+              <li>Mutual FK references and cardinality (1:N, 1:1) mapping</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="image-container"
+        style="display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px;">
+        <img alt="Data model gap" src="images/slide36_illustration.png"
+          style="max-width: 100%; max-height: 320px; border-radius: 8px; object-fit: contain;" />
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">Even simple screen movements that planners think of are intertwined with the relationships and integrity between multiple data tables in the actual backend. Addressing this conceptual design gap with AI.</div>
+    <div class="visual-guide-notes" style="display:none;">Visual contrast between the planner's simple scenario flow and the developer's RDB complex table relations.</div>
+  </div>
+</section>
+
+<!-- Slide 37: Hands-on experience: automatically building an ERD based on meeting minutes -->
+<section class="slide-card session-3" id="slide-37">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">7th session. Data normalization and ERD modeling</div>
+      <div class="slide-title">Hands-on experience: automatically building an ERD based on meeting minutes</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 3</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: Create day3_meeting_notes.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Sign up with member email/nickname, register as an expert, wait for consultation appointment by date, approve payment, confirm reservation, record meeting minutes.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Send ERD Derivation Prompt to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>ERD modeling prompts (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Analyze the provided meeting minutes from a data structure perspective to derive key entities and relationships, and write a data structure definition and Mermaid ERD code. Don't make up random entities, but write them based on the provided meeting minutes text facts.</pre>
+        </div>
+      </li>
+      <li style="margin-top: 5px;"><span class="highlight">Expected results:</span> Data specifications and Mermaid relationships between User, Expert, Reservation, and Payment are also created.</li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">When you send a prompt, AI classifies nouns (User, Expert) and verbs (reservation, payment) from unstructured meeting minutes and creates a data structure.</div>
+    <div class="visual-guide-notes" style="display:none;">Screen example where Mermaid code is converted to a graphical ERD diagram view and visualized in real time.</div>
+  </div>
+</section>
+
+<!-- Slide 38: Practice Task 02: Terminology Standardization -->
+<section class="slide-card session-3" id="slide-38">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">8th session. Standardize terminology and share impact of changes</div>
+      <div class="slide-title">Practice Task 02: Terminology Standardization</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 3</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: Create fragmented-terms.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Preparation of documents using Figma planning (members, teacher profiles, consultation reservations), API (nickname, CounselorName, book_id), and DB SQL (members, counselors, reservations).</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Sending Standardized Prompts to the AI ​​Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Glossary standard dictionary prompts (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Analyze all terms such as 'Member/User/Customer/Member' and 'Counselor/Expert/Teacher/Counselor' that are used interchangeably throughout the project, and create a dictionary of project standard terms in the form of a Markdown table, including standard Korean names, standard English names, data types, usage definitions, existing mixed words, and recommended DB column names.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">If domain words are tangled, the development variable name will be broken. Semantically cluster synonyms to build a single standard dictionary.</div>
+    <div class="visual-guide-notes" style="display:none;">Visualization of the transformation process where fragmented term lists are merged into one master sorted glossary table.</div>
+  </div>
+</section>
+
+<!-- Slide 39: Practice Progress Task 03: Tracking the Impact of Specification Changes (Change Impact Analysis) -->
+<section class="slide-card session-3" id="slide-39">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">8th session. Standardize terminology and share impact of changes</div>
+      <div class="slide-title">Practice Progress Task 03: Tracking the Impact of Specification Changes</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 3</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Change request: Create schema-change-request.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Immediate payment when applying for a reservation ➔ After 'WAIT_APPROVE' for the reservation, fill out the payment change form when the expert 'Approve'.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Sending the Share Impact Prompt to the AI ​​Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Change Impact Analysis Prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">As the reservation confirmation process is changed to 'waiting for approval' status and changed to 'payment after expert approval', please fill out the affected API specifications, DB schema, screen, and change sharing report in the form of a table with the impact area, change details, risk level, and action target document columns.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">It automatically backtracks the impact map to see how schema changes affect the underlying API specifications and exposure conditions of front screen UI components.</div>
+    <div class="visual-guide-notes" style="display:none;">Dependency map where a single line change in the DB schema propagates to API paths and inactive states on screen buttons.</div>
+  </div>
+</section>
+
+<!-- Slide 40: Mission 01: Design Decision Log -->
+<section class="slide-card session-3" id="slide-40">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">9th session. Logging design decisions and responding to exception edge cases</div>
+      <div class="slide-title">Mission 01: Design Decision Log</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 3</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Prepare data: create tech-design-meeting.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Separate history table (1:N) meeting minutes to prevent main table lock bottleneck and preserve history when reservation is canceled.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Sending Decision Logging Prompts to the AI ​​Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Design Decision Extraction Prompts (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Extract normalization and database structure design decisions from the meeting and create a Design Decision Log that includes decision items, background reasons, alternative reviews, approvers, and possible future changes.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">The background (why) of the data normalization decision agreed upon at the technical design stage is recorded to prevent design distortion problems for future joiners.</div>
+    <div class="visual-guide-notes" style="display:none;">A visible screen where the decision ID (DEC-003) and the reason for rejecting the alternative are systematically archived according to the logging format.</div>
+  </div>
+</section>
+
+<!-- Slide 41: Mission 02: Edge Case Discovery -->
+<section class="slide-card session-3" id="slide-41">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">9th session. Logging design decisions and responding to exception edge cases</div>
+      <div class="slide-title">Mission 02: Edge Case Discovery</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 3</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: create database-schema.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Create User, Expert, Reservation, Payment tables and write SQL DDL specifications.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Send Edge Case Analysis Prompt to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Edge Case Analysis Prompts (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Derive data consistency violation edge case exception scenarios that may occur in the currently defined User, Expert, Reservation, and Payment table structures and suggest improvement measures. (Must include simultaneous payment errors, foreign key reference collapse upon membership withdrawal, etc.)</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">We analyze overwriting issues during simultaneous payments and the risk of collapse of sales statistics queries when withdrawing from Hard Delete to derive specific DB solutions such as Soft Delete.</div>
+    <div class="visual-guide-notes" style="display:none;">Concurrency Control Unique Key and Referential Integrity Soft Delete Structured Comparison Infographic.</div>
+  </div>
+</section>
+
+<!-- Slide 42: Summary: Day 3 Key Recap -->
+<section class="slide-card session-3" id="slide-42">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">9th session. Logging design decisions and responding to exception edge cases</div>
+      <div class="slide-title">Summary: Day 3 Key Recap</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 3</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Day 3 Key Takeaways:</span>
+        <ul>
+          <li><span class="highlight">Data structure alignment:</span> Consensus on Mermaid ERD design by extracting key entities from natural language scenarios.</li>
+          <li><span class="highlight">Domain vocabulary unification (Standardization):</span> Building a terminology dictionary that eliminates terminology debt through synonym clustering.</li>
+          <li><span class="highlight">Safety assurance (Edge Case):</span> Established Soft Delete policy and completed design logging to prevent foreign key integrity collapse.</li>
+          <li><span class="highlight">Preview for the next session:</span> Day 4. Technical design - API design and interface definition</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">This is a summary of day 3. Logical errors in technical design were eliminated and ERD, terminology, history, and edge case response were completed. Next on Day 4, we will define the API specification interface, which is a backend-frontend promise.</div>
+    <div class="visual-guide-notes" style="display:none;">Checklist type layout. Bottom right, day 4 preview bright effect exposure.</div>
+  </div>
+</section>

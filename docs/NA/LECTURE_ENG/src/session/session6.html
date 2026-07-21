@@ -1,0 +1,263 @@
+<!-- Slide 61: [Divider Slide] SESSION 06 -->
+<section class="slide-card divider-slide session-6" id="slide-61">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 6 | 6th session. Development (creating screens with AI)</div>
+    <div class="slide-title">[Session Opening] Day 6. Development (creating screens with AI)</div>
+  </div>
+
+  <div class="divider-content">
+    <div class="divider-day">DAY 6</div>
+    <div class="divider-tag">SESSION 06</div>
+    <h1 class="divider-title">Development (creating screens with AI)</h1>
+    <p class="divider-subtitle">Responsive dashboard markup, Grid layout, asynchronous debugging, and clean refactoring.</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> Screen Draft Grid/Flex (Task 01)</div>
+      <div class="topic-badge"><span>02</span> Debugging Asynchronous TypeError (Task 02)</div>
+      <div class="topic-badge"><span>03</span> Clean Refactoring & Code Audit (Task 03 / Mission 01/02)</div>
+    </div>
+  </div>
+
+  <div class="slide-body" style="display: none;">
+    <p>6th session. Start a Development (Creating Screens with AI) Session</p>
+  </div>
+  <div class="presenter-notes" style="display:none;">In the 6th day session, we build a draft HTML/CSS responsive grid in formal layout planning, analyze the cause of TypeError that occurs when rendering asynchronous data, and learn about refactoring redundant spaghetti code.</div>
+</section>
+
+<!-- Slide 62: Day 6 opening & 16th session information -->
+<section class="slide-card session-6" id="slide-62">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">16th session. Create and layout screen drafts</div>
+      <div class="slide-title">6th day opening & 16th session information</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 6</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">subject:</span> Quickly create screen drafts (Prototype Generation)</li>
+      <li><span class="highlight">Core Values:</span> Reduce time wasted on typing and typos and acquire core responsive UI grid through AI</li>
+      <li><span class="highlight">Time plan (total 180 minutes):</span>
+        <ul>
+          <li>Introduction (30 minutes) - Demonstration of the confusion of empty HTML files and AI pair programming</li>
+          <li>Lab explanation (30 minutes) - day6_layout_spec.md layout information analysis</li>
+          <li>Practice progress (90 minutes) - Automatic creation of dashboard responsive card layout source</li>
+          <li>Sharing and Feedback (30 minutes) - Inspection of Flexbox and Grid joints</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">In the 16th session, we will practice prototyping to extract dashboard HTML/CSS based on the planning layout description.</div>
+  </div>
+</section>
+
+<!-- Slide 63: Introductory question: The frustration of starting coding with a blank screen -->
+<section class="slide-card session-6" id="slide-63">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">16th session. Create and layout screen drafts</div>
+      <div class="slide-title">Introductory question: The frustration of starting coding with a blank screen</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 6</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">Existing junior coding habits:</span>
+            <ul>
+              <li>“Create a reservation management dashboard.” ➔ I left an empty index.html open in my local editor and searched the header grid for 3 hours before giving up.</li>
+              <li>Initial morale was low due to broken aspect ratio and missing mobile responsive viewport settings.</li>
+            </ul>
+          </li>
+          <li><span class="highlight">AI-powered boilerplate productivity:</span>
+            <ul>
+              <li>Provides component markup and grid templates that can be rendered immediately by analyzing text specifications.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="image-container"
+        style="display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px;">
+        <img alt="blank editor screen" src="images/slide63_illustration.png"
+          style="max-width: 100%; max-height: 320px; border-radius: 8px; object-fit: contain;" />
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">By utilizing the draft framework provided by AI, you can focus more on implementing business logic rather than worrying about the framework.</div>
+  </div>
+</section>
+
+<!-- Slide 64: Practice Task 01: Quickly create screen drafts (Prototype Generation) -->
+<section class="slide-card session-6" id="slide-64">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">16th session. Create and layout screen drafts</div>
+      <div class="slide-title">Practice Task 01: Quickly create a screen draft</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 6</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: Create day6_layout_spec.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">240px menu bar on the left, 3-column statistical grid card (waiting, approval, completed) in the main text, and filling out the reservation table specifications at the bottom.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Send Layout Build Prompt to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Prompt to create screen draft skeleton (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Based on the layout specifications provided, please create a draft HTML markup and CSS grid style for a responsive dashboard screen where reservation status can be viewed. Please suggest an initial project structure, including a left navigation bar and waiting/approved/completed card components to indicate booking status.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Paste the dashboard wireframe code created by AI directly into the browser to check the framework.</div>
+  </div>
+</section>
+
+<!-- Slide 65: Practice Progress Task 02: Error Resolution Helper (TypeError Debugging) -->
+<section class="slide-card session-6" id="slide-65">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">17th session. AI Debugging Guide and Runtime Error Control</div>
+      <div class="slide-title">Practice Progress Task 02: Error Resolution Helper (TypeError Debugging)</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 6</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: create day6_debug_source.js</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Source code where a crash occurs because the `.map` function is called before reservation data is received from the server.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Sending a Debugging Request Prompt to the AI ​​Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>TypeError debugging prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">The error 'TypeError: Cannot read properties of undefined (reading 'map')' occurred in the code you wrote. Please compare the provided source code day6_debug_source.js with the console error log to explain why the error occurred from a beginner's perspective, and provide a modified source with defense code that can completely control the error.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">It proves debugging ability by directly applying optional chaining and asynchronous defense code to delayed call data.</div>
+  </div>
+</section>
+
+<!-- Slide 66: Practice Task 03: Code Refactoring -->
+<section class="slide-card session-6" id="slide-66">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">17th session. AI Debugging Guide and Runtime Error Control</div>
+      <div class="slide-title">Practice Task 03: Code Refactoring</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 6</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Prepare data: prepare day6_dirty_code.js</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">The source code works, but has many duplicate creation parts and is full of ambiguous names such as variables `a` and `temp`.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Send Refactoring Prompt to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Clean refactoring prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Please analyze the source of the provided day6_dirty_code.js file and refactor it into an improved version of clean code by 1) separating the duplicate markup binding logic into a common utility function, 2) correcting ambiguous variable names (ex: a, temp, fn) with practical words, and 3) writing appropriate one-line comments to facilitate future maintenance.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Maximize readability by abstracting the `createCardTemplate` helper module from the running spaghetti code.</div>
+  </div>
+</section>
+
+<!-- Slide 67: Mission 01: Troubleshooting with AI -->
+<section class="slide-card session-6" id="slide-67">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">18th session. Exception Mock Testing and AI-Assisted Code Auditing</div>
+      <div class="slide-title">Mission 01: Troubleshooting with AI</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 6</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">JSON.parse runtime error trace:</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 3px 0 5px 0;">When a 404 HTML error page was returned, an error occurred while indiscriminately attempting to parse JSON response data.</div>
+      </li>
+      <li><span class="highlight">Hands-on actions and storage:</span>
+        <div style="font-size:13px; color: var(--text-secondary); margin-top:5px;">Based on AI's cause investigation, apply the `content-type` pre-verification statement of the response header and create a debugging log report `day6_error_report.md`.</div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Establishes a method to overcome classic API communication errors where Error page when communicating ('<') is thrown and parsing breaks down.</div>
+  </div>
+</section>
+
+<!-- Slide 68: Mission 02: Get AI code review (Quality Review) -->
+<section class="slide-card session-6" id="slide-68">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">18th session. Exception Mock Testing and AI-Assisted Code Auditing</div>
+      <div class="slide-title">Mission 02: Get AI code review (Quality Review)</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 6</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Auditing global variable abuse detection:</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 3px 0 5px 0;">Obtained opinions from AI code reviewers to build a state mapping object mapping module to minimize global variable pollution and consider scalability.</div>
+      </li>
+      <li><span class="highlight">Enhance and save your code:</span>
+        <div style="font-size:13px; color: var(--text-secondary); margin-top:5px;">Update immediately executed function (IIFE) or encapsulated final script and save `day6_code_review.md` report.</div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">By collecting recommendations from AI code reviewers, we improve random variable declarations into safe encapsulation design models.</div>
+  </div>
+</section>
+
+<!-- Slide 69: Summary: Day 6 Key Recap -->
+<section class="slide-card session-6" id="slide-69">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">18th session. Exception Mock Testing and AI-Assisted Code Auditing</div>
+      <div class="slide-title">Summary: Day 6 Key Recap</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 6</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Day 6 Key Takeaways:</span>
+        <ul>
+          <li><span class="highlight">Responsive Grid Implementation:</span> Build the Grid CSS dashboard skeleton by passing a text wireframe specification.</li>
+          <li><span class="highlight">Asynchronous runtime correction (TypeError):</span> Insertion of map crash defense code according to loading incomplete undefined state.</li>
+          <li><span class="highlight">Clean refactoring:</span> Separation of common utility card template functions, control of global variable module encapsulation.</li>
+          <li><span class="highlight">Preview for the next session:</span> Day 7. Development - Completing features with AI</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">On the 6th day, I drew the screen grid and finished controlling the asynchronous/refactoring. On the 7th day, we will create a living, breathing prototype by weaving together the actual click response and local storage function flow.</div>
+  </div>
+</section>

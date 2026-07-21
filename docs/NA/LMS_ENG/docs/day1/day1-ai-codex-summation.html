@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 1. Codex Client-based Requirements Definition training plan | ACE AI Startup Bootcamp</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary-color: #3b82f6; /* Electric Blue */
+      --secondary-color: #06b6d4; /* Neon Cyan */
+      --bg-dark: #09090b; /* Primary Background */
+      --bg-charcoal: #111827; /* Secondary Background */
+      --bg-card: #1a1d24; /* Card Surface */
+      --text-main: #ffffff;
+      --text-muted: #e4e4e7;
+      --text-desc: #71717a;
+      --accent-color: #06b6d4;
+      --accent-purple: #8b5cf6;
+      --card-radius: 10px;
+      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+      --glow-cyan: 0 0 15px rgba(6, 182, 212, 0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-main);
+      line-height: 1.5;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.04) 0%, transparent 40%),
+        linear-gradient(to bottom, #09090b 0%, #111827 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, p, li, span, strong, td, th { word-break: keep-all; }
+
+    .container {
+      max-width: 860px; /* Perfectly matches the standard width of the slide menu size */
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-container {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .logo::before {
+      content: "";
+      width: 4px;
+      height: 12px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .logo-text p {
+      font-size: 0.58rem;
+      color: var(--text-desc);
+      margin-top: 1px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.75rem;
+      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 8px;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-links a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--secondary-color);
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-top: 48px;
+      padding: 20px 0 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .hero h1 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 40%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+
+    .hero p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    /* 5-Part Main Tab Menu */
+    .part-tab-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin: 15px 0;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .part-tab {
+      flex: 1;
+      padding: 8px 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-desc);
+      text-align: center;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .part-tab:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .part-tab.active {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.3);
+      color: var(--secondary-color);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Part Panel Structure */
+    .part-panel {
+      display: none;
+      animation: panelFade 0.3s ease forwards;
+    }
+
+    .part-panel.active {
+      display: block;
+    }
+
+    @keyframes panelFade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card styling */
+    .premium-card {
+      background: rgba(26, 29, 36, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--card-radius);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .premium-card h2 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .premium-card h2::before {
+      content: "";
+      width: 3px;
+      height: 11px;
+      background: var(--secondary-color);
+      border-radius: 1px;
+    }
+
+    /* Part 1: ChatGPT vs Codex Client Table */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .compare-table th, .compare-table td {
+      padding: 8px 10px;
+      font-size: 0.72rem;
+      text-align: left;
+    }
+
+    .compare-table th {
+      background: rgba(59, 130, 246, 0.1);
+      color: #93c5fd;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .compare-table td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+    }
+
+    .compare-table tr:hover td {
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    /* Part 2 Components (Step Map & Transformer) */
+    .pipeline-flow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      margin: 20px 0 30px;
+      padding: 0 10px;
+    }
+
+    .pipeline-line {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      right: 30px;
+      height: 2px;
+      background-image: linear-gradient(to right, rgba(59, 130, 246, 0.4) 50%, transparent 50%);
+      background-size: 8px 2px;
+      z-index: 1;
+    }
+
+    .flow-node {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .node-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--text-desc);
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .flow-node:hover .node-circle {
+      border-color: var(--secondary-color);
+      transform: scale(1.08);
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+    }
+
+    .flow-node.active .node-circle {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-color: #ffffff;
+      color: #ffffff;
+      box-shadow: var(--glow-cyan);
+    }
+
+    .node-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-desc);
+      margin-top: 6px;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .flow-node.active .node-label {
+      color: var(--secondary-color);
+    }
+
+    .transformer-box {
+      background: rgba(9, 9, 11, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 15px;
+    }
+
+    .transformer-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .transformer-grid {
+      display: grid;
+      grid-template-columns: 1.1fr auto 1.1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .transformer-card {
+      background: rgba(26, 29, 36, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 6px;
+      padding: 10px;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .transformer-card-head {
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .transformer-card-head.input-head { color: var(--accent-color); }
+    .transformer-card-head.output-head { color: var(--accent-purple); }
+
+    .card-preview {
+      background: #08090c;
+      padding: 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #a1a1aa;
+      font-size: 0.65rem;
+      margin-top: 6px;
+      max-height: 75px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    .transformer-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .arrow-line {
+      font-size: 1.1rem;
+      color: var(--secondary-color);
+    }
+
+    /* Red outline highlights for Follow Steps */
+    .red-focus-box {
+      border: 2.2px solid #ef4444 !important;
+      border-radius: 5px;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.75);
+      position: relative;
+      animation: pulseBorder 1.5s infinite ease-in-out;
+    }
+
+    @keyframes pulseBorder {
+      0%, 100% { border-color: #ef4444; box-shadow: 0 0 4px rgba(239, 68, 68, 0.4); }
+      50% { border-color: #f87171; box-shadow: 0 0 15px rgba(239, 68, 68, 0.9); }
+    }
+
+    .gui-tooltip {
+      position: absolute;
+      background: #ef4444;
+      color: #ffffff;
+      font-size: 0.58rem;
+      padding: 3px 7px;
+      border-radius: 3px;
+      font-weight: 800;
+      top: -20px;
+      left: 6px;
+      white-space: nowrap;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    /* Part 3: Codex Client Actual UI Mockup */
+    .follow-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 15px;
+      align-items: start;
+    }
+
+    .follow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .follow-step-btn {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      padding: 10px 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.25s;
+    }
+
+    .follow-step-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .follow-step-btn.active {
+      background: rgba(59, 130, 246, 0.12);
+      border-color: var(--primary-color);
+    }
+
+    .follow-step-btn h3 {
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+
+    .follow-step-btn.active h3 {
+      color: var(--secondary-color);
+    }
+
+    .follow-step-btn p {
+      font-size: 0.64rem;
+      color: var(--text-desc);
+      line-height: 1.3;
+    }
+
+    .follow-step-btn.active p {
+      color: var(--text-muted);
+    }
+
+    /* Codex Client UI Mockup */
+    .gui-mockup {
+      background: #09090b;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    }
+
+    .gui-header {
+      background: #181b20;
+      padding: 6px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .gui-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .gui-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .gui-dot.red { background: #ef4444; }
+    .gui-dot.yellow { background: #f59e0b; }
+    .gui-dot.green { background: #10b981; }
+
+    .gui-title {
+      font-size: 0.62rem;
+      color: var(--text-desc);
+      font-family: monospace;
+    }
+
+    .gui-body {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      height: 250px;
+    }
+
+    /* GUI Sidebar projects list */
+    .gui-sidebar {
+      background: #111317;
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar-title {
+      font-size: 0.58rem;
+      font-weight: 800;
+      color: var(--text-desc);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .sidebar-project-item {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      padding: 4px 6px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+    }
+    .sidebar-project-item.active {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--secondary-color);
+      font-weight: 700;
+    }
+
+    .sidebar-file-tree {
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: 3px;
+    }
+
+    .sidebar-file-item {
+      font-size: 0.62rem;
+      color: var(--text-desc);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      padding: 2px;
+      border: 1.5px solid transparent;
+    }
+
+    /* GUI Main Area */
+    .gui-main {
+      background: #09090b;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px;
+    }
+
+    .gui-build-welcome {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .gui-build-welcome h3 {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .gui-build-welcome p {
+      font-size: 0.64rem;
+      color: var(--text-desc);
+    }
+
+    /* GUI Prompt Input bar */
+    .gui-input-container {
+      display: flex;
+      gap: 6px;
+      background: #14161b;
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 6px;
+      align-items: center;
+    }
+
+    .gui-input-field {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      color: #fff;
+      font-size: 0.68rem;
+    }
+
+    .gui-build-btn {
+      background: var(--primary-color);
+      border: 1.5px solid transparent;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      cursor: pointer;
+    }
+
+    /* Part 4 Dependency flowchart */
+    .dep-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 15px 0;
+    }
+
+    .dep-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dep-box {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+      font-size: 0.72rem;
+    }
+    .dep-box.active {
+      border-color: var(--secondary-color);
+      background: rgba(6, 182, 212, 0.05);
+      color: var(--secondary-color);
+      font-weight: 700;
+    }
+    .dep-box.future {
+      border-color: var(--accent-purple);
+      background: rgba(139, 92, 246, 0.05);
+      color: #d8b4fe;
+    }
+
+    .dep-connector {
+      font-size: 0.9rem;
+      color: var(--text-desc);
+      text-align: center;
+      margin: 2px 0;
+    }
+
+    /* PBL Mission Alert Box */
+    .pbl-mission-box {
+      background: rgba(139, 92, 246, 0.06);
+      border: 1px solid rgba(139, 92, 246, 0.18);
+      border-radius: var(--card-radius);
+      padding: 14px;
+      margin-top: 10px;
+    }
+
+    .pbl-mission-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 3px;
+      background: var(--accent-purple);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .action-container {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-link.sec {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-link.sec:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .part-tab-bar { flex-direction: column; gap: 4px; }
+      .follow-layout { grid-template-columns: 1fr; }
+      .transformer-grid { grid-template-columns: 1fr; }
+      .pipeline-flow { flex-direction: column; gap: 10px; align-items: flex-start; }
+      .pipeline-line { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="logo">
+        <div class="logo-text">
+          <h1>ACE AI Startup Bootcamp</h1>
+          <p>Day 1 Codex AI Lecture</p>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="day1-ai-codex.html">Go to lab page</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-badge-wrap">
+        <span class="hero-badge">Day 1</span>
+        <span class="hero-badge">PBL lesson plan</span>
+        <span class="hero-badge">Codex Client</span>
+      </div>
+      <h1>Day 1. Planning requirements definition training plan</h1>
+      <p>
+        This is a summary of university course specifications for setting up a project workspace and developing collaboration specifications using Codex Client for non-majors and planners.
+      </p>
+    </div>
+  </section>
+
+  <!-- 5-Part Main Tab Menu -->
+  <section class="tab-menu-section">
+    <div class="container">
+      <div class="part-tab-bar">
+        <div class="part-tab active" onclick="switchPart(1)">Part 1. Why Codex? (5 minutes)</div>
+        <div class="part-tab" onclick="switchPart(2)">Part 2. Practice objectives (5 minutes)</div>
+        <div class="part-tab" onclick="switchPart(3)">Part 3. Follow along (20 minutes)</div>
+        <div class="part-tab" onclick="switchPart(4)">Part 4. How it works (10 minutes)</div>
+        <div class="part-tab" onclick="switchPart(5)">Part 5. PBL mission (10 minutes)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Panels -->
+  <section class="panels-section">
+    <div class="container">
+      
+      <!-- ==================== PART 1 PANEL ==================== -->
+      <div class="part-panel active" id="part-1">
+        <div class="premium-card">
+          <h2>Critical difference between ChatGPT and Codex Client</h2>
+          <p style="font-size: 0.76rem; color: var(--text-muted); margin-bottom: 12px;">
+            The general ChatGPT web chat window and Codex Client on a multi-file project basis differ in their approach when designing requirements.
+          </p>
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Compare items</th>
+                <th>General ChatGPT (web browser)</th>
+                <th>Codex Client (Workspace-based)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>task cognitive scope</strong></td>
+                <td>Recognizes only one-shot text entered in the current input window</td>
+                <td>Recognize all files within the project folder (Workspace)</td>
+              </tr>
+              <tr>
+                <td><strong>File control method</strong></td>
+                <td>Manually copy and paste the result code displayed on the screen</td>
+                <td>AI directly creates and partially modifies designated Markdown files</td>
+              </tr>
+              <tr>
+                <td><strong>Multi-file inference</strong></td>
+                <td>Manual upload is required each time to modify linkage of previous files</td>
+                <td>Simultaneous inference of contents of other linked files when changing one plan</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="premium-card">
+          <h2>Project-based development method</h2>
+          <p style="font-size: 0.76rem; color: var(--text-muted); line-height: 1.45;">
+            We have a dedicated folder designated on the desktop <strong><code>automation</code></strong>Declare and practice as AI workspace. 
+            Under this designated folder structure, AI seamlessly connects the input-output chain of each specification file, from level 0 summary memo to level 5 email report.
+          </p>
+        </div>
+      </div>
+
+      <!-- ==================== PART 2 PANEL ==================== -->
+      <div class="part-panel" id="part-2">
+        <div class="premium-card">
+          <h2>Final result to be created today</h2>
+          <p style="font-size: 0.76rem; color: var(--text-muted); margin-bottom: 10px;">
+            Starting from long, unprocessed meeting minutes, we derive a final approved definition with error linting completed and send a decision request email.
+          </p>
+          <ul style="padding-left: 14px; font-size: 0.74rem;">
+            <li>📄 <code>requirements-specification.md</code>: Integrated business requirements and flow definition</li>
+            <li>📧 Planning approval request email: Undecided policy coordination draft email to be delivered to representatives (decision makers)</li>
+          </ul>
+        </div>
+
+        <!-- Interactive Step map inside Part 2 -->
+        <div class="premium-card">
+          <h2>Hands-on Data Pipeline (Interactive Map)</h2>
+          <p style="font-size: 0.72rem; color: var(--text-desc); margin-bottom: 8px;">When you press each step, the data conversion method (Input -> AI -> Output) is updated to the card below.</p>
+          
+          <div class="pipeline-flow">
+            <div class="pipeline-line"></div>
+            
+            <div class="flow-node active" data-step="prep" onclick="activateStep('prep')">
+              <div class="node-circle">P</div>
+              <span class="node-label">Preparation stage. Folder settings</span>
+            </div>
+            <div class="flow-node" data-step="0" onclick="activateStep(0)">
+              <div class="node-circle">S0</div>
+              <span class="node-label">Step 0. Conversation log preprocessing</span>
+            </div>
+            <div class="flow-node" data-step="1" onclick="activateStep(1)">
+              <div class="node-circle">S1</div>
+              <span class="node-label">Step 1. Analysis of memo requirements</span>
+            </div>
+            <div class="flow-node" data-step="2" onclick="activateStep(2)">
+              <div class="node-circle">S2</div>
+              <span class="node-label">Step 2. FR sentence definition</span>
+            </div>
+            <div class="flow-node" data-step="3" onclick="activateStep(3)">
+              <div class="node-circle">S3</div>
+              <span class="node-label">Step 3. Scenario supplement</span>
+            </div>
+            <div class="flow-node" data-step="4" onclick="activateStep(4)">
+              <div class="node-circle">S4</div>
+              <span class="node-label">Step 4. Write planning questions</span>
+            </div>
+            <div class="flow-node" data-step="5" onclick="activateStep(5)">
+              <div class="node-circle">S5</div>
+              <span class="node-label">Step 5. Integration and mailing</span>
+            </div>
+          </div>
+
+          <div class="transformer-box">
+            <div class="transformer-title">
+              <span id="trans-title-text">Preparation stage. Local work folder and AI linkage settings</span>
+              <span class="step-indicator" id="trans-step-text">Workspace Config</span>
+            </div>
+            <div class="transformer-grid">
+              <div class="transformer-card">
+                <div class="transformer-card-head input-head">📥 Workspace (Input Environment)</div>
+                <div class="transformer-card-body">
+                  <div class="card-file-name" id="input-filename">Desktop</div>
+                  <div style="font-size: 0.6rem; color: var(--text-desc);" id="input-desc">Explorer environment on the learner's computer</div>
+                  <div class="card-preview" id="input-preview">automation/ (create an empty folder)</div>
+                </div>
+              </div>
+              <div class="transformer-arrow">
+                <span class="arrow-ai-label">Codex AI</span>
+                <span class="arrow-line">➔</span>
+                <span class="arrow-ai-label" id="trans-ai-role">Setup Workspace</span>
+              </div>
+              <div class="transformer-card">
+                <div class="transformer-card-head output-head">📤 Integration results (Output Workspace)</div>
+                <div class="transformer-card-body">
+                  <div class="card-file-name" id="output-filename">Codex Client dialog box</div>
+                  <div style="font-size: 0.6rem; color: var(--text-desc);" id="output-desc">AI workspace with folders enabled</div>
+                  <div class="card-preview" id="output-preview">[Folder linking completed]
+When you select a project
+Project file linkage control possible</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card-section" style="margin-top: 10px;">
+            <p style="font-size: 0.74rem;" id="detail-desc-text">Prepare a path for users to read and write Markdown specification documents by building a dedicated directory locally and opening the path in the Codex AI or editor environment.</p>
+            <div class="prompt-box" id="detail-prompt-text">Create an [automation] folder on the desktop in the local environment and run Codex Client.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ==================== PART 3 PANEL ==================== -->
+      <div class="part-panel" id="part-3">
+        <div class="premium-card">
+          <h2>Tutorial Guide & Actual Codex Client UI Flow</h2>
+          <p style="font-size: 0.74rem; color: var(--text-muted); margin-bottom: 12px;">
+            Click the left buttons one by one to check the **action positions (red guide boxes)** that the actual learner must click and enter directly on the Codex Client screen.
+          </p>
+
+          <div class="follow-layout">
+            
+            <!-- Left Steps List Selector -->
+            <div class="follow-steps">
+              
+              <!-- Step 1 Button -->
+              <div class="follow-step-btn active" onclick="clickFollowStep(1)">
+                <h3>STEP 1. Select project</h3>
+                <p>blank on desktop <code>automation</code> Link folders.</p>
+              </div>
+
+              <!-- Step 2 Button -->
+              <div class="follow-step-btn" onclick="clickFollowStep(2)">
+                <h3>STEP 2. Create sample file</h3>
+                <p>using the prompt <code>meeting-notes-raw.md</code>Create .</p>
+              </div>
+
+              <!-- Step 3 Button -->
+              <div class="follow-step-btn" onclick="clickFollowStep(3)">
+                <h3>STEP 3. Enter Prompt</h3>
+                <p>Instructions on which files to read and which files to write to create a summary.</p>
+              </div>
+
+              <!-- Step 4 Button -->
+              <div class="follow-step-btn" onclick="clickFollowStep(4)">
+                <h3>STEP 4. Run Codex</h3>
+                <p>Click the Build button on the right to create a summary.</p>
+              </div>
+
+              <!-- Step 5 Button -->
+              <div class="follow-step-btn" onclick="clickFollowStep(5)">
+                <h3>STEP 5. Check new files</h3>
+                <p>Created in Explorer <code>meeting-notes.md</code>Double-click .</p>
+              </div>
+
+            </div>
+
+            <!-- Right GUI Mockup (Real UX Replica with Red Box Highlight) -->
+            <div class="gui-mockup">
+              <div class="gui-header">
+                <div class="gui-dots">
+                  <div class="gui-dot red"></div>
+                  <div class="gui-dot yellow"></div>
+                  <div class="gui-dot green"></div>
+                </div>
+                <div class="gui-title">Codex Client v2026.07</div>
+                <div style="width: 30px;"></div>
+              </div>
+              <div class="gui-body">
+                
+                <!-- GUI Left Projects list -->
+                <div class="gui-sidebar" id="gui-projects-panel">
+                  <div class="sidebar-title">project</div>
+                  
+                  <div class="sidebar-project-item active" id="gui-project-target">
+                    📁 automation
+                  </div>
+                  
+                  <div class="sidebar-file-tree" id="gui-files-target">
+                    <div class="sidebar-file-item" id="gui-raw-file" style="display: none;">📄 meeting-notes-raw.md</div>
+                    <div class="sidebar-file-item" id="gui-generated-file" style="display: none;">📄 meeting-notes.md</div>
+                  </div>
+                </div>
+
+                <!-- GUI Main Area -->
+                <div class="gui-main">
+                  
+                  <div class="gui-build-welcome">
+                    <h3 id="gui-build-status">What to build in automation?</h3>
+                    <p id="gui-build-desc">When you enter the prompt, it will be reflected in the files in the project folder.</p>
+                  </div>
+
+                  <!-- Prompt input area -->
+                  <div class="gui-input-container" id="gui-input-target">
+                    <input type="text" class="gui-input-field" id="gui-input-value" value="" disabled />
+                    <button class="gui-build-btn" id="gui-build-btn-target">build</button>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ==================== PART 4 PANEL ==================== -->
+      <div class="part-panel" id="part-4">
+        <div class="premium-card">
+          <h2>How it works and context dependency map</h2>
+          <p style="font-size: 0.74rem; color: var(--text-muted); margin-bottom: 12px;">
+            This is a logical architecture map where AI recognizes the files in the project folder and continues the planning stage.
+          </p>
+
+          <div class="dep-flow">
+            <div class="dep-row">
+              <div class="dep-box active">Original text of conversation notes (meeting-notes-raw.md)</div>
+            </div>
+            <div class="dep-connector">▼ (Step 0: Noise purification pretreatment)</div>
+            <div class="dep-row">
+              <div class="dep-box active">Summary planning notes (meeting-notes.md)</div>
+            </div>
+            <div class="dep-connector">▼ (Steps 1 to 3: Specify role/function/normal/exception flow)</div>
+            <div class="dep-row">
+              <div class="dep-box active">Requirements definition (functional-requirements.md)</div>
+              <div style="width: 20px; text-align: center;">↔</div>
+              <div class="dep-box active">Open Questions (open-questions.md)</div>
+            </div>
+            <div class="dep-connector">▼ (Step 5: Integrate documents and share decision request email)</div>
+            <div class="dep-row">
+              <div class="dep-box active">Creation of integrated requirements specifications and reports</div>
+            </div>
+            <div class="dep-connector" style="color: var(--accent-purple);">▼ [Next session linked design roadmap]</div>
+            <div class="dep-row">
+              <div class="dep-box future">Database Model Design (ERD)</div>
+              <div style="width: 10px;"></div>
+              <div class="dep-box future">Backend API specification</div>
+              <div style="width: 10px;"></div>
+              <div class="dep-box future">Front-end wireframe</div>
+            </div>
+          </div>
+
+          <p style="font-size: 0.74rem; color: var(--text-muted); line-height: 1.45;">
+            The Markdown specification document produced step by step like this does not stop at the planning stage, but is used in the next Day 2 to Day 10 curriculum. 
+            <strong>DB ERD design, backend API specification, frontend wireframe code</strong>is inherited as the core basic data (Context) automatically created by the codex.
+          </p>
+        </div>
+      </div>
+
+      <!-- ==================== PART 5 PANEL ==================== -->
+      <div class="part-panel" id="part-5">
+        <div class="premium-card">
+          <h2>PBL mission: Respond to additional requirements changes and send Gmail plugin</h2>
+          
+          <div class="pbl-mission-box">
+            <span class="pbl-mission-badge">PBL practical tasks</span>
+            <h3 style="color: #ffffff; font-size: 0.8rem; margin-bottom: 5px;">Adding new policies and operating a feedback loop for representatives</h3>
+            <p style="font-size: 0.74rem; color: #e9d5ff; line-height: 1.4;">
+              During the actual development process, a representative added a new requirement to the end of the meeting minutes.<br>
+              <strong>“Let’s also add a membership cancellation feature. When a user cancels their membership, all scheduled consultations should be automatically canceled and refunds issued immediately.”</strong>
+            </p>
+          </div>
+
+          <div style="margin-top: 15px;">
+            <h3 style="font-size: 0.82rem; color: var(--secondary-color); margin-bottom: 6px;">Mission follow-up sequence</h3>
+            <ul style="padding-left: 14px; font-size: 0.74rem; line-height: 1.45;">
+              <li style="margin-bottom: 4px;"><strong>1. Modify the original file</strong>: local <code>meeting-notes-raw.md</code> Add the representative's virtual additional lines (membership withdrawal and automatic reservation cancellation) at the bottom of the document.</li>
+              <li style="margin-bottom: 4px;"><strong>2. Codex Client specification update instructions</strong>: In the AI prompt window <code>"Please update functional-requirements.md with the member withdrawal feature (FR-005) and the resulting reservation cancellation exception flow to reflect the new conversation in meeting-notes-raw.md."</code> He instructs:</li>
+              <li style="margin-bottom: 4px;"><strong>3. Updated workbook and questionnaire</strong>: Lint verifies the changed requirements, activates the linked **Gmail plugin** sending function, and immediately sends an approval email regarding undecided issues related to membership withdrawal to the representative.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Action -->
+      <div class="action-container">
+        <a href="day1-ai-codex.html" class="btn-link">🚀 Go to practice</a>
+        <a href="../index.html" class="btn-link sec">to list</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- JavaScript to switch parts and activate interactive steps -->
+  <script>
+    // Part Menu Switcher
+    function switchPart(partNum) {
+      const tabs = document.querySelectorAll('.part-tab');
+      const panels = document.querySelectorAll('.part-panel');
+      
+      tabs.forEach((tab, index) => {
+        if (index + 1 === partNum) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+
+      panels.forEach((panel, index) => {
+        if (index + 1 === partNum) {
+          panel.classList.add('active');
+        } else {
+          panel.classList.remove('active');
+        }
+      });
+
+      // Default follow step trigger when switching to Part 3
+      if (partNum === 3) {
+        clickFollowStep(1);
+      }
+    }
+
+    // Step Data definitions for Part 2 Diagram
+    const stepData = {
+      prep: {
+        title: "Preparation stage. Local work folder and AI linkage settings",
+        stepLabel: "Workspace Config",
+        aiRole: "Setup Workspace",
+        inputFilename: "Desktop",
+        inputDesc: "Explorer environment on the learner's computer",
+        inputPreview: `automation/ (create an empty folder)`,
+        outputFilename: "Codex Client dialog box",
+        outputDesc: "AI workspace with folders enabled",
+        outputPreview: `[Folder linking done]\nIf you select the project,\nproject file linking can be controlled`,
+        descText: "Prepare a path for users to read and write Markdown specification documents by building a dedicated directory locally and opening the path in the Codex AI or editor environment.",
+        promptText: "Create an [automation] folder on the desktop in the local environment and run Codex Client."
+      },
+      0: {
+        title: "Step 0. Deriving key summaries from detailed conversation transcripts (preprocessing)",
+        stepLabel: "Step 0 Transformer",
+        aiRole: "Summarizer",
+        inputFilename: "meeting-notes-raw.md",
+        inputDesc: "A lengthy ping-pong conversation log between four people during a meeting",
+        inputPreview: `# 1st Kick-off meeting minutes\nRepresentative: After the user signs up, search for experts...\nPM: Can I sign up right away?\nRepresentative: You can use it only after signing up...`,
+        outputFilename: "meeting-notes.md",
+        outputDesc: "Key memo with Saddam removed and refined to 15 lines",
+        outputPreview: `Users can search for experts after signing up.\nOnce payment is made, the reservation is confirmed.\nNotification method and cancellation fee are not yet determined.`,
+        descText: "Before extracting requirements from the meeting minutes dialogue, text noise such as unnecessary dialogue and context flow is removed to create a summary planning memo that maximizes engineering analysis efficiency.",
+        promptText: `Read the original meeting minutes from meeting-notes-raw.md, remove unnecessary conversation context and context between speakers, and write information about service users, functional requirements, system policies, and undecided reservations in the form of a compact, unstructured summary memo of about 15 lines. Please do not arbitrarily add fictitious content that is not in the original text.`
+      },
+      1: {
+        title: "Step 1. Analysis of summarized planning memo requirements",
+        stepLabel: "Step 1 Transformer",
+        aiRole: "Analyst",
+        inputFilename: "meeting-notes.md",
+        inputDesc: "15-line key summary notes processed in preprocessing",
+        inputPreview: `Users can search for experts after signing up.\nOnce payment is made, the reservation is confirmed.\nNotification method and cancellation fee are not yet determined.`,
+        outputFilename: "List of classified planning objects",
+        outputDesc: "user, feature candidate, business policy, decision classification",
+        outputPreview: `1. user: Customer, Expert, Admin\n2. Function: Sign up, expert inquiry\n3. Business rule: Reservation confirmed upon payment approval\n4. Indeterminate: Notification means`;
+        descText: "Completely separate planning elements mixed in unstructured text according to four characteristics (user, function, policy, and decision) to prepare for writing structured requirements.",
+        promptText: `Read meeting-notes.md and specify the following content as Category. 1. Service user 2. Function performed by user 3. Function performed by system 4. Business rule 5. Matters not yet decided. Do not add information that is not in the meeting notes and mark unclear information separately.’
+      },
+      2: {
+        title: "Step 2. Define functional requirements statement (FR table)",
+        stepLabel: "Step 2 Transformer",
+        aiRole: "Technical Writer",
+        inputFilename: "List of classified planning objects",
+        inputDesc: "list of user role and function candidates",
+        inputPreview: `1. user: Customer, Expert\n2. Function: Sign up, expert inquiry, select consultation time\n3. Policy: Reservation confirmed` upon successful payment,
+        outputFilename: "functional-requirements.md",
+        outputDesc: "Testable formal requirements table (given ID)",
+        outputPreview: `| ID | user | Function name | Requirements Description |\n| FR-001 | Customer | Sign up | Users must be able to create an account by entering information. |\n| FR-004 | System | Reservation confirmed | The system must confirm the reservation when payment has been made. |`,
+        descText: "Functions split into objects are formed into planning specification sentences according to the strict testing rule formula that '[user/system] must [operate] under [specific conditions]'.",
+        promptText: `Write the feature candidates extracted in Step 1 as functional requirements. Assign Requirement IDs in order starting from FR-001, clearly write down only one function and user for one requirement, and output in a Markdown table excluding ambiguous expressions.`
+      },
+      3: {
+        title: "Step 3. Scenario supplement (Normal and exception flows)",
+        stepLabel: "Step 3 Transformer",
+        aiRole: "QC Explorer",
+        inputFilename: "functional-requirements.md (draft)",
+        inputDesc: "FR-001 ~ FR-004 specification table table",
+        inputPreview: `| FR-004 | System | Reservation confirmed | The system should only confirm a reservation if the payment has been approved. |`,
+        outputFilename: "functional-requirements.md (detailed)",
+        outputDesc: "Normal flow step, add failure/duplicate exception handling policy",
+        outputPreview: `### FR-004 Reservation confirmed\n- Normal flow: 1. Payment request create -> 2. External approval -> 3. Reservation confirmed\n- Exception flow: 1. Cancellation of reservation in case of payment failure\n- Verification criteria: Microbiological verification of confirmed reservation in case of payment failure`,
+        descText: "In addition to the user's ideal main business normal path, we supplement the specifications of abnormal scenarios that may occur in reality, such as system failures, data duplication, and payment failures.",
+        promptText: `functional-requirements.md of Add normal flow and exception flow to each requirement. Normal flows are written step by step from start to done, and exception flows are reviewed for failure, duplication, and no data situations, and do not make arbitrary decisions, but specify confirmation as necessary.`
+      },
+      4: {
+        title: "Step 4. Extract Undecided Planning Questions",
+        stepLabel: "Step 4 Transformer",
+        aiRole: "Question Maker",
+        inputFilename: "Policy pending list in specification",
+        inputDesc: "Ambiguous policy marked as 'requires confirmation' in the previous step",
+        inputPreview: `Notification transmission method not determined, cancellation/refund fee ratio needs to be reviewed, save failure policy immediately after payment needs to be reviewed`,
+        outputFilename: "open-questions.md",
+        outputDesc: "Question table for decision making with refined priorities and status",
+        outputPreview: `| Question ID | Related ID | Questions to check | Reasons for decision | Impact function | Priority |\n| Q-001 | FR-005 | What is the cancellation fee refund rate? | Refund calculation required | refund | Must |\n| Q-003 | FR-006 | What are notification channels? | Scope determination | Notification | Should |`,
+        descTitle: "💡 Key goal of this phase",
+        descText: "Identify decision-making issues that must be decided before development and codify them into a list of structured questions, and run a planning feedback loop.",
+        promptText: `Please review the current requirements document and look for anything that is inconclusive or ambiguous. Write each item in the form of a question that planners can check with stakeholders, and create a table with related ID, reason for decision, influence function, and priority.`
+      },
+      5: {
+        title: "Step 5. Document integration and sending to Gmail (plugin)",
+        stepLabel: "Step 5 Transformer",
+        aiRole: "AI Validator & Gmail Agent",
+        inputFilename: "3 specifications including meeting-notes.md",
+        inputDesc: "Summary, requirements specification, open questionnaire list",
+        inputPreview: `- meeting-notes.md\n- functional-requirements.md\n- open-questions.md\n- Gmail plugin Google integration`,
+        outputFilename: "Automatically send workbook and mail",
+        outputDesc: "Send requirements-specification.md and Gmail plugin",
+        outputPreview: `[Sending Gmail plug-in email done]\nRecipient: representative@startup.com\nSubject: [Approval request] Review of expert consultation service requirements specification...\nstatus: Sent mailbox sent done (OAuth API call successful)`,
+        descTitle: "💡 Key goal of this phase",
+        descText: "Build and integrate sporadically created individual markdown documents into one master specification file, and command AI to immediately send a planning approval request email through Codex Client's Gmail plugin integration settings.",
+        promptText: `Use the Gmail plugin to summarize the contents of requirements-specification.md and the mid-decisions in open-questions.md that have just been verified and send a planning approval request email to [decision making authority email address].`
+      }
+    };
+
+    function activateStep(stepNum) {
+      const nodes = document.querySelectorAll('.flow-node');
+      nodes.forEach(node => {
+        if (node.getAttribute('data-step') === String(stepNum)) {
+          node.classList.add('active');
+        } else {
+          node.classList.remove('active');
+        }
+      });
+
+      const data = stepData[stepNum];
+      if (!data) return;
+
+      document.getElementById('trans-title-text').innerText = data.title;
+      document.getElementById('trans-step-text').innerText = data.stepLabel;
+      document.getElementById('trans-ai-role').innerText = data.aiRole;
+      
+      document.getElementById('input-filename').innerText = data.inputFilename;
+      document.getElementById('input-desc').innerText = data.inputDesc;
+      document.getElementById('input-preview').innerText = data.inputPreview;
+
+      document.getElementById('output-filename').innerText = data.outputFilename;
+      document.getElementById('output-desc').innerText = data.outputDesc;
+      document.getElementById('output-preview').innerText = data.outputPreview;
+
+      document.getElementById('detail-desc-text').innerText = data.descText;
+      document.getElementById('detail-prompt-text').innerText = data.promptText;
+    }
+
+    // Part 3 Follow-Step Handler (Sample File Creation + Dynamic UX Highlights)
+    function clickFollowStep(stepNum) {
+      // 1. Toggle Step button state
+      const btns = document.querySelectorAll('.follow-step-btn');
+      btns.forEach((btn, index) => {
+        if (index + 1 === stepNum) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      // 2. Target elements mapping inside Mock GUI
+      const projectItem = document.getElementById('gui-project-target');
+      const projectsPanel = document.getElementById('gui-projects-panel');
+      const inputField = document.getElementById('gui-input-target');
+      const buildBtn = document.getElementById('gui-build-btn-target');
+      
+      const rawFile = document.getElementById('gui-raw-file');
+      const generatedFile = document.getElementById('gui-generated-file');
+
+      const statusTitle = document.getElementById('gui-build-status');
+      const statusDesc = document.getElementById('gui-build-desc');
+      const inputValue = document.getElementById('gui-input-value');
+
+      // Reset all highlights and tooltips
+      const allElements = [projectItem, projectsPanel, inputField, buildBtn, rawFile, generatedFile];
+      allElements.forEach(el => {
+        el.classList.remove('red-focus-box');
+        const oldTooltip = el.querySelector('.gui-tooltip');
+        if (oldTooltip) oldTooltip.remove();
+      });
+
+      // 3. Apply changes and highlights based on step
+      switch(stepNum) {
+        case 1:
+          // STEP 1. Select Project (automation)
+          projectItem.classList.add('red-focus-box');
+          projectItem.insertAdjacentHTML('beforeend', '<div class="gui-tooltip">Click here (select project)</div>');
+          
+          statusTitle.innerText = "What to build in automation?";
+          statusDesc.innerText = "An automation folder was created on the local desktop and linked with Codex Client.";
+          rawFile.style.display = "none";
+          generatedFile.style.display = "none";
+          inputValue.value = "";
+          break;
+          
+        case 2:
+          // STEP 2. Create Sample File
+          inputField.classList.add('red-focus-box');
+          inputField.insertAdjacentHTML('beforeend', '<div class="gui-tooltip">Enter the meeting minutes create prompt and click build</div>');
+          
+          statusTitle.innerText = "Create 📝 meeting-notes-raw.md file and write the conversation notes.";
+          statusDesc.innerText = "The first sample meeting transcript original file is being automatically created in the empty folder status.";
+          
+          rawFile.style.display = "block";
+          rawFile.style.opacity = "1";
+          generatedFile.style.display = "none";
+          inputValue.value = "Create meeting-notes-raw.md and write down the first meeting transcript.";
+          break;
+          
+        case 3:
+          // STEP 3. Input Summary Prompt
+          inputField.classList.add('red-focus-box');
+          inputField.insertAdjacentHTML('beforeend', '<div class="gui-tooltip">Enter summary preprocessing prompt</div>');
+          
+          statusTitle.innerText = "What to build in automation?";
+          statusDesc.innerText = "Now that the meeting-notes-raw.md file has been created, we will now instruct the summary operation.";
+          rawFile.style.display = "block";
+          rawFile.style.opacity = "1";
+          generatedFile.style.display = "none";
+          inputValue.value = "Read meeting-notes-raw.md and create meeting-notes.md.";
+          break;
+          
+        case 4:
+          // STEP 4. Build execution (Click Build)
+          buildBtn.classList.add('red-focus-box');
+          buildBtn.insertAdjacentHTML('beforeend', '<div class="gui-tooltip">Click this build button</div>');
+          
+          statusTitle.innerText = "🚀 AI is building summary of meeting-notes.md file...";
+          statusDesc.innerText = "We are creating a summary with saddam removed based on the contents of meeting-notes-raw.md.";
+          rawFile.style.display = "block";
+          rawFile.style.opacity = "1";
+          generatedFile.style.display = "none";
+          inputValue.value = "Read meeting-notes-raw.md and create meeting-notes.md.";
+          break;
+          
+        case 5:
+          // STEP 5. Confirm generated summary file
+          generatedFile.classList.add('red-focus-box');
+          generatedFile.insertAdjacentHTML('beforeend', '<div class="gui-tooltip">create done! Double-click the file</div>');
+          
+          statusTitle.innerText = "✨ build completed successfully!";
+          statusDesc.innerText = "Open the cleaned meeting-notes.md to verify the summary results.";
+          rawFile.style.display = "block";
+          rawFile.style.opacity = "1";
+          generatedFile.style.display = "block";
+          generatedFile.style.opacity = "1";
+          inputValue.value = "Read meeting-notes-raw.md and create meeting-notes.md.";
+          break;
+      }
+    }
+  </script>
+
+  <footer class="site-footer" style="background: #09090b; border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 32px 20px; text-align: center; color: #a1a1aa; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company name: Edunity Lab Co., Ltd.</span> | <span>Representative: Lee Ki-taek</span> | <span>Business address: 2nd floor, Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul (Yeoksam-dong, Taerim Building)</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Contact: (02)6240-0053</span> | <span>Business registration number: 132-86-35644</span> | <span>Mail order business report number: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #71717a; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

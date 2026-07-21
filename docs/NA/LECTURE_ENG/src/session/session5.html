@@ -1,0 +1,275 @@
+<!-- Slide 52: [Divider Slide] SESSION 05 -->
+<section class="slide-card divider-slide session-5" id="slide-52">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 5 | 5th session. Service Design (UI/UX Review)</div>
+    <div class="slide-title">[Session Opening] Day 5. Service Design (UI/UX Review)</div>
+  </div>
+
+  <div class="divider-content">
+    <div class="divider-day">DAY 5</div>
+    <div class="divider-tag">SESSION 05</div>
+    <h1 class="divider-title">UI/UX review and optimization</h1>
+    <p class="divider-subtitle">Novice user usability review, UI design consistency review, flow simplification, and persona quality verification</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> Usability & UI Consistency (Task 01/02)</div>
+      <div class="topic-badge"><span>02</span> User Journey Optimization (Task 03)</div>
+      <div class="topic-badge"><span>03</span> Virtual Persona & Quality Assessment (Mission 01/02)</div>
+    </div>
+  </div>
+
+  <div class="slide-body" style="display: none;">
+    <p>5th session. Service Design (UI/UX Review) Session Start</p>
+  </div>
+  <div class="presenter-notes" style="display:none;">In the 5th day session, you will learn how to optimize the 9-step movement path into 4 steps so that users can use the product easily and conveniently, and how to evaluate UI/UX quality by embedding a virtual novice user (self-employed person in his 50s) persona.</div>
+</section>
+
+<!-- Slide 53: Day 5 opening & 13th session information -->
+<section class="slide-card session-5" id="slide-53">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">13th session. Novice user UX review and UI consistency review</div>
+      <div class="slide-title">5th day opening & 13th session information</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 5</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">subject:</span> Usability review from the user's perspective (UX Review)</li>
+      <li><span class="highlight">Core Values:</span> Break away from the subjective stubbornness of the planning/development team and objectively explore cognitive load factors from the perspective of others (users)</li>
+      <li><span class="highlight">Time plan (total 180 minutes):</span>
+        <ul>
+          <li>Introduction (30 minutes) - The function was 100% successful, but analysis of the cause of the bounce rate where users leave in 5 seconds</li>
+          <li>Lab Description (30 minutes) - How to compare UI layout specifications in day5_signup_flow.md file</li>
+          <li>Hands-on training (90 minutes) - Writing a UX usability review report and UI consistency review form</li>
+          <li>Sharing and Feedback (30 minutes) - Inconsistency in save button location and readability vulnerabilities discovered</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">In the 13th session, usability vulnerabilities are preemptively identified by auditing the system status notation and information structure hierarchy.</div>
+    <div class="visual-guide-notes" style="display:none;">Wireframe mockup illustration with a magnifying glass placed on the screen layout to trace readability points.</div>
+  </div>
+</section>
+
+<!-- Slide 54: Introductory question: The functionality is perfect, but what causes users to churn? -->
+<section class="slide-card session-5" id="slide-54">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">13th session. Novice user UX review and UI consistency review</div>
+      <div class="slide-title">Introductory question: The functionality is perfect, but what causes users to churn?</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 5</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">Planner-centered errors:</span> “If you click here, the estimated payment price will appear. Of course, everyone will click that, right?”
+            <ul>
+              <li><span class="highlight">User perceived cognitive load:</span> The price information was hidden behind a pop-up, so I gave up on making the reservation because I was anxious and didn't know how much the payment would be until I scrolled down or opened the pop-up.</li>
+              <li><span class="highlight">Lack of UI consistency:</span> The main button on the login page is full-width blue at the bottom, but the completion button in the sign-up modal is a small green button at the top right, so I can't find it.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="image-container"
+        style="display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px;">
+        <img alt="Usability churn factor" src="images/slide54_illustration.png"
+          style="max-width: 100%; max-height: 320px; border-radius: 8px; object-fit: contain;" />
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">If users have to learn how to use something new every time, they get tired and leave. Through AI, we will objectively break down the specifications based on usability heuristics.</div>
+    <div class="visual-guide-notes" style="display:none;">Placement of a frustrating illustration of a user turning off the mobile screen after bouncing three times due to a password error.</div>
+  </div>
+</section>
+
+<!-- Slide 55: Practice progress Task 01: Novice user UX review (User Experience Review) -->
+<section class="slide-card session-5" id="slide-55">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">13th session. Novice user UX review and UI consistency review</div>
+      <div class="slide-title">Practice progress Task 01: Novice user UX review</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 5</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: Create day5_signup_flow.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Login/signup screen specifications (in case of error, all input data is lost), expert dense time slot (10px), 9-step reservation scenario entry.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Sending a Usability Review Prompt to an AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>UX Review Prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Based on the screen specifications of the provided reservation application details form, review whether the information structure is clear from the perspective of a novice user who is new to the service, point out elements that impede usability, and write a UX Review Report in the form of a column table with review areas, impediments, user impact, and improvement plans.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">AI points out UX weaknesses such as star rating information at the bottom of the scroll, ambiguity compared to the brightness of time slots, and obscured fare display, and provides improvement measures.</div>
+    <div class="visual-guide-notes" style="display:none;">UX Review Report Example of real-time output screen where markdown table is derived.</div>
+  </div>
+</section>
+
+<!-- Slide 56: Practice Progress Task 02: Review of screen consistency (UI Consistency Review) -->
+<section class="slide-card session-5" id="slide-56">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">13th session. Novice user UX review and UI consistency review</div>
+      <div class="slide-title">Practice Progress Task 02: Review of screen consistency</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 5</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Lab Instructions: Sending UI Consistency Verification Prompt to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>UI Consistency Verification Prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Compare the design details of each screen in the provided day5_signup_flow.md, analyze elements that lack consistency in button placement rules, terms used, and feedback messages, and create a screen comparison report. (Including confusion over ID vs. customer ID name and contrast of main button full width)</pre>
+        </div>
+      </li>
+      <li style="margin-top: 5px;"><span class="highlight">Expected results:</span> Detection of mismatch in terminology between the registration screen (ID) and reservation screen (customer ID) and violation of design rules of the registration completion button (small green in the upper right corner).</li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">AI clusters and captures terminological errors and button configuration violations that occur when workers create multiple pages.</div>
+    <div class="visual-guide-notes" style="display:none;">Contrasting inconsistent screen layouts and exposing standard UI guideline proposal tables.</div>
+  </div>
+</section>
+
+<!-- Slide 57: Practice progress Task 03: Improving user flow (User Journey Review) -->
+<section class="slide-card session-5" id="slide-57">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">14th session. User Journey Optimization and Calendar Integration</div>
+      <div class="slide-title">Practice progress Task 03: Improving user flow</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 5</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Practice instructions: Sending a prompt to shorten the route to the AI ​​window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Flow optimization prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Analyze the reservation detailed scenario flow of the provided day5_signup_flow.md and prepare a user journey improvement report (User Journey Report) that includes the AS-IS flow (9 steps) and TO-BE improvement flow (approximately 4 steps) that can minimize the click steps and screen movement until the user completes the consultation reservation.</pre>
+        </div>
+      </li>
+      <li style="margin-top: 5px;"><span class="highlight">Improvement points:</span> Calendar and time slots are integrated into the detailed profile with an accordion on one screen, and pop-up terms and conditions are easily accepted when making a reservation.</li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Dramatically shorten bounce rates by combining and eliminating clicks and unnecessary single screen movements before a user completes a payment.</div>
+    <div class="visual-guide-notes" style="display:none;">Visual comparison diagram of booking flow lines in 9 steps (messy) and 4 steps (simple).</div>
+  </div>
+</section>
+
+<!-- Slide 58: Mission 01: Become a first-time user (persona research) -->
+<section class="slide-card session-5" id="slide-58">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">15th session. Persona research and comprehensive convenience rating evaluation</div>
+      <div class="slide-title">Mission 01: Become a first-time user</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 5</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Embedded virtual user personas:</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 3px 0 5px 0;">Create a first impression emotional log for the scenario of “a self-employed person in his 50s who is somewhat clumsy at using a digital smartphone.”</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Sending a Persona Projection Prompt to an AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Virtual Persona Feedback Prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">You are a self-employed person in your 50s who is somewhat unfamiliar with using digital smartphone apps. While looking at the membership registration and first screen UI specifications written in the provided day5_signup_flow.md specification, please write down your emotional reaction and improvement requirements about what is most confusing and difficult when signing up from your perspective. (Including confusion over ID duplication, reduced visibility in font size, and anger at resetting the format of written content in the event of a password validity error)</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">AI projects the role of a virtual user and uncovers painful emotional logs that say, “When I clicked back, all the long names/contacts I wrote were reset and I want to give up signing up.”</div>
+    <div class="visual-guide-notes" style="display:none;">Virtual self-employed profile card format layout and exposure of the three major use disorder predicament logs.</div>
+  </div>
+</section>
+
+<!-- Slide 59: Mission 02: Evaluate service quality with AI (Usability Scoring) -->
+<section class="slide-card session-5" id="slide-59">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">15th session. Persona research and comprehensive convenience rating evaluation</div>
+      <div class="slide-title">Mission 02: Evaluate service quality with AI</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 5</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Evaluation based on international usability quality indicators:</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 3px 0 5px 0;">UI/UX quality is graded/scored based on four major axes: readability, resilience, and efficiency.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Sending Quality Scoring Prompts to the AI ​​Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Usability numerical evaluation prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Based on the provided day5_signup_flow.md specification, score out of 5 for each item such as 1) information readability, 2) operation accessibility, 3) error resilience, and 4) movement efficiency, and build a service quality evaluation (Usability Evaluation) that points out strengths and painful areas of improvement along with a comprehensive evaluation score.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">AI scores usability indicators (Usability Score - overall 2.75 / 5.0) and derives feedback and an improvement roadmap action plan.</div>
+    <div class="visual-guide-notes" style="display:none;">Overall rating indicator gauge and quality rating by area stacked bar graph graphic.</div>
+  </div>
+</section>
+
+<!-- Slide 60: Summary: Day 5 key summary and all milestones retrospective -->
+<section class="slide-card session-5" id="slide-60">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">15th session. Persona research and comprehensive convenience rating evaluation</div>
+      <div class="slide-title">Wrap-up: Day 5 Key Recap and Overall Retrospective</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 5</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Full two-day milestone retrospective:</span>
+        <ul>
+          <li><span class="highlight">Requirements Pipeline (Day 1):</span> Pass 6 Lints in planning meeting minutes, complete integration requirements specification and external transmission.</li>
+          <li><span class="highlight">Control and Track (Day 2):</span> Completed triangular contradiction audit, change impact mapping, and decision log encapsulation.</li>
+          <li><span class="highlight">Technical Design Normalization (Day 3):</span> Entity/relationship Mermaid ERD derived, standard terminology dictionary, and Soft Delete exception supplemented.</li>
+          <li><span class="highlight">Interface Appointment (Day 4):</span> Establishment of RESTful API contract Req/Res JSON, design of Happy/Sad Path boundary value test case list.</li>
+          <li><span class="highlight">Usability Quality Verification (Day 5):</span> 9-step movement path ➔ 4-step reduction, persona predicament log, 4 major usability ratings Usability Score evaluation card completed!</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">All practical training conducted over 5 days has been completed. We have grown into a complete design engineer who defends the success of the product by controlling the quality of the AI ​​review companion (Codex) and the entire requirements life cycle, rather than simply working code. Thank you very much for your hard work. thank you!</div>
+    <div class="visual-guide-notes" style="display:none;">A 3D cube graphic that integrates all learning products completed from Day 1 to Day 5 into one integrated requirements control framework.</div>
+  </div>
+</section>

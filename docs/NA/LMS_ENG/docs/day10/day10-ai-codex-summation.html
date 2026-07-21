@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 10. Service Launching Training Summary | ACE AI Startup Bootcamp</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary-color:#3b82f6; --secondary-color:#06b6d4; --bg-dark:#09090b;
+      --bg-card:#1a1d24; --text-main:#ffffff; --text-muted:#e4e4e7;
+      --text-desc:#71717a; --accent-color:#06b6d4; --accent-purple:#8b5cf6;
+      --card-radius:10px; --shadow-sm:0 4px 20px rgba(0,0,0,.5),0 0 1px rgba(255,255,255,.1);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:'Pretendard',sans-serif; color:var(--text-main); line-height:1.5;
+      background:var(--bg-dark);
+      background-image:radial-gradient(circle at 10% 20%,rgba(59,130,246,.04) 0%,transparent 40%),
+                       radial-gradient(circle at 90% 80%,rgba(6,182,212,.04) 0%,transparent 40%),
+                       linear-gradient(to bottom,#09090b 0%,#111827 100%);
+      background-attachment:fixed;
+    }
+    h1,h2,h3,h4,p,li,span,strong,td,th { word-break:keep-all; }
+    .container { max-width:860px; margin:0 auto; padding:0 20px; }
+    .navbar {
+      position:fixed; top:0; width:100%; z-index:1000;
+      background:rgba(9,9,11,.85); backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(255,255,255,.05);
+    }
+    .nav-container { min-height:48px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; padding:6px 20px; }
+    .logo { font-size:.9rem; font-weight:800; color:#fff; text-decoration:none; display:flex; align-items:center; gap:5px; }
+    .logo::before { content:""; width:4px; height:12px; background:linear-gradient(135deg,var(--primary-color),var(--accent-color)); border-radius:999px; display:inline-block; }
+    .logo-text p { font-size:.58rem; color:var(--text-desc); margin-top:1px; }
+    .nav-links { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+    .nav-links a {
+      text-decoration:none; color:var(--text-muted); font-weight:600; font-size:.72rem;
+      background:rgba(255,255,255,.05); padding:4px 8px; border-radius:5px;
+      border:1px solid rgba(255,255,255,.08); transition:all .2s;
+    }
+    .nav-links a:hover { background:rgba(255,255,255,.1); color:var(--secondary-color); border-color:rgba(6,182,212,.3); }
+    .hero { margin-top:120px; padding:20px 0 10px; text-align:center; border-bottom:1px solid rgba(255,255,255,.05); }
+    .hero-badge-wrap { display:flex; justify-content:center; gap:6px; margin-bottom:8px; }
+    .hero-badge { display:inline-block; padding:3px 8px; border-radius:999px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); font-size:.65rem; color:var(--text-muted); font-weight:600; }
+    .hero h1 { font-size:1.3rem; font-weight:800; background:linear-gradient(135deg,#fff 40%,#93c5fd 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:4px; letter-spacing:-.02em; }
+    .hero p { font-size:.8rem; color:var(--text-muted); max-width:600px; margin:0 auto; line-height:1.4; }
+    .layout-wrapper { padding:20px 0 40px; }
+    .summation-card { background:rgba(26,29,36,.85); border:1px solid rgba(255,255,255,.06); border-radius:var(--card-radius); padding:20px; box-shadow:var(--shadow-sm); }
+    .summation-section { margin-bottom:24px; }
+    .summation-section:last-child { margin-bottom:0; }
+    .summation-section h2 { font-size:1rem; font-weight:800; color:var(--secondary-color); margin-bottom:10px; border-left:3px solid var(--primary-color); padding-left:8px; }
+    .summation-section h3 { font-size:.86rem; font-weight:700; color:#fff; margin-top:14px; margin-bottom:6px; }
+    .summation-section p { font-size:.78rem; color:var(--text-muted); margin-bottom:8px; line-height:1.5; }
+    ul,ol { list-style-position:inside; margin-left:4px; margin-bottom:10px; }
+    li { font-size:.76rem; color:var(--text-muted); margin-bottom:4px; line-height:1.45; }
+    table { width:100%; border-collapse:collapse; margin:10px 0 16px; background:rgba(9,9,11,.3); border-radius:6px; overflow:hidden; border:1px solid rgba(255,255,255,.06); }
+    th,td { padding:8px 10px; font-size:.74rem; text-align:left; }
+    th { background:rgba(59,130,246,.08); color:#93c5fd; font-weight:700; border-bottom:1px solid rgba(255,255,255,.08); }
+    td { border-bottom:1px solid rgba(255,255,255,.04); color:var(--text-muted); }
+    tr:last-child td { border-bottom:none; }
+    code { font-family:'Fira Code',monospace; background:rgba(255,255,255,.06); color:var(--secondary-color); padding:1px 4px; border-radius:3px; font-size:.72rem; }
+    .milestone-flow {
+      background:#0d0f14; border:1px solid rgba(255,255,255,.05); border-radius:8px;
+      padding:16px; margin:12px 0; font-family:monospace; font-size:.72rem;
+      line-height:1.6; color:#a5f3fc; overflow-x:auto;
+    }
+    .back-btn-bottom {
+      display:inline-flex; align-items:center; justify-content:center; width:100%;
+      padding:10px; border-radius:8px; background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08); color:#fff; font-size:.8rem;
+      font-weight:700; cursor:pointer; text-decoration:none; transition:all .2s; margin-top:14px;
+    }
+    .back-btn-bottom:hover { background:rgba(255,255,255,.1); color:var(--secondary-color); border-color:rgba(6,182,212,.3); }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="logo">
+        <div class="logo-text">
+          <h1>ACE AI Startup Bootcamp</h1>
+          <p>Day 10 Codex AI Summary</p>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="day10-ai-codex-1.html">Task 1 (Preparation for launch)</a>
+        <a href="day10-ai-codex-2.html">Task 2 (User Check)</a>
+        <a href="day10-ai-codex-3.html">Task 3 (Summary of performance)</a>
+        <a href="day10-ai-codex-mission1.html">Mission 1 (package)</a>
+        <a href="day10-ai-codex-mission2.html">Mission 2 (final presentation)</a>
+        <a href="day10-ai-classroom.html">← Classroom</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge-wrap">
+        <span class="hero-badge">Day 10</span>
+        <span class="hero-badge">Summary</span>
+        <span class="hero-badge">Comprehensive summary of service launch</span>
+      </div>
+      <h1>Day 10. Service Launching Training Summary</h1>
+      <p>The last day of the 10-day training journey - the entire process of releasing the completed service to the world, supporting users, and looking back on the project is summarized.</p>
+    </div>
+  </section>
+
+  <div class="container layout-wrapper">
+    <main>
+      <article class="summation-card">
+
+        <div class="summation-section">
+          <h2>📌 Part 1. Introduction background - Why Day 10 is the service launch</h2>
+          <p>Looking back on the 10 days of training so far, the most natural ending is <strong>Opening the service to the world</strong>It is. No matter how great your service is, if you don't introduce it well to users, no one will use it.</p>
+          <table>
+            <thead><tr><th>date</th><th>topic</th><th>core activities</th></tr></thead>
+            <tbody>
+              <tr><td>Day 1~2</td><td>planning</td><td>Idea → Business model refinement</td></tr>
+              <tr><td>Day 3~4</td><td>Requirements/Design</td><td>ERD, API specification, wireframe</td></tr>
+              <tr><td>Day 5~6</td><td>UI/screen development</td><td>Publishing + Codex screen debugging</td></tr>
+              <tr><td>Day 7</td><td>Feature completion</td><td>API integration, event handling</td></tr>
+              <tr><td>Day 8</td><td>member service</td><td>Signup/Login/Onboarding UX</td></tr>
+              <tr><td>Day 9</td><td>payment service</td><td>Payment flow, error relief, trustworthy UI</td></tr>
+              <tr><td><strong>Day 10</strong></td><td><strong>Service launch ✅</strong></td><td>Introduction, FAQ, Retrospective, Announcement</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="summation-section">
+          <h2>📌 Part 2. Comparison of General AI vs Codex Workspace</h2>
+          <table>
+            <thead><tr><th>work area</th><th>General AI (conversational)</th><th>Codex Workspace (working directory linkage)</th></tr></thead>
+            <tbody>
+              <tr><td>Service introduction letter</td><td>Provides a common SaaS introduction template</td><td><code>day10_service_overview.md</code>Read and create a customized introduction that reflects the actual service name, function, and target.</td></tr>
+              <tr><td>Write an FAQ</td><td>20 examples of universal app service FAQs</td><td>Generate questions specific to the service by analyzing the list of actually developed functions</td></tr>
+              <tr><td>Result report</td><td>Typical project report format</td><td><code>day10_project_summary.md</code>Read the detailed report reflecting the actual development process and performance</td></tr>
+              <tr><td>Version 2.0 Roadmap</td><td>List common feature improvement ideas</td><td>Sprint planning with MoSCoW priorities and team size after analysis of completed/incomplete feature list</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="summation-section">
+          <h2>📌 Part 3. Mapping practice results</h2>
+          <ul>
+            <li><strong>Task 01:</strong> <code>day10_launch_materials.md</code> — Introduction + Channel-specific opening notice + Draft Terms of Use</li>
+            <li><strong>Task 02:</strong> <code>day10_faq_guide.md</code> — 20 FAQs (5 categories) + 5 customer response scenarios</li>
+            <li><strong>Task 03:</strong> <code>day10_retrospective.md</code> — Result report + Keep/Problem/Try retrospective + MoSCoW roadmap</li>
+            <li><strong>Mission 01:</strong> <code>day10_launch_package.md</code> — Complete launching package that integrates all materials</li>
+            <li><strong>Mission 02:</strong> <code>day10_presentation.md</code> + <code>day10_v2_roadmap.md</code> — Final presentation + 3-month sprint plan</li>
+          </ul>
+        </div>
+
+        <div class="summation-section">
+          <h2>📌 Part 4. Service launch journey flowchart</h2>
+          <div class="milestone-flow">
+[Service completion] ➔ (one line definition of core value)
+                │
+                ▼ (Task 01: Introduction + Notice for each channel + Terms of Use)
+[Prepare launch materials] ➔ (So that users can understand within 5 seconds)
+                │
+                ▼ (Task 02: 20 FAQs + response scenario)
+[Preparing for user support] ➔ (Preventing a flood of inquiries on the first day)
+                │
+                ▼ (Task 03: Result report + Retrospective + Roadmap)
+[Project Summary] ➔ (Delivering results to investors and stakeholders)
+                │
+                ▼ (Mission 01: Full integration)
+[Launching package complete] ➔ (A level that can be distributed today)
+                │
+                ▼ (Mission 02: 10 minute presentation + Q&A)
+[Final Announcement] ➔ “The next project will start with Version 2.0”
+          </div>
+        </div>
+
+        <div class="summation-section">
+          <h2>📌 Part 5. Instructor guidance (topic of discussion)</h2>
+          <ol>
+            <li><strong>The future of communication with AI:</strong> “What was the most surprising moment during the 10 days of collaborating with Codex? In what work do you think you will utilize AI the most in the future?”</li>
+            <li><strong>Differences between planner and developer perspectives:</strong> “As you were preparing to launch the service, what did you feel was the biggest difference from a developer’s perspective and a planner’s perspective?”</li>
+            <li><strong>If you create Version 2.0:</strong> “If this project continues for three more months, what is one feature you definitely want to add?”</li>
+            <li><strong>Limitations and overcoming AI collaboration:</strong> “Have you ever experienced Codex leading you in the wrong direction? How did you fix it?”</li>
+          </ol>
+        </div>
+
+        <div class="summation-section">
+          <h2>📌 Part 6. Day 10 Key Message</h2>
+          <p style="font-size:.9rem;color:#ffffff;font-weight:700;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:8px;padding:14px;">
+            💡 “AI is not a tool, but a partner in planning together.”
+          </p>
+          <p style="margin-top:12px;">Day 10 is not just the end of a project; <strong>Service launch → Preparation for user support → Sharing of results → Retrospective and next planning</strong>It is completed with training to perform the actual work of a service planner with AI (Codex). Creating the final Version 2.0 roadmap is not the end of training, but the beginning of the next project.</p>
+        </div>
+
+        <a href="day10-ai-classroom.html" class="back-btn-bottom">← Day 10 Return to main classroom</a>
+      </article>
+    </main>
+  </div>
+
+  <footer class="site-footer" style="background: #09090b; border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 32px 20px; text-align: center; color: #a1a1aa; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company name: Edunity Lab Co., Ltd.</span> | <span>Representative: Lee Ki-taek</span> | <span>Business address: 2nd floor, Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul (Yeoksam-dong, Taerim Building)</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Contact: (02)6240-0053</span> | <span>Business registration number: 132-86-35644</span> | <span>Mail order business report number: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #71717a; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

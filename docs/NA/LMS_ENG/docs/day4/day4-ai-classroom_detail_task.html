@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 4 Data Structure & Collaboration Tasks | ACE AI Startup Bootcamp</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary-color: #3b82f6; /* Electric Blue */
+      --secondary-color: #06b6d4; /* Neon Cyan */
+      --bg-dark: #09090b; /* Primary Background: Deep Black */
+      --bg-charcoal: #111827; /* Secondary Background */
+      --bg-card: #1a1d24; /* Surface/Card: Dark Gray */
+      --text-main: #ffffff; /* Primary: White */
+      --text-muted: #e4e4e7; /* Secondary: Light Gray */
+      --text-desc: #71717a; /* Description: Gray */
+      --border-color: rgba(255, 255, 255, 0.08); /* Thin border with low opacity */
+      --accent-color: #06b6d4; /* Neon Cyan */
+      --accent-purple: #8b5cf6; /* Purple highlight */
+      --card-radius: 18px;
+      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+      --shadow-md: 0 8px 30px rgba(59, 130, 246, 0.1), 0 0 1px rgba(255, 255, 255, 0.2);
+      --glow-blue: 0 0 15px rgba(59, 130, 246, 0.35);
+      --glow-cyan: 0 0 15px rgba(6, 182, 212, 0.35);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-main);
+      line-height: 1.65;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+        linear-gradient(to bottom, #09090b 0%, #111827 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, p, li, span, strong { word-break: keep-all; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section { padding: 60px 0; }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(9, 9, 11, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-container {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .logo::before {
+      content: "";
+      width: 8px;
+      height: 20px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-links a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--secondary-color);
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+
+    .hero {
+      margin-top: 70px;
+      padding: 100px 0 70px;
+      background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08), transparent 60%), #09090b;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .hero-center {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      font-size: 0.88rem;
+      color: #93c5fd;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 40%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      color: #ffffff;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      margin: 12px auto 0;
+      border-radius: 999px;
+    }
+
+    .section-desc {
+      max-width: 860px;
+      margin: 0 auto 48px;
+      text-align: center;
+      color: var(--text-desc);
+      font-size: 1.02rem;
+    }
+
+    /* Grid Layout */
+    .curriculum-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .course-card {
+      background: rgba(26, 29, 36, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 520px;
+    }
+
+    .course-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-md), 0 0 25px rgba(59, 130, 246, 0.2);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .course-card.mission-card:hover {
+      box-shadow: var(--shadow-md), 0 0 25px rgba(139, 92, 246, 0.25);
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+
+    .course-thumb {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .course-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex-grow: 1;
+    }
+
+    .day-label {
+      display: inline-block;
+      width: fit-content;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .day-label.mission {
+      background: rgba(139, 92, 246, 0.15);
+      color: #c4b5fd;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .course-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.35;
+      color: #ffffff;
+      transition: color 0.2s ease;
+    }
+
+    .course-card:hover .course-title {
+      color: var(--secondary-color);
+    }
+
+    .course-card.mission-card:hover .course-title {
+      color: #c4b5fd;
+    }
+
+    .course-subtitle {
+      font-size: 0.88rem;
+      color: var(--secondary-color);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .course-card.mission-card .course-subtitle {
+      color: #a78bfa;
+    }
+
+    .course-desc {
+      color: #a1a1aa;
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .meta-grid {
+      display: grid;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+    }
+
+    .meta-item {
+      color: #e4e4e7;
+      line-height: 1.5;
+    }
+
+    .meta-item strong {
+      color: var(--primary-color);
+      margin-right: 6px;
+    }
+
+    .mission-card .meta-item strong {
+      color: #a78bfa;
+    }
+
+    .time-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.82rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.08);
+      padding-left: 12px;
+      margin: 4px 0;
+    }
+
+    .time-row {
+      color: #d4d4d8;
+    }
+
+    .time-row strong {
+      color: #ffffff;
+      margin-right: 4px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      color: #a1a1aa;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .ai-class-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+      transition: all 0.25s ease;
+      margin-top: auto;
+      text-decoration: none;
+    }
+
+    .ai-class-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4), 0 0 10px rgba(6, 182, 212, 0.3);
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+    }
+
+    .ai-class-btn.mission-btn {
+      background: linear-gradient(135deg, var(--accent-purple), #6d28d9);
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+    }
+
+    .ai-class-btn.mission-btn:hover {
+      box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4), 0 0 10px rgba(139, 92, 246, 0.3);
+      background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    }
+
+    /* Section divider for missions */
+    .mission-divider {
+      margin: 50px 0 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mission-divider::before,
+    .mission-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(139, 92, 246, 0.2);
+    }
+
+    .mission-divider-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      border-radius: 999px;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      color: #c4b5fd;
+      font-size: 0.88rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .footer-cta {
+      background: #09090b;
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: 40px;
+    }
+
+    .footer-cta h3 {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    .footer-cta p {
+      max-width: 760px;
+      margin: 0 auto;
+      opacity: 0.8;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 1024px) {
+      .curriculum-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .curriculum-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 { font-size: 2.2rem; }
+      section { padding: 50px 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="logo">ACE AI Startup Bootcamp</a>
+      <ul class="nav-links">
+        <li><a href="day4-ai-classroom.html">← Day 4 Classroom</a></li>
+        <li><a href="../index.html">← Full Roadmap</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container hero-center">
+      <div class="hero-badge-wrap">
+        <span class="hero-badge">Day 4 Data Structure</span>
+        <span class="hero-badge">Codex AI Architect</span>
+      </div>
+      <h1>Data design tasks based on Codex Client Workspace</h1>
+      <p>
+        Differences in data structure understanding, terminology fragmentation, and change impact propagation issues that startups face during the MVP development stage<br />
+        This is a practical AI collaboration task board that automatically analyzes and resolves using Codex.
+      </p>
+    </div>
+  </section>
+
+  <section class="container">
+    <h2 class="section-title">Day 4 Startup MVP Tasks</h2>
+    <p class="section-desc">
+      From aligning data structures to standardizing terminology and sharing the impact of changes — experience core workflows with Codex as your data design partner.
+    </p>
+
+    <div class="curriculum-grid">
+      <!-- Task 1 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(200deg); background-size: cover; background-position: center;">TASK 1</div>
+        <div class="course-content">
+          <span class="day-label">Task 1</span>
+          <h3 class="course-title">Task 1. API contract creation practice</h3>
+          <p class="course-subtitle">Task 01: Automatic creation of API Contract based on planning requirements and screen design</p>
+          <p class="course-desc">
+            By deriving key entities and relationships (Mermaid ERD) from planning meeting minutes written in natural language, the gap in data model understanding between planners and developers is resolved with AI.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>target number</strong>Deriving RESTful API contract specifications</div>
+            <div class="meta-item"><strong>core tools</strong>Codex Client Workspace</div>
+            <div class="meta-item"><strong>scope of practice</strong>Data Structure Alignment</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📂 Prepare meeting minutes file (day4_meeting_notes.md) and upload Codex</div>
+            <div class="time-row"><strong>Step 2</strong> 🔍 Request Codex to derive API list and define Req/Res variable names</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">ERD</span>
+            <span class="tag">Req/Res Design</span>
+            <span class="tag">RESTful</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+            <strong>expected output</strong>
+            <code>erd-schema.md</code> (Data Specification and ERD)
+          </div>
+
+          <a href="day4-ai-codex-1.html" class="ai-class-btn">Task 1 Entry to the lab</a>
+        </div>
+      </article>
+
+      <!-- Task 2 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(260deg); background-size: cover; background-position: center;">TASK 2</div>
+        <div class="course-content">
+          <span class="day-label">Task 2</span>
+          <h3 class="course-title">Task 2. API mismatch detection practice</h3>
+          <p class="course-subtitle">Task 02: Detect inconsistencies by comparing planning documents and API specifications</p>
+          <p class="course-desc">
+            Create a review report by cross-checking requirements definitions, screen definitions, and API specification drafts to find API endpoints and fields that are missing or inconsistent with planning requirements or screen UI design.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>target number</strong>Completion of API consistency review report</div>
+            <div class="meta-item"><strong>core tools</strong>Codex Client Workspace</div>
+            <div class="meta-item"><strong>scope of practice</strong>Spec Auditing Standardization</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Preparation of two planning documents and API specification draft</div>
+            <div class="time-row"><strong>Step 2</strong> 📋 Request for consistency review of inconsistencies and missing functions between documents with Codex</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Consistency Check</span>
+            <span class="tag">Spec Auditing</span>
+            <span class="tag">Validation</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+            <strong>expected output</strong>
+            <code>project-glossary.md</code> (Standard Glossary)
+          </div>
+
+          <a href="day4-ai-codex-2.html" class="ai-class-btn">Task 2 Entry to the lab</a>
+        </div>
+      </article>
+
+      <!-- Task 3 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(320deg); background-size: cover; background-position: center;">TASK 3</div>
+        <div class="course-content">
+          <span class="day-label">Task 3</span>
+          <h3 class="course-title">Task 3. API change impact analysis practice</h3>
+          <p class="course-subtitle">Task 03: Analysis of functions, documents, and interfaces affected by API changes</p>
+          <p class="course-desc">
+            When API parameters or status change according to changes in business specifications, a list of DB schemas, front-end UI screens, and API specifications that require serial modification is created as an impact analysis report.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>target number</strong>Completion of API change impact analysis</div>
+            <div class="meta-item"><strong>core tools</strong>Codex Client Workspace</div>
+            <div class="meta-item"><strong>scope of practice</strong>Change Impact Analysis</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📂 Prepare API change request file</div>
+            <div class="time-row"><strong>Step 2</strong> 🔄 Request analysis of UI and DB spec chain impact scope with Codex</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Change Management</span>
+            <span class="tag">Impact Analysis</span>
+            <span class="tag">UI/API Sync</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+            <strong>expected output</strong>
+            <code>change-impact-report.md</code> (Change Impact Analysis)
+          </div>
+
+          <a href="day4-ai-codex-3.html" class="ai-class-btn">Task 3 Entry to the lab</a>
+        </div>
+      </article>
+    </div>
+
+    <!-- Mission Divider -->
+    <div class="mission-divider">
+      <span class="mission-divider-label">🚀 In-depth Mission — Data Design Master Course</span>
+    </div>
+
+    <div class="curriculum-grid" style="grid-template-columns: repeat(2, 1fr);">
+      <!-- Mission 1 -->
+      <article class="course-card mission-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(270deg) saturate(0.6); background-size: cover; background-position: center;">MISSION 1</div>
+        <div class="course-content">
+          <span class="day-label mission">Mission 1</span>
+          <h3 class="course-title">Mission 1. API review and improvement practice</h3>
+          <p class="course-subtitle">Mission 01: Review and suggest improvement of API quality using Codex</p>
+          <p class="course-desc">
+            We review the quality of existing API designs and come up with improvements based on REST API design standards (noun-type URL, use of appropriate methods) and consistent error handling specifications (RFC standard error schema).
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>target number</strong>API review report completed</div>
+            <div class="meta-item"><strong>core tools</strong>Codex Client Workspace</div>
+            <div class="meta-item"><strong>scope of practice</strong>Design API Review & Error Schema</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📂 Prepare API specifications and review meeting conversation transcripts</div>
+            <div class="time-row"><strong>Step 2</strong> 🔍 Request Codex to review compliance with REST standards and propose standard error specifications</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">API Review</span>
+            <span class="tag">RESTful Standards</span>
+            <span class="tag">Error Schema</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+            <strong>expected output</strong>
+            <code>design-decision-log.md</code> (Decision record document)
+          </div>
+
+          <a href="day4-ai-codex-mission1.html" class="ai-class-btn mission-btn">Mission 1 Lab Entry</a>
+        </div>
+      </article>
+
+      <!-- Mission 2 -->
+      <article class="course-card mission-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(300deg) saturate(0.6); background-size: cover; background-position: center;">MISSION 2</div>
+        <div class="course-content">
+          <span class="day-label mission">Mission 2</span>
+          <h3 class="course-title">Mission 2. API test scenario creation practice</h3>
+          <p class="course-subtitle">Mission 02: Automatically create API test scenarios including normal and exception situations</p>
+          <p class="course-desc">
+            Based on the completed API contract, we create test cases that verify not only the normal operation flow (Happy Path) but also various exception situations (Sad Path) such as missing essential keys, format errors, exceeding limits, and expiration of permissions.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>target number</strong>Complete API test scenario</div>
+            <div class="meta-item"><strong>core tools</strong>Codex Client Workspace</div>
+            <div class="meta-item"><strong>scope of practice</strong>Edge Case Discovery & Integrity Guard</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📂 Preparation of API contract specifications</div>
+            <div class="time-row"><strong>Step 2</strong> 🛡️ Derive all normal/exceptional cases and create test scenarios with Codex</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Test Scenarios</span>
+            <span class="tag">Happy/Sad Path</span>
+            <span class="tag">Quality Guard</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+            <strong>expected output</strong>
+            <code>edge-case-analysis.md</code> (Exception scenario report)
+          </div>
+
+          <a href="day4-ai-codex-mission2.html" class="ai-class-btn mission-btn">Mission 2 Lab Entry</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <footer class="footer-cta">
+    <div class="container">
+      <h3>ACE AI Startup Bootcamp</h3>
+      <p style="margin-top: 10px;">
+        © 2026 ACE Startup & ACE Ministry. All Rights Reserved. This training course is a practical MVP project course centered on a physical development kit.
+      </p>
+    </div>
+  </footer>
+  <footer class="site-footer" style="background: #09090b; border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 32px 20px; text-align: center; color: #a1a1aa; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company name: Edunity Lab Co., Ltd.</span> | <span>Representative: Lee Ki-taek</span> | <span>Business address: 2nd floor, Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul (Yeoksam-dong, Taerim Building)</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Contact: (02)6240-0053</span> | <span>Business registration number: 132-86-35644</span> | <span>Mail order business report number: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #71717a; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

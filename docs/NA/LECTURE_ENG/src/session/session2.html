@@ -1,0 +1,704 @@
+<!-- Slide 12: [Divider Slide] SESSION 02 -->
+<section class="slide-card divider-slide session-2" id="slide-12">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 2 | 2nd session. Consistency verification, change management and decision tracking</div>
+    <div class="slide-title">[Session Opening] Day 2. Consistency verification, change management and decision tracking</div>
+  </div>
+
+  <div class="divider-content">
+    <div class="divider-day">DAY 2</div>
+    <div class="divider-tag">SESSION 02</div>
+    <h1 class="divider-title">Consistency verification, change management and decision tracking</h1>
+    <p class="divider-subtitle">Compare and inspect contradictions between documents, analyze the scope of impact due to requirements changes, and manage decision-making history</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> Audit multiple document inconsistencies (Task 01)</div>
+      <div class="topic-badge"><span>02</span> Change impact analysis (Task 02 / Mission 1)</div>
+      <div class="topic-badge"><span>03</span> Decision log & issue report (Task 03 / Mission 2)</div>
+    </div>
+  </div>
+
+  <div class="slide-body" style="display: none;">
+    <p>2nd session. Initiate consistency verification, change management, and decision tracking sessions</p>
+  </div>
+  <div class="presenter-notes" style="display:none;">In the second day's session, we will completely master practical techniques for automatically detecting 'inconsistencies and contradictions between documents' that arise in the latter half of project milestones, analyzing the scope of influence of change history, and structuring and archiving decision history.</div>
+</section>
+
+<!-- Slide 13: Day 2 opening & 4th session information -->
+<section class="slide-card session-2" id="slide-13">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">4th session. Multiple document mismatch detection</div>
+      <div class="slide-title">2nd day opening & 4th session information</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Topic:</span> Multiple document inconsistency detection (Consistency Check)</li>
+      <li><span class="highlight">Core Values:</span> Prevents the problem of building the wrong product due to distribution of different versions of plans, screen designs, and development specifications.</li>
+      <li><span class="highlight">Time plan (total 180 minutes):</span>
+        <ul>
+          <li>Introduction (30 minutes) - Rework costs caused by inconsistencies between documents and the role of AI review assistants</li>
+          <li>Practice explanation (30 minutes) - Introduction to the three major planning specification file designs and examples of inconsistencies</li>
+          <li>Hands-on training (90 minutes) - Execute and inspect multiple document contradiction audit prompts</li>
+          <li>Sharing and Feedback (30 minutes) - Self-diagnosis and feedback, including star rating subject reversal errors</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">In the fourth session, we will conduct an auditing exercise to detect contradictions between multiple documents. This is a process that uses AI to process tasks that would take days to manually collate in just seconds.</div>
+    <div class="visual-guide-notes" style="display:none;">Visualize the risk of version mismatch by giving a fluorescent orange/red warning illustration effect on a dark navy background.</div>
+  </div>
+</section>
+
+<!-- Slide 14: Introductory question: Communication costs caused by mixed documents -->
+<section class="slide-card session-2" id="slide-14">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">4th session. Multiple document mismatch detection</div>
+      <div class="slide-title">Introductory question: Communication costs caused by mixed documents</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">Planning triangle contradiction scenario:</span>
+            <ul>
+              <li><span class="highlight">Planning minutes:</span> Agreement to "automatically cancel reservation and receive full refund" upon withdrawal.</li>
+              <li><span class="highlight">Requirements:</span> When withdrawing, “reservation consultation records are kept for system security reasons.”</li>
+              <li><span class="highlight">Screen design:</span> When withdrawing, “the reservation is hidden only on the screen without a separate notification pop-up.”</li>
+            </ul>
+          </li>
+          <li><span class="highlight">What happens:</span> Fatal rework occurred due to logic differences between the development and design teams before release.</li>
+        </ul>
+      </div>
+      <div class="image-container"
+        style="display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px;">
+        <img alt="planning triangle contradiction" src="images/slide14_illustration.png"
+          style="max-width: 100%; max-height: 320px; border-radius: 8px; object-fit: contain;" />
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">Usually, if the planner writes down the meeting results on the board and forgets to update the specifications, the development team codes with the previous version and the designer works with a different configuration. Using AI, semantic contradictions that are difficult for humans to detect with the naked eye can be identified early on.</div>
+    <div class="visual-guide-notes" style="display:none;">An illustration of meeting minutes, requirements, and screen definitions connecting the three major nodes with arrows and sparks flying as a contradiction occurs in the center.</div>
+  </div>
+</section>
+
+<!-- Slide 15: Key explanation: How AI reviewer works -->
+<section class="slide-card session-2" id="slide-15">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">4th session. Multiple document mismatch detection</div>
+      <div class="slide-title">Key explanation: How AI reviewer works</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="flow-diagram">
+      <div class="flow-step active">
+        <div class="flow-badge">1</div>
+        <div class="flow-title">Contextual decoding</div>
+        <div class="flow-desc">Contextually decode business rules in Markdown text of meeting minutes, requirements, and screen plans</div>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 11h12.59l-5.3 5.3 1.42 1.42L20 12l-7.29-7.29-1.42 1.42 5.3 5.3H4v2z"></path>
+        </svg>
+      </div>
+      <div class="flow-step">
+        <div class="flow-badge">2</div>
+        <div class="flow-title">cross auditing</div>
+        <div class="flow-desc">Automatic cross-checking of semantic conflict points between each document (evaluation subject reversed, button active/inactive)</div>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 11h12.59l-5.3 5.3 1.42 1.42L20 12l-7.29-7.29-1.42 1.42 5.3 5.3H4v2z"></path>
+        </svg>
+      </div>
+      <div class="flow-step">
+        <div class="flow-badge">3</div>
+        <div class="flow-title">Action Reporting</div>
+        <div class="flow-desc">Automatically derive recommended correction directions based on risk (high/medium/low) classification and standard documents</div>
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">The core of AI planning and inspection assistants is cross-auditing. We provide an action guide by comparing the specifications of the requirements definition and screen definition and whether the latest policies in the meeting minutes are all linked.</div>
+    <div class="visual-guide-notes" style="display:none;">A three-dimensional diagram where an AI magnifying glass penetrates the text inside three file folders and compares consistency.</div>
+  </div>
+</section>
+
+<!-- Slide 16: Practice Guide: Preparation of practice files for the 4th session -->
+<section class="slide-card session-2" id="slide-16">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">4th session. Multiple document mismatch detection</div>
+      <div class="slide-title">Practice Guide: Preparation of practice files for the 4th session</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Step 1: Create meeting-notes.md</span>
+        <div style="font-size: 12.5px; color: var(--text-secondary); margin: 2px 0;">10% penalty fee, automatic cancellation upon withdrawal, full refund, star rating, non-member reservation button deactivation record.</div>
+      </li>
+      <li><span class="highlight">Step 2: Create requirements.md</span>
+        <div style="font-size: 12.5px; color: var(--text-secondary); margin: 2px 0;">Keep (maintain) existing reservations when canceling membership, <strong>FR-004 Write star rating in reverse order (Expert evaluates Customer)</strong>.</div>
+      </li>
+      <li><span class="highlight">Step 3: Create screen-specification.md</span>
+        <div style="font-size: 12.5px; color: var(--text-secondary); margin: 2px 0;">Enable non-member home screen reservation, no membership withdrawal pop-up, designed for customer evaluation by experts.</div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Write the three prepared example markdown files under each name directly in the local folder (automation/). The contents of each file contain intentional planning conflicts.</div>
+    <div class="visual-guide-notes" style="display:none;">UI guidance where three file icons are aligned within the working directory folder.</div>
+  </div>
+</section>
+
+<!-- Slide 17: Hands-on exercise: automatic filtering of multiple document inconsistencies -->
+<section class="slide-card session-2" id="slide-17">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">4th session. Multiple document mismatch detection</div>
+      <div class="slide-title">Hands-on exercise: automatic filtering of multiple document inconsistencies</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Lab Instructions: Sending Contrast Prompts to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Mismatch Audit Prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 140px; overflow-y: auto;">Compare and analyze the three documents ‘meeting-notes.md’, ‘requirements.md’, and ‘screen-specification.md’ in the project folder. Find and organize items that are contradictory or inconsistent between each document, or items that exist in one document but are missing from the other. Organize the results in the form of a Markdown table with the following columns: 'Classification (function/screen/policy/terminology, etc.)', 'Findings and contradictions', 'Impact level (high/medium/low)', 'Highest authority standard document', and 'Recommended action'. When entering development and testing, indicate the impact as 'high' for matters that cause fatal rework.</pre>
+        </div>
+      </li>
+      <li style="margin-top: 5px;"><span class="highlight">Expected results:</span> Obtained reports of missing penalties distributed across three documents, star rating subject reversal, non-member rights, and withdrawal refund policy conflict reports.</li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">When you send a prompt, AI searches the entire folder context and outputs version conflicts between requirements, screen plans, and meeting minutes in a clear table report.</div>
+    <div class="visual-guide-notes" style="display:none;">Example of rendering screen of contradiction classification table derived from prompt input and real-time build.</div>
+  </div>
+</section>
+
+<!-- Slide 18: Practice sharing and feedback: Star rating subject error & authority contradiction detection -->
+<section class="slide-card session-2" id="slide-18">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">4th session. Multiple document mismatch detection</div>
+      <div class="slide-title">Practice sharing and feedback: Star rating subject error & authority contradiction detection</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Check key auditing findings:</span>
+        <ul>
+          <li>1. **Evaluation entity reversed**: The meeting minutes and screen design document require the Customer to evaluate the Expert, but the requirements definition (FR-004) contradicts this by requiring the Expert to evaluate the Customer. (Impact: **High**)</li>
+          <li>2. **Inconsistency in membership withdrawal process**: All three documents are different: meeting minutes (automatic cancellation and full refund) vs. requirements (data maintenance) vs. screen design (hidden without guidance). (Impact: **High**)</li>
+          <li>3. **Non-member permission contradiction**: Meeting minutes (reservation button disabled) vs. screen design (non-member reservation enabled and immediate entry) conflict. (Impact: **Medium**)</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Let's compare the resulting tables with each other. In particular, the inspection point is whether the AI ​​accurately catches business rule errors that developers must integrate before coding, such as the subject of star rating or the logic for refunding the deposit upon withdrawal.</div>
+    <div class="visual-guide-notes" style="display:none;">A graphic mapping the discovered triangular contradictions with a normalization guide arrow along with a red warning window.</div>
+  </div>
+</section>
+
+<!-- Slide 19: Session 5 Guide: Change Management and Butterfly Effect -->
+<section class="slide-card session-2" id="slide-19">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">5th session. Requirement changes and impact analysis</div>
+      <div class="slide-title">Session 5 Guide: Change Management and Butterfly Effect</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Topic:</span> Requirement changes and impact analysis</li>
+      <li><span class="highlight">Core Values:</span> When revising requirements (v1.0 ➔ v2.0), identify the scope of simultaneous changes in dependent screen UI, backend API specifications, and DB schema columns.</li>
+      <li><span class="highlight">Time plan (total 180 minutes):</span>
+        <ul>
+          <li>Introduction (30 minutes) - The butterfly effect and semantic diff that a single change request can cause throughout the system</li>
+          <li>Hands-on explanation (30 minutes) - Understand the mapping structure of the pre- and post-change specifications and the remaining v1.0 documents.</li>
+          <li>Practice progress (90 minutes) - Google login, SMS authentication, and Admin multi-source permission change impact analysis practice</li>
+          <li>Sharing and feedback (30 minutes) - DB schema column and API Payload variable mapping inspection</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Session 5 covers the impact scope analysis pipeline in response to planning changes. We map the impact so that when requirements change, other documents also change organically.</div>
+    <div class="visual-guide-notes" style="display:none;">Planning change (v2.0) Shiny infographic with wires starting from the node connected like a spider web to the UI screen, API server, and DB drum.</div>
+  </div>
+</section>
+
+<!-- Slide 20: Introductory Question: Butterfly Effect of Requirements Change -->
+<section class="slide-card session-2" id="slide-20">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">5th session. Requirement changes and impact analysis</div>
+      <div class="slide-title">Introductory Question: Butterfly Effect of Requirements Change</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">Change request:</span> "Please add the SMS authentication number verification process using your mobile phone number when registering for membership."</li>
+          <li><span class="highlight">Knock-on effects:</span>
+            <ul>
+              <li><span class="highlight">Screen:</span> Email single sign-up form ➔ Mobile phone number and authentication code input field UI replaced.</li>
+              <li><span class="highlight">API:</span> Signup API Payload <code>phone</code> and <code>verification_code</code> Required variable addition.</li>
+              <li><span class="highlight">DB:</span> In the Users table <code>phone</code> and <code>is_verified</code> Add column.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="image-container"
+        style="display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px;">
+        <img alt="Scope of change impact" src="images/slide20_illustration.png"
+          style="max-width: 100%; max-height: 320px; border-radius: 8px; object-fit: contain;" />
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">Even a simple requirement change, such as adding a single button, can easily lead to cascading failures of omission that actually change the entire front-end, API, and database design. We address this by deploying AI as an impact analysis tool.</div>
+    <div class="visual-guide-notes" style="display:none;">The layer hierarchy in which small mobile form changes are expanded and propagated to backend source code lines and DB tables.</div>
+  </div>
+</section>
+
+<!-- Slide 21: Key Explanation: Semantic Diff and Influence Map -->
+<section class="slide-card session-2" id="slide-21">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">5th session. Requirement changes and impact analysis</div>
+      <div class="slide-title">Key Explanation: Semantic Diff and Influence Map</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="diagram-nested">
+      <div class="nested-container">
+        <span class="nested-label">Semantic Diff</span>
+        <div class="nested-desc-top">Rather than simply comparing lines of text, differences in planning and business policy revisions are detected in context.</div>
+        <div class="nested-sub-1">
+          <span class="nested-label">Automatic mapping of sphere of influence</span>
+          <div class="nested-desc-top">Explore screen definition and API specification file linkage with lower dependencies in line with changing requirements</div>
+          <div class="nested-sub-2">
+            <span class="nested-label">Derive action guidelines</span>
+            <div class="nested-desc-top">Automatic creation of a detailed action guide, such as adding front-end UI components and mapping back-end API payload variables</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">Semantic diff is a principle that detects changes in planning logic beyond simple code diff. By mapping this to the sub-architecture, you can be advised exactly what coordinates need to be modified.</div>
+    <div class="visual-guide-notes" style="display:none;">Visual comparison and contrast between the simple code comparison screen (Line Diff) and the planning semantic interpretation screen (Semantic Diff).</div>
+  </div>
+</section>
+
+<!-- Slide 22: Practice Guide: Preparation of practice files for the 5th session -->
+<section class="slide-card session-2" id="slide-22">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">5th session. Requirement changes and impact analysis</div>
+      <div class="slide-title">Practice Guide: Preparation of practice files for the 5th session</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Step 1: Create requirements-before.md</span>
+        <div style="font-size: 13px; color: var(--text-secondary); margin: 2px 0;">v1.0 requirements definition (email login/signup, automatic granting of user rights to all subscribers).</div>
+      </li>
+      <li><span class="highlight">Step 2: Create requirements-after.md</span>
+        <div style="font-size: 13px; color: var(--text-secondary); margin: 2px 0;">v2.0 requirements definition (Google social login support, mobile phone SMS subscription authentication, user/admin rights diversification).</div>
+      </li>
+      <li><span class="highlight">Step 3: Create screen-specification-v2.md</span>
+        <div style="font-size: 13px; color: var(--text-secondary); margin: 2px 0;">Residual screen design based on v1.0 (only email/password fields, email link authentication guide, and only displays general My Page).</div>
+      </li>
+      <li><span class="highlight">Step 4: Create api-specification.md</span>
+        <div style="font-size: 13px; color: var(--text-secondary); margin: 2px 0;">Remaining backend API specification as of v1.0 (only email and password exist in login, signup API Payload variables).</div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Create four files for practice in order in the folder. We plan to have AI infer actions for subdocuments based on files before and after changes.</div>
+    <div class="visual-guide-notes" style="display:none;">Creation type guide UI for v1.0 files and v2.0 requirements files in the folder.</div>
+  </div>
+</section>
+
+<!-- Slide 23: Hands-on: Track change history and impact -->
+<section class="slide-card session-2" id="slide-23">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">5th session. Requirement changes and impact analysis</div>
+      <div class="slide-title">Hands-on: Track change history and impact</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Lab Instructions: Sending a Change Impact Analysis Prompt to the AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Influence Mapping Prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Compare changes in requirements-before.md and requirements-after.md. After that, analyze which part of the 'screen-specification-v2.md' and 'api-specification.md' documents, which remain at the v1.0 level, and output them in the form of a Markdown table with columns 'Change Items', 'Before Change', 'After Change', 'Scope of Impact (Screen/API)', 'Importance', and 'Actions (Specific Modification Guide)'.</pre>
+        </div>
+      </li>
+      <li style="margin-top: 5px;"><span class="highlight">Expected results:</span> Google social login, mobile phone sign-up, Super/Sub Admin permission diversification requirement mapping table obtained.</li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">When you send a directive, AI parses the differences in requirements before and after, notifies changes to the UI of the login/signup screen, and fields to be added to the signup API payload.</div>
+    <div class="visual-guide-notes" style="display:none;">Example of button placement guide for social login integration and API Payload parameter modification report screen output by AI.</div>
+  </div>
+</section>
+
+<!-- Slide 24: Comprehensive practice Mission 1: Analysis of the impact of adding mobile phone authentication -->
+<section class="slide-card session-2" id="slide-24">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">5th session. Requirement changes and impact analysis</div>
+      <div class="slide-title">Comprehensive practice Mission 1: Analysis of the impact of adding mobile phone authentication</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Comprehensive practice assignment (Task 06):</span>
+        <div style="font-size: 13.5px; color: var(--text-secondary); margin: 3px 0 5px 0;">
+          "If the mobile phone authentication function is added to membership registration, please find all affected screens, APIs, DBs, and documents and prepare an impact analysis report."
+        </div>
+      </li>
+      <li><span class="highlight">Key feedback points:</span>
+        <ul>
+          <li><span class="highlight">Screen planning:</span> Add mobile phone and authentication number confirmation form to signup UI (Importance: **High**)</li>
+          <li><span class="highlight">API specification:</span> Signup API Payload <code>phone</code>, <code>verification_code</code> Add Field (Importance: **Medium**)</li>
+          <li><span class="highlight">DB schema:</span> In the Users table <code>phone</code>(VARCHAR) and <code>is_verified</code>(BOOLEAN) Add column (importance: **high**)</li>
+          <li><span class="highlight">Administrator screen:</span> Add column exposure to admin back office member list (importance: **low**)</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Next, let’s do Comprehensive Mission 1. Let's automatically build a chain impact map using AI that extends from a single sentence of planning modification requirements such as adding mobile phone authentication to the backend, frontend, and offline DB physical schema.</div>
+    <div class="visual-guide-notes" style="display:none;">Impact Analysis Report Markdown table structure guide.</div>
+  </div>
+</section>
+
+<!-- Slide 25: Practice sharing and feedback: DB schema column and API Payload inspection -->
+<section class="slide-card session-2" id="slide-25">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">5th session. Requirement changes and impact analysis</div>
+      <div class="slide-title">Practice sharing and feedback: DB schema column and API Payload inspection</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Value Validation Checklist:</span>
+        <ul>
+          <li>1. Have the requirements for adding database schema table columns beyond simple screen changes been properly identified?</li>
+          <li>2. Are payload variable names (`phone`, `verification_code`, etc.) defined at the development implementation level in the API modification guide?</li>
+          <li>3. Has the importance classification (high/medium/low) been rationally classified according to the size of the risk?</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Please share your results. Fact database schema updates and API parameters must be specified accurately so developers can complete coding in one go without getting lost.</div>
+    <div class="visual-guide-notes" style="display:none;">A diagram showing the API communication structure and database column addition details being properly synced mapped.</div>
+  </div>
+</section>
+
+<!-- Slide 26: Session 6 Guide: Decision Tracking and Risk Reporting -->
+<section class="slide-card session-2" id="slide-26">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">6th session. Decision tracking and project issue reports</div>
+      <div class="slide-title">Session 6 Guide: Decision Tracking and Risk Reporting</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Topic:</span> Decision tracking and project issue report writing</li>
+      <li><span class="highlight">Core Values:</span> Encapsulate decision causes/background within unstructured conversations, automate priority status risk reports</li>
+      <li><span class="highlight">Time plan (total 180 minutes):</span>
+        <ul>
+          <li>Introduction (30 minutes) - Failure to understand why a decision was made and risk of leakage of pending agenda items</li>
+          <li>Lab explanation (30 minutes) - Meeting transcript and decision log structure explanation</li>
+          <li>Practice (90 minutes) - Extract Decision Log and build a comprehensive weekly issue report (Project Issue Report)</li>
+          <li>Sharing and Feedback (30 minutes) - Filter priorities and review overall</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">In the final 6th session, you will learn how to extract completed decisions and pending agenda items from meeting transcripts, gather project information, and write an issue report.</div>
+    <div class="visual-guide-notes" style="display:none;">Graphical visualization of interactive data flows arranged in neat table reports (Decision Log / Issue Report).</div>
+  </div>
+</section>
+
+<!-- Slide 27: Introductory Question: Risks of Losing the Reason for Decisions -->
+<section class="slide-card session-2" id="slide-27">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">6th session. Decision tracking and project issue reports</div>
+      <div class="slide-title">Introductory Question: Risks of Losing the Reason for Decisions</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">Problem Situation:</span> “In the first launch, we decided to remove Apple login and only include Google login.” (meeting minutes results)</li>
+          <li><span class="highlight">Missing context:</span>
+            <ul>
+              <li><span class="highlight">Why:</span> Reasons for delay in Apple developer annual account review and tight schedule.</li>
+              <li><span class="highlight">Who:</span> PM final decision.</li>
+            </ul>
+          </li>
+          <li><span class="highlight">Cost incurred:</span> If the history is missing, ping-pong of wasteful duplicate meetings over the same issue will recur at the next release meeting.</li>
+        </ul>
+      </div>
+      <div class="image-container"
+        style="display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px;">
+        <img alt="decision basis missing" src="images/slide27_illustration.png"
+          style="max-width: 100%; max-height: 320px; border-radius: 8px; object-fit: contain;" />
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">If context, such as the risks behind decisions or reasons for review delays, is not recorded, future meetings may be duplicated or incorrect choices may be repeated. AI should be used to archive decision-making history from conversation records.</div>
+    <div class="visual-guide-notes" style="display:none;">A graphic showing people raising questions at a conference room table and a decision log documented in the back.</div>
+  </div>
+</section>
+
+<!-- Slide 28: Key Points: Decision Log and Pending Items -->
+<section class="slide-card session-2" id="slide-28">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">6th session. Decision tracking and project issue reports</div>
+      <div class="slide-title">Key Points: Decision Log and Pending Items</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="matrix-grid two-col" style="width: 100%; max-width: 1100px; margin-top: 15px;">
+      <div class="code-container" style="margin-bottom:0; display: flex; flex-direction: column; background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
+        <div class="code-header" style="color: #10b981; border-color: rgba(16, 185, 129, 0.2);">
+          <span>Decision Log - Complete</span>
+        </div>
+        <div style="padding: 15px; text-align: left; font-size: 13.5px; line-height: 1.5;">
+          • Decision items and final decision<br>
+          • <strong>Decision-making background and logical basis (Context)</strong><br>
+          • Decision date / Person in charge (decision making subject) / Current status<br>
+          <span style="color: var(--text-secondary); font-size: 12px; display:block; margin-top:10px;">Example: Google login only (background: delayed review, person in charge: PM, decision date: 7/15)</span>
+        </div>
+      </div>
+      <div class="code-container" style="margin-bottom:0; display: flex; flex-direction: column; background: rgba(245, 158, 11, 0.05); border-color: rgba(245, 158, 11, 0.2);">
+        <div class="code-header" style="color: #f59e0b; border-color: rgba(245, 158, 11, 0.2);">
+          <span>Pending Items - On Hold</span>
+        </div>
+        <div style="padding: 15px; text-align: left; font-size: 13.5px; line-height: 1.5;">
+          • Pending items (items pending conclusion)<br>
+          • **Follow-up Action Content and Accountability Plan**<br>
+          • Responsible Person / Estimated Completion Deadline<br>
+          <span style="color: var(--text-secondary); font-size: 12px; display:block; margin-top:10px;">Example: Whether overseas payment methods are compatible with PayPal (Action: Report after technical review; Responsible for: Development team)</span>
+        </div>
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">The key to decision tracking is clearly identifying what is done and what is pending. Decided policies leave a business background, and pending agenda items are assigned a person in charge and a deadline to prevent leaks.</div>
+    <div class="visual-guide-notes" style="display:none;">The screen is divided into left and right, with a green 'Decision Log (Complete)' card on the left and a yellow 'Pending Items' card on the right.</div>
+  </div>
+</section>
+
+<!-- Slide 29: Practice Guide: Preparation for the 6th practice session -->
+<section class="slide-card session-2" id="slide-29">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">6th session. Decision tracking and project issue reports</div>
+      <div class="slide-title">Practice Guide: Preparation for the 6th practice session</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Lab Step 1: Creating messenger-chat.md</span>
+        <div style="font-size: 13px; color: var(--text-secondary); margin: 3px 0;">
+          in work space <code>messenger-chat.md</code> Create a file and paste the transcript of the planning-development 3rd decision-making meeting.
+        </div>
+      </li>
+      <li><span class="highlight">Conversation history properties:</span>
+        <ul>
+          <li>7/15: Due to scheduling issues and delayed account approval, agreed to put Apple login on hold and give priority to Google only.</li>
+          <li>7/16: Account transfer put on hold due to delay in PG review, order to review PayPal payment technology.</li>
+          <li>7/17: Approved Super/Sub Admin two-level permission design in preparation for security audit.</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Creates messenger conversation logs. We distill decision-making metadata from colloquial conversations that proceed in a ping-pong fashion.</div>
+    <div class="visual-guide-notes" style="display:none;">Screen capture UI guide with Markdown file icon and colloquial dialogue code written inside.</div>
+  </div>
+</section>
+
+<!-- Slide 30: Practice progress: structuring decision-making context within conversation logs -->
+<section class="slide-card session-2" id="slide-30">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">6th session. Decision tracking and project issue reports</div>
+      <div class="slide-title">Practice progress: structuring decision-making context within conversation logs</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Lab Instructions: Send Decision Extraction Prompt to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Decision elicitation prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Read the 'messenger-chat.md' conversation log in the project folder, and fill out the Decision Log (decision items, content, background, decision date, person in charge, status) and Pending Items (pending items, follow-up actions, person in charge, scheduled due date) tables for project management and tracking. Please do not make up fictitious data that is not in the chat log.</pre>
+        </div>
+      </li>
+      <li style="margin-top: 5px;"><span class="highlight">Expected results:</span> Automatically derives 3 completed decisions, PayPal payment, and 2 pending Apple logins.</li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Build prompt command. AI summarizes the background evidence in a ping-pong-style conversation and structures it into a decision log table and open item table.</div>
+    <div class="visual-guide-notes" style="display:none;">An example of a rendered screen where the decision log table and open item table are aligned within a folder after AI building.</div>
+  </div>
+</section>
+
+<!-- Slide 31: Comprehensive practice Mission 2: Automatic creation of project weekly issue report -->
+<section class="slide-card session-2" id="slide-31">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">6th session. Decision tracking and project issue reports</div>
+      <div class="slide-title">Comprehensive practice Mission 2: Automatic creation of project weekly issue report</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Comprehensive practice assignment (Task 07):</span>
+        <div style="font-size: 13px; color: var(--text-secondary); margin: 3px 0 5px 0;">
+          “Please write a project issue report that summarizes the main issues of the current project and includes urgency and priority.”
+        </div>
+      </li>
+      <li><span class="highlight">Urgency/priority based risk detection reporting:</span>
+        <ul>
+          <li><span class="highlight">Done:</span> Completed implementation of login and user authentication functions (Responsible for: Development Team)</li>
+          <li><span class="highlight">Progress:</span> Membership sign-up function (SMS sign-up authentication linkage) under development and testing (Responsible for: Development Team, Importance: **Medium**)</li>
+          <li><span class="highlight">Issue:</span> Integration bottleneck due to delay in external PG company contract approval review (Responsible: PM, Importance: **High**)</li>
+          <li><span class="highlight">Danger:</span> Schedule pressure due to the influx of new changes to overseas PayPal integration (Responsibility: Planning Team, Importance: **High**)</li>
+          <li><span class="highlight">Outstanding:</span> Administrator back office access rights (Super/Sub Admin) policy not confirmed (In charge: Planning team, Importance: **Medium**)</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Next, perform Comprehensive Mission 2. Collect scattered meeting records in the folder and build a project risk rating and weekly issue report.</div>
+    <div class="visual-guide-notes" style="display:none;">Project Weekly Issue Report Table Structure Layout Guide.</div>
+  </div>
+</section>
+
+<!-- Slide 32: Practice sharing and feedback: Urgency/priority based risk control -->
+<section class="slide-card session-2" id="slide-32">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">6th session. Decision tracking and project issue reports</div>
+      <div class="slide-title">Practice sharing and feedback: Urgency/priority based risk control</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Value Validation Checklist:</span>
+        <ul>
+          <li>1. Beyond the simple task summary, have you correctly identified external factors (delay in PG company review) that delay the project schedule as an issue?</li>
+          <li>2. Has the risk factor (planned introduction of overseas payments) been set as ‘high’ priority and subject to preemptive management?</li>
+          <li>3. Is the person responsible for solving the problem (PM, planning team, development team) clearly specified?</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Let's share the results. This report allows PMs and decision makers to visually identify bottlenecks and risks throughout the project and recommend alternatives.</div>
+    <div class="visual-guide-notes" style="display:none;">Priority visualization icon graphics by risk level (warning, pending, progress).</div>
+  </div>
+</section>
+
+<!-- Slide 33: Summary: Day 2 Key Recap -->
+<section class="slide-card session-2" id="slide-33">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">6th session. Decision tracking and project issue reports</div>
+      <div class="slide-title">Summary: Day 2 Key Recap</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 2</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Day 2 Summary and Milestone Retrospective:</span>
+        <ul>
+          <li><span class="highlight">Consistency:</span> Completed early and precise search for hidden triangular contradictions by comparing plan, screen design, and meeting minutes.</li>
+          <li><span class="highlight">Impact of change:</span> Email subscription ➔ Automation of UI/API/DB physical column update guide when changing SMS authentication.</li>
+          <li><span class="highlight">Historic Preservation (Decision):</span> In the meeting ping-pong conversation, the decision background and pending agenda are separated and feedback is completed through a weekly issue report.</li>
+          <li><span class="highlight">Core Values:</span> Through two days of AI pipeline collaboration, you will fully learn design techniques to prevent rework throughout the requirements life cycle!</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Completes all 2-day training schedule. We went beyond simply asking questions, and directly planned and self-verified requirements life cycle management design techniques to complete the project. Thank you for your hard work. thank you!</div>
+    <div class="visual-guide-notes" style="display:none;">Stereoscopic 3D timeline map graphic of AI collaboration roadmap reaching success completion flag.</div>
+  </div>
+</section>

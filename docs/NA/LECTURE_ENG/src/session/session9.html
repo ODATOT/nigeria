@@ -1,0 +1,265 @@
+<!-- Slide 88: [Divider Slide] SESSION 09 -->
+<section class="slide-card divider-slide session-9" id="slide-88">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 9 | 9th session. Designing a Payment Service</div>
+    <div class="slide-title">[Session Opening] Day 9. Designing a Payment Service</div>
+  </div>
+
+  <div class="divider-content">
+    <div class="divider-day">DAY 9</div>
+    <div class="divider-tag">SESSION 09</div>
+    <h1 class="divider-title">Designing a payment service</h1>
+    <p class="divider-subtitle">Shortened purchase journey by 3 steps, bank check and limit exceeded safe copy, double authorization prevention, UUID lock</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> Simplifying the payment journey (Task 01)</div>
+      <div class="topic-badge"><span>02</span> PG error copy Hangul sorting (Task 02)</div>
+      <div class="topic-badge"><span>03</span> Receipt Layout & Block Double Authorization (Task 03 / Mission 01/02)</div>
+    </div>
+  </div>
+
+  <div class="slide-body" style="display: none;">
+    <p>9th session. Designing a Payment Service (Payment Service) Session Start</p>
+  </div>
+  <div class="presenter-notes" style="display:none;">In the 9th day session, we will reduce the 9-step process to 3 steps to prevent users from feeling anxious and leaving during payment, change the PG error code to a user-safe copy, and learn about the order UUID Idempotency lock device that blocks duplicate payments.</div>
+</section>
+
+<!-- Slide 89: Day 9 opening & 25th session information -->
+<section class="slide-card session-9" id="slide-89">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">25th session. Design payment flow and minimize bounce rate</div>
+      <div class="slide-title">9th day opening & 25th session information</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 9</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">subject:</span> Payment Flow Planning</li>
+      <li><span class="highlight">Core Values:</span> Prevent sales churn by eliminating friction in the critical path of spending decisions</li>
+      <li><span class="highlight">Time plan (total 180 minutes):</span>
+        <ul>
+          <li>Introduction (30 minutes) - Problems with 9-step payment, such as identity verification pop-ups and address search errors</li>
+          <li>Lab Description (30 minutes) - day9_current_checkout_flow.md structure analysis</li>
+          <li>Practice progress (90 minutes) - Single page integrated summary order form and overlay payment TO-BE design</li>
+          <li>Sharing and Feedback (30 minutes) - Review of basic load implementation of registration information</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">In the 25th session, you will learn how to plan for shortest payment routes to increase purchase conversion rates.</div>
+  </div>
+</section>
+
+<!-- Slide 90: Introduction question: Why do planners only look at simple PG connections, but users run away during payment? -->
+<section class="slide-card session-9" id="slide-90">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">25th session. Design payment flow and minimize bounce rate</div>
+      <div class="slide-title">Introduction question: Why do planners only look at simple PG connections, but users run away during payment?</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 9</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">What causes churn in multi-step payments:</span>
+            <ul>
+              <li>Options ➔ Order form ➔ Terms and conditions ➔ Delivery address ➔ Mobile phone identity verification ➔ PG call ➔ Complete (9 steps in total).</li>
+              <li>Every time a pop-up appears on the mobile screen, users give up their desire to purchase.</li>
+            </ul>
+          </li>
+          <li><span class="highlight">TO-BE 3-step abbreviation:</span>
+            <ul>
+              <li>Step 1: Automatically load delivery address (Single Page)</li>
+              <li>Step 2: Agree to payment method and terms and conditions (Checkout Overlay)</li>
+              <li>Step 3: PG Easy Approval and Completion Redirect</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="image-container"
+        style="display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px;">
+        <img alt="Payment Friction Peak" src="images/slide90_illustration.png"
+          style="max-width: 100%; max-height: 320px; border-radius: 8px; object-fit: contain;" />
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">Learn how to design merged screens to prevent duplicate identity verification requests or loss of mobile forms in exits.</div>
+  </div>
+</section>
+
+<!-- Slide 91: Practice Task 01: Payment Flow Planning -->
+<section class="slide-card session-9" id="slide-91">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">25th session. Design payment flow and minimize bounce rate</div>
+      <div class="slide-title">Practice Task 01: Designing payment flow</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 9</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Prepare data: write day9_current_checkout_flow.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">A 9-step scenario in which identity verification is requested again and the address search is interrupted even though registration verification has been completed.</div>
+      </li>
+      <li><span class="highlight">Practice instructions: Send flow optimization prompt to AI window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Payment flow disconnection prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Read the current multi-step checkout flow (day9_current_checkout_flow.md) and find two barriers that may cause users to run away due to fatigue before clicking checkout. Also, please derive an improved payment user flow (TO-BE Flow) that is reduced to 3 steps or less by merging unnecessary steps so that email sign-up users can complete the purchase as quickly as possible.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Apply AI-suggested simplification elements to create an order/payment summary sheet that merges pop-up steps.</div>
+  </div>
+</section>
+
+<!-- Slide 92: Practice Task 02: Review payment failure scenario (Payment Exception Review) -->
+<section class="slide-card session-9" id="slide-92">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">26th session. Payment exception handling and price receipt reliability improvement</div>
+      <div class="slide-title">Practice Task 02: Review payment failure scenario</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 9</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Prepare data: write day9_raw_payment_errors.json</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Enter the raw system error log and limit exceeded error code provided by the PG company.</div>
+      </li>
+      <li><span class="highlight">Practice instructions: Send Korean feedback conversion prompt to AI window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Error translation into Korean and safety guide prompts (copy available)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Based on the PG company's raw error log specification day9_raw_payment_errors.json provided, please create a friendly 'Korean guidance phrasebook for each error situation' that never causes anxiety to users and a 'double authorization prevention response guideline (Mitigation Playbook)' that blocks duplicate payment attempts.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Instead of scary English errors like "ERR_CARD_LIMIT_EXCEEDED", we assemble a Korean resolution message like "Limit exceeded (payment canceled immediately)".</div>
+  </div>
+</section>
+
+<!-- Slide 93: Practice Task 03: Improving the payment experience (Payment Experience Review) -->
+<section class="slide-card session-9" id="slide-93">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">26th session. Payment exception handling and price receipt reliability improvement</div>
+      <div class="slide-title">Practice Task 03: Improving the payment experience</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 9</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Prepare data: day9_payment_ui.html ready</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">In addition to the subscription amount of 50,000 won, the screen gives a phishing feel because it does not include security guarantees or detailed fees.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Send Receipt Price Segmentation Prompt to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Receipt UI improved prompts (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Please review the usability and reliability of the provided day9_payment_ui.html payment UI layout. Find a place where users may feel anxious due to information opacity, and derive a final CSS/HTML structure supplemented with 1) separate display of price details and discount receipts, 2) placement of 24-hour secure payment security phrase, and 3) simple cancellation/refund link prescription.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">The payment trust mechanism is supplemented by inserting the final price including VAT and the phrase “Guaranteed one-click cancellation within 7 days”.</div>
+  </div>
+</section>
+
+<!-- Slide 94: Mission 01: Responding to payment failure situations (Handling Failures) -->
+<section class="slide-card session-9" id="slide-94">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">27th session. Establishing payment failure recovery and auditing customer journeys</div>
+      <div class="slide-title">Mission 01: Responding to payment failure situations</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 9</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Response to forced termination of payment window and inspection:</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 3px 0 5px 0;">When the window is closed during payment, the message ‘Don’t worry, your money has not been withdrawn’ is sent and a UUID Idempotency Key lock is designed to block duplicate payments.</div>
+      </li>
+      <li><span class="highlight">Complete and save your response:</span>
+        <div style="font-size:13px; color: var(--text-secondary); margin-top:5px;">Completion of the ‘day9_failure_scenarios.md’ prevention guidebook, which matrixes feedback sentences for each failure situation.</div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Establish a server order UUID key lock rule to prevent money from being withdrawn twice due to duplicate transmission of the same order number.</div>
+  </div>
+</section>
+
+<!-- Slide 95: Mission 02: Direct inspection until purchase completion (Checkout Journey) -->
+<section class="slide-card session-9" id="slide-95">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">27th session. Establishing payment failure recovery and auditing customer journeys</div>
+      <div class="slide-title">Mission 02: Direct inspection until purchase completion</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 9</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Friction peak specification:</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 3px 0 5px 0;">A design flaw was discovered where the existing shipping address was volatilized when you clicked Find Coupon while entering order information.</div>
+      </li>
+      <li><span class="highlight">Improvement actions and storage:</span>
+        <div style="font-size:13px; color: var(--text-secondary); margin-top:5px;">Store the `day9_checkout_journey.md` report, which completely prevents form initialization by temporarily synchronizing field input data to the local session when executing the modal.</div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">We analyze the reasons why a user deletes a payment at each point in time and establish an action plan, such as exposing a refund policy that can be taken immediately.</div>
+  </div>
+</section>
+
+<!-- Slide 96: Summary: Day 9 Key Recap -->
+<section class="slide-card session-9" id="slide-96">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">27th session. Establishing payment failure recovery and auditing customer journeys</div>
+      <div class="slide-title">Summary: Day 9 Key Recap</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 9</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Day 9 Key Takeaways:</span>
+        <ul>
+          <li><span class="highlight">3 stages of purchasing flow:</span> Merge complex 9-step payment processes into a single summary order overlay.</li>
+          <li><span class="highlight">Purification of raw error Hangul:</span> Replace the card rejection PG error with a safe resolution copy containing action instructions.</li>
+          <li><span class="highlight">Asset Safety Guard (Idempotency):</span> Prevents double approval sales accidents caused by multiple clicks by linking UUID order keys.</li>
+          <li><span class="highlight">Preview for the next session:</span> Day 10. Service Launch</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">You have successfully completed the 9th day payment management session. On the final 10th day, we will package promotional notices to announce the completed service to the world, build FAQs, and make a final presentation of the Keep/Problem/Try project.</div>
+  </div>
+</section>

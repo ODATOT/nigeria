@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 2. Codex Client-based Mismatch detection, change management and decision tracking training summary | ACE AI Startup Bootcamp</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary-color: #3b82f6; /* Electric Blue */
+      --secondary-color: #06b6d4; /* Neon Cyan */
+      --bg-dark: #09090b; /* Primary Background */
+      --bg-charcoal: #111827; /* Secondary Background */
+      --bg-card: #1a1d24; /* Card Surface */
+      --text-main: #ffffff;
+      --text-muted: #e4e4e7;
+      --text-desc: #71717a;
+      --accent-color: #06b6d4;
+      --accent-purple: #8b5cf6;
+      --card-radius: 10px;
+      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+      --glow-cyan: 0 0 15px rgba(6, 182, 212, 0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-main);
+      line-height: 1.5;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.04) 0%, transparent 40%),
+        linear-gradient(to bottom, #09090b 0%, #111827 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, p, li, span, strong, td, th { word-break: keep-all; }
+
+    .container {
+      max-width: 860px; 
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-container {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 6px 20px;
+    }
+
+    .logo {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .logo::before {
+      content: "";
+      width: 4px;
+      height: 12px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .logo-text p {
+      font-size: 0.58rem;
+      color: var(--text-desc);
+      margin-top: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.72rem;
+      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 8px;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--secondary-color);
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-top: 120px; /* PC layout overlap prevention */
+      padding: 20px 0 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .hero-badge-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .hero h1 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 40%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+
+    .hero p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    /* 5-Part Main Tab Menu */
+    .part-tab-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin: 15px 0;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .part-tab {
+      flex: 1;
+      padding: 8px 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-desc);
+      text-align: center;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .part-tab:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .part-tab.active {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.3);
+      color: var(--secondary-color);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Part Panel Structure */
+    .part-panel {
+      display: none;
+      animation: panelFade 0.3s ease forwards;
+    }
+
+    .part-panel.active {
+      display: block;
+    }
+
+    @keyframes panelFade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card styling */
+    .premium-card {
+      background: rgba(26, 29, 36, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--card-radius);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .premium-card h2 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .premium-card h2::before {
+      content: "";
+      width: 3px;
+      height: 11px;
+      background: var(--secondary-color);
+      border-radius: 1px;
+    }
+
+    .premium-card p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+
+    /* Part 1: ChatGPT vs Codex Client Table */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .compare-table th, .compare-table td {
+      padding: 8px 10px;
+      font-size: 0.72rem;
+      text-align: left;
+    }
+
+    .compare-table th {
+      background: rgba(59, 130, 246, 0.1);
+      color: #93c5fd;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .compare-table td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+    }
+
+    .compare-table tr:hover td {
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    /* Pipeline flow visualization */
+    .pipeline-flow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      margin: 20px 0 30px;
+      padding: 0 10px;
+    }
+
+    .pipeline-line {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      right: 30px;
+      height: 2px;
+      background-image: linear-gradient(to right, rgba(59, 130, 246, 0.4) 50%, transparent 50%);
+      background-size: 8px 2px;
+      z-index: 1;
+    }
+
+    .flow-node {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .node-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--text-desc);
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .flow-node:hover .node-circle {
+      border-color: var(--secondary-color);
+      transform: scale(1.08);
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+    }
+
+    .flow-node.active .node-circle {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-color: #ffffff;
+      color: #ffffff;
+      box-shadow: var(--glow-cyan);
+    }
+
+    .node-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-desc);
+      margin-top: 6px;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .flow-node.active .node-label {
+      color: var(--secondary-color);
+    }
+
+    .transformer-box {
+      background: rgba(9, 9, 11, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 15px;
+    }
+
+    .transformer-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .transformer-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .transformer-card {
+      background: rgba(26, 29, 36, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 6px;
+      padding: 10px;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .transformer-card-head {
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .transformer-card-head.input-head { color: var(--accent-color); }
+    .transformer-card-head.output-head { color: var(--accent-purple); }
+
+    .card-preview {
+      background: #08090c;
+      padding: 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #a1a1aa;
+      font-size: 0.62rem;
+      margin-top: 6px;
+      max-height: 80px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .transformer-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .arrow-line {
+      font-size: 1.1rem;
+      color: var(--secondary-color);
+    }
+
+    /* Highlight box */
+    .prompt-box {
+      background: rgba(6, 182, 212, 0.04);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+      position: relative;
+    }
+
+    .prompt-box h4 {
+      font-size: 0.78rem;
+      color: var(--secondary-color);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .prompt-box pre {
+      font-family: monospace;
+      font-size: 0.68rem;
+      color: #a1a1aa;
+      white-space: pre-wrap;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 8px;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: white;
+      font-size: 0.58rem;
+      padding: 3px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: var(--secondary-color);
+    }
+
+    /* Step checklist styling */
+    .checklist-list {
+      list-style-type: none;
+      margin: 10px 0 0;
+    }
+
+    .checklist-item {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .checklist-item::before {
+      content: "✓";
+      color: var(--secondary-color);
+      font-weight: 800;
+    }
+
+    /* Grid cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .grid-item {
+      background: rgba(9, 9, 11, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 6px;
+      padding: 12px;
+    }
+
+    .grid-item h3 {
+      font-size: 0.8rem;
+      color: #93c5fd;
+      margin-bottom: 6px;
+    }
+
+    .grid-item p {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
+
+    /* Bottom Actions */
+    .action-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0;
+    }
+
+    .btn-link {
+      display: inline-block;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      transition: all 0.25s;
+    }
+
+    .btn-link.pri {
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-link.pri:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5), 0 0 10px rgba(6, 182, 212, 0.3);
+    }
+
+    .btn-link.sec {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+    }
+
+    .btn-link.sec:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        margin-top: 160px; /* Mobile layout overlap prevention */
+      }
+      .part-tab-bar {
+        flex-wrap: wrap;
+      }
+      .part-tab {
+        flex: unset;
+        width: calc(33.33% - 4px);
+        font-size: 0.65rem;
+      }
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+      .transformer-grid {
+        grid-template-columns: 1fr;
+      }
+      .transformer-arrow {
+        transform: rotate(90deg);
+        margin: 6px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="logo">
+        <div class="logo-text">
+          <h1>ACE AI Startup Bootcamp</h1>
+          <p>Day 2 Codex AI Lecture</p>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="day2-ai-codex-1.html">Task 1 (Inconsistency)</a>
+        <a href="day2-ai-codex-2.html">Task 2 (Change Management)</a>
+        <a href="day2-ai-codex-3.html">Task 3 (Decision making)</a>
+        <a href="day2-ai-codex-mission1.html">Mission 1 (Impact)</a>
+        <a href="day2-ai-codex-mission2.html">Mission 2 (Issue Report)</a>
+        <a href="day2-ai-codex-summation.html" class="summation-btn active" style="background: rgba(6, 182, 212, 0.15); color: var(--secondary-color); border-color: rgba(6, 182, 212, 0.3);">📊 View Summary</a>
+        <a href="day2-ai-classroom.html">← Classroom</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-badge-wrap">
+        <span class="hero-badge">Day 2 Summary</span>
+        <span class="hero-badge">Codex AI Auditor</span>
+        <span class="hero-badge">PM Automation</span>
+      </div>
+      <h1>Day 2. Codex Client-based Auditing Practice Summary</h1>
+      <p>
+        Detection of consistency in plan inconsistencies, analysis of impact due to requirements changes, extraction of decision-making logs from messenger unstructured conversation logs, etc.
+        Master the art of combining core design control tasks that cause bottlenecks in practice with the reasoning capabilities of Codex Workspace.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content Body -->
+  <section class="container" style="padding-bottom: 60px;">
+    
+    <!-- 5-Part Tab Menu -->
+    <div class="part-tab-bar">
+      <div class="part-tab active" onclick="switchPart(1)">Part 1. Introduction background</div>
+      <div class="part-tab" onclick="switchPart(2)">Part 2. Practice objectives</div>
+      <div class="part-tab" onclick="switchPart(3)">Part 3. Follow along</div>
+      <div class="part-tab" onclick="switchPart(4)">Part 4. How it works</div>
+      <div class="part-tab" onclick="switchPart(5)">Part 5. Training Guide</div>
+    </div>
+
+    <!-- PART 1 PANEL -->
+    <div class="part-panel active" id="part1-panel">
+      <div class="premium-card">
+        <h2>Why Codex Client for these three tasks?</h2>
+        <p>
+          In a typical IT service construction process, the point that causes the most time and rework costs is **"planning/design mismatch due to communication error"**.
+          Let's understand the difference between a general-purpose conversation model such as ChatGPT and Codex Client, which holds the entire project file and maintains context.
+        </p>
+
+        <h3 style="font-size: 0.8rem; margin: 12px 0 6px; color: #93c5fd;">Critical difference between ChatGPT and Codex Client</h3>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Compare items</th>
+              <th>General ChatGPT (single conversation)</th>
+              <th>Codex Client (Workspace-based)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Analysis scope</strong></td>
+              <td>Compare single or fragmented copy-paste text</td>
+              <td>Check overall consistency of multiple documents in project directory</td>
+            </tr>
+            <tr>
+              <td><strong>traceability</strong></td>
+              <td>Risk of losing context of previous files as conversation continues</td>
+              <td>Real-time synchronization of inconsistencies between requirements and sub-specifications (API, UI) before and after changes</td>
+            </tr>
+            <tr>
+              <td><strong>conversation tablet</strong></td>
+              <td>Risk of simply recording meeting results or creating virtual entities</td>
+              <td>Precise separation of semantic basis (Why) and pending matters (Action Items) in unstructured conversations</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="premium-card">
+        <h2>Productivity when using AI as a reviewer</h2>
+        <div class="card-grid">
+          <div class="grid-item">
+            <h3>Software Engineering Prevention</h3>
+            <p>The cost of correcting errors in the design phase is **up to 100 times** lower than fixing them after development and testing are complete. AI immediately catches design inconsistencies and prevents rework.</p>
+          </div>
+          <div class="grid-item">
+            <h3>Meticulousness as a Reviewer</h3>
+            <p>AI accurately points out fact-centered issues such as missing inactivated rules and mismatched variable mappings (e.g., evaluation subjects are reversed), which are cumbersome for humans to fully inspect, in just a few seconds.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART 2 PANEL -->
+    <div class="part-panel" id="part2-panel">
+      <div class="premium-card">
+        <h2>Final result to be created today</h2>
+        <div class="card-grid">
+          <div class="grid-item">
+            <h3>Task 01. Design discrepancy detection</h3>
+            <p>Classifies contradictions and omissions between meeting minutes, requirements, and screen designs. <strong>Discrepancy Summary Report Table</strong> (Output: <code>consistency-report.md</code>)</p>
+          </div>
+          <div class="grid-item">
+            <h3>Task 02. Change impact management</h3>
+            <p>Mapping specific action items to be reflected in screen UI planning and backend API specifications according to new requirements changes <strong>Change impact analysis table</strong> (Output: <code>impact-analysis.md</code>)</p>
+          </div>
+          <div class="grid-item">
+            <h3>Task 03. Decision tracking</h3>
+            <p>Separate final agreed upon matters (Why) and pending matters requiring future review from unstructured verbal/chat records. <strong>Decision Log and Pending Items Table</strong> (Output: <code>decision-log.md</code>)</p>
+          </div>
+          <div class="grid-item">
+            <h3>Mission 1 (Task 06). Impact analysis</h3>
+            <p>Analyzing the screens, API, DB, and documents affected by the addition of mobile phone authentication for membership registration <strong>Impact analysis report</strong> (Output: <code>impact-analysis-report.md</code>)</p>
+          </div>
+          <div class="grid-item">
+            <h3>Mission 2 (Task 07). Write an issue report</h3>
+            <p>Comprehensively analyzes project data and summarizes current progress and major issues. <strong>Project issue report</strong> (Output: <code>project-issue-report.md</code>)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="premium-card">
+        <h2>Input / Output data pipeline</h2>
+        <p>This is the overall workflow map in which input files pass through the Codex Client during the exercise process and are refined into a result table.</p>
+
+        <!-- Pipeline Tab Elements -->
+        <div class="pipeline-flow">
+          <div class="pipeline-line"></div>
+          <div class="flow-node active" onclick="showPipeline(1)">
+            <div class="node-circle">01</div>
+            <div class="node-label">Mismatch detection</div>
+          </div>
+          <div class="flow-node" onclick="showPipeline(2)">
+            <div class="node-circle">02</div>
+            <div class="node-label">Change Impact</div>
+          </div>
+          <div class="flow-node" onclick="showPipeline(3)">
+            <div class="node-circle">03</div>
+            <div class="node-label">decision history</div>
+          </div>
+          <div class="flow-node" onclick="showPipeline(4)">
+            <div class="node-circle">M1</div>
+            <div class="node-label">Impact analysis</div>
+          </div>
+          <div class="flow-node" onclick="showPipeline(5)">
+            <div class="node-circle">M2</div>
+            <div class="node-label">issue report</div>
+          </div>
+        </div>
+
+        <!-- Interactive Transformer Box -->
+        <div class="transformer-box">
+          <div class="transformer-title" id="pipeline-title">Task 01. Inconsistency detection data flow</div>
+          <div class="transformer-grid">
+            <div class="transformer-card">
+              <div class="transformer-card-head input-head">📥 Input (planning/design document)</div>
+              <div class="card-preview" id="pipeline-input">
+• meeting-notes.md (meeting notes)
+• requirements.md (requirements definition)
+• screen-specification.md (screen-specification)
+              </div>
+            </div>
+            <div class="transformer-arrow">
+              <span style="font-size:0.6rem; color:var(--text-desc);">Codex Client</span>
+              <span class="arrow-line">➔</span>
+            </div>
+            <div class="transformer-card">
+              <div class="transformer-card-head output-head">💾 Output (Summary Report)</div>
+              <div class="card-preview" id="pipeline-output">
+| Category | Discover contradictions | Impact | standards | Recommended Action |
+| policy | Refund fee varies upon withdrawal | High | Meeting minutes | Logic integration |
+| Features | Evaluation Subject Error | High | Meeting minutes | FR-004 Modification |
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART 3 PANEL -->
+    <div class="part-panel" id="part3-panel">
+      <div class="premium-card">
+        <h2>STEP 1. Task 01 - Inconsistency detection</h2>
+        <p>After creating a practice file in the project folder, proceed with contradiction auditing by sending the instructions below to the Codex Client prompt window.</p>
+        
+        <div class="prompt-box">
+          <button class="copy-btn" onclick="copyPrompt('prompt1')">Copy</button>
+          <h4>🔍 Codex request prompt (instruction to review)</h4>
+          <pre id="prompt1">Compare and analyze the three documents ‘meeting-notes.md’, ‘requirements.md’, and ‘screen-specification.md’ in the project folder.
+
+Find and organize items that are contradictory or inconsistent between each document, or items that exist in one document but are missing from the other.
+Print the results according to the requirements below.
+
+1. Organize the results in the form of a Markdown table with columns ‘Classification’, ‘Findings and contradictions’, ‘Impact’, ‘Highest authority standard document’, and ‘Recommended action’.
+2. When entering development and testing, indicate the impact as ‘high’ for matters that may cause fatal rework.
+3. Do not create arbitrary answers, but derive comparative analysis results based on facts only based on the document text.</pre>
+        </div>
+
+        <ul class="checklist-list">
+          <li class="checklist-item">The 10% penalty fee policy for meeting minutes is checked to see if any omissions in the requirements definition are caught.</li>
+          <li class="checklist-item">When processing membership withdrawal, check whether policy inconsistencies (automatic cancellation vs. retention vs. hiding without pop-up) in the three documents are identified.</li>
+          <li class="checklist-item">In the FR-004 requirements, check whether the logical error in which the evaluation subject was written as Expert rather than Customer was caught.</li>
+        </ul>
+      </div>
+
+      <div class="premium-card">
+        <h2>STEP 2. Task 02 - Change Management</h2>
+        <p>After preparing two types of requirements change files (v1.0 vs v2.0) and existing design/API specifications, we send a change impact mapping directive.</p>
+        
+        <div class="prompt-box">
+          <button class="copy-btn" onclick="copyPrompt('prompt2')">Copy</button>
+          <h4>🔄 Codex request prompt (instructs change and impact analysis)</h4>
+          <pre id="prompt2">First, analyze which policy has been changed by comparing the 'requirements-before.md' and 'requirements-after.md' files in the project folder.
+
+After that, analyze which part of the ‘screen-specification-v2.md’ and ‘api-specification.md’ documents, which remain at the v1.0 level, where the changed policy content should be reflected.
+
+The results are output in a Markdown table format according to the format below:
+1. ‘Change items’, ‘Before change’, ‘After change’, ‘Scope of influence (screen/API)’, ‘Importance’, ‘Actions (guide for specific modifications required)’
+2. Additionally, based on the v2.0 requirements, classify the importance of parts that require modification in the order of ‘high/medium/low’ and mark them in the column.</pre>
+        </div>
+
+        <ul class="checklist-list">
+          <li class="checklist-item">Check whether a guide for changing the login screen UI and API parameters (oauth_token) has been established in accordance with Google Social Login.</li>
+          <li class="checklist-item">Check whether the subscription UI is replaced according to the introduction of SMS authentication and whether the required API Payload parameters (phone, verification_code) are reflected.</li>
+          <li class="checklist-item">Check whether the new dashboard screen is designed according to Admin authority classification and the API role field mapping is checked.</li>
+        </ul>
+      </div>
+
+      <div class="premium-card">
+        <h2>STEP 3. Task 03 - Decision tracking</h2>
+        <p>After preparing an unstructured development chat log (messenger-chat.md), decision logs and follow-up tasks are automatically separated and extracted.</p>
+        
+        <div class="prompt-box">
+          <button class="copy-btn" onclick="copyPrompt('prompt3')">Copy</button>
+          <h4>📋 Codex request prompt (instruction to extract decisions)</h4>
+          <pre id="prompt3">Read the 'messenger-chat.md' conversation log in the project folder and create Decision Log and Pending Items for project management and tracking.
+
+Please perform the analysis according to the conditions below.
+1. For matters that have been decided, please fill out the ‘Decision Log’ table. The column must include ‘decision item’, ‘decision content’, ‘decision background/basis’, ‘decision date’, ‘person in charge/subject’, and ‘status’.
+2. Organize matters that have not yet been decided and require follow-up review or are on hold in the ‘Pending Items’ table. In the column, please include ‘Pending items’, ‘Follow-up details’, ‘Person in charge’, and ‘Planned due date’.
+3. Please do not write fictitious dates or decision-making entities that are not based on the conversation log text.</pre>
+        </div>
+
+        <ul class="checklist-list">
+          <li class="checklist-item">In the first launch, check whether the basis (delay in review, etc.) and the subject for deciding to only use Google login and exclude Apple login have been extracted.</li>
+          <li class="checklist-item">Check whether the reason for holding real-time account transfer, the person in charge (development team) for reviewing overseas Paypal linkage, and follow-up actions have been identified.</li>
+          <li class="checklist-item">Ensures that Super/Sub Admin level 2 hierarchical authority component decision basis is included to meet security room audit requirements.</li>
+        </ul>
+      </div>
+
+      <div class="premium-card">
+        <h2>Mission 1. Analysis of the impact of changes in membership registration (Task 06)</h2>
+        <p>We use Codex to analyze the impact of the entire system (screen, API, DB, documents) and create a report in response to the customer's change request to "add mobile phone authentication when signing up."</p>
+        
+        <div class="prompt-box">
+          <button class="copy-btn" onclick="copyPrompt('prompt_m1')">Copy</button>
+          <h4>🔍 Codex request prompt (impact analysis instruction)</h4>
+          <pre id="prompt_m1">If the mobile phone authentication function is added to membership registration, please find all affected screens, APIs, DBs, and documents and prepare an impact analysis report.</pre>
+        </div>
+
+        <ul class="checklist-list">
+          <li class="checklist-item">With the addition of mobile phone authentication, check whether the impact of the sign-up screen (UI) has been detected with the 'High' and 'Modify Screen' actions.</li>
+          <li class="checklist-item">Verify that the Login/Signup API impact has been detected as 'Medium' and 'API Modification'.</li>
+          <li class="checklist-item">Check whether the influence of the User DB has been mapped to ‘High’ and ‘Add Column’ actions.</li>
+          <li class="checklist-item">Make sure you've mapped the impact of your admin screens to 'Low' and 'Add Hit' actions.</li>
+        </ul>
+      </div>
+
+      <div class="premium-card">
+        <h2>Mission 2. Write a project issue report (Task 07)</h2>
+        <p>By analyzing original project data such as meeting minutes, change history, action items, and issue lists, reports on current progress and major issues are automatically created.</p>
+        
+        <div class="prompt-box">
+          <button class="copy-btn" onclick="copyPrompt('prompt_m2')">Copy</button>
+          <h4>📋 Codex request prompt (instructions to write issue report)</h4>
+          <pre id="prompt_m2">Please write a project issue report that summarizes the main issues of the current project and includes urgency and priority.</pre>
+        </div>
+
+        <ul class="checklist-list">
+          <li class="checklist-item">Make sure completion (login function) and progress (membership registration function) status are classified correctly.</li>
+          <li class="checklist-item">Check whether the payment API schedule delay issue is prioritized as ‘high’ and PM responsible.</li>
+          <li class="checklist-item">Ensure requirements change upcoming risks are mapped to 'High' and Planning Team Responsibility.</li>
+          <li class="checklist-item">Confirm the administrator authority policy and confirm that the priority of outstanding matters has been accurately determined as 'medium' and the planning team.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PART 4 PANEL -->
+    <div class="part-panel" id="part4-panel">
+      <div class="premium-card">
+        <h2>Semantic Diff</h2>
+        <p>
+          It's not just comparing lines of text or detecting changes.
+          Be aware of how the core logic of your business requirements (e.g. email verification ➔ SMS mobile number verification) has been revised;
+          This is the principle of mapping the modification guide by dependently interpreting the variable mapping table of the physical files (front-end UI wireframe design and back-end API REST specifications) that have a dependency relationship with it.
+        </p>
+      </div>
+
+      <div class="premium-card">
+        <h2>Context encapsulation within unstructured conversations</h2>
+        <p>
+          In the flow of informal group chat rooms, such as “Apple will talk again at the next meeting,” and “Bank transfers are on hold for now due to PG review.”
+          AI semantically refines the background factors that led to the final agreement (Apple developer annual account review schedule, delay in PG company contract approval, etc.).
+          This allows the conference room decision-making background (why) to be fully remembered even if project members change.
+        </p>
+      </div>
+
+      <div class="premium-card">
+        <h2>Synergy of connection flow of three tasks</h2>
+        <p>
+          The planning/design review process is not a one-time task.
+          It serves as an organic design control device that bridges the planning and development gap in the IT project life cycle.
+        </p>
+        <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="grid-item">
+            <h3>1. Finding contradictions (Task 01)</h3>
+            <p>Identify conflicts or holes between existing plans, screen designs, and meeting minutes in just a few seconds.</p>
+          </div>
+          <div class="grid-item">
+            <h3>2. Decision tracking (Task 03)</h3>
+            <p>Reporting of the basis and pending work in the meeting conversation that led to the decision to change requirements.</p>
+          </div>
+          <div class="grid-item">
+            <h3>3. Apply controls (Task 02)</h3>
+            <p>Final control to ensure that decision-making results are mapped to sub-UI screens and API specifications without exception.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART 5 PANEL -->
+    <div class="part-panel" id="part5-panel">
+      <div class="premium-card">
+        <h2>Instructional Design Specifications</h2>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th style="width: 30%;">Evaluation items</th>
+              <th>Detailed training standard specifications</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Training Difficulty</strong></td>
+              <td>★★★☆☆ (Intermediate Course)</td>
+            </tr>
+            <tr>
+              <td><strong>Estimated lab time</strong></td>
+              <td>1 hour 30 minutes to 2 hours (including comprehensive practice and feedback)</td>
+            </tr>
+            <tr>
+              <td><strong>Practical usability</strong></td>
+              <td>★★★★★ (Verify IT project consistency and prevent rework)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="premium-card">
+        <h2>Planning and design stage final training task</h2>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>topic</th>
+              <th>Take advantage of AI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Task 01</strong></td>
+              <td>Mismatch detection</td>
+              <td>Compare and verify differences between documents</td>
+            </tr>
+            <tr>
+              <td><strong>Task 02</strong></td>
+              <td>Missing detection</td>
+              <td>Check for missing functions, policies, and exceptions</td>
+            </tr>
+            <tr>
+              <td><strong>Task 03</strong></td>
+              <td>Change Management</td>
+              <td>Change history management and impact analysis</td>
+            </tr>
+            <tr>
+              <td><strong>Task 04</strong></td>
+              <td>Document versioning</td>
+              <td>Compare versions and manage up-to-date documents</td>
+            </tr>
+            <tr>
+              <td><strong>Task 05</strong></td>
+              <td>Decision tracking</td>
+              <td>Management of meeting decisions and action items</td>
+            </tr>
+            <tr>
+              <td><strong>Task 06</strong></td>
+              <td>Impact analysis</td>
+              <td>Analysis of scope of impact based on change requests</td>
+            </tr>
+            <tr>
+              <td><strong>Task 07</strong></td>
+              <td>Project issue report</td>
+              <td>Automatic reporting of project status and issues</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="premium-card">
+        <h2>Learner questions and discussion topics</h2>
+        <div class="checklist-list">
+          <div class="checklist-item" style="font-weight: 700; margin-bottom: 8px;">
+            “What is the cost difference between performing these three tasks immediately after the meeting and manually comparing them during or after development?”
+            <p style="font-weight: 400; font-size: 0.68rem; color: var(--text-desc); margin-top: 3px; padding-left: 12px;">
+              → Initial planning specification verification can save up to 100 times the cost and man-hours compared to responding to rework failures that require code repair after all development is completed, greatly protecting business launch schedules.
+            </p>
+          </div>
+          <div class="checklist-item" style="font-weight: 700;">
+            “Among the AI-derived impact scope analysis results, what is the performance like in detecting minor fields (e.g. API Request Payload) that may be missed by actual developers?”
+            <p style="font-weight: 400; font-size: 0.68rem; color: var(--text-desc); margin-top: 3px; padding-left: 12px;">
+              → You can experience the performance of accurately identifying input parameters that people tend to inadvertently omit in API specifications during their busy schedules, such as social login tokens and phone number reception specifications for SMS authentication.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Action Buttons -->
+    <div class="action-container">
+      <a href="day2-ai-classroom.html" class="btn-link pri">← Day 2 Classroom entrance</a>
+      <a href="../index.html" class="btn-link sec">View full roadmap</a>
+    </div>
+
+  </section>
+
+  <!-- Javascript for switching tabs & pipeline mock interactive logic -->
+  <script>
+    // Tab Switching Logic
+    function switchPart(partNum) {
+      const tabs = document.querySelectorAll('.part-tab');
+      const panels = document.querySelectorAll('.part-panel');
+      
+      tabs.forEach((tab, idx) => {
+        if (idx + 1 === partNum) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+
+      panels.forEach((panel, idx) => {
+        if (idx + 1 === partNum) {
+          panel.classList.add('active');
+        } else {
+          panel.classList.remove('active');
+        }
+      });
+    }
+
+    // Pipeline Data Interactive Mockup
+    const pipelineData = {
+      1: {
+        title: "Task 01. Inconsistency detection data flow",
+        input: "• meeting-notes.md (meeting minutes)\n• requirements.md (Requirements definition)\n• screen-specification.md (Screen definition)",
+        output: "| Category | Found contradiction | Influence | Standard | Recommended Action |\n| Policy | Refund fee differs upon withdrawal | high | meeting minutes | Logic integration |\n| Function | Evaluation subject error | high | meeting minutes | Modify FR-004 |"
+      },
+      2: {
+        title: "Task 02. Change Impact Data Flow",
+        input: "• requirements-before.md (v1.0 requirements)\n• requirements-after.md (v2.0 requirements)\n• screen-specification-v2.md (v1.0 UI)\n• api-specification.md (v1.0 API)",
+        output: "| Changed items | Scope of influence | importance | Action |\n| Social Login | UI/API | high | Add Google button and oauth_token parameters |\n| SMS authentication | UI/API | high | Reflect phone/verification_code field |"
+      },
+      3: {
+        title: "Task 03. decision history data flow",
+        input: "• messenger-chat.md (meeting and messenger conversation records)",
+        output: "### Decision Log\n- First introduction of only Google Login (Reason: Apple review delay / PM approval)\n\n### Pending Items\n- Review of PayPal integration for overseas payments (Responsible: Dev_Lead)"
+      },
+      4: {
+        title: "Mission 1 (Task 06). Impact analysis data flow",
+        input: "• Sign up mobile phone authentication additional request (change request)",
+        output: "| Change request | Impact target | Influence | Action |\n| Add mobile phone authentication | Sign up screen | high | Modify screen |\n| Add mobile phone authentication | Login API | middle | Modify API |\n| Add mobile phone authentication | User DB | high | Add column |\n| Add mobile phone authentication | Administrator screen | low | Add query item |"
+      },
+      5: {
+        title: "Mission 2 (Task 07). Project issue report data flow",
+        input: "• meeting minutes\n• change history\n• action item\n• issue list",
+        output: "| Category | Content | Priority | Responsible |\n| done | Login function done | - | Development team |\n| In progress | Sign up function under development | Middle | Development team |\n| Issue | Payment API schedule delay | high | PM |\n| Risk | Requirements to be changed | high | planning team |\n| Pending | Administrator rights Policy confirmation required | Medium | Planning team |"
+      }
+    };
+
+    function showPipeline(taskNum) {
+      const nodes = document.querySelectorAll('.flow-node');
+      nodes.forEach((node, idx) => {
+        if (idx + 1 === taskNum) {
+          node.classList.add('active');
+        } else {
+          node.classList.remove('active');
+        }
+      });
+
+      // Update contents inside transformer box
+      document.getElementById('pipeline-title').innerText = pipelineData[taskNum].title;
+      document.getElementById('pipeline-input').innerText = pipelineData[taskNum].input;
+      document.getElementById('pipeline-output').innerText = pipelineData[taskNum].output;
+    }
+
+    // Simple Copy-to-Clipboard logic
+    function copyPrompt(elementId) {
+      const textToCopy = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        alert("The prompt has been copied to the clipboard!");
+      }).catch(err => {
+        console.error("Clipboard copy failed: ", err);
+      });
+    }
+  </script>
+  <footer class="site-footer" style="background: #09090b; border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 32px 20px; text-align: center; color: #a1a1aa; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company name: Edunity Lab Co., Ltd.</span> | <span>Representative: Lee Ki-taek</span> | <span>Business address: 2nd floor, Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul (Yeoksam-dong, Taerim Building)</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Contact: (02)6240-0053</span> | <span>Business registration number: 132-86-35644</span> | <span>Mail order business report number: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #71717a; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

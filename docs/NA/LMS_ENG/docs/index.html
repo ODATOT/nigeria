@@ -1,0 +1,3165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACE AI Startup Bootcamp | 10-Day Learning Contents</title>
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary-color: #3b82f6;
+      /* Electric Blue */
+      --secondary-color: #06b6d4;
+      /* Neon Cyan */
+      --bg-dark: #09090b;
+      /* Primary Background: Deep Black */
+      --bg-charcoal: #111827;
+      /* Secondary Background */
+      --bg-card: #1a1d24;
+      /* Surface/Card: Dark Gray */
+      --text-main: #ffffff;
+      /* Primary: White */
+      --text-muted: #e4e4e7;
+      /* Secondary: Light Gray */
+      --text-desc: #71717a;
+      /* Description: Gray */
+      --border-color: rgba(255, 255, 255, 0.08);
+      /* Thin border with low opacity */
+      --accent-color: #06b6d4;
+      /* Neon Cyan */
+      --accent-purple: #8b5cf6;
+      /* Purple highlight */
+      --card-radius: 18px;
+      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+      --shadow-md: 0 8px 30px rgba(59, 130, 246, 0.1), 0 0 1px rgba(255, 255, 255, 0.2);
+      --glow-blue: 0 0 15px rgba(59, 130, 246, 0.35);
+      --glow-cyan: 0 0 15px rgba(6, 182, 212, 0.35);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 70px;
+    }
+
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-main);
+      line-height: 1.65;
+      background: var(--bg-dark);
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+        linear-gradient(to bottom, #09090b 0%, #111827 100%);
+      background-attachment: fixed;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    li,
+    span,
+    strong {
+      word-break: keep-all;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    .bg-gray {
+      background: transparent;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(9, 9, 11, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-container {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo::before {
+      content: "";
+      width: 8px;
+      height: 20px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 22px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary-color);
+      text-shadow: var(--glow-cyan);
+    }
+
+    .hero {
+      margin-top: 70px;
+      padding: 120px 0 90px;
+      background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1), transparent 60%), #09090b;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    @keyframes gradientBG {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      line-height: 1.2;
+      margin-bottom: 18px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 30%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero h2 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      opacity: 0.92;
+      margin-bottom: 22px;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      opacity: 0.9;
+      max-width: 720px;
+      margin-bottom: 28px;
+    }
+
+    .hero-box {
+      background: rgba(26, 29, 36, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .hero-box h3 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      font-weight: 700;
+      color: #93c5fd;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.92rem;
+      color: white;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .hero-badge:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      color: white;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(59, 130, 246, 0.6), 0 0 15px rgba(6, 182, 212, 0.4);
+    }
+
+    .btn-outline {
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      color: white;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(4px);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      color: #ffffff;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      margin: 12px auto 0;
+      border-radius: 999px;
+    }
+
+    .section-desc {
+      max-width: 860px;
+      margin: 0 auto 42px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.02rem;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .overview-card {
+      background: rgba(26, 29, 36, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--card-radius);
+      padding: 26px 20px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .overview-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md), 0 0 15px rgba(6, 182, 212, 0.15);
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+
+    .overview-card .value {
+      font-size: 1.6rem;
+      color: var(--secondary-color);
+      text-shadow: var(--glow-cyan);
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .overview-card .label {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .curriculum-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+
+    .course-card {
+      background: rgba(26, 29, 36, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 480px;
+      /* Vertically tall cards */
+    }
+
+    .course-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md), 0 0 20px rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .course-card.is-clickable {
+      cursor: pointer;
+      position: relative;
+    }
+
+    .course-card.is-clickable::after {
+      content: "View details";
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(17, 24, 39, 0.8);
+      backdrop-filter: blur(4px);
+      color: var(--secondary-color);
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 7px 12px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    .course-card.is-clickable:hover::after {
+      background: var(--primary-color);
+      color: white;
+      transform: scale(1.05);
+      box-shadow: var(--glow-blue);
+    }
+
+    .course-thumb {
+      height: 220px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(6, 182, 212, 0.05));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    }
+
+    .course-thumb.placeholder {
+      background: linear-gradient(135deg, rgba(26, 29, 36, 0.4), rgba(26, 29, 36, 0.8));
+      color: #71717a;
+      text-shadow: none;
+    }
+
+    .course-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    /* Hide detailed elements inside course-card to keep it simple, clean and concise */
+    .course-card .course-desc,
+    .course-card .meta-grid,
+    .course-card .time-list,
+    .course-card .meta-item {
+      display: none;
+    }
+
+    .day-label {
+      display: inline-block;
+      width: fit-content;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: rgba(6, 182, 212, 0.1);
+      color: var(--secondary-color);
+      border: 1px solid rgba(6, 182, 212, 0.15);
+    }
+
+    .course-title {
+      font-size: 1.22rem;
+      line-height: 1.35;
+      font-weight: 800;
+      color: #ffffff;
+      transition: color 0.2s ease;
+    }
+
+    .course-card:hover .course-title {
+      color: var(--secondary-color);
+      text-shadow: var(--glow-cyan);
+    }
+
+    .course-subtitle {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .course-desc {
+      color: var(--text-muted);
+      font-size: 0.96rem;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .meta-item {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 12px 14px;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+    }
+
+    .meta-item strong {
+      color: var(--secondary-color);
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .time-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .time-row {
+      border-left: 3px solid rgba(6, 182, 212, 0.4);
+      padding-left: 12px;
+      font-size: 0.94rem;
+      color: var(--text-muted);
+    }
+
+    .time-row strong {
+      color: var(--secondary-color);
+      margin-right: 6px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.2s ease;
+    }
+
+    .tag:hover {
+      background: rgba(59, 130, 246, 0.15);
+      color: #ffffff;
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .placeholder-note {
+      margin-top: auto;
+      padding: 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-desc);
+      font-size: 0.92rem;
+      border: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-cta {
+      background: #09090b;
+      color: white;
+      text-align: center;
+      padding: 70px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .footer-cta h3 {
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+
+    .footer-cta p {
+      max-width: 760px;
+      margin: 0 auto;
+      opacity: 0.8;
+      color: var(--text-muted);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+      z-index: 2000;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 1100px;
+      max-height: 90vh;
+      overflow: auto;
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+      transform: translateY(24px) scale(0.98);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
+
+    .modal-overlay.active .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      font-size: 1.4rem;
+      color: #ffffff;
+      z-index: 4;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: rotate(90deg);
+    }
+
+    .modal-hero {
+      background: linear-gradient(135deg, #09090b, #111827);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: white;
+      padding: 42px 36px 32px;
+      border-radius: 24px 24px 0 0;
+    }
+
+    .modal-day {
+      display: inline-flex;
+      padding: 8px 12px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--primary-color);
+    }
+
+    .modal-title {
+      font-size: 2rem;
+      line-height: 1.2;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .modal-subtitle {
+      font-size: 1.04rem;
+      opacity: 0.92;
+      max-width: 760px;
+      color: var(--text-muted);
+    }
+
+    .modal-body {
+      padding: 34px 36px 36px;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .modal-section {
+      margin-bottom: 26px;
+    }
+
+    .modal-section h4 {
+      font-size: 1.1rem;
+      color: var(--secondary-color);
+      margin-bottom: 12px;
+      font-weight: 800;
+      text-shadow: var(--glow-cyan);
+    }
+
+    .modal-section p {
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .info-panel {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .info-panel h5 {
+      font-size: 0.96rem;
+      margin-bottom: 12px;
+      color: var(--secondary-color);
+      font-weight: 800;
+    }
+
+    .info-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .info-list li {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.94rem;
+      color: var(--text-muted);
+    }
+
+    .info-list li strong {
+      color: var(--secondary-color);
+      margin-right: 6px;
+    }
+
+    .session-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .session-card {
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 16px 18px;
+      background: rgba(255, 255, 255, 0.01);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    .session-card:hover {
+      border-color: rgba(59, 130, 246, 0.2);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .session-time {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--secondary-color);
+      background: rgba(6, 182, 212, 0.1);
+      border-radius: 999px;
+      padding: 6px 10px;
+      margin-bottom: 10px;
+    }
+
+    .session-card h5 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .session-card p {
+      color: #a1a1aa;
+      font-size: 0.95rem;
+    }
+
+    .bullet-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+      padding-left: 18px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .outcome-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .outcome-tag {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--secondary-color);
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    @media (max-width: 1024px) {
+
+      .hero-grid,
+      .overview-grid,
+      .modal-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid,
+      .overview-grid,
+      .modal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .hero h2 {
+        font-size: 1.1rem;
+      }
+
+      section {
+        padding: 64px 0;
+      }
+
+      .modal-hero {
+        padding: 34px 22px 24px;
+      }
+
+      .modal-body {
+        padding: 24px 22px 28px;
+      }
+
+      .modal-title {
+        font-size: 1.55rem;
+      }
+    }
+
+    .ai-class-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .ai-class-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5), 0 0 10px rgba(6, 182, 212, 0.3);
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">ACE AI Startup Bootcamp</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Course Home</a></li>
+        <li><a href="#overview">Program introduction</a></li>
+        <li><a href="#curriculum">10-day curriculum</a></li>
+        <li><a href="#final">final result</a></li>
+        <li><a href="login/login.html" style="color: var(--secondary-color); text-shadow: var(--glow-cyan);">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1>Build an AI Startup in 10 Days</h1>
+        <h2>A 10-day practical program that uses AI to implement ideas into actual POC-ready services.</h2>
+        <p>
+          The ACE Startup program designs startup projects using AI software,
+          We aim to provide product creation experience that extends from screen planning to prototyping, development, distribution, and demo.
+        </p>
+        <a href="#curriculum" class="btn btn-primary">View learning content</a>
+        <a href="#final" class="btn btn-outline">View final output</a>
+      </div>
+      <div class="hero-box">
+        <h3>Program Focus</h3>
+        <div class="hero-badges">
+          <span class="hero-badge">AI Startup</span>
+          <span class="hero-badge">POC Product</span>
+          <span class="hero-badge">UX / Wireframe</span>
+          <span class="hero-badge">Prototype</span>
+          <span class="hero-badge">MVP Build</span>
+          <span class="hero-badge">Deployment</span>
+          <span class="hero-badge">Demo Pitch</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="overview">
+    <div class="container">
+      <h2 class="section-title">Program Overview</h2>
+      <p class="section-desc">
+        This page is an HTML structure to introduce the AI-based start-up SW curriculum focusing on 10-day learning content.
+      </p>
+
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="value">10 Days</div>
+          <div class="label">Intensive product development process</div>
+        </div>
+        <div class="overview-card">
+          <div class="value">1 POC</div>
+          <div class="label">Goals for actual, actionable results</div>
+        </div>
+        <div class="overview-card">
+          <div class="value">AI + SW</div>
+          <div class="label">Design and implementation of AI-utilized services</div>
+        </div>
+        <div class="overview-card">
+          <div class="value">Team Build</div>
+          <div class="label">Collaboration-based practical project implementation</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="curriculum" class="bg-gray">
+    <div class="container">
+      <h2 class="section-title">10-Day Learning Contents</h2>
+      <p class="section-desc">
+        If you click on each card, you can check the detailed curriculum (session structure, learning goals, expected output, etc.) for each day for 10 days.
+      </p>
+
+      <div class="curriculum-grid">
+        <!-- Day 1 -->
+        <article class="course-card is-clickable" id="openDay1Modal" tabindex="0" role="button"
+          aria-label="Open Day 1 detailed curriculum">
+          <div class="course-thumb"
+            style="background-image: url('img/day1_wireframe.png'); background-size: cover; background-position: center;">
+            DAY 1</div>
+          <div class="course-content">
+            <span class="day-label">Day 1</span>
+            <h3 class="course-title">Codex requirements specification & Figma screen design</h3>
+            <p class="course-subtitle">Convergence practice to learn the basics of Figma and automate the requirements specification and reporting system using Codex Client</p>
+            <p class="course-desc">
+              Starting from the original unstructured meeting minutes, we proceed with functional specification (FR), normal and exception flow definition, and Gmail-linked sending through Codex Client, and at the same time design Figma screen wireframes.
+              This is day 1 learning content to understand the basics.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>target</strong>Planner, developer beginner, prospective entrepreneur</div>
+              <div class="meta-item"><strong>What you need</strong>Laptop, Codex Client, Figma account</div>
+              <div class="meta-item"><strong>learning objectives</strong>Codex AI planning automation practice and learning the basics of service screen design using Figma</div>
+            </div>
+
+            <div class="time-list">
+              <div class="time-row"><strong>2 hours</strong> Understanding Codex AI planning guide and Figma basic interface</div>
+              <div class="time-row"><strong>3 hours</strong> Functional Requirements (FR) Table and Exception Flow Design Practice</div>
+              <div class="time-row"><strong>1 hour</strong> Gmail plugin actual sending and sharing of results</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Requirements</span>
+              <span class="tag">Codex AI</span>
+              <span class="tag">Gmail Plugin</span>
+              <span class="tag">Figma Grid</span>
+              <span class="tag">Wireframe</span>
+            </div>
+
+            <div class="meta-item">
+              <strong>expected output</strong>
+              requirements-specification.md, final shared email in sent mailbox, Figma screen basic draft
+            </div>
+
+            <div style="margin-top: 14px;">
+              <a href="day1/day1-ai-classroom.html" class="ai-class-btn">
+                AI classroom entry
+              </a>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Day 2 -->
+        <article class="course-card is-clickable" id="openDay2Modal" tabindex="0" role="button"
+          aria-label="Open Day 2 detailed curriculum">
+          <div class="course-thumb"
+            style="background-image: url('img/day2_dataflow.png'); background-size: cover; background-position: center;">
+            DAY 2</div>
+          <div class="course-content">
+            <span class="day-label">Day 2</span>
+            <h3 class="course-title">Sequence Diagram & Data Flow Design</h3>
+            <p class="course-subtitle">Data flow design practice connecting screen design to system operation flow</p>
+            <p class="course-desc">
+              User behavior, data flow, and system interaction are based on Figma screen design.
+              This is the second day of learning content that visualizes with a sequence diagram and even designs exception situations.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>key topics</strong>Sequence Diagram, Data Flow, System Interaction, Exception
+                Handling</div>
+              <div class="meta-item"><strong>learning objectives</strong>Understand and design interactions between user-client-server-DB in chronological order</div>
+              <div class="meta-item"><strong>Practice direction</strong>Extend the system perspective by converting the screen structure into function flow and data flow</div>
+            </div>
+
+            <div class="time-list">
+              <div class="time-row"><strong>2 hours</strong> Understand sequence diagram and data flow concepts</div>
+              <div class="time-row"><strong>3 hours</strong> Core Features Scenario Writing and Diagram Practice</div>
+              <div class="time-row"><strong>1 hour</strong> Share results and review exception handling</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Sequence Diagram</span>
+              <span class="tag">Data Flow</span>
+              <span class="tag">System Interaction</span>
+              <span class="tag">Exception Handling</span>
+              <span class="tag">Hands-on</span>
+            </div>
+
+            <div class="meta-item">
+              <strong>expected output</strong>
+              Core functional scenarios, data mapping table, sequence diagram, exception response matrix
+            </div>
+            <div style="margin-top: 14px;">
+              <a href="day2/day2-ai-classroom.html" class="ai-class-btn">
+                AI classroom entry
+              </a>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Day 3 -->
+        <article class="course-card is-clickable" id="openDay3Modal" tabindex="0" role="button"
+          aria-label="Open Day 3 detailed curriculum">
+          <div class="course-thumb"
+            style="background-image: url('img/day3_frontend.png'); background-size: cover; background-position: center;">
+            DAY 3</div>
+          <div class="course-content">
+            <span class="day-label">Day 3</span>
+            <h3 class="course-title">Data Normalization & ERD Design with Codex AI</h3>
+            <p class="course-subtitle">Practice converting screens and user flows into data structures and ERDs and using Codex AI to refine the design</p>
+            <p class="course-desc">
+              Codex Client Workspace is linked to the process of extracting necessary data based on screen design and user flow and defining ERD through normalization. Inconsistency in data understanding between planning and development
+              Resolution (Task 01), construction of a project-wide terminology standard dictionary (Task 02), analysis of API/UI chain impact when modifying schema (Task 03), and logging of design decision history (Mission 01),
+              Perform concurrency/integrity error exception case discovery (Mission 02) at a practical level.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>key topics</strong>Data Extraction, Entity Definition, Relationship Design,
+                Normalization, ERD, Codex Workspace</div>
+              <div class="meta-item"><strong>learning objectives</strong>Design a data structure that fits the screen and flow, and use Codex AI to perform normalization and precise ERD verification.</div>
+              <div class="meta-item"><strong>Practice direction</strong>Screen → User flow → Data → ERD connection and Codex-based design automatic auditing</div>
+            </div>
+
+            <div class="time-list">
+              <div class="time-row"><strong>2 hours</strong> Understanding ERD design and aligning data structure design (Task 01)</div>
+              <div class="time-row"><strong>3 hours</strong> Terminology standardization (Task 02) and schema change impact scope analysis (Task 03)</div>
+              <div class="time-row"><strong>1 hour</strong> Design decision logging (Mission 01) and exception scenario discovery (Mission 02)</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">ERD</span>
+              <span class="tag">Normalization</span>
+              <span class="tag">Codex AI</span>
+              <span class="tag">Glossary</span>
+              <span class="tag">Impact Analysis</span>
+              <span class="tag">Decision Log</span>
+              <span class="tag">Edge Case</span>
+            </div>
+
+            <div class="meta-item">
+              <strong>expected output</strong>
+              ERD diagram, normalization analysis document (erd-schema.md), standard terminology dictionary (project-glossary.md), change impact report, design decision history (DDL), exception scenario
+              analysis
+            </div>
+            <div style="margin-top: 14px;">
+              <a href="day3/day3-ai-classroom.html" class="ai-class-btn">
+                AI classroom entry
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 4 -->
+        <article class="course-card is-clickable" id="openDay4Modal" tabindex="0" role="button"
+          aria-label="Open Day 4 detailed curriculum">
+          <div class="course-thumb"
+            style="background-image: url('img/day4_uicomponents.png'); background-size: cover; background-position: center;">
+            DAY 4</div>
+          <div class="course-content">
+            <span class="day-label">Day 4</span>
+            <h3 class="course-title">API Design & Swagger Specification with Codex AI</h3>
+            <p class="course-subtitle"><strong>[Codex AI linkage]</strong> Convert screens and data structures into actual developable API specifications and use Codex AI to
+              Practice auditing interface contracts and consistency</p>
+            <p class="course-desc">
+              In the process of defining actual service functions in API form based on screen design, user flow, and data structure and documenting them in Swagger/OpenAPI format. <strong>Codex Client
+                Workspace</strong>Connect. Automatic creation of AI-based API contract (Task 01), detection of inconsistency between planning specification and actual API structure (Task 02), API specification
+              Analysis of UI/DB chain ripple effects upon change (Task 03), autonomous audit of RESTful API standard specifications (Mission 01), and boundary value edge case test scenario design (Mission 02)
+              Perform at a practical level.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>key topics</strong>API Design, Request/Response, Swagger, OpenAPI, Codex
+                Workspace, Consistency Audit, Impact Analysis</div>
+              <div class="meta-item"><strong>learning objectives</strong>Define API specifications based on screens and data structures and link Codex AI to ensure consistency and precision of REST specifications
+                Conduct Auditing</div>
+              <div class="meta-item"><strong>Practice direction</strong>Screen ➔ Flow ➔ Data ➔ API ➔ Swagger Structure Design Connection and Codex Client
+                Autonomous audit of base design defects</div>
+            </div>
+
+            <div class="time-list">
+              <div class="time-row"><strong>2 hours</strong> Understanding API concepts and automatically generating Codex-based API contracts (Task 01)</div>
+              <div class="time-row"><strong>3 hours</strong> Consistency check between planning and API (Task 02) and auditing the scope of impact of API changes (Task 03)</div>
+              <div class="time-row"><strong>1 hour</strong> Autonomous review of RESTful specifications (Mission 01) and creation of edge case test scenarios (Mission 02)
+              </div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Codex AI</span>
+              <span class="tag">API Design</span>
+              <span class="tag">Swagger</span>
+              <span class="tag">OpenAPI</span>
+              <span class="tag">Consistency Audit</span>
+              <span class="tag">Impact Analysis</span>
+              <span class="tag">API Review</span>
+              <span class="tag">Test Scenario</span>
+            </div>
+
+            <div class="meta-item">
+              <strong>expected output</strong>
+              API contract (api-contract.md), API consistency report (api-consistency-report.md), change impact analysis (api-impact-analysis.md), REST
+              Specification review report (api-review-report.md), edge test scenario (api-test-scenario.md)
+            </div>
+            <div style="margin-top: 14px;">
+              <a href="day4/day4-ai-classroom.html" class="ai-class-btn">
+                AI classroom entry
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 5 -->
+        <article class="course-card is-clickable" id="openDay5Modal" tabindex="0" role="button"
+          aria-label="Open Day 5 detailed curriculum">
+          <div class="course-thumb"
+            style="background-image: url('img/day5_ai_integration.png'); background-size: cover; background-position: center;">
+            DAY 5</div>
+          <div class="course-content">
+            <span class="day-label">Day 5</span>
+            <h3 class="course-title">UI/UX Design & Interaction Design with Codex AI</h3>
+            <p class="course-subtitle"><strong>[Codex AI linkage]</strong> Auditing user friendliness and interface usability with Codex AI based on wireframes
+              UI/UX review practice to ensure quality</p>
+            <p class="course-desc">
+              Based on the constructed screen plan and user movement, we detect objective cognitive friction points and supplement UI consistency. <strong>Codex Client
+                Workspace</strong>Connect. Usability review to analyze whether users can easily understand (Task 01), audit of UI specifications and terminology consistency between multiple screens (Task 02),
+              Optimize journey flow by shortening depth (Task 03), collect trouble logs by applying persona for the elderly underprivileged (Mission 01), and evaluate comprehensive service quality based on multidimensional ratings (Mission 01)
+              02).
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>key topics</strong>UI/UX Review, UI Consistency, User Journey Map, AI Persona,
+                Usability Score, Codex Workspace</div>
+              <div class="meta-item"><strong>learning objectives</strong>Objectively analyze the usability of the planning screen and utilize Codex AI to provide intuitive UI/UX and shortened flow path
+                Derivation of optimization plan</div>
+              <div class="meta-item"><strong>Practice direction</strong>Wireframe ➔ UX Audit ➔ UI Consistency ➔ Journey Optimization
+                Structural design and Codex-based usability quality assurance</div>
+            </div>
+
+            <div class="time-list">
+              <div class="time-row"><strong>2 hours</strong> User perspective screen review (Task 01)</div>
+              <div class="time-row"><strong>3 hours</strong> Review consistency between screens (Task 02) and improve user movement (Task 03)</div>
+              <div class="time-row"><strong>1 hour</strong> Persona usability review (Mission 01) and comprehensive service quality evaluation (Mission 02)</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Codex AI</span>
+              <span class="tag">UI/UX Review</span>
+              <span class="tag">UX Flow</span>
+              <span class="tag">Friction Audit</span>
+              <span class="tag">UI Consistency</span>
+              <span class="tag">User Journey</span>
+              <span class="tag">AI Persona</span>
+              <span class="tag">Usability Score</span>
+            </div>
+
+            <div class="meta-item">
+              <strong>expected output</strong>
+              UX review report (ux-review-report.md), UI consistency report (ui-consistency-report.md), movement improvement report (user-journey-report.md), first
+              User review (first-user-review.md), comprehensive service quality evaluation (usability-evaluation.md)
+            </div>
+            <div style="margin-top: 14px;">
+              <a href="day5/day5-ai-classroom.html" class="ai-class-btn">
+                AI classroom entry
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 6 -->
+        <article class="course-card is-clickable" id="openDay6Modal" tabindex="0" role="button"
+          aria-label="Day 6 Open detailed curriculum">
+          <div class="course-thumb"
+            style="background-image: url('img/day6_backend.png'); background-size: cover; background-position: center;">
+            DAY 6</div>
+          <div class="course-content">
+            <span class="day-label">Day 6</span>
+            <h3 class="course-title">Front-End Development & API Integration with Codex AI</h3>
+            <p class="course-subtitle"><strong>[Codex AI linkage]</strong> Development practice that implements Figma screens into actual operating service screens, debugs with Codex AI, and connects API data.</p>
+            <p class="course-desc">
+              Implementing Figma UI as an actual service screen, binding server data to the screen through fetch/AJAX-based API integration, and handling loading, errors, and empty states throughout the entire development process. <strong>Codex Client Workspace</strong>Connect. Build a workable screen draft based on the screen specification (Task 01), read and defend code patches for console errors such as runtime TypeError (Task 02), refactor to remove duplicates and organize them into readable variable names (Task 03), build a report to troubleshoot CORS policy and JSON parsing errors (Mission 01), and review and encapsulate code quality such as blocking global contamination (Mission 02). Perform.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>key topics</strong>Prototype Generation, Stack Trace Debugging, Defensive Coding, Code Refactoring, Error Troubleshooting, Code Quality review, Codex Workspace</div>
+              <div class="meta-item"><strong>learning objectives</strong>Collaborate with Codex AI pair programmers to quickly build screen prototypes from blank screens, resolve console errors, organize highly readable source code, and understand API integration.</div>
+              <div class="meta-item"><strong>Practice direction</strong>Figma UI ➔ Build screen drafts ➔ Error debugging ➔ Code refactoring ➔ Exception response and encapsulation quality assurance</div>
+            </div>
+
+            <div class="time-list">
+              <div class="time-row"><strong>2 hours</strong> Quickly create a screen draft (Task 01)</div>
+              <div class="time-row"><strong>3 hours</strong> Error Resolving Assistant (Task 02) and Improving Code (Task 03)</div>
+              <div class="time-row"><strong>1 hour</strong> Fix errors with AI (Mission 01) and get AI code reviews (Mission 02)</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Codex AI</span>
+              <span class="tag">Prototype</span>
+              <span class="tag">AI Debug</span>
+              <span class="tag">TypeError Guard</span>
+              <span class="tag">Refactoring</span>
+              <span class="tag">Troubleshooting</span>
+              <span class="tag">Code Review</span>
+              <span class="tag">IIFE Encapsulation</span>
+            </div>
+
+            <div class="meta-item">
+              <strong>expected output</strong>
+              Responsive dashboard (index.html, layout.css), debugging script (day6_debug_solution.js), refactoring source code (day6_clean_code.js), debugging result report (day6_error_report.md), final audit result report (day6_code_review.md)
+            </div>
+            <div style="margin-top: 14px;">
+              <a href="day6/day6-ai-classroom.html" class="ai-class-btn">
+                AI classroom entry
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Day 7 -->
+        <article class="course-card is-clickable" id="openDay7Modal" tabindex="0" role="button"
+          aria-label="Day 7 Open detailed curriculum">
+          <div class="course-thumb"
+            style="background-image: url('img/day7_database.png'); background-size: cover; background-position: center;">
+            DAY 7</div>
+          <div class="course-content">
+            <span class="day-label">Day 7</span>
+            <h3 class="course-title">Development: Completing Features with Codex AI</h3>
+            <p class="course-subtitle"><strong>[Codex AI linkage]</strong> Function completion practice that connects screens and functions, checks user registration and reservation scenarios, and verifies and blocks abnormal input exceptions.</p>
+            <p class="course-desc">
+              Beyond the implementation of the Figma screen skeleton, the development process involves tying event mapping and data storage to the static UI so that actual actions are performed, and ensuring operational stability for chained scenarios. <strong>Codex Client Workspace</strong>Connect. Assemble screen markup event connection and local storage loading (Task 01), preservation guard to maintain filter settings when moving to multiple screens (Task 02), prevention of duplicate registration and verification of past date blocking (Task 03), quality rating for missing loading feedback (Mission 01), and E2E user simulation driving verification report (Mission 02).
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>key topics</strong>Feature Integration, JavaScript Event, LocalStorage, User Flow review, SessionStorage, Debounce Lock, Logic Validation, Codex Workspace</div>
+              <div class="meta-item"><strong>learning objectives</strong>Collaborate with Codex AI scenario coaches to assemble highly complete service functions that map events to static markup, ensure data preservation, and completely control abnormal input errors.</div>
+              <div class="meta-item"><strong>Practice direction</strong>Screen Skeleton ➔ Function Mapping ➔ Journey Preservation ➔ Multi-hit Blocking Exception Guard ➔ E2E Completeness Auditing</div>
+            </div>
+
+            <div class="time-list">
+              <div class="time-row"><strong>2 hours</strong> Connecting functions (Task 01)</div>
+              <div class="time-row"><strong>3 hours</strong> Verifying user scenarios (Task 02) and finding functional errors (Task 03)</div>
+              <div class="time-row"><strong>1 hour</strong> Service completeness inspection (Mission 01) and E2E simulation driving verification (Mission 02)</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Codex AI</span>
+              <span class="tag">Integration</span>
+              <span class="tag">Event Map</span>
+              <span class="tag">LocalStorage</span>
+              <span class="tag">State Backups</span>
+              <span class="tag">Validation</span>
+              <span class="tag">Submit Lock</span>
+              <span class="tag">E2E Verification</span>
+            </div>
+
+            <div class="meta-item">
+              <strong>expected output</strong>
+              Feature integration page (day7_connected_feature.html), session restoration script (day7_scenario_solution.js), security guard completion (day7_robust_validation.js), completion report (day7_service_audit.md), scenario validation (day7_e2e_validation.md)
+            </div>
+            <div style="margin-top: 14px;">
+              <a href="day7/day7-ai-classroom.html" class="ai-class-btn">
+                AI classroom entry
+              </a>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Day 8 -->
+        <article class="course-card is-clickable" id="openDay8Modal" tabindex="0" role="button"
+          aria-label="Day 8 Open detailed curriculum">
+          <div class="course-thumb"
+            style="background-image: url('img/day8_auth.png'); background-size: cover; background-position: center;">DAY
+            8</div>
+          <div class="course-content">
+            <span class="day-label">Day 8</span>
+            <h3 class="course-title">User Management: Membership & Onboarding UX</h3>
+            <p class="course-subtitle"><strong>[Codex AI linkage]</strong> From member service design to onboarding, review of friction in the user journey and practice of implementing redundant sign-ups and security-vulnerable exception guards</p>
+            <p class="course-desc">
+              We are not limited to implementing the login technology module, but we also aim to optimize the sign-up process from a user convenience perspective and solidify account consistency. <strong>Codex Client Workspace</strong>closely coordinated. We build a priority plan for acquiring essential member functions (Task 01), a flow design to remove distribution and exit barriers for each step of the input form (Task 02), a duplicate signup blocking consistency verification and email format Regex guard coding (Task 03), a mock signup emotional feedback report for silver customers (Mission 01), and a quality evaluation report containing a hacking brute force prevention information hiding patch (Mission 02).
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>key topics</strong>User Feature Planning, Onboarding UX, Form Friction Audit, Progressive Profiling, Database Integrity, Duplicate Account Guard, Info Hide, Usability Evaluation</div>
+              <div class="meta-item"><strong>learning objectives</strong>Work with Codex AI user experience coaches and audit partners to assemble a user-friendly member experience that minimizes sign-up friction, ensures account integrity, and blocks security exceptions.</div>
+              <div class="meta-item"><strong>Practice direction</strong>Feature derivation ➔ Barrier review ➔ Storage integrity guarding ➔ Beginner virtual experience ➔ Rating and security assessment</div>
+            </div>
+
+            <div class="time-list">
+              <div class="time-row"><strong>2 hours</strong> Member function design (Task 01)</div>
+              <div class="time-row"><strong>3 hours</strong> User form review (Task 02) and data consistency guard coding (Task 03)</div>
+              <div class="time-row"><strong>1 hour</strong> Silver Persona Onboarding Auditing (Mission 01) and Error Message Concealment Security Patch (Mission 02)</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Codex AI</span>
+              <span class="tag">Membership</span>
+              <span class="tag">UX Audit</span>
+              <span class="tag">Integrity</span>
+              <span class="tag">Email Regex</span>
+              <span class="tag">Duplicate Guard</span>
+              <span class="tag">Usability Evaluation</span>
+            </div>
+
+            <div class="meta-item">
+              <strong>expected output</strong>
+              Feature Priority List (day8_feature_checklist.md), Onboarding Improvement Report (day8_ux_improvement_report.md), Anti-Duplicate Guard Code (day8_robust_user_service.js), First User Review (day8_first_user_review.md), Quality Evaluation (day8_usability_evaluation.md)
+            </div>
+            <div style="margin-top: 14px;">
+              <a href="day8/day8-ai-classroom.html" class="ai-class-btn">
+                AI classroom entry
+              </a>
+            </div>
+          </div>
+        </article>
+
+                <!-- Day 9 -->
+        <article class="course-card is-clickable" id="openDay9Modal" tabindex="0" role="button"
+          aria-label="Day 9 Open detailed curriculum">
+          <div class="course-thumb"
+            style="background-image: url('img/day9_deployment.png'); background-size: cover; background-position: center;">
+            DAY 9</div>
+          <div class="course-content">
+            <span class="day-label">Day 9</span>
+            <h3 class="course-title">Payment Service: Experience & Trust Audit</h3>
+            <p class="course-subtitle"><strong>[Codex AI linkage]</strong> User-centered payment journey simplification design and financial exception scenarios Safe processing and reliable UI auditing in English</p>
+            <p class="course-desc">
+              Beyond the success of technology-centered PG API calls, we aim to enable users to make payments with peace of mind without any anxiety. <strong>Codex Client Workspace</strong>Use closely. Planning a 3-step or lower payment flow that merges multi-step exit flows (Task 01), converting error codes such as card limit exceeding/delay into Korean and designing to block double billing (Task 02), importing receipt price segmentation discounts and security communication badges (Task 03) and inspection time waiting messages (Mission 01), and building a journey diagnosis report (Mission 02) to correct coupon search form loss and peak friction.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>key topics</strong>Payment Flow Planning, Trust Auditing, Exception Playbook, Friendly Error Mapping, Receipt Breakdowns, Idempotency Guard, Friction Peak Auditing</div>
+              <div class="meta-item"><strong>learning objectives</strong>Collaborating with Codex AI payment flow consultants and quality auditors to plan a safe payment structure that dramatically reduces the user payment abandonment rate and establishes feedback to resolve financial failures.</div>
+              <div class="meta-item"><strong>Practice direction</strong>Merging of routes ➔ Error replacement ➔ Safety badge injection ➔ Failure resolution response ➔ Journey peak correction</div>
+            </div>
+
+            <div class="time-list">
+              <div class="time-row"><strong>2 hours</strong> Payment flow design (Task 01)</div>
+              <div class="time-row"><strong>3 hours</strong> Review exception scenarios (Task 02) and improve secure payment UI (Task 03)</div>
+              <div class="time-row"><strong>1 hour</strong> Writing a Disability Reassurance Statement (Mission 01) and E2E Journey Peak Audit (Mission 02)</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Codex AI</span>
+              <span class="tag">Payment UX</span>
+              <span class="tag">Trust Audit</span>
+              <span class="tag">Friendly Error</span>
+              <span class="tag">Idempotency</span>
+              <span class="tag">Friction Peak</span>
+              <span class="tag">Mitigation Playbook</span>
+            </div>
+
+            <div class="meta-item">
+              <strong>expected output</strong>
+              Simplified order payment flow (day9_optimized_flow.md), safe error phrase book (day9_error_mitigation_guide.md), revised safe payment UI (day9_robust_payment_ui.html), failure response statement (day9_failure_scenarios.md), customer journey diagnosis (day9_checkout_journey.md)
+            </div>
+            <div style="margin-top: 14px;">
+              <a href="day9/day9-ai-classroom.html" class="ai-class-btn">
+                AI classroom entry
+              </a>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Day 10 -->
+        <article class="course-card is-clickable" id="openDay10Modal" tabindex="0" role="button"
+          aria-label="Day 10 Open detailed curriculum">
+          <div class="course-thumb"
+            style="background-image: url('img/day10_presentation.png'); background-size: cover; background-position: center;">
+            DAY 10</div>
+          <div class="course-content">
+            <span class="day-label">Day 10</span>
+            <h3 class="course-title">Service Launch: Launching a service</h3>
+            <p class="course-subtitle">Completion of the final task of the actual service planner, from creating a service introduction to preparing user support, organizing project results, and establishing a Version 2.0 roadmap.</p>
+            <p class="course-desc">
+              It is the starting point of service, not the end of development. With Codex AI, you will experience the final work flow of an actual service planner: writing a launch introduction and opening notice, predicting difficulties that users will experience, preparing FAQs and customer service guides, and establishing a project results report and Version 2.0 roadmap.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>key topics</strong>Launch Prep, FAQ, Customer Support, Retrospective, MoSCoW, Roadmap, Presentation, Sprint Plan</div>
+              <div class="meta-item"><strong>learning objectives</strong>Establishment of user launch package, performance report, and Version 2.0 planning roadmap</div>
+              <div class="meta-item"><strong>Practice direction</strong>Launch prep → Customer Support → Performance Reporting → Version 2.0 Roadmap</div>
+            </div>
+
+            <div class="time-list">
+              <div class="time-row"><strong>2 hours</strong> Service launch preparation and user support design (Task 01 & Task 02)</div>
+              <div class="time-row"><strong>2 hours</strong> Summary of project performance and Version 2.0 roadmap (Task 03)</div>
+              <div class="time-row"><strong>2 hours</strong> Launch package completion and final announcement (Mission 01 & Mission 02)</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Launch Prep</span>
+              <span class="tag">FAQ 20</span>
+              <span class="tag">KPT Retrospective</span>
+              <span class="tag">MoSCoW Roadmap</span>
+              <span class="tag">Final Presentation</span>
+            </div>
+
+            <div class="meta-item">
+              <strong>expected output</strong>
+              Launching materials (day10_launch_materials.md), FAQ & response guide (day10_faq_guide.md), result report & roadmap (day10_retrospective.md), integrated launching package (day10_launch_package.md), final presentation material (day10_presentation.md)
+            </div>
+            <div style="margin-top: 14px;">
+              <a href="day10/day10-ai-classroom.html" class="ai-class-btn">
+                AI classroom entry
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="final">
+    <div class="container">
+      <h2 class="section-title">Final Outcome</h2>
+      <p class="section-desc">
+        The goal of this course is not simply to learn, but to complete a POC product and demo flow that can be demonstrated in practice.
+      </p>
+
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="value">Wireframe</div>
+          <div class="label">Core screen structure design</div>
+        </div>
+        <div class="overview-card">
+          <div class="value">Prototype</div>
+          <div class="label">Clickable user flow</div>
+        </div>
+        <div class="overview-card">
+          <div class="value">POC Build</div>
+          <div class="label">Demonstration of a product that can actually operate</div>
+        </div>
+        <div class="overview-card">
+          <div class="value">Demo Pitch</div>
+          <div class="label">Final announcement and expansion possibility review</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-cta">
+    <div class="container">
+      <h3>From Learning to Launch</h3>
+      <p style="margin-top: 10px;">
+        This is a web page structure for an intensive start-up project process that materializes ideas over 10 days and connects them to results in the form of actual services using AI.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Day 1 Modal -->
+  <div class="modal-overlay" id="day1Modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="day1ModalTitle">
+      <button class="modal-close" id="closeDay1Modal" aria-label="Close modal">×</button>
+
+      <div class="modal-hero">
+        <span class="modal-day">Day 1 Detailed Curriculum</span>
+        <h3 class="modal-title" id="day1ModalTitle">Codex requirements specification & Figma screen design</h3>
+        <p class="modal-subtitle">
+          Convergence practice to learn the basics of Figma and automate the requirements specification and reporting system using Codex Client
+        </p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div>
+            <div class="modal-section">
+              <h4>Study Overview</h4>
+              <p>
+                Day 1 is the first step in converting your service idea into an actual product screen structure.
+                Participants will learn the basic usage of Figma and design the structure of key screens such as Landing / Dashboard / Auth.
+              </p>
+              <p>
+                At the same time, starting from the original unstructured meeting minutes, functional specification (FR) through Codex Client, definition of normal and exception flows, and Gmail-linked sending are performed to automate requirements management and planning.
+                Practicum is carried out in parallel.
+              </p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Main session structure</h4>
+              <div class="session-list">
+                <div class="session-card">
+                  <span class="session-time">Session 1 · 2 hours</span>
+                  <h5>Understanding Codex AI planning guide and Figma basic interface</h5>
+                  <p>
+                    Learn Figma's basic interface and core tools, and learn the basic concepts of planning automation through Codex Client.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Figma Frame, Auto Layout Basics</li>
+                    <li>Planning review methodology using Codex AI</li>
+                    <li>Principles of requirements extraction from unstructured meeting minutes</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 2 · 3 hours</span>
+                  <h5>Creating key screen wireframes and designing functional requirements (FR)</h5>
+                  <p>
+                    We directly design core screens based on the main flow of the actual service and automatically derive a requirements definition through Codex.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Landing / Dashboard / Auth screen design</li>
+                    <li>Creating functional requirements (FR) tables and designing normal/exception flows</li>
+                    <li>Organizing the screen connection structure tailored to the user movement flow</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 3 · 1 hour</span>
+                  <h5>Gmail plugin actual sending and sharing of results</h5>
+                  <p>
+                    Send the written statement via actual email using the Gmail plugin and share the results to organize feedback.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Gmail API plugin integration and mail sending</li>
+                    <li>Check the final approval request email in the sent mailbox</li>
+                    <li>Presentation of practice results and summary of supplementary points for next stage development</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Core Learning Elements</h4>
+              <div class="outcome-tags">
+                <span class="outcome-tag">Requirements</span>
+                <span class="outcome-tag">Codex AI</span>
+                <span class="outcome-tag">Gmail Plugin</span>
+                <span class="outcome-tag">Figma Grid</span>
+                <span class="outcome-tag">Wireframe</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="info-panel">
+              <h5>basic information</h5>
+              <ul class="info-list">
+                <li><strong>training target</strong>Planner, developer beginner, prospective entrepreneur</li>
+                <li><strong>What you need</strong>Laptop, Codex Client, Figma account</li>
+                <li><strong>total learning time</strong>6 hours</li>
+                <li><strong>learning style</strong>Theory lecture + practice + sharing results</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>learning objectives</h5>
+              <ul class="info-list">
+                <li>Learn the basics of service screen design using Figma</li>
+                <li>Summarize and structure AI requirements from unstructured meeting minutes</li>
+                <li>Securing normal/exceptional flow design capabilities for error situations</li>
+                <li>Gmail API plugin integration and automatic sending of approval emails</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>expected output</h5>
+              <ul class="info-list">
+                <li>requirements-specification.md specifications</li>
+                <li>Final approval request email in sent mailbox</li>
+                <li>Figma screen basics draft</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>Points of use</h5>
+              <ul class="info-list">
+                <li>Concrete AI service ideas into actual product screen structures</li>
+                <li>Build an automation pipeline that bridges the gap between planning and development stages</li>
+                <li>Strengthening the ability to communicate effectively with decision makers through email</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-panel">
+        <h5>AI Learning Page</h5>
+        <ul class="info-list">
+          <li>
+            <strong>learning style</strong>
+            Video lectures and AI chatbot Q&A together
+          </li>
+        </ul>
+        <div style="margin-top: 14px;">
+          <a href="day1/day1-ai-classroom.html" class="ai-class-btn">
+            AI classroom entry
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Day 2 Modal -->
+  <div class="modal-overlay" id="day2Modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="day2ModalTitle">
+      <button class="modal-close" id="closeDay2Modal" aria-label="Close modal">×</button>
+
+      <div class="modal-hero">
+        <span class="modal-day">Day 2 Detailed Curriculum</span>
+        <h3 class="modal-title" id="day2ModalTitle">Sequence Diagram &amp; Data Flow Design with Codex AI</h3>
+        <p class="modal-subtitle">
+          Visualize user behavior and system interaction based on Figma screen design, and use Codex AI as a project reviewer to detect design contradictions (Task 01) and change impact.
+          This is a second-day learning module that involves management (Task 02), decision tracking (Task 03) and change impact analysis (Task 06), and writing a project issue report (Task 07).
+        </p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div>
+            <div class="modal-section">
+              <h4>Study Overview</h4>
+              <p>
+                Day 2 is the stage of expanding the screen structure designed the previous day into the actual system operation flow and learning automated review of design document consistency through Codex AI.
+                Participants use sequence diagrams and DFDs to visualize interactions and exception flows between system components, while using Codex AI to detect contradictions between meeting minutes, requirements, and screen design, and plan
+                Analyze screen/API impact due to changes and automatically extract meeting decision logs.
+              </p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Main session structure</h4>
+              <div class="session-list">
+                <div class="session-card">
+                  <span class="session-time">Session 1 · 2 hours</span>
+                  <h5>Sequence diagram & DFD design</h5>
+                  <p>
+                    It visualizes the functional flow that operates between the user and the system in chronological order, and defines the data transfer structure through the DFD concept.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Understanding the basic structure, actors, and lifelines of sequence diagrams</li>
+                    <li>User / Client / Server / Database role classification and message flow</li>
+                    <li>Code-based diagramming practice using Mermaid JS</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 2 · 3 hours</span>
+                  <h5>Codex AI-based design consistency verification</h5>
+                  <p>
+                    Using Codex Workspace, we detect inconsistencies between the three major plans (Task 01) and perform UI and API impact analysis (Task 02) due to requirements changes.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Analysis of planning consistency between meeting minutes, requirements definition, and screen definition</li>
+                    <li>Calculate the scope of modification impact due to changes in requirements, such as adding Google login/SMS authentication</li>
+                    <li>Summary of v1.0 screen and API statement synchronization actions</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 3 · 1 hour</span>
+                  <h5>Decision history tracking and exception recovery</h5>
+                  <p>
+                    Automatically archive decision logs (Task 03) from unstructured verbal/messenger conversation logs, and design exception flows and failure recovery strategies for system exception situations.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Extracting decisions (why) and pending matters from development group chat room chat logs</li>
+                    <li>Design of exception situations and recovery flow such as payment limit exceeded, timeout, duplicate entry, etc.</li>
+                    <li>Sharing practice results and organizing PM-Dev collaboration feedback</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Core Learning Elements</h4>
+              <div class="outcome-tags">
+                <span class="outcome-tag">Sequence &amp; DFD</span>
+                <span class="outcome-tag">Mermaid JS</span>
+                <span class="outcome-tag">Codex Consistency Check</span>
+                <span class="outcome-tag">Change Management</span>
+                <span class="outcome-tag">Decision Tracking</span>
+                <span class="outcome-tag">Exception Handling</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="info-panel">
+              <h5>basic information</h5>
+              <ul class="info-list">
+                <li><strong>total learning time</strong>6 hours</li>
+                <li><strong>learning style</strong>Theory lecture + practice + sharing results</li>
+                <li><strong>practice based</strong>Figma Screen Design & Codex Workspace</li>
+                <li><strong>core tools</strong>Mermaid JS, Codex Client Workspace</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>learning objectives</h5>
+              <ul class="info-list">
+                <li>Sequence diagram and DFD-based data interaction design</li>
+                <li>Verification of planning errors and contradictions between design documents using Codex AI</li>
+                <li>Analysis of the scope of influence on UI screens and API specifications according to requirements changes</li>
+                <li>Extract decision-making background from unstructured conversation logs and establish exception response strategy</li>
+                <li>Analysis of architectural impact according to additional mobile phone authentication scenarios</li>
+                <li>Learn to automate reports that refine project issues and risks</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>expected output</h5>
+              <ul class="info-list">
+                <li>Sequence diagram and ERD data mapping</li>
+                <li>consistency-report.md (Inconsistency Report)</li>
+                <li>impact-analysis.md (change impact analysis)</li>
+                <li>decision-log.md (decision and pending log)</li>
+                <li>impact-analysis-report.md (impact analysis report)</li>
+                <li>project-issue-report.md (Project Issue Report)</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>Points of use</h5>
+              <ul class="info-list">
+                <li>Elaborate Figma screen designs into actual server logic and API flows</li>
+                <li>Minimize rework at the development stage through full inspection of design contradictions</li>
+                <li>Eliminate communication errors due to information inconsistency by archiving decision-making history</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-panel">
+        <h5>AI Learning Page</h5>
+        <ul class="info-list">
+          <li>
+            <strong>learning style</strong>
+            Video lectures and AI chatbot Q&A together
+          </li>
+        </ul>
+        <div style="margin-top: 14px;">
+          <a href="day2/day2-ai-classroom.html" class="ai-class-btn">
+            AI classroom entry
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Day 3 Modal -->
+  <div class="modal-overlay" id="day3Modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="day3ModalTitle">
+      <button class="modal-close" id="closeDay3Modal" aria-label="Close modal">×</button>
+
+      <div class="modal-hero">
+        <span class="modal-day">Day 3 Detailed Curriculum</span>
+        <h3 class="modal-title" id="day3ModalTitle">Data Normalization & ERD Design with Codex AI</h3>
+        <p class="modal-subtitle">
+          Day 3 learning includes structuring the necessary data based on screen design and user flow, defining key entities and relationships to complete the normalized data structure and ERD, and verifying and supplementing the design with Codex AI.
+          It's a module.
+        </p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div>
+            <div class="modal-section">
+              <h4>Study Overview</h4>
+              <p>
+                Day 3 is the step of connecting the previous screen design and data flow design to the actual database structure.
+                Participants will extract the necessary data from screens and user flows and organize it into entities and properties.
+              </p>
+              <p>
+                Afterwards, relationships between entities are defined, and a normalization process from 1NF to 3NF is applied to design a data structure that reduces duplication and increases integrity. Ultimately, an ERD that can be used for service implementation
+                Complete.
+              </p>
+              <p>
+                In this process, Codex AI is used as a project architect and auditor to sort data between planning and development (Task 01), build a dictionary of terminology standards across the project (Task 02),
+                Automate analysis of chain impacts from schema modifications (Task 03), create DDL to record technical architecture decisions (Mission 01), and exception cases such as concurrency/integrity errors
+                Carry out excavation (Mission 02).
+              </p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Main session structure</h4>
+              <div class="session-list">
+                <div class="session-card">
+                  <span class="session-time">Session 1 · 2 hours</span>
+                  <h5>Understanding ERD design and aligning data structures (Task 01)</h5>
+                  <p>
+                    Determine what data is needed based on screens and user flows, and organize it into structurable data items. Using Codex AI to identify key entities and relationships in planning meeting minutes
+                    Extract precisely and generate Mermaid ERD scripts.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Screen and user flow-based data extraction</li>
+                    <li>Defining and grouping data fields (ERD concepts)</li>
+                    <li>Resolving gaps in data structure understanding using Codex AI (Task 01)</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 2 · 3 hours</span>
+                  <h5>Terminology standardization (Task 02) and change impact analysis (Task 03)</h5>
+                  <p>
+                    Convert the extracted data into entities, apply a normalization process, and build a standard dictionary for mixed vocabulary (Member/Customer/User/Member) within the project. Additionally, when changing DB schema, API and
+                    We thoroughly analyze the scope of screen influence.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Apply 1NF → 2NF → 3NF normalization</li>
+                    <li>Building a Codex AI-based term fragmentation standard dictionary (Task 02)</li>
+                    <li>Automatically generate API/UI chain impact analysis report when modifying DB schema (Task 03)</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 3 · 1 hour</span>
+                  <h5>Record architectural decisions (Mission 01) and discover exception cases (Mission 02)</h5>
+                  <p>
+                    The normalization and DB structure decision-making background is permanently preserved as a log (DDL), and fatal edge cases such as concurrency errors and foreign key integrity collapse are discovered and countermeasures are established.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Codex AI-based Design Decision Log (Why) Creation (Mission 01)</li>
+                    <li>Physical schema-based concurrency/referential integrity edge case detection and response (Mission 02)</li>
+                    <li>Final ERD and deliverable comprehensive review feedback</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Core Learning Elements</h4>
+              <div class="outcome-tags">
+                <span class="outcome-tag">Data Extraction</span>
+                <span class="outcome-tag">Entity Definition</span>
+                <span class="outcome-tag">Relationship Design</span>
+                <span class="outcome-tag">Normalization</span>
+                <span class="outcome-tag">ERD Modeling</span>
+                <span class="outcome-tag">Codex AI Auditor</span>
+                <span class="outcome-tag">Glossary Dictionary</span>
+                <span class="outcome-tag">Change Impact</span>
+                <span class="outcome-tag">Design Decision Log</span>
+                <span class="outcome-tag">Edge Case Discovery</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="info-panel">
+              <h5>basic information</h5>
+              <ul class="info-list">
+                <li><strong>total learning time</strong>6 hours</li>
+                <li><strong>learning style</strong>Lecture + Codex practice + sharing results</li>
+                <li><strong>practice based</strong>Screen design + User flow + Codex Workspace</li>
+                <li><strong>key results</strong>Normalized data structures, ERDs, design standards, and analytics</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>learning objectives</h5>
+              <ul class="info-list">
+                <li>Structure data according to screen and user flow</li>
+                <li>Creating an ERD by defining key entities and relationships</li>
+                <li>Data deduplication and normalized data structure design</li>
+                <li>Sort, standardize, and track change impact with Codex AI</li>
+                <li>Establish a high-integrity DB design with decision preservation (Why) and exception response</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>expected output</h5>
+              <ul class="info-list">
+                <li>ERD Diagram (PNG/PDF/Mermaid)</li>
+                <li>Data normalization analysis document (erd-schema.md)</li>
+                <li>Project Standard Glossary (project-glossary.md)</li>
+                <li>Change impact analysis report (change-impact-report.md)</li>
+                <li>Design decision log (design-decision-log.md)</li>
+                <li>Exception scenario report (edge-case-analysis.md)</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>Points of use</h5>
+              <ul class="info-list">
+                <li>Connect the planning screen to the actual database structure</li>
+                <li>Efficient data structure design without duplication</li>
+                <li>Eliminate communication costs between team members by standardizing vocabulary</li>
+                <li>Prevent failures by automatically detecting the impact when changes occur</li>
+                <li>Laying the foundation for subsequent backend/API development</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-panel">
+        <h5>AI Learning Page</h5>
+        <ul class="info-list">
+          <li>
+            <strong>learning style</strong>
+            Video lectures and AI chatbot Q&A together
+          </li>
+        </ul>
+        <div style="margin-top: 14px;">
+          <a href="day3/day3-ai-classroom.html" class="ai-class-btn">
+            AI classroom entry
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Day 4 Modal -->
+  <div class="modal-overlay" id="day4Modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="day4ModalTitle">
+      <button class="modal-close" id="closeDay4Modal" aria-label="Close modal">×</button>
+
+      <div class="modal-hero">
+        <span class="modal-day">Day 4 Detailed Curriculum</span>
+        <h3 class="modal-title" id="day4ModalTitle">API Design & Swagger Specification</h3>
+        <p class="modal-subtitle">
+          Based on screen design, user flow, sequence diagram, and ERD, actual service functions are defined in API form,
+          This is the 4th day learning module that uses Codex AI to automatically verify and audit API specifications.
+        </p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div>
+            <div class="modal-section">
+              <h4>Study Overview</h4>
+              <p>
+                Day 4 is the stage of connecting previously designed screens, flows, and data structures to actual development documents and linking Codex Client Workspace.
+                Participants decompose service functions into API units, define request and response structures in a form that can be used by both front-end and back-end, and have consistency verified through AI.
+              </p>
+              <p>
+                Additionally, by documenting the API using the Swagger/OpenAPI format and analyzing the scope of impact that may occur in case of change with Codex AI,
+                Go beyond simple coding and learn practical product development and system stability analysis processes.
+              </p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Main session composition (Codex AI linkage)</h4>
+              <div class="session-list">
+                <div class="session-card">
+                  <span class="session-time">Session 1 · 2 hours</span>
+                  <h5>API contract creation and design principles (Task 01)</h5>
+                  <p>
+                    Understand how screens and data structures are connected to API specifications, and automatically extract API contracts by linking Codex AI.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Understand the role of APIs and their importance in collaboration</li>
+                    <li>Endpoint mapping and Request/Response structuring</li>
+                    <li>RESTful API design principles and error handling configuration</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 2 · 3 hours</span>
+                  <h5>API consistency audit and scope of impact analysis (Task 02 & 03)</h5>
+                  <p>
+                    Codex AI automatically detects mismatch errors between existing planning specifications and created APIs, and audits the chain ripple effects on the UI and database when API changes are made.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>API inconsistency checking and data format auditing (Task 02)</li>
+                    <li>Tracking the ripple path following schema/endpoint changes (Task 03)</li>
+                    <li>Define cascading change actions and update documentation to prevent errors</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 3 · 1 hour</span>
+                  <h5>API autonomous review and test scenario writing (Mission 01 & 02)</h5>
+                  <p>
+                    We final evaluate the conformity of the designed API to REST standards, derive improvement plans, and design boundary value-based test scenarios to verify edge cases.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>RESTful rule autonomous evaluation and improvement report generation (Mission 01)</li>
+                    <li>Derive test cases for boundary values, special characters, and concurrency errors (Mission 02)</li>
+                    <li>Results presentation and feedback</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Core Learning Elements</h4>
+              <div class="outcome-tags">
+                <span class="outcome-tag">RESTful API</span>
+                <span class="outcome-tag">Codex AI Audit</span>
+                <span class="outcome-tag">Swagger/OpenAPI</span>
+                <span class="outcome-tag">Consistency Check</span>
+                <span class="outcome-tag">Impact Analysis</span>
+                <span class="outcome-tag">Test Scenario</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="info-panel">
+              <h5>basic information</h5>
+              <ul class="info-list">
+                <li><strong>total learning time</strong>6 hours</li>
+                <li><strong>learning style</strong>Lecture + Codex practice + sharing results</li>
+                <li><strong>linkage structure</strong>Screen → Flow → ERD → API → Swagger</li>
+                <li><strong>target result</strong>API specifications and quality reports that can be developed in practice</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>learning objectives</h5>
+              <ul class="info-list">
+                <li>Define actual service functions in API form based on screens and ERD</li>
+                <li>Automate API consistency checks and scope of impact reports with Codex AI</li>
+                <li>Autonomous discovery of REST standard auditing and exception testing scenarios</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>expected output</h5>
+              <ul class="info-list">
+                <li>API contract (api-contract.md)</li>
+                <li>API Review Report (api-consistency-report.md)</li>
+                <li>API change impact report (api-impact-analysis.md)</li>
+                <li>API Review and Improvement Report (api-review-report.md)</li>
+                <li>Boundary test scenario (api-test-scenario.md)</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>Points of use</h5>
+              <ul class="info-list">
+                <li>Quickly convert screen plans into actual development specifications</li>
+                <li>Resolving inconsistencies in data name and schema understanding between planning and development</li>
+                <li>Prevent potential design flaws and edge cases before implementation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-panel">
+        <h5>AI Learning Page</h5>
+        <ul class="info-list">
+          <li>
+            <strong>learning style</strong>
+            Video lectures and AI chatbot Q&A together
+          </li>
+        </ul>
+        <div style="margin-top: 14px;">
+          <a href="day4/day4-ai-classroom.html" class="ai-class-btn">
+            AI classroom entry
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Day 5 Modal -->
+  <div class="modal-overlay" id="day5Modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="day5ModalTitle">
+      <button class="modal-close" id="closeDay5Modal" aria-label="Close modal">×</button>
+
+      <div class="modal-hero">
+        <span class="modal-day">Day 5 Detailed Curriculum</span>
+        <h3 class="modal-title" id="day5ModalTitle">UI/UX Design & Interaction Design</h3>
+        <p class="modal-subtitle">
+          Based on the wireframe, we audit user convenience with Codex AI,
+          This is the 5th day UI/UX review learning module that reviews and optimizes user-centered interface quality and shortened movement paths.
+        </p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div>
+            <div class="modal-section">
+              <h4>Study Overview</h4>
+              <p>
+                Day 5 is the stage of linking Codex Client Workspace by auditing a service experience with high actual usability based on the previously configured screen structure and user flow.
+                Participants analyze the screen plan based on the user's perspective and the principle of maintaining consistency, and find design flaws through collaboration with AI.
+              </p>
+              <p>
+                In addition, by streamlining the screen transition depth and verifying realistic barriers that reflect the personas of digitally underprivileged groups such as the elderly and the weak,
+                Secure quantitative/qualitative usability evaluation capabilities that are highly useful in practical planning tasks.
+              </p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Main session composition (Codex AI linkage)</h4>
+              <div class="session-list">
+                <div class="session-card">
+                  <span class="session-time">Session 1 · 2 hours</span>
+                  <h5>User perspective screen review (Task 01)</h5>
+                  <p>
+                    Learn the basic concepts of interface usability and detect areas that cause inconvenience in existing screen designs from the perspective of novice users.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Analysis of practical connection structure between UI and UX</li>
+                    <li>Derivation of friction points centered on user context</li>
+                    <li>Detecting and documenting usability problems using Codex AI</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 2 · 3 hours</span>
+                  <h5>Improvement of UI consistency and user movement (Task 02 & 03)</h5>
+                  <p>
+                    We check the asymmetry of UI component specifications/terms across multiple screens and come up with a UX flow improvement plan that reduces the depth of the route to the destination.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Aligning button positions, icons, and text consistency across screens (Task 02)</li>
+                    <li>Flow depth analysis of existing movement lines and abbreviated design proposal (Task 03)</li>
+                    <li>Creation of UI consistency report through collaboration with Codex AI</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 3 · 1 hour</span>
+                  <h5>Persona analysis and quality assessment (Mission 01 & 02)</h5>
+                  <p>
+                    We project specific user personas to collect vivid sign-up barrier verification logs and apply quantified multidimensional usability scores to create a comprehensive quality improvement report.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Creation of ‘difficulty log’ based on older user persona (Mission 01)</li>
+                    <li>Numerical rating of three major indicators: readability, resilience, and efficiency (Mission 02)</li>
+                    <li>Results presentation and feedback</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Core Learning Elements</h4>
+              <div class="outcome-tags">
+                <span class="outcome-tag">UI/UX Audit</span>
+                <span class="outcome-tag">UI Consistency</span>
+                <span class="outcome-tag">User Journey Map</span>
+                <span class="outcome-tag">AI Persona Testing</span>
+                <span class="outcome-tag">Usability Metrics</span>
+                <span class="outcome-tag">Friction Reduction</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="info-panel">
+              <h5>basic information</h5>
+              <ul class="info-list">
+                <li><strong>total learning time</strong>6 hours</li>
+                <li><strong>learning style</strong>Case analysis + Codex practice + sharing results</li>
+                <li><strong>practice based</strong>Existing planning screen specifications and user movement</li>
+                <li><strong>target result</strong>High-resolution UI/UX review focused on usability improvement</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>learning objectives</h5>
+              <ul class="info-list">
+                <li>Objectively audit defects in information design and placement on the screen from a beginner’s perspective</li>
+                <li>Maintain consistency by resolving UI/terminology asymmetry between multiple screens</li>
+                <li>Applying older personas and securing numerical usability evaluation capabilities</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>expected output</h5>
+              <ul class="info-list">
+                <li>UX Review Report (ux-review-report.md)</li>
+                <li>UI Consistency Report (ui-consistency-report.md)</li>
+                <li>Movement improvement report (user-journey-report.md)</li>
+                <li>First user review log (first-user-review.md)</li>
+                <li>Comprehensive service quality evaluation (usability-evaluation.md)</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>Points of use</h5>
+              <ul class="info-list">
+                <li>Prevent fatal deviation from planning defects in the pre-development stage</li>
+                <li>Maximize subscription conversion rate and payment residual rate by increasing the intuitiveness of planning design</li>
+                <li>Securing persuasive decision-making by quantifying UX problems with numerical indicators</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-panel">
+        <h5>AI Learning Page</h5>
+        <ul class="info-list">
+          <li>
+            <strong>learning style</strong>
+            Video lectures and AI chatbot Q&A together
+          </li>
+        </ul>
+        <div style="margin-top: 14px;">
+          <a href="day5/day5-ai-classroom.html" class="ai-class-btn">
+            AI classroom entry
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Day 6 Modal -->
+  <div class="modal-overlay" id="day6Modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="day6ModalTitle">
+      <button class="modal-close" id="closeDay6Modal" aria-label="Close modal">×</button>
+
+      <div class="modal-hero">
+        <span class="modal-day">Day 6 Detailed Curriculum</span>
+        <h3 class="modal-title" id="day6ModalTitle">Front-End Development & API Integration with Codex AI</h3>
+        <p class="modal-subtitle">
+          <strong>[Codex AI linkage]</strong> We implement Figma UI as an actual service screen, display data through API linkage, and link Codex AI throughout the entire development process to handle loading, errors, and empty states.
+        </p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div>
+            <div class="modal-section">
+              <h4>Study Overview</h4>
+              <p>
+                Day 6 is the step of connecting the screens and API specifications designed so far to the actual front-end screen.
+                Participants create an efficient code structure by separating the roles of HTML, CSS, and JavaScript, and implement Figma designs into actual web screens.
+              </p>
+              <p>
+                Additionally, server data is bound to the screen through fetch/AJAX-based asynchronous communication,
+                Handles various conditions such as loading, failure, and no data to create a real-world service-level user experience.
+              </p>
+              <p>
+                Especially in this session <strong>Codex Client Workspace</strong>Closely linked to construct a draft of the boilerplate screen skeleton that starts from a blank screen (Task 01), stack trace-based debugging advice and optional chaining defense code appearing in console logs such as TypeError: Cannot read properties of undefined (reading 'map') crashes (Task 02), correction of ambiguous variable names and improvement of common template renderer function extraction code (Task 03), server call 404 and JSON parsing Perform code quality review and encapsulation (Mission 02), including creating SyntaxError background analysis reports (Mission 01) and blocking global contamination.
+              </p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Main session structure</h4>
+              <div class="session-list">
+                <div class="session-card">
+                  <span class="session-time">Session 1 · 2 hours</span>
+                  <h5>Front-end structural design and draft creation</h5>
+                  <p>
+                    Separate screens, styles, and actions by role for efficient code structure.
+                    Quickly initialize proposal specifications into operational web screens using Codex AI.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Separation of HTML/CSS/JS roles</li>
+                    <li>High-speed configuration of boilerplate and layout grid (Task 01)</li>
+                    <li>Project folder structure and basic architecture design</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 2 · 3 hours</span>
+                  <h5>Debugging errors and refactoring clean code</h5>
+                  <p>
+                    We work with Codex AI pair programmers to resolve console errors and clean up spaghetti code.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Resolving TypeError: Cannot read properties of undefined (Task 02)</li>
+                    <li>Commonizing redundant logic and refactoring Naming Convention for collaboration (Task 03)</li>
+                    <li>Data rendering and debugging using the fetch API</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 3 · 1 hour</span>
+                  <h5>State management, exception handling, and result sharing</h5>
+                  <p>
+                    Handle exception situations such as loading, errors, and empty states, and write CORS and JSON parsing exception reports.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Loading / Error / Empty status handling</li>
+                    <li>Server exception and CORS troubleshooting analysis report (Mission 01)</li>
+                    <li>Anti-global scope IIFE encapsulation and multidimensional code quality auditing (Mission 02)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Core Learning Elements</h4>
+              <div class="outcome-tags">
+                <span class="outcome-tag">HTML/CSS/JS Structure</span>
+                <span class="outcome-tag">API Integration</span>
+                <span class="outcome-tag">Data Binding</span>
+                <span class="outcome-tag">State Management</span>
+                <span class="outcome-tag">Error Handling</span>
+                <span class="outcome-tag">Codex AI Assistant</span>
+                <span class="outcome-tag">Defensive Programming</span>
+                <span class="outcome-tag">Code Refactoring</span>
+                <span class="outcome-tag">IIFE Encapsulation</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="info-panel">
+              <h5>basic information</h5>
+              <ul class="info-list">
+                <li><strong>total learning time</strong>6 hours</li>
+                <li><strong>learning style</strong>Theory + AI collaboration practice + sharing results</li>
+                <li><strong>practice based</strong>Figma screen + API specification + Codex Client</li>
+                <li><strong>target result</strong>Implementation of high-quality front-end screens that actually work</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>learning objectives</h5>
+              <ul class="info-list">
+                <li>HTML/CSS/JS role separation and ultra-fast skeleton creation through Codex AI</li>
+                <li>Strengthening server data binding and debugging capabilities using AJAX/fetch</li>
+                <li>Learn about loading, error, and no data status management and exception handling.</li>
+                <li>Proactively improve code quality by reflecting code smell audit opinions</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>expected output</h5>
+              <ul class="info-list">
+                <li>Standardized project folder structure and responsive dashboard screen (index.html, layout.css)</li>
+                <li>UI output and debugging code with loading / error / no data states (day6_debug_solution.js)</li>
+                <li>Refactoring source code (day6_clean_code.js) and debugging report (day6_error_report.md)</li>
+                <li>Multidimensional Rating Code Quality Audit Report (day6_code_review.md)</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>Points of use</h5>
+              <ul class="info-list">
+                <li>Convert design output into actual service screens</li>
+                <li>Secure data-centric UI implementation experience through API integration</li>
+                <li>Explanation of error causes and shortening patch cycles by using AI as a pair programmer</li>
+                <li>Cultivating the habit of improving spaghetti code into clean code that is easy for others to understand</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-panel">
+        <h5>AI Learning Page</h5>
+        <ul class="info-list">
+          <li>
+            <strong>learning style</strong>
+            Video lectures and AI chatbot Q&A together
+          </li>
+        </ul>
+        <div style="margin-top: 14px;">
+          <a href="day6/day6-ai-classroom.html" class="ai-class-btn">
+            AI classroom entry
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Day 7 Modal -->
+  <div class="modal-overlay" id="day7Modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="day7ModalTitle">
+      <button class="modal-close" id="closeDay7Modal" aria-label="Close modal">×</button>
+
+      <div class="modal-hero">
+        <span class="modal-day">Day 7 Detailed Curriculum</span>
+        <h3 class="modal-title" id="day7ModalTitle">Development: Completing Features with Codex AI</h3>
+        <p class="modal-subtitle">
+          <strong>[Codex AI linkage]</strong> This is a development-complete module that connects event mapping and storage to static markup elements, supplements the user journey flow, and sets abnormal operation error guards.
+        </p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div>
+            <div class="modal-section">
+              <h4>Study Overview</h4>
+              <p>
+                Day 7 is the step to promote the published prototype screen into an actual, operational feature.
+                Participants establish a session control structure utilizing click event mapping, form data loading, and storage.
+              </p>
+              <p>
+                In addition, we diagnose points that cause deviation and information loss within the user's E2E journey path and restore them with sessionStorage.
+                The completeness of the software is raised to the limit by blocking data redundant loading bugs caused by repeated input and past date exceptions with a guard.
+              </p>
+              <p>
+                Especially in this session <strong>Codex Client Workspace</strong>Closely linked to bind the subscription form submission event and synchronize localStorage (Task 01), restore search filter information when moving to multiple screens, sessionStorage caching (Task 02), set `isSubmitting` duplicate blocking lock variable and past date guard (Task 03), detect absence of loading spinner, create quality rating inspection report (Mission 01), create E2E user simulation driving verification report (Mission 01) 02).
+              </p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Main session structure</h4>
+              <div class="session-list">
+                <div class="session-card">
+                  <span class="session-time">Session 1 · 2 hours</span>
+                  <h5>Function linking and data persistence</h5>
+                  <p>
+                    Learn a flow that intercepts HTML markup form submission events, verifies input, and permanently loads them into the browser's local storage.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Attaching event listeners and controlling the subscription form (Task 01)</li>
+                    <li>LocalStorage data persistence handling</li>
+                    <li>Forced screen switching upon success</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 2 · 3 hours</span>
+                  <h5>Verify user scenarios and block abnormal behavior exceptions</h5>
+                  <p>
+                    Assemble anomaly guard scripts that destroy session preservation and integrity for seamless user journeys.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Back to using sessionStorage Recovering filter values (Task 02)</li>
+                    <li>Setting double submission lock (`isSubmitting`, `disabled`) (Task 03)</li>
+                    <li>Past date application guard comparison assembly</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 3 · 1 hour</span>
+                  <h5>Quality auditing check and proof of E2E completion</h5>
+                  <p>
+                    Using AI as a QA partner, we diagnose usability quality and derive results from completing simulated user scenarios.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Standby loading spinner absence risk audit report (Mission 01)</li>
+                    <li>Virtual novice user E2E failure point tracking and response verification (Mission 02)</li>
+                    <li>Announcement and feedback of functional verification results</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Core Learning Elements</h4>
+              <div class="outcome-tags">
+                <span class="outcome-tag">Feature Integration</span>
+                <span class="outcome-tag">Event Handling</span>
+                <span class="outcome-tag">LocalStorage</span>
+                <span class="outcome-tag">State Backups</span>
+                <span class="outcome-tag">SessionStorage</span>
+                <span class="outcome-tag">Double Submit Locks</span>
+                <span class="outcome-tag">Logic Validation</span>
+                <span class="outcome-tag">E2E Verification</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="info-panel">
+              <h5>basic information</h5>
+              <ul class="info-list">
+                <li><strong>total learning time</strong>6 hours</li>
+                <li><strong>learning style</strong>Theory + AI collaboration practice + sharing results</li>
+                <li><strong>practice based</strong>LocalStorage/SessionStorage + Codex Client</li>
+                <li><strong>target result</strong>Dynamic function integration for stable E2E completion</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>learning objectives</h5>
+              <ul class="info-list">
+                <li>Assemble functions that map JavaScript events to HTML components</li>
+                <li>Manipulate session storage to restore lost browsing information across multiple screens</li>
+                <li>Abnormal behavior prevention through double submit lock and exception date statement</li>
+                <li>Learn to eliminate cognitive friction through E2E virtual driving feedback</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>expected output</h5>
+              <ul class="info-list">
+                <li>Movable member page with event connected (day7_connected_feature.html)</li>
+                <li>Filter Information Session Restore Script (day7_scenario_solution.js)</li>
+                <li>Validation code (day7_robust_validation.js) with added guard to prevent duplicate repeated attacks</li>
+                <li>Service quality inspection report (day7_service_audit.md) and E2E verification result (day7_e2e_validation.md)</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>Points of use</h5>
+              <ul class="info-list">
+                <li>Convert static publishing screens into operational web services</li>
+                <li>Prevent interruptions in the flow of user scenarios by using AI as a coach</li>
+                <li>Implementation of robust and robust frontend features including lock control and condition guards</li>
+                <li>Improve service usability by collecting virtual user E2E role-playing feedback</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-panel">
+        <h5>AI Learning Page</h5>
+        <ul class="info-list">
+          <li>
+            <strong>learning style</strong>
+            Video lectures and AI chatbot Q&A together
+          </li>
+        </ul>
+        <div style="margin-top: 14px;">
+          <a href="day7/day7-ai-classroom.html" class="ai-class-btn">
+            AI classroom entry
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 8 Modal -->
+  <div class="modal-overlay" id="day8Modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="day8ModalTitle">
+      <button class="modal-close" id="closeDay8Modal" aria-label="Close modal">×</button>
+
+      <div class="modal-hero">
+        <span class="modal-day">Day 8 Detailed Curriculum</span>
+        <h3 class="modal-title" id="day8ModalTitle">User Management: Membership & Onboarding UX</h3>
+        <p class="modal-subtitle">
+          <strong>[Codex AI linkage]</strong> This is the 8th day practice module that plans the membership registration and login process, eliminates friction factors that cause churn by simplifying the form, and performs storage consistency security verification.
+        </p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div>
+            <div class="modal-section">
+              <h4>Study Overview</h4>
+              <p>
+                Day 8 is the day to plan and audit the user journey of membership registration and onboarding, which is the first impression of the service, from non-development planners to junior developers.
+                Participants will learn how to maximize sign-up success rates by breaking down excessive form fields, such as unnecessary zip codes and street addresses, into a progressive sign-up structure.
+              </p>
+              <p>
+                In addition, we safely block payment/reservation data distortions caused by duplicate email subscriptions through JavaScript duplicate guard verification and assemble an email address format violation filter.
+              </p>
+              <p>
+                Especially in this session <strong>Codex Client Workspace</strong>are closely linked to plan a sign-up/log-in priority checklist (Task 01), create a report to derive user flow by simplifying input form fields (Task 02), install a duplicate sign-up blocking guard and regular expression verification (Task 03), a silver customer persona mock experience real-time guide proofreading book (Mission 01), and build an integrated security patch for failure error messages (Mission 02) that prevents exposure of random account scanning hints.
+              </p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Main session structure</h4>
+              <div class="session-list">
+                <div class="session-card">
+                  <span class="session-time">Session 1 · 2 hours</span>
+                  <h5>Prioritize membership features and remove barriers to membership</h5>
+                  <p>
+                    By comparing the characteristics of the reservation business, we distinguish between essential subscription methods and additional functions, and investigate the areas that cause abandonment in the multiple input window.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Planning Must-Have and Nice-to-Have Member Lists (Task 01)</li>
+                    <li>Investigation into friction point (signup awareness barrier) and password reset issues</li>
+                    <li>Step 1 signup (simple) and Step 2 collection (after entering the dashboard) Split flow proposal (Task 02)</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 2 · 3 hours</span>
+                  <h5>Storage integrity guarding and error condition patching</h5>
+                  <p>
+                    To prevent data from being mixed up, email duplication checks are applied, and email regular expression validation processing and secure message processing are applied.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Assemble guard to check some duplicate emails in userDatabase (Task 03)</li>
+                    <li>Regex filter design to block invalid email address injection</li>
+                    <li>Compare active status when retrieving password and obtain business rule exception guide</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 3 · 1 hour</span>
+                  <h5>Persona Penetration Testing and Security Information Stealth Assessment</h5>
+                  <p>
+                    We inspect the sign-up flow from the perspective of a virtual silver user and resolve security vulnerabilities in failure notifications.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Beginner Customer Persona Mock Signup Emotion Friction Predicament Collection (Mission 01)</li>
+                    <li>Designed for automatic asynchronous duplicate checking when email blur focuses out</li>
+                    <li>Prevent information leak by integrating ID/password failure messages (Mission 02)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Core Learning Elements</h4>
+              <div class="outcome-tags">
+                <span class="outcome-tag">User Feature Planning</span>
+                <span class="outcome-tag">Onboarding UX</span>
+                <span class="outcome-tag">Form Friction Audit</span>
+                <span class="outcome-tag">Progressive Profiling</span>
+                <span class="outcome-tag">Database Integrity</span>
+                <span class="outcome-tag">Duplicate Account Guard</span>
+                <span class="outcome-tag">Info Hide</span>
+                <span class="outcome-tag">Usability Evaluation</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="info-panel">
+              <h5>basic information</h5>
+              <ul class="info-list">
+                <li><strong>total learning time</strong>6 hours</li>
+                <li><strong>learning style</strong>Planning analysis + AI collaboration practice + sharing results</li>
+                <li><strong>practice based</strong>LocalStorage + JavaScript Guard + Codex</li>
+                <li><strong>target result</strong>Implementation of user management with low subscription churn and robust consistency</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>learning objectives</h5>
+              <ul class="info-list">
+                <li>Minimalistic subscription requirements designed for new business purposes</li>
+                <li>Learn techniques to remove exit barriers by postponing the timing of multi-step input forms</li>
+                <li>Establishing rules that integrate double sign-up blocking checks and regular expression conditions into coding</li>
+                <li>Securing knowledge to prevent random hacking attacks by obfuscating guidance messages</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>expected output</h5>
+              <ul class="info-list">
+                <li>Priority checklist table (day8_feature_checklist.md)</li>
+                <li>Onboarding Improvement Report (day8_ux_improvement_report.md)</li>
+                <li>Anti-duplicate guard coding script (day8_robust_user_service.js)</li>
+                <li>First user review (day8_first_user_review.md)</li>
+                <li>Quality Audit Evaluation (day8_usability_evaluation.md)</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>Points of use</h5>
+              <ul class="info-list">
+                <li>Increase inflow by quantitatively assessing sign-up form fatigue before launching</li>
+                <li>Completely prevents database contamination due to duplicate data insertion at the planning level</li>
+                <li>Neutralize frustrating sign-up experiences by providing real-time rule satisfaction feedback</li>
+                <li>Neutralizing hacking scenarios through unification of error feedback</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-panel">
+        <h5>AI Learning Page</h5>
+        <ul class="info-list">
+          <li>
+            <strong>learning style</strong>
+            Video lectures and AI chatbot Q&A together
+          </li>
+        </ul>
+        <div style="margin-top: 14px;">
+          <a href="day8/day8-ai-classroom.html" class="ai-class-btn">
+            AI classroom entry
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Day 9 Modal -->
+  <div class="modal-overlay" id="day9Modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="day9ModalTitle">
+      <button class="modal-close" id="closeDay9Modal" aria-label="Close modal">×</button>
+
+      <div class="modal-hero">
+        <span class="modal-day">Day 9 Detailed Curriculum</span>
+        <h3 class="modal-title" id="day9ModalTitle">Payment Service: Experience & Trust Audit</h3>
+        <p class="modal-subtitle">
+          <strong>[Codex AI linkage]</strong> This is the 9th day practice module that optimizes the payment flow to reduce purchase abandonment, establishes friendly guidance copy and technical guards for exceptional situations, and builds a secure payment model by maximizing the trust factor.
+        </p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div>
+            <div class="modal-section">
+              <h4>Study Overview</h4>
+              <p>
+                Day 9 is a session where the payment process that completes business monetization is planned from the user's perspective and a quality evaluation is conducted to completely block the risk of churn.
+                Participants dramatically reduce friction by consolidating the multi-step confirmation window and two-factor authentication process into a summary overlay sheet.
+              </p>
+              <p>
+                In addition, we replace the external PG company's difficult English error codes with user-friendly and safe Korean, implement a spinner and order idempotent key that blocks repeated charging, and implant security badges and VAT segmentation elements to the payment window to eliminate phishing anxiety.
+              </p>
+              <p>
+                Especially in this session <strong>Codex Client Workspace</strong>By closely linking, we build a simple order payment flow planning (Task 01), design of a safe error phrasebook and duplicate blocking lock (Task 02), revised safe payment UI CSS/HTML structure supplement (Task 03), window force closing and inspection response failure statement (Mission 01), and coupon search form initialization blocking customer journey diagnosis report (Mission 02).
+              </p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Main session structure</h4>
+              <div class="session-list">
+                <div class="session-card">
+                  <span class="session-time">Session 1 · 2 hours</span>
+                  <h5>Designed to streamline the order-to-pay journey</h5>
+                  <p>
+                    We investigate all multi-step drop-off points and design a one-line journey to prevent drop-out rates by consolidating delivery destinations and means into a single order sheet.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Derivation of the two major factors of friction point (payment perception barrier)</li>
+                    <li>Planning to reduce unnecessary steps such as duplication of identity verification (Task 01)</li>
+                    <li>Establishment of a simplified payment flow model (TO-BE Flow) in 3 steps or less</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 2 · 3 hours</span>
+                  <h5>Exception situations translated into Korean and duplicate billing blocked</h5>
+                  <p>
+                    Errors such as exceeding limits and delays are corrected with a safe action phrasebook, and safety locks are coded to control double-clicking.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>User action-oriented Korean translation of PG raw error codes (Task 02)</li>
+                    <li>Disabled button and implanted spinner to block double charging for multiple hits</li>
+                    <li>Combine final actual payment VAT detailed deduction receipt and security badge HTML (Task 03)</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 3 · 1 hour</span>
+                  <h5>Reactive response to financial failures and correction of journey peaks</h5>
+                  <p>
+                    Submit a response workbook and form loss prevention report to prevent financial anxiety such as PG window departure, inspection time failure, etc.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Collection of remedial messages to resolve fears by clearly determining whether or not to withdraw money (Mission 01)</li>
+                    <li>Investigation of peak friction areas such as loss of delivery address form when searching for coupons (Mission 02)</li>
+                    <li>Improvement priority A/B assignment and feedback</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Core Learning Elements</h4>
+              <div class="outcome-tags">
+                <span class="outcome-tag">Payment Flow Planning</span>
+                <span class="outcome-tag">Trust Auditing</span>
+                <span class="outcome-tag">Exception Playbook</span>
+                <span class="outcome-tag">Friendly Error Mapping</span>
+                <span class="outcome-tag">Receipt Breakdowns</span>
+                <span class="outcome-tag">Idempotency Guard</span>
+                <span class="outcome-tag">Friction Peak Auditing</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="info-panel">
+              <h5>basic information</h5>
+              <ul class="info-list">
+                <li><strong>total learning time</strong>6 hours</li>
+                <li><strong>learning style</strong>Journey analysis + AI auditing practice + sharing results</li>
+                <li><strong>practice based</strong>PG raw error + payment UI structure + Codex</li>
+                <li><strong>target result</strong>Optimum screen assembly for near-zero payment fatigue and safe payments</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>learning objectives</h5>
+              <ul class="info-list">
+                <li>Ability to diagram friction points throughout customer payment behavior</li>
+                <li>Create behavioral error guidance to relieve users’ financial anxiety</li>
+                <li>Learn how to improve payment trust by segmenting receipts and implanting security phrases</li>
+                <li>Learn how to correct stray peak factors through simulated E2E virtual testing</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>expected output</h5>
+              <ul class="info-list">
+                <li>Simplified order payment flow (day9_optimized_flow.md)</li>
+                <li>Safety error phrase book (day9_error_mitigation_guide.md)</li>
+                <li>Revised Safe Payment UI (day9_robust_payment_ui.html)</li>
+                <li>Failure Response Statement (day9_failure_scenarios.md)</li>
+                <li>Customer journey diagnosis (day9_checkout_journey.md)</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>Points of use</h5>
+              <ul class="info-list">
+                <li>Journey integration design that dramatically lowers the payment manual pop-up bounce rate</li>
+                <li>Neutralize payment failure complaint calls with self-recovery guidance stationery</li>
+                <li>Maximize site trust value through security license lock display</li>
+                <li>Prevent form reset bug to prevent shopping cart escape completion rate</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-panel">
+        <h5>AI Learning Page</h5>
+        <ul class="info-list">
+          <li>
+            <strong>learning style</strong>
+            Video lectures and AI chatbot Q&A together
+          </li>
+        </ul>
+        <div style="margin-top: 14px;">
+          <a href="day9/day9-ai-classroom.html" class="ai-class-btn">
+            AI classroom entry
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 10 Modal -->
+  <div class="modal-overlay" id="day10Modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="day10ModalTitle">
+      <button class="modal-close" id="closeDay10Modal" aria-label="Close modal">×</button>
+
+      <div class="modal-hero">
+        <span class="modal-day">Day 10 Detailed Curriculum</span>
+        <h3 class="modal-title" id="day10ModalTitle">Service Launch: Launching a service</h3>
+        <p class="modal-subtitle">
+          <strong>[Codex AI linkage]</strong> The starting point of the service, not the end of development — This is the 10th day practice module that completes the final work flow of an actual service planner with Codex AI, from creating a service introduction to preparing user support, organizing project performance, and establishing a Version 2.0 roadmap.
+        </p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div>
+            <div class="modal-section">
+              <h4>Study Overview</h4>
+              <p>
+                Day 10 You won't write a single line of code. All preparations necessary to release the service completed over 9 days of development to the world. <strong>Codex Client Workspace</strong>Perform with . “Becoming the best explainer of the service” is my goal today.
+              </p>
+              <p>
+                We create service introductions that can be understood within 5 seconds and opening notices for each channel (email, homepage, SNS), prepare FAQs and customer service guides by predicting difficulties that users will experience, and complete result reports that can be delivered to investors and a roadmap for the next version.
+              </p>
+              <p>
+                Especially in this session <strong>Codex Client Workspace</strong>are closely linked to complete the service launching material package (Task 01), configure 20 user perspective FAQs and response scenarios (Task 02), establish the MoSCoW priority Version 2.0 roadmap (Task 03), create an integrated launching package (Mission 01), and prepare the final presentation and Q&A (Mission 02).
+              </p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Main session composition (Codex AI linkage)</h4>
+              <div class="session-list">
+                <div class="session-card">
+                  <span class="session-time">Session 1 · 2 hours</span>
+                  <h5>Service launch preparation and user support design</h5>
+                  <p>
+                    Create an introduction that first-time users can understand within 5 seconds, and prepare in advance for customer inquiries that will come in on the first day.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>One-line service description and 3 key functions (Task 01)</li>
+                    <li>Production of open notices for each email, website, and SNS channel</li>
+                    <li>Write 20 FAQs (membership registration, service use, payment, error, and other 5 categories) (Task 02)</li>
+                    <li>Five customer complaint scenarios and response script configuration</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 2 · 2 hours</span>
+                  <h5>Project performance summary and Version 2.0 roadmap</h5>
+                  <p>
+                    We objectively organize the 10 days of development and complete a report and next plan that can be delivered to investors.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Write a result report (background, goals, core functions, performance, improvement tasks) (Task 03)</li>
+                    <li>Keep/Problem/Try Retrospective — Analysis of 3 things that went well and 3 things that were disappointing</li>
+                    <li>Establishment of MoSCoW (Must/Should/Could/Won't) priority Version 2.0 roadmap</li>
+                  </ul>
+                </div>
+
+                <div class="session-card">
+                  <span class="session-time">Session 3 · 2 hours</span>
+                  <h5>Launch package completion and final announcement</h5>
+                  <p>
+                    After completing the launching package that integrates all materials, checking the presentation materials with Codex's feedback, each team will give a 10-minute presentation.
+                  </p>
+                  <ul class="bullet-list">
+                    <li>Completion of integrated launching package of introduction, FAQ, notice, and manual (Mission 01)</li>
+                    <li>Ask Codex for feedback on the “least convincing part”</li>
+                    <li>10-minute presentation by team + 5-minute Q&A and 3-month sprint plan presentation (Mission 02)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Core Learning Elements</h4>
+              <div class="outcome-tags">
+                <span class="outcome-tag">Launch Prep</span>
+                <span class="outcome-tag">Service Intro Design</span>
+                <span class="outcome-tag">FAQ 20 (5 Categories)</span>
+                <span class="outcome-tag">Customer Support Script</span>
+                <span class="outcome-tag">Retrospective (KPT)</span>
+                <span class="outcome-tag">MoSCoW Roadmap</span>
+                <span class="outcome-tag">Version 2.0 Planning</span>
+                <span class="outcome-tag">Final Presentation</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="info-panel">
+              <h5>basic information</h5>
+              <ul class="info-list">
+                <li><strong>total learning time</strong>6 hours</li>
+                <li><strong>learning style</strong>AI document creation + team integration + final presentation</li>
+                <li><strong>practice based</strong>Codex Workspace + Service Overview File + Project Summary</li>
+                <li><strong>target result</strong>Complete launch package and investor report ready for distribution to users today</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>learning objectives</h5>
+              <ul class="info-list">
+                <li>Use AI to write an introduction that conveys the core value of the service in 5 seconds</li>
+                <li>Ability to predict difficulties from the user's perspective and construct FAQs and response guides</li>
+                <li>Learn how to establish a logical Version 2.0 roadmap with MoSCoW priorities</li>
+                <li>Experience Codex not as a simple tool but as a “partner in planning the next project together”</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>expected output</h5>
+              <ul class="info-list">
+                <li>Service introduction + notice by channel (day10_launch_materials.md)</li>
+                <li>20 FAQs + Response Guide (day10_faq_guide.md)</li>
+                <li>Result report + retrospective + roadmap (day10_retrospective.md)</li>
+                <li>Integrated launch package (day10_launch_package.md)</li>
+                <li>Final presentation + sprint plan (day10_presentation.md)</li>
+              </ul>
+            </div>
+
+            <div class="info-panel">
+              <h5>Codex AI Linkage Utilization Points</h5>
+              <ul class="info-list">
+                <li>“Make people who read this introduction want to use the service right away” — Strengthen persuasion</li>
+                <li>“Where is this presentation lacking in persuasiveness?” — Presentation feedback</li>
+                <li>“Make a 3-month sprint plan for 2 teams and 1 planner” — Version 2.0 materialized</li>
+                <li>“Prepare the 5 Q&A questions that investors are most curious about” — Q&A rehearsal</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-panel">
+        <h5>AI Learning Page</h5>
+        <ul class="info-list">
+          <li>
+            <strong>learning style</strong>
+            Creation of launching materials with Codex AI + Final presentation by team
+          </li>
+        </ul>
+        <div style="margin-top: 14px;">
+          <a href="day10/day10-ai-classroom.html" class="ai-class-btn">
+            AI classroom entry
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function setupModal(openButtonId, modalId, closeButtonId) {
+      const openButton = document.getElementById(openButtonId);
+      const modal = document.getElementById(modalId);
+      const closeButton = document.getElementById(closeButtonId);
+
+      if (!openButton || !modal || !closeButton) return;
+
+      function openModal() {
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      openButton.addEventListener('click', openModal);
+
+      openButton.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openModal();
+        }
+      });
+
+      closeButton.addEventListener('click', closeModal);
+
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          closeModal();
+        }
+      });
+    }
+
+    setupModal('openDay1Modal', 'day1Modal', 'closeDay1Modal');
+    setupModal('openDay2Modal', 'day2Modal', 'closeDay2Modal');
+    setupModal('openDay3Modal', 'day3Modal', 'closeDay3Modal');
+    setupModal('openDay4Modal', 'day4Modal', 'closeDay4Modal');
+    setupModal('openDay5Modal', 'day5Modal', 'closeDay5Modal');
+    setupModal('openDay6Modal', 'day6Modal', 'closeDay6Modal');
+    setupModal('openDay7Modal', 'day7Modal', 'closeDay7Modal');
+    setupModal('openDay8Modal', 'day8Modal', 'closeDay8Modal');
+    setupModal('openDay9Modal', 'day9Modal', 'closeDay9Modal');
+    setupModal('openDay10Modal', 'day10Modal', 'closeDay10Modal');
+
+    // Helper to get cookie
+    function getCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+      }
+      return null;
+    }
+
+    // Helper to delete cookie
+    function eraseCookie(name) {
+      document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    // Check cookie first
+    let loggedInUser = getCookie('currentUser');
+
+    // Fallback to localStorage session backup (for local file:// compatibility)
+    if (!loggedInUser) {
+      const sessionStr = localStorage.getItem('currentUserSession');
+      if (sessionStr) {
+        try {
+          const session = JSON.parse(sessionStr);
+          if (Date.now() < session.expiresAt) {
+            loggedInUser = session.value;
+          } else {
+            localStorage.removeItem('currentUserSession');
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+
+    if (loggedInUser) {
+      try {
+        const user = JSON.parse(loggedInUser);
+        const lastNavLink = document.querySelector('.nav-links li:last-child');
+        if (lastNavLink) {
+          lastNavLink.innerHTML = `
+            <div class="user-badge-main" style="display:flex; align-items:center; gap:8px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 50px; padding: 6px 14px; font-size: 0.9rem; font-weight: 700; color: var(--secondary-color); cursor: pointer;" onclick="logoutUser()" title="Click to log out">
+              <span>${user.avatar}</span>
+              <span>${user.name}</span>
+            </div>
+          `;
+        }
+      } catch (e) {
+        console.error('Error parsing user data:', e);
+      }
+    }
+
+    window.logoutUser = function() {
+      if (confirm('Do you want to log out?')) {
+        eraseCookie('currentUser');
+        localStorage.removeItem('currentUserSession');
+        localStorage.removeItem('currentUser'); // Clean up old storage
+        window.location.reload();
+      }
+    };
+  </script>
+  <footer class="site-footer" style="background: #09090b; border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 32px 20px; text-align: center; color: #a1a1aa; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company name: Edunity Lab Co., Ltd.</span> | <span>Representative: Lee Ki-taek</span> | <span>Business address: 2nd floor, Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul (Yeoksam-dong, Taerim Building)</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Contact: (02)6240-0053</span> | <span>Business registration number: 132-86-35644</span> | <span>Mail order business report number: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #71717a; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

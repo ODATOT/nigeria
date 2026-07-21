@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CertiTrust Wallet</title>
+
+  <!-- QRCode create library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #09090b;
+      --bg-soft: #111827;
+      --ink: #f8fafc;
+      --muted: #9aa7b7;
+      --line: rgba(255,255,255,.08);
+      --glass: rgba(255,255,255,.05);
+      --glass-strong: rgba(255,255,255,.1);
+      --blue: #3b82f6;
+      --teal: #06b6d4;
+      --gold: #f7c873;
+      --violet: #8d6bff;
+      --danger: #ff7f90;
+      --ok: #7effc7;
+      --warn: #ffd88a;
+      --shadow: 0 28px 80px rgba(0,0,0,.6);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 20% -10%, rgba(80, 128, 255, .35), transparent 34%),
+        radial-gradient(circle at 82% 8%, rgba(85, 240, 198, .24), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(247, 200, 115, .12), transparent 30%),
+        var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    .app {
+      width: min(430px, 100%);
+      min-height: 100vh;
+      padding: 24px 20px 108px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 26px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: -.04em;
+      font-size: 20px;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      color: #07111f;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      box-shadow: 0 12px 28px rgba(85, 240, 198, .24);
+      font-weight: 900;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.95), rgba(255,255,255,.4)),
+        linear-gradient(135deg, var(--blue), var(--teal));
+      border: 1px solid rgba(255,255,255,.45);
+      box-shadow: 0 10px 24px rgba(0,0,0,.2);
+    }
+
+    .hello {
+      margin-bottom: 24px;
+    }
+
+    .hello .eyebrow {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .hello h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.08;
+      letter-spacing: -.08em;
+    }
+
+    .hello p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .identity-card {
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      min-height: 218px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.05)),
+        linear-gradient(135deg, #121a2a, #0a0f1a);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .identity-card::before {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: rgba(110,168,255,.28);
+      filter: blur(26px);
+      top: -80px;
+      right: -80px;
+    }
+
+    .identity-card::after {
+      content: "";
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: rgba(85,240,198,.20);
+      filter: blur(24px);
+      bottom: -80px;
+      left: -70px;
+    }
+
+    .identity-head,
+    .identity-body,
+    .identity-foot {
+      position: relative;
+      z-index: 1;
+    }
+
+    .identity-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 34px;
+    }
+
+    .verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(85,240,198,.12);
+      border: 1px solid rgba(85,240,198,.28);
+      color: #b7ffec;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .verified-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--teal);
+      border-radius: 50%;
+      box-shadow: 0 0 14px var(--teal);
+    }
+
+    .chip {
+      width: 48px;
+      height: 36px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #f8fafc, #90a4c0);
+      opacity: .85;
+    }
+
+    .identity-body small {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .identity-body strong {
+      display: block;
+      font-size: 27px;
+      letter-spacing: -.055em;
+    }
+
+    .identity-foot {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .identity-foot b {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 46px;
+      border-radius: 16px;
+      padding: 0 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .search input {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      outline: none;
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .search input::placeholder {
+      color: #8090a6;
+    }
+
+    .icon-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.08);
+      color: var(--ink);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 18px 2px 12px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -.045em;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .quick-card {
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      border-radius: 18px;
+      padding: 14px 10px;
+      color: var(--ink);
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .quick-card .emoji {
+      font-size: 20px;
+      margin-bottom: 7px;
+    }
+
+    .quick-card .label {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar { display: none; }
+
+    .filter-chip {
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .filter-chip.active {
+      color: #061018;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      border-color: transparent;
+    }
+
+    .wallet-stack {
+      position: relative;
+      min-height: 290px;
+      margin-bottom: 18px;
+      transition: min-height .2s ease;
+    }
+
+    .wallet-stack.expanded {
+      min-height: auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    .pass {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 178px;
+      border-radius: 30px;
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 22px 44px rgba(0,0,0,.28);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .24s ease, box-shadow .24s ease, opacity .24s ease;
+      color: white;
+    }
+
+    .wallet-stack.expanded .pass {
+      position: relative;
+      top: auto !important;
+      transform: none !important;
+      opacity: 1 !important;
+      height: 178px;
+    }
+
+    .pass:hover {
+      transform: translateY(-12px) !important;
+      box-shadow: 0 32px 56px rgba(0,0,0,.45) !important;
+      z-index: 200 !important;
+    }
+
+    .pass.active {
+      outline: 2px solid rgba(255,255,255,.75);
+      outline-offset: 2px;
+    }
+
+    .pass::after {
+      content: "";
+      position: absolute;
+      inset: auto -20px -30px auto;
+      width: 140px;
+      height: 140px;
+      background: rgba(255,255,255,.12);
+      border-radius: 50%;
+      filter: blur(8px);
+    }
+
+    .pass-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+      gap: 10px;
+    }
+
+    .issuer {
+      color: rgba(255,255,255,.78);
+      font-size: 12px;
+      font-weight: 650;
+      margin-bottom: 9px;
+    }
+
+    .pass-title {
+      max-width: 240px;
+      font-size: 23px;
+      line-height: 1.08;
+      letter-spacing: -.06em;
+      font-weight: 850;
+    }
+
+    .pass-badge {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.17);
+      border: 1px solid rgba(255,255,255,.20);
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .pass-bottom {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      z-index: 1;
+    }
+
+    .pass-date span {
+      display: block;
+      color: rgba(255,255,255,.65);
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    .pass-date b {
+      font-size: 13px;
+    }
+
+    .mini-qr {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.92);
+      padding: 5px;
+      box-shadow: 0 10px 18px rgba(0,0,0,.18);
+    }
+
+    .mini-qr canvas,
+    .mini-qr img {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .stack-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0 20px;
+    }
+
+    .subtle-btn {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 2px;
+      cursor: pointer;
+    }
+
+    .summary {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .empty {
+      display: none;
+      padding: 28px 16px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed rgba(255,255,255,.12);
+      border-radius: 24px;
+      background: rgba(255,255,255,.04);
+      margin-bottom: 20px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 14px;
+      width: min(390px, calc(100% - 24px));
+      padding: 10px;
+      border-radius: 24px;
+      background: rgba(11,16,27,.72);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,.10);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      z-index: 30;
+      box-shadow: 0 20px 50px rgba(0,0,0,.35);
+    }
+
+    .nav-item {
+      height: 56px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      gap: 4px;
+    }
+
+    .nav-item .icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .nav-item.active {
+      background: rgba(255,255,255,.08);
+      color: white;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 100;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(8px);
+      padding: 14px;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-sheet {
+      width: min(430px, 100%);
+      max-height: min(88vh, 820px);
+      overflow: auto;
+      border-radius: 30px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08)),
+        #0c1220;
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 30px 90px rgba(0,0,0,.45);
+      padding: 18px 18px 22px;
+      color: var(--ink);
+    }
+
+    .modal-sheet::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .modal-sheet::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,.10);
+      border-radius: 999px;
+    }
+
+    .sheet-handle {
+      width: 48px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.28);
+      margin: 2px auto 18px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h3 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      line-height: 1.12;
+      letter-spacing: -.05em;
+    }
+
+    .modal-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .close-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.08);
+      color: white;
+      cursor: pointer;
+      flex: 0 0 auto;
+      font-size: 18px;
+    }
+
+    .status-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1px solid transparent;
+    }
+
+    .status-pill.valid {
+      background: rgba(85,240,198,.12);
+      border-color: rgba(85,240,198,.25);
+      color: #c8fff0;
+    }
+
+    .status-pill.soon {
+      background: rgba(247,200,115,.12);
+      border-color: rgba(247,200,115,.22);
+      color: #ffe3ae;
+    }
+
+    .status-pill.expired {
+      background: rgba(255,127,144,.12);
+      border-color: rgba(255,127,144,.22);
+      color: #ffcad1;
+    }
+
+    .status-pill.chain {
+      background: rgba(110,168,255,.12);
+      border-color: rgba(110,168,255,.22);
+      color: #d4e4ff;
+    }
+
+    .detail-hero {
+      display: grid;
+      grid-template-columns: 1fr 112px;
+      gap: 14px;
+      align-items: start;
+      margin-bottom: 16px;
+    }
+
+    .qr-box {
+      width: 112px;
+      min-height: 112px;
+      border-radius: 20px;
+      background: white;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 16px 30px rgba(0,0,0,.24);
+    }
+
+    .qr-box canvas,
+    .qr-box img {
+      width: 100% !important;
+      height: auto !important;
+      display: block;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .info {
+      border-radius: 18px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 13px;
+    }
+
+    .info.span-2 {
+      grid-column: span 2;
+    }
+
+    .info span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 6px;
+    }
+
+    .info b {
+      display: block;
+      font-size: 13px;
+      letter-spacing: -.01em;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .inline-copy {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .copy-mini {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.08);
+      color: white;
+      border-radius: 12px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .verify-strip {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(85,240,198,.10);
+      border: 1px solid rgba(85,240,198,.22);
+      color: #d7fff4;
+      font-size: 13px;
+      line-height: 1.45;
+      margin-bottom: 16px;
+    }
+
+    .verify-strip.warn {
+      background: rgba(247,200,115,.10);
+      border-color: rgba(247,200,115,.22);
+      color: #ffebb8;
+    }
+
+    .verify-strip.expired {
+      background: rgba(255,127,144,.10);
+      border-color: rgba(255,127,144,.22);
+      color: #ffd6dc;
+    }
+
+    .verify-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      color: #061018;
+      font-weight: 900;
+      background: var(--teal);
+    }
+
+    .verify-strip.warn .verify-icon {
+      background: var(--gold);
+    }
+
+    .verify-strip.expired .verify-icon {
+      background: var(--danger);
+      color: white;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .skill-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.10);
+      color: #eaf2ff;
+    }
+
+    .timeline {
+      margin-bottom: 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.09);
+      padding: 14px;
+    }
+
+    .timeline-title {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: #e8eef7;
+    }
+
+    .timeline-line {
+      position: relative;
+      padding-left: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .timeline-line::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: rgba(255,255,255,.14);
+    }
+
+    .timeline-item {
+      position: relative;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -18px;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      box-shadow: 0 0 0 4px rgba(110,168,255,.12);
+    }
+
+    .timeline-item b {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .button {
+      min-height: 48px;
+      border: 0;
+      border-radius: 17px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform .15s ease;
+      padding: 0 14px;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button.primary {
+      color: #061018;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+    }
+
+    .button.secondary {
+      color: var(--ink);
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+
+    .button.ghost {
+      color: #dce8ff;
+      background: rgba(110,168,255,.08);
+      border: 1px solid rgba(110,168,255,.18);
+    }
+
+    .verify-panel {
+      border-radius: 22px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.09);
+      padding: 14px;
+    }
+
+    .verify-panel h4 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      letter-spacing: -.03em;
+    }
+
+    .verify-panel p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .verify-input {
+      width: 100%;
+      min-height: 110px;
+      resize: vertical;
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: white;
+      outline: none;
+    }
+
+    .verify-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .verify-result {
+      margin-top: 14px;
+      display: none;
+    }
+
+    .verify-result.show {
+      display: block;
+    }
+
+    .result-card {
+      border-radius: 20px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+    }
+
+    .result-card.success {
+      background: rgba(85,240,198,.08);
+      border-color: rgba(85,240,198,.18);
+    }
+
+    .result-card.warn {
+      background: rgba(247,200,115,.08);
+      border-color: rgba(247,200,115,.18);
+    }
+
+    .result-card.fail {
+      background: rgba(255,127,144,.08);
+      border-color: rgba(255,127,144,.18);
+    }
+
+    .result-title {
+      font-weight: 900;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .result-list {
+      display: grid;
+      gap: 8px;
+      color: #e8edf7;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 92px;
+      transform: translateX(-50%) translateY(10px);
+      background: rgba(12,18,32,.94);
+      color: white;
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: .22s ease;
+      z-index: 200;
+      box-shadow: 0 16px 34px rgba(0,0,0,.35);
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (min-width: 860px) {
+      body {
+        display: grid;
+        place-items: center;
+        padding: 28px;
+      }
+
+      .app {
+        border-radius: 44px;
+        min-height: 920px;
+        max-height: none;
+        box-shadow: 0 40px 120px rgba(0,0,0,.42);
+        border: 1px solid rgba(255,255,255,.12);
+        background: rgba(7,11,19,.35);
+        backdrop-filter: blur(18px);
+      }
+
+      .modal {
+        align-items: center;
+      }
+
+      .modal-sheet {
+        border-radius: 34px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <div class="brand-icon">✓</div>
+        CertiTrust
+      </div>
+      <div class="avatar" aria-label="user profile"></div>
+    </header>
+
+    <section class="hello">
+      <div class="eyebrow">Digital Credential Wallet</div>
+      <h1>my qualifications<br />Take it out like a wallet.</h1>
+      <p>It is a wallet-type certification service that stores digital certifications and immediately submits and verifies them with QR, link, and verification information.</p>
+    </section>
+
+    <section class="identity-card">
+      <div class="identity-head">
+        <div class="verified"><span class="verified-dot"></span> Verified Identity</div>
+        <div class="chip"></div>
+      </div>
+
+      <div class="identity-body">
+        <small>Credential owner</small>
+        <strong id="walletOwner">Hong Gil Dong</strong>
+      </div>
+
+      <div class="identity-foot">
+        <div>
+          Wallet ID
+          <b>CTW-2026-0001</b>
+        </div>
+        <div>
+          Active
+          <b id="activeCount">0</b>
+        </div>
+        <div>
+          Trust Score
+          <b>98.7</b>
+        </div>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <label class="search">
+        <span>🔎</span>
+        <input id="searchInput" type="text" placeholder="Search for credentials and issuing organizations" />
+      </label>
+      <button class="icon-btn" id="toggleStackBtn" title="Expand card">☰</button>
+    </section>
+
+    <div class="quick-actions">
+      <button class="quick-card" id="openSelectedQrBtn">
+        <div class="emoji">📱</div>
+        <div class="label">View my QR</div>
+      </button>
+      <button class="quick-card" id="openVerifyModalBtn">
+        <div class="emoji">✅</div>
+        <div class="label">QR verification</div>
+      </button>
+      <button class="quick-card" id="copySelectedLinkBtn">
+        <div class="emoji">📋</div>
+        <div class="label">Copy link</div>
+      </button>
+    </div>
+
+    <div class="section-title">
+      <h2>My Credentials</h2>
+      <span id="credentialCountLabel">0</span>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="filter-chip active" data-filter="all">all</button>
+      <button class="filter-chip" data-filter="valid">valid</button>
+      <button class="filter-chip" data-filter="soon">Expiration imminent</button>
+      <button class="filter-chip" data-filter="expired">expires</button>
+    </div>
+
+    <section class="wallet-stack" id="walletStack"></section>
+
+    <div class="stack-actions">
+      <div class="summary" id="stackSummary">Clicking on the card opens a certification details modal.</div>
+      <button class="subtle-btn" id="foldBtn">fold</button>
+    </div>
+
+    <div class="empty" id="emptyState">
+      There are no certifications that match your search or filter criteria.
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active">
+      <span class="icon">👛</span>
+      <span>Wallet</span>
+    </button>
+    <button class="nav-item">
+      <span class="icon">✅</span>
+      <span>Verify</span>
+    </button>
+    <button class="nav-item">
+      <span class="icon">📤</span>
+      <span>Share</span>
+    </button>
+    <button class="nav-item">
+      <span class="icon">⚙️</span>
+      <span>Settings</span>
+    </button>
+  </nav>
+
+  <!-- Detailed modal -->
+  <div class="modal" id="detailModal" aria-hidden="true">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+
+      <div class="modal-header">
+        <div>
+          <h3 id="detailTitle">AI Agent Builder Certificate</h3>
+          <p id="detailDescription">Detailed description of certification</p>
+        </div>
+        <button class="close-btn" data-close="detailModal">✕</button>
+      </div>
+
+      <div class="status-row" id="detailStatusRow"></div>
+
+      <div class="detail-hero">
+        <div class="verify-strip" id="detailVerifyStrip">
+          <div class="verify-icon" id="detailVerifyIcon">✓</div>
+          <div id="detailVerifyMessage">
+            The issuing agency's original data and verification hash match.<br />
+            Current status: Valid · Forgery verification completed
+          </div>
+        </div>
+        <div class="qr-box">
+          <div id="detailQr"></div>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info">
+          <span>owner</span>
+          <b id="dOwner">Hong Gil-dong</b>
+        </div>
+        <div class="info">
+          <span>Issuer</span>
+          <b id="dIssuer">Edunity Lab</b>
+        </div>
+        <div class="info">
+          <span>Issue date</span>
+          <b id="dIssued">2026.06.04</b>
+        </div>
+        <div class="info">
+          <span>expiration date</span>
+          <b id="dExpiry">2028.06.03</b>
+        </div>
+        <div class="info span-2">
+          <span>Certification number</span>
+          <div class="inline-copy">
+            <b id="dId">CERT-2026-0001</b>
+            <button class="copy-mini" id="copyIdBtn">copy</button>
+          </div>
+        </div>
+        <div class="info span-2">
+          <span>Verification URL</span>
+          <div class="inline-copy">
+            <b id="dVerifyUrl">https://certitrust.io/verify/CERT-2026-0001</b>
+            <button class="copy-mini" id="copyUrlBtn">copy</button>
+          </div>
+        </div>
+        <div class="info span-2">
+          <span>Verification Hash</span>
+          <div class="inline-copy">
+            <b id="dHash">0x91af74b2d3e198ae8cd2</b>
+            <button class="copy-mini" id="copyHashBtn">copy</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="chips" id="skillChips"></div>
+
+      <div class="timeline">
+        <div class="timeline-title">Verification history</div>
+        <div class="timeline-line" id="timeline"></div>
+      </div>
+
+      <div class="actions">
+        <button class="button primary" id="openQrModalFromDetailBtn">View QR larger</button>
+        <button class="button secondary" id="openVerifyFromDetailBtn">Verify this QR</button>
+        <button class="button ghost" id="copyAllInfoBtn">copy summary</button>
+        <button class="button secondary" data-close="detailModal">close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR View Modal -->
+  <div class="modal" id="qrModal" aria-hidden="true">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+
+      <div class="modal-header">
+        <div>
+          <h3 id="qrModalTitle">Share QR code</h3>
+          <p>You can check your eligibility status right away by passing this QR or link to the verifier.</p>
+        </div>
+        <button class="close-btn" data-close="qrModal">✕</button>
+      </div>
+
+      <div class="detail-hero" style="grid-template-columns:1fr;">
+        <div class="qr-box" style="width:100%; min-height:auto; padding:20px; border-radius:24px;">
+          <div id="largeQr"></div>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info span-2">
+          <span>QR payload</span>
+          <b id="qrPayloadText"></b>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="button primary" id="copyQrPayloadBtn">Copy QR value</button>
+        <button class="button secondary" id="copyQrLinkBtn">Copy verification link</button>
+        <button class="button ghost" id="openVerifyFromQrBtn">Verify this QR</button>
+        <button class="button secondary" data-close="qrModal">close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR verification modal -->
+  <div class="modal" id="verifyModal" aria-hidden="true">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+
+      <div class="modal-header">
+        <div>
+          <h3>QR code verification</h3>
+          <p>Paste the verification URL, certification number, or payload string included in the QR and check its validity.</p>
+        </div>
+        <button class="close-btn" data-close="verifyModal">✕</button>
+      </div>
+
+      <div class="verify-panel">
+        <h4>Verification input</h4>
+        <p>Example: <code>https://certitrust.io/verify/CERT-2026-0001</code> or <code>CERT-2026-0001</code></p>
+        <textarea class="verify-input" id="verifyInput" placeholder="Paste your QR value or verification URL here."></textarea>
+
+        <div class="verify-row">
+          <button class="button secondary" id="fillSelectedPayloadBtn">Retrieve selected certification values</button>
+          <button class="button primary" id="runVerifyBtn">Verify</button>
+        </div>
+
+        <div class="verify-result" id="verifyResult"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copied.</div>
+
+  <script>
+    const credentials = [
+      {
+        id: "CERT-2026-0001",
+        issuer: "Edunity Lab",
+        title: "AI Agent Builder Certificate",
+        holderKr: "Hong Gil-dong",
+        holderEn: "Hong Gil Dong",
+        issued: "2026.06.04",
+        expiry: "2028.06.03",
+        status: "valid",
+        badge: "VERIFIED",
+        type: "certificate",
+        description: "An official digital certification that verifies your ability to design AI agents, configure workflows, and utilize automation.",
+        verifyUrl: "https://certitrust.io/verify/CERT-2026-0001",
+        hash: "0x91af74b2d3e198ae8cd2",
+        theme: "linear-gradient(135deg, #2764ff, #20d6b1)",
+        skills: ["AI Agent", "Workflow", "Automation", "Prompt Design"],
+        timeline: [
+          { title: "Issuance done", text: "Edunity Lab issues qualifications and registers electronic signatures" },
+          { title: "On-chain anchoring", text: "Verification Hash matches anchor value" },
+          { title: "Recent Verification", text: "2026.06.04 · No forgery · Currently valid" }
+        ]
+      },
+      {
+        id: "CERT-2025-1043",
+        issuer: "CertiTrust Academy",
+        title: "Blockchain Credential Basic",
+        holderKr: "Hong Gil-dong",
+        holderEn: "Hong Gil Dong",
+        issued: "2025.11.21",
+        expiry: "2026.08.01",
+        status: "soon",
+        badge: "VALID",
+        type: "certificate",
+        description: "A digital certificate that certifies basic understanding of VC, DID, signature verification, and issuance structure.",
+        verifyUrl: "https://certitrust.io/verify/CERT-2025-1043",
+        hash: "0x44bc21ae75f1901cbb12",
+        theme: "linear-gradient(135deg, #2b3447, #111827)",
+        skills: ["Blockchain", "VC", "DID", "Verification"],
+        timeline: [
+          { title: "Issuance done", text: "Issuance of CertiTrust Academy" },
+          { title: "status update", text: "expires scheduled notification create" },
+          { title: "Recent verification", text: "2026.06.03 · Valid but expires imminent" }
+        ]
+      },
+      {
+        id: "BADGE-2025-7780",
+        issuer: "Digital Learning Lab",
+        title: "PBL Facilitator Badge",
+        holderKr: "Hong Gil-dong",
+        holderEn: "Hong Gil Dong",
+        issued: "2025.02.19",
+        expiry: "2027.02.18",
+        status: "valid",
+        badge: "BADGE",
+        type: "badge",
+        description: "This is a digital badge that certifies the ability to operate and facilitate project-based learning.",
+        verifyUrl: "https://certitrust.io/verify/BADGE-2025-7780",
+        hash: "0x8abf992e1028cdae004f",
+        theme: "linear-gradient(135deg, #9a5c16, #f0b451)",
+        skills: ["PBL", "Facilitation", "Learning Design"],
+        timeline: [
+          { title: "Badge issuance", text: "Digital Learning Lab badge issuance done" },
+          { title: "Verification synchronization", text: "Signature metadata and hash synchronization done" },
+          { title: "Latest verification", text: "2026.06.04 · valid" }
+        ]
+      },
+      {
+        id: "PASS-2024-1198",
+        issuer: "Impact School",
+        title: "Social Impact Design Sprint",
+        holderKr: "Hong Gil-dong",
+        holderEn: "Hong Gil Dong",
+        issued: "2024.05.11",
+        expiry: "2025.05.10",
+        status: "expired",
+        badge: "PASS",
+        type: "pass",
+        description: "This is the social innovation project sprint completion record. The current validity period has ended, but verification history can be viewed.",
+        verifyUrl: "https://certitrust.io/verify/PASS-2024-1198",
+        hash: "0xff761cbe1934aaf01d77",
+        theme: "linear-gradient(135deg, #512da8, #7c3aed)",
+        skills: ["Design Sprint", "Social Impact", "Team Project"],
+        timeline: [
+          { title: "Completion done", text: "Completion of Impact School program" },
+          { title: "Expires reached", text: "Valid period end processing" },
+          { title: "Recent Verification", text: "2026.06.02 · expires status" }
+        ]
+      }
+    ];
+
+    const walletStack = document.getElementById("walletStack");
+    const emptyState = document.getElementById("emptyState");
+    const searchInput = document.getElementById("searchInput");
+    const filters = document.getElementById("filters");
+    const credentialCountLabel = document.getElementById("credentialCountLabel");
+    const activeCount = document.getElementById("activeCount");
+    const toggleStackBtn = document.getElementById("toggleStackBtn");
+    const foldBtn = document.getElementById("foldBtn");
+    const stackSummary = document.getElementById("stackSummary");
+    const toast = document.getElementById("toast");
+
+    const detailModal = document.getElementById("detailModal");
+    const qrModal = document.getElementById("qrModal");
+    const verifyModal = document.getElementById("verifyModal");
+
+    let selectedId = credentials[0].id;
+    let currentFilter = "all";
+    let expanded = false;
+
+    document.getElementById("walletOwner").textContent = credentials[0].holderEn;
+
+    function getCredentialById(id) {
+      return credentials.find(c => c.id === id);
+    }
+
+    function getSelectedCredential() {
+      return getCredentialById(selectedId) || credentials[0];
+    }
+
+    function statusText(status) {
+      if (status === "valid") return "valid";
+      if (status === "soon") return "Expiration imminent";
+      if (status === "expired") return "expires";
+      return status;
+    }
+
+    function statusClass(status) {
+      if (status === "valid") return "valid";
+      if (status === "soon") return "soon";
+      if (status === "expired") return "expired";
+      return "valid";
+    }
+
+    function statusDetailMessage(status) {
+      if (status === "valid") {
+        return {
+          text: "The issuing agency's original data and verification hash match.<br />Current status: Valid · Forgery verification completed",
+          stripClass: "",
+          icon: "✓"
+        };
+      }
+      if (status === "soon") {
+        return {
+          text: "The issued data is normal and hash verification has been completed.<br />Current status: valid · expiration date imminent",
+          stripClass: "warn",
+          icon: "!"
+        };
+      }
+      return {
+        text: "Issuance history is confirmed, but currently the status is expires.<br />Current status: expires · Only history verification is possible",
+        stripClass: "expired",
+        icon: "!"
+      };
+    }
+
+    function filteredCredentials() {
+      const q = searchInput.value.trim().toLowerCase();
+      return credentials.filter(c => {
+        const byFilter = currentFilter === "all" ? true : c.status === currentFilter;
+        const bySearch =
+          !q ||
+          c.title.toLowerCase().includes(q) ||
+          c.issuer.toLowerCase().includes(q) ||
+          c.id.toLowerCase().includes(q);
+        return byFilter && bySearch;
+      });
+    }
+
+    function renderMiniQr(target, text) {
+      target.innerHTML = "";
+      new QRCode(target, {
+        text,
+        width: 44,
+        height: 44,
+        colorDark: "#0B1220",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+
+    function renderQr(targetSelector, text, size = 96) {
+      const target = typeof targetSelector === "string"
+        ? document.querySelector(targetSelector)
+        : targetSelector;
+
+      target.innerHTML = "";
+      new QRCode(target, {
+        text,
+        width: size,
+        height: size,
+        colorDark: "#0B1220",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+
+    function renderWallet() {
+      const list = filteredCredentials();
+      credentialCountLabel.textContent = `${list.length} pieces`;
+      activeCount.textContent = `${credentials.filter(c => c.status === "valid").length} active`;
+
+      walletStack.innerHTML = "";
+      walletStack.classList.toggle("expanded", expanded);
+
+      if (!list.length) {
+        emptyState.style.display = "block";
+        stackSummary.textContent = "There are no credentials to display.";
+        return;
+      }
+
+      emptyState.style.display = "none";
+      stackSummary.textContent = expanded
+        ? “I’m looking at all the cards.”
+        : "Clicking on the card opens a certification details modal.";
+
+      list.forEach((c, index) => {
+        const article = document.createElement("article");
+        article.className = "pass" + (c.id === selectedId ? " active" : "");
+        article.style.top = `${index * 66}px`;
+        article.style.zIndex = String(100 - index);
+        article.style.background = `
+          radial-gradient(circle at 84% 20%, rgba(255,255,255,.28), transparent 24%),
+          ${c.theme}
+        `;
+        article.style.transform = expanded ? "none" : `scale(${1 - index * 0.035})`;
+        article.style.opacity = expanded ? "1" : String(1 - index * 0.05);
+
+        article.innerHTML = `
+          <div class="pass-top">
+            <div>
+              <div class="issuer">${c.issuer}</div>
+              <div class="pass-title">${c.title}</div>
+            </div>
+            <div class="pass-badge">${c.badge}</div>
+          </div>
+          <div class="pass-bottom">
+            <div class="pass-date">
+              <span>status</span>
+              <b>${statusText(c.status)} · ${c.issued}</b>
+            </div>
+            <div class="mini-qr" data-qr="${c.verifyUrl}"></div>
+          </div>
+        `;
+
+        article.addEventListener("click", () => {
+          selectedId = c.id;
+          renderWallet();
+          openDetailModal(c);
+        });
+
+        walletStack.appendChild(article);
+        const qrTarget = article.querySelector(".mini-qr");
+        renderMiniQr(qrTarget, c.verifyUrl);
+      });
+
+      walletStack.style.minHeight = expanded ? "auto" : `${178 + Math.max(0, list.length - 1) * 66}px`;
+
+      const currentSelectedExists = list.some(c => c.id === selectedId);
+      if (!currentSelectedExists && list[0]) {
+        selectedId = list[0].id;
+      }
+    }
+
+    function renderDetailModal(credential) {
+      document.getElementById("detailTitle").textContent = credential.title;
+      document.getElementById("detailDescription").textContent = credential.description;
+      document.getElementById("dOwner").textContent = credential.holderKr;
+      document.getElementById("dIssuer").textContent = credential.issuer;
+      document.getElementById("dIssued").textContent = credential.issued;
+      document.getElementById("dExpiry").textContent = credential.expiry;
+      document.getElementById("dId").textContent = credential.id;
+      document.getElementById("dVerifyUrl").textContent = credential.verifyUrl;
+      document.getElementById("dHash").textContent = credential.hash;
+
+      const statusRow = document.getElementById("detailStatusRow");
+      statusRow.innerHTML = `
+        <span class="status-pill ${statusClass(credential.status)}">${statusText(credential.status)}</span>
+        <span class="status-pill chain">Blockchain hash anchoring</span>
+      `;
+
+      const detailVerifyStrip = document.getElementById("detailVerifyStrip");
+      const detailVerifyMessage = document.getElementById("detailVerifyMessage");
+      const detailVerifyIcon = document.getElementById("detailVerifyIcon");
+      const detailState = statusDetailMessage(credential.status);
+
+      detailVerifyStrip.className = "verify-strip" + (detailState.stripClass ? ` ${detailState.stripClass}` : "");
+      detailVerifyMessage.innerHTML = detailState.text;
+      detailVerifyIcon.textContent = detailState.icon;
+
+      const skillChips = document.getElementById("skillChips");
+      skillChips.innerHTML = credential.skills
+        .map(skill => `<span class="skill-chip"># ${skill}</span>`)
+        .join("");
+
+      const timeline = document.getElementById("timeline");
+      timeline.innerHTML = credential.timeline.map(item => `
+        <div class="timeline-item">
+          <b>${item.title}</b>
+          <div>${item.text}</div>
+        </div>
+      `).join("");
+
+      renderQr("#detailQr", credential.verifyUrl, 96);
+    }
+
+    function openModal(modal) {
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(modal) {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+
+      const anyOpen = document.querySelector(".modal.open");
+      if (!anyOpen) {
+        document.body.style.overflow = "";
+      }
+    }
+
+    function openDetailModal(credential) {
+      renderDetailModal(credential);
+      openModal(detailModal);
+    }
+
+    function openQrModal(credential) {
+      document.getElementById("qrModalTitle").textContent = `${credential.title} QR`;
+      document.getElementById("qrPayloadText").textContent = credential.verifyUrl;
+      renderQr("#largeQr", credential.verifyUrl, 240);
+      openModal(qrModal);
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 1800);
+    }
+
+    async function copyText(text, label = "copy") {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(`${label} has been set.`);
+      } catch (e) {
+        showToast("copy failed.");
+      }
+    }
+
+    function toggleExpanded() {
+      expanded = !expanded;
+      toggleStackBtn.textContent = expanded ? "✕" : "☰";
+      foldBtn.textContent = expanded ? "fold" : "Expand";
+      renderWallet();
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      [...filters.querySelectorAll(".filter-chip")].forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.filter === filter);
+      });
+
+      const list = filteredCredentials();
+      if (list.length && !list.some(c => c.id === selectedId)) {
+        selectedId = list[0].id;
+      }
+      renderWallet();
+    }
+
+    function extractCredentialFromPayload(rawInput) {
+      if (!rawInput) return null;
+
+      const input = rawInput.trim();
+
+      let found = credentials.find(c =>
+        c.verifyUrl === input ||
+        c.id === input ||
+        input.includes(c.id) ||
+        input.includes(c.verifyUrl)
+      );
+
+      if (found) return found;
+
+      const pattern = /(CERT-\d{4}-\d+|BADGE-\d{4}-\d+|PASS-\d{4}-\d+)/i;
+      const match = input.match(pattern);
+      if (match) {
+        found = credentials.find(c => c.id.toLowerCase() === match[1].toLowerCase());
+      }
+
+      return found || null;
+    }
+
+    function buildVerifyResult(credential, rawInput) {
+      const resultBox = document.getElementById("verifyResult");
+
+      if (!credential) {
+        resultBox.className = "verify-result show";
+        resultBox.innerHTML = `
+          <div class="result-card fail">
+            <div class="result-title">Verification failed</div>
+            <div class="result-list">
+              <div>The registered certification information could not be found in the entered QR value.</div>
+              <div>Format example: <b>https://certitrust.io/verify/CERT-2026-0001</b></div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const cls =
+        credential.status === "valid" ? "success" :
+        credential.status === "soon" ? "warn" : "fail";
+
+      const stateLabel = statusText(credential.status);
+      const integrity = "Hash Match / Issuer Signature Verification";
+      const issuerCheck = `Check ${credential.issuer} issuance record`;
+      const inputPreview = rawInput.length > 90 ? rawInput.slice(0, 90) + "..." : rawInput;
+
+      resultBox.className = "verify-result show";
+      resultBox.innerHTML = `
+        <div class="result-card ${cls}">
+          <div class="result-title">Verification result: ${stateLabel}</div>
+          <div class="result-list">
+            <div><b>Credentials</b> ${credential.title}</div>
+            <div><b>Certification number</b> ${credential.id}</div>
+            <div><b>Issuer</b> ${issuerCheck}</div>
+            <div><b>Integrity</b> ${integrity}</div>
+            <div><b>expiration date</b> ${credential.expiry}</div>
+            <div><b>Input payload</b> ${inputPreview}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function verifyCurrentInput() {
+      const rawInput = document.getElementById("verifyInput").value.trim();
+      if (!rawInput) {
+        showToast("QR value to verify is required.");
+        return;
+      }
+
+      const credential = extractCredentialFromPayload(rawInput);
+      buildVerifyResult(credential, rawInput);
+    }
+
+    // event
+    filters.addEventListener("click", (e) => {
+      const btn = e.target.closest(".filter-chip");
+      if (!btn) return;
+      setFilter(btn.dataset.filter);
+    });
+
+    searchInput.addEventListener("input", () => {
+      const list = filteredCredentials();
+      if (list.length && !list.some(c => c.id === selectedId)) {
+        selectedId = list[0].id;
+      }
+      renderWallet();
+    });
+
+    toggleStackBtn.addEventListener("click", toggleExpanded);
+    foldBtn.addEventListener("click", toggleExpanded);
+
+    document.getElementById("openSelectedQrBtn").addEventListener("click", () => {
+      openQrModal(getSelectedCredential());
+    });
+
+    document.getElementById("copySelectedLinkBtn").addEventListener("click", () => {
+      const current = getSelectedCredential();
+      copyText(current.verifyUrl, "Verify link is copy");
+    });
+
+    document.getElementById("openVerifyModalBtn").addEventListener("click", () => {
+      openModal(verifyModal);
+    });
+
+    document.getElementById("copyIdBtn").addEventListener("click", () => {
+      copyText(getSelectedCredential().id, "Certification number is copy");
+    });
+
+    document.getElementById("copyUrlBtn").addEventListener("click", () => {
+      copyText(getSelectedCredential().verifyUrl, "Verification URL is copy");
+    });
+
+    document.getElementById("copyHashBtn").addEventListener("click", () => {
+      copyText(getSelectedCredential().hash, "Verification Hash is copy");
+    });
+
+    document.getElementById("copyAllInfoBtn").addEventListener("click", () => {
+      const c = getSelectedCredential();
+      const text = [
+        `[${c.title}]`,
+        `owner: ${c.holderKr}`,
+        `Issuer: ${c.issuer}`,
+        `Certification number: ${c.id}`,
+        `Issue date: ${c.issued}`,
+        `expiration date: ${c.expiry}`,
+        `status: ${statusText(c.status)}`,
+        `Verification URL: ${c.verifyUrl}`,
+        `Verification Hash: ${c.hash}`
+      ].join("\n");
+      copyText(text, "Certificate summary copy");
+    });
+
+    document.getElementById("openQrModalFromDetailBtn").addEventListener("click", () => {
+      closeModal(detailModal);
+      openQrModal(getSelectedCredential());
+    });
+
+    document.getElementById("openVerifyFromDetailBtn").addEventListener("click", () => {
+      const c = getSelectedCredential();
+      document.getElementById("verifyInput").value = c.verifyUrl;
+      buildVerifyResult(c, c.verifyUrl);
+      closeModal(detailModal);
+      openModal(verifyModal);
+    });
+
+    document.getElementById("copyQrPayloadBtn").addEventListener("click", () => {
+      copyText(getSelectedCredential().verifyUrl, "QR payload is copy");
+    });
+
+    document.getElementById("copyQrLinkBtn").addEventListener("click", () => {
+      copyText(getSelectedCredential().verifyUrl, "Verify link is copy");
+    });
+
+    document.getElementById("openVerifyFromQrBtn").addEventListener("click", () => {
+      const c = getSelectedCredential();
+      document.getElementById("verifyInput").value = c.verifyUrl;
+      buildVerifyResult(c, c.verifyUrl);
+      closeModal(qrModal);
+      openModal(verifyModal);
+    });
+
+    document.getElementById("fillSelectedPayloadBtn").addEventListener("click", () => {
+      const c = getSelectedCredential();
+      document.getElementById("verifyInput").value = c.verifyUrl;
+      showToast("The selected certification QR value has been entered.");
+    });
+
+    document.getElementById("runVerifyBtn").addEventListener("click", verifyCurrentInput);
+
+    document.getElementById("verifyInput").addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        verifyCurrentInput();
+      }
+    });
+
+    document.querySelectorAll("[data-close]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const modalId = btn.getAttribute("data-close");
+        closeModal(document.getElementById(modalId));
+      });
+    });
+
+    document.querySelectorAll(".modal").forEach(modal => {
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal(modal);
+      });
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        document.querySelectorAll(".modal.open").forEach(modal => closeModal(modal));
+      }
+    });
+
+    // initial render
+    renderWallet();
+  </script>
+  <footer class="site-footer" style="background: #09090b; border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 32px 20px; text-align: center; color: #a1a1aa; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company name: Edunity Lab Co., Ltd.</span> | <span>Representative: Lee Ki-taek</span> | <span>Business address: 2nd floor, Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul (Yeoksam-dong, Taerim Building)</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Contact: (02)6240-0053</span> | <span>Business registration number: 132-86-35644</span> | <span>Mail order business report number: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #71717a; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!-- Slide 70: [Divider Slide] SESSION 07 -->
+<section class="slide-card divider-slide session-7" id="slide-70">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 7 | 7th session. Development (complete functionality with AI)</div>
+    <div class="slide-title">[Session Opening] Day 7. Development (complete functionality with AI)</div>
+  </div>
+
+  <div class="divider-content">
+    <div class="divider-day">DAY 7</div>
+    <div class="divider-tag">SESSION 07</div>
+    <h1 class="divider-title">Development (complete functionality with AI)</h1>
+    <p class="divider-subtitle">Dynamic event binding, localStorage integration, back state maintenance and repeated hitting prevention lock</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> Form submission & local storage (Task 01)</div>
+      <div class="topic-badge"><span>02</span> Scenario Filter Caching (Task 02)</div>
+      <div class="topic-badge"><span>03</span> Duplicate repeated lock & E2E FGI verification (Task 03 / Mission 01/02)</div>
+    </div>
+  </div>
+
+  <div class="slide-body" style="display: none;">
+    <p>7th session. Development (Completing Features with AI) Session Start</p>
+  </div>
+  <div class="presenter-notes" style="display:none;">In the 7th day session, we will bind click/send events and save them to local storage to give life to static wireframes, introduce SessionStorage caching to prevent information loss when going back, and add a lock variable to prevent duplicate payment/application attacks.</div>
+</section>
+
+<!-- Slide 71: Day 7 opening & 19th session information -->
+<section class="slide-card session-7" id="slide-71">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">19th session. Connecting functions and loading data</div>
+      <div class="slide-title">7th day opening & 19th session information</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 7</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">subject:</span> Feature Integration</li>
+      <li><span class="highlight">Core Values:</span> Basic learning of functional linkage that links static markup structures with click actions and data storage logic</li>
+      <li><span class="highlight">Time plan (total 180 minutes):</span>
+        <ul>
+          <li>Introduction (30 minutes) - Header/Button unresponsive catastrophe and event listener mechanism</li>
+          <li>Lab explanation (30 minutes) - Key points for checking validity in day7_unconnected_feature.html source</li>
+          <li>Practice (90 minutes) - Combining local storage synchronization and subscription page conversion script</li>
+          <li>Share and Feedback (30 minutes) - preventDefault error control feedback</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">In class 19, you will learn how to bind the submit event to an HTML form and control browser storage.</div>
+  </div>
+</section>
+
+<!-- Slide 72: Introduction question: The screen is drawn well, but there is no response when clicking. -->
+<section class="slide-card session-7" id="slide-72">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">19th session. Connecting functions and loading data</div>
+      <div class="slide-title">Introduction question: The screen is drawn well, but there is no response when clicking.</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 7</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">Limitations of static wireframes:</span>
+            <ul>
+              <li>“I pressed the screen completion button, but the registration information was not entered into the database (or browser background) and nothing happened.”</li>
+              <li>Lack of validation and storage flow to ensure that the user entered correct input information.</li>
+            </ul>
+          </li>
+          <li><span class="highlight">Assembling event bindings with AI:</span>
+            <ul>
+              <li>Automation of `addEventListener` code and `localStorage` data extraction and binding.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="image-container"
+        style="display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px;">
+        <img alt="Event binding schematic diagram" src="images/slide72_illustration.png"
+          style="max-width: 100%; max-height: 320px; border-radius: 8px; object-fit: contain;" />
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">Learn how to build a framework by requesting event flow from AI to link HTML and Javascript functions.</div>
+  </div>
+</section>
+
+<!-- Slide 73: Practice Task 01: Feature Integration -->
+<section class="slide-card session-7" id="slide-73">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">19th session. Connecting functions and loading data</div>
+      <div class="slide-title">Practice Task 01: Connecting functions</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 7</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: Create day7_unconnected_feature.html</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Static HTML with input form structure required for login/signup.</div>
+      </li>
+      <li><span class="highlight">Practice instructions: Generate and send event linkage script to AI window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Event binding integration prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">We are trying to connect a JavaScript feature to the sign-up screen code in day7_unconnected_feature.html provided. Please write an integration script that 1) checks the validity of input values ​​when the sign-up complete button is clicked, 2) saves the information in the browser's local storage, and 3) moves to the dashboard screen when successful. Please also suggest missing cancellation button response or duplicate subscription check logic.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Combine the `localStorage.setItem` statement written by AI with the source and check whether subscription data is accumulated in the browser Application tab.</div>
+  </div>
+</section>
+
+<!-- Slide 74: Practice Progress Task 02: Verifying User Scenario (User Scenario Review) -->
+<section class="slide-card session-7" id="slide-74">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">20th session. Scenario verification and simultaneous payment lock device design</div>
+      <div class="slide-title">Practice Progress Task 02: Verifying User Scenario</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 7</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: Create day7_user_flow.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Sign Up ➔ List Filter Search ➔ Book Details ➔ Go Back ➔ Lost Filter Anger Scenario.</div>
+      </li>
+      <li><span class="highlight">Practice instructions: Send user state maintenance prompt to AI window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>State Caching Preservation Prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">By analyzing the step-by-step call sequence of the provided day7_user_flow.md specification (Sign up ➔ Expert search ➔ Detailed reservation ➔ Virtual payment), diagnose the two core sections where information loss is most likely to occur when a user takes this route, and suggest a state preservation logic structure as an alternative code to prevent this. (maintaining SessionStorage filters, etc.)</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">We complete a caching utility that backs up and restores the filter search values ​​entered by the user to `sessionStorage` when the screen returns.</div>
+  </div>
+</section>
+
+<!-- Slide 75: Practice Task 03: Finding feature errors (Feature Validation) -->
+<section class="slide-card session-7" id="slide-75">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">20th session. Scenario verification and simultaneous payment lock device design</div>
+      <div class="slide-title">Practice Task 03: Finding feature errors (Feature Validation)</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 7</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Prepare data: prepare day7_feature_validation.js</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">A vulnerable logic file that does not have duplicate guard lock variables and can be applied for in the past.</div>
+      </li>
+      <li><span class="highlight">Practice Instructions: Send duplicate lock prompt to AI window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Multi-hit duplicate guard prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Please review the reservation request logic in the provided day7_feature_validation.js file. Please suggest a final verification code that detects 1) the vulnerability of duplicate reservation requests (button pressing) and 2) the possibility of application errors in the past of the reservation date, and adds the disabled state processing and date validity period check to prevent these.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">The moment you press the button, it is processed as ‘disabled’ and an inactivity count is set to block duplicate reservation entries by double-clicking.</div>
+  </div>
+</section>
+
+<!-- Slide 76: Mission 01: Check service completeness with AI (Service Audit) -->
+<section class="slide-card session-7" id="slide-76">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">21st session. Availability Quality Auditing and E2E Final Verification</div>
+      <div class="slide-title">Mission 01: Check service completeness with AI</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 7</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Review loading feedback (Spinner) and exception handling:</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 3px 0 5px 0;">Audit of the presence of a spinner to prevent the illusion of screen stiffness when waiting for communication and the try-catch exception handling due to storage capacity limitations.</div>
+      </li>
+      <li><span class="highlight">Record of priority findings:</span>
+        <div style="font-size:13px; color: var(--text-secondary); margin-top:5px;">Based on the combined feedback guidelines suggested by AI, the loading overlay component was configured and the `day7_service_audit.md` report was completed.</div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">By applying UI feedback that shows a spinner when a button responds, it exposes whether the system is active or not without cognitive friction.</div>
+  </div>
+</section>
+
+<!-- Slide 77: Mission 02: Try it from start to finish (E2E Walkthrough) -->
+<section class="slide-card session-7" id="slide-77">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">21st session. Availability Quality Auditing and E2E Final Verification</div>
+      <div class="slide-title">Mission 02: Try it from start to finish</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 7</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Virtual Silver Persona E2E Chat Simulation:</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 3px 0 5px 0;">An appreciation of the journey from signing up to completing local storage from the perspective of a novice self-employed person in his 50s who is not good at paying with digital smart devices.</div>
+      </li>
+      <li><span class="highlight">Check and save scenarios:</span>
+        <div style="font-size:13px; color: var(--text-secondary); margin-top:5px;">Sign up ➔ Filter category search (SessionStorage supplementary confirmation) ➔ Reservation confirmation spinner (OK) Save verification certificate `day7_e2e_validation.md`, which matrixes the steps.</div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">User-centered testing (E2E) is performed using AI mock test role-playing to produce flawless code with no deviation risk.</div>
+  </div>
+</section>
+
+<!-- Slide 78: Summary: Day 7 Key Recap -->
+<section class="slide-card session-7" id="slide-78">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">21st session. Availability Quality Auditing and E2E Final Verification</div>
+      <div class="slide-title">Summary: Day 7 Key Recap</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 7</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Day 7 Key Takeaways:</span>
+        <ul>
+          <li><span class="highlight">Giving Static UI Life (Integration):</span> Combine click/form submission events with `localStorage` data loading.</li>
+          <li><span class="highlight">Caching of itinerary information:</span> Established a SessionStorage backup that restores the filter state when going back after moving to the detail screen.</li>
+          <li><span class="highlight">Abnormal manipulation protection (Lock):</span> Duplicate DB loading prevention due to repeated hitting disabled lock and past date blocking guard set up.</li>
+          <li><span class="highlight">Preview for the next session:</span> Day 8. Creating Member Services (User Management)</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">At the end of the 7th day, we completed the development exercise of planting dynamic functions on the screen. Next on the 8th day, we will work on eliminating barriers to membership management, the flower of new user onboarding, and designing brute force security measures.</div>
+  </div>
+</section>

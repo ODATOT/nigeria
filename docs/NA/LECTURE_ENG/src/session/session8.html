@@ -1,0 +1,263 @@
+<!-- Slide 79: [Divider Slide] SESSION 08 -->
+<section class="slide-card divider-slide session-8" id="slide-79">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 8 | 8th session. Creating Member Services (User Management)</div>
+    <div class="slide-title">[Session Opening] Day 8. Creating Member Services (User Management)</div>
+  </div>
+
+  <div class="divider-content">
+    <div class="divider-day">DAY 8</div>
+    <div class="divider-tag">SESSION 08</div>
+    <h1 class="divider-title">Create a membership service</h1>
+    <p class="divider-subtitle">Resolving friction blocks, preventing duplicate subscriptions, brute force attack security and quality evaluation</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> Member Guidelines & Roadmap (Task 01)</div>
+      <div class="topic-badge"><span>02</span> Friction Block UX Improvement (Task 02)</div>
+      <div class="topic-badge"><span>03</span> Consistency Audit & Silver Onboarding FGI (Task 03 / Mission 01/02)</div>
+    </div>
+  </div>
+
+  <div class="slide-body" style="display: none;">
+    <p>8th session. Create a Member Service (User Management) Session Start</p>
+  </div>
+  <div class="presenter-notes" style="display:none;">In the 8th day session, you will learn how to minimize sign-up fatigue when a user first enters and becomes a member, and how to design an integrated warning message to prevent account takeover when a duplicate sign-up check is valid and a sign-in failure occurs.</div>
+</section>
+
+<!-- Slide 80: Day 8 opening & 22nd session information -->
+<section class="slide-card session-8" id="slide-80">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">22nd session. Membership feature design and implementation priorities</div>
+      <div class="slide-title">8th day opening & 22nd session information</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 8</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">subject:</span> User Feature Planning</li>
+      <li><span class="highlight">Core Values:</span> Coordination of onboarding function priorities considering the balance of development limitations and user convenience</li>
+      <li><span class="highlight">Time plan (total 180 minutes):</span>
+        <ul>
+          <li>Introduction (30 minutes) - Balance between greed to receive all addresses/referrals and 3-second sign-up</li>
+          <li>Lab Description (30 minutes) - day8_service_intro.md Service definition analysis</li>
+          <li>Practice progress (90 minutes) - Required (email sign-up)/optional (SNS linkage) Build skeleton list and table</li>
+          <li>Sharing and Feedback (30 minutes) - Upon withdrawal of membership, personal information will be immediately destroyed and pending processing and inspection.</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">In the 22nd session, an implementation checklist will be established to manage the start and end of member accounts (signup/login/withdrawal).</div>
+  </div>
+</section>
+
+<!-- Slide 81: Introduction Question: Catastrophe of driving customers away with 15 input fields due to excessive planning motivation -->
+<section class="slide-card session-8" id="slide-81">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">22nd session. Membership feature design and implementation priorities</div>
+      <div class="slide-title">Introduction Question: Catastrophe of driving customers away with 15 input fields due to excessive planning motivation</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 8</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">Friction Block:</span>
+            <ul>
+              <li>“You must fill out all 15 fields, including ID, password, detailed address, recommender ID, and marketing consent, to be allowed to sign up.” ➔ 70% escape at the sign-up stage before payment.</li>
+              <li>The worst cognitive frustration is that when one error occurs, all existing input data (passwords, etc.) is reset.</li>
+            </ul>
+          </li>
+          <li><span class="highlight">way out:</span>
+            <ul>
+              <li>Receive only an email/password and approve the subscription (step 1) ➔ Instruct the user to enter the delivery address when applying for the main reservation (step 2, Friction Delay).</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="image-container"
+        style="display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px;">
+        <img alt="Barriers to sign up" src="images/slide81_illustration.png"
+          style="max-width: 100%; max-height: 320px; border-radius: 8px; object-fit: contain;" />
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">Learn route planning that simulates the cognitive load felt by users with AI and divides necessary fields by viewpoint.</div>
+  </div>
+</section>
+
+<!-- Slide 82: Practice Progress Task 01: User Feature Planning -->
+<section class="slide-card session-8" id="slide-82">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">22nd session. Membership feature design and implementation priorities</div>
+      <div class="slide-title">Practice Task 01: Designing member functions</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 8</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: Create day8_service_intro.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Description of the basic purpose and target user age group of the consultation reservation matching platform.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Send Membership Requirement Derivation Prompt to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Member Design Brainstorming Prompts (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Based on the provided service overview (day8_service_intro.md), brainstorm a list of membership management features you need in your booking platform. Please organize the list by dividing it into 1) essential basic functions and 2) optional extended functions, and return the priority implementation checklist in table form to check development progress.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">AI establishes essential functions (subscription, login, reissue) and additional functions (SNS joint login, modification of My Page information).</div>
+  </div>
+</section>
+
+<!-- Slide 83: Practice progress Task 02: Review membership features from a user perspective (User Flow Review) -->
+<section class="slide-card session-8" id="slide-83">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">23rd session. Cognitive friction point decomposition and consistency verification</div>
+      <div class="slide-title">Practice Task 02: Review of user perspective features</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 8</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: Create day8_signup_spec.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Specifications include requiring users to unconditionally press the ID duplicate check button and the absence of a password regular expression hint guide.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Sending Usability Feedback Prompts to the AI ​​Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Sign-up Friction Thank You Prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">By analyzing the provided membership sign-up specification day8_signup_spec.md, please point out three usability impediments that regular users signing up for the first time will encounter. Also, please suggest an improvement report (User Flow Report) to reduce the number of input forms and prevent password resets in case of errors.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">We derive a UX improvement report that determines whether there is prior exposure to the guide text and delays steps.</div>
+  </div>
+</section>
+
+<!-- Slide 84: Practice Task 03: Checking member functions (User Feature Review) -->
+<section class="slide-card session-8" id="slide-84">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">23rd session. Cognitive friction point decomposition and consistency verification</div>
+      <div class="slide-title">Practice Task 03: Checking member functions</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 8</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Prepare data: prepare day8_user_service.js</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">A dangerous JavaScript draft that does not check for duplicate subscriptions and causes duplicate emails to be stored.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Send Consistency Audit Prompt to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Consistency Audit and Security Uniformity Prompts (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Please audit the provided day8_user_service.js membership registration and login script to identify defects such as 1) risk of missing duplicate registration checks, 2) immediate discarding of existing passwords when password is lost, and suggest a final JavaScript improvement with reinforced effective guards to increase service stability. (Includes login error failure message integration and supplementation)</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">In case of login error, the weaknesses of allowing account hunting by giving excessively different "Email not found" and "Incorrect password" messages are sorted into a single notice.</div>
+  </div>
+</section>
+
+<!-- Slide 85: Mission 01: Become a first-time user (First-Time User) -->
+<section class="slide-card session-8" id="slide-85">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">24th session. Silver Tier Onboarding Mock Test & Multidimensional Audit</div>
+      <div class="slide-title">Mission 01: Become a first-time user</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 8</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Silver virtual user persona matching in his 60s:</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 3px 0 5px 0;">Collect emotional response logs that say, “It’s annoying because the input form is reset when the password conditions are incorrect.”</div>
+      </li>
+      <li><span class="highlight">Create and save the improvement script:</span>
+        <div style="font-size:13px; color: var(--text-secondary); margin-top:5px;">Remove the manual duplicate check button and install automatic duplicate audit logic in the background at the time of input focus out (`blur`) and summarize `day8_first_user_review.md`.</div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">By applying a real-time password rule compliance feedback indicator, we eliminate the friction of silver users leaving membership.</div>
+  </div>
+</section>
+
+<!-- Slide 86: Mission 02: Evaluate member service quality (Usability Metric) -->
+<section class="slide-card session-8" id="slide-86">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">24th session. Silver Tier Onboarding Mock Test & Multidimensional Audit</div>
+      <div class="slide-title">Mission 02: Evaluate member service quality</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 8</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Scoring audit of three quality criteria:</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 3px 0 5px 0;">Multi-dimensional scoring was carried out including operability, error prevention, and security safety (overall 3.9 / 5.0).</div>
+      </li>
+      <li><span class="highlight">Save quality metrics:</span>
+        <div style="font-size:13px; color: var(--text-secondary); margin-top:5px;">Markdown quality report `day8_usability_evaluation.md`, which analyzed the removal of security hacking vulnerabilities and guaranteed 3-second sign-up movement, has been saved.</div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Verify that the integrated error copy prescription that neutralizes random attacks is finally included.</div>
+  </div>
+</section>
+
+<!-- Slide 87: Summary: Day 8 Key Recap -->
+<section class="slide-card session-8" id="slide-87">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">24th session. Silver Tier Onboarding Mock Test & Multidimensional Audit</div>
+      <div class="slide-title">Summary: Day 8 Key Recap</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 8</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Day 8 Key Takeaways:</span>
+        <ul>
+          <li><span class="highlight">Onboarding:</span> Friction delay is distributed through 15 dense input windows into the 1st (immediate sign-up) and 2nd (fill in at the time of first reservation).</li>
+          <li><span class="highlight">Duplicate data protection (Integrity):</span> blur Build a guard that identifies duplicate emails when out of focus.</li>
+          <li><span class="highlight">Security Exception Control (Security):</span> Integrate ID/PW error phrases to cut off risk of account collection hint leakage.</li>
+          <li><span class="highlight">Preview for the next session:</span> Day 9. Designing a Payment Service</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Day 8 membership processing completed. Next, on the 9th day, we will plan guidelines for shortening the three stages of the payment flow, which are the final destination of platform profits, and responding to payment failure exceptions such as exceeding the limit.</div>
+  </div>
+</section>

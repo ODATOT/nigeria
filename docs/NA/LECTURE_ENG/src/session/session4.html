@@ -1,0 +1,279 @@
+<!-- Slide 43: [Divider Slide] SESSION 04 -->
+<section class="slide-card divider-slide session-4" id="slide-43">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 4 | 4th session. Technical design (API design and interface definition)</div>
+    <div class="slide-title">[Session Opening] Day 4. Technical design (API design and interface definition)</div>
+  </div>
+
+  <div class="divider-content">
+    <div class="divider-day">DAY 4</div>
+    <div class="divider-tag">SESSION 04</div>
+    <h1 class="divider-title">API design and interface definition</h1>
+    <p class="divider-subtitle">Standard API contract creation, planning-API mismatch auditing, and error specification architecture review</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> API contract & discrepancy detection (Task 01/02)</div>
+      <div class="topic-badge"><span>02</span> Impact of API changes (Task 03)</div>
+      <div class="topic-badge"><span>03</span> RESTful Architecture Review & Testing (Mission 01/02)</div>
+    </div>
+  </div>
+
+  <div class="slide-body" style="display: none;">
+    <p>4th session. Start of technical design (API design and interface definition) session</p>
+  </div>
+  <div class="presenter-notes" style="display:none;">In the 4th day session, we will learn how to write an API contract to prevent friction between front-back developers, detect missing fields, RESTful naming rules and RFC 7807 standard error handling, and test scenario planning.</div>
+</section>
+
+<!-- Slide 44: Day 4 opening & 10th session information -->
+<section class="slide-card session-4" id="slide-44">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">10th session. API contract writing and discrepancy auditing</div>
+      <div class="slide-title">4th day opening & 10th session information</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 4</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">subject:</span> API Contract Generation</li>
+      <li><span class="highlight">Core Values:</span> By agreeing on communication standards in advance, parallel mock development of the front-end is guaranteed even when the back-end is not complete.</li>
+      <li><span class="highlight">Time plan (total 180 minutes):</span>
+        <ul>
+          <li>Introduction (30 minutes) - Risk of communication failure caused by API specification/variable type mismatch</li>
+          <li>Lab Description (30 minutes) - How day4_requirements.md and day4_screen_definition.md contrast</li>
+          <li>Hands-on training (90 minutes) - Building an API contract Req/Res JSON model and mismatch detection report</li>
+          <li>Sharing and Feedback (30 minutes) - Review of detection of missing rating field</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">In the 10th session, you will learn how to write a contract to agree on a back-end communication interface based on screen requirements and UI configuration.</div>
+    <div class="visual-guide-notes" style="display:none;">Use of network mesh node graphics reminiscent of REST API communication architecture.</div>
+  </div>
+</section>
+
+<!-- Slide 45: Introduction question: Errors caused by variable name mismatch and type ambiguity -->
+<section class="slide-card session-4" id="slide-45">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">10th session. API contract writing and discrepancy auditing</div>
+      <div class="slide-title">Introduction question: Errors caused by variable name mismatch and type ambiguity</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 4</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">Limitations of verbal API planning:</span> “I’ll send you my specialist ID and date when you make your appointment.” ➔ Development stage conflicts occur:
+            <ul>
+              <li><span class="highlight">Type ambiguous:</span> It is unclear whether the date format is `YYYY-MM-DD` or `ISO-8601`, causing a server error.</li>
+              <li><span class="highlight">Variable name is different:</span> The frontend sends `expertId`, but the backend receives it as `expert_id`, resulting in a null pointer error.</li>
+            </ul>
+          </li>
+          <li><span class="highlight">way out:</span> API contract documentation defining English name and data type based on screen UI required data.</li>
+        </ul>
+      </div>
+      <div class="image-container"
+        style="display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px;">
+        <img alt="API interface error" src="images/slide45_illustration.png"
+          style="max-width: 100%; max-height: 320px; border-radius: 8px; object-fit: contain;" />
+      </div>
+    </div>
+    <div class="presenter-notes" style="display:none;">If you throw screen UI composition fields and plan sentences to AI, it can automatically derive API specifications with the correct English variable names and data types.</div>
+    <div class="visual-guide-notes" style="display:none;">Contrast debugging terminal screen capture with mismatched front-end code snippets and back-end JSON payload.</div>
+  </div>
+</section>
+
+<!-- Slide 46: Practice Task 01: Creating an API contract (API Contract) -->
+<section class="slide-card session-4" id="slide-46">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">10th session. API contract writing and discrepancy auditing</div>
+      <div class="slide-title">Practice Task 01: Creating an API contract</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 4</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: create day4_requirements.md, day4_screen_definition.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Fill in the necessary requirements for consultation reservation application (token required, date and time entered) and screen specifications (ratings and stars displayed, reservation fee displayed).</div>
+      </li>
+      <li><span class="highlight">Practice instructions: Send API contract derivation prompt to AI window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>API contract creation prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Based on the provided requirements definition and screen definition, derive a list of required APIs and create a standard API contract by defining the types of Request and Response fields and English variable names.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">AI maps UI properties on the screen to backend response fields to build an API contract JSON draft that complies with RESTful rules.</div>
+    <div class="visual-guide-notes" style="display:none;">A design in which the generated `POST /api/v1/reservations` JSON Body properties are exposed in a tree structure.</div>
+  </div>
+</section>
+
+<!-- Slide 47: Practice progress Task 02: API mismatch detection (API Consistency Check) -->
+<section class="slide-card session-4" id="slide-47">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">10th session. API contract writing and discrepancy auditing</div>
+      <div class="slide-title">Practice progress Task 02: API mismatch detection</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 4</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: Create day4_api_specification_v1.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Draft distributed API list (only expert ID/name when querying, no payment amount when requesting a reservation).</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Send API Mismatch Check Prompt to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>API Mismatch Check Prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Cross-check the provided day4_requirements.md, day4_screen_definition.md, and day4_api_specification_v1.md files to find API endpoints and fields that are inconsistent or missing from planning requirements or screen UI design, and create a review report. (Please detect missing expert rating star_rating and absence of reservation approval API)</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">AI auditors cross-detect inconsistencies in which fields required for policies or screens specified in the plan are omitted from the actual API specifications.</div>
+    <div class="visual-guide-notes" style="display:none;">Table entries with missing fields are displayed in a fluorescent yellow warning window for contrast.</div>
+  </div>
+</section>
+
+<!-- Slide 48: Practice progress Task 03: Analysis of API change impact (API Impact Analysis) -->
+<section class="slide-card session-4" id="slide-48">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">11th session. API impact tracking and global architecture review</div>
+      <div class="slide-title">Practice progress Task 03: Analysis of API change impact</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 4</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: Create day4_api_change_request.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">Excluding `payment_amount` from the reservation API, the final payment is separately called as `POST /api/v1/payments`.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Send API Impact Analysis Prompt to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>API Impact Analysis Prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Analyze the contents of the provided API change request (day4_api_change_request.md) to derive a list of other system areas and documents affected when modifying the reservation request API, and prepare an API impact analysis report that can be immediately shared with team members.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">When API parameters change, the front end comprehensively tracks the screen UI view information that needs to be changed and the payment API call logic that needs to be transferred.</div>
+    <div class="visual-guide-notes" style="display:none;">Exposure of API sequence diagram where deleted parameters are transferred and linked to payment completion flow.</div>
+  </div>
+</section>
+
+<!-- Slide 49: Mission 01: REST API standard review and RFC 7807 error schema unification -->
+<section class="slide-card session-4" id="slide-49">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">11th session. API impact tracking and global architecture review</div>
+      <div class="slide-title">Mission 01: REST API standard review and error schema unification</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 4</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Preparation data: create day4_api_review_dialogue.md</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 2px 0;">In case of error, 200 OK, reception confusion, URL path verb type designation, etc. Standard violation conversation minutes are recorded.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Sending an API Review Prompt to the AI ​​Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>API Architecture Review Prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Review the provided API specification of day4_api_specification_v1.md, analyze improvements based on REST API design standards (HTTP Method usage, URL naming), consistent error handling structure, and extensibility, and write an API review report. (Includes improvement plan for applying RFC 7807 standard error schema)</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Improvements to HTTP 401 and 400 status codes and the standard exception model (RFC 7807) are prescribed to flexibly control errors during global collaboration and external integration.</div>
+    <div class="visual-guide-notes" style="display:none;">Architecture review table with verb (AS-IS) and noun plural (TO-BE) endpoints contrasted by green/red lines.</div>
+  </div>
+</section>
+
+<!-- Slide 50: Mission 02: API test scenarios and boundary value design -->
+<section class="slide-card session-4" id="slide-50">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">12th session. Detailed design of API test scenarios</div>
+      <div class="slide-title">Mission 02: API test scenarios and boundary value design</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 4</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list" style="width: 100%; max-width: 900px;">
+      <li><span class="highlight">Separation verification of normal/exception (Happy/Sad Path):</span>
+        <div style="font-size:12.5px; color: var(--text-secondary); margin: 3px 0 5px 0;">Based on the completed API contract specifications, we automatically plan test scenarios that induce exception flows and abnormal input errors.</div>
+      </li>
+      <li><span class="highlight">Lab Instructions: Send Test Scenario Prompts to AI Window</span>
+        <div class="code-container" style="margin-top: 5px; width: 100%;">
+          <div class="code-header" style="background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--panel-border);">
+            <span>Test scenario creation prompt (copyable)</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <pre class="code-block" style="background: rgba(0,0,0,0.15); font-family: monospace; white-space: pre-wrap; font-size: 13px; text-align: left; padding: 10px 15px; border-radius: 0 0 8px 8px; max-height: 120px; overflow-y: auto;">Based on the currently defined reservation and payment API specifications, create an API test scenario and verification checklist that includes both the normal registration flow (Happy Path) and exception cases such as missing required parameters, date format errors, limit exceeded, and permission expiration.</pre>
+        </div>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">Complete a QA case to check whether HTTP 400/401 errors work in case of incorrect date value (`2026-99-99`), token expiration, or missing required key `expert_id`.</div>
+    <div class="visual-guide-notes" style="display:none;">Verification table systematically listing normal case (green) and exceptional error case (orange) matrices.</div>
+  </div>
+</section>
+
+<!-- Slide 51: Summary: Day 4 Key Recap -->
+<section class="slide-card session-4" id="slide-51">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">12th session. Detailed design of API test scenarios</div>
+      <div class="slide-title">Summary: Day 4 Key Recap</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Day 4</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Day 4 Key Takeaways:</span>
+        <ul>
+          <li><span class="highlight">API Interface Contract:</span> Agree on RESTful Req/Res variable design by reverse inferring screen planning elements.</li>
+          <li><span class="highlight">Consistency Audit:</span> star_rating Completed search for field errors in planning and API, such as missing star ratings and hashtags.</li>
+          <li><span class="highlight">Architecture precision improvement (Review & Test):</span> Updated RFC 7807 error specification and listed Happy/Sad Path boundary value test cases.</li>
+          <li><span class="highlight">Preview for the next session:</span> Day 5. Service Design - UI/UX Review and Optimization</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="presenter-notes" style="display:none;">End of day 4. We have completed the design of a communication pipeline that allows the backend and frontend to process data without discrepancy. On the final 5th day, we will learn UI/UX review to shorten the 9-step movement path and test the quality of convenience so that users can use it most conveniently.</div>
+    <div class="visual-guide-notes" style="display:none;">Checklist type layout. The preview effect for the 5th day is shown at the bottom right.</div>
+  </div>
+</section>
