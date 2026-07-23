@@ -1289,12 +1289,12 @@
   </div>
 
   <script>
-    // When operating, it is recommended to use a server proxy instead of direct exposure to the browser.
+    // 운영 시에는 브라우저 직접 노출 대신 서버 프록시 사용 권장
 
     const messages = [
       {
         role: "model",
-        text: "Hello! This is Day 6 'Front-End Development & API Integration' Learning Assistant AI. Please feel free to ask questions about HTML/CSS/JS screen publishing, fetch API integration, asynchronous programming, and DOM manipulation 😊"
+        text: "안녕하세요! Day 6 'Front-End Development & API Integration' 학습 도우미 AI입니다. HTML/CSS/JS 화면 퍼블리싱, fetch API 연동, 비동기 프로그래밍, DOM 조작에 대해 편하게 질문해주세요 😊"
       }
     ];
 
@@ -1328,7 +1328,7 @@
 
         const avatar = document.createElement("div");
         avatar.className = `avatar ${msg.role === "user" ? "user" : "bot"}`;
-        avatar.textContent = msg.role === "user" ? "I" : "AI";
+        avatar.textContent = msg.role === "user" ? "나" : "AI";
 
         const bubble = document.createElement("div");
         bubble.className = `bubble ${msg.role === "user" ? "user" : "bot"}`;
@@ -1385,13 +1385,13 @@
 
         const data = await response.json();
         if (!response.ok) {
-          throw new Error(data.message || `Server Error (${response.status})`);
+          throw new Error(data.message || `서버 오류 (${response.status})`);
         }
 
-        return data.text || "Failed to generate response.";
+        return data.text || "답변을 생성하지 못했습니다.";
       } catch (error) {
         console.error("AI Tutor Server Error:", error);
-        throw new Error(error.message || "Failed to connect to AI Chatbot server. Please check your network connection.");
+        throw new Error(error.message || "AI 챗봇 서버 연결에 실패했습니다. 네트워크 상태를 확인해 주세요.");
       }
     }
 
@@ -1415,7 +1415,7 @@
       } catch (error) {
         messages.push({
           role: "model",
-          text: `⚠️ ${error.message || "An error occurred. Please check the AI Chatbot server connection."}`
+          text: `⚠️ ${error.message || "오류가 발생했습니다. AI 챗봇 서버 연결을 확인해 주세요."}`
         });
       } finally {
         isSending = false;
@@ -1451,11 +1451,11 @@
 
     playlistItems.forEach(item => {
       item.addEventListener("click", function() {
-        // Remove the active class from all items and add it to the clicked item
+        // 모든 아이템에서 active 클래스 제거 후 클릭한 항목에 추가
         playlistItems.forEach(el => el.classList.remove("active"));
         this.classList.add("active");
         
-        // Change YouTube embed source and add autoplay
+        // 유튜브 임베드 소스 변경 및 자동 재생 추가
         let newSrc = this.getAttribute("data-src");
         if (newSrc.indexOf("?") > -1) {
           newSrc += "&autoplay=1";

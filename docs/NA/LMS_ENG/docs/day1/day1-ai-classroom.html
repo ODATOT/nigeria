@@ -1303,14 +1303,13 @@
   </div>
 
   <script>
-    // When operating, it is recommended to use a server proxy instead of direct exposure to the browser.
 
-    const systemInstructionText = "You are a friendly AI assistant helping with Day 1 'AI Product Wireframing with Figma'. Explain Figma basics, User Flow, Landing / Dashboard / Auth screen structure, wireframe, and prototype connection to students easily and clearly. Use short paragraphs and bullets appropriately, and maintain an encouraging tone.";
+    const systemInstructionText = "당신은 Day 1 'AI Product Wireframing with Figma'를 돕는 친절한 한국어 AI 조교입니다. 학생들에게 Figma 기초, User Flow, Landing / Dashboard / Auth 화면 구조, 와이어프레임, 프로토타입 연결을 쉽고 명확하게 설명하세요. 짧은 문단과 불릿을 적절히 사용하고, 격려하는 어조를 유지하세요.";
 
     const messages = [
       {
         role: "model",
-        text: "Hello! I am your AI assistant for Day 1 'AI Product Wireframing with Figma'. Feel free to ask questions about Figma basics, User Flow, Landing / Dashboard / Auth screen structure, and wireframes 😊"
+        text: "안녕하세요! Day 1 'AI Product Wireframing with Figma' 학습 도우미 AI입니다. Figma 기초, User Flow, Landing / Dashboard / Auth 화면 설계, 프로토타입 연결에 대해 편하게 질문해주세요 😊"
       }
     ];
 
@@ -1344,7 +1343,7 @@
 
         const avatar = document.createElement("div");
         avatar.className = `avatar ${msg.role === "user" ? "user" : "bot"}`;
-        avatar.textContent = msg.role === "user" ? "Me" : "AI";
+        avatar.textContent = msg.role === "user" ? "나" : "AI";
 
         const bubble = document.createElement("div");
         bubble.className = `bubble ${msg.role === "user" ? "user" : "bot"}`;
@@ -1401,13 +1400,13 @@
 
         const data = await response.json();
         if (!response.ok) {
-          throw new Error(data.message || `Server Error (${response.status})`);
+          throw new Error(data.message || `서버 오류 (${response.status})`);
         }
 
-        return data.text || "Failed to generate response.";
+        return data.text || "답변을 생성하지 못했습니다.";
       } catch (error) {
         console.error("AI Tutor Server Error:", error);
-        throw new Error(error.message || "Failed to connect to AI Chatbot server. Please check your network connection.");
+        throw new Error(error.message || "AI 챗봇 서버 연결에 실패했습니다. 네트워크 상태를 확인해 주세요.");
       }
     }
 
@@ -1431,7 +1430,7 @@
       } catch (error) {
         messages.push({
           role: "model",
-          text: `⚠️ ${error.message || "An error occurred. Please check the AI Chatbot server connection."}`
+          text: `⚠️ ${error.message || "오류가 발생했습니다. AI 챗봇 서버 연결을 확인해 주세요."}`
         });
       } finally {
         isSending = false;
@@ -1467,11 +1466,11 @@
 
     playlistItems.forEach(item => {
       item.addEventListener("click", function() {
-        // Remove the active class from all items and add it to the clicked item
+        // 모든 아이템에서 active 클래스 제거 후 클릭한 항목에 추가
         playlistItems.forEach(el => el.classList.remove("active"));
         this.classList.add("active");
         
-        // Change YouTube embed source and add autoplay
+        // 유튜브 임베드 소스 변경 및 자동 재생 추가
         let newSrc = this.getAttribute("data-src");
         if (newSrc.indexOf("?") > -1) {
           newSrc += "&autoplay=1";
