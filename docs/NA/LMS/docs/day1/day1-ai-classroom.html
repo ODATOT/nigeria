@@ -266,6 +266,10 @@
     .right-col {
       position: sticky;
       top: 96px;
+      height: calc(100vh - 120px);
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
     }
 
     .card {
@@ -435,11 +439,12 @@
     }
 
     .assistant-panel {
-      height: 100%;
-      min-height: 600px;
+      flex: 1;
+      min-height: 0;
       display: flex;
       flex-direction: column;
       position: relative;
+      overflow: hidden;
     }
 
     .wip-overlay {
@@ -545,12 +550,30 @@
 
     .chat-area {
       flex: 1;
+      min-height: 0;
       background: #f8fbff;
       padding: 18px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 18px;
+    }
+
+    .chat-area::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .chat-area::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    .chat-area::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    .chat-area::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
     }
 
     .message-row {
@@ -1274,11 +1297,6 @@
               AI 응답은 참고용입니다. 중요한 학습 내용은 강의 자료와 교안을 함께 확인해주세요.
             </div>
           </div>
-          <div class="wip-overlay">
-            <div class="wip-badge">🛠️ 작업 중</div>
-            <div class="wip-title">AI 학습 도우미 준비 중</div>
-            <div class="wip-desc">현재 AI 채팅 답변 기능 및 맞춤형 질의응답 시스템을 구축하고 있습니다. 더 유용한 기능으로 곧 찾아뵙겠습니다.</div>
-          </div>
         </div>
       </aside>
     </main>
@@ -1360,15 +1378,13 @@
       chatArea.scrollTop = chatArea.scrollHeight;
     }
 
-    async function callGeminiAPI(userMessage, currentHistory) {
+        async function callGeminiAPI(userMessage, currentHistory) {
       const formattedHistory = currentHistory.map(msg => ({
         role: msg.role === "model" ? "model" : "user",
         text: msg.text
       }));
 
-      const backendApiUrl = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
-        ? "http://localhost:3000/api/chat"
-        : `${window.location.protocol}//${window.location.hostname}:3000/api/chat`;
+      const backendApiUrl = "https://labs.edunlab.kr/chatbot/api/chat";
 
       try {
         const response = await fetch(backendApiUrl, {
@@ -1384,13 +1400,13 @@
 
         const data = await response.json();
         if (!response.ok) {
-          throw new Error(data.message || `Node.js 서버 오류 (${response.status})`);
+          throw new Error(data.message || `서버 오류 (${response.status})`);
         }
 
         return data.text || "답변을 생성하지 못했습니다.";
       } catch (error) {
-        console.error("AI Tutor Node Server Error:", error);
-        throw new Error(error.message || "AI_TUTOR Node.js 서버에 연결할 수 없습니다. AI_TUTOR 폴더에서 npm start를 실행해 주세요.");
+        console.error("AI Tutor Server Error:", error);
+        throw new Error(error.message || "AI 챗봇 서버 연결에 실패했습니다. 네트워크 상태를 확인해 주세요.");
       }
     }
 
@@ -1414,7 +1430,7 @@
       } catch (error) {
         messages.push({
           role: "model",
-          text: `⚠️ ${error.message || "오류가 발생했습니다. AI_TUTOR 서버 구동 상태 및 .env 파일의 GEMINI_API_KEY를 확인해 주세요."}`
+          text: `⚠️ ${error.message || "오류가 발생했습니다. AI 챗봇 서버 연결을 확인해 주세요."}`
         });
       } finally {
         isSending = false;

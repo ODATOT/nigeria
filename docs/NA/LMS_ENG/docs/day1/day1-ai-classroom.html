@@ -266,6 +266,10 @@
     .right-col {
       position: sticky;
       top: 96px;
+      height: calc(100vh - 120px);
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
     }
 
     .card {
@@ -435,11 +439,12 @@
     }
 
     .assistant-panel {
-      height: 100%;
-      min-height: 600px;
+      flex: 1;
+      min-height: 0;
       display: flex;
       flex-direction: column;
       position: relative;
+      overflow: hidden;
     }
 
     .wip-overlay {
@@ -545,12 +550,30 @@
 
     .chat-area {
       flex: 1;
+      min-height: 0;
       background: #f8fbff;
       padding: 18px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 18px;
+    }
+
+    .chat-area::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .chat-area::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    .chat-area::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    .chat-area::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
     }
 
     .message-row {
@@ -1274,11 +1297,6 @@
               AI responses are for reference only. Please check the lecture materials and teaching materials for important learning contents.
             </div>
           </div>
-          <div class="wip-overlay">
-            <div class="wip-badge">🛠️ Working on it</div>
-            <div class="wip-title">AI learning assistant in preparation</div>
-            <div class="wip-desc">We are currently building an AI chat answer function and customized question-and-answer system. We'll see you soon with more useful features.</div>
-          </div>
         </div>
       </aside>
     </main>
@@ -1361,15 +1379,13 @@
       chatArea.scrollTop = chatArea.scrollHeight;
     }
 
-    async function callGeminiAPI(userMessage, currentHistory) {
+        async function callGeminiAPI(userMessage, currentHistory) {
       const formattedHistory = currentHistory.map(msg => ({
         role: msg.role === "model" ? "model" : "user",
         text: msg.text
       }));
 
-      const backendApiUrl = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
-        ? "http://localhost:3000/api/chat"
-        : `${window.location.protocol}//${window.location.hostname}:3000/api/chat`;
+      const backendApiUrl = "https://labs.edunlab.kr/chatbot/api/chat";
 
       try {
         const response = await fetch(backendApiUrl, {
@@ -1385,13 +1401,13 @@
 
         const data = await response.json();
         if (!response.ok) {
-          throw new Error(data.message || `Node.js Server Error (${response.status})`);
+          throw new Error(data.message || `Server Error (${response.status})`);
         }
 
         return data.text || "Failed to generate response.";
       } catch (error) {
-        console.error("AI Tutor Node Server Error:", error);
-        throw new Error(error.message || "Unable to connect to AI_TUTOR Node.js server. Please run npm start in the AI_TUTOR folder.");
+        console.error("AI Tutor Server Error:", error);
+        throw new Error(error.message || "Failed to connect to AI Chatbot server. Please check your network connection.");
       }
     }
 
@@ -1415,7 +1431,7 @@
       } catch (error) {
         messages.push({
           role: "model",
-          text: `⚠️ ${error.message || "An error occurred. Please check AI_TUTOR server status and GEMINI_API_KEY in .env file."}`
+          text: `⚠️ ${error.message || "An error occurred. Please check the AI Chatbot server connection."}`
         });
       } finally {
         isSending = false;
