@@ -1204,9 +1204,9 @@ Project file linkage control possible</div>
         inputPreview: `Users can search for experts after signing up.\nOnce payment is made, the reservation is confirmed.\nNotification method and cancellation fee are not yet determined.`,
         outputFilename: "List of classified planning objects",
         outputDesc: "user, feature candidate, business policy, decision classification",
-        outputPreview: `1. user: Customer, Expert, Admin\n2. Function: Sign up, expert inquiry\n3. Business rule: Reservation confirmed upon payment approval\n4. Indeterminate: Notification means`;
+        outputPreview: `1. user: Customer, Expert, Admin\n2. Function: Sign up, expert inquiry\n3. Business rule: Reservation confirmed upon payment approval\n4. Indeterminate: Notification means`,
         descText: "Completely separate planning elements mixed in unstructured text according to four characteristics (user, function, policy, and decision) to prepare for writing structured requirements.",
-        promptText: `Read meeting-notes.md and specify the following content as Category. 1. Service user 2. Function performed by user 3. Function performed by system 4. Business rule 5. Matters not yet decided. Do not add information that is not in the meeting notes and mark unclear information separately.’
+        promptText: `Read meeting-notes.md and specify the following content as Category. 1. Service user 2. Function performed by user 3. Function performed by system 4. Business rule 5. Matters not yet decided. Do not add information that is not in the meeting notes and mark unclear information separately.`
       },
       2: {
         title: "Step 2. Define functional requirements statement (FR table)",
@@ -1214,7 +1214,7 @@ Project file linkage control possible</div>
         aiRole: "Technical Writer",
         inputFilename: "List of classified planning objects",
         inputDesc: "list of user role and function candidates",
-        inputPreview: `1. user: Customer, Expert\n2. Function: Sign up, expert inquiry, select consultation time\n3. Policy: Reservation confirmed` upon successful payment,
+        inputPreview: `1. user: Customer, Expert\n2. Function: Sign up, expert inquiry, select consultation time\n3. Policy: Reservation confirmed upon successful payment`,
         outputFilename: "functional-requirements.md",
         outputDesc: "Testable formal requirements table (given ID)",
         outputPreview: `| ID | user | Function name | Requirements Description |\n| FR-001 | Customer | Sign up | Users must be able to create an account by entering information. |\n| FR-004 | System | Reservation confirmed | The system must confirm the reservation when payment has been made. |`,
