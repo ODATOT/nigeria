@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ACE AI Startup Bootcamp — Day 1</title>
+<style>
+/* ========================================
+ ACE AI Startup Bootcamp — Day 1 (Nigeria)
+ Notion-inspired aesthetic
+ ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+ --bg: #FFFFFF;
+ --bg-alt: #FAFAF9;
+ --text: #37352F;
+ --text-secondary: #787774;
+ --text-light: #9B9A97;
+ --bg-callout: #F7F6F3;
+ --border: #E9E9E7;
+ --border-strong: #D3D1CB;
+ --accent: #E03E3E;
+ --accent-soft: #FBE4E4;
+ --blue: #337EA9;
+ --green: #4D8B6E;
+ --yellow-bg: #FBF3DB;
+ --green-bg: #DDEDEA;
+ --red-bg: #FBE4E4;
+ --radius: 6px;
+ --radius-lg: 10px;
+ --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+ --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* {
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+}
+
+html, body {
+ height: 100%;
+ overflow: hidden;
+ background: #1a1a1a;
+ font-family: var(--font);
+ color: var(--text);
+ -webkit-font-smoothing: antialiased;
+ -moz-osx-font-smoothing: grayscale;
+}
+
+deck-stage section {
+ background: var(--bg);
+ display: flex;
+ flex-direction: column;
+ overflow: hidden;
+ position: relative;
+}
+
+/* ---------- Common slide chrome ---------- */
+.slide {
+ width: 1920px;
+ height: 1080px;
+ padding: 100px 120px 80px;
+ background: var(--bg);
+ color: var(--text);
+ display: flex;
+ flex-direction: column;
+ position: relative;
+}
+
+.slide.center {
+ align-items: center;
+ justify-content: center;
+ text-align: center;
+}
+
+.slide.alt {
+ background: var(--bg-alt);
+}
+
+.slide.dark {
+ background: #1a1a1a;
+ color: #fafafa;
+}
+
+/* Footer */
+.footer {
+ position: absolute;
+ bottom: 36px;
+ left: 120px;
+ right: 120px;
+ font-size: 24px;
+ color: var(--text-light);
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ font-weight: 400;
+ letter-spacing: 0.01em;
+}
+.footer .footer-left { font-style: italic; }
+.dark .footer { color: #6b6b6b; }
+
+/* Slide number badge top-right */
+.slide-num {
+ position: absolute;
+ top: 44px;
+ right: 120px;
+ font-family: var(--mono);
+ font-size: 26px;
+ color: var(--text-light);
+ letter-spacing: 0.05em;
+ white-space: nowrap;
+}
+.dark .slide-num { color: #6b6b6b; }
+
+/* Section tag (top-left) */
+.section-tag {
+ position: absolute;
+ top: 44px;
+ left: 120px;
+ font-family: var(--mono);
+ font-size: 26px;
+ color: var(--text-light);
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+ display: flex;
+ align-items: center;
+ gap: 14px;
+}
+.section-tag::before {
+ content: '';
+ width: 32px;
+ height: 2px;
+ background: var(--accent);
+ display: inline-block;
+}
+.dark .section-tag { color: #888; }
+
+/* ---------- Typography ---------- */
+.eyebrow {
+ font-family: var(--mono);
+ font-size: 24px;
+ color: var(--accent);
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+ font-weight: 500;
+ margin-bottom: 24px;
+}
+
+h1.title {
+ font-size: 84px;
+ font-weight: 700;
+ line-height: 1.08;
+ letter-spacing: -0.02em;
+ color: var(--text);
+}
+
+h2.title {
+ font-size: 64px;
+ font-weight: 700;
+ line-height: 1.1;
+ letter-spacing: -0.02em;
+ color: var(--text);
+ margin-bottom: 52px;
+}
+
+h3.subtitle {
+ font-size: 40px;
+ font-weight: 500;
+ color: var(--text-secondary);
+ line-height: 1.3;
+}
+
+.body-text {
+ font-size: 34px;
+ line-height: 1.5;
+ color: var(--text);
+ font-weight: 400;
+}
+
+.small {
+ font-size: 26px;
+ color: var(--text-secondary);
+ line-height: 1.5;
+}
+.mono {
+ font-family: var(--mono);
+}
+
+.accent { color: var(--accent); }
+.muted { color: var(--text-secondary); }
+
+/* ---------- Callout ---------- */
+.callout {
+ background: var(--bg-callout);
+ border-radius: var(--radius);
+ padding: 32px 40px;
+ font-size: 30px;
+ line-height: 1.5;
+ color: var(--text);
+ display: flex;
+ gap: 24px;
+ align-items: flex-start;
+}
+.callout .icon {
+ font-size: 36px;
+ flex-shrink: 0;
+}
+
+/* Quote */
+.quote {
+ border-left: 5px solid var(--accent);
+ padding: 16px 0 16px 36px;
+ font-size: 56px;
+ line-height: 1.25;
+ font-weight: 500;
+ font-style: italic;
+ color: var(--text);
+ letter-spacing: -0.01em;
+}
+.quote-attr {
+ margin-top: 32px;
+ font-size: 28px;
+ color: var(--text-secondary);
+ font-style: normal;
+}
+
+/* Tag pill */
+.tag {
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ padding: 6px 14px;
+ background: var(--bg-callout);
+ border-radius: 4px;
+ font-size: 22px;
+ color: var(--text-secondary);
+ font-family: var(--mono);
+ font-weight: 500;
+}
+.tag.red { background: var(--red-bg); color: var(--accent); }
+.tag.green { background: var(--green-bg); color: var(--green); }
+.tag.yellow { background: var(--yellow-bg); color: #8B6914; }
+
+/* ---------- Tables (Notion style) ---------- */
+.notion-table {
+ width: 100%;
+ border-collapse: collapse;
+ font-size: 26px;
+ background: white;
+ border-radius: var(--radius);
+ overflow: hidden;
+ border: 1px solid var(--border);
+}
+.notion-table th, .notion-table td {
+ padding: 22px 28px;
+ text-align: left;
+ border-bottom: 1px solid var(--border);
+ border-right: 1px solid var(--border);
+ vertical-align: middle;
+ line-height: 1.4;
+}
+.notion-table th:last-child, .notion-table td:last-child { border-right: none; }
+.notion-table tr:last-child td { border-bottom: none; }
+.notion-table th {
+ background: var(--bg-callout);
+ font-weight: 600;
+ font-size: 24px;
+ color: var(--text);
+ letter-spacing: 0.01em;
+}
+.notion-table td.num { font-family: var(--mono); }
+.notion-table tr.highlight { background: var(--accent-soft); }
+.notion-table .red { color: var(--accent); font-weight: 600; }
+
+/* ---------- Source box ---------- */
+.sources {
+ position: absolute;
+ bottom: 80px;
+ right: 120px;
+ max-width: 720px;
+ background: var(--bg-callout);
+ border-radius: var(--radius);
+ padding: 18px 24px;
+ font-size: 24px;
+ line-height: 1.55;
+ color: var(--text-secondary);
+}
+.sources .src-label {
+ font-family: var(--mono);
+ font-size: 24px;
+ color: var(--text-light);
+ text-transform: uppercase;
+ letter-spacing: 0.08em;
+ margin-bottom: 6px;
+}
+.sources a, .source-link { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.source-link a { color: inherit; text-decoration: inherit; }
+.footer-left a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: rgba(0,0,0,0.25); }
+.footer-left a:hover { text-decoration-color: currentColor; }
+
+/* ---------- Animations ---------- */
+@keyframes fadeRise {
+ from { opacity: 0; transform: translateY(28px); }
+ to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+ from { opacity: 0; }
+ to { opacity: 1; }
+}
+@keyframes scaleIn {
+ from { opacity: 0; transform: scale(0.94); }
+ to { opacity: 1; transform: scale(1); }
+}
+@keyframes slideRight {
+ from { opacity: 0; transform: translateX(-32px); }
+ to { opacity: 1; transform: translateX(0); }
+}
+@keyframes drawLine {
+ from { stroke-dashoffset: var(--dash, 1000); }
+ to { stroke-dashoffset: 0; }
+}
+@keyframes growBar {
+ from { transform: scaleX(0); }
+ to { transform: scaleX(1); }
+}
+@keyframes pulseDot {
+ 0%, 100% { transform: scale(1); opacity: 1; }
+ 50% { transform: scale(1.4); opacity: 0.6; }
+}
+@keyframes shimmer {
+ 0% { background-position: -1000px 0; }
+ 100% { background-position: 1000px 0; }
+}
+
+/* Active-slide animation hooks. Default = visible so content is never
+ hidden if the host doesn't toggle anything (print, static export). */
+.anim {
+ opacity: 1;
+}
+
+/* Hide animated items only when a slide is inactive */
+deck-stage section:not([data-deck-active]):not([data-active="true"]) .anim {
+ opacity: 0;
+}
+
+deck-stage section[data-deck-active] .anim,
+deck-stage section[data-active="true"] .anim,
+.anim.replay {
+ animation: fadeRise 0.7s cubic-bezier(.2,.7,.2,1) both;
+}
+deck-stage section[data-deck-active] .anim-fade,
+deck-stage section[data-active="true"] .anim-fade {
+ animation: fadeIn 0.9s ease-out both;
+ opacity: 1;
+}
+deck-stage section[data-deck-active] .anim-scale,
+deck-stage section[data-active="true"] .anim-scale {
+ animation: scaleIn 0.7s cubic-bezier(.2,.7,.2,1) both;
+}
+deck-stage section[data-deck-active] .anim-slide,
+deck-stage section[data-active="true"] .anim-slide {
+ animation: slideRight 0.7s cubic-bezier(.2,.7,.2,1) both;
+}
+
+/* Stagger helpers */
+.d1 { animation-delay: 0.05s !important; }
+.d2 { animation-delay: 0.18s !important; }
+.d3 { animation-delay: 0.32s !important; }
+.d4 { animation-delay: 0.46s !important; }
+.d5 { animation-delay: 0.6s !important; }
+.d6 { animation-delay: 0.74s !important; }
+.d7 { animation-delay: 0.88s !important; }
+.d8 { animation-delay: 1.02s !important; }
+.d9 { animation-delay: 1.16s !important; }
+.d10 { animation-delay: 1.3s !important; }
+
+/* Counter (count-up via CSS @property) */
+@property --num {
+ syntax: '<integer>';
+ initial-value: 0;
+ inherits: false;
+}
+@property --decimal {
+ syntax: '<number>';
+ initial-value: 0;
+ inherits: false;
+}
+
+/* ---------- Specific slide elements ---------- */
+
+/* Title slide */
+.title-slide {
+ background:
+ radial-gradient(ellipse 1200px 800px at 80% 20%, var(--accent-soft) 0%, transparent 60%),
+ radial-gradient(ellipse 1000px 600px at 10% 90%, #FFF4E6 0%, transparent 60%),
+ var(--bg);
+}
+.title-slide h1 {
+ font-size: 132px;
+ font-weight: 800;
+ line-height: 1;
+ letter-spacing: -0.035em;
+ max-width: 1500px;
+}
+.title-slide .super {
+ font-family: var(--mono);
+ font-size: 22px;
+ color: var(--accent);
+ letter-spacing: 0.15em;
+ text-transform: uppercase;
+ margin-bottom: 48px;
+ display: flex;
+ align-items: center;
+ gap: 18px;
+}
+.title-slide .super::before {
+ content: '';
+ width: 80px; height: 1px; background: var(--accent);
+}
+.title-slide .sub {
+ margin-top: 56px;
+ font-size: 44px;
+ line-height: 1.4;
+ color: var(--text-secondary);
+ font-weight: 400;
+ max-width: 1200px;
+}
+.title-slide .meta {
+ position: absolute;
+ bottom: 100px;
+ left: 120px;
+ display: flex;
+ gap: 80px;
+ font-size: 22px;
+ color: var(--text-light);
+}
+.title-slide .meta b { color: var(--text); font-weight: 600; display: block; margin-bottom: 4px; font-size: 22px;}
+.title-slide .meta div span { font-family: var(--mono); }
+
+/* Big-figure slide */
+.big-figure {
+ font-size: 380px;
+ font-weight: 800;
+ line-height: 0.95;
+ letter-spacing: -0.05em;
+ color: var(--text);
+}
+.big-figure .unit { font-size: 110px; color: var(--text-secondary); font-weight: 600; }
+.big-figure.red { color: var(--accent); }
+
+/* Two col layout */
+.two-col {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 80px;
+ flex: 1;
+}
+.two-col.split-7-5 { grid-template-columns: 7fr 5fr; }
+.two-col.split-6-6 { grid-template-columns: 1fr 1fr; }
+.two-col.split-5-7 { grid-template-columns: 5fr 7fr; }
+
+/* Hero stat card */
+.stat-card {
+ background: var(--bg-callout);
+ border-radius: var(--radius-lg);
+ padding: 40px 44px;
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+}
+.stat-card .label {
+ font-size: 24px;
+ color: var(--text-secondary);
+ font-family: var(--mono);
+ text-transform: uppercase;
+ letter-spacing: 0.08em;
+}
+.stat-card .value {
+ font-size: 64px;
+ font-weight: 700;
+ line-height: 1.05;
+ letter-spacing: -0.02em;
+ color: var(--text);
+ font-feature-settings: 'tnum';
+}
+.stat-card .value.red { color: var(--accent); }
+.stat-card .sub {
+ font-size: 24px;
+ color: var(--text-secondary);
+ margin-top: 4px;
+}
+
+/* List of features (Notion-style) */
+ul.notion-list { list-style: none; padding: 0; }
+ul.notion-list li {
+ padding: 14px 0;
+ font-size: 30px;
+ line-height: 1.4;
+ color: var(--text);
+ display: flex;
+ gap: 18px;
+ align-items: baseline;
+}
+ul.notion-list li::before {
+ content: '•';
+ color: var(--text-light);
+ font-size: 22px;
+ flex-shrink: 0;
+}
+ul.notion-list.checks li::before { content: '✓'; color: var(--green); }
+ul.notion-list.crosses li::before { content: '✕'; color: var(--accent); }
+
+/* Tool ranking stars */
+.stars {
+ font-family: var(--mono);
+ letter-spacing: 0.08em;
+ color: var(--accent);
+}
+
+/* Hero medal */
+.hero-rank {
+ display: inline-flex;
+ align-items: center;
+ gap: 16px;
+ padding: 8px 20px 8px 16px;
+ background: var(--accent-soft);
+ border-radius: 100px;
+ font-size: 24px;
+ font-weight: 600;
+ color: var(--accent);
+ font-family: var(--mono);
+ letter-spacing: 0.05em;
+ margin-bottom: 24px;
+}
+.hero-rank .num {
+ background: var(--accent);
+ color: white;
+ width: 36px; height: 36px;
+ border-radius: 50%;
+ display: inline-flex; align-items: center; justify-content: center;
+ font-size: 24px;
+ font-weight: 700;
+}
+
+/* Day card (timeline) */
+.day-card {
+ background: var(--bg-callout);
+ border-radius: var(--radius);
+ padding: 24px 28px;
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+ border-top: 3px solid var(--accent);
+}
+.day-card .day-label {
+ font-family: var(--mono);
+ font-size: 18px;
+ color: var(--accent);
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+}
+.day-card .day-title {
+ font-size: 24px;
+ font-weight: 600;
+}
+
+/* Cost curve SVG */
+.curve-svg path.line {
+ fill: none;
+ stroke: var(--accent);
+ stroke-width: 4;
+ stroke-dasharray: 2400;
+ stroke-dashoffset: 2400;
+}
+deck-stage section[data-active="true"] .curve-svg path.line {
+ animation: drawLine 2.4s ease-out 0.4s forwards;
+}
+.curve-svg path.area {
+ fill: var(--accent-soft);
+ opacity: 0;
+}
+deck-stage section[data-active="true"] .curve-svg path.area {
+ animation: fadeIn 1.2s ease-out 1.6s forwards;
+}
+
+/* Dot grid */
+.dot-grid {
+ display: grid;
+ grid-template-columns: repeat(14, 1fr);
+ gap: 14px;
+ width: 100%;
+ max-width: 720px;
+}
+.dot-grid .dot {
+ width: 36px;
+ height: 36px;
+ background: var(--border);
+ border-radius: 50%;
+ opacity: 0;
+}
+.dot-grid .dot.hit {
+ background: var(--accent);
+ width: 56px; height: 56px;
+ margin: -10px;
+ box-shadow: 0 0 0 6px var(--accent-soft);
+}
+deck-stage section[data-active="true"] .dot-grid .dot {
+ animation: scaleIn 0.4s ease-out both;
+}
+
+/* ---- Numeric counter base ---- */
+.counter {
+ font-variant-numeric: tabular-nums;
+ font-feature-settings: 'tnum';
+}
+
+/* Live red dot */
+.live-dot {
+ width: 14px; height: 14px; border-radius: 50%;
+ background: var(--accent); display: inline-block;
+ margin-right: 12px;
+ animation: pulseDot 1.6s ease-in-out infinite;
+}
+
+/* Diagonal grid pattern (placeholders) */
+.placeholder {
+ background:
+ repeating-linear-gradient(45deg, transparent 0 18px, rgba(120,119,116,0.08) 18px 19px),
+ var(--bg-callout);
+ border: 1px solid var(--border);
+ border-radius: var(--radius);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-family: var(--mono);
+ color: var(--text-light);
+ font-size: 18px;
+ text-transform: uppercase;
+ letter-spacing: 0.08em;
+}
+
+/* Bar comparing 2015 vs 2026 */
+.bar-row {
+ display: grid;
+ grid-template-columns: 200px 1fr 1fr;
+ align-items: center;
+ gap: 32px;
+ padding: 18px 0;
+ font-size: 24px;
+ border-bottom: 1px solid var(--border);
+}
+.bar-row:last-child { border-bottom: none; }
+.bar-row .label { color: var(--text-secondary); font-size: 22px; }
+.bar-row .bar {
+ height: 28px;
+ background: var(--border);
+ border-radius: 4px;
+ position: relative;
+ overflow: hidden;
+}
+.bar-row .bar .fill {
+ height: 100%;
+ background: var(--text);
+ border-radius: 4px;
+ transform: scaleX(0);
+ transform-origin: left;
+}
+.bar-row .bar.red .fill { background: var(--accent); }
+deck-stage section[data-active="true"] .bar-row .bar .fill {
+ animation: growBar 1s cubic-bezier(.2,.7,.2,1) both;
+}
+
+/* ==========================================================
+ Standalone slide engine (replaces the vendored deck-stage)
+ ========================================================== */
+deck-stage {
+ display: block;
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ width: 1920px;
+ height: 1080px;
+ transform: translate(-50%, -50%) scale(1);
+ transform-origin: center center;
+ box-shadow: 0 40px 120px rgba(0,0,0,0.55);
+}
+deck-stage > section {
+ position: absolute;
+ inset: 0;
+ width: 1920px;
+ height: 1080px;
+ display: none;
+}
+deck-stage > section[data-active="true"] {
+ display: flex;
+}
+/* No-JS graceful fallback: show the first slide until the engine loads */
+deck-stage:not(.js-ready) > section:first-child {
+ display: flex;
+}
+
+/* Nav hint (outside the scaled canvas) */
+#nav-hint {
+ position: fixed;
+ bottom: 20px;
+ left: 50%;
+ transform: translateX(-50%);
+ font-family: var(--mono);
+ font-size: 14px;
+ letter-spacing: 0.08em;
+ color: rgba(255,255,255,0.45);
+ background: rgba(0,0,0,0.35);
+ padding: 8px 18px;
+ border-radius: 100px;
+ z-index: 50;
+ transition: opacity 0.5s ease;
+ pointer-events: none;
+}
+</style>
+<style>
+/* ==========================================================
+ SLIDE 15 — 10-Day Process Map (v2 addition)
+ ========================================================== */
+.pm-slide {
+ padding: 92px 80px 64px;
+}
+.pm-slide .section-tag { left: 80px; }
+.pm-slide .slide-num { right: 80px; }
+.pm-slide .footer { left: 80px; right: 80px; bottom: 26px; font-size: 20px; }
+
+.pm-head {
+ display: flex;
+ align-items: flex-end;
+ justify-content: space-between;
+ gap: 40px;
+}
+.pm-sub {
+ margin-top: 12px;
+ font-family: var(--mono);
+ font-size: 21px;
+ letter-spacing: 0.04em;
+ color: var(--text-light);
+ text-transform: uppercase;
+}
+.pm-ctrl { display: flex; gap: 10px; flex-shrink: 0; }
+.pm-btn {
+ font-family: var(--mono);
+ font-size: 19px;
+ letter-spacing: 0.03em;
+ padding: 12px 20px;
+ border-radius: 100px;
+ border: 1px solid var(--border-strong);
+ background: var(--bg);
+ color: var(--text-secondary);
+ cursor: pointer;
+ transition: all 0.2s ease;
+}
+.pm-btn:hover { border-color: var(--text-secondary); color: var(--text); }
+.pm-btn.is-on { background: var(--text); border-color: var(--text); color: #fff; }
+.pm-btn.pm-play { color: var(--accent); border-color: var(--accent); }
+.pm-btn.pm-play:hover { background: var(--accent); color: #fff; }
+.pm-btn.pm-play.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ---- phase band ---- */
+.pm-phases {
+ display: grid;
+ grid-template-columns: repeat(10, 1fr);
+ gap: 10px;
+ margin-top: 42px;
+}
+.pm-phase {
+ border-top: 4px solid var(--pc);
+ padding: 12px 4px 0;
+ display: flex;
+ flex-direction: column;
+ gap: 3px;
+}
+.pm-phase .pm-pname {
+ font-family: var(--mono);
+ font-size: 19px;
+ letter-spacing: 0.1em;
+ color: var(--pc);
+ font-weight: 600;
+}
+.pm-phase .pm-pdesc {
+ font-size: 18px;
+ color: var(--text-light);
+ line-height: 1.25;
+}
+
+/* ---- rail ---- */
+.pm-railwrap { position: relative; margin-top: 14px; padding-top: 30px; }
+.pm-progress {
+ position: absolute;
+ top: 16px;
+ left: 12px;
+ right: 12px;
+ height: 3px;
+ background: var(--border);
+ border-radius: 2px;
+ overflow: hidden;
+}
+.pm-progress i {
+ display: block;
+ height: 100%;
+ width: 0%;
+ background: var(--accent);
+ transition: width 0.45s cubic-bezier(.2,.7,.2,1);
+}
+.pm-rail {
+ position: relative;
+ display: grid;
+ grid-template-columns: repeat(10, 1fr);
+ gap: 10px;
+}
+.pm-node {
+ background: var(--bg-callout);
+ border: 1px solid var(--border);
+ border-top: 3px solid var(--pc);
+ border-radius: var(--radius);
+ padding: 34px 14px 16px;
+ cursor: pointer;
+ text-align: left;
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+ min-height: 252px;
+ transition: transform 0.22s cubic-bezier(.2,.7,.2,1), box-shadow 0.22s ease, background 0.22s ease;
+ font-family: var(--font);
+}
+.pm-node .pm-dot {
+ position: absolute;
+ top: 0; /* set by JS wrapper */
+}
+.pm-node:hover { transform: translateY(-6px); box-shadow: 0 10px 28px rgba(0,0,0,0.10); }
+.pm-node.is-sel {
+ background: #fff;
+ border-color: var(--pc);
+ box-shadow: 0 12px 34px rgba(0,0,0,0.13);
+ transform: translateY(-6px);
+}
+.pm-node .pm-day {
+ font-family: var(--mono);
+ font-size: 18px;
+ letter-spacing: 0.08em;
+ color: var(--pc);
+ font-weight: 600;
+}
+.pm-node .pm-title {
+ font-size: 25px;
+ font-weight: 700;
+ line-height: 1.18;
+ color: var(--text);
+ letter-spacing: -0.01em;
+}
+.pm-node .pm-chip {
+ margin-top: auto;
+ font-size: 18px;
+ line-height: 1.3;
+ color: var(--text-secondary);
+ border-top: 1px dashed var(--border-strong);
+ padding-top: 10px;
+}
+.pm-node .pm-chip.mono { font-family: var(--mono); font-size: 16px; letter-spacing: -0.01em; word-break: keep-all; overflow-wrap: normal; }
+.pm-node.is-sel .pm-chip { color: var(--text); }
+
+/* node index bubble sitting on the progress line */
+.pm-bub {
+ position: absolute;
+ top: -24px;
+ left: 50%;
+ transform: translateX(-50%);
+ width: 24px; height: 24px;
+ border-radius: 50%;
+ background: var(--bg);
+ border: 3px solid var(--border-strong);
+ box-sizing: border-box;
+ transition: all 0.25s ease;
+}
+.pm-node.is-sel .pm-bub, .pm-node.is-done .pm-bub { border-color: var(--accent); background: var(--accent); }
+
+/* ---- detail panel ---- */
+.pm-detail {
+ margin-top: 30px;
+ background: var(--text);
+ color: #fff;
+ border-radius: var(--radius-lg);
+ padding: 34px 40px;
+ display: grid;
+ grid-template-columns: 4fr 5fr 4fr;
+ gap: 40px;
+ min-height: 252px;
+}
+.pm-col-k {
+ font-family: var(--mono);
+ font-size: 17px;
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+ color: rgba(255,255,255,0.45);
+ margin-bottom: 10px;
+}
+.pm-issue { font-size: 29px; line-height: 1.32; font-weight: 600; color: #ff8a8a; font-style: italic; }
+.pm-does { font-size: 23px; line-height: 1.45; color: rgba(255,255,255,0.92); }
+.pm-does b { color: #fff; }
+.pm-out { font-family: var(--mono); font-size: 19px; line-height: 1.7; color: rgba(255,255,255,0.8); }
+.pm-out span { display: block; }
+.pm-detail > div { border-left: 1px solid rgba(255,255,255,0.14); padding-left: 32px; }
+.pm-detail > div:first-child { border-left: none; padding-left: 0; }
+.pm-fade { animation: fadeIn 0.35s ease-out both; }
+
+/* slide 13 — tighten table so the closing note stays on-canvas */
+#s13 .notion-table th, #s13 .notion-table td { padding: 15px 28px; }
+
+/* ---- loop bar ---- */
+.pm-loop {
+ margin-top: 36px;
+ display: flex;
+ align-items: center;
+ gap: 14px;
+ font-size: 20px;
+ color: var(--text-secondary);
+ flex-wrap: nowrap;
+}
+.pm-loop-k {
+ font-family: var(--mono);
+ font-size: 17px;
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+ color: var(--accent);
+ margin-right: 4px;
+}
+.pm-loop-s {
+ background: var(--bg-callout);
+ border-radius: 100px;
+ padding: 8px 18px;
+ white-space: nowrap;
+}
+.pm-loop-s b {
+ font-family: var(--mono);
+ color: var(--accent);
+ margin-right: 6px;
+}
+.pm-arrow { color: var(--text-light); }
+.pm-loop-tail { color: var(--text-light); font-style: italic; white-space: nowrap; }
+.pm-loop-tail b { color: var(--text-secondary); font-style: normal; }
+</style>
+
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+<!-- ============================================================
+ SLIDE 1 — Title
+============================================================ -->
+<section data-label="Title">
+ <div class="slide title-slide">
+ <div class="super anim d1"><span class="accent">Before we start</span> — Nigeria · 2026 · Day 1</div>
+ <h1 class="anim d2">ACE AI<br>Startup <span class="accent">Bootcamp.</span></h1>
+ <div class="sub anim d4">AI-Era One-Person Startup — Empirical Case Study</div>
+ <div class="anim d5" style="margin-top: 18px; font-size: 28px; color: var(--text-secondary); font-style: italic;">A 30-minute look at the world you&rsquo;re about to enter — then the real class begins.</div>
+ <div class="meta" style="font-size: 26px;">
+ <div class="anim-fade d5"><b style="font-size: 26px;">Instructor</b><span style="font-size: 24px;">HoJoon Lee — CTO, Eduniety Lab</span></div>
+ <div class="anim-fade d6"><b style="font-size: 26px;">Instructor</b><span style="font-size: 24px;">KyungBae Park (Ph.D.) — CEO, Anvyl Labs</span></div>
+ <div class="anim-fade d7"><b style="font-size: 26px;">Location</b><span style="font-size: 24px;">Nigeria · 2026</span></div>
+ <div class="anim-fade d8"><b style="font-size: 26px;">Session</b><span style="font-size: 24px;">Day 1 · Boom-up Intro</span></div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 2 — Watch first (video)
+============================================================ -->
+<section data-label="Watch First">
+ <div class="slide center">
+ <div class="section-tag">Watch first</div>
+ <span class="slide-num">02 / 15</span>
+
+ <div style="max-width: 1600px;">
+ <div class="eyebrow anim d1"><span class="live-dot"></span>5-minute clip</div>
+ <h1 class="title anim d2" style="font-size: 108px;">First, watch this.</h1>
+ <h3 class="subtitle anim d3" style="margin-top: 28px; font-size: 40px;">Sam Altman on GPT-5 and the 1-person company</h3>
+
+ <div class="anim d4" style="margin-top: 60px; display: inline-block; padding: 30px 52px; background: var(--bg-callout); border: 1px solid var(--border); border-radius: var(--radius-lg); font-family: var(--mono); font-size: 52px; font-weight: 500; color: var(--text); letter-spacing: -0.01em;">
+ youtube.com/watch?v=<span class="accent">hmtuvNfytjM</span>&amp;t=<span class="accent">1280s</span>
+ </div>
+
+ <div class="small anim d5" style="margin-top: 30px; font-size: 28px;">Starts at <span style="font-family: var(--mono); font-weight: 600;">21:20</span> — &ldquo;It&rsquo;s 2035. What new jobs exist?&rdquo; &middot; play &asymp; 5 min (to &asymp; 26:00)</div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>02</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 3 — Hook 1: Altman quote
+============================================================ -->
+<section data-label="Altman Quote">
+ <div class="slide alt">
+ <div class="section-tag">What you just saw</div>
+ <span class="slide-num">03 / 15</span>
+
+ <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 1650px;">
+ <div class="quote anim d1" style="font-size: 90px; line-height: 1.16;">
+ &ldquo;There will soon be a<br><span class="accent">one-person, billion-dollar</span><br>company.&rdquo;
+ </div>
+ <div class="quote-attr anim d2" style="font-size: 34px;">— Sam Altman, OpenAI</div>
+
+ <div class="anim d4" style="margin-top: 76px; font-size: 42px; line-height: 1.35; color: var(--text);">
+ For the first time in history, <b>this is not a joke.</b>
+ </div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>03</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 4 — Hook 2: motivation
+============================================================ -->
+<section data-label="Why You">
+ <div class="slide">
+ <div class="section-tag">Why you</div>
+ <span class="slide-num">04 / 15</span>
+
+ <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 1650px;">
+ <h1 class="title anim d1" style="font-size: 92px; line-height: 1.1;">
+ You are the <span class="accent">luckiest generation</span> to build a company.
+ </h1>
+ <h3 class="subtitle anim d3" style="margin-top: 44px; font-size: 46px; line-height: 1.35;">
+ The tools that once needed 100 people now fit in your laptop.
+ </h3>
+ </div>
+
+ <div class="anim d5" style="position: absolute; bottom: 130px; left: 120px; font-family: var(--mono); font-size: 34px; color: var(--accent); font-weight: 500; letter-spacing: 0.02em;">
+ Let&rsquo;s meet the people already doing it. &rarr;
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>04</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 5 — Cold Open (leanaileaderboard)
+============================================================ -->
+<section data-label="Cold Open">
+ <div class="slide">
+ <div class="section-tag">Cold Open</div>
+ <span class="slide-num">05 / 15</span>
+
+ <div style="margin-top: 60px;">
+ <div class="eyebrow anim d1"><span class="live-dot"></span>Live · Right now</div>
+ <h1 class="title anim d2" style="font-size: 110px;">leanaileaderboard<span class="muted">.com</span></h1>
+ </div>
+
+ <div class="two-col split-7-5" style="margin-top: 70px; gap: 80px;">
+ <div>
+ <div class="anim d3" style="background: var(--bg-callout); border-radius: var(--radius-lg); padding: 48px; border: 1px solid var(--border);">
+ <div class="mono" style="font-size: 24px; color: var(--text-light); margin-bottom: 24px; letter-spacing: 0.05em;">OFFICIAL LEAN AI NATIVE COMPANIES</div>
+ <div style="display: grid; gap: 18px;">
+ <div style="display: grid; grid-template-columns: 60px 1fr 200px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 26px;">
+ <span class="mono accent">01</span><span style="color: var(--text);"><b style="color: rgb(7, 6, 6);">Medvi</b> &nbsp; <span style="font-size: 24px; color: var(--text);">GLP-1 telehealth</span></span><span class="mono accent" style="text-align: right;">$401M ARR</span>
+ </div>
+ <div style="display: grid; grid-template-columns: 60px 1fr 200px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 26px;">
+ <span class="mono accent">02</span><span style="color: var(--text);"><b style="color: rgb(8, 8, 8);">Pieter Levels</b> &nbsp; <span style="font-size: 24px; color: var(--text);">multi-product</span></span><span class="mono accent" style="text-align: right;">$3M+ ARR</span>
+ </div>
+ <div style="display: grid; grid-template-columns: 60px 1fr 200px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 26px;">
+ <span class="mono accent">03</span><span style="color: var(--text);"><b style="color: rgb(7, 6, 6);">Higgsfield</b> &nbsp; <span style="font-size: 24px; color: var(--text);">AI video</span></span><span class="mono accent" style="text-align: right;">$300M ARR</span>
+ </div>
+ <div style="display: grid; grid-template-columns: 60px 1fr 200px; align-items: center; padding: 16px 0; font-size: 26px; opacity: 0.5;">
+ <span class="mono" style="color: var(--text);">04</span><span style="font-style: italic; color: var(--text);">… 47 more companies</span><span></span>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div style="display: flex; flex-direction: column; gap: 28px; padding-top: 20px;">
+ <div class="anim d4">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">Run by</div>
+ <div style="font-size: 32px; font-weight: 600; margin-top: 8px;">Henry Shi</div>
+ <div class="muted small">Super.com founder · $150M+ exit</div>
+ </div>
+ <div style="height: 1px; background: var(--border);"></div>
+ <div class="anim d5">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">Inclusion criteria</div>
+ <ul class="notion-list checks" style="margin-top: 8px;">
+ <li><span style="font-size: 28px;">$5M+ ARR</span></li>
+ <li><span style="font-size: 28px;">Under 50 employees</span></li>
+ <li><span style="font-size: 28px;">Under 5 years old</span></li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ <div class="sources">
+ <div class="src-label">Source</div>
+ <span class="source-link"><a href="https://leanaileaderboard.com/" target="_blank" rel="noopener">leanaileaderboard.com</a></span> — <span class="mono">as of 2026.04</span>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>05</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 6 — Hero Case 1: Medvi
+============================================================ -->
+<section data-label="Medvi">
+ <div class="slide">
+ <div class="section-tag">Hero Case · 01</div>
+ <span class="slide-num">06 / 15</span>
+
+ <div class="anim d1" style="margin-top: 60px;">
+ <div class="hero-rank"><span class="num">1</span> MEDVI</div>
+ </div>
+ <h1 class="title anim d2" style="font-size: 80px; max-width: 1500px; line-height: 1.05;">$20K became <span class="accent">$1.8B</span><br>in two years.</h1>
+
+ <div class="two-col split-7-5" style="margin-top: 40px; gap: 56px;">
+ <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+ <div class="stat-card anim d3" style="padding: 28px 32px;">
+ <div class="label">Founder</div>
+ <div class="value" style="font-size: 38px;">Matthew Gallagher</div>
+ <div class="sub">Age 41</div>
+ </div>
+ <div class="stat-card anim d4" style="padding: 28px 32px;">
+ <div class="label">Employees</div>
+ <div class="value" style="font-size: 56px;">1<span class="muted" style="font-size: 32px;"> / 2</span></div>
+ <div class="sub">⚠ sources conflict</div>
+ </div>
+ <div class="stat-card anim d5" style="padding: 28px 32px;">
+ <div class="label">Initial Capital</div>
+ <div class="value" style="font-size: 52px;">$20,000</div>
+ <div class="sub">bootstrapped · no VC</div>
+ </div>
+ <div class="stat-card anim d6" style="padding: 28px 32px;">
+ <div class="label">2025 Revenue</div>
+ <div class="value red" style="font-size: 52px;">$401M</div>
+ <div class="sub">20,000&times; the initial capital</div>
+ </div>
+ <div class="stat-card anim d7" style="grid-column: span 2; background: var(--text); color: white; padding: 20px 28px; gap: 2px; margin-bottom: 50px;">
+ <div class="label" style="color: rgba(255,255,255,0.6);">2026 Run-Rate Target</div>
+ <div class="value" style="color: white; font-size: 48px; line-height: 1.05;">$1.8B</div>
+ <div class="sub" style="color: rgba(255,255,255,0.7); margin-top: 2px;">daily $3M+ · 16.2% net margin</div>
+ </div>
+ </div>
+
+ <div style="padding-top: 16px;">
+ <div class="anim d3">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">What it is</div>
+ <div style="font-size: 32px; font-weight: 600; margin-top: 10px; line-height: 1.25;">GLP-1 weight-loss<br>telehealth.</div>
+ </div>
+ <div style="height: 1px; background: var(--border); margin: 22px 0;"></div>
+ <div class="anim d4">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">How</div>
+ <div style="font-size: 26px; line-height: 1.4; margin-top: 10px;">12+ AI tools<br>Built in 2 years.</div>
+ </div>
+ <div style="height: 1px; background: var(--border); margin: 22px 0;"></div>
+ <div class="anim d5">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">Net Income</div>
+ <div style="font-size: 26px; margin-top: 10px;">~$65M / year</div>
+ </div>
+ </div>
+ </div>
+
+ <div class="footer" style="position: relative; z-index: 5; background: var(--bg); padding-top: 10px;">
+ <div class="footer-left" style="text-decoration: none;">Sources: <a href="https://leanaileaderboard.com/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">leanaileaderboard.com</a> · <a href="https://www.techmeme.com/260402/p12" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">NYT 2026.04.02</a> · <a href="https://www.pymnts.com/artificial-intelligence-2/2026/the-one-person-billion-dollar-company-is-here/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">PYMNTS 2026</a></div>
+ <div>06</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 7 — Hero Case 2: Pieter Levels
+============================================================ -->
+<section data-label="Pieter Levels">
+ <div class="slide">
+ <div class="section-tag">Hero Case · 02</div>
+ <span class="slide-num">07 / 15</span>
+
+ <div class="anim d1" style="margin-top: 60px;">
+ <div class="hero-rank"><span class="num">2</span> PIETER LEVELS</div>
+ </div>
+ <h1 class="title anim d2" style="font-size: 80px; line-height: 1.05; max-width: 1700px;">0 employees. 0 funding.<br>Multi-product. <span class="accent">$3M+ ARR.</span></h1>
+
+ <div class="two-col split-5-7" style="margin-top: 70px; gap: 64px;">
+ <div style="display: flex; flex-direction: column; gap: 28px;">
+ <div class="anim d3">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">Profile</div>
+ <div style="font-size: 30px; margin-top: 12px; line-height: 1.5;">Dutch · self-taught dev<br><span class="muted">Briefly hired one AI dev for Photo AI.</span></div>
+ </div>
+ <div style="height: 1px; background: var(--border);"></div>
+ <div class="anim d4">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">Funding</div>
+ <div style="font-size: 56px; font-weight: 700; margin-top: 8px; letter-spacing: -0.02em;">$0</div>
+ <div class="muted small">100% bootstrapped</div>
+ </div>
+ <div style="height: 1px; background: var(--border);"></div>
+ <div class="anim d5">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">Photo AI marketing spend</div>
+ <div style="font-size: 56px; font-weight: 700; margin-top: 8px; letter-spacing: -0.02em;">$0</div>
+ </div>
+ </div>
+
+ <div style="display: flex; flex-direction: column; gap: 16px;">
+ <div class="mono small anim d3" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">Portfolio</div>
+ <div class="anim d4" style="display: grid; grid-template-columns: 1fr 220px 160px; align-items: center; padding: 24px 28px; background: var(--bg-callout); border-radius: var(--radius); font-size: 28px;">
+ <span><b>Nomad List</b></span>
+ <span class="mono muted">community</span>
+ <span class="mono accent" style="text-align: right;">$700K ARR</span>
+ </div>
+ <div class="anim d5" style="display: grid; grid-template-columns: 1fr 220px 160px; align-items: center; padding: 24px 28px; background: var(--bg-callout); border-radius: var(--radius); font-size: 28px;">
+ <span><b>Remote OK</b></span>
+ <span class="mono muted">job board</span>
+ <span class="mono accent" style="text-align: right;">$2M+ ARR</span>
+ </div>
+ <div class="anim d6" style="display: grid; grid-template-columns: 1fr 220px 160px; align-items: center; padding: 24px 28px; background: var(--accent-soft); border-radius: var(--radius); font-size: 28px;">
+ <span><b>Photo AI</b></span>
+ <span class="mono muted">$132K MRR</span>
+ <span class="mono accent" style="text-align: right;">$1.58M ARR</span>
+ </div>
+ <div class="anim d7" style="display: grid; grid-template-columns: 1fr 220px 160px; align-items: center; padding: 24px 28px; background: var(--bg-callout); border-radius: var(--radius); font-size: 28px;">
+ <span><b>Interior AI</b></span>
+ <span class="mono muted">$40K MRR</span>
+ <span class="mono accent" style="text-align: right;">$480K ARR</span>
+ </div>
+ </div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>07</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 8 — Try Rate (70 failures → 1 hit)
+============================================================ -->
+<section data-label="Try Rate">
+ <div class="slide alt">
+ <div class="section-tag">Pieter · multi-product compounding</div>
+ <span class="slide-num">08 / 15</span>
+
+ <h1 class="title anim d1" style="font-size: 84px; line-height: 1.15;"><span class="muted">70 failures.</span><br>1 Photo AI <span class="accent">hit.</span></h1>
+
+ <div class="two-col split-6-6" style="margin-top: 60px; gap: 80px;">
+ <div>
+ <div id="dot-grid" class="dot-grid anim-fade d2" style="margin-top: 30px;"></div>
+ <div class="anim d6" style="margin-top: 36px; display: flex; gap: 36px; font-size: 22px; color: var(--text-secondary);">
+ <div style="display: flex; align-items: center; gap: 12px;"><span style="width: 18px; height: 18px; border-radius: 50%; background: var(--border); display: inline-block;"></span> 65 misses</div>
+ <div style="display: flex; align-items: center; gap: 12px;"><span style="width: 24px; height: 24px; border-radius: 50%; background: var(--accent); display: inline-block;"></span> 5 hits at $100K+ ARR</div>
+ </div>
+ </div>
+
+ <div style="padding-top: 60px;">
+ <div class="anim d3" style="font-size: 36px; line-height: 1.45; max-width: 700px;">
+ He <b>publicly tracks</b> his failures.<br>
+ Of 70+ projects, only 4–5 reached $100K+ ARR.
+ </div>
+ <div class="anim d5" style="margin-top: 48px; padding: 32px 40px; background: white; border-left: 5px solid var(--accent); border-radius: var(--radius); font-size: 32px; line-height: 1.4; font-style: italic;">
+ "Solo maker rule = coding skill ≠<br>try rate × distribution."
+ </div>
+ <div class="anim d7" style="margin-top: 32px; font-size: 24px; color: var(--text-secondary);">
+ Try rate is the lever. Multi-product creates compounding.
+ </div>
+ </div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>08</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 9 — Hero Case 3: Higgsfield
+============================================================ -->
+<section data-label="Higgsfield">
+ <div class="slide">
+ <div class="section-tag">Hero Case · 03</div>
+ <span class="slide-num">09 / 15</span>
+
+ <div class="anim d1" style="margin-top: 60px;">
+ <div class="hero-rank"><span class="num">3</span> HIGGSFIELD</div>
+ </div>
+ <h1 class="title anim d2" style="font-size: 72px; line-height: 1.18; max-width: 1700px;">232 employees. <span class="accent">$300M ARR.</span><br>A different definition of <i>lean.</i></h1>
+
+ <div class="two-col split-6-6" style="margin-top: 60px; gap: 64px;">
+ <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+ <div class="stat-card anim d3">
+ <div class="label">Founder</div>
+ <div class="value" style="font-size: 36px;">Alex Mashrabov</div>
+ <div class="sub">ex-Snap · Generative AI Director</div>
+ </div>
+ <div class="stat-card anim d4">
+ <div class="label">Founded</div>
+ <div class="value">2023</div>
+ <div class="sub">Yerzat Dulat · Mahi de Silva</div>
+ </div>
+ <div class="stat-card anim d5">
+ <div class="label">Employees</div>
+ <div class="value red">232 ⚠</div>
+ <div class="sub">Does NOT meet leanaileaderboard ≤50</div>
+ </div>
+ <div class="stat-card anim d6">
+ <div class="label">Funding · Valuation</div>
+ <div class="value" style="font-size: 44px;">$138M · $1.3B</div>
+ <div class="sub">2026.01</div>
+ </div>
+ </div>
+
+ <div class="anim d4" style="background: var(--text); color: white; border-radius: var(--radius-lg); padding: 56px 48px; display: flex; flex-direction: column; justify-content: center; gap: 16px;">
+ <div class="mono small" style="color: rgba(255,255,255,0.5); letter-spacing: 0.08em; text-transform: uppercase;">Revenue per employee</div>
+ <div style="font-size: 140px; font-weight: 800; line-height: 1; letter-spacing: -0.04em;">$1.29M</div>
+ <div style="font-size: 26px; color: rgba(255,255,255,0.7); margin-top: 16px;">Traditional SaaS average: <span class="mono">~$200K</span></div>
+ <div style="height: 1px; background: rgba(255,255,255,0.15); margin: 24px 0;"></div>
+ <div class="mono small" style="color: rgba(255,255,255,0.5); letter-spacing: 0.08em; text-transform: uppercase;">2026 EOY ARR target</div>
+ <div style="font-size: 56px; font-weight: 700;">$1B</div>
+ </div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>09</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 10 — Cost Curve
+============================================================ -->
+<section data-label="Cost Curve">
+ <div class="slide alt">
+ <div class="section-tag">Why now</div>
+ <span class="slide-num">10 / 15</span>
+
+ <h1 class="title anim d1" style="font-size: 84px;">2015 → 2026. What changed?</h1>
+
+ <div class="anim-fade d2" style="margin-top: 40px; flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 60px;">
+ <svg class="curve-svg" viewBox="0 0 1500 580" style="width: 100%; max-width: 1500px;">
+ <!-- Axes -->
+ <line x1="80" y1="500" x2="1450" y2="500" stroke="#E9E9E7" stroke-width="2"></line>
+ <line x1="80" y1="60" x2="80" y2="500" stroke="#E9E9E7" stroke-width="2"></line>
+
+ <!-- Y label -->
+ <text x="20" y="80" font-family="JetBrains Mono" font-size="14" fill="#9B9A97" letter-spacing="2">COST</text>
+ <text x="80" y="50" font-family="Inter" font-size="22" font-weight="600" fill="#37352F">$70K+</text>
+ <text x="20" y="500" font-family="JetBrains Mono" font-size="14" fill="#9B9A97" letter-spacing="2">$0</text>
+
+ <!-- X labels -->
+ <text x="200" y="540" font-family="JetBrains Mono" font-size="18" fill="#787774">2015</text>
+ <text x="500" y="540" font-family="JetBrains Mono" font-size="18" fill="#787774">2020</text>
+ <text x="780" y="540" font-family="JetBrains Mono" font-size="18" fill="#787774">2022</text>
+ <text x="1100" y="540" font-family="JetBrains Mono" font-size="18" fill="#787774">2024</text>
+ <text x="1380" y="540" font-family="JetBrains Mono" font-size="18" fill="#787774">2026</text>
+
+ <!-- Vertical guides -->
+ <line x1="800" y1="60" x2="800" y2="500" stroke="#E9E9E7" stroke-width="1" stroke-dasharray="4 4"></line>
+ <text x="810" y="80" font-family="JetBrains Mono" font-size="14" fill="#E03E3E" letter-spacing="1">CHATGPT LAUNCH</text>
+
+ <!-- Filled area under line -->
+ <path class="area" d="M 80 100 L 200 105 L 500 110 L 800 130 L 1000 280 L 1200 420 L 1400 470 L 1400 500 L 80 500 Z"></path>
+
+ <!-- Main line -->
+ <path class="line" d="M 80 100 L 200 105 L 500 110 L 800 130 L 1000 280 L 1200 420 L 1400 470" style="--dash: 2400;"></path>
+
+ <!-- Anchor dots -->
+ <circle cx="200" cy="105" r="6" fill="#37352F" class="anim-fade d4"></circle>
+ <circle cx="800" cy="130" r="8" fill="#E03E3E" class="anim-fade d6"></circle>
+ <circle cx="1400" cy="470" r="10" fill="#E03E3E" class="anim-fade d8"></circle>
+
+ <text x="220" y="100" font-family="Inter" font-size="20" font-weight="600" fill="#37352F" class="anim-fade d4">flat · pre-AI</text>
+ <text x="1170" y="450" font-family="Inter" font-size="22" font-weight="700" fill="#E03E3E" class="anim-fade d8">99% ↓</text>
+ </svg>
+ </div>
+
+ <div class="anim d9" style="text-align: center; font-size: 30px; color: var(--text-secondary); margin-top: 8px;">
+ One-person startup initial cost · 2015 → 2026
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>10</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 11 — Cost Comparison Table
+============================================================ -->
+<section data-label="Cost Comparison">
+ <div class="slide">
+ <div class="section-tag">3-month cumulative cost</div>
+ <span class="slide-num">11 / 15</span>
+
+ <h1 class="title anim d1" style="font-size: 96px;"><span class="muted" style="text-decoration: line-through; text-decoration-color: #D3D1CB;">$70,000</span> &nbsp; → &nbsp; <span class="accent">$700</span></h1>
+ <h3 class="subtitle anim d2" style="font-size: 32px; margin-top: 16px;">3-month cumulative · same scope</h3>
+
+ <table class="notion-table anim d3" style="margin-top: 56px;">
+ <thead>
+ <tr>
+ <th style="width: 28%;">Area</th>
+ <th>2015</th>
+ <th>2026</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr><td><b>UI / UX design</b></td><td class="num muted">$400 – $15K</td><td class="num">Free – $30/mo</td></tr>
+ <tr><td><b>Full-stack dev</b></td><td class="num muted">$20K+ outsourced</td><td class="num">$40 – $200/mo</td></tr>
+ <tr><td><b>Server / infra</b></td><td class="num muted">$400 – $1.5K/mo</td><td class="num">Free – $20/mo</td></tr>
+ <tr><td><b>Video / landing</b></td><td class="num muted">$3.5K – $7K</td><td class="num">$30 – $200/mo</td></tr>
+ <tr><td><b>Customer support</b></td><td class="num muted">$1.8K – $2.5K/mo</td><td class="num">$7 – $70/mo</td></tr>
+ <tr><td><b>Legal drafts</b></td><td class="num muted">$400 – $1.5K/case</td><td class="num">$0 – $200/mo</td></tr>
+ <tr class="highlight"><td><b>3-month total</b></td><td class="num red"><b>$70K – $220K</b></td><td class="num red"><b>$200 – $1K</b></td></tr>
+ </tbody>
+ </table>
+
+ <div class="anim d6" style="margin-top: 12px; padding: 10px 24px; background: var(--bg-callout); border-radius: var(--radius); font-size: 20px; line-height: 1.4; max-width: 1300px;">
+ <span class="accent" style="font-weight: 600;">≈ 99% reduction.</span> &nbsp; A full-stack company for 3 months on the price of a single laptop.
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>11</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 12 — Honesty
+============================================================ -->
+<section data-label="Honesty">
+ <div class="slide alt">
+ <div class="section-tag">The honesty slide</div>
+ <span class="slide-num">12 / 15</span>
+
+ <h1 class="title anim d1" style="font-size: 84px;">Then why isn't <i>everyone</i> doing it?</h1>
+
+ <table class="notion-table anim d3" style="margin-top: 60px;">
+ <thead>
+ <tr>
+ <th style="width: 32%;">Item</th>
+ <th>2015</th>
+ <th>2026</th>
+ <th style="width: 22%;">Change</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr><td><b>Learning curve</b></td><td class="num muted">1+ year</td><td class="num">1 – 3 months</td><td><span class="tag green">↓ decreased</span></td></tr>
+ <tr><td><b>Cost of failure</b></td><td class="num muted">$70K lost</td><td class="num">$700 lost</td><td><span class="tag green">↓ decreased</span></td></tr>
+ <tr class="highlight"><td><b>CAC</b><br><span class="muted small" style="font-size: 20px;">customer acquisition</span></td><td class="num">similar</td><td class="num red">higher</td><td><span class="tag red">↑ increased</span></td></tr>
+ <tr class="highlight"><td><b>Differentiation</b></td><td class="num">"existence = differentiation"</td><td class="num red">"buried in noise"</td><td><span class="tag red">↑ increased</span></td></tr>
+ </tbody>
+ </table>
+
+ <div class="anim d6" style="margin-top: 56px; padding: 36px 48px; background: var(--text); color: white; border-radius: var(--radius-lg); font-size: 36px; line-height: 1.4; font-style: italic;">
+ Build cost converges to zero. <span style="color: #ff6b6b;">Sell cost stays.</span> Differentiation cost <i>increased.</i>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>12</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 13 — Our Stack (Codex & Antigravity)
+============================================================ -->
+<section data-label="Our Stack">
+ <div class="slide" id="s13">
+ <div class="section-tag">Our toolbox</div>
+ <span class="slide-num">13 / 15</span>
+
+ <h1 class="title anim d1" style="font-size: 80px;">Many great AI tools exist.<br>We use <span class="accent">two.</span></h1>
+
+ <div class="two-col split-5-7" style="margin-top: 30px; gap: 64px;">
+ <div style="display: flex; flex-direction: column; gap: 18px;">
+ <div class="mono small anim d2" style="color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase;">This bootcamp</div>
+ <div class="anim d3" style="background: var(--text); color: white; border-radius: var(--radius-lg); padding: 32px 44px; border-left: 6px solid var(--accent);">
+ <div class="mono small" style="color: #ff8a8a; letter-spacing: 0.08em;">AI CODING AGENT</div>
+ <div style="font-size: 52px; font-weight: 800; margin-top: 8px;">Codex</div>
+ <div style="font-size: 24px; color: rgba(255,255,255,0.7); margin-top: 8px;">Desktop app — plain English, no commands</div>
+ </div>
+ <div class="anim d4" style="background: var(--text); color: white; border-radius: var(--radius-lg); padding: 32px 44px; border-left: 6px solid var(--accent);">
+ <div class="mono small" style="color: #ff8a8a; letter-spacing: 0.08em;">AGENTIC IDE</div>
+ <div style="font-size: 52px; font-weight: 800; margin-top: 8px;">Antigravity</div>
+ <div style="font-size: 24px; color: rgba(255,255,255,0.7); margin-top: 8px;">Full-stack workspace · build in the editor</div>
+ </div>
+
+ <div class="anim d5" style="margin-top: 8px; padding: 24px 28px; background: var(--bg-callout); border-left: 5px solid var(--accent); border-radius: var(--radius); font-size: 26px; line-height: 1.38; color: var(--text);">
+ You <b>won&rsquo;t type commands.</b><br>
+ You <span class="accent" style="font-weight: 700;">will</span> still read code.
+ </div>
+ </div>
+
+ <div class="anim d3">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px;">Other great options</div>
+ <table class="notion-table">
+ <thead><tr><th style="width: 34%;">Tool</th><th>Sweet spot</th></tr></thead>
+ <tbody>
+ <tr class="highlight"><td><b class="accent">Codex</b> &nbsp;<span class="muted small" style="font-size: 20px;">OpenAI</span></td><td class="red">Desktop coding agent — our pick</td></tr>
+ <tr class="highlight"><td><b class="accent">Antigravity</b> &nbsp;<span class="muted small" style="font-size: 20px;">Google</span></td><td class="red">Agentic full-stack IDE — our pick</td></tr>
+ <tr><td><b>Claude</b> &nbsp;<span class="muted small" style="font-size: 20px;">Code</span></td><td class="muted">Planning · logic · docs</td></tr>
+ <tr><td><b>Cursor</b></td><td class="muted">VS Code + AI</td></tr>
+ <tr><td><b>v0</b> &nbsp;<span class="muted small" style="font-size: 20px;">Vercel</span></td><td class="muted">UI prototyping</td></tr>
+ <tr><td><b>Bolt.new</b></td><td class="muted">Full-stack in 1 minute</td></tr>
+ <tr><td><b>Replit</b></td><td class="muted">Instant deploy</td></tr>
+ </tbody>
+ </table>
+ <div class="anim d6" style="margin-top: 10px; font-size: 22px; color: var(--text-secondary); font-style: italic;">
+ Tools change. Methodology persists. Today we go deep on two.
+ </div>
+ </div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>13</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 14 — Handoff to the live lecture
+============================================================ -->
+<section data-label="Handoff">
+ <div class="slide">
+ <div class="section-tag">Handoff · Session 01</div>
+ <span class="slide-num">14 / 15</span>
+
+ <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 1650px;">
+ <div class="eyebrow anim d1">Boom-up done</div>
+ <h1 class="title anim d2" style="font-size: 116px; line-height: 1.02;">Now, let&rsquo;s <span class="accent">build.</span></h1>
+ <h3 class="subtitle anim d3" style="margin-top: 40px; font-size: 48px;">Step 1 — Install <b style="color: var(--text);">Codex</b> &amp; <b style="color: var(--text);">Antigravity</b></h3>
+
+ <div class="anim d5" style="margin-top: 60px; display: flex; align-items: center; gap: 24px;">
+ <span class="mono accent" style="font-size: 26px; letter-spacing: 0.05em;">DAY 1 · SESSION 01</span>
+ <div style="height: 2px; width: 360px; background: var(--border);"></div>
+ <span style="font-size: 40px; font-weight: 600;">Codex Client &amp; Workspace</span>
+ </div>
+
+ <div class="anim d7" style="margin-top: 64px; align-self: flex-start; display: flex; flex-direction: column; gap: 14px;">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">Lecture site</div>
+ <div style="display: inline-block; padding: 30px 52px; background: var(--bg-callout); border: 1px solid var(--border); border-radius: var(--radius-lg); font-family: var(--mono); font-size: 40px; font-weight: 500; color: var(--text); letter-spacing: -0.01em;">
+ odatot.github.io/nigeria/NA/LECTURE_ENG/docs
+ </div>
+ </div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>14</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 15 — 10-Day Process Map (interactive)
+============================================================ -->
+<section data-label="10-Day Map">
+ <div class="slide pm-slide">
+ <div class="section-tag">The whole map</div>
+ <span class="slide-num">15 / 15</span>
+
+ <div class="pm-head">
+ <div>
+ <h1 class="title anim d1" style="font-size: 60px; margin: 0;">10 days. <span class="accent">One shipped product.</span></h1>
+ <div class="pm-sub anim d2">talk &rarr; spec &rarr; structure &rarr; screen &rarr; feature &rarr; user &rarr; money &rarr; market</div>
+ </div>
+ <div class="pm-ctrl anim d2">
+ <button class="pm-btn is-on" data-mode="issue">Issue it kills</button>
+ <button class="pm-btn" data-mode="artifact">Artifact passed</button>
+ <button class="pm-btn pm-play" id="pm-play">&#9654; Walk</button>
+ </div>
+ </div>
+
+ <div class="pm-phases anim-fade d3" id="pm-phases"></div>
+ <div class="pm-railwrap anim-fade d3">
+ <div class="pm-progress"><i id="pm-fill"></i></div>
+ <div class="pm-rail" id="pm-rail"></div>
+ </div>
+
+ <div class="pm-detail anim d4" id="pm-detail"></div>
+
+ <div class="pm-loop anim d5">
+ <span class="pm-loop-k">Every single day</span>
+ <span class="pm-loop-s"><b>1</b> Learn &middot; 2h</span><span class="pm-arrow">&rarr;</span>
+ <span class="pm-loop-s"><b>2</b> Task 01&ndash;03 with Codex &middot; 3h</span><span class="pm-arrow">&rarr;</span>
+ <span class="pm-loop-s"><b>3</b> Mission 01&ndash;02 solo &middot; 1h</span>
+ <span class="pm-loop-tail">&nbsp;&nbsp;the same 3 beats: <b>diagnose</b> &rarr; <b>fix with AI</b> &rarr; <b>verify</b></span>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>15 · END</div>
+ </div>
+ </div>
+</section>
+
+</deck-stage>
+
+<div id="nav-hint">← → or Space · click to advance</div>
+
+<script>
+/* ==========================================================
+ Standalone slide engine — navigation, fit-to-viewport,
+ active-slide animation hook, and dot-grid builder.
+ ========================================================== */
+(function () {
+ const stage = document.querySelector('deck-stage');
+ const slides = Array.prototype.slice.call(stage.querySelectorAll(':scope > section'));
+ const hint = document.getElementById('nav-hint');
+ let idx = 0;
+
+ // Engine is live — switch from the no-JS fallback to single-slide mode.
+ stage.classList.add('js-ready');
+
+ function syncActive(i) {
+ idx = Math.max(0, Math.min(slides.length - 1, i));
+ slides.forEach(function (s, n) {
+ if (n === idx) s.setAttribute('data-active', 'true');
+ else s.removeAttribute('data-active');
+ });
+ }
+
+ function fit() {
+ const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+ stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+ }
+
+ function next() { if (idx < slides.length - 1) syncActive(idx + 1); }
+ function prev() { if (idx > 0) syncActive(idx - 1); }
+
+ let hintHidden = false;
+ function hideHint() {
+ if (hintHidden || !hint) return;
+ hintHidden = true;
+ hint.style.opacity = '0';
+ setTimeout(function () { if (hint) hint.style.display = 'none'; }, 600);
+ }
+
+ // Build the 70-dot grid for the Try Rate slide (5 hits, 65 misses)
+ (function buildDotGrid() {
+ const grid = document.getElementById('dot-grid');
+ if (!grid || grid.dataset.built) return;
+ grid.dataset.built = '1';
+ const total = 70;
+ const hits = new Set([12, 27, 40, 53, 64]);
+ for (let i = 0; i < total; i++) {
+ const dot = document.createElement('span');
+ dot.className = 'dot' + (hits.has(i) ? ' hit' : '');
+ dot.style.animationDelay = (0.4 + i * 0.018) + 's';
+ grid.appendChild(dot);
+ }
+ })();
+
+ // Keyboard
+ document.addEventListener('keydown', function (e) {
+ if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown' || e.key === 'Enter') {
+ next(); hideHint(); e.preventDefault();
+ } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') {
+ prev(); hideHint(); e.preventDefault();
+ } else if (e.key === 'Home') {
+ syncActive(0); hideHint(); e.preventDefault();
+ } else if (e.key === 'End') {
+ syncActive(slides.length - 1); hideHint(); e.preventDefault();
+ }
+ });
+
+ // Click to advance (ignore clicks on links)
+ stage.addEventListener('click', function (e) {
+ if (e.target.closest('a')) return;
+ next(); hideHint();
+ });
+
+ window.addEventListener('resize', fit);
+
+ fit();
+ syncActive(0);
+})();
+</script>
+
+<script>
+/* ==========================================================
+ SLIDE 15 — 10-Day Process Map: data + interaction
+ ========================================================== */
+(function () {
+ var PHASES = [
+  { name: 'DEFINE',  span: 2, color: '#337EA9', desc: 'Turn talk into a spec that holds' },
+  { name: 'DESIGN',  span: 3, color: '#9065B0', desc: 'Decide the structure before writing code' },
+  { name: 'BUILD',   span: 2, color: '#4D8B6E', desc: 'Make it real — and make it not break' },
+  { name: 'CONVERT', span: 2, color: '#CB912F', desc: 'Users in, money in' },
+  { name: 'LAUNCH',  span: 1, color: '#E03E3E', desc: 'Ship, listen, plan v2' }
+ ];
+
+ var DAYS = [
+  { d: 1,  p: 0, t: 'Define Requirements',
+    issue: '"We talked about it" is not a spec.',
+    does: 'Raw transcript &rarr; actors &rarr; <b>functional requirements</b> &rarr; normal &amp; exception flows &rarr; open questions. Then lint all five into one document and email it for sign-off. Figma wireframes in parallel.',
+    out: ['requirements-specification.md', 'user-scenarios.md', 'open-questions.md', 'Figma wireframes'],
+    pass: 'signed-off spec' },
+  { d: 2,  p: 0, t: 'Align &amp; Trace',
+    issue: 'Docs drift. Decisions vanish into chat.',
+    does: 'Cross-audit minutes vs. requirements vs. screens for <b>contradictions</b>. Trace the blast radius of one change ("add phone auth"). Mine the messenger log into a decision record.',
+    out: ['consistency-report.md', 'impact-analysis.md', 'decision-log.md', 'project-issue-report.md'],
+    pass: 'one consistent truth' },
+  { d: 3,  p: 1, t: 'Model the Data',
+    issue: 'Planner says "member". Dev codes "User". DB has "Member".',
+    does: 'Normalize, draw the <b>ERD</b>, standardize the glossary, log why each design choice was made, then hunt edge cases: concurrency, referential integrity, hard-delete.',
+    out: ['erd-schema.md', 'project-glossary.md', 'change-impact-report.md', 'edge-case-analysis.md'],
+    pass: 'ERD + glossary' },
+  { d: 4,  p: 1, t: 'Contract the API',
+    issue: 'The screen needs a field the API never had.',
+    does: 'Write the <b>API contract</b> from screens + ERD. Audit for missing/mismatched endpoints. Trace change impact across DB &harr; API &harr; UI. Design Happy Path and Sad Path tests.',
+    out: ['api-contract.md (OpenAPI)', 'api-consistency-report.md', 'api-impact-analysis.md', 'api-test-scenario.md'],
+    pass: 'API contract' },
+  { d: 5,  p: 1, t: 'Design the Experience',
+    issue: '9 steps to book. Users quit at step 4.',
+    does: 'Review as a first-time user. Enforce cross-screen consistency. Compress the journey <b>9 steps &rarr; 4</b>. Run an AI persona (an older, low-digital user) and score usability.',
+    out: ['ux-review-report.md', 'ui-consistency-report.md', 'user-journey-report.md', 'usability-evaluation.md'],
+    pass: 'hi-fi tested UI' },
+  { d: 6,  p: 2, t: 'Build the Screens',
+    issue: 'It renders. Then it dies on <i>undefined</i>.',
+    does: 'Generate a responsive dashboard draft, bind server data via fetch. Read the <b>stack trace</b> and fix the crash. Refactor copy-pasted spaghetti into named, defensive code.',
+    out: ['index.html · layout.css', 'day6_debug_solution.js', 'day6_clean_code.js', 'day6_code_review.md'],
+    pass: 'working skeleton' },
+  { d: 7,  p: 2, t: 'Wire the Features',
+    issue: 'Back button wipes their filters. Double-click double-books.',
+    does: 'Bind events, persist with localStorage. Restore state on back-navigation via sessionStorage. Add an <b>isSubmitting lock</b> against duplicate writes. Then run E2E as a novice.',
+    out: ['day7_connected_feature.html', 'day7_scenario_solution.js', 'day7_robust_validation.js', 'day7_e2e_validation.md'],
+    pass: 'features that hold' },
+  { d: 8,  p: 3, t: 'Onboard the User',
+    issue: 'The signup form is long. They leave at field 6.',
+    does: 'Split must-have vs. later (progressive profiling). Audit every friction point in the form. Guard duplicate emails and session integrity. Hide what login errors reveal.',
+    out: ['day8_feature_checklist.md', 'day8_ux_improvement_report.md', 'day8_robust_user_service.js', 'day8_first_user_review.md'],
+    pass: 'members + auth' },
+  { d: 9,  p: 3, t: 'Take the Money',
+    issue: 'A white page with only a price. It feels like phishing.',
+    does: 'Collapse checkout <b>9 steps &rarr; 3</b>. Translate PG error codes into human sentences. Add <b>UUID idempotency</b> against double charges. Design trust signals and receipts.',
+    out: ['day9_optimized_flow.md', 'day9_error_mitigation_guide.md', 'day9_robust_payment_ui.html', 'day9_checkout_journey.md'],
+    pass: 'revenue that clears' },
+  { d: 10, p: 4, t: 'Launch &amp; v2.0',
+    issue: 'You built it. Nobody knows what it is.',
+    does: 'Launch copy understood in <b>5 seconds</b>. 20 FAQs + support flow. Keep / Problem / Try retrospective. <b>MoSCoW</b> roadmap for v2.0. Then pitch it in 10 minutes.',
+    out: ['day10_launch_materials.md', 'day10_faq_guide.md', 'day10_retrospective.md', 'day10_presentation.md'],
+    pass: 'LIVE &rarr; v2.0' }
+ ];
+
+ var slide = document.querySelector('.pm-slide');
+ if (!slide) return;
+ var railEl = slide.querySelector('#pm-rail');
+ var phaseEl = slide.querySelector('#pm-phases');
+ var detailEl = slide.querySelector('#pm-detail');
+ var fillEl = slide.querySelector('#pm-fill');
+ var playBtn = slide.querySelector('#pm-play');
+ var modeBtns = slide.querySelectorAll('.pm-btn[data-mode]');
+ var mode = 'issue';
+ var sel = 0;
+ var timer = null;
+
+ /* ---- phase band ---- */
+ PHASES.forEach(function (ph) {
+  var el = document.createElement('div');
+  el.className = 'pm-phase';
+  el.style.setProperty('--pc', ph.color);
+  el.style.gridColumn = 'span ' + ph.span;
+  el.innerHTML = '<div class="pm-pname">' + ph.name + '</div><div class="pm-pdesc">' + ph.desc + '</div>';
+  phaseEl.appendChild(el);
+ });
+
+ /* ---- nodes ---- */
+ var nodes = DAYS.map(function (dy, i) {
+  var el = document.createElement('div');
+  el.className = 'pm-node';
+  el.style.setProperty('--pc', PHASES[dy.p].color);
+  el.style.position = 'relative';
+  el.innerHTML =
+   '<span class="pm-bub"></span>' +
+   '<div class="pm-day">DAY ' + (dy.d < 10 ? '0' + dy.d : dy.d) + '</div>' +
+   '<div class="pm-title">' + dy.t + '</div>' +
+   '<div class="pm-chip"></div>';
+  el.addEventListener('click', function (e) {
+   e.stopPropagation();
+   stop();
+   select(i);
+  });
+  el.addEventListener('mouseenter', function () { if (!timer) select(i); });
+  railEl.appendChild(el);
+  return el;
+ });
+
+ function shortIssue(dy) {
+  return dy.issue.replace(/<[^>]+>/g, '');
+ }
+
+ function paintChips() {
+  DAYS.forEach(function (dy, i) {
+   var chip = nodes[i].querySelector('.pm-chip');
+   if (mode === 'artifact') {
+    chip.className = 'pm-chip mono';
+    chip.innerHTML = '&rarr; ' + dy.pass;
+   } else {
+    chip.className = 'pm-chip';
+    chip.innerHTML = shortIssue(dy);
+   }
+  });
+ }
+
+ function select(i) {
+  sel = i;
+  var dy = DAYS[i];
+  nodes.forEach(function (n, k) {
+   n.classList.toggle('is-sel', k === i);
+   n.classList.toggle('is-done', k < i);
+  });
+  fillEl.style.width = (i / (DAYS.length - 1) * 100) + '%';
+  detailEl.innerHTML =
+   '<div class="pm-fade"><div class="pm-col-k">The issue it kills</div><div class="pm-issue">' + dy.issue + '</div></div>' +
+   '<div class="pm-fade"><div class="pm-col-k">What you actually do</div><div class="pm-does">' + dy.does + '</div></div>' +
+   '<div class="pm-fade"><div class="pm-col-k">You walk out with</div><div class="pm-out"><span>' + dy.out.join('</span><span>') + '</span></div></div>';
+ }
+
+ /* ---- mode toggle ---- */
+ Array.prototype.forEach.call(modeBtns, function (b) {
+  b.addEventListener('click', function (e) {
+   e.stopPropagation();
+   Array.prototype.forEach.call(modeBtns, function (x) { x.classList.remove('is-on'); });
+   b.classList.add('is-on');
+   mode = b.getAttribute('data-mode');
+   paintChips();
+  });
+ });
+
+ /* ---- walkthrough ---- */
+ function stop() {
+  if (timer) { clearInterval(timer); timer = null; }
+  playBtn.classList.remove('is-on');
+  playBtn.innerHTML = '▶ Walk';
+ }
+ playBtn.addEventListener('click', function (e) {
+  e.stopPropagation();
+  if (timer) { stop(); return; }
+  playBtn.classList.add('is-on');
+  playBtn.innerHTML = '■ Stop';
+  select(0);
+  timer = setInterval(function () {
+   if (sel >= DAYS.length - 1) { stop(); return; }
+   select(sel + 1);
+  }, 2000);
+ });
+
+ paintChips();
+ select(0);
+})();
+</script>
+
+</body></html>

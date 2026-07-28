@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ACE AI 스타트업 부트캠프 — Day 1</title>
+<style>
+/* ========================================
+ ACE AI 스타트업 부트캠프 — Day 1 (나이지리아)
+ Notion-inspired aesthetic
+ ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+ --bg: #FFFFFF;
+ --bg-alt: #FAFAF9;
+ --text: #37352F;
+ --text-secondary: #787774;
+ --text-light: #9B9A97;
+ --bg-callout: #F7F6F3;
+ --border: #E9E9E7;
+ --border-strong: #D3D1CB;
+ --accent: #E03E3E;
+ --accent-soft: #FBE4E4;
+ --blue: #337EA9;
+ --green: #4D8B6E;
+ --yellow-bg: #FBF3DB;
+ --green-bg: #DDEDEA;
+ --red-bg: #FBE4E4;
+ --radius: 6px;
+ --radius-lg: 10px;
+ --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+ --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* {
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+}
+
+html, body {
+ height: 100%;
+ overflow: hidden;
+ background: #1a1a1a;
+ font-family: var(--font);
+ color: var(--text);
+ -webkit-font-smoothing: antialiased;
+ -moz-osx-font-smoothing: grayscale;
+}
+
+deck-stage section {
+ background: var(--bg);
+ display: flex;
+ flex-direction: column;
+ overflow: hidden;
+ position: relative;
+}
+
+/* ---------- Common slide chrome ---------- */
+.slide {
+ width: 1920px;
+ height: 1080px;
+ padding: 100px 120px 80px;
+ background: var(--bg);
+ color: var(--text);
+ display: flex;
+ flex-direction: column;
+ position: relative;
+}
+
+.slide.center {
+ align-items: center;
+ justify-content: center;
+ text-align: center;
+}
+
+.slide.alt {
+ background: var(--bg-alt);
+}
+
+.slide.dark {
+ background: #1a1a1a;
+ color: #fafafa;
+}
+
+/* Footer */
+.footer {
+ position: absolute;
+ bottom: 36px;
+ left: 120px;
+ right: 120px;
+ font-size: 24px;
+ color: var(--text-light);
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ font-weight: 400;
+ letter-spacing: 0.01em;
+}
+.footer .footer-left { font-style: italic; }
+.dark .footer { color: #6b6b6b; }
+
+/* Slide number badge top-right */
+.slide-num {
+ position: absolute;
+ top: 44px;
+ right: 120px;
+ font-family: var(--mono);
+ font-size: 26px;
+ color: var(--text-light);
+ letter-spacing: 0.05em;
+ white-space: nowrap;
+}
+.dark .slide-num { color: #6b6b6b; }
+
+/* Section tag (top-left) */
+.section-tag {
+ position: absolute;
+ top: 44px;
+ left: 120px;
+ font-family: var(--mono);
+ font-size: 26px;
+ color: var(--text-light);
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+ display: flex;
+ align-items: center;
+ gap: 14px;
+}
+.section-tag::before {
+ content: '';
+ width: 32px;
+ height: 2px;
+ background: var(--accent);
+ display: inline-block;
+}
+.dark .section-tag { color: #888; }
+
+/* ---------- Typography ---------- */
+.eyebrow {
+ font-family: var(--mono);
+ font-size: 24px;
+ color: var(--accent);
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+ font-weight: 500;
+ margin-bottom: 24px;
+}
+
+h1.title {
+ font-size: 84px;
+ font-weight: 700;
+ line-height: 1.08;
+ letter-spacing: -0.02em;
+ color: var(--text);
+}
+
+h2.title {
+ font-size: 64px;
+ font-weight: 700;
+ line-height: 1.1;
+ letter-spacing: -0.02em;
+ color: var(--text);
+ margin-bottom: 52px;
+}
+
+h3.subtitle {
+ font-size: 40px;
+ font-weight: 500;
+ color: var(--text-secondary);
+ line-height: 1.3;
+}
+
+.body-text {
+ font-size: 34px;
+ line-height: 1.5;
+ color: var(--text);
+ font-weight: 400;
+}
+
+.small {
+ font-size: 26px;
+ color: var(--text-secondary);
+ line-height: 1.5;
+}
+.mono {
+ font-family: var(--mono);
+}
+
+.accent { color: var(--accent); }
+.muted { color: var(--text-secondary); }
+
+/* ---------- Callout ---------- */
+.callout {
+ background: var(--bg-callout);
+ border-radius: var(--radius);
+ padding: 32px 40px;
+ font-size: 30px;
+ line-height: 1.5;
+ color: var(--text);
+ display: flex;
+ gap: 24px;
+ align-items: flex-start;
+}
+.callout .icon {
+ font-size: 36px;
+ flex-shrink: 0;
+}
+
+/* Quote */
+.quote {
+ border-left: 5px solid var(--accent);
+ padding: 16px 0 16px 36px;
+ font-size: 56px;
+ line-height: 1.25;
+ font-weight: 500;
+ font-style: italic;
+ color: var(--text);
+ letter-spacing: -0.01em;
+}
+.quote-attr {
+ margin-top: 32px;
+ font-size: 28px;
+ color: var(--text-secondary);
+ font-style: normal;
+}
+
+/* Tag pill */
+.tag {
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ padding: 6px 14px;
+ background: var(--bg-callout);
+ border-radius: 4px;
+ font-size: 22px;
+ color: var(--text-secondary);
+ font-family: var(--mono);
+ font-weight: 500;
+}
+.tag.red { background: var(--red-bg); color: var(--accent); }
+.tag.green { background: var(--green-bg); color: var(--green); }
+.tag.yellow { background: var(--yellow-bg); color: #8B6914; }
+
+/* ---------- Tables (Notion style) ---------- */
+.notion-table {
+ width: 100%;
+ border-collapse: collapse;
+ font-size: 26px;
+ background: white;
+ border-radius: var(--radius);
+ overflow: hidden;
+ border: 1px solid var(--border);
+}
+.notion-table th, .notion-table td {
+ padding: 22px 28px;
+ text-align: left;
+ border-bottom: 1px solid var(--border);
+ border-right: 1px solid var(--border);
+ vertical-align: middle;
+ line-height: 1.4;
+}
+.notion-table th:last-child, .notion-table td:last-child { border-right: none; }
+.notion-table tr:last-child td { border-bottom: none; }
+.notion-table th {
+ background: var(--bg-callout);
+ font-weight: 600;
+ font-size: 24px;
+ color: var(--text);
+ letter-spacing: 0.01em;
+}
+.notion-table td.num { font-family: var(--mono); }
+.notion-table tr.highlight { background: var(--accent-soft); }
+.notion-table .red { color: var(--accent); font-weight: 600; }
+
+/* ---------- Source box ---------- */
+.sources {
+ position: absolute;
+ bottom: 80px;
+ right: 120px;
+ max-width: 720px;
+ background: var(--bg-callout);
+ border-radius: var(--radius);
+ padding: 18px 24px;
+ font-size: 24px;
+ line-height: 1.55;
+ color: var(--text-secondary);
+}
+.sources .src-label {
+ font-family: var(--mono);
+ font-size: 24px;
+ color: var(--text-light);
+ text-transform: uppercase;
+ letter-spacing: 0.08em;
+ margin-bottom: 6px;
+}
+.sources a, .source-link { color: var(--blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.source-link a { color: inherit; text-decoration: inherit; }
+.footer-left a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; text-decoration-color: rgba(0,0,0,0.25); }
+.footer-left a:hover { text-decoration-color: currentColor; }
+
+/* ---------- Animations ---------- */
+@keyframes fadeRise {
+ from { opacity: 0; transform: translateY(28px); }
+ to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+ from { opacity: 0; }
+ to { opacity: 1; }
+}
+@keyframes scaleIn {
+ from { opacity: 0; transform: scale(0.94); }
+ to { opacity: 1; transform: scale(1); }
+}
+@keyframes slideRight {
+ from { opacity: 0; transform: translateX(-32px); }
+ to { opacity: 1; transform: translateX(0); }
+}
+@keyframes drawLine {
+ from { stroke-dashoffset: var(--dash, 1000); }
+ to { stroke-dashoffset: 0; }
+}
+@keyframes growBar {
+ from { transform: scaleX(0); }
+ to { transform: scaleX(1); }
+}
+@keyframes pulseDot {
+ 0%, 100% { transform: scale(1); opacity: 1; }
+ 50% { transform: scale(1.4); opacity: 0.6; }
+}
+@keyframes shimmer {
+ 0% { background-position: -1000px 0; }
+ 100% { background-position: 1000px 0; }
+}
+
+/* Active-slide animation hooks. Default = visible so content is never
+ hidden if the host doesn't toggle anything (print, static export). */
+.anim {
+ opacity: 1;
+}
+
+/* Hide animated items only when a slide is inactive */
+deck-stage section:not([data-deck-active]):not([data-active="true"]) .anim {
+ opacity: 0;
+}
+
+deck-stage section[data-deck-active] .anim,
+deck-stage section[data-active="true"] .anim,
+.anim.replay {
+ animation: fadeRise 0.7s cubic-bezier(.2,.7,.2,1) both;
+}
+deck-stage section[data-deck-active] .anim-fade,
+deck-stage section[data-active="true"] .anim-fade {
+ animation: fadeIn 0.9s ease-out both;
+ opacity: 1;
+}
+deck-stage section[data-deck-active] .anim-scale,
+deck-stage section[data-active="true"] .anim-scale {
+ animation: scaleIn 0.7s cubic-bezier(.2,.7,.2,1) both;
+}
+deck-stage section[data-deck-active] .anim-slide,
+deck-stage section[data-active="true"] .anim-slide {
+ animation: slideRight 0.7s cubic-bezier(.2,.7,.2,1) both;
+}
+
+/* Stagger helpers */
+.d1 { animation-delay: 0.05s !important; }
+.d2 { animation-delay: 0.18s !important; }
+.d3 { animation-delay: 0.32s !important; }
+.d4 { animation-delay: 0.46s !important; }
+.d5 { animation-delay: 0.6s !important; }
+.d6 { animation-delay: 0.74s !important; }
+.d7 { animation-delay: 0.88s !important; }
+.d8 { animation-delay: 1.02s !important; }
+.d9 { animation-delay: 1.16s !important; }
+.d10 { animation-delay: 1.3s !important; }
+
+/* Counter (count-up via CSS @property) */
+@property --num {
+ syntax: '<integer>';
+ initial-value: 0;
+ inherits: false;
+}
+@property --decimal {
+ syntax: '<number>';
+ initial-value: 0;
+ inherits: false;
+}
+
+/* ---------- Specific slide elements ---------- */
+
+/* Title slide */
+.title-slide {
+ background:
+ radial-gradient(ellipse 1200px 800px at 80% 20%, var(--accent-soft) 0%, transparent 60%),
+ radial-gradient(ellipse 1000px 600px at 10% 90%, #FFF4E6 0%, transparent 60%),
+ var(--bg);
+}
+.title-slide h1 {
+ font-size: 132px;
+ font-weight: 800;
+ line-height: 1;
+ letter-spacing: -0.035em;
+ max-width: 1500px;
+}
+.title-slide .super {
+ font-family: var(--mono);
+ font-size: 22px;
+ color: var(--accent);
+ letter-spacing: 0.15em;
+ text-transform: uppercase;
+ margin-bottom: 48px;
+ display: flex;
+ align-items: center;
+ gap: 18px;
+}
+.title-slide .super::before {
+ content: '';
+ width: 80px; height: 1px; background: var(--accent);
+}
+.title-slide .sub {
+ margin-top: 56px;
+ font-size: 44px;
+ line-height: 1.4;
+ color: var(--text-secondary);
+ font-weight: 400;
+ max-width: 1200px;
+}
+.title-slide .meta {
+ position: absolute;
+ bottom: 100px;
+ left: 120px;
+ display: flex;
+ gap: 80px;
+ font-size: 22px;
+ color: var(--text-light);
+}
+.title-slide .meta b { color: var(--text); font-weight: 600; display: block; margin-bottom: 4px; font-size: 22px;}
+.title-slide .meta div span { font-family: var(--mono); }
+
+/* Big-figure slide */
+.big-figure {
+ font-size: 380px;
+ font-weight: 800;
+ line-height: 0.95;
+ letter-spacing: -0.05em;
+ color: var(--text);
+}
+.big-figure .unit { font-size: 110px; color: var(--text-secondary); font-weight: 600; }
+.big-figure.red { color: var(--accent); }
+
+/* Two col layout */
+.two-col {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 80px;
+ flex: 1;
+}
+.two-col.split-7-5 { grid-template-columns: 7fr 5fr; }
+.two-col.split-6-6 { grid-template-columns: 1fr 1fr; }
+.two-col.split-5-7 { grid-template-columns: 5fr 7fr; }
+
+/* Hero stat card */
+.stat-card {
+ background: var(--bg-callout);
+ border-radius: var(--radius-lg);
+ padding: 40px 44px;
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+}
+.stat-card .label {
+ font-size: 24px;
+ color: var(--text-secondary);
+ font-family: var(--mono);
+ text-transform: uppercase;
+ letter-spacing: 0.08em;
+}
+.stat-card .value {
+ font-size: 64px;
+ font-weight: 700;
+ line-height: 1.05;
+ letter-spacing: -0.02em;
+ color: var(--text);
+ font-feature-settings: 'tnum';
+}
+.stat-card .value.red { color: var(--accent); }
+.stat-card .sub {
+ font-size: 24px;
+ color: var(--text-secondary);
+ margin-top: 4px;
+}
+
+/* List of features (Notion-style) */
+ul.notion-list { list-style: none; padding: 0; }
+ul.notion-list li {
+ padding: 14px 0;
+ font-size: 30px;
+ line-height: 1.4;
+ color: var(--text);
+ display: flex;
+ gap: 18px;
+ align-items: baseline;
+}
+ul.notion-list li::before {
+ content: '•';
+ color: var(--text-light);
+ font-size: 22px;
+ flex-shrink: 0;
+}
+ul.notion-list.checks li::before { content: '✓'; color: var(--green); }
+ul.notion-list.crosses li::before { content: '✕'; color: var(--accent); }
+
+/* Tool ranking stars */
+.stars {
+ font-family: var(--mono);
+ letter-spacing: 0.08em;
+ color: var(--accent);
+}
+
+/* Hero medal */
+.hero-rank {
+ display: inline-flex;
+ align-items: center;
+ gap: 16px;
+ padding: 8px 20px 8px 16px;
+ background: var(--accent-soft);
+ border-radius: 100px;
+ font-size: 24px;
+ font-weight: 600;
+ color: var(--accent);
+ font-family: var(--mono);
+ letter-spacing: 0.05em;
+ margin-bottom: 24px;
+}
+.hero-rank .num {
+ background: var(--accent);
+ color: white;
+ width: 36px; height: 36px;
+ border-radius: 50%;
+ display: inline-flex; align-items: center; justify-content: center;
+ font-size: 24px;
+ font-weight: 700;
+}
+
+/* Day card (timeline) */
+.day-card {
+ background: var(--bg-callout);
+ border-radius: var(--radius);
+ padding: 24px 28px;
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+ border-top: 3px solid var(--accent);
+}
+.day-card .day-label {
+ font-family: var(--mono);
+ font-size: 18px;
+ color: var(--accent);
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+}
+.day-card .day-title {
+ font-size: 24px;
+ font-weight: 600;
+}
+
+/* Cost curve SVG */
+.curve-svg path.line {
+ fill: none;
+ stroke: var(--accent);
+ stroke-width: 4;
+ stroke-dasharray: 2400;
+ stroke-dashoffset: 2400;
+}
+deck-stage section[data-active="true"] .curve-svg path.line {
+ animation: drawLine 2.4s ease-out 0.4s forwards;
+}
+.curve-svg path.area {
+ fill: var(--accent-soft);
+ opacity: 0;
+}
+deck-stage section[data-active="true"] .curve-svg path.area {
+ animation: fadeIn 1.2s ease-out 1.6s forwards;
+}
+
+/* Dot grid */
+.dot-grid {
+ display: grid;
+ grid-template-columns: repeat(14, 1fr);
+ gap: 14px;
+ width: 100%;
+ max-width: 720px;
+}
+.dot-grid .dot {
+ width: 36px;
+ height: 36px;
+ background: var(--border);
+ border-radius: 50%;
+ opacity: 0;
+}
+.dot-grid .dot.hit {
+ background: var(--accent);
+ width: 56px; height: 56px;
+ margin: -10px;
+ box-shadow: 0 0 0 6px var(--accent-soft);
+}
+deck-stage section[data-active="true"] .dot-grid .dot {
+ animation: scaleIn 0.4s ease-out both;
+}
+
+/* ---- Numeric counter base ---- */
+.counter {
+ font-variant-numeric: tabular-nums;
+ font-feature-settings: 'tnum';
+}
+
+/* Live red dot */
+.live-dot {
+ width: 14px; height: 14px; border-radius: 50%;
+ background: var(--accent); display: inline-block;
+ margin-right: 12px;
+ animation: pulseDot 1.6s ease-in-out infinite;
+}
+
+/* Diagonal grid pattern (placeholders) */
+.placeholder {
+ background:
+ repeating-linear-gradient(45deg, transparent 0 18px, rgba(120,119,116,0.08) 18px 19px),
+ var(--bg-callout);
+ border: 1px solid var(--border);
+ border-radius: var(--radius);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-family: var(--mono);
+ color: var(--text-light);
+ font-size: 18px;
+ text-transform: uppercase;
+ letter-spacing: 0.08em;
+}
+
+/* Bar comparing 2015 vs 2026 */
+.bar-row {
+ display: grid;
+ grid-template-columns: 200px 1fr 1fr;
+ align-items: center;
+ gap: 32px;
+ padding: 18px 0;
+ font-size: 24px;
+ border-bottom: 1px solid var(--border);
+}
+.bar-row:last-child { border-bottom: none; }
+.bar-row .label { color: var(--text-secondary); font-size: 22px; }
+.bar-row .bar {
+ height: 28px;
+ background: var(--border);
+ border-radius: 4px;
+ position: relative;
+ overflow: hidden;
+}
+.bar-row .bar .fill {
+ height: 100%;
+ background: var(--text);
+ border-radius: 4px;
+ transform: scaleX(0);
+ transform-origin: left;
+}
+.bar-row .bar.red .fill { background: var(--accent); }
+deck-stage section[data-active="true"] .bar-row .bar .fill {
+ animation: growBar 1s cubic-bezier(.2,.7,.2,1) both;
+}
+
+/* ==========================================================
+ Standalone slide engine (replaces the vendored deck-stage)
+ ========================================================== */
+deck-stage {
+ display: block;
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ width: 1920px;
+ height: 1080px;
+ transform: translate(-50%, -50%) scale(1);
+ transform-origin: center center;
+ box-shadow: 0 40px 120px rgba(0,0,0,0.55);
+}
+deck-stage > section {
+ position: absolute;
+ inset: 0;
+ width: 1920px;
+ height: 1080px;
+ display: none;
+}
+deck-stage > section[data-active="true"] {
+ display: flex;
+}
+/* No-JS graceful fallback: show the first slide until the engine loads */
+deck-stage:not(.js-ready) > section:first-child {
+ display: flex;
+}
+
+/* Nav hint (outside the scaled canvas) */
+#nav-hint {
+ position: fixed;
+ bottom: 20px;
+ left: 50%;
+ transform: translateX(-50%);
+ font-family: var(--mono);
+ font-size: 14px;
+ letter-spacing: 0.08em;
+ color: rgba(255,255,255,0.45);
+ background: rgba(0,0,0,0.35);
+ padding: 8px 18px;
+ border-radius: 100px;
+ z-index: 50;
+ transition: opacity 0.5s ease;
+ pointer-events: none;
+}
+</style>
+<style>
+/* ==========================================================
+ SLIDE 15 — 10-Day Process Map (v2 addition)
+ ========================================================== */
+.pm-slide {
+ padding: 92px 80px 64px;
+}
+.pm-slide .section-tag { left: 80px; }
+.pm-slide .slide-num { right: 80px; }
+.pm-slide .footer { left: 80px; right: 80px; bottom: 26px; font-size: 20px; }
+
+.pm-head {
+ display: flex;
+ align-items: flex-end;
+ justify-content: space-between;
+ gap: 40px;
+}
+.pm-sub {
+ margin-top: 12px;
+ font-family: var(--mono);
+ font-size: 21px;
+ letter-spacing: 0.04em;
+ color: var(--text-light);
+ text-transform: uppercase;
+}
+.pm-ctrl { display: flex; gap: 10px; flex-shrink: 0; }
+.pm-btn {
+ font-family: var(--mono);
+ font-size: 19px;
+ letter-spacing: 0.03em;
+ padding: 12px 20px;
+ border-radius: 100px;
+ border: 1px solid var(--border-strong);
+ background: var(--bg);
+ color: var(--text-secondary);
+ cursor: pointer;
+ transition: all 0.2s ease;
+}
+.pm-btn:hover { border-color: var(--text-secondary); color: var(--text); }
+.pm-btn.is-on { background: var(--text); border-color: var(--text); color: #fff; }
+.pm-btn.pm-play { color: var(--accent); border-color: var(--accent); }
+.pm-btn.pm-play:hover { background: var(--accent); color: #fff; }
+.pm-btn.pm-play.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ---- phase band ---- */
+.pm-phases {
+ display: grid;
+ grid-template-columns: repeat(10, 1fr);
+ gap: 10px;
+ margin-top: 42px;
+}
+.pm-phase {
+ border-top: 4px solid var(--pc);
+ padding: 12px 4px 0;
+ display: flex;
+ flex-direction: column;
+ gap: 3px;
+}
+.pm-phase .pm-pname {
+ font-family: var(--mono);
+ font-size: 19px;
+ letter-spacing: 0.1em;
+ color: var(--pc);
+ font-weight: 600;
+}
+.pm-phase .pm-pdesc {
+ font-size: 18px;
+ color: var(--text-light);
+ line-height: 1.25;
+}
+
+/* ---- rail ---- */
+.pm-railwrap { position: relative; margin-top: 14px; padding-top: 30px; }
+.pm-progress {
+ position: absolute;
+ top: 16px;
+ left: 12px;
+ right: 12px;
+ height: 3px;
+ background: var(--border);
+ border-radius: 2px;
+ overflow: hidden;
+}
+.pm-progress i {
+ display: block;
+ height: 100%;
+ width: 0%;
+ background: var(--accent);
+ transition: width 0.45s cubic-bezier(.2,.7,.2,1);
+}
+.pm-rail {
+ position: relative;
+ display: grid;
+ grid-template-columns: repeat(10, 1fr);
+ gap: 10px;
+}
+.pm-node {
+ background: var(--bg-callout);
+ border: 1px solid var(--border);
+ border-top: 3px solid var(--pc);
+ border-radius: var(--radius);
+ padding: 34px 14px 16px;
+ cursor: pointer;
+ text-align: left;
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+ min-height: 252px;
+ transition: transform 0.22s cubic-bezier(.2,.7,.2,1), box-shadow 0.22s ease, background 0.22s ease;
+ font-family: var(--font);
+}
+.pm-node .pm-dot {
+ position: absolute;
+ top: 0; /* set by JS wrapper */
+}
+.pm-node:hover { transform: translateY(-6px); box-shadow: 0 10px 28px rgba(0,0,0,0.10); }
+.pm-node.is-sel {
+ background: #fff;
+ border-color: var(--pc);
+ box-shadow: 0 12px 34px rgba(0,0,0,0.13);
+ transform: translateY(-6px);
+}
+.pm-node .pm-day {
+ font-family: var(--mono);
+ font-size: 18px;
+ letter-spacing: 0.08em;
+ color: var(--pc);
+ font-weight: 600;
+}
+.pm-node .pm-title {
+ font-size: 25px;
+ font-weight: 700;
+ line-height: 1.18;
+ color: var(--text);
+ letter-spacing: -0.01em;
+}
+.pm-node .pm-chip {
+ margin-top: auto;
+ font-size: 18px;
+ line-height: 1.3;
+ color: var(--text-secondary);
+ border-top: 1px dashed var(--border-strong);
+ padding-top: 10px;
+}
+.pm-node .pm-chip.mono { font-family: var(--mono); font-size: 16px; letter-spacing: -0.01em; word-break: keep-all; overflow-wrap: normal; }
+.pm-node.is-sel .pm-chip { color: var(--text); }
+
+/* node index bubble sitting on the progress line */
+.pm-bub {
+ position: absolute;
+ top: -24px;
+ left: 50%;
+ transform: translateX(-50%);
+ width: 24px; height: 24px;
+ border-radius: 50%;
+ background: var(--bg);
+ border: 3px solid var(--border-strong);
+ box-sizing: border-box;
+ transition: all 0.25s ease;
+}
+.pm-node.is-sel .pm-bub, .pm-node.is-done .pm-bub { border-color: var(--accent); background: var(--accent); }
+
+/* ---- detail panel ---- */
+.pm-detail {
+ margin-top: 30px;
+ background: var(--text);
+ color: #fff;
+ border-radius: var(--radius-lg);
+ padding: 34px 40px;
+ display: grid;
+ grid-template-columns: 4fr 5fr 4fr;
+ gap: 40px;
+ min-height: 252px;
+}
+.pm-col-k {
+ font-family: var(--mono);
+ font-size: 17px;
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+ color: rgba(255,255,255,0.45);
+ margin-bottom: 10px;
+}
+.pm-issue { font-size: 29px; line-height: 1.32; font-weight: 600; color: #ff8a8a; font-style: italic; }
+.pm-does { font-size: 23px; line-height: 1.45; color: rgba(255,255,255,0.92); }
+.pm-does b { color: #fff; }
+.pm-out { font-family: var(--mono); font-size: 19px; line-height: 1.7; color: rgba(255,255,255,0.8); }
+.pm-out span { display: block; }
+.pm-detail > div { border-left: 1px solid rgba(255,255,255,0.14); padding-left: 32px; }
+.pm-detail > div:first-child { border-left: none; padding-left: 0; }
+.pm-fade { animation: fadeIn 0.35s ease-out both; }
+
+/* slide 13 — tighten table so the closing note stays on-canvas */
+#s13 .notion-table th, #s13 .notion-table td { padding: 15px 28px; }
+
+/* ---- loop bar ---- */
+.pm-loop {
+ margin-top: 36px;
+ display: flex;
+ align-items: center;
+ gap: 14px;
+ font-size: 20px;
+ color: var(--text-secondary);
+ flex-wrap: nowrap;
+}
+.pm-loop-k {
+ font-family: var(--mono);
+ font-size: 17px;
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+ color: var(--accent);
+ margin-right: 4px;
+}
+.pm-loop-s {
+ background: var(--bg-callout);
+ border-radius: 100px;
+ padding: 8px 18px;
+ white-space: nowrap;
+}
+.pm-loop-s b {
+ font-family: var(--mono);
+ color: var(--accent);
+ margin-right: 6px;
+}
+.pm-arrow { color: var(--text-light); }
+.pm-loop-tail { color: var(--text-light); font-style: italic; white-space: nowrap; }
+.pm-loop-tail b { color: var(--text-secondary); font-style: normal; }
+</style>
+
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+<!-- ============================================================
+ SLIDE 1 — Title
+============================================================ -->
+<section data-label="Title">
+ <div class="slide title-slide">
+ <div class="super anim d1"><span class="accent">시작하기 전에</span> — 나이지리아 · 2026 · Day 1</div>
+ <h1 class="anim d2">ACE AI<br>스타트업 <span class="accent">부트캠프.</span></h1>
+ <div class="sub anim d4">AI 시대의 1인 스타트업 — 경험적 케이스 스터디</div>
+ <div class="anim d5" style="margin-top: 18px; font-size: 28px; color: var(--text-secondary); font-style: italic;">본 수업 시작 전, 여러분이 맞이하게 될 미래를 30분 동안 미리 살펴봅니다.</div>
+ <div class="meta" style="font-size: 26px;">
+ <div class="anim-fade d5"><b style="font-size: 26px;">강사</b><span style="font-size: 24px;">이호준 — CTO, 에듀니티 랩</span></div>
+ <div class="anim-fade d6"><b style="font-size: 26px;">강사</b><span style="font-size: 24px;">박경배 (공학박사) — CEO, 앤빌 랩스</span></div>
+ <div class="anim-fade d7"><b style="font-size: 26px;">장소</b><span style="font-size: 24px;">나이지리아 · 2026</span></div>
+ <div class="anim-fade d8"><b style="font-size: 26px;">세션</b><span style="font-size: 24px;">Day 1 · 도입 인트로</span></div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 2 — Watch first (video)
+============================================================ -->
+<section data-label="Watch First">
+ <div class="slide center">
+ <div class="section-tag">시청하기</div>
+ <span class="slide-num">02 / 15</span>
+
+ <div style="max-width: 1600px;">
+ <div class="eyebrow anim d1"><span class="live-dot"></span>5분 영상 클립</div>
+ <h1 class="title anim d2" style="font-size: 108px;">먼저, 영상을 시청해 주세요.</h1>
+ <h3 class="subtitle anim d3" style="margin-top: 28px; font-size: 40px;">샘 알트만이 말하는 GPT-5와 1인 기업의 미래</h3>
+
+ <div class="anim d4" style="margin-top: 60px; display: inline-block; padding: 30px 52px; background: var(--bg-callout); border: 1px solid var(--border); border-radius: var(--radius-lg); font-family: var(--mono); font-size: 52px; font-weight: 500; color: var(--text); letter-spacing: -0.01em;">
+ youtube.com/watch?v=<span class="accent">hmtuvNfytjM</span>&amp;t=<span class="accent">1280s</span>
+ </div>
+
+ <div class="small anim d5" style="margin-top: 30px; font-size: 28px;">시작 지점: <span style="font-family: var(--mono); font-weight: 600;">21:20</span> — &ldquo;2035년에는 어떤 새로운 일자리가 존재할까요?&rdquo; &middot; 재생 시간 약 5분 (26:00까지)</div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>02</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 3 — Hook 1: Altman quote
+============================================================ -->
+<section data-label="Altman Quote">
+ <div class="slide alt">
+ <div class="section-tag">영상 요약</div>
+ <span class="slide-num">03 / 15</span>
+
+ <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 1650px;">
+ <div class="quote anim d1" style="font-size: 90px; line-height: 1.16;">
+ &ldquo;조만간 <span class="accent">1인 10억 달러(유니콘)</span><br>기업이 등장할 것이다.&rdquo;
+ </div>
+ <div class="quote-attr anim d2" style="font-size: 34px;">— 샘 알트만, OpenAI</div>
+
+ <div class="anim d4" style="margin-top: 76px; font-size: 42px; line-height: 1.35; color: var(--text);">
+ 역사상 처음으로, <b>이것은 단순한 농담이 아닙니다.</b>
+ </div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>03</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 4 — Hook 2: motivation
+============================================================ -->
+<section data-label="Why You">
+ <div class="slide">
+ <div class="section-tag">왜 여러분일까요?</div>
+ <span class="slide-num">04 / 15</span>
+
+ <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 1650px;">
+ <h1 class="title anim d1" style="font-size: 92px; line-height: 1.1;">
+ 여러분은 창업하기에 <span class="accent">가장 운이 좋은 세대</span>입니다.
+ </h1>
+ <h3 class="subtitle anim d3" style="margin-top: 44px; font-size: 46px; line-height: 1.35;">
+ 한때 100명이 필요했던 도구들이 이제 여러분의 노트북 하나에 들어갑니다.
+ </h3>
+ </div>
+
+ <div class="anim d5" style="position: absolute; bottom: 130px; left: 120px; font-family: var(--mono); font-size: 34px; color: var(--accent); font-weight: 500; letter-spacing: 0.02em;">
+ 이미 그렇게 하고 있는 사람들을 만나봅시다. &rarr;
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>04</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 5 — Cold Open (leanaileaderboard)
+============================================================ -->
+<section data-label="Cold Open">
+ <div class="slide">
+ <div class="section-tag">글로벌 트렌드</div>
+ <span class="slide-num">05 / 15</span>
+
+ <div style="margin-top: 60px;">
+ <div class="eyebrow anim d1"><span class="live-dot"></span>실시간 통계</div>
+ <h1 class="title anim d2" style="font-size: 110px;">leanaileaderboard<span class="muted">.com</span></h1>
+ </div>
+
+ <div class="two-col split-7-5" style="margin-top: 70px; gap: 80px;">
+ <div>
+ <div class="anim d3" style="background: var(--bg-callout); border-radius: var(--radius-lg); padding: 48px; border: 1px solid var(--border);">
+ <div class="mono" style="font-size: 24px; color: var(--text-light); margin-bottom: 24px; letter-spacing: 0.05em;">공식 린(Lean) AI 네이티브 기업 리더보드</div>
+ <div style="display: grid; gap: 18px;">
+ <div style="display: grid; grid-template-columns: 60px 1fr 200px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 26px;">
+ <span class="mono accent">01</span><span style="color: var(--text);"><b style="color: rgb(7, 6, 6);">Medvi</b> &nbsp; <span style="font-size: 24px; color: var(--text);">GLP-1 원격 의료</span></span><span class="mono accent" style="text-align: right;">$401M ARR</span>
+ </div>
+ <div style="display: grid; grid-template-columns: 60px 1fr 200px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 26px;">
+ <span class="mono accent">02</span><span style="color: var(--text);"><b style="color: rgb(8, 8, 8);">Pieter Levels</b> &nbsp; <span style="font-size: 24px; color: var(--text);">다중 제품 운영</span></span><span class="mono accent" style="text-align: right;">$3M+ ARR</span>
+ </div>
+ <div style="display: grid; grid-template-columns: 60px 1fr 200px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 26px;">
+ <span class="mono accent">03</span><span style="color: var(--text);"><b style="color: rgb(7, 6, 6);">Higgsfield</b> &nbsp; <span style="font-size: 24px; color: var(--text);">AI 비디오 생성</span></span><span class="mono accent" style="text-align: right;">$300M ARR</span>
+ </div>
+ <div style="display: grid; grid-template-columns: 60px 1fr 200px; align-items: center; padding: 16px 0; font-size: 26px; opacity: 0.5;">
+ <span class="mono" style="color: var(--text);">04</span><span style="font-style: italic; color: var(--text);">… 그 외 47개 기업</span><span></span>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div style="display: flex; flex-direction: column; gap: 28px; padding-top: 20px;">
+ <div class="anim d4">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">운영자</div>
+ <div style="font-size: 32px; font-weight: 600; margin-top: 8px;">Henry Shi</div>
+ <div class="muted small">Super.com 창업자 · 1억 5천만 달러 규모 회사 매각 경험</div>
+ </div>
+ <div style="height: 1px; background: var(--border);"></div>
+ <div class="anim d5">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">선정 조건</div>
+ <ul class="notion-list checks" style="margin-top: 8px;">
+ <li><span style="font-size: 28px;">$5M+ ARR</span></li>
+ <li><span style="font-size: 28px;">Under 50 employees</span></li>
+ <li><span style="font-size: 28px;">Under 5 years old</span></li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ <div class="sources">
+ <div class="src-label">Source</div>
+ <span class="source-link"><a href="https://leanaileaderboard.com/" target="_blank" rel="noopener">leanaileaderboard.com</a></span> — <span class="mono">as of 2026.04</span>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>05</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 6 — Hero Case 1: Medvi
+============================================================ -->
+<section data-label="Medvi">
+ <div class="slide">
+ <div class="section-tag">성공 사례 · 01</div>
+ <span class="slide-num">06 / 15</span>
+
+ <div class="anim d1" style="margin-top: 60px;">
+ <div class="hero-rank"><span class="num">1</span> MEDVI</div>
+ </div>
+ <h1 class="title anim d2" style="font-size: 80px; max-width: 1500px; line-height: 1.05;">초기 자금 2만 달러가 2년 만에 <span class="accent">18억 달러</span> 가치로 성장했습니다.</h1>
+
+ <div class="two-col split-7-5" style="margin-top: 40px; gap: 56px;">
+ <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+ <div class="stat-card anim d3" style="padding: 28px 32px;">
+ <div class="label">창업자</div>
+ <div class="value" style="font-size: 38px;">매튜 갤러거 (Matthew Gallagher)</div>
+ <div class="sub">41세</div>
+ </div>
+ <div class="stat-card anim d4" style="padding: 28px 32px;">
+ <div class="label">직원 수</div>
+ <div class="value" style="font-size: 56px;">1<span class="muted" style="font-size: 32px;"> / 2</span></div>
+ <div class="sub">⚠ 출처별 정보 상이</div>
+ </div>
+ <div class="stat-card anim d5" style="padding: 28px 32px;">
+ <div class="label">초기 자본</div>
+ <div class="value" style="font-size: 52px;">$20,000</div>
+ <div class="sub">자체 조달 · VC 투자 없음</div>
+ </div>
+ <div class="stat-card anim d6" style="padding: 28px 32px;">
+ <div class="label">2025년 매출</div>
+ <div class="value red" style="font-size: 52px;">$401M</div>
+ <div class="sub">초기 자본의 20,000배</div>
+ </div>
+ <div class="stat-card anim d7" style="grid-column: span 2; background: var(--text); color: white; padding: 20px 28px; gap: 2px; margin-bottom: 50px;">
+ <div class="label" style="color: rgba(255,255,255,0.6);">2026년 연매출 목표</div>
+ <div class="value" style="color: white; font-size: 48px; line-height: 1.05;">$1.8B</div>
+ <div class="sub" style="color: rgba(255,255,255,0.7); margin-top: 2px;">일 매출 300만 달러 이상 · 순이익률 16.2%</div>
+ </div>
+ </div>
+
+ <div style="padding-top: 16px;">
+ <div class="anim d3">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">서비스 종류</div>
+ <div style="font-size: 32px; font-weight: 600; margin-top: 10px; line-height: 1.25;">GLP-1 체중 감량<br>원격 의료 솔루션</div>
+ </div>
+ <div style="height: 1px; background: var(--border); margin: 22px 0;"></div>
+ <div class="anim d4">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">방식</div>
+ <div style="font-size: 26px; line-height: 1.4; margin-top: 10px;">12개 이상의 AI 도구 연동<br>2년 만에 개발 완료</div>
+ </div>
+ <div style="height: 1px; background: var(--border); margin: 22px 0;"></div>
+ <div class="anim d5">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">연 순이익</div>
+ <div style="font-size: 26px; margin-top: 10px;">연간 약 6,500만 달러</div>
+ </div>
+ </div>
+ </div>
+
+ <div class="footer" style="position: relative; z-index: 5; background: var(--bg); padding-top: 10px;">
+ <div class="footer-left" style="text-decoration: none;">Sources: <a href="https://leanaileaderboard.com/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">leanaileaderboard.com</a> · <a href="https://www.techmeme.com/260402/p12" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">NYT 2026.04.02</a> · <a href="https://www.pymnts.com/artificial-intelligence-2/2026/the-one-person-billion-dollar-company-is-here/" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">PYMNTS 2026</a></div>
+ <div>06</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 7 — Hero Case 2: Pieter Levels
+============================================================ -->
+<section data-label="Pieter Levels">
+ <div class="slide">
+ <div class="section-tag">성공 사례 · 02</div>
+ <span class="slide-num">07 / 15</span>
+
+ <div class="anim d1" style="margin-top: 60px;">
+ <div class="hero-rank"><span class="num">2</span> PIETER LEVELS</div>
+ </div>
+ <h1 class="title anim d2" style="font-size: 80px; line-height: 1.05; max-width: 1700px;">직원 0명. 외부 투자 0원.<br>여러 제품 동시 운영. <span class="accent">ARR 300만 달러 이상.</span></h1>
+
+ <div class="two-col split-5-7" style="margin-top: 70px; gap: 64px;">
+ <div style="display: flex; flex-direction: column; gap: 28px;">
+ <div class="anim d3">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">프로필</div>
+ <div style="font-size: 30px; margin-top: 12px; line-height: 1.5;">네덜란드 출신 · 독학 개발자<br><span class="muted">Photo AI를 개발할 때 1명의 AI 개발자를 단기 고용한 것이 전부</span></div>
+ </div>
+ <div style="height: 1px; background: var(--border);"></div>
+ <div class="anim d4">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">투자 유치</div>
+ <div style="font-size: 56px; font-weight: 700; margin-top: 8px; letter-spacing: -0.02em;">$0</div>
+ <div class="muted small">100% 자가 자금 조달</div>
+ </div>
+ <div style="height: 1px; background: var(--border);"></div>
+ <div class="anim d5">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">Photo AI 마케팅 비용</div>
+ <div style="font-size: 56px; font-weight: 700; margin-top: 8px; letter-spacing: -0.02em;">$0</div>
+ </div>
+ </div>
+
+ <div style="display: flex; flex-direction: column; gap: 16px;">
+ <div class="mono small anim d3" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">포트폴리오</div>
+ <div class="anim d4" style="display: grid; grid-template-columns: 1fr 220px 160px; align-items: center; padding: 24px 28px; background: var(--bg-callout); border-radius: var(--radius); font-size: 28px;">
+ <span><b>Nomad List</b></span>
+ <span class="mono muted">커뮤니티</span>
+ <span class="mono accent" style="text-align: right;">$700K ARR</span>
+ </div>
+ <div class="anim d5" style="display: grid; grid-template-columns: 1fr 220px 160px; align-items: center; padding: 24px 28px; background: var(--bg-callout); border-radius: var(--radius); font-size: 28px;">
+ <span><b>Remote OK</b></span>
+ <span class="mono muted">구인구직 보드</span>
+ <span class="mono accent" style="text-align: right;">$2M+ ARR</span>
+ </div>
+ <div class="anim d6" style="display: grid; grid-template-columns: 1fr 220px 160px; align-items: center; padding: 24px 28px; background: var(--accent-soft); border-radius: var(--radius); font-size: 28px;">
+ <span><b>Photo AI</b></span>
+ <span class="mono muted">$132K MRR</span>
+ <span class="mono accent" style="text-align: right;">$1.58M ARR</span>
+ </div>
+ <div class="anim d7" style="display: grid; grid-template-columns: 1fr 220px 160px; align-items: center; padding: 24px 28px; background: var(--bg-callout); border-radius: var(--radius); font-size: 28px;">
+ <span><b>Interior AI</b></span>
+ <span class="mono muted">$40K MRR</span>
+ <span class="mono accent" style="text-align: right;">$480K ARR</span>
+ </div>
+ </div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>07</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 8 — Try Rate (70 failures → 1 hit)
+============================================================ -->
+<section data-label="Try Rate">
+ <div class="slide alt">
+ <div class="section-tag">Pieter · 다중 제품 운영 compounding</div>
+ <span class="slide-num">08 / 15</span>
+
+ <h1 class="title anim d1" style="font-size: 84px; line-height: 1.15;"><span class="muted">70번의 실패,</span><br>단 1번의 Photo AI <span class="accent">대박.</span></h1>
+
+ <div class="two-col split-6-6" style="margin-top: 60px; gap: 80px;">
+ <div>
+ <div id="dot-grid" class="dot-grid anim-fade d2" style="margin-top: 30px;"></div>
+ <div class="anim d6" style="margin-top: 36px; display: flex; gap: 36px; font-size: 22px; color: var(--text-secondary);">
+ <div style="display: flex; align-items: center; gap: 12px;"><span style="width: 18px; height: 18px; border-radius: 50%; background: var(--border); display: inline-block;"></span> 65번의 이탈/실패</div>
+ <div style="display: flex; align-items: center; gap: 12px;"><span style="width: 24px; height: 24px; border-radius: 50%; background: var(--accent); display: inline-block;"></span> 5개의 프로젝트는 ARR 10만 달러 이상 성공</div>
+ </div>
+ </div>
+
+ <div style="padding-top: 60px;">
+ <div class="anim d3" style="font-size: 36px; line-height: 1.45; max-width: 700px;">
+ 그는 실패 이력을 <b>투명하게 공개</b>합니다.<br>
+ 70개 이상의 프로젝트 중 단 4~5개만 ARR 10만 달러 이상을 달성했습니다.
+ </div>
+ <div class="anim d5" style="margin-top: 48px; padding: 32px 40px; background: white; border-left: 5px solid var(--accent); border-radius: var(--radius); font-size: 32px; line-height: 1.4; font-style: italic;">
+ "1인 창업가의 절대 법칙 = 코딩 기술 ≠<br>시도 횟수(Try Rate) × 유통망(Distribution)"
+ </div>
+ <div class="anim d7" style="margin-top: 32px; font-size: 24px; color: var(--text-secondary);">
+ 시도 횟수가 지렛대입니다. 다중 제품 전략이 복리 효과를 창출합니다.
+ </div>
+ </div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>08</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 9 — Hero Case 3: Higgsfield
+============================================================ -->
+<section data-label="Higgsfield">
+ <div class="slide">
+ <div class="section-tag">성공 사례 · 03</div>
+ <span class="slide-num">09 / 15</span>
+
+ <div class="anim d1" style="margin-top: 60px;">
+ <div class="hero-rank"><span class="num">3</span> HIGGSFIELD</div>
+ </div>
+ <h1 class="title anim d2" style="font-size: 72px; line-height: 1.18; max-width: 1700px;">직원 232명. <span class="accent">ARR 3억 달러.</span><br>린(Lean) 기업의 완전히 새로운 정의.</h1>
+
+ <div class="two-col split-6-6" style="margin-top: 60px; gap: 64px;">
+ <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+ <div class="stat-card anim d3">
+ <div class="label">창업자</div>
+ <div class="value" style="font-size: 36px;">Alex Mashrabov</div>
+ <div class="sub">전 Snap · 생성형 AI 부문 디렉터</div>
+ </div>
+ <div class="stat-card anim d4">
+ <div class="label">Founded</div>
+ <div class="value">2023</div>
+ <div class="sub">Yerzat Dulat · Mahi de Silva 공동창업</div>
+ </div>
+ <div class="stat-card anim d5">
+ <div class="label">직원 수</div>
+ <div class="value red">232 ⚠</div>
+ <div class="sub">리더보드 기준(50명 이하)을 충족하지 않음</div>
+ </div>
+ <div class="stat-card anim d6">
+ <div class="label">유치 투자금 · 기업 가치</div>
+ <div class="value" style="font-size: 44px;">$138M · $1.3B</div>
+ <div class="sub">2026.01</div>
+ </div>
+ </div>
+
+ <div class="anim d4" style="background: var(--text); color: white; border-radius: var(--radius-lg); padding: 56px 48px; display: flex; flex-direction: column; justify-content: center; gap: 16px;">
+ <div class="mono small" style="color: rgba(255,255,255,0.5); letter-spacing: 0.08em; text-transform: uppercase;">직원 1인당 생산성(매출)</div>
+ <div style="font-size: 140px; font-weight: 800; line-height: 1; letter-spacing: -0.04em;">$1.29M</div>
+ <div style="font-size: 26px; color: rgba(255,255,255,0.7); margin-top: 16px;">기존 일반적인 SaaS 기업 평균: <span class="mono">약 20만 달러</span></div>
+ <div style="height: 1px; background: rgba(255,255,255,0.15); margin: 24px 0;"></div>
+ <div class="mono small" style="color: rgba(255,255,255,0.5); letter-spacing: 0.08em; text-transform: uppercase;">2026년 말 연간 매출(ARR) 목표</div>
+ <div style="font-size: 56px; font-weight: 700;">$1B</div>
+ </div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>09</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 10 — Cost Curve
+============================================================ -->
+<section data-label="Cost Curve">
+ <div class="slide alt">
+ <div class="section-tag">시대의 변화</div>
+ <span class="slide-num">10 / 15</span>
+
+ <h1 class="title anim d1" style="font-size: 84px;">2015 → 2026. What changed?</h1>
+
+ <div class="anim-fade d2" style="margin-top: 40px; flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 60px;">
+ <svg class="curve-svg" viewBox="0 0 1500 580" style="width: 100%; max-width: 1500px;">
+ <!-- Axes -->
+ <line x1="80" y1="500" x2="1450" y2="500" stroke="#E9E9E7" stroke-width="2"></line>
+ <line x1="80" y1="60" x2="80" y2="500" stroke="#E9E9E7" stroke-width="2"></line>
+
+ <!-- Y label -->
+ <text x="20" y="80" font-family="JetBrains Mono" font-size="14" fill="#9B9A97" letter-spacing="2">COST</text>
+ <text x="80" y="50" font-family="Inter" font-size="22" font-weight="600" fill="#37352F">$70K+</text>
+ <text x="20" y="500" font-family="JetBrains Mono" font-size="14" fill="#9B9A97" letter-spacing="2">$0</text>
+
+ <!-- X labels -->
+ <text x="200" y="540" font-family="JetBrains Mono" font-size="18" fill="#787774">2015</text>
+ <text x="500" y="540" font-family="JetBrains Mono" font-size="18" fill="#787774">2020</text>
+ <text x="780" y="540" font-family="JetBrains Mono" font-size="18" fill="#787774">2022</text>
+ <text x="1100" y="540" font-family="JetBrains Mono" font-size="18" fill="#787774">2024</text>
+ <text x="1380" y="540" font-family="JetBrains Mono" font-size="18" fill="#787774">2026</text>
+
+ <!-- Vertical guides -->
+ <line x1="800" y1="60" x2="800" y2="500" stroke="#E9E9E7" stroke-width="1" stroke-dasharray="4 4"></line>
+ <text x="810" y="80" font-family="JetBrains Mono" font-size="14" fill="#E03E3E" letter-spacing="1">CHATGPT 출시</text>
+
+ <!-- Filled area under line -->
+ <path class="area" d="M 80 100 L 200 105 L 500 110 L 800 130 L 1000 280 L 1200 420 L 1400 470 L 1400 500 L 80 500 Z"></path>
+
+ <!-- Main line -->
+ <path class="line" d="M 80 100 L 200 105 L 500 110 L 800 130 L 1000 280 L 1200 420 L 1400 470" style="--dash: 2400;"></path>
+
+ <!-- Anchor dots -->
+ <circle cx="200" cy="105" r="6" fill="#37352F" class="anim-fade d4"></circle>
+ <circle cx="800" cy="130" r="8" fill="#E03E3E" class="anim-fade d6"></circle>
+ <circle cx="1400" cy="470" r="10" fill="#E03E3E" class="anim-fade d8"></circle>
+
+ <text x="220" y="100" font-family="Inter" font-size="20" font-weight="600" fill="#37352F" class="anim-fade d4">정체기 · AI 보급 이전</text>
+ <text x="1170" y="450" font-family="Inter" font-size="22" font-weight="700" fill="#E03E3E" class="anim-fade d8">99% ↓</text>
+ </svg>
+ </div>
+
+ <div class="anim d9" style="text-align: center; font-size: 30px; color: var(--text-secondary); margin-top: 8px;">
+ One-person startup initial cost · 2015 → 2026
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>10</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 11 — Cost Comparison Table
+============================================================ -->
+<section data-label="Cost Comparison">
+ <div class="slide">
+ <div class="section-tag">3달 누적 구축 비용</div>
+ <span class="slide-num">11 / 15</span>
+
+ <h1 class="title anim d1" style="font-size: 96px;"><span class="muted" style="text-decoration: line-through; text-decoration-color: #D3D1CB;">$70,000</span> &nbsp; → &nbsp; <span class="accent">$700</span></h1>
+ <h3 class="subtitle anim d2" style="font-size: 32px; margin-top: 16px;">3개월 누적 기준 · 동일 스펙 제품</h3>
+
+ <table class="notion-table anim d3" style="margin-top: 56px;">
+ <thead>
+ <tr>
+ <th style="width: 28%;">Area</th>
+ <th>2015</th>
+ <th>2026</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr><td><b>UI / UX 디자인</b></td><td class="num muted">$400 – $15K</td><td class="num">Free – $30/mo</td></tr>
+ <tr><td><b>풀스택 개발 및 설계</b></td><td class="num muted">$20K+ 외주 용역</td><td class="num">$40 – $200/mo</td></tr>
+ <tr><td><b>서버 및 클라우드 인프라</b></td><td class="num muted">$400 – $1.5K/mo</td><td class="num">Free – $20/mo</td></tr>
+ <tr><td><b>홍보 비디오 및 랜딩 페이지</b></td><td class="num muted">$3.5K – $7K</td><td class="num">$30 – $200/mo</td></tr>
+ <tr><td><b>고객 지원(CS) 환경</b></td><td class="num muted">$1.8K – $2.5K/mo</td><td class="num">$7 – $70/mo</td></tr>
+ <tr><td><b>이용약관 및 법률 문서 검토</b></td><td class="num muted">$400 – $1.5K/case</td><td class="num">$0 – $200/mo</td></tr>
+ <tr class="highlight"><td><b>3달 누적 비용 합계</b></td><td class="num red"><b>$70K – $220K</b></td><td class="num red"><b>$200 – $1K</b></td></tr>
+ </tbody>
+ </table>
+
+ <div class="anim d6" style="margin-top: 12px; padding: 10px 24px; background: var(--bg-callout); border-radius: var(--radius); font-size: 20px; line-height: 1.4; max-width: 1300px;">
+ <span class="accent" style="font-weight: 600;">약 99% 비용 감소.</span> &nbsp; 노트북 한 대 가격으로 3개월 동안 풀스택 비즈니스를 독자 운영 가능합니다.
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>11</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 12 — Honesty
+============================================================ -->
+<section data-label="Honesty">
+ <div class="slide alt">
+ <div class="section-tag">솔직한 분석</div>
+ <span class="slide-num">12 / 15</span>
+
+ <h1 class="title anim d1" style="font-size: 84px;">그렇다면 왜 모든 사람이 이 창업을 하지 못할까요?</h1>
+
+ <table class="notion-table anim d3" style="margin-top: 60px;">
+ <thead>
+ <tr>
+ <th style="width: 32%;">Item</th>
+ <th>2015</th>
+ <th>2026</th>
+ <th style="width: 22%;">Change</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr><td><b>학습 곡선 (진입 장벽)</b></td><td class="num muted">1년 이상</td><td class="num">1~3개월</td><td><span class="tag green">↓ 하락 (쉬워짐)</span></td></tr>
+ <tr><td><b>실패 시 감당할 비용</b></td><td class="num muted">$70K 손실</td><td class="num">$700 손실</td><td><span class="tag green">↓ 하락 (쉬워짐)</span></td></tr>
+ <tr class="highlight"><td><b>CAC</b><br><span class="muted small" style="font-size: 20px;">신규 고객 확보 비용</span></td><td class="num">과거와 유사</td><td class="num red">훨씬 높아짐</td><td><span class="tag red">↑ 상승 (어려워짐)</span></td></tr>
+ <tr class="highlight"><td><b>제품 차별화 장벽</b></td><td class="num">"존재 자체가 혁신이자 차별화"</td><td class="num red">"너무 쉽게 만들어져 소음 속에 묻힘"</td><td><span class="tag red">↑ 상승 (어려워짐)</span></td></tr>
+ </tbody>
+ </table>
+
+ <div class="anim d6" style="margin-top: 56px; padding: 36px 48px; background: var(--text); color: white; border-radius: var(--radius-lg); font-size: 36px; line-height: 1.4; font-style: italic;">
+ 개발 비용은 거의 0에 수렴하지만, <span style="color: #ff6b6b;">판매 비용은 여전하며</span> 제품 차별화 비용은 훨씬 <i>증가했습니다.</i>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>12</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 13 — Our Stack (Codex & Antigravity)
+============================================================ -->
+<section data-label="Our Stack">
+ <div class="slide" id="s13">
+ <div class="section-tag">우리 부트캠프의 도구</div>
+ <span class="slide-num">13 / 15</span>
+
+ <h1 class="title anim d1" style="font-size: 80px;">시중에 많은 훌륭한 AI 도구들이 존재합니다.<br>우리는 단 <span class="accent">두 가지</span>에 집중합니다.</h1>
+
+ <div class="two-col split-5-7" style="margin-top: 30px; gap: 64px;">
+ <div style="display: flex; flex-direction: column; gap: 18px;">
+ <div class="mono small anim d2" style="color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase;">우리 과정의 핵심 도구</div>
+ <div class="anim d3" style="background: var(--text); color: white; border-radius: var(--radius-lg); padding: 32px 44px; border-left: 6px solid var(--accent);">
+ <div class="mono small" style="color: #ff8a8a; letter-spacing: 0.08em;">AI 코딩 에이전트</div>
+ <div style="font-size: 52px; font-weight: 800; margin-top: 8px;">Codex</div>
+ <div style="font-size: 24px; color: rgba(255,255,255,0.7); margin-top: 8px;">데스크톱 앱 — 자연어로 소통하며 명령어가 필요 없음</div>
+ </div>
+ <div class="anim d4" style="background: var(--text); color: white; border-radius: var(--radius-lg); padding: 32px 44px; border-left: 6px solid var(--accent);">
+ <div class="mono small" style="color: #ff8a8a; letter-spacing: 0.08em;">분석형 자율 개발 환경</div>
+ <div style="font-size: 52px; font-weight: 800; margin-top: 8px;">Antigravity</div>
+ <div style="font-size: 24px; color: rgba(255,255,255,0.7); margin-top: 8px;">풀스택 워크스페이스 — 에디터 자체 내장 빌드</div>
+ </div>
+
+ <div class="anim d5" style="margin-top: 8px; padding: 24px 28px; background: var(--bg-callout); border-left: 5px solid var(--accent); border-radius: var(--radius); font-size: 26px; line-height: 1.38; color: var(--text);">
+ 명령어를 <b>직접 칠 일은 없습니다.</b><br>
+ 그러나 작성된 코드는 여전히 <span class="accent" style="font-weight: 700;">직접 읽게 될 것입니다.</span>
+ </div>
+ </div>
+
+ <div class="anim d3">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px;">그 외 훌륭한 대안 도구들</div>
+ <table class="notion-table">
+ <thead><tr><th style="width: 34%;">Tool</th><th>핵심 특장점 (Sweet Spot)</th></tr></thead>
+ <tbody>
+ <tr class="highlight"><td><b class="accent">Codex</b> &nbsp;<span class="muted small" style="font-size: 20px;">OpenAI</span></td><td class="red">데스크톱 코딩 에이전트 — 본 과정 선정</td></tr>
+ <tr class="highlight"><td><b class="accent">Antigravity</b> &nbsp;<span class="muted small" style="font-size: 20px;">Google</span></td><td class="red">분석형 풀스택 IDE — 본 과정 선정</td></tr>
+ <tr><td><b>Claude</b> &nbsp;<span class="muted small" style="font-size: 20px;">Code</span></td><td class="muted">기획안 작성 · 논리 설계 · 명세 문서화</td></tr>
+ <tr><td><b>Cursor</b></td><td class="muted">VS Code 중심의 보조 AI 플러그인</td></tr>
+ <tr><td><b>v0</b> &nbsp;<span class="muted small" style="font-size: 20px;">Vercel</span></td><td class="muted">빠른 웹 UI 컴포넌트 프로토타이핑</td></tr>
+ <tr><td><b>Bolt.new</b></td><td class="muted">템플릿을 활용한 1분 단위 빠른 빌드</td></tr>
+ <tr><td><b>Replit</b></td><td class="muted">클라우드 환경에 즉시 빌드 및 무료 배포</td></tr>
+ </tbody>
+ </table>
+ <div class="anim d6" style="margin-top: 10px; font-size: 22px; color: var(--text-secondary); font-style: italic;">
+ 개발 도구는 계속 변하지만 메이커의 기획/개발 논리는 유지됩니다. 오늘 이 두 도구에 올인합니다.
+ </div>
+ </div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>13</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 14 — Handoff to the live lecture
+============================================================ -->
+<section data-label="Handoff">
+ <div class="slide">
+ <div class="section-tag">수업 연결 · Session 01</div>
+ <span class="slide-num">14 / 15</span>
+
+ <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 1650px;">
+ <div class="eyebrow anim d1">부트업 종료</div>
+ <h1 class="title anim d2" style="font-size: 116px; line-height: 1.02;">자, 이제 직접 <span class="accent">개발해 봅시다.</span></h1>
+ <h3 class="subtitle anim d3" style="margin-top: 40px; font-size: 48px;">1단계 — 노트북에 <b style="color: var(--text);">Codex</b> 및 <b style="color: var(--text);">Antigravity</b> 설치하기</h3>
+
+ <div class="anim d5" style="margin-top: 60px; display: flex; align-items: center; gap: 24px;">
+ <span class="mono accent" style="font-size: 26px; letter-spacing: 0.05em;">DAY 1 · SESSION 01</span>
+ <div style="height: 2px; width: 360px; background: var(--border);"></div>
+ <span style="font-size: 40px; font-weight: 600;">Codex Client &amp; Workspace</span>
+ </div>
+
+ <div class="anim d7" style="margin-top: 64px; align-self: flex-start; display: flex; flex-direction: column; gap: 14px;">
+ <div class="mono small" style="color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase;">실습 강의 사이트 주소</div>
+ <div style="display: inline-block; padding: 30px 52px; background: var(--bg-callout); border: 1px solid var(--border); border-radius: var(--radius-lg); font-family: var(--mono); font-size: 40px; font-weight: 500; color: var(--text); letter-spacing: -0.01em;">
+ odatot.github.io/nigeria/NA/LECTURE_ENG/docs
+ </div>
+ </div>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>14</div>
+ </div>
+ </div>
+</section>
+
+<!-- ============================================================
+ SLIDE 15 — 10-Day Process Map (interactive)
+============================================================ -->
+<section data-label="10-Day Map">
+ <div class="slide pm-slide">
+ <div class="section-tag">10일간의 여정</div>
+ <span class="slide-num">15 / 15</span>
+
+ <div class="pm-head">
+ <div>
+ <h1 class="title anim d1" style="font-size: 60px; margin: 0;">10일의 여정, <span class="accent">하나의 실제 완제품 출시.</span></h1>
+ <div class="pm-sub anim d2">소통 ➔ 기획 명세 ➔ 데이터 설계 ➔ 화면 구현 ➔ 핵심 기능 ➔ 회원 연동 ➔ 결제 붙이기 ➔ 출시 마켓</div>
+ </div>
+ <div class="pm-ctrl anim d2">
+ <button class="pm-btn is-on" data-mode="issue">Issue it kills</button>
+ <button class="pm-btn" data-mode="artifact">Artifact passed</button>
+ <button class="pm-btn pm-play" id="pm-play">&#9654; Walk</button>
+ </div>
+ </div>
+
+ <div class="pm-phases anim-fade d3" id="pm-phases"></div>
+ <div class="pm-railwrap anim-fade d3">
+ <div class="pm-progress"><i id="pm-fill"></i></div>
+ <div class="pm-rail" id="pm-rail"></div>
+ </div>
+
+ <div class="pm-detail anim d4" id="pm-detail"></div>
+
+ <div class="pm-loop anim d5">
+ <span class="pm-loop-k">매일 반복되는 3단계 학습 사이클</span>
+ <span class="pm-loop-s"><b>1</b> 핵심 이론 강의 · 2시간</span><span class="pm-arrow">&rarr;</span>
+ <span class="pm-loop-s"><b>2</b> Codex 실습 과제 수행 · 3시간</span><span class="pm-arrow">&rarr;</span>
+ <span class="pm-loop-s"><b>3</b> 솔로 해결 미션 수행 · 1시간</span>
+ <span class="pm-loop-tail">&nbsp;&nbsp;이해하는 방식: <b>문제 정의</b> ➔ <b>AI와 함께 개발/수정</b> ➔ <b>정상 구동 검증</b></span>
+ </div>
+
+ <div class="footer">
+ <div class="footer-left">ACE AI Startup Bootcamp — Eduniety Lab</div>
+ <div>15 · END</div>
+ </div>
+ </div>
+</section>
+
+</deck-stage>
+
+<div id="nav-hint">← → or Space · click to advance</div>
+
+<script>
+/* ==========================================================
+ Standalone slide engine — navigation, fit-to-viewport,
+ active-slide animation hook, and dot-grid builder.
+ ========================================================== */
+(function () {
+ const stage = document.querySelector('deck-stage');
+ const slides = Array.prototype.slice.call(stage.querySelectorAll(':scope > section'));
+ const hint = document.getElementById('nav-hint');
+ let idx = 0;
+
+ // Engine is live — switch from the no-JS fallback to single-slide mode.
+ stage.classList.add('js-ready');
+
+ function syncActive(i) {
+ idx = Math.max(0, Math.min(slides.length - 1, i));
+ slides.forEach(function (s, n) {
+ if (n === idx) s.setAttribute('data-active', 'true');
+ else s.removeAttribute('data-active');
+ });
+ }
+
+ function fit() {
+ const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+ stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+ }
+
+ function next() { if (idx < slides.length - 1) syncActive(idx + 1); }
+ function prev() { if (idx > 0) syncActive(idx - 1); }
+
+ let hintHidden = false;
+ function hideHint() {
+ if (hintHidden || !hint) return;
+ hintHidden = true;
+ hint.style.opacity = '0';
+ setTimeout(function () { if (hint) hint.style.display = 'none'; }, 600);
+ }
+
+ // Build the 70-dot grid for the Try Rate slide (5 hits, 65 misses)
+ (function buildDotGrid() {
+ const grid = document.getElementById('dot-grid');
+ if (!grid || grid.dataset.built) return;
+ grid.dataset.built = '1';
+ const total = 70;
+ const hits = new Set([12, 27, 40, 53, 64]);
+ for (let i = 0; i < total; i++) {
+ const dot = document.createElement('span');
+ dot.className = 'dot' + (hits.has(i) ? ' hit' : '');
+ dot.style.animationDelay = (0.4 + i * 0.018) + 's';
+ grid.appendChild(dot);
+ }
+ })();
+
+ // Keyboard
+ document.addEventListener('keydown', function (e) {
+ if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown' || e.key === 'Enter') {
+ next(); hideHint(); e.preventDefault();
+ } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') {
+ prev(); hideHint(); e.preventDefault();
+ } else if (e.key === 'Home') {
+ syncActive(0); hideHint(); e.preventDefault();
+ } else if (e.key === 'End') {
+ syncActive(slides.length - 1); hideHint(); e.preventDefault();
+ }
+ });
+
+ // Click to advance (ignore clicks on links)
+ stage.addEventListener('click', function (e) {
+ if (e.target.closest('a')) return;
+ next(); hideHint();
+ });
+
+ window.addEventListener('resize', fit);
+
+ fit();
+ syncActive(0);
+})();
+</script>
+
+<script>
+/* ==========================================================
+ SLIDE 15 — 10-Day Process Map: data + interaction
+ ========================================================== */
+(function () {
+ var PHASES = [
+  { name: 'DEFINE',  span: 2, color: '#337EA9', desc: '회의 대화를 단단한 기획 스펙으로 문서화' },
+  { name: 'DESIGN',  span: 3, color: '#9065B0', desc: '코드를 짜기 전 데이터와 연결 구조 설계' },
+  { name: 'BUILD',   span: 2, color: '#4D8B6E', desc: '실제 코드로 빌드하고 정상 구동하도록 마감' },
+  { name: 'CONVERT', span: 2, color: '#CB912F', desc: '사용자를 실제로 유치하고 머니 파이프라인 연동' },
+  { name: 'LAUNCH',  span: 1, color: '#E03E3E', desc: '시장에 출시하고 피드백을 모아 차기 스펙 설계' }
+ ];
+
+ var DAYS = [
+  { d: 1,  p: 0, t: '요구사항 정의',
+    issue: '"회의 때 그렇게 이야기했잖아"는 기획이 아닙니다.',
+    does: '회의 원본 녹취록 ➔ 핵심 액터 식별 ➔ <b>기능 정의서 작성</b> ➔ 정상 및 예외 흐름 시나리오 ➔ 미결 문제 작성. 총 5대 구성 명세를 한 문서에 취합하여 승인 전송. Figma 레이아웃 병행.',
+    out: ['requirements-specification.md', 'user-scenarios.md', 'open-questions.md', 'Figma wireframes'],
+    pass: '승인 완료된 명세서' },
+  { d: 2,  p: 0, t: '명세 일관성 추적',
+    issue: '문서 내용이 계속 틀어지고 결정 사항이 날아갑니다.',
+    does: '회의록 vs 기능명세 vs 목업 화면 간의 <b>모순점</b>을 교차 체크합니다. 한 지점의 명세 수정(예: 휴대폰 인증 기능 추가)이 미치는 파급 효과 추적. 의사결정 이력 기록.',
+    out: ['consistency-report.md', 'impact-analysis.md', 'decision-log.md', 'project-issue-report.md'],
+    pass: '동기화된 단 하나의 명세' },
+  { d: 3,  p: 1, t: '데이터 모델링',
+    issue: '기획자는 "회원", 개발자는 "User", DB 스키마는 "Member"로 이름이 다 다릅니다.',
+    does: '비즈니스 언어 통일화, <b>ERD 다이어그램</b> 작성, 표준 용어집 정의. 동시성 제어 및 삭제 처리 정책 등 미처 고려하지 않은 데이터 정책과 엣지 케이스 분석.',
+    out: ['erd-schema.md', 'project-glossary.md', 'change-impact-report.md', 'edge-case-analysis.md'],
+    pass: 'ERD 및 표준 데이터 용어집' },
+  { d: 4,  p: 1, t: 'API 명세 설계',
+    issue: '화면에서 필요한 데이터가 정작 API 규격서에는 빠져 있습니다.',
+    does: '화면 목업과 ERD를 기반으로 <b>API 계약서</b> 작성. 프론트와 백엔드 간의 불일치 엔드포인트 전수 조사. DB ↔ API ↔ UI 간의 데이터 영향도 추적 및 테스트 설계.',
+    out: ['api-contract.md (OpenAPI)', 'api-consistency-report.md', 'api-impact-analysis.md', 'api-test-scenario.md'],
+    pass: 'API 규격 설계서 (OpenAPI)' },
+  { d: 5,  p: 1, t: '사용자 경험 설계',
+    issue: '예약 완료까지 9단계나 걸리니 사용자들이 4단계에서 이탈합니다.',
+    does: '첫 유저 시각에서 사용성 분석. 화면 전반에 일관적인 UI 패턴 적용. 결제 프로세스 혁신적 단축 <b>9단계 ➔ 4단계</b>. AI 페르소나(모바일 취약층) 활용 사용성 테스트 및 채점.',
+    out: ['ux-review-report.md', 'ui-consistency-report.md', 'user-journey-report.md', 'usability-evaluation.md'],
+    pass: '검증된 하이파이 피드백 UI' },
+  { d: 6,  p: 2, t: '화면 스켈레톤 개발',
+    issue: '화면은 잘 렌더링되다가 특정 버튼을 누르면 undefined 에러로 죽습니다.',
+    does: '반응형 관리자 대시보드 마크업 생성, fetch API를 통한 서버 응답 연동. <b>에러 로그(Stack Trace)</b>를 분석해 예외를 조치하고, 중복 구조 코드를 리팩토링합니다.',
+    out: ['index.html · layout.css', 'day6_debug_solution.js', 'day6_clean_code.js', 'day6_code_review.md'],
+    pass: '동작하는 화면 스켈레톤' },
+  { d: 7,  p: 2, t: '핵심 비즈니스 로직 연동',
+    issue: '뒤로가기 클릭 시 입력 필터가 다 리셋되고, 예약 버튼 더블 클릭 시 중복 예약이 됩니다.',
+    does: '이벤트 연동 및 데이터 영속화(localStorage). 뒤로가기 탐색 시 필터 복원(sessionStorage). 중복 생성 락인 <b>isSubmitting 방어막</b> 개발. 초보 유저 기반 E2E 시나리오 검증.',
+    out: ['day7_connected_feature.html', 'day7_scenario_solution.js', 'day7_robust_validation.js', 'day7_e2e_validation.md'],
+    pass: '안정적인 비즈니스 기능 동작' },
+  { d: 8,  p: 3, t: '회원가입 및 세션 관리',
+    issue: '회원가입 양식이 너무 길어서 6번째 입력 필드에서 사용자가 이탈합니다.',
+    does: '가입 단계 간소화 및 점진적 정보 입력 유도. 가입 시나리오 상의 모든 마찰 요인 분석. 중복 이메일 가입 방지 및 로그인 시 세부 보안 예외 메시지 정교화.',
+    out: ['day8_feature_checklist.md', 'day8_ux_improvement_report.md', 'day8_robust_user_service.js', 'day8_first_user_review.md'],
+    pass: '검증된 인증 및 가입 기능' },
+  { d: 9,  p: 3, t: '결제 시스템 연동',
+    issue: '흰 화면에 금액만 덩그러니 놓여 있어 피싱 사이트처럼 느껴집니다.',
+    does: '주문서 및 PG 결제 여정 간소화 <b>9단계 ➔ 3단계</b>. PG 에러 코드를 사용자 친화적 문장으로 자동 변환. 중복 출금 방지를 위한 <b>UUID 기반 멱등성 보장</b> 결제 락 구현.',
+    out: ['day9_optimized_flow.md', 'day9_error_mitigation_guide.md', 'day9_robust_payment_ui.html', 'day9_checkout_journey.md'],
+    pass: '완결된 결제 트랜잭션' },
+  { d: 10, p: 4, t: '서비스 개시 및 v2.0 기획',
+    issue: '밤샘 개발해서 출시했는데 아무도 내 서비스가 무엇인지 모릅니다.',
+    does: '소비자가 <b>5초 만에 이해할 수 있는</b> 헤드 카피 기획. 20개 핵심 FAQ 및 셀프 조치 페이지 구현. 회고(Keep / Problem / Try) 진행. v2.0 고도화를 위한 <b>MoSCoW 우선순위 기획</b>.',
+    out: ['day10_launch_materials.md', 'day10_faq_guide.md', 'day10_retrospective.md', 'day10_presentation.md'],
+    pass: '안정적인 실서비스 론칭 및 차기 계획' }
+ ];
+
+ var slide = document.querySelector('.pm-slide');
+ if (!slide) return;
+ var railEl = slide.querySelector('#pm-rail');
+ var phaseEl = slide.querySelector('#pm-phases');
+ var detailEl = slide.querySelector('#pm-detail');
+ var fillEl = slide.querySelector('#pm-fill');
+ var playBtn = slide.querySelector('#pm-play');
+ var modeBtns = slide.querySelectorAll('.pm-btn[data-mode]');
+ var mode = 'issue';
+ var sel = 0;
+ var timer = null;
+
+ /* ---- phase band ---- */
+ PHASES.forEach(function (ph) {
+  var el = document.createElement('div');
+  el.className = 'pm-phase';
+  el.style.setProperty('--pc', ph.color);
+  el.style.gridColumn = 'span ' + ph.span;
+  el.innerHTML = '<div class="pm-pname">' + ph.name + '</div><div class="pm-pdesc">' + ph.desc + '</div>';
+  phaseEl.appendChild(el);
+ });
+
+ /* ---- nodes ---- */
+ var nodes = DAYS.map(function (dy, i) {
+  var el = document.createElement('div');
+  el.className = 'pm-node';
+  el.style.setProperty('--pc', PHASES[dy.p].color);
+  el.style.position = 'relative';
+  el.innerHTML =
+   '<span class="pm-bub"></span>' +
+   '<div class="pm-day">DAY ' + (dy.d < 10 ? '0' + dy.d : dy.d) + '</div>' +
+   '<div class="pm-title">' + dy.t + '</div>' +
+   '<div class="pm-chip"></div>';
+  el.addEventListener('click', function (e) {
+   e.stopPropagation();
+   stop();
+   select(i);
+  });
+  el.addEventListener('mouseenter', function () { if (!timer) select(i); });
+  railEl.appendChild(el);
+  return el;
+ });
+
+ function shortIssue(dy) {
+  return dy.issue.replace(/<[^>]+>/g, '');
+ }
+
+ function paintChips() {
+  DAYS.forEach(function (dy, i) {
+   var chip = nodes[i].querySelector('.pm-chip');
+   if (mode === 'artifact') {
+    chip.className = 'pm-chip mono';
+    chip.innerHTML = '&rarr; ' + dy.pass;
+   } else {
+    chip.className = 'pm-chip';
+    chip.innerHTML = shortIssue(dy);
+   }
+  });
+ }
+
+ function select(i) {
+  sel = i;
+  var dy = DAYS[i];
+  nodes.forEach(function (n, k) {
+   n.classList.toggle('is-sel', k === i);
+   n.classList.toggle('is-done', k < i);
+  });
+  fillEl.style.width = (i / (DAYS.length - 1) * 100) + '%';
+  detailEl.innerHTML =
+   '<div class="pm-fade"><div class="pm-col-k">The issue it kills</div><div class="pm-issue">' + dy.issue + '</div></div>' +
+   '<div class="pm-fade"><div class="pm-col-k">What you actually do</div><div class="pm-does">' + dy.does + '</div></div>' +
+   '<div class="pm-fade"><div class="pm-col-k">You walk out with</div><div class="pm-out"><span>' + dy.out.join('</span><span>') + '</span></div></div>';
+ }
+
+ /* ---- mode toggle ---- */
+ Array.prototype.forEach.call(modeBtns, function (b) {
+  b.addEventListener('click', function (e) {
+   e.stopPropagation();
+   Array.prototype.forEach.call(modeBtns, function (x) { x.classList.remove('is-on'); });
+   b.classList.add('is-on');
+   mode = b.getAttribute('data-mode');
+   paintChips();
+  });
+ });
+
+ /* ---- walkthrough ---- */
+ function stop() {
+  if (timer) { clearInterval(timer); timer = null; }
+  playBtn.classList.remove('is-on');
+  playBtn.innerHTML = '▶ Walk';
+ }
+ playBtn.addEventListener('click', function (e) {
+  e.stopPropagation();
+  if (timer) { stop(); return; }
+  playBtn.classList.add('is-on');
+  playBtn.innerHTML = '■ Stop';
+  select(0);
+  timer = setInterval(function () {
+   if (sel >= DAYS.length - 1) { stop(); return; }
+   select(sel + 1);
+  }, 2000);
+ });
+
+ paintChips();
+ select(0);
+})();
+</script>
+
+</body></html>
