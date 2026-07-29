@@ -1,0 +1,265 @@
+<!-- Slide 1: [Divider] PROJECT DAY -->
+<section class="slide-card divider-slide session-project_day" id="slide-120">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Project Day | Markdown Spec-Based Website Building Practice</div>
+    <div class="slide-title">[Project] Project Day. Full Website Building Practice via Codex Conversation</div>
+  </div>
+
+  <div class="divider-content">
+    <div class="divider-day">PROJECT DAY</div>
+    <div class="divider-tag">MINI PROJECT</div>
+    <h1 class="divider-title">Markdown Spec-Based Website Building</h1>
+    <p class="divider-subtitle">A 6-phase workshop to structure ideas into Markdown specifications via Codex conversation and complete a fully functional website</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> Idea Definition &amp; Markdown Spec Writing</div>
+      <div class="topic-badge"><span>02</span> Codex Code Generation &amp; Scenario Testing</div>
+      <div class="topic-badge"><span>03</span> Iterative Spec Refinement &amp; Conversation Logging</div>
+    </div>
+  </div>
+
+  <div class="slide-body" style="display: none;">
+    <p>Project Day. Markdown Spec-Based Website Building Practice Session Start</p>
+  </div>
+  <div class="presenter-notes" style="display:none;">On Project Day, instead of asking Codex to build a website right away, students experience the full 6-phase workflow: defining ideas through chat, documenting specifications in Markdown, generating code, and verifying functionality.</div>
+</section>
+
+<!-- Slide 2: Phase 1. Idea Definition -->
+<section class="slide-card session-project_day" id="slide-121">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Project Day. Markdown Spec-Based Website Building</div>
+      <div class="slide-title">Phase 1. Idea Definition</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Project Day</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Objective:</span> Clearly define the core elements in 3 sentences or less rather than prompting vague ideas directly to Generative AI</li>
+      <li><span class="highlight">3 Essential Elements to Include:</span>
+        <ul>
+          <li><span class="highlight">Site Purpose:</span> e.g., A website where students check in via QR code and teachers monitor attendance in real time</li>
+          <li><span class="highlight">User Roles:</span> Student (card selection, QR scanning), Teacher (dashboard monitoring, status filtering)</li>
+          <li><span class="highlight">Core Actions &amp; Data:</span> Select ID card, generate QR, scan &amp; save attendance, real-time status update</li>
+        </ul>
+      </li>
+      <li><span class="highlight">Practice Guide:</span> Write the idea and user roles clearly in 3 sentences inside the Codex chat window.</li>
+    </ul>
+
+    <div class="presenter-notes" style="display:none;">Generative AI cannot automatically complete vague ideas. The first lesson is to clearly define who the site is for and what each user does in 3 concise sentences.</div>
+  </div>
+</section>
+
+<!-- Slide 3: Phase 2. Markdown Specifications -->
+<section class="slide-card session-project_day" id="slide-122">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Project Day. Markdown Spec-Based Website Building</div>
+      <div class="slide-title">Phase 2. Markdown Specifications Writing</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Project Day</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">Why Documenting Matters:</span> Create standard specifications that both humans and Codex can read without ambiguity</li>
+          <li><span class="highlight">5 Essential Markdown Document Pack:</span>
+            <ul>
+              <li><code>SITE_SPEC.md</code>: Purpose, key screens, features, completion criteria (Checklist)</li>
+              <li><code>USER_FLOWS.md</code>: Step-by-step user journeys for student and teacher roles</li>
+              <li><code>DATA_MODEL.md</code>: Student information and attendance record data structure</li>
+              <li><code>IMPLEMENTATION_PLAN.md</code>: Build sequence and testing checklist</li>
+              <li><code>CONVERSATION.md</code>: Record log of requests, decisions, and changes</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--panel-border); border-radius: 14px; padding: 20px; text-align: left;">
+        <h4 style="color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.05rem;">📁 Project Structure Example</h4>
+        <pre style="font-family: monospace; font-size: 0.9rem; color: #a5f3fc; line-height: 1.5;">attendance-project/
+├── SITE_SPEC.md
+├── USER_FLOWS.md
+├── DATA_MODEL.md
+├── IMPLEMENTATION_PLAN.md
+├── CONVERSATION.md
+└── website/</pre>
+      </div>
+    </div>
+
+    <div class="presenter-notes" style="display:none;">To make Codex write consistent code, you must first complete the 5 Markdown document packs. Open each file to review and fix any unwanted features or missing criteria.</div>
+  </div>
+</section>
+
+<!-- Slide 4: Phase 3. Codex Code Generation -->
+<section class="slide-card session-project_day" id="slide-123">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Project Day. Markdown Spec-Based Website Building</div>
+      <div class="slide-title">Phase 3. Codex Code Generation (Implementation)</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Project Day</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Core Implementation Instructions:</span>
+        <ul>
+          <li><strong>Read Documents First:</strong> Request Codex to "Read and understand all 5 specification documents before writing any code."</li>
+          <li><strong>Folder Separation:</strong> Strictly separate specification document folder from website execution code folder (<code>website/</code>)</li>
+          <li><strong>Essential Feature Request:</strong> Scannable QR generation, attendance status saving, teacher monitoring screen, and responsive mobile layout</li>
+        </ul>
+      </li>
+      <li><span class="highlight">Prompt Example:</span> <code>"Read the spec files and build the student QR page and teacher monitoring page under website/ using HTML/CSS/JS."</code></li>
+    </ul>
+
+    <div class="presenter-notes" style="display:none;">When asking for implementation, instruct Codex to read existing specification documents first. Verify that code and document folders are separated and mobile responsiveness is included.</div>
+  </div>
+</section>
+
+<!-- Slide 5: Phase 4. Scenario Testing & Verification -->
+<section class="slide-card session-project_day" id="slide-124">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Project Day. Markdown Spec-Based Website Building</div>
+      <div class="slide-title">Phase 4. Scenario Testing &amp; Verification</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Project Day</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <h4 style="color: var(--accent-cyan); margin-bottom: 12px;">👨‍🎓 Student Role Scenario</h4>
+        <ul class="bullet-list" style="font-size: 0.95rem;">
+          <li>Search name ➔ Select card ➔ Verify student QR display</li>
+          <li>Scan QR with smartphone ➔ Open mobile attendance page</li>
+          <li>Click [Check-in] button ➔ Verify completion message &amp; timestamp</li>
+          <li><strong>Exception Test:</strong> Guard against duplicate check-in on double click</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="color: #60a5fa; margin-bottom: 12px;">👨‍🏫 Teacher Role Scenario</h4>
+        <ul class="bullet-list" style="font-size: 0.95rem;">
+          <li>Open attendance monitoring dashboard</li>
+          <li>Verify real-time status update when student checks in</li>
+          <li>Test student name search and status filtering (Attended / Absent)</li>
+          <li><strong>Exception Test:</strong> Verify error alert dialog when network is delayed or fails</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="presenter-notes" style="display:none;">Pair up to perform student and teacher role testing. Verify that normal operations as well as exception cases (duplicate clicks, network errors) meet the criteria in SITE_SPEC.md.</div>
+  </div>
+</section>
+
+<!-- Slide 6: Phase 5. Iterative Refinement -->
+<section class="slide-card session-project_day" id="slide-125">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Project Day. Markdown Spec-Based Website Building</div>
+      <div class="slide-title">Phase 5. Iterative Website &amp; Spec Refinement</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Project Day</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">Spec-First Update Principle:</span>
+        <ul>
+          <li>When new features or design changes are requested during testing, <strong>update the specification files (`SITE_SPEC.md`, etc.) first before editing code</strong>.</li>
+          <li>Example: "Add attendance cancellation button for teacher" ➔ Record this in <code>SITE_SPEC.md</code> and <code>USER_FLOWS.md</code> first</li>
+        </ul>
+      </li>
+      <li><span class="highlight">Re-prompting Codex:</span> <code>"Read the updated cancellation requirement in SITE_SPEC.md and revise the website/ code accordingly."</code></li>
+      <li><span class="highlight">Takeaway:</span> Master the sustainable AI development pattern where specifications and code remain synchronized.</li>
+    </ul>
+
+    <div class="presenter-notes" style="display:none;">When improvements are needed, update the Markdown document first before modifying the code. This ensures the specification and the actual site stay perfectly synchronized.</div>
+  </div>
+</section>
+
+<!-- Slide 7: Phase 6. History Logging & Presentation -->
+<section class="slide-card session-project_day" id="slide-126">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Project Day. Markdown Spec-Based Website Building</div>
+      <div class="slide-title">Phase 6. History Logging &amp; Presentation</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Project Day</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <h4 style="color: var(--accent-cyan); margin-bottom: 12px;">📝 Documenting CONVERSATION.md</h4>
+        <ul class="bullet-list" style="font-size: 0.95rem;">
+          <li>Key prompts submitted to Codex</li>
+          <li>Design decisions and trade-off rationales</li>
+          <li>Errors encountered and resolution steps</li>
+          <li>Final testing verification status</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="color: #60a5fa; margin-bottom: 12px;">🎤 5-Minute Final Presentation Structure</h4>
+        <ul class="bullet-list" style="font-size: 0.95rem;">
+          <li>1. Site purpose and key user roles introduction</li>
+          <li>2. Student QR check-in &amp; teacher dashboard live demo</li>
+          <li>3. Most challenging bug and how it was solved</li>
+          <li>4. **Benefits of writing spec documents before coding**</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="presenter-notes" style="display:none;">In the final phase, log all prompt history and decisions in CONVERSATION.md and present your project results with peers, highlighting the benefits of spec-first development.</div>
+  </div>
+</section>
+
+<!-- Slide 8: Project Day Completion -->
+<section class="slide-card session-project_day" id="slide-127">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Project Day. Markdown Spec-Based Website Building</div>
+      <div class="slide-title">Project Day Workshop Complete</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">Project Day</span>
+      <span>ACE Startup SW/AI Pilot</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">6-Phase Process Completed:</span>
+        <div style="margin-top: 10px; padding: 16px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px; font-weight: 600; text-align: center; color: #a5f3fc; line-height: 1.6;">
+          Idea Definition ➔ Markdown Specs ➔ Codex Implementation ➔ Scenario Testing ➔ Spec &amp; Code Refinement ➔ History &amp; Demo
+        </div>
+      </li>
+      <li><span class="highlight">Key Outcome:</span> You have mastered transforming vague ideas into standard specification documents and launching a working web app with AI collaboration. Congratulations! 🎉</li>
+    </ul>
+
+    <div class="presenter-notes" style="display:none;">Project Day workshop is complete. Utilize this spec-first AI collaboration experience for all your future AI startup projects!</div>
+  </div>
+</section>

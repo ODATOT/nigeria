@@ -59,7 +59,8 @@ function build() {
     'session7.html',
     'session8.html',
     'session9.html',
-    'session10.html'
+    'session10.html',
+    'project_day.html'
   ];
 
   sessions.forEach((filename, index) => {
