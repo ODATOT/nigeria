@@ -703,24 +703,109 @@ Please cross-check the provided day4_requirements.md, day4_screen_definition.md,
       });
     }
 
-    function downloadTask02Terms() {
-      const text = `# project fragmentation terminology management document
+    function downloadDay4Requirements() {
+      const text = `# [Day 4] Expert Consultation Service Requirements Specification (v1.0)
 
-* **Notation in Figma UI planning**:
-  - User information screen: ‘Customer name’, ‘Withdrawal member’
-  - Expert matching card: ‘Teacher profile’, ‘Professional counselor field’
-  - Reservation form: ‘Consultation application time’, ‘Reservation Category’
+## 1. Overview
+* **Service Name**: AI-Based Expert Matching & Consultation Reservation Service
+* **Purpose**: Integrated system for users to search for consultation experts, schedule appointments, and complete payments.
 
-* **Notation in backend API specification**:
-  - GET /user/profile -> 'nickname', 'MemberStatus'
-  - POST /counselor/register -> 'CounselorName', 'category'
-  - GET /book/history -> 'book_id', 'status'
+## 2. User Roles
+* **User (Client)**: Search experts, view detailed profile, check ratings, request consultation reservation, complete payment
+* **Expert**: Set available consultation slots, approve/reject reservations, manage consultation history
+* **Admin**: Approve experts, audit payment history, manage members
 
-* **Notation of database SQL DDL**:
-  - TABLE members -> 'member_id', 'email', 'nick_name'
-  - TABLE counselors -> 'counselor_id', 'name'
-  - TABLE reservations -> 'res_id', 'Request to add star_rating to GET /api/v1/experts API response data', 'counselor_id'`;
+## 3. Core Functional Requirements
+* **FR-001 [Expert List View]**: Experts must be listable by category, displaying name, category, experience, and star rating (star_rating).
+* **FR-002 [Reservation Request]**: Clients can select desired date and time slot to request a consultation reservation.
+* **FR-003 [Reservation Approval]**: Experts or system can update submitted reservations to Approved or Rejected status.
+* **FR-004 [History View]**: Clients and experts can view past and upcoming consultation reservation list and status.`;
+      triggerBlobDownload(text, 'day4_requirements.md');
+    }
+
+    function downloadDay4ScreenDefinition() {
+      const text = `# [Day 4] Expert Consultation Service Screen Specification (v1.0)
+
+## 1. SCR-001: Expert List Screen (Expert List View)
+* **UI Elements**:
+  - Top category filter tabs (All, Legal, Psychology, Tax, Software)
+  - Expert card list (Profile photo, Expert name, Category, Experience, Star rating star_rating)
+  - [Apply for Consultation] CTA button
+
+## 2. SCR-002: Expert Detail & Reservation Form
+* **UI Elements**:
+  - Expert details, consultation fee, review list
+  - Calendar date picker and time slot selector
+  - [Submit Reservation] button
+
+## 3. SCR-003: Expert Reservation Management Dashboard
+* **UI Elements**:
+  - Pending reservation application list (Applicant name, Time, Topic)
+  - [Approve Reservation] button & [Reject Reservation] button (Status change handler)`;
+      triggerBlobDownload(text, 'day4_screen_definition.md');
+    }
+
+    function downloadDay4ApiSpecV1() {
+      const text = `# [Day 4] Expert Consultation Service Backend API Specification (v1.0)
+
+## 1. GET /api/v1/experts (Expert List)
+* **Description**: Returns registered expert list
+* **Request Params**: category (optional, string)
+* **Response Body** (v1.0 - Rating star_rating field missing):
+\`\`\`json
+{
+  "code": 200,
+  "data": [
+    {
+      "expert_id": "EXP_001",
+      "name": "Alex Kim",
+      "category": "Psychology",
+      "experience_years": 8
+    }
+  ]
+}
+\`\`\`
+
+## 2. POST /api/v1/reservations (Create Reservation)
+* **Description**: Register a new consultation reservation
+* **Request Body**:
+\`\`\`json
+{
+  "expert_id": "EXP_001",
+  "reservation_date": "2026-08-10",
+  "reservation_time": "14:00"
+}
+\`\`\`
+
+## 3. GET /api/v1/reservations/history (Reservation History)
+* **Description**: View consultation history for user/expert
+* **Response Body**:
+\`\`\`json
+{
+  "code": 200,
+  "data": [
+    {
+      "reservation_id": "RES_1001",
+      "expert_name": "Alex Kim",
+      "status": "PENDING",
+      "created_at": "2026-07-30T10:00:00Z"
+    }
+  ]
+}
+\`\`\`
+
+*(Note: Expert reservation approval/rejection API (PATCH /api/v1/reservations/{id}/status) specified in requirements is currently missing in v1.0 API spec)*`;
       triggerBlobDownload(text, 'day4_api_specification_v1.md');
+    }
+
+    function downloadAllDay4Task02Files() {
+      downloadDay4Requirements();
+      setTimeout(() => downloadDay4ScreenDefinition(), 300);
+      setTimeout(() => downloadDay4ApiSpecV1(), 600);
+    }
+
+    function downloadTask02Terms() {
+      downloadAllDay4Task02Files();
     }
 
     function triggerBlobDownload(content, filename) {
