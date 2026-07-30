@@ -613,9 +613,11 @@
         </div>
 
         <div class="card-section">
-          <h3>Download practice materials</h3>
-          <div class="action-btn-container">
-            <button onclick="downloadTask04Meeting()" class="btn-download">📥 Download day4_api_specification_v1.md & day4_api_review_dialogue.md</button>
+          <h3>Download practice materials (2 Files)</h3>
+          <div class="action-btn-container" style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button onclick="downloadDay4ApiSpecV1()" class="btn-download">📥 Download day4_api_specification_v1.md</button>
+            <button onclick="downloadDay4ApiReviewDialogue()" class="btn-download">📥 Download day4_api_review_dialogue.md</button>
+            <button onclick="downloadAllDay4Mission1Files()" class="btn-download" style="background: var(--primary-color, #3b82f6); color: #fff;">📦 Download All 2 Files</button>
           </div>
         </div>
 
@@ -665,17 +667,75 @@ Please review the provided API specification of day4_api_specification_v1.md, an
       });
     }
 
-    function downloadTask04Meeting() {
-      const text = `# Architecture design and database normalization decisions meeting minutes
+    function downloadDay4ApiSpecV1() {
+      const text = `# [Day 4] Expert Consultation Service Backend API Specification (v1.0)
+
+## 1. GET /api/v1/experts (Expert List)
+* **Description**: Returns registered expert list
+* **Request Params**: category (optional, string)
+* **Response Body** (v1.0 - Rating star_rating field missing):
+\`\`\`json
+{
+  "code": 200,
+  "data": [
+    {
+      "expert_id": "EXP_001",
+      "name": "Alex Kim",
+      "category": "Psychology",
+      "experience_years": 8
+    }
+  ]
+}
+\`\`\`
+
+## 2. POST /api/v1/reservations (Create Reservation)
+* **Description**: Register a new consultation reservation
+* **Request Body**:
+\`\`\`json
+{
+  "expert_id": "EXP_001",
+  "reservation_date": "2026-08-10",
+  "reservation_time": "14:00"
+}
+\`\`\`
+
+## 3. GET /api/v1/reservations/history (Reservation History)
+* **Description**: View consultation history for user/expert
+* **Response Body**:
+\`\`\`json
+{
+  "code": 200,
+  "data": [
+    {
+      "reservation_id": "RES_1001",
+      "expert_name": "Alex Kim",
+      "status": "PENDING",
+      "created_at": "2026-07-30T10:00:00Z"
+    }
+  ]
+}
+\`\`\`
+
+*(Note: Expert reservation approval/rejection API (PATCH /api/v1/reservations/{id}/status) specified in requirements is currently missing in v1.0 API spec)*`;
+      triggerBlobDownload(text, 'day4_api_specification_v1.md');
+    }
+
+    function downloadDay4ApiReviewDialogue() {
+      const text = `# Architecture Design & Database Normalization Decision Meeting Transcript
 
 * **Attendees**: PM_David, Dev_Lead, DB_Admin
-* **Agenda**: Reservation cancellation history management and review of feasibility of 1:1 separation of payment tables
-* **Meeting Notes**:
-  - **Dev_Lead**: Existing Reservations on the table Wouldn't it be convenient to just open the 'canceled_at' and 'cancel_reason' columns and set the status value to 'CANCELED'?
-  - **DB_Admin**: Due to the nature of the service, users may change schedules and cancel multiple times, so direct addition of columns is not possible for multiple history processing. Also, the number of cancellation log views is significantly lower than the daily number of reservations, but if you continue to accumulate data on the main table, a lock bottleneck will occur in all tables.
-  - **Dev_Lead**: Ah, I see. Then, it would be reasonable to design the main reservation table to maintain only the latest status, and to separate cancellation and history 1:N into the 'Reservation_Histories' table.
-  - **PM_David**: Good idea. For statistical aggregation performance and security audit purposes, let's proceed with that alternative. I make the final confirmation and approve it.`;
+* **Agenda**: Reservation cancellation history management and payment table 1:1 separation feasibility review
+* **Meeting Transcript**:
+  - **Dev_Lead**: Wouldn't it be convenient to just add 'canceled_at' and 'cancel_reason' columns to the existing Reservations table and set the status to 'CANCELED'?
+  - **DB_Admin**: Given the nature of the service, users may cancel and reschedule multiple times, so adding columns directly cannot handle multiple history records. Also, cancellation log query volume is significantly lower than daily reservation queries, so continuously accumulating data in the main table will create lock bottlenecks across the entire table.
+  - **Dev_Lead**: Ah, I see. Then keeping only the latest status in the main reservation table and designing cancellation/history in a separate 'Reservation_Histories' 1:N table is appropriate.
+  - **PM_David**: Great idea. Let's proceed with that alternative for statistics aggregation performance and security audit requirements. I give final confirmation and approval.`;
       triggerBlobDownload(text, 'day4_api_review_dialogue.md');
+    }
+
+    function downloadAllDay4Mission1Files() {
+      downloadDay4ApiSpecV1();
+      setTimeout(() => downloadDay4ApiReviewDialogue(), 300);
     }
 
     function triggerBlobDownload(content, filename) {
