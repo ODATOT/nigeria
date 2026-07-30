@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Day 3 쉬운 가이드 — 데이터 정규화, ERD &amp; 변경 영향도 분석</title>
+<style>
+  :root{
+    --ink:#161513; --ink2:#4a4640; --line:#e3ddd3; --line2:#cfc7b8;
+    --bg:#faf8f5; --card:#ffffff;
+    --accent:#b4501f; --accent-soft:#fdf1e9;
+    --ok:#2f6b46; --ok-soft:#eef6f0;
+    --warn:#8a6d1c; --warn-soft:#fdf6e3;
+    --bad:#9b2c2c; --bad-soft:#fdeceb;
+    --adv:#3b4f7d; --adv-soft:#eef1f8;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:Pretendard,"Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;
+    line-height:1.7; font-size:16.5px; letter-spacing:-0.005em;
+  }
+  .wrap{max-width:940px;margin:0 auto;padding:0 22px 120px}
+
+  header.hero{border-bottom:1px solid var(--line);background:var(--card);padding:44px 0 34px;margin-bottom:34px}
+  .hero .wrap{padding-bottom:0}
+  .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 10px}
+  h1{font-size:32px;line-height:1.28;margin:0 0 14px;letter-spacing:-0.025em}
+  .lede{font-size:17.5px;color:var(--ink2);margin:0;max-width:72ch}
+  .onesent{margin-top:22px;padding:16px 18px;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
+  .onesent b{color:var(--accent)}
+
+  h2{font-size:23px;margin:52px 0 6px;letter-spacing:-0.02em;padding-top:14px;border-top:1px solid var(--line)}
+  h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:8px}
+  h3{font-size:18.5px;margin:30px 0 8px;letter-spacing:-0.015em}
+  h4{font-size:15.5px;margin:20px 0 6px;color:var(--ink2)}
+  p{margin:10px 0}
+  .sub{color:var(--ink2);font-size:15px;margin-top:2px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:18px 0}
+  .card.tight{padding:15px 18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+
+  .tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.02em;vertical-align:middle}
+  .t-bad{background:var(--bad-soft);color:var(--bad)}
+  .t-ok{background:var(--ok-soft);color:var(--ok)}
+  .t-warn{background:var(--warn-soft);color:var(--warn)}
+  .t-adv{background:var(--adv-soft);color:var(--adv)}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14.5px;background:var(--card)}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:#f4f0e9;font-weight:700;font-size:13.5px}
+  td.hl{background:var(--bad-soft)}
+  td.hl2{background:var(--ok-soft)}
+  .scroll{overflow-x:auto}
+  caption{caption-side:top;text-align:left;font-size:13.5px;color:var(--ink2);padding-bottom:6px;font-weight:600}
+
+  .mermaid svg{max-width:100%;height:auto}
+  .mermaid{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin:18px 0;text-align:center}
+
+  .callout{border-radius:10px;padding:14px 16px;margin:16px 0;font-size:15.5px;border:1px solid}
+  .c-ok{background:var(--ok-soft);border-color:#cfe2d6}
+  .c-warn{background:var(--warn-soft);border-color:#eadfbc}
+  .c-bad{background:var(--bad-soft);border-color:#f0cdca}
+  .callout > b:first-child{display:block;margin-bottom:4px;font-size:16px}
+
+  code{background:#f0ece4;padding:1.5px 6px;border-radius:5px;font-size:13.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  pre{background:#1f1d1a;color:#f2ece2;padding:15px 17px;border-radius:10px;overflow-x:auto;font-size:13.5px;line-height:1.65}
+  pre code{background:none;color:inherit;padding:0}
+
+  ul,ol{padding-left:22px;margin:10px 0}
+  li{margin:5px 0}
+  ul.plain{list-style:none;padding-left:0}
+  ul.plain li{padding-left:26px;position:relative;margin:9px 0}
+  ul.plain li::before{content:"\25A1";position:absolute;left:4px;color:var(--accent);font-size:17px;top:-1px}
+
+  .adv{background:var(--adv-soft);border:1px dashed #b9c3da;border-radius:10px;padding:16px 18px;margin:16px 0}
+  .adv .tag{margin-bottom:8px}
+  body.basic-only .adv{display:none}
+
+  .toolbar{position:sticky;top:0;z-index:20;background:rgba(250,248,245,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:9px 0}
+  .toolbar .wrap{padding-top:0;padding-bottom:0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  button.lvl{font:inherit;font-size:13.5px;font-weight:700;padding:6px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--card);color:var(--ink2);cursor:pointer}
+  button.lvl[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .toolbar span.hint{font-size:13px;color:var(--ink2)}
+
+  .foot{margin-top:60px;padding-top:18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink2)}
+  @media print{.toolbar{display:none}.adv{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <button class="lvl" id="btnBasic" aria-pressed="false">핵심만 보기</button>
+    <button class="lvl" id="btnAll" aria-pressed="true">전체 보기 (심화 포함)</button>
+    <span class="hint">데이터베이스가 처음인가요? <b>핵심만 보기</b>로 읽고 실습을 마친 후 심화 섹션을 확인하세요.</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">ACE AI 스타트업 부트캠프 · Day 3 보충 가이드</p>
+    <h1>데이터 정규화, ERD &amp; 변경 영향도 분석<br>— 코드 한 줄 없이 이해하기</h1>
+    <p class="lede">Day 1에서 화면을 그렸고, Day 2에서 흐름을 그렸습니다. 오늘은 두 영역 밑에 위치하는 <b>데이터의 뼈대</b>를 구축합니다. 세션 시작 전 15분 동안 읽고 실습 동안 곁에 두세요.</p>
+    <div class="onesent">
+      <b>Day 3 한 문장 요약:</b> 머릿속 서비스 아이디어를 <b>나중에 서로 모순을 일으키지 않는 테이블 모음</b>으로 변환하는 것.
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<h2><span class="num">00</span>왜 이 학습이 필요한가요?</h2>
+<p class="sub">목적이 명확하지 않은 정규화는 암기해야 할 규칙에 불과합니다.</p>
+
+<div class="card">
+<p>집을 짓는 과정에 비유해 봅시다.</p>
+<ul>
+  <li><b>Day 1 와이어프레임</b> = 평면도. 무엇이 어디에 위치할지.</li>
+  <li><b>Day 2 시퀀스 &amp; 데이터 흐름</b> = 동선. 현관에서 주방까지 이동하는 방법.</li>
+  <li><b>Day 3 ERD &amp; 정규화</b> = <b>배관 및 배선 도면</b>. 눈에 보이지 않지만, 잘못되면 벽을 전부 헐어야 합니다.</li>
+</ul>
+<p>코딩은 Day 6에 시작됩니다. 만약 그때 배선 도면이 틀려 있다면, <b>이미 만든 모든 화면과 API를 다시 허물어야 합니다</b>. 10일 부트캠프에서 이는 치명적입니다. 오늘 이 작업을 수행하는 이유입니다.</p>
+</div>
+
+<div class="callout c-warn">
+<b>오늘 완성할 3가지 산출물</b>
+① 테이블 목록과 연결 관계 (<b>ERD</b>) ·
+② 온 팀이 합의하는 <b>표준 용어 사전</b> ·
+③ <b>테이블 수정 시 영향을 받는 항목 목록</b>.<br>
+다른 모든 개념(1NF/2NF/3NF, 관계 기호)은 이 3가지를 얻기 위한 <b>도구</b>입니다. 도구 자체를 외우기보다 3가지 산출물 완성에 집중하세요.
+</div>
+
+<h2><span class="num">01</span>병목 ①: 정규화 — "모든 것을 망치는 엑셀 시트 하나"</h2>
+<p class="sub">어려운 정의 대신 현실의 데이터 통증에서 출발해 봅시다.</p>
+
+<h3>1-0. 멀쩡해 보이는 엑셀 시트</h3>
+<p>온라인 강의 플랫폼을 만든다고 가정합시다. 처음에는 시트 하나로 모든 것을 기록합니다.</p>
+
+<div class="scroll">
+<table>
+<caption>표 A. 수강 신청 시트 (첫날에는 완벽해 보임)</caption>
+<tr><th>#</th><th>수강생</th><th>수강생 연락처</th><th>수강 과목</th><th>강사명</th><th>강사 연락처</th><th>수강료 (원)</th></tr>
+<tr><td>1</td><td>김철수</td><td>010-1111-1111</td><td class="hl">AI 기획, 데이터 분석</td><td>이영희</td><td>010-9999-9999</td><td>1,200,000</td></tr>
+<tr><td>2</td><td>박민수</td><td>010-2222-2222</td><td class="hl">AI 기획</td><td>이영희</td><td>010-9999-9999</td><td>600,000</td></tr>
+<tr><td>3</td><td>김철수</td><td class="hl">010-1111-1112</td><td class="hl">프롬프트 엔지니어링</td><td>최성민</td><td>010-8888-8888</td><td>900,000</td></tr>
+</table>
+</div>
+
+<p>이 시트는 이미 <b>3가지 사고(이상 현상, Anomaly)</b>를 예약해 두었습니다.</p>
+
+<div class="grid2">
+  <div class="card tight"><span class="tag t-bad">삽입 이상 (Insert Anomaly)</span>
+  <p style="margin-top:8px">새 과목 <b>"AI 윤리"</b>를 개설했는데 아직 수강생이 없습니다. → <b>기록할 방법이 없습니다.</b> 수강생이 없으면 행을 만들 수 없습니다.</p></div>
+
+  <div class="card tight"><span class="tag t-bad">수정 이상 (Update Anomaly)</span>
+  <p style="margin-top:8px">김철수가 번호를 변경했습니다. → 김철수가 포함된 <b>모든 행을 일일이 수정</b>해야 합니다. 3행만 수정하면 1행과 불일치가 생깁니다. <b>어느 것이 진짜인가요?</b></p></div>
+
+  <div class="card tight"><span class="tag t-bad">삭제 이상 (Delete Anomaly)</span>
+  <p style="margin-top:8px">박민수가 환불하여 2행을 삭제합니다. → "AI 기획"의 유일한 수강생 행이 지워지면서 <b>과목 정보 자체가 함께 사라집니다</b>.</p></div>
+
+  <div class="card tight"><span class="tag t-ok">정규화의 정의는…</span>
+  <p style="margin-top:8px"><b>한 시트를 목적별 전용 테이블로 분리</b>하여 이 3가지 사고가 일어나지 않게 만드는 것입니다. 1NF/2NF/3NF는 테이블을 잘라내는 <b>3단계 체크리스트</b>입니다.</p></div>
+</div>
+
+<div class="callout c-ok">
+<b>기억해야 할 단 하나의 원칙</b>
+<b>"모든 사실은 단 한 곳에만 기록한다."</b> — 같은 사실이 두 곳에 존재하는 순간 언젠가 불일치가 발생합니다. 1NF, 2NF, 3NF는 이 문장을 실천하기 위한 질문들입니다.
+</div>
+
+<h3>1-1. 1NF — <span style="font-weight:400">"셀 하나에는 값 하나만"</span></h3>
+<p><b>확인할 질문:</b> 쉼표로 여러 값을 구겨 넣은 셀이 있는가?</p>
+<p>표 A에서 <code>수강 과목: "AI 기획, 데이터 분석"</code>이 바로 그 사례입니다. "AI 기획 수강생이 몇 명인가?"를 집계하려면 텍스트를 쪼개야 하므로 관리가 복잡해집니다.</p>
+<p><b>해결책:</b> 행을 분리합니다. 한 셀에 하나의 값만 넣습니다 (김철수 행을 2개로 분리).</p>
+
+<div class="callout c-warn">
+<b>기획자가 자주 하는 실수</b>
+<b>태그</b>, <b>관심 분야</b>, <b>첨부파일</b> 등을 한 셀에 <code>A,B,C</code> 형태로 넣는 것입니다. 기획 문서에서는 자연스러워 보이지만 대표적인 1NF 위반입니다. <b>둘 이상의 값을 가질 수 있는 항목은 별도 테이블로 분리합니다.</b>
+</div>
+
+<h3>1-2. 2NF — <span style="font-weight:400">"이름표 전체가 결정하는 정보만 남기기"</span></h3>
+<p>1NF 적용 후 각 행은 <b>(수강생 + 과목)</b>이라는 <b>2 부분 조합 이름표(식별자)</b>로 구분됩니다.</p>
+<p><b>확인할 질문:</b> 이 셀의 값을 결정할 때 <b>이름표 두 쪽이 모두 필요한가, 아니면 한 쪽만 필요한가?</b></p>
+
+<div class="scroll">
+<table>
+<tr><th>컬럼명</th><th>값을 알기 위해 필요한 정보</th><th>판단 결과</th></tr>
+<tr><td>수강 신청일</td><td>수강생 <b>및</b> 과목 — 둘 다 필요</td><td class="hl2">현재 테이블 유지</td></tr>
+<tr><td>수강생 연락처</td><td><b>수강생만 알면 됨</b> (과목 무관)</td><td class="hl">분리 → 수강생 테이블로 이동</td></tr>
+<tr><td>과목명 / 수강료</td><td><b>과목만 알면 됨</b> (수강생 무관)</td><td class="hl">분리 → 과목 테이블로 이동</td></tr>
+</table>
+</div>
+
+<p>즉 <b>2NF = "이름표 절반만으로 결정되는 컬럼은 그 절반을 따라 별도 테이블로 이동한다."</b> 이 과정을 통해 수정 이상이 해결됩니다 (수강생 테이블에서 연락처를 한 번만 수정하면 끝).</p>
+
+<h3>1-3. 3NF — <span style="font-weight:400">"옆 컬럼이 결정하는 정보는 따로 빼기"</span></h3>
+<p>분리된 과목 테이블을 봅시다: <code>과목ID, 과목명, 강사명, 강사연락처</code>.</p>
+<p><b>확인할 질문:</b> 이 컬럼은 <b>이름표(과목ID)</b>가 결정하는가, 아니면 <b>옆에 있는 다른 컬럼</b>이 결정하는가?</p>
+<ul>
+  <li><b>강사연락처</b>는 과목이 아니라 <b>강사가 누구인가</b>에 의해 결정됩니다.</li>
+  <li>과목ID → 강사명 → 강사연락처 순으로 결정되며, 이를 <b>이행적 종속(Transitive Dependency)</b>이라 부릅니다.</li>
+  <li>강사가 연락처를 바꾸면 그 강사가 가르치는 <b>모든 과목 행을 수정</b>해야 하는 수정 이상이 다시 발생합니다.</li>
+</ul>
+<p><b>해결책:</b> 강사 테이블을 새로 만들고 과목 테이블에는 <code>강사ID</code>만 남겨둡니다.</p>
+
+<div class="callout c-ok">
+<b>3줄 요약 — 실습 때 이것만 기억하세요</b>
+<b>1NF</b> 한 셀에 값 하나만 (쉼표 목록 금지).<br>
+<b>2NF</b> 이름표 절반에 종속된 컬럼은 분리.<br>
+<b>3NF</b> 옆 컬럼에 종속된 정보는 분리.<br>
+<span class="sub" style="display:block;margin-top:6px">비개발자 팀에게 <b>3NF 달성은 완벽한 점수</b>입니다. BCNF나 4NF까지 고민할 필요 없습니다.</span>
+</div>
+
+<div class="adv">
+<span class="tag t-adv">Deep dive — 개발 경험이 있는 팀원을 위한 팁</span>
+<p style="margin-top:2px"><b>정규화가 항상 정답일까요? 아닙니다.</b> 정규화는 <b>쓰기 일관성</b>을 얻는 대신 <b>읽기 성능</b>을 일부 양보합니다. 5개 테이블로 쪼개면 화면 하나를 그릴 때 5번의 JOIN이 발생합니다.</p>
+<ul style="margin-bottom:0">
+  <li>부트캠프 MVP 규모(수천 건)에서 JOIN 비용은 사실상 0에 가깝습니다. <b>3NF를 준수하세요.</b> 섣부른 반정규화(Denormalization)가 시스템을 더 빠르게 망가뜨립니다.</li>
+  <li>진짜 예외는 <b>스냅샷 값(시점 데이터)</b>입니다. 주문서의 <code>결제금액</code>이 상품의 현재 가격을 참조하면 안 됩니다. 나중에 상품 가격이 변경되면 <b>과거 모든 영수증이 소급 변경</b>됩니다. 특정 시점의 사실은 참조하지 않고 복사 저장합니다.</li>
+  <li>판단 기준: <b>"지금 시점의 사실인가, 그 당시 시점의 사실인가?"</b> 지금 시점 → 참조(정규화). 당시 시점 → 복사(의도적 반정규화). 선택한 이유를 Decision Log(Mission 01)에 기록하세요.</li>
+</ul>
+</div>
+
+<h2><span class="num">02</span>병목 ②: ERD &amp; 카디널리티 — "테이블 노선도"</h2>
+<p class="sub">기호 자체는 어렵지 않습니다. <b>어떤 기호를 선택해야 할지 결정하는 기준</b>을 배우는 것이 핵심입니다.</p>
+
+<h3>2-1. ERD는 지하철 노선도입니다</h3>
+<p><b>ERD (Entity Relationship Diagram)</b>란 쉽게 말해 <b>"무엇이 존재하고 어떻게 연결되어 있는지 보여주는 그림"</b>입니다.</p>
+<ul>
+  <li><b>Entity (엔티티)</b> = 테이블 1개 = 역 하나. 수강생, 과목, 강사.
+    <br><span class="sub">구분하는 법: 서비스가 <b>독립적으로 수량을 세고 관리해야 하는 명사</b>. "수강생 3명, 과목 5개"처럼 셀 수 있다면 엔티티입니다.</span></li>
+  <li><b>Attribute (속성)</b> = 컬럼 = 해당 역의 세부 정보. 이름, 연락처.</li>
+  <li><b>Relationship (관계)</b> = 선 = "수강생이 과목을 수강 신청한다."</li>
+  <li><b>Cardinality (수량성)</b> = 선 끝의 기호 = <b>몇 대 몇 관계인가</b>.</li>
+</ul>
+
+<h3>2-2. 관계 수량성 결정법: 양방향으로 2번 질문하기</h3>
+<div class="callout c-ok">
+<b>이 두 문장을 소리 내어 말해보세요</b>
+① "<b>수강생 1명</b>은 <b>과목을 몇 개</b> 수강할 수 있는가?" → 여러 개(Many)<br>
+② "<b>과목 1개</b>에는 <b>수강생이 몇 명</b> 들어올 수 있는가?" → 여러 명(Many)<br>
+<span style="display:block;margin-top:6px">양쪽 모두 "여러 개" → <b>N:M</b>. 한쪽만 "여러 개" → <b>1:N</b>. 둘 다 "1개" → <b>1:1</b>. 이것이 판단 기준의 전부입니다.</span>
+</div>
+
+<div class="scroll">
+<table>
+<tr><th>종류</th><th>읽는 법</th><th>예시</th><th>실제 구현 방식</th></tr>
+<tr><td><b>1:1</b></td><td>일대일</td><td>사용자 &harr; 프로필 상세</td><td>보통 한 테이블로 합칩니다. 분리한다면 <b>이유를 기록</b>하세요.</td></tr>
+<tr><td><b>1:N</b></td><td>일대다 <span class="sub">(가장 흔함)</span></td><td>강사 1명 &rarr; 과목 여러 개</td><td><b>"1" 쪽의 ID를 "N" 쪽 테이블에 넣습니다</b> (과목 테이블에 강사ID 보관).</td></tr>
+<tr><td><b>N:M</b></td><td>다대다</td><td>수강생 &harr; 과목</td><td class="hl"><b>DB에 직접 존재할 수 없습니다.</b> 아래 내용을 참조하세요.</td></tr>
+</table>
+</div>
+
+<div class="callout c-bad">
+<b>Day 3 최대 함정 — N:M 관계는 물리적으로 존재할 수 없음</b>
+"수강생 &harr; 과목"은 테이블 2개만으로 표현 불가능합니다. 수강생에 과목ID를 넣자니 여러 개고, 과목에 수강생ID를 넣자니 역시 여러 개입니다.<br>
+<b>해결책: 관계 자체가 세 번째 테이블을 탄생시킵니다.</b> 이를 <b>연결 테이블(Junction Table)</b>이라 부르며, 여기서는 <b>수강신청(ENROLMENT)</b> 테이블이 됩니다.<br>
+연결 테이블은 단순 접착제가 아니라 <b>관계 자체의 데이터</b>(수강 신청일, 결제 상태, 진도율 등)가 저장되는 곳입니다. 이를 놓치면 데이터가 갈 곳을 잃고 정규화가 무너집니다.
+</div>
+
+<div class="mermaid">
+erDiagram
+    INSTRUCTOR ||--o{ COURSE : "teaches (1:N)"
+    STUDENT ||--o{ ENROLMENT : "enrols in (1:N)"
+    COURSE ||--o{ ENROLMENT : "contains (1:N)"
+
+    INSTRUCTOR {
+        int instructor_id PK "instructor ID"
+        string name "full name"
+        string phone "phone"
+    }
+    COURSE {
+        int course_id PK "course ID"
+        string title "course title"
+        int price "fee"
+        int instructor_id FK "who teaches it"
+    }
+    STUDENT {
+        int student_id PK "student ID"
+        string name "full name"
+        string phone "phone"
+    }
+    ENROLMENT {
+        int enrolment_id PK "enrolment ID"
+        int student_id FK "who"
+        int course_id FK "what"
+        date applied_at "when"
+        string pay_status "payment status"
+    }
+</div>
+<p class="sub" style="text-align:center;margin-top:-6px">↑ 1개의 엑셀 시트가 4개의 정규화된 테이블로 분리되었습니다. 수강생-과목 N:M 관계가 수강신청 연결 테이블을 통해 1:N 2개로 풀린 점에 주목하세요.</p>
+
+<h3>2-3. 기호 읽는 법 (Crow's Foot 까마귀 발 표기법)</h3>
+<div class="scroll">
+<table>
+<tr><th>기호</th><th>의미</th><th>Mermaid 표기</th></tr>
+<tr><td>||</td><td>정확히 1개 (필수)</td><td><code>||--||</code></td></tr>
+<tr><td>o| / |o</td><td>0개 또는 1개 (선택)</td><td><code>|o--||</code></td></tr>
+<tr><td>o{ (까마귀 발)</td><td>0개 이상 (선택)</td><td><code>||--o{</code></td></tr>
+<tr><td>|{</td><td>1개 이상 (필수)</td><td><code>||--|{</code></td></tr>
+</table>
+</div>
+<p><b>작은 동그라미는 "비어있어도 됨(선택)"을 의미합니다.</b> 강사가 과목을 아직 배정받지 않아도 존재할 수 있다면 <code>||--o{</code>를 씁니다. 반드시 최소 1개 이상 가져야 한다면 <code>||--|{</code>를 씁니다. 이 차이가 나중에 "필수 입력 항목인가?" 규칙이 됩니다.</p>
+
+<h3>2-4. 외래키(FK) &amp; 참조 무결성 — "존재하지 않는 고객의 주문은 불가능하다"</h3>
+<ul>
+  <li><b>외래키 (Foreign Key, FK)</b> = 다른 테이블을 가리키는 손가락. <code>ENROLMENT.student_id</code>는 STUDENT 테이블을 가리킵니다.</li>
+  <li><b>참조 무결성 (Referential Integrity)</b> = <b>손가락이 가리키는 대상이 실제 존재해야 한다</b>는 규칙.</li>
+  <li>무결성이 깨지는 경우: <b>수강생을 삭제했는데 수강신청 행이 그대로 남아 유령 손가락이 되는 경우</b>.</li>
+</ul>
+<p><b>오늘 팀이 결정해야 할 사항:</b> "사용자가 계정을 탈퇴(삭제)할 때 <b>관련 수강/결제 기록도 삭제할 것인가, 보존할 것인가?</b>" — 이는 기술이 아닌 비즈니스 정책 문제입니다. 환불, 정산, 리포팅이 이 결정에 달려있으므로 기획자와 팀이 직접 결정해야 합니다.</p>
+
+<div class="adv">
+<span class="tag t-adv">Deep dive</span>
+<p style="margin-top:2px">데이터베이스는 3가지 삭제 옵션을 제공합니다: <code>CASCADE</code> (자식 데이터도 연쇄 삭제) / <code>RESTRICT</code> (자식 데이터가 있으면 삭제 거부) / <code>SET NULL</code> (연결만 끊고 기록 보존). 실제 서비스에서는 대부분 <b>실제 삭제(Hard Delete)를 하지 않고</b> <code>deleted_at</code> 컬럼을 사용하는 <b>논리 삭제(Soft Delete)</b>를 적용합니다. 개인정보 보호법(파기 의무)과 거래 이력 보존 의무 간의 균형을 고려하여 탈퇴 시 익명화 처리할 항목과 보존할 항목을 결정하고 기록하세요.</p>
+</div>
+
+<h2><span class="num">03</span>병목 ③: 변경 영향도 분석 — "아직 만든 것도 없는데 왜 분석하나요?"</h2>
+<p class="sub">아직 존재하지 않는 코드가 깨질 것을 상상해야 해서 어렵게 느껴집니다.</p>
+
+<div class="card">
+<p><b>Schema (스키마)</b> = 테이블 청사진. 어떤 컬럼이 존재하고 무슨 타입인지 정의한 <b>데이터의 헌법</b>입니다.</p>
+<p><b>영향도 분석은 예측이 아니라 지도 읽기입니다.</b> 한 컬럼에서 출발하여 <b>연결선을 따라 "이 변경이 여기까지 미치는가?"를 확인하는 과정</b>입니다.</p>
+</div>
+
+<h3>3-1. 컬럼 하나 변경이 일으키는 도미노 효과</h3>
+<div class="mermaid">
+flowchart TD
+    A[DB 컬럼명 변경<br>phone → mobile] --> B[API 응답 필드<br>phone 필드 소멸]
+    B --> C[UI 컴포넌트<br>연락처 화면 공백 발생]
+    B --> D[API 명세서<br>문서 불일치 발생]
+    A --> E[기존 저장 데이터<br>마이그레이션 필요]
+    A --> F[팀 용어 체계<br>용어 혼선 발생]
+
+    style A fill:#fdeceb,stroke:#9b2c2c
+    style E fill:#fdf6e3,stroke:#8a6d1c
+    style F fill:#fdf6e3,stroke:#8a6d1c
+</div>
+<p class="sub" style="text-align:center;margin-top:-6px">↑ 컬럼 이름 하나 바꾸었을 뿐인데 최소 5곳이 흔들립니다. 그중 3곳은 코드가 아닌 <b>문서와 사람</b>입니다.</p>
+<p><b>이 도미노 현상이 바로 "Task 02(용어 표준화)가 왜 중요한가?"에 대한 답입니다.</b> 처음에 용어를 통일해 두면 이 도미노 현상 자체가 발생하지 않습니다. 용어 사전 정립은 가장 저렴하게 가입하는 보험입니다.</p>
+
+<h3>3-2. 변경 위험도 3단계 평가</h3>
+<div class="scroll">
+<table>
+<tr><th>등급</th><th>변경 작업 내용</th><th>이유</th><th>조치 사항</th></tr>
+<tr><td><span class="tag t-ok">안전 (Safe)</span></td><td>선택(Null 허용) 컬럼 <b>추가</b></td><td>기존 코드가 새 컬럼의 존재를 몰라도 무시하므로 영향 없음</td><td>즉시 진행 가능</td></tr>
+<tr><td><span class="tag t-warn">주의 (Caution)</span></td><td>컬럼명 <b>변경</b>, 필수(NotNull) 컬럼 추가</td><td>읽기 코드가 전부 깨지며, 기존 행에 채울 기본값이 필요함</td><td>영향도 목록 작성 후 진행</td></tr>
+<tr><td><span class="tag t-bad">위험 (Dangerous)</span></td><td>컬럼 <b>삭제</b>, 데이터 타입 변경, 테이블 분리</td><td><b>비가역적.</b> 실제 데이터가 소멸하거나 유실될 위험이 큼</td><td>백업 + 전체 팀 합의 + 의사결정록 작성</td></tr>
+</table>
+</div>
+
+<h3>3-3. 변경 영향도 보고서 템플릿</h3>
+<p>Task 03 산출물로 아래 표 형식을 그대로 활용할 수 있습니다.</p>
+<div class="scroll">
+<table>
+<tr><th>변경 항목</th><th>위험 등급</th><th>영향받는 API</th><th>영향받는 화면 UI</th><th>기존 데이터 조치</th><th>최종 의사결정 / 대안</th></tr>
+<tr><td>USER.phone &rarr; mobile</td><td><span class="tag t-warn">주의</span></td><td>GET /users, POST /signup</td><td>마이페이지, 회원가입 폼</td><td>데이터 복사 후 기존 컬럼 2주간 유지</td><td>즉시 삭제 대신 <b>당분간 양쪽 병행 유지</b> 선택</td></tr>
+<tr><td>ENROLMENT에 pay_status 추가</td><td><span class="tag t-ok">안전</span></td><td>GET /enrolments</td><td>내 수강 목록</td><td>기본값 'pending' 적용</td><td>원안대로 진행</td></tr>
+</table>
+</div>
+
+<div class="callout c-ok">
+<b>막혔을 때 따라 하는 5단계 점검 순서</b>
+① <b>어느 화면</b>에 이 컬럼이 나오는가? → ② <b>어느 API</b>가 그 화면에 데이터를 주는가? → ③ <b>Day 4 API 명세서</b>에는 어떻게 적혀있는가? → ④ <b>이미 저장된 데이터</b>는 어떻게 처리하는가? → ⑤ 팀원 중에 <b>이 항목을 다른 이름으로 부르는 사람</b>이 있는가?
+</div>
+
+<h2><span class="num">04</span>Codex AI 효율적인 활용 프롬프트</h2>
+<p class="sub">오늘 AI는 DB 설계자가 아니라 <b>까칠한 검토자</b>입니다. AI 답을 검증 없이 복사하면 왜 그것이 맞는지 배울 수 없습니다.</p>
+
+<div class="grid2">
+<div class="card tight"><span class="tag t-bad">나쁜 프롬프트</span>
+<p style="margin-top:8px">"우리 서비스 데이터베이스 설계해 줘."</p>
+<p class="sub">맥락이 없어 뻔한 답변만 나오며, <b>설명할 수 없는 ERD</b>를 얻게 됩니다.</p></div>
+<div class="card tight"><span class="tag t-ok">좋은 프롬프트</span>
+<p style="margin-top:8px">"이 회의록에서 <b>엔티티 후보</b>를 추출하고, 각각 <b>독립 테이블이 되어야 하는 이유</b>를 근거와 함께 제시해 줘. 모호한 부분은 모호하다고 밝혀줘."</p></div>
+</div>
+
+<h4>실습에 바로 사용하는 5가지 프롬프트</h4>
+<ol>
+  <li><b>[Task 01]</b> "이 회의록에서 엔티티 및 속성 후보를 도출해 줘. '독립적으로 수량을 세고 관리할 수 있는가?'를 기준 삼아 <b>실제 엔티티인지 단순 속성인지</b> 타당성을 평가해 줘."</li>
+  <li><b>[Task 01]</b> "이 ERD 구조에서 <b>N:M 관계</b>를 모두 찾아줘. 각 N:M 관계별로 필요한 <b>연결 테이블(Junction Table)</b>과 관계 자체에 속해야 할 속성을 제안해 줘."</li>
+  <li><b>[Task 01]</b> "우리 테이블 구조를 <b>1NF, 2NF, 3NF 관점에서 각각 평가</b>해 줘. 위반 요소가 있다면 원인이 되는 함수 종속성을 지적해 줘. <b>수정하지 말고 진단만 해줘.</b>"</li>
+  <li><b>[Task 02]</b> "이 컬럼명 목록에서 <b>의미는 같으나 표기가 다른 용어 그룹</b>(user_name / userName / customer 등)을 묶어줘. 각 그룹별로 대표 표준 용어를 제안하고 이유를 설명해 줘."</li>
+  <li><b>[Mission 02]</b> "이 스키마 구조에서 <b>참조 무결성이 깨질 수 있는 시나리오 3가지</b>와 <b>두 사용자가 동시에 같은 데이터를 수정할 때(동시성 충돌) 발생하는 문제 3가지</b>를 찾아줘. 서비스 맥락은 ___이야."</li>
+</ol>
+
+<div class="callout c-warn">
+<b>AI가 자주 틀리는 3가지 포인트</b>
+· 회의록에 없던 컬럼(created_at, is_active 등)을 <b>자의적으로 추가</b>함. 필요 없는 것은 삭제하세요.<br>
+· <b>N:M 관계를 선 하나로 대충 연결</b>하고 연결 테이블을 누락함. 직접 확인하세요.<br>
+· 비즈니스 정책을 알 수 없음. "계정 탈퇴 후 데이터 보존 여부"는 AI가 정해줄 수 없습니다.<br>
+<b>그렇기 때문에 Mission 01(의사결정록)이 중요합니다. 무엇을 채택하고 무엇을 거절했는지 기록하는 것이 여러분의 진짜 역량입니다.</b>
+</div>
+
+<h2><span class="num">05</span>최종 자가 점검 (Exit Check)</h2>
+<p class="sub">모두 체크했나요? 그렇다면 Day 4(API 설계) 준비가 완료되었습니다.</p>
+<div class="card">
+<ul class="plain">
+  <li>우리 테이블 목록을 나열하고 <b>각 테이블이 왜 따로 존재하는지 한 문장으로 설명</b>할 수 있다.</li>
+  <li>삽입, 수정, 삭제 이상 현상을 예시로 들어 <b>잘못된 구조가 왜 위험한지 설명</b>할 수 있다.</li>
+  <li>우리 ERD에 존재하는 <b>N:M 관계 개수</b>를 파악하고, 각 관계마다 <b>연결 테이블을 생성</b>했다.</li>
+  <li>모든 선의 관계 수량성(Cardinality)을 <b>양방향으로 소리 내어 확인</b>했다.</li>
+  <li>팀원 간 다르게 쓰이던 <b>단어를 최소 3개 이상 발굴하여 하나로 통일</b>했다.</li>
+  <li>"사용자가 탈퇴할 때 개인 데이터는 어떻게 처리되는가?" 질문에 대한 <b>팀의 정책 결정</b>을 내렸다.</li>
+  <li>최소 1개 이상의 스키마 변경 건에 대해 <b>영향도 분석 표 작성</b>을 완료했다.</li>
+  <li>검토했으나 <b>채택하지 않고 기각한 설계 대안을 최소 1개 이상 기록</b>했다.</li>
+  <li>AI가 제안한 설계 중 <b>내가 직접 수정/개선한 부분</b>을 지목할 수 있다.</li>
+  <li>테이블 이름을 통해 Day 4에 만들어질 <b>API 엔드포인트 이름을 예측</b>할 수 있다 (예: COURSE &rarr; /courses).</li>
+</ul>
+</div>
+
+<h2><span class="num">06</span>용어 요약 사전</h2>
+<div class="scroll">
+<table>
+<tr><th>용어</th><th>쉬운 설명</th><th>중요한 이유</th></tr>
+<tr><td>Entity (엔티티)</td><td>독립적으로 수량을 세는 핵심 데이터 개체 (테이블 1개)</td><td>잘못 정의하면 테이블이 너무 많아지거나 부족해짐</td></tr>
+<tr><td>Attribute (속성)</td><td>엔티티의 세부 특성 (컬럼 1개)</td><td>엔티티인가 속성인가 구분하는 것이 데이터 설계의 핵심</td></tr>
+<tr><td>Schema (스키마)</td><td>테이블 구조 청사진 (데이터의 헌법)</td><td>스키마를 바꾸면 상위 모든 시스템이 영향받음</td></tr>
+<tr><td>Cardinality (수량성)</td><td>관계에서 몇 대 몇인지 나타내는 수량 비율</td><td>1:N 관계를 반대로 맺으면 화면 조회가 불가능해짐</td></tr>
+<tr><td>Primary Key (PK, 주키)</td><td>각 행을 식별하는 고유 번호</td><td>중복 데이터 여부를 판가름하는 기준</td></tr>
+<tr><td>Foreign Key (FK, 외래키)</td><td>다른 테이블을 가리키는 참조 키</td><td>테이블과 테이블 사이를 연결해 주는 고리</td></tr>
+<tr><td>Referential Integrity (참조 무결성)</td><td>참조하는 대상이 실제 존재해야 한다는 규칙</td><td>유령 데이터 및 고아 데이터 발생 방지</td></tr>
+<tr><td>Normalization (정규화)</td><td>각 사실을 단 한 곳에만 기록하도록 분리하는 과정</td><td>데이터 간 모순과 불일치 현상 방지</td></tr>
+<tr><td>Anomaly (이상 현상)</td><td>정규화하지 않아 발생하는 3가지 오류(삽입/수정/삭제)</td><td>정규화를 수행하는 근본적인 이유</td></tr>
+<tr><td>Junction Table (연결 테이블)</td><td>N:M 관계를 풀기 위해 중간에 생성하는 테이블</td><td>누락할 경우 N:M 관계 표현 불가능</td></tr>
+<tr><td>Migration (마이그레이션)</td><td>기존 저장 데이터를 새 구조로 이전하는 작업</td><td>스키마 변경 시 발생하는 실질적 작업 비용</td></tr>
+<tr><td>Mermaid</td><td>텍스트로 다이어그램을 그리는 툴</td><td>ERD를 코드처럼 버전 관리 가능하게 함</td></tr>
+</table>
+</div>
+
+<div class="foot">
+<p><b>ACE AI 스타트업 부트캠프 · Day 3 보충 가이드</b> — 본 자료는 정규 교육과정(<a href="https://odatot.github.io/nigeria/NA/LMS/docs/day3/day3-ai-classroom.html">Day 3 AI 강의실</a>)을 보완하는 수강생용 참고 교안입니다.</p>
+<p>막혔을 때는 ① 본 가이드의 해당 섹션 확인 &rarr; ② 5가지 프롬프트로 Codex AI에 질문 &rarr; ③ 튜터 및 강사에게 질문 순서로 해결하세요. <b>동일한 문제로 20분 이상 고민하지 마세요.</b></p>
+</div>
+
+</div>
+
+<script>
+var b=document.getElementById('btnBasic'), a=document.getElementById('btnAll');
+function setLvl(basic){
+  document.body.classList.toggle('basic-only', basic);
+  b.setAttribute('aria-pressed', basic?'true':'false');
+  a.setAttribute('aria-pressed', basic?'false':'true');
+}
+b.addEventListener('click',function(){setLvl(true)});
+a.addEventListener('click',function(){setLvl(false)});
+</script>
+</body>
+</html>
