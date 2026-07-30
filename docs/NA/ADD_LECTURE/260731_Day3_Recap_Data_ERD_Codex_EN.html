@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ACE AI Startup Bootcamp Day 3 recap: data normalization, ERD, terminology standards, and schema impact analysis">
+  <title>Day 3 Recap · Data Normalization, ERD & Integrity</title>
+  <style>
+    :root {
+      --ink:#17221c; --muted:#5f6c64; --paper:#f4f1e8; --surface:#fffdf7;
+      --line:#d7d3c7; --green:#174d3a; --green2:#2f765b; --lime:#d7e65a;
+      --orange:#e76f3c; --code:#14221b; --radius:14px; --shadow:0 12px 30px rgba(23,34,28,.08);
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;color:var(--ink);background:var(--paper);font-family:Pretendard,"Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;line-height:1.62}
+    a{color:inherit} button,a{font:inherit} :focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(244,241,232,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+    .topbar-inner{max-width:1180px;min-height:56px;margin:auto;padding:8px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{font-weight:900;letter-spacing:-.03em}.nav{display:flex;gap:6px;flex-wrap:wrap}
+    .nav a{padding:7px 10px;border-radius:999px;color:var(--muted);text-decoration:none;font-size:.82rem;font-weight:700}
+    .nav a:hover{background:#e7e2d5;color:var(--ink)}
+    .print-btn{border:0;padding:8px 12px;border-radius:7px;color:white;background:var(--green);cursor:pointer;font-weight:800}
+    main{max-width:1180px;margin:auto;padding:34px 24px 70px}
+    .hero{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.55fr);gap:28px;align-items:end;padding:42px 0 32px;border-bottom:2px solid var(--ink)}
+    .eyebrow{margin:0 0 10px;color:var(--green2);font-size:.76rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+    h1{max-width:900px;margin:0;font-size:clamp(2.45rem,7vw,5.8rem);line-height:.96;letter-spacing:-.075em}
+    .lead{max-width:760px;margin:22px 0 0;color:var(--muted);font-size:clamp(1rem,1.8vw,1.25rem)}
+    .memory{padding:24px;background:var(--green);color:white;border-radius:var(--radius);box-shadow:var(--shadow)}
+    .memory .num{display:block;color:var(--lime);font-size:3.4rem;font-weight:950;line-height:1}.memory p{margin:9px 0 0}
+    section{padding:44px 0 10px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}
+    h2{margin:0;font-size:clamp(1.7rem,3.2vw,2.65rem);line-height:1.08;letter-spacing:-.045em}
+    .section-head p{max-width:570px;margin:0;color:var(--muted)}
+    .answer{display:grid;grid-template-columns:1.35fr .65fr;gap:18px}
+    .answer-main,.answer-side{padding:26px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+    .answer-main strong{display:block;margin-bottom:8px;font-size:clamp(1.2rem,2.4vw,1.8rem);letter-spacing:-.03em}
+    .answer-main p,.answer-side p{margin:0}.answer-side{background:var(--lime);border-color:#c3d044}.answer-side b{display:block;margin-bottom:6px}
+    .process{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;counter-reset:p}
+    .process-card{position:relative;min-height:220px;padding:20px 17px 18px;border-top:5px solid var(--green);background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);counter-increment:p}
+    .process-card:before{content:"0" counter(p);color:var(--green2);font-size:.76rem;font-weight:950;letter-spacing:.12em}
+    .process-card:not(:last-child):after{content:"→";position:absolute;z-index:2;top:50%;right:-14px;width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:var(--ink);color:#fff;font-weight:900}
+    .process-card h3{margin:12px 0 7px;font-size:1.08rem;line-height:1.25}.process-card p{margin:0;color:var(--muted);font-size:.9rem}.process-card code{display:block;margin-top:15px;color:var(--green);font-size:.78rem;font-weight:800}
+    .concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .concept{padding:22px;border-top:4px solid var(--orange);background:var(--surface)}
+    .concept b{display:block;margin-bottom:7px;font-size:1.05rem}.concept p{margin:0;color:var(--muted);font-size:.9rem}
+    .labs{display:grid;gap:14px}.lab{display:grid;grid-template-columns:82px minmax(190px,.72fr) minmax(0,1.55fr);gap:20px;align-items:start;padding:22px;border:1px solid var(--line);border-left:7px solid var(--green);background:var(--surface)}
+    .lab-no{color:var(--green2);font-weight:950;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase}
+    .lab h3{margin:0 0 5px;font-size:1.2rem;letter-spacing:-.025em}.role{margin:0;color:var(--muted);font-size:.85rem}
+    .io{display:grid;grid-template-columns:1fr 1fr;gap:12px}.io div{padding:12px 14px;background:#f0ede4;border-radius:8px}.io b{display:block;margin-bottom:3px;font-size:.76rem;color:var(--green2)}.io span{font-size:.9rem}
+    .prompt-list{display:grid;gap:10px}details{border:1px solid var(--line);background:var(--surface)}
+    summary{padding:17px 20px;cursor:pointer;font-weight:850;list-style:none}summary::-webkit-details-marker{display:none}
+    summary:after{content:"+";float:right;color:var(--green2);font-size:1.3rem}details[open] summary:after{content:"−"}
+    pre{margin:0;padding:20px;overflow:auto;border-top:1px solid #2b3d33;background:var(--code);color:#f2f2e9;white-space:pre-wrap;font:500 .84rem/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    .chain{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.chain div{padding:18px;background:var(--surface);border:1px solid var(--line)}
+    .chain b{display:block;margin-bottom:6px;color:var(--green)}.chain p{margin:0;color:var(--muted);font-size:.88rem}
+    footer{max-width:1180px;margin:auto;padding:22px 24px 42px;color:var(--muted);font-size:.82rem}
+    @media(max-width:1024px){.process{grid-template-columns:repeat(2,1fr)}.process-card:not(:last-child):after{display:none}.process-card:last-child{grid-column:1/-1}.chain{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:768px){.nav{display:none}main{padding:20px 16px 50px}.hero,.answer{grid-template-columns:1fr}.hero{padding-top:26px}.concepts{grid-template-columns:1fr}.lab{grid-template-columns:64px 1fr;gap:12px}.lab .io{grid-column:1/-1}}
+    @media(max-width:520px){h1{font-size:3rem}.process,.io,.chain{grid-template-columns:1fr}.process-card:last-child{grid-column:auto}.section-head{align-items:start;flex-direction:column}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+    @media print{.topbar,.print-btn{display:none}body{background:#fff;font-size:10pt}main{max-width:none;padding:0}.hero{padding-top:0}section{padding-top:24px}.process{grid-template-columns:repeat(5,1fr)}.process-card{min-height:180px;box-shadow:inset 0 0 0 1px #aaa}.process-card:not(:last-child):after{display:none}.lab,details,.concept{break-inside:avoid}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">ACE AI Startup Bootcamp · Day 3 Recap</div>
+      <nav class="nav" aria-label="Page contents">
+        <a href="#one-minute">1-Minute Recap</a><a href="#process">Learning Flow</a>
+        <a href="#concepts">Key Concepts</a><a href="#labs">Lab Map</a><a href="#prompts">Prompts</a>
+      </nav>
+      <button class="print-btn" type="button" onclick="window.print()">Print / PDF</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="title">
+      <div>
+        <p class="eyebrow">Day 3 · Data Normalization, ERD & Integrity</p>
+        <h1 id="title">From business<br>language to trusted<br>data structures.</h1>
+        <p class="lead">Today, we converted business concepts from meetings into entities and relationships, standardized inconsistent terminology, and traced both schema-change impacts and data-integrity risks.</p>
+      </div>
+      <aside class="memory" aria-label="The one sentence to remember">
+        <span class="num">3</span><strong>The Day 3 shift</strong>
+        <p>Good data design is not about drawing tables. It is about translating real-world rules, terms, and exceptions into a consistent structure.</p>
+      </aside>
+    </section>
+
+    <section id="one-minute">
+      <div class="section-head"><h2>What did we do today?</h2><p>We used Codex as a data modeler, terminology steward, change-impact analyst, and design auditor.</p></div>
+      <div class="answer">
+        <div class="answer-main">
+          <strong>Extract business concepts → ERD → Standardize terms → Trace change → Record decisions → Defend against exceptions</strong>
+          <p>We derived core entities such as User, Expert, Reservation, and Payment, along with PKs, FKs, and cardinalities, from meeting notes. We unified inconsistent project terminology into a standard glossary and reverse-traced how a reservation-approval policy change affects the database, APIs, and screens. Finally, we recorded the rationale and alternatives behind design choices and discovered concurrency and referential-integrity failure scenarios.</p>
+        </div>
+        <aside class="answer-side"><b>Today’s key questions</b><p>What should we store?<br>How is it connected?<br>Do we use one name for one concept?<br>Can the design survive change and failure?</p></aside>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="section-head"><h2>Data-Design Flow at a Glance</h2><p>Each output is not an isolated document. Together, they strengthen the data model step by step.</p></div>
+      <div class="process" role="list" aria-label="Five stages of Day 3">
+        <article class="process-card"><h3>Discover structure</h3><p>Extract entities, attributes, PK/FK, and 1:1 or 1:N relationships from meeting notes.</p><code>erd-schema.md</code></article>
+        <article class="process-card"><h3>Standardize terms</h3><p>Unify inconsistent labels such as Member, User, and Customer into one standard.</p><code>project-glossary.md</code></article>
+        <article class="process-card"><h3>Analyze change impact</h3><p>Trace how database-state and process changes affect API responses and screen UI.</p><code>change-impact-report.md</code></article>
+        <article class="process-card"><h3>Record design decisions</h3><p>Preserve the background, alternatives, rejection rationale, and approvers behind normalization choices.</p><code>design-decision-log.md</code></article>
+        <article class="process-card"><h3>Design exception scenarios</h3><p>Address concurrency conflicts, duplicate reservations, and referential-integrity collapse.</p><code>edge-case-analysis.md</code></article>
+      </div>
+    </section>
+
+    <section id="concepts">
+      <div class="section-head"><h2>Six Key Concepts</h2><p>These are the data-design concepts directly addressed by the course goals and Codex labs.</p></div>
+      <div class="concepts">
+        <article class="concept"><b>Entity & Attribute</b><p>Define managed business objects as entities and their characteristics as attributes.</p></article>
+        <article class="concept"><b>PK & FK</b><p>A PK uniquely identifies a row; an FK creates relationships and referential integrity across tables.</p></article>
+        <article class="concept"><b>Cardinality</b><p>1:1, 1:N, and N:M translate real business rules into data relationships.</p></article>
+        <article class="concept"><b>Normalization</b><p>Separate data logically to reduce duplication and update anomalies while balancing query and operating costs.</p></article>
+        <article class="concept"><b>Standard Glossary</b><p>Link planning terms, API names, and database columns to one standard concept to reduce translation errors.</p></article>
+        <article class="concept"><b>Data Integrity</b><p>Data rules must survive failures such as duplicate reservations, references to deleted users, and concurrent payments.</p></article>
+      </div>
+    </section>
+
+    <section id="labs">
+      <div class="section-head"><h2>Day 3 Lab Map</h2><p>Focus on which input file became which verifiable output.</p></div>
+      <div class="labs">
+        <article class="lab"><div class="lab-no">Task 1</div><div><h3>Resolve gaps in data-structure understanding</h3><p class="role">Data Modeler</p></div><div class="io"><div><b>INPUT</b><span><code>day3_meeting_notes.md</code></span></div><div><b>OUTPUT</b><span><code>erd-schema.md</code> + Mermaid ERD</span></div></div></article>
+        <article class="lab"><div class="lab-no">Task 2</div><div><h3>Standardize project terminology</h3><p class="role">Terminology Steward</p></div><div class="io"><div><b>INPUT</b><span><code>fragmented-terms.md</code></span></div><div><b>OUTPUT</b><span><code>project-glossary.md</code></span></div></div></article>
+        <article class="lab"><div class="lab-no">Task 3</div><div><h3>Share schema-change impact</h3><p class="role">Impact Analyst</p></div><div class="io"><div><b>INPUT</b><span><code>schema-change-request.md</code></span></div><div><b>OUTPUT</b><span><code>change-impact-report.md</code></span></div></div></article>
+        <article class="lab"><div class="lab-no">Mission 1</div><div><h3>Record design decisions</h3><p class="role">Architecture Decision Recorder</p></div><div class="io"><div><b>INPUT</b><span><code>tech-design-meeting.md</code></span></div><div><b>OUTPUT</b><span><code>design-decision-log.md</code></span></div></div></article>
+        <article class="lab"><div class="lab-no">Mission 2</div><div><h3>Discover data exception scenarios</h3><p class="role">Integrity & Edge-Case Auditor</p></div><div class="io"><div><b>INPUT</b><span><code>database-schema.md</code></span></div><div><b>OUTPUT</b><span><code>edge-case-analysis.md</code></span></div></div></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head"><h2>How Far Does Change Propagate?</h2><p>A reservation-confirmation process change does not end with one column update.</p></div>
+      <div class="chain">
+        <div><b>① Business Rule</b><p>Move from immediate confirmation and payment to payment after expert approval.</p></div>
+        <div><b>② Database</b><p>Split reservation status into states such as Awaiting Approval and define transition rules.</p></div>
+        <div><b>③ API</b><p>Synchronize request/response fields, status codes, and approval or rejection actions.</p></div>
+        <div><b>④ UI & Test</b><p>Update buttons, status displays, guidance text, and normal or exception test cases.</p></div>
+      </div>
+    </section>
+
+    <section id="prompts">
+      <div class="section-head"><h2>Original Prompts Used</h2><p>These are the five original English prompts used in the Day 3 Codex labs.</p></div>
+      <div class="prompt-list">
+        <details><summary>Task 1 · Data structure & Mermaid ERD</summary><pre>Please analyze the provided meeting minutes from a data structure perspective to derive key entities and relationships, and write a data structure definition and Mermaid ERD code.</pre></details>
+        <details><summary>Task 2 · Standard project glossary</summary><pre>Please analyze terms such as 'Member/User/Customer/Member' and 'Counselor/Expert/Teacher/Counselor' that are used interchangeably throughout the project and create a dictionary of standard project terms in the form of a Markdown table.</pre></details>
+        <details><summary>Task 3 · Schema change impact</summary><pre>Please fill out the API specifications, DB schema, screens, and change sharing reports that are affected as the reservation confirmation process has been changed to 'Awaiting Approval' status and 'Payment after expert approval'.</pre></details>
+        <details><summary>Mission 1 · Design Decision Log</summary><pre>Please extract normalization and database structure design decisions from the meeting and create a Design Decision Log that includes decision items, background reasons, alternatives reviewed, approvers, and possible future changes.</pre></details>
+        <details><summary>Mission 2 · Edge-case analysis</summary><pre>Please derive edge case exception scenarios for data consistency violations that may occur in the currently defined User, Expert, Reservation, and Payment table structures and suggest improvement measures.</pre></details>
+      </div>
+    </section>
+  </main>
+
+  <footer>Source: <a href="https://odatot.github.io/nigeria/NA/LMS_ENG/docs/day3/day3-ai-classroom.html" target="_blank" rel="noopener">ACE AI Startup Bootcamp · Day 3 AI Lecture Classroom</a></footer>
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ACE AI 스타트업 부트캠프 Day 2 시스템 흐름 설계 및 Codex 프로젝트 감사 요약">
+  <title>Day 2 Recap · 요구사항부터 시스템 설계 및 감사까지</title>
+  <style>
+    :root {
+      --ink: #17221c;
+      --muted: #5f6c64;
+      --paper: #f4f1e8;
+      --surface: #fffdf7;
+      --line: #d7d3c7;
+      --green: #174d3a;
+      --green-2: #2f765b;
+      --lime: #d7e65a;
+      --orange: #e76f3c;
+      --blue: #3e6e83;
+      --code: #14221b;
+      --radius: 14px;
+      --shadow: 0 12px 30px rgba(23, 34, 28, .08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", system-ui, sans-serif;
+      line-height: 1.62;
+    }
+    button, a { font: inherit; }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(244, 241, 232, .94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+    .topbar-inner {
+      max-width: 1180px;
+      min-height: 56px;
+      margin: auto;
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand { font-weight: 900; letter-spacing: -.03em; }
+    .nav { display: flex; gap: 6px; flex-wrap: wrap; }
+    .nav a {
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+    .nav a:hover { background: #e7e2d5; color: var(--ink); }
+
+    main { max-width: 1180px; margin: auto; padding: 34px 24px 70px; }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(280px, .55fr);
+      gap: 28px;
+      align-items: end;
+      padding: 42px 0 32px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--green-2);
+      font-size: .76rem;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 880px;
+      margin: 0;
+      font-size: clamp(2.45rem, 7vw, 5.8rem);
+      line-height: .96;
+      letter-spacing: -.075em;
+    }
+    .hero .lead {
+      max-width: 720px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+    }
+    .memory-card {
+      padding: 24px;
+      background: var(--green);
+      color: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .memory-card .num {
+      display: block;
+      color: var(--lime);
+      font-size: 3.4rem;
+      font-weight: 950;
+      line-height: 1;
+    }
+    .memory-card p { margin: 9px 0 0; }
+
+    section { padding: 44px 0 10px; }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+    h2 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3.2vw, 2.65rem);
+      line-height: 1.08;
+      letter-spacing: -.045em;
+    }
+    .section-head p { max-width: 560px; margin: 0; color: var(--muted); }
+
+    .answer {
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 18px;
+    }
+    .answer-main, .answer-side {
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+    .answer-main strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: clamp(1.25rem, 2.4vw, 1.8rem);
+      letter-spacing: -.03em;
+    }
+    .answer-main p, .answer-side p { margin: 0; }
+    .answer-side { background: var(--lime); border-color: #c3d044; }
+    .answer-side b { display: block; margin-bottom: 6px; }
+
+    .process {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      counter-reset: process;
+    }
+    .process-card {
+      position: relative;
+      min-height: 220px;
+      padding: 20px 17px 18px;
+      border-top: 5px solid var(--green);
+      background: var(--surface);
+      box-shadow: inset 0 0 0 1px var(--line);
+      counter-increment: process;
+    }
+    .process-card::before {
+      content: "0" counter(process);
+      color: var(--green-2);
+      font-size: .76rem;
+      font-weight: 950;
+      letter-spacing: .12em;
+    }
+    .process-card:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      right: -14px;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ink);
+      color: white;
+      font-weight: 900;
+    }
+    .process-card h3 { margin: 12px 0 7px; font-size: 1.08rem; line-height: 1.25; }
+    .process-card p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .process-card code { display: block; margin-top: 15px; color: var(--green); font-size: .78rem; font-weight: 800; }
+
+    .steps { display: grid; gap: 14px; }
+    .step {
+      display: grid;
+      grid-template-columns: 82px minmax(190px, .72fr) minmax(0, 1.55fr);
+      gap: 20px;
+      align-items: start;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-left: 7px solid var(--green);
+      background: var(--surface);
+    }
+    .step-no {
+      color: var(--green-2);
+      font-weight: 950;
+      font-size: .8rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .step h3 { margin: 0 0 5px; font-size: 1.2rem; letter-spacing: -.025em; }
+    .step .role { margin: 0; color: var(--muted); font-size: .85rem; }
+    .io { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .io div { padding: 12px 14px; background: #f0ede4; border-radius: 8px; }
+    .io b { display: block; margin-bottom: 3px; font-size: .76rem; color: var(--green-2); }
+    .io span { font-size: .9rem; }
+
+    .guardrails {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .guardrail { padding: 20px; border-top: 3px solid var(--orange); background: var(--surface); }
+    .guardrail b { display: block; margin-bottom: 6px; }
+    .guardrail p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+    .prompt-list { display: grid; gap: 10px; }
+    details {
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+    summary {
+      padding: 17px 20px;
+      cursor: pointer;
+      font-weight: 850;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; float: right; color: var(--green-2); font-size: 1.3rem; }
+    details[open] summary::after { content: "−"; }
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow: auto;
+      border-top: 1px solid #2b3d33;
+      background: var(--code);
+      color: #f2f2e9;
+      white-space: pre-wrap;
+      font: 500 .84rem/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    footer { max-width: 1180px; margin: auto; padding: 22px 24px 42px; color: var(--muted); font-size: .82rem; }
+    .print-btn {
+      border: 0;
+      padding: 8px 12px;
+      border-radius: 7px;
+      color: white;
+      background: var(--green);
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    @media (max-width: 1024px) {
+      .process { grid-template-columns: repeat(2, 1fr); }
+      .process-card:not(:last-child)::after { display: none; }
+      .process-card:last-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 768px) {
+      .nav { display: none; }
+      main { padding: 20px 16px 50px; }
+      .hero, .answer { grid-template-columns: 1fr; }
+      .hero { padding-top: 26px; }
+      .step { grid-template-columns: 64px 1fr; gap: 12px; }
+      .step .io { grid-column: 1 / -1; }
+      .guardrails { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      h1 { font-size: 3rem; }
+      .process, .io { grid-template-columns: 1fr; }
+      .process-card:last-child { grid-column: auto; }
+      .section-head { align-items: start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    @media print {
+      .topbar, .print-btn { display: none; }
+      body { background: white; font-size: 10pt; }
+      main { max-width: none; padding: 0; }
+      .hero { padding-top: 0; }
+      section { padding-top: 24px; }
+      .process { grid-template-columns: repeat(5, 1fr); }
+      .process-card { min-height: 180px; box-shadow: inset 0 0 0 1px #aaa; }
+      .process-card:not(:last-child)::after { display: none; }
+      .step, details, .answer-main, .answer-side { break-inside: avoid; }
+      details:not([open]) pre { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">ACE AI 스타트업 부트캠프 · Day 2 요약</div>
+      <nav class="nav" aria-label="Page contents">
+        <a href="#one-minute">1분 요약</a>
+        <a href="#process">학습 프로세스</a>
+        <a href="#labs">실습 맵</a>
+        <a href="#prompts">프롬프트</a>
+        <a href="#bonus">보너스 영상</a>
+      </nav>
+      <button class="print-btn" type="button" onclick="window.print()">인쇄 / PDF 저장</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title-day2">
+      <div>
+        <p class="eyebrow">Day 2 · 시스템 흐름, 일관성 &amp; 변경 관리</p>
+        <h1 id="page-title-day2">요구사항부터<br>시스템 흐름과<br>통제까지.</h1>
+        <p class="lead">오늘 우리는 단순한 요구사항 명세서 작성에 머무르지 않았습니다. 상호작용을 시각화하고, 모순을 검출하며, 변경의 연쇄 영향을 추적하고, 의사결정 이력을 보존하는 프로젝트 운영 시스템으로 확장했습니다.</p>
+      </div>
+      <aside class="memory-card" aria-label="기억해야 할 한 문장">
+        <span class="num">2</span>
+        <strong>Day 2의 전환점</strong>
+        <p>Day 1이 “무엇을 만들지”를 명확히 했다면, Day 2는 “어떻게 연결되고, 무엇이 바뀌며, 누가 결정했는지”를 추적했습니다.</p>
+      </aside>
+    </section>
+
+    <section id="one-minute">
+      <div class="section-head">
+        <h2>오늘 우리는 무엇을 했나요?</h2>
+        <p>단순 문서 생성을 넘어 Codex를 시스템 설계 검토자, 변경 관리자, 프로젝트 감사관으로 활용했습니다.</p>
+      </div>
+      <div class="answer">
+        <div class="answer-main">
+          <strong>통합 &amp; 검증 ➔ 흐름 설계 ➔ 모순 검출 ➔ 변경 추적 ➔ 의사결정 기록 ➔ 이슈 리포팅</strong>
+          <p>Day 1의 산출물을 하나의 요구사항 명세서로 통합하고 AI Lint를 실행했습니다. 그 후 사용자-클라이언트-서버-DB 상호작용 및 데이터 흐름을 설계하고, 프로젝트 문서 간 모순과 누락을 교차 검증하였으며, UI/API/DB/문서 전반의 변경 요청 영향을 추적하고, 대화에서 의사결정과 후속 과제를 추출했습니다.</p>
+        </div>
+        <aside class="answer-side">
+          <b>오늘의 핵심 3가지 질문</b>
+          <p>문서들이 서로 일치하는가?<br>변경사항의 파급 범위는 어디까지인가?<br>누가 어떤 근거로 결정했는가?</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="section-head">
+        <h2>전체 학습 프로세스</h2>
+        <p>요구사항을 기준점(Baseline)으로 확정한 후, 시스템 설계와 프로젝트 통제 단계로 순차적으로 확장했습니다.</p>
+      </div>
+      <div class="process" role="list" aria-label="오늘 수업의 5단계 흐름">
+        <article class="process-card" role="listitem">
+          <h3>Day 1 Step 5</h3>
+          <p>회의록, 기능 요구사항, 미결 질문을 통합하고 AI Lint를 실행하여 이메일 공유</p>
+          <code>requirements-specification.md</code>
+        </article>
+        <article class="process-card" role="listitem">
+          <h3>시스템 흐름 설계</h3>
+          <p>사용자-클라이언트-서버-DB 상호작용 및 예외 흐름을 시퀀스 다이어그램으로 표현</p>
+          <code>Mermaid + Data Flow</code>
+        </article>
+        <article class="process-card" role="listitem">
+          <h3>일관성 감사</h3>
+          <p>회의록, 요구사항, 화면 명세서를 비교하여 모순, 누락, 최상위 권한 문서 도출</p>
+          <code>consistency-report.md</code>
+        </article>
+        <article class="process-card" role="listitem">
+          <h3>변경 &amp; 의사결정 추적</h3>
+          <p>요구사항 변경의 UI/API 영향과 미팅 대화에 숨겨진 의사결정 및 미결 사항 기록</p>
+          <code>impact-analysis.md + decision-log.md</code>
+        </article>
+        <article class="process-card" role="listitem">
+          <h3>프로젝트 리포팅</h3>
+          <p>화면, API, DB, 문서 영향도 및 주요 이슈의 긴급도와 우선순위 보고</p>
+          <code>project-issue-report.md</code>
+        </article>
+      </div>
+    </section>
+
+    <section id="labs">
+      <div class="section-head">
+        <h2>Day 2 실습 맵 (Lab Map)</h2>
+        <p>각 실습은 독립된 파일을 만드는 것에 그치지 않고, 하나의 요구사항 생애주기를 통합적으로 통제합니다.</p>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <div class="step-no">Core</div>
+          <div><h3>시퀀스 다이어그램 &amp; 데이터 흐름</h3><p class="role">상호작용 및 데이터 이동 설계</p></div>
+          <div class="io"><div><b>학습 내용</b><span>동기/비동기 메시지, 사용자-클라이언트-서버-DB 상호작용, 예외 처리 설계</span></div><div><b>활용 도구</b><span>Mermaid 기반 코드 다이어그램</span></div></div>
+        </article>
+        <article class="step">
+          <div class="step-no">Task 1</div>
+          <div><h3>설계 불일치 검출</h3><p class="role">기획 삼각 모순 오디터 (Design Auditor)</p></div>
+          <div class="io"><div><b>입력</b><span><code>meeting-notes.md</code> + <code>requirements.md</code> + <code>screen-specification.md</code></span></div><div><b>출력</b><span><code>consistency-report.md</code></span></div></div>
+        </article>
+        <article class="step">
+          <div class="step-no">Task 2</div>
+          <div><h3>요구사항 변경 영향 관리</h3><p class="role">변경 통제 &amp; 영향 추적 (Change Control)</p></div>
+          <div class="io"><div><b>입력</b><span>변경 전/후 요구사항 + 기존 화면/API 명세서</span></div><div><b>출력</b><span>High/Medium/Low 우선순위가 반영된 <code>impact-analysis.md</code></span></div></div>
+        </article>
+        <article class="step">
+          <div class="step-no">Task 3</div>
+          <div><h3>미팅 의사결정 이력 추적</h3><p class="role">의사결정 보존 &amp; 과제 추적</p></div>
+          <div class="io"><div><b>입력</b><span><code>messenger-chat.md</code></span></div><div><b>출력</b><span>Decision Log (의사결정 로그) + Pending Items (미결 사항)</span></div></div>
+        </article>
+        <article class="step">
+          <div class="step-no">Mission 1</div>
+          <div><h3>회원가입 인증 변경 영향 분석</h3><p class="role">시스템 전반 파급 효과 분석</p></div>
+          <div class="io"><div><b>변경 사항</b><span>회원가입 시 휴대폰 본인인증 추가</span></div><div><b>출력</b><span>화면, API, DB, 문서 전반의 영향 분석 보고서</span></div></div>
+        </article>
+        <article class="step">
+          <div class="step-no">Mission 2</div>
+          <div><h3>프로젝트 이슈 리포트</h3><p class="role">프로젝트 추적 &amp; 이슈 관리</p></div>
+          <div class="io"><div><b>입력</b><span>회의록, 변경 이력, 조치 사항, 이슈 목록</span></div><div><b>출력</b><span>담당자, 긴급도, 우선순위가 포함된 이슈 리포트</span></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="rules-day2">
+      <div class="section-head">
+        <h2 id="rules-day2">우리가 배운 3가지 프로젝트 운영 원칙</h2>
+        <p>요구사항의 품질은 문장 표현보다 깨진 문서 링크와 관리되지 않은 변경 때문에 무너집니다.</p>
+      </div>
+      <div class="guardrails">
+        <article class="guardrail"><b>① 최상위 권한 문서를 하나 지목하라</b><p>모순을 찾는 것만으로는 부족합니다. 팀은 무엇을 수정할지 결정하기 전에 어떤 문서가 최종 권한을 가졌는지 먼저 정해야 합니다.</p></article>
+        <article class="guardrail"><b>② 변경은 연쇄 반응이다</b><p>단 하나의 인증 방식 변경이 UI 컴포넌트, API 페이로드, DB 스키마, 테스트, 사용자 안내문까지 바꿉니다.</p></article>
+        <article class="guardrail"><b>③ 모든 결정에는 이유(Why)가 필요하다</b><p>결론만 기록하면 똑같은 논쟁이 반복됩니다. 배경, 근거, 담당자, 날짜, 상태를 명확히 보존하세요.</p></article>
+      </div>
+    </section>
+
+    <section id="prompts">
+      <div class="section-head">
+        <h2>오늘 사용한 프롬프트 모음</h2>
+        <p>수업에 사용된 원본 프롬프트입니다. 클릭하여 펼쳐보고 실습에 활용하세요.</p>
+      </div>
+      <div class="prompt-list">
+        <details>
+          <summary>Day 1 Step 5-1 · 통합 명세서 생성 및 AI 검증</summary>
+          <pre>다음 3개 파일을 읽고, 이를 하나로 통합한 요구사항 정의서인 requirements-specification.md 파일을 작성해 줘.
+
+- meeting-notes.md
+- functional-requirements.md
+- open-questions.md
+
+동시에 아래 6가지 규칙에 따라 요구사항 문서의 오류를 분석해 줘.
+
+[검증 규칙]
+1. 요구사항 ID 중복 여부
+2. 요구사항 ID 누락 여부
+3. 사용자 역할(Role) 누락 여부
+4. 정상 흐름과 예외 흐름 누락 여부
+5. 검증 기준(Verification Criteria) 누락 여부
+6. 모호한 표현 사용 여부 (모호한 단어: 편리하게, 신속하게, 필요시, 적절히, 정상적으로)
+
+오류 검증 결과는 출력 창 맨 위에 아래 형식으로 표시하고, 그 아래에 requirements-specification.md 파일 내용을 결합하여 출력해 줘.
+
+[출력 형식]
+PASS: 요구사항 ID 중복 없음
+ERROR: FR-004 검증 기준 누락
+WARNING: FR-007 모호한 표현 "편리하게" 사용</pre>
+        </details>
+        <details>
+          <summary>Day 1 Step 5-2 · Gmail 플러그인 발송</summary>
+          <pre>Gmail 플러그인을 사용하여 방금 검증한 requirements-specification.md 파일 내용과 
+open-questions.md의 미결 질문 목록을 바탕으로 아래 조건에 맞게 이메일을 발송해 줘.
+
+- 수신자(To): [피드백을 받을 대표 또는 의사결정자의 이메일 주소 입력]
+- 이메일 제목: [승인 요청] 전문 상담 서비스 요구사항 정의서 검토 및 미결 정책 조율 건
+- 본문 구조:
+  - 기획 문서 통합 검증 완료 보고
+  - 긴급 기획 결정이 필요한 주요 미결 질문 (Q-001 ~ Q-004 요약)
+  - 피드백 회신 기한 안내</pre>
+        </details>
+        <details>
+          <summary>Day 2 Task 1 · 설계 불일치 및 모순 검출</summary>
+          <pre>프로젝트 폴더의 'meeting-notes.md', 'requirements.md', 'screen-specification.md' 3개 문서를 비교 분석해 줘.
+
+각 문서 간 상충되거나 불일치하는 항목, 또는 한 문서에는 있지만 다른 문서에는 누락된 항목을 찾아 정리해 줘.
+아래 요구사항에 따라 결과를 출력해 줘.
+
+1. 결과를 다음 열을 포함하는 Markdown 표 형식으로 정리: '구분(기능/화면/정책/용어 등)', '발견사항 및 모순점', '영향도(상/중/하)', '최상위 권한 기준 문서', '권장 조치사항'.
+2. 개발 및 테스트 진입 시 치명적인 재작업을 유발할 수 있는 사항은 영향도를 '상'으로 표시.
+3. 임의의 답변을 만들어내지 말고, 문서 텍스트에 기반한 사실만을 바탕으로 비교 분석 결과를 도출할 것.</pre>
+        </details>
+        <details>
+          <summary>Day 2 Task 2 · 요구사항 변경 영향도 분석</summary>
+          <pre>먼저 프로젝트 폴더의 'requirements-before.md'와 'requirements-after.md' 파일을 비교하여 어떤 정책이 변경되었는지 분석해 줘.
+
+그 후 v1.0 수준에 머물러 있는 'screen-specification-v2.md' 및 'api-specification.md' 문서 중 변경된 정책 내용이 반영되어야 할 부분을 분석해 줘.
+
+결과는 아래 형식에 맞추어 Markdown 표 형식으로 출력해 줘:
+1. '변경 항목', '변경 전', '변경 후', '영향 범위(화면/API)', '조치사항(구체적 수정 가이드 필요)'
+2. 추가로 v2.0 요구사항을 기준으로 수정을 요하는 부분의 중요도를 '상/중/하' 순으로 분류하여 열에 표시할 것.</pre>
+        </details>
+        <details>
+          <summary>Day 2 Task 3 · 의사결정 로그 및 미결 사항 작성</summary>
+          <pre>프로젝트 폴더의 'messenger-chat.md' 대화 로그를 읽고 프로젝트 관리 및 추적을 위한 Decision Log와 Pending Items를 작성해 줘.
+
+아래 조건에 따라 분석을 수행해 줘.
+1. 결정된 사항에 대해서는 'Decision Log' 표를 작성해 줘. 열에는 '결정 항목', '결정 내용', '결정 배경/근거', '결정 일자', '담당자/주체', '상태'를 포함해야 함.
+2. 아직 결정되지 않고 후속 검토가 필요하거나 보류된 사항은 'Pending Items' 표에 정리해 줘. 열에는 '미결 항목', '후속 검토 내용', '담당자', '검토 예정일'을 포함할 것.
+3. 대화 로그 텍스트에 기반하지 않은 허구의 날짜나 의사결정 주체를 작성하지 말 것.</pre>
+        </details>
+        <details>
+          <summary>Day 2 Mission 1 · 휴대폰 인증 영향도 분석</summary>
+          <pre>회원가입 시 휴대폰 본인인증 기능이 추가될 경우 영향받는 모든 화면, API, DB, 문서를 찾아 영향 분석 보고서를 작성해 줘.</pre>
+        </details>
+        <details>
+          <summary>Day 2 Mission 2 · 프로젝트 이슈 리포트</summary>
+          <pre>현재 프로젝트의 주요 이슈를 요약하고 긴급도와 우선순위가 포함된 프로젝트 이슈 리포트를 작성해 줘.</pre>
+        </details>
+      </div>
+    </section>
+
+    <section id="bonus">
+      <div class="section-head">
+        <h2>보너스 · AI와 함께 깊게 사고하기</h2>
+        <p>두 영상이 전달하는 공통 메시지: 첫 번째 답변을 정답으로 취급하지 마세요. 다양성과 반복을 통해 사고의 품질을 높이세요.</p>
+      </div>
+      <div class="answer">
+        <article class="answer-main">
+          <p class="eyebrow">Jeremy Utley · EO · 13분</p>
+          <strong>단 13분 만에 AI 창의성을 마스터하는 방법</strong>
+          <p>AI를 정답 자판기가 아닌 아이디어 파트너로 활용하세요. 하나의 프롬프트에 의존하는 대신 문제를 다양한 각도에서 재정의하고, 많은 후보를 생성한 뒤 비판적으로 선택할 때 창의성이 극대화됩니다.</p>
+          <p style="margin-top:14px"><a href="https://www.youtube.com/watch?v=wv779vmyPVY&t=304s" target="_blank" rel="noopener">영상 시청하기 →</a></p>
+        </article>
+        <article class="answer-main">
+          <p class="eyebrow">Jeremy Utley · EO</p>
+          <strong>AI 생산성을 10배 높이는 5단계 플레이북</strong>
+          <p>AI 생산성은 도구의 개수가 아닌 문제 정의, 충분한 맥락, 대화적 반복, 결과 검증, 그리고 재사용 가능한 워크플로우에서 나옵니다. 오늘 Codex 실습이 바로 이 원칙을 프로젝트 문서에 적용한 예시입니다.</p>
+          <p style="margin-top:14px"><a href="https://www.youtube.com/watch?v=yMOmmnjy3sE" target="_blank" rel="noopener">영상 시청하기 →</a></p>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    참고 출처:
+    <a href="https://odatot.github.io/nigeria/NA/LMS_ENG/docs/day1/day1-ai-codex.html?step=5" target="_blank" rel="noopener">Day 1 Step 5</a> ·
+    <a href="https://odatot.github.io/nigeria/NA/LMS_ENG/docs/day2/day2-ai-classroom.html" target="_blank" rel="noopener">Day 2 AI 강의실</a> ·
+    <a href="https://www.youtube.com/watch?v=wv779vmyPVY&t=304s" target="_blank" rel="noopener">AI-Powered Creativity</a> ·
+    <a href="https://www.youtube.com/watch?v=yMOmmnjy3sE" target="_blank" rel="noopener">10x AI Productivity</a>
+  </footer>
+</body>
+</html>

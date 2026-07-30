@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Day 3 Plain-English Guide — Normalization, ERD &amp; Change Impact</title>
+<style>
+  :root{
+    --ink:#161513; --ink2:#4a4640; --line:#e3ddd3; --line2:#cfc7b8;
+    --bg:#faf8f5; --card:#ffffff;
+    --accent:#b4501f; --accent-soft:#fdf1e9;
+    --ok:#2f6b46; --ok-soft:#eef6f0;
+    --warn:#8a6d1c; --warn-soft:#fdf6e3;
+    --bad:#9b2c2c; --bad-soft:#fdeceb;
+    --adv:#3b4f7d; --adv-soft:#eef1f8;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
+    line-height:1.7; font-size:16.5px; letter-spacing:-0.005em;
+  }
+  .wrap{max-width:940px;margin:0 auto;padding:0 22px 120px}
+
+  header.hero{border-bottom:1px solid var(--line);background:var(--card);padding:44px 0 34px;margin-bottom:34px}
+  .hero .wrap{padding-bottom:0}
+  .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 10px}
+  h1{font-size:32px;line-height:1.28;margin:0 0 14px;letter-spacing:-0.025em}
+  .lede{font-size:17.5px;color:var(--ink2);margin:0;max-width:72ch}
+  .onesent{margin-top:22px;padding:16px 18px;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
+  .onesent b{color:var(--accent)}
+
+  h2{font-size:23px;margin:52px 0 6px;letter-spacing:-0.02em;padding-top:14px;border-top:1px solid var(--line)}
+  h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:8px}
+  h3{font-size:18.5px;margin:30px 0 8px;letter-spacing:-0.015em}
+  h4{font-size:15.5px;margin:20px 0 6px;color:var(--ink2)}
+  p{margin:10px 0}
+  .sub{color:var(--ink2);font-size:15px;margin-top:2px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:18px 0}
+  .card.tight{padding:15px 18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+
+  .tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.02em;vertical-align:middle}
+  .t-bad{background:var(--bad-soft);color:var(--bad)}
+  .t-ok{background:var(--ok-soft);color:var(--ok)}
+  .t-warn{background:var(--warn-soft);color:var(--warn)}
+  .t-adv{background:var(--adv-soft);color:var(--adv)}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14.5px;background:var(--card)}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:#f4f0e9;font-weight:700;font-size:13.5px}
+  td.hl{background:var(--bad-soft)}
+  td.hl2{background:var(--ok-soft)}
+  .scroll{overflow-x:auto}
+  caption{caption-side:top;text-align:left;font-size:13.5px;color:var(--ink2);padding-bottom:6px;font-weight:600}
+
+  .mermaid svg{max-width:100%;height:auto}
+  .mermaid{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin:18px 0;text-align:center}
+
+  .callout{border-radius:10px;padding:14px 16px;margin:16px 0;font-size:15.5px;border:1px solid}
+  .c-ok{background:var(--ok-soft);border-color:#cfe2d6}
+  .c-warn{background:var(--warn-soft);border-color:#eadfbc}
+  .c-bad{background:var(--bad-soft);border-color:#f0cdca}
+  .callout > b:first-child{display:block;margin-bottom:4px;font-size:16px}
+
+  code{background:#f0ece4;padding:1.5px 6px;border-radius:5px;font-size:13.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  pre{background:#1f1d1a;color:#f2ece2;padding:15px 17px;border-radius:10px;overflow-x:auto;font-size:13.5px;line-height:1.65}
+  pre code{background:none;color:inherit;padding:0}
+
+  ul,ol{padding-left:22px;margin:10px 0}
+  li{margin:5px 0}
+  ul.plain{list-style:none;padding-left:0}
+  ul.plain li{padding-left:26px;position:relative;margin:9px 0}
+  ul.plain li::before{content:"\25A1";position:absolute;left:4px;color:var(--accent);font-size:17px;top:-1px}
+
+  .adv{background:var(--adv-soft);border:1px dashed #b9c3da;border-radius:10px;padding:16px 18px;margin:16px 0}
+  .adv .tag{margin-bottom:8px}
+  body.basic-only .adv{display:none}
+
+  .toolbar{position:sticky;top:0;z-index:20;background:rgba(250,248,245,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:9px 0}
+  .toolbar .wrap{padding-top:0;padding-bottom:0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  button.lvl{font:inherit;font-size:13.5px;font-weight:700;padding:6px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--card);color:var(--ink2);cursor:pointer}
+  button.lvl[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .toolbar span.hint{font-size:13px;color:var(--ink2)}
+
+  .foot{margin-top:60px;padding-top:18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink2)}
+  @media print{.toolbar{display:none}.adv{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <button class="lvl" id="btnBasic" aria-pressed="false">Essentials only</button>
+    <button class="lvl" id="btnAll" aria-pressed="true">Full (with Deep Dive)</button>
+    <span class="hint">New to databases? Start with <b>Essentials</b>, finish the lab, then come back for the Deep Dive boxes.</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">ACE AI Startup Bootcamp &middot; Day 3 Companion Guide</p>
+    <h1>Data Normalization, ERD &amp; Change Impact<br>— explained without a line of code</h1>
+    <p class="lede">On Day 1 you drew the screens. On Day 2 you drew the flow. Today you build the <b>skeleton of the data</b> that sits underneath both. Read this for 15 minutes before the session, then keep it open during the lab.</p>
+    <div class="onesent">
+      <b>Day 3 in one sentence:</b> turn the service in your head into <b>a set of tables that will never contradict each other later</b>.
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<h2><span class="num">00</span>Why this day, and why now</h2>
+<p class="sub">Without a reason to care, normalization is just three things to memorise.</p>
+
+<div class="card">
+<p>Think of building a house.</p>
+<ul>
+  <li><b>Day 1 wireframes</b> = the floor plan. What goes where.</li>
+  <li><b>Day 2 sequence &amp; data flow</b> = how people move through it. Front door to kitchen.</li>
+  <li><b>Day 3 ERD &amp; normalization</b> = <b>the plumbing and wiring diagram</b>. Invisible — and if you get it wrong you tear the walls back open.</li>
+</ul>
+<p>Coding starts on Day 6. If the wiring diagram is wrong by then, <b>every screen and API you have already built has to be undone</b>. In a 10-day bootcamp that is fatal. Hence today.</p>
+</div>
+
+<div class="callout c-warn">
+<b>What you will actually produce today — only three things</b>
+① a list of your tables and how they connect (the <b>ERD</b>) ·
+② a <b>standard vocabulary</b> your whole team agrees to use ·
+③ a list of <b>what breaks if you change a table</b>.<br>
+Everything else (1NF/2NF/3NF, cardinality symbols) is just <b>tooling</b> to get those three. Don't memorise the tooling — ship the three artefacts.
+</div>
+
+<h2><span class="num">01</span>Bottleneck ①: Normalization — "the story of one spreadsheet that ruins everything"</h2>
+<p class="sub">Start from the definition and you will bounce off it. So let's start from the pain.</p>
+
+<h3>1-0. The spreadsheet that looks fine</h3>
+<p>Say you are building an online course platform. At first, one sheet does everything.</p>
+
+<div class="scroll">
+<table>
+<caption>Table A. Enrolment sheet (looks perfectly reasonable on day one)</caption>
+<tr><th>#</th><th>Student</th><th>Student phone</th><th>Courses</th><th>Instructor</th><th>Instructor phone</th><th>Fee (&#8358;)</th></tr>
+<tr><td>1</td><td>Chidi Okeke</td><td>0801-111-1111</td><td class="hl">AI Product Planning, Data Analytics</td><td>Ngozi Eze</td><td>0809-999-9999</td><td>120,000</td></tr>
+<tr><td>2</td><td>Amina Bello</td><td>0802-222-2222</td><td class="hl">AI Product Planning</td><td>Ngozi Eze</td><td>0809-999-9999</td><td>60,000</td></tr>
+<tr><td>3</td><td>Chidi Okeke</td><td class="hl">0801-111-1112</td><td class="hl">Prompt Engineering Lab</td><td>Kwame Mensah</td><td>0808-888-8888</td><td>90,000</td></tr>
+</table>
+</div>
+
+<p>This sheet has <b>already booked three accidents</b>. Engineers call them <b>anomalies</b>.</p>
+
+<div class="grid2">
+  <div class="card tight"><span class="tag t-bad">Insert anomaly</span>
+  <p style="margin-top:8px">You launch a new course, <b>"AI Ethics"</b>, with zero students so far. → <b>There is no way to record it.</b> No student, no row.</p></div>
+
+  <div class="card tight"><span class="tag t-bad">Update anomaly</span>
+  <p style="margin-top:8px">Chidi changes his number. → You must edit <b>every row where Chidi appears</b>. Someone edited row 3 only, so rows 1 and 3 now disagree. <b>Which one is true?</b></p></div>
+
+  <div class="card tight"><span class="tag t-bad">Delete anomaly</span>
+  <p style="margin-top:8px">Amina refunds, so you delete row 2. → If that was the last row for "AI Product Planning", <b>the course itself vanishes too</b>.</p></div>
+
+  <div class="card tight"><span class="tag t-ok">So: normalization is…</span>
+  <p style="margin-top:8px"><b>Splitting one sheet into purpose-built tables</b> so those three accidents cannot happen. That's it. 1NF/2NF/3NF is just a <b>three-step checklist</b> for where to cut.</p></div>
+</div>
+
+<div class="callout c-ok">
+<b>One principle to remember</b>
+<b>"Every fact is written down in exactly one place."</b> — the moment a fact lives in two places, sooner or later the two will disagree. 1NF, 2NF and 3NF are three questions that enforce that single sentence.
+</div>
+
+<h3>1-1. 1NF — <span style="font-weight:400">"one value per cell"</span></h3>
+<p><b>The question to ask:</b> is there any cell where you stuffed several things in, separated by commas?</p>
+<p>In Table A, <code>Courses: "AI Product Planning, Data Analytics"</code> is exactly that. Now try to answer "how many students are in AI Product Planning?" — you have to chop strings apart. That way lies pain.</p>
+<p><b>The fix:</b> add rows instead. One value per cell — Chidi becomes two rows.</p>
+
+<div class="callout c-warn">
+<b>The #1 mistake non-engineers make</b>
+Putting <code>A,B,C</code> into a single cell for things like <b>tags</b>, <b>interest categories</b>, or <b>attachments</b>. It reads naturally in a planning doc and it is the most common 1NF violation there is. <b>If a field smells like it could hold more than one thing → it becomes its own table.</b>
+</div>
+
+<h3>1-2. 2NF — <span style="font-weight:400">"only keep what the whole name tag decides"</span></h3>
+<p>After 1NF, each row is identified by a <b>two-part name tag</b>: <b>(student + course)</b>. Chidi–AI Planning, Chidi–Data Analytics, and so on.</p>
+<p><b>The question to ask:</b> to fill in this cell, do I need <b>both halves of the name tag, or just one?</b></p>
+
+<div class="scroll">
+<table>
+<tr><th>Column</th><th>What do you need to know it?</th><th>Verdict</th></tr>
+<tr><td>Enrolment date</td><td>student <b>and</b> course — both</td><td class="hl2">stays in this table</td></tr>
+<tr><td>Student phone</td><td><b>student only</b> (course is irrelevant)</td><td class="hl">evicted → Student table</td></tr>
+<tr><td>Course title / fee</td><td><b>course only</b> (student is irrelevant)</td><td class="hl">evicted → Course table</td></tr>
+</table>
+</div>
+
+<p>So <b>2NF = "if half the name tag is enough to determine a column, that column moves out with that half."</b> This is the step that kills the update anomaly — fix Chidi's number once in the Student table and you're done.</p>
+
+<h3>1-3. 3NF — <span style="font-weight:400">"if a neighbouring column decides it, move it out"</span></h3>
+<p>Now look at the Course table: <code>course_id, title, instructor_name, instructor_phone</code>.</p>
+<p><b>The question to ask:</b> is this column determined by the <b>name tag (course_id)</b>, or by <b>another column sitting next to it?</b></p>
+<ul>
+  <li><b>instructor_phone</b> is not determined by the course. It is determined by <b>who the instructor is</b>.</li>
+  <li>course_id → instructor → instructor_phone. Determined <b>one hop away</b>. This is called a <b>transitive dependency</b>.</li>
+  <li>If Ngozi changes her number, you must edit <b>every course she teaches</b>. The update anomaly is back.</li>
+</ul>
+<p><b>The fix:</b> create an Instructor table and leave only <code>instructor_id</code> in Course.</p>
+
+<div class="callout c-ok">
+<b>Three-line summary — this is all you need during the lab</b>
+<b>1NF</b> one value per cell (no comma lists).<br>
+<b>2NF</b> if half the name tag determines it, it moves out with that half.<br>
+<b>3NF</b> if a neighbouring column determines it, move it out.<br>
+<span class="sub" style="display:block;margin-top:6px">For a non-engineering team, <b>3NF is a perfect score</b>. You do not need BCNF or 4NF today.</span>
+</div>
+
+<div class="adv">
+<span class="tag t-adv">Deep dive — for teammates with dev experience</span>
+<p style="margin-top:2px"><b>Is normalization always right? No.</b> Normalization buys <b>write consistency</b> and sells <b>read performance</b>. Split into five tables and a single screen now costs five JOINs.</p>
+<ul style="margin-bottom:0">
+  <li>At bootcamp-MVP scale (thousands of rows), JOIN cost is effectively zero. <b>Go to 3NF.</b> Premature denormalization wrecks far more teams than JOINs ever do.</li>
+  <li>The real exception is <b>snapshot values</b>. An order's <code>amount_paid</code> must not point at the product's current price — if the price changes later, <b>every past receipt is silently rewritten</b>. Facts that belong to a moment in time get copied, not referenced.</li>
+  <li>The test: <b>"is this the fact as of now, or the fact as of then?"</b> As-of-now → reference (normalize). As-of-then → copy (deliberate denormalization). Whichever you choose, write it into today's Decision Log (Mission 01).</li>
+</ul>
+</div>
+
+<h2><span class="num">02</span>Bottleneck ②: ERD &amp; cardinality — "the metro map of your tables"</h2>
+<p class="sub">The symbols aren't the hard part. The hard part is that nobody tells you <b>how to decide</b> which symbol to use.</p>
+
+<h3>2-1. An ERD is a metro map</h3>
+<p><b>ERD (Entity Relationship Diagram)</b>, in plain words: <b>"a picture of what exists and what connects to what."</b></p>
+<ul>
+  <li><b>Entity</b> = one table = a station. Student, Course, Instructor.
+    <br><span class="sub">How to spot one: a noun your service has to <b>count and manage separately</b>. If you can say "3 students, 5 courses", it's an entity.</span></li>
+  <li><b>Attribute</b> = a column = information about that station. Name, phone.</li>
+  <li><b>Relationship</b> = a line = "a student enrols in a course."</li>
+  <li><b>Cardinality</b> = the symbol at the end of the line = <b>how many to how many</b>.</li>
+</ul>
+
+<h3>2-2. How to decide cardinality: ask twice, in both directions</h3>
+<div class="callout c-ok">
+<b>Say these two sentences out loud</b>
+① "<b>One student</b> can enrol in <b>how many courses?</b>" → many<br>
+② "<b>One course</b> can hold <b>how many students?</b>" → many<br>
+<span style="display:block;margin-top:6px">Both "many" → <b>N:M</b>. Only one side "many" → <b>1:N</b>. Both "one" → <b>1:1</b>. That's the whole method.</span>
+</div>
+
+<div class="scroll">
+<table>
+<tr><th>Type</th><th>Reads as</th><th>Example</th><th>How it's actually built</th></tr>
+<tr><td><b>1:1</b></td><td>one to one</td><td>User &harr; User profile detail</td><td>Usually just merge into one table. If you split it, <b>write down why</b>.</td></tr>
+<tr><td><b>1:N</b></td><td>one to many <span class="sub">(most common)</span></td><td>1 instructor &rarr; many courses</td><td><b>Put the "1" side's ID on the "N" side</b> (instructor_id lives in Course). ← beginners get this backwards constantly</td></tr>
+<tr><td><b>N:M</b></td><td>many to many</td><td>Student &harr; Course</td><td class="hl"><b>Cannot exist in a database.</b> See below</td></tr>
+</table>
+</div>
+
+<div class="callout c-bad">
+<b>This is Day 3's biggest trap — N:M cannot physically exist</b>
+"Student &harr; Course" is impossible with two tables. Put course_id in Student? There are many. Put student_id in Course? Also many.<br>
+<b>The fix: the relationship gives birth to a third table.</b> It's called a <b>junction table</b> (link table, associative entity). Here it is <b>Enrolment</b>.<br>
+And that table is <b>not just glue</b>. It is where <b>facts that belong to the relationship itself</b> live — enrolment date, payment status, progress percentage. Miss it and that information has nowhere to go, gets dumped into the wrong table, and your normalization collapses again.
+</div>
+
+<div class="mermaid"><svg aria-roledescription="er" role="graphics-document document" viewBox="0 0 513.9832458496094 564" style="max-width: 513.9832458496094px;" xmlns="http://www.w3.org/2000/svg" width="100%" id="er1"><style>#er1{font-family:-apple-system,'Segoe UI',Inter,sans-serif;font-size:14px;fill:#161513;}#er1 .error-icon{fill:#ffffff;}#er1 .error-text{fill:#000000;stroke:#000000;}#er1 .edge-thickness-normal{stroke-width:2px;}#er1 .edge-thickness-thick{stroke-width:3.5px;}#er1 .edge-pattern-solid{stroke-dasharray:0;}#er1 .edge-pattern-dashed{stroke-dasharray:3;}#er1 .edge-pattern-dotted{stroke-dasharray:2;}#er1 .marker{fill:#8a8377;stroke:#8a8377;}#er1 .marker.cross{stroke:#8a8377;}#er1 svg{font-family:-apple-system,'Segoe UI',Inter,sans-serif;font-size:14px;}#er1 .entityBox{fill:#fdf1e9;stroke:#b4501f;}#er1 .attributeBoxOdd{fill:#ffffff;stroke:#b4501f;}#er1 .attributeBoxEven{fill:#f2f2f2;stroke:#b4501f;}#er1 .relationshipLabelBox{fill:#ffffff;opacity:0.7;background-color:#ffffff;}#er1 .relationshipLabelBox rect{opacity:0.5;}#er1 .relationshipLine{stroke:#8a8377;}#er1 .entityTitleText{text-anchor:middle;font-size:18px;fill:#161513;}#er1 #MD_PARENT_START{fill:#f5f5f5!important;stroke:#8a8377!important;stroke-width:1;}#er1 #MD_PARENT_END{fill:#f5f5f5!important;stroke:#8a8377!important;stroke-width:1;}#er1 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g></g><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" id="MD_PARENT_START"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" id="MD_PARENT_END"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="18" markerWidth="18" refY="9" refX="0" id="ONLY_ONE_START"><path d="M9,0 L9,18 M15,0 L15,18" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="18" markerWidth="18" refY="9" refX="18" id="ONLY_ONE_END"><path d="M3,0 L3,18 M9,0 L9,18" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="18" markerWidth="30" refY="9" refX="0" id="ZERO_OR_ONE_START"><circle r="6" cy="9" cx="21" fill="white" stroke="gray"></circle><path d="M9,0 L9,18" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="18" markerWidth="30" refY="9" refX="30" id="ZERO_OR_ONE_END"><circle r="6" cy="9" cx="9" fill="white" stroke="gray"></circle><path d="M21,0 L21,18" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="36" markerWidth="45" refY="18" refX="18" id="ONE_OR_MORE_START"><path d="M0,18 Q 18,0 36,18 Q 18,36 0,18 M42,9 L42,27" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="36" markerWidth="45" refY="18" refX="27" id="ONE_OR_MORE_END"><path d="M3,9 L3,27 M9,18 Q27,0 45,18 Q27,36 9,18" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="36" markerWidth="57" refY="18" refX="18" id="ZERO_OR_MORE_START"><circle r="6" cy="18" cx="48" fill="white" stroke="gray"></circle><path d="M0,18 Q18,0 36,18 Q18,36 0,18" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="36" markerWidth="57" refY="18" refX="39" id="ZERO_OR_MORE_END"><circle r="6" cy="18" cx="9" fill="white" stroke="gray"></circle><path d="M21,18 Q39,0 57,18 Q39,36 21,18" fill="none" stroke="gray"></path></marker></defs><path style="stroke: gray; fill: none;" marker-start="url(#ONLY_ONE_START)" marker-end="url(#ZERO_OR_MORE_END)" d="M393.404,107L393.404,115.333C393.404,123.667,393.404,140.333,393.404,157C393.404,173.667,393.404,190.333,393.404,198.667L393.404,207" class="er relationshipLine"></path><path style="stroke: gray; fill: none;" marker-start="url(#ONLY_ONE_START)" marker-end="url(#ZERO_OR_MORE_END)" d="M106.413,304.5L106.413,314.583C106.413,324.667,106.413,344.833,116.856,363.25C127.3,381.667,148.187,398.333,158.631,406.667L169.075,415" class="er relationshipLine"></path><path style="stroke: gray; fill: none;" marker-start="url(#ONLY_ONE_START)" marker-end="url(#ZERO_OR_MORE_END)" d="M393.404,315L393.404,323.333C393.404,331.667,393.404,348.333,382.961,365C372.517,381.667,351.63,398.333,341.186,406.667L330.742,415" class="er relationshipLine"></path><g transform="translate(298.5112762451172,20 )" id="entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c"><rect height="87" width="189.78591918945312" y="0" x="0" class="er entityBox"></rect><text style="dominant-baseline: middle; text-anchor: middle; font-size: 12px;" transform="translate(94.89295959472656,12)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c" class="er entityLabel">INSTRUCTOR</text><rect height="21" width="35.245819091796875" y="24" x="0" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,34.5)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c-attr-1-type" class="er entityLabel">int</text><rect height="21" width="65.8232421875" y="24" x="35.245819091796875" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,34.5)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c-attr-1-name" class="er entityLabel">instructor_id</text><rect height="21" width="23.79498291015625" y="24" x="101.06906127929688" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(106.06906127929688,34.5)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c-attr-1-key" class="er entityLabel">PK</text><rect height="21" width="64.921875" y="24" x="124.86404418945312" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(129.86404418945312,34.5)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c-attr-1-comment" class="er entityLabel">instructor ID</text><rect height="21" width="35.245819091796875" y="45" x="0" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,55.5)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c-attr-2-type" class="er entityLabel">string</text><rect height="21" width="65.8232421875" y="45" x="35.245819091796875" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,55.5)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c-attr-2-name" class="er entityLabel">name</text><rect height="21" width="23.79498291015625" y="45" x="101.06906127929688" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(106.06906127929688,55.5)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c-attr-2-key" class="er entityLabel"></text><rect height="21" width="64.921875" y="45" x="124.86404418945312" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(129.86404418945312,55.5)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c-attr-2-comment" class="er entityLabel">full name</text><rect height="21" width="35.245819091796875" y="66" x="0" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,76.5)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c-attr-3-type" class="er entityLabel">string</text><rect height="21" width="65.8232421875" y="66" x="35.245819091796875" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,76.5)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c-attr-3-name" class="er entityLabel">phone</text><rect height="21" width="23.79498291015625" y="66" x="101.06906127929688" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(106.06906127929688,76.5)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c-attr-3-key" class="er entityLabel"></text><rect height="21" width="64.921875" y="66" x="124.86404418945312" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(129.86404418945312,76.5)" y="0" x="0" id="text-entity-INSTRUCTOR-8dcf4f91-00f2-55fb-8249-4a082f4b453c-attr-3-comment" class="er entityLabel">phone</text></g><g transform="translate(292.8252258300781,207 )" id="entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a"><rect height="108" width="201.15802001953125" y="0" x="0" class="er entityBox"></rect><text style="dominant-baseline: middle; text-anchor: middle; font-size: 12px;" transform="translate(100.57901000976562,12)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a" class="er entityLabel">COURSE</text><rect height="21" width="35.245819091796875" y="24" x="0" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,34.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-1-type" class="er entityLabel">int</text><rect height="21" width="65.8232421875" y="24" x="35.245819091796875" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,34.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-1-name" class="er entityLabel">course_id</text><rect height="21" width="23.79498291015625" y="24" x="101.06906127929688" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(106.06906127929688,34.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-1-key" class="er entityLabel">PK</text><rect height="21" width="76.29397583007812" y="24" x="124.86404418945312" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(129.86404418945312,34.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-1-comment" class="er entityLabel">course ID</text><rect height="21" width="35.245819091796875" y="45" x="0" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,55.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-2-type" class="er entityLabel">string</text><rect height="21" width="65.8232421875" y="45" x="35.245819091796875" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,55.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-2-name" class="er entityLabel">title</text><rect height="21" width="23.79498291015625" y="45" x="101.06906127929688" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(106.06906127929688,55.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-2-key" class="er entityLabel"></text><rect height="21" width="76.29397583007812" y="45" x="124.86404418945312" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(129.86404418945312,55.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-2-comment" class="er entityLabel">course title</text><rect height="21" width="35.245819091796875" y="66" x="0" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,76.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-3-type" class="er entityLabel">int</text><rect height="21" width="65.8232421875" y="66" x="35.245819091796875" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,76.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-3-name" class="er entityLabel">price</text><rect height="21" width="23.79498291015625" y="66" x="101.06906127929688" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(106.06906127929688,76.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-3-key" class="er entityLabel"></text><rect height="21" width="76.29397583007812" y="66" x="124.86404418945312" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(129.86404418945312,76.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-3-comment" class="er entityLabel">fee</text><rect height="21" width="35.245819091796875" y="87" x="0" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,97.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-4-type" class="er entityLabel">int</text><rect height="21" width="65.8232421875" y="87" x="35.245819091796875" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,97.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-4-name" class="er entityLabel">instructor_id</text><rect height="21" width="23.79498291015625" y="87" x="101.06906127929688" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(106.06906127929688,97.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-4-key" class="er entityLabel">FK</text><rect height="21" width="76.29397583007812" y="87" x="124.86404418945312" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(129.86404418945312,97.5)" y="0" x="0" id="text-entity-COURSE-94e4e0ca-538f-5eec-8201-7eda2bcf423a-attr-4-comment" class="er entityLabel">who teaches it</text></g><g transform="translate(20,217.5 )" id="entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860"><rect height="87" width="172.82522583007812" y="0" x="0" class="er entityBox"></rect><text style="dominant-baseline: middle; text-anchor: middle; font-size: 12px;" transform="translate(86.41261291503906,12)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860" class="er entityLabel">STUDENT</text><rect height="21" width="35.245819091796875" y="24" x="0" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,34.5)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860-attr-1-type" class="er entityLabel">int</text><rect height="21" width="57.346923828125" y="24" x="35.245819091796875" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,34.5)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860-attr-1-name" class="er entityLabel">student_id</text><rect height="21" width="23.79498291015625" y="24" x="92.59274291992188" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(97.59274291992188,34.5)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860-attr-1-key" class="er entityLabel">PK</text><rect height="21" width="56.4375" y="24" x="116.38772583007812" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(121.38772583007812,34.5)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860-attr-1-comment" class="er entityLabel">student ID</text><rect height="21" width="35.245819091796875" y="45" x="0" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,55.5)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860-attr-2-type" class="er entityLabel">string</text><rect height="21" width="57.346923828125" y="45" x="35.245819091796875" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,55.5)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860-attr-2-name" class="er entityLabel">name</text><rect height="21" width="23.79498291015625" y="45" x="92.59274291992188" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(97.59274291992188,55.5)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860-attr-2-key" class="er entityLabel"></text><rect height="21" width="56.4375" y="45" x="116.38772583007812" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(121.38772583007812,55.5)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860-attr-2-comment" class="er entityLabel">full name</text><rect height="21" width="35.245819091796875" y="66" x="0" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,76.5)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860-attr-3-type" class="er entityLabel">string</text><rect height="21" width="57.346923828125" y="66" x="35.245819091796875" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,76.5)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860-attr-3-name" class="er entityLabel">phone</text><rect height="21" width="23.79498291015625" y="66" x="92.59274291992188" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(97.59274291992188,76.5)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860-attr-3-key" class="er entityLabel"></text><rect height="21" width="56.4375" y="66" x="116.38772583007812" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(121.38772583007812,76.5)" y="0" x="0" id="text-entity-STUDENT-1b2391c8-f2ba-530c-95a9-6a5256c98860-attr-3-comment" class="er entityLabel">phone</text></g><g transform="translate(146.2258071899414,415 )" id="entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c"><rect height="129" width="207.365234375" y="0" x="0" class="er entityBox"></rect><text style="dominant-baseline: middle; text-anchor: middle; font-size: 12px;" transform="translate(103.6826171875,12)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c" class="er entityLabel">ENROLMENT</text><rect height="21" width="35.245819091796875" y="24" x="0" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,34.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-1-type" class="er entityLabel">int</text><rect height="21" width="69.23068237304688" y="24" x="35.245819091796875" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,34.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-1-name" class="er entityLabel">enrolment_id</text><rect height="21" width="23.79498291015625" y="24" x="104.47650146484375" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(109.47650146484375,34.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-1-key" class="er entityLabel">PK</text><rect height="21" width="79.09375" y="24" x="128.271484375" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(133.271484375,34.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-1-comment" class="er entityLabel">enrolment ID</text><rect height="21" width="35.245819091796875" y="45" x="0" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,55.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-2-type" class="er entityLabel">int</text><rect height="21" width="69.23068237304688" y="45" x="35.245819091796875" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,55.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-2-name" class="er entityLabel">student_id</text><rect height="21" width="23.79498291015625" y="45" x="104.47650146484375" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(109.47650146484375,55.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-2-key" class="er entityLabel">FK</text><rect height="21" width="79.09375" y="45" x="128.271484375" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(133.271484375,55.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-2-comment" class="er entityLabel">who</text><rect height="21" width="35.245819091796875" y="66" x="0" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,76.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-3-type" class="er entityLabel">int</text><rect height="21" width="69.23068237304688" y="66" x="35.245819091796875" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,76.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-3-name" class="er entityLabel">course_id</text><rect height="21" width="23.79498291015625" y="66" x="104.47650146484375" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(109.47650146484375,76.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-3-key" class="er entityLabel">FK</text><rect height="21" width="79.09375" y="66" x="128.271484375" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(133.271484375,76.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-3-comment" class="er entityLabel">what</text><rect height="21" width="35.245819091796875" y="87" x="0" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,97.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-4-type" class="er entityLabel">date</text><rect height="21" width="69.23068237304688" y="87" x="35.245819091796875" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,97.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-4-name" class="er entityLabel">applied_at</text><rect height="21" width="23.79498291015625" y="87" x="104.47650146484375" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(109.47650146484375,97.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-4-key" class="er entityLabel"></text><rect height="21" width="79.09375" y="87" x="128.271484375" class="er attributeBoxEven"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(133.271484375,97.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-4-comment" class="er entityLabel">when</text><rect height="21" width="35.245819091796875" y="108" x="0" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(5,118.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-5-type" class="er entityLabel">string</text><rect height="21" width="69.23068237304688" y="108" x="35.245819091796875" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(40.245819091796875,118.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-5-name" class="er entityLabel">pay_status</text><rect height="21" width="23.79498291015625" y="108" x="104.47650146484375" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(109.47650146484375,118.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-5-key" class="er entityLabel"></text><rect height="21" width="79.09375" y="108" x="128.271484375" class="er attributeBoxOdd"></rect><text style="dominant-baseline: middle; font-size: 10.2px;" transform="translate(133.271484375,118.5)" y="0" x="0" id="text-entity-ENROLMENT-f07a9b2d-b0ee-5a6b-a59a-9a7db533527c-attr-5-comment" class="er entityLabel">payment status</text></g><rect height="14" width="72.033203125" y="150" x="357.38739013671875" class="er relationshipLabelBox"></rect><text style="text-anchor: middle; dominant-baseline: middle; font-size: 12px;" y="157" x="393.40399169921875" id="rel1" class="er relationshipLabel">teaches (1:N)</text><rect height="14" width="75.361328125" y="361.96435546875" x="82.77204132080078" class="er relationshipLabelBox"></rect><text style="text-anchor: middle; dominant-baseline: middle; font-size: 12px;" y="368.96435546875" x="120.45270538330078" id="rel2" class="er relationshipLabel">enrols in (1:N)</text><rect height="14" width="74.703125" y="366.3816833496094" x="339.5429382324219" class="er relationshipLabelBox"></rect><text style="text-anchor: middle; dominant-baseline: middle; font-size: 12px;" y="373.3816833496094" x="376.8945007324219" id="rel3" class="er relationshipLabel">contains (1:N)</text></svg></div>
+<p class="sub" style="text-align:center;margin-top:-6px">↑ One sheet became four tables. Note how the Student–Course N:M was split into two 1:N relationships via ENROLMENT.</p>
+
+<h3>2-3. Reading the symbols (crow's foot notation)</h3>
+<div class="scroll">
+<table>
+<tr><th>Symbol</th><th>Means</th><th>Mermaid</th></tr>
+<tr><td>||</td><td>exactly one (mandatory)</td><td><code>||--||</code></td></tr>
+<tr><td>o| / |o</td><td>zero or one (optional)</td><td><code>|o--||</code></td></tr>
+<tr><td>o{ (crow's foot)</td><td>zero or more</td><td><code>||--o{</code></td></tr>
+<tr><td>|{</td><td>one or more (at least one required)</td><td><code>||--|{</code></td></tr>
+</table>
+</div>
+<p><b>The little circle means "it's allowed to be empty."</b> If an instructor can exist with no courses yet, use <code>||--o{</code>. If they must have at least one, use <code>||--|{</code>. That distinction becomes your "is this field required?" rule later.</p>
+
+<h4>Mermaid: these five lines are enough to start</h4>
+<pre><code>erDiagram
+    STUDENT ||--o{ ENROLMENT : "enrols in"
+    COURSE  ||--o{ ENROLMENT : "contains"
+    STUDENT {
+        int student_id PK
+        string name
+    }</code></pre>
+<p class="sub">Keep entity names in <b>UPPERCASE English</b> — some tools break on other scripts. <b>PK</b> is the table's own ID; <b>FK</b> is an ID pointing at another table.</p>
+
+<h3>2-4. Foreign keys &amp; referential integrity — "you can't order under a customer who doesn't exist"</h3>
+<ul>
+  <li><b>Foreign key (FK)</b> = a finger pointing at another table. <code>ENROLMENT.student_id</code> points at STUDENT.</li>
+  <li><b>Referential integrity</b> = the rule that <b>something must actually be there where the finger points</b>.</li>
+  <li>How it breaks: <b>you delete a student but their enrolment rows survive.</b> Those rows now point at a ghost.</li>
+</ul>
+<p><b>So here is today's decision for your team:</b> "when a user deletes their account, do we <b>delete their records too, or keep them?</b>" — this is not a technical question. Refunds, settlements and reporting all hang on it. Which is exactly why a non-engineer has to make the call.</p>
+
+<div class="adv">
+<span class="tag t-adv">Deep dive</span>
+<p style="margin-top:2px">Databases offer three options: <code>CASCADE</code> (delete children too) / <code>RESTRICT</code> (refuse deletion while children exist) / <code>SET NULL</code> (cut the link, keep the record). In practice most live services <b>never hard-delete</b> — they add a <code>deleted_at</code> column (soft delete). But note the tension: data-protection law may require actual erasure, so decide explicitly <b>what you anonymise vs. what you retain</b> and log it today. Day 8 (accounts) and Day 9 (payments) will hand you the bill for this decision.</p>
+</div>
+
+<h2><span class="num">03</span>Bottleneck ③: Change impact analysis — "we haven't built anything yet, so why?"</h2>
+<p class="sub">Task 03 feels impossible because it asks you to imagine something breaking that doesn't exist yet.</p>
+
+<div class="card">
+<p><b>Schema</b> = the blueprint of your tables: which columns exist and what type they are. Think of it as <b>the constitution of your data</b>.</p>
+<p><b>Impact analysis is not forecasting. It is map-reading.</b> You start at one column and <b>follow the lines, asking "does this pass through here?"</b></p>
+</div>
+
+<h3>3-1. The domino from renaming one column</h3>
+<div class="mermaid"><svg aria-roledescription="flowchart-v2" role="graphics-document document" viewBox="-8 -8 614.35546875 298.5" style="max-width: 614.35546875px;" xmlns="http://www.w3.org/2000/svg" width="100%" id="flow1"><style>#flow1{font-family:-apple-system,'Segoe UI',Inter,sans-serif;font-size:14px;fill:#161513;}#flow1 .error-icon{fill:#ffffff;}#flow1 .error-text{fill:#000000;stroke:#000000;}#flow1 .edge-thickness-normal{stroke-width:2px;}#flow1 .edge-thickness-thick{stroke-width:3.5px;}#flow1 .edge-pattern-solid{stroke-dasharray:0;}#flow1 .edge-pattern-dashed{stroke-dasharray:3;}#flow1 .edge-pattern-dotted{stroke-dasharray:2;}#flow1 .marker{fill:#8a8377;stroke:#8a8377;}#flow1 .marker.cross{stroke:#8a8377;}#flow1 svg{font-family:-apple-system,'Segoe UI',Inter,sans-serif;font-size:14px;}#flow1 .label{font-family:-apple-system,'Segoe UI',Inter,sans-serif;color:#161513;}#flow1 .cluster-label text{fill:#000000;}#flow1 .cluster-label span,#flow1 p{color:#000000;}#flow1 .label text,#flow1 span,#flow1 p{fill:#161513;color:#161513;}#flow1 .node rect,#flow1 .node circle,#flow1 .node ellipse,#flow1 .node polygon,#flow1 .node path{fill:#fdf1e9;stroke:#b4501f;stroke-width:1px;}#flow1 .flowchart-label text{text-anchor:middle;}#flow1 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#flow1 .node .label{text-align:center;}#flow1 .node.clickable{cursor:pointer;}#flow1 .arrowheadPath{fill:#0b0b0b;}#flow1 .edgePath .path{stroke:#8a8377;stroke-width:2.0px;}#flow1 .flowchart-link{stroke:#8a8377;fill:none;}#flow1 .edgeLabel{background-color:#f4f0e9;text-align:center;}#flow1 .edgeLabel rect{opacity:0.5;background-color:#f4f0e9;fill:#f4f0e9;}#flow1 .labelBkg{background-color:rgba(244, 240, 233, 0.5);}#flow1 .cluster rect{fill:#ffffff;stroke:hsl(0, 0%, 90%);stroke-width:1px;}#flow1 .cluster text{fill:#000000;}#flow1 .cluster span,#flow1 p{color:#000000;}#flow1 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:-apple-system,'Segoe UI',Inter,sans-serif;font-size:12px;background:#ffffff;border:1px solid hsl(0, 0%, 90%);border-radius:2px;pointer-events:none;z-index:100;}#flow1 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#161513;}#flow1 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker orient="auto" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="6" viewBox="0 0 10 10" class="marker flowchart" id="flow1_flowchart-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="4.5" viewBox="0 0 10 10" class="marker flowchart" id="flow1_flowchart-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5" refX="11" viewBox="0 0 10 10" class="marker flowchart" id="flow1_flowchart-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5" refX="-1" viewBox="0 0 10 10" class="marker flowchart" id="flow1_flowchart-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5.2" refX="12" viewBox="0 0 11 11" class="marker cross flowchart" id="flow1_flowchart-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5.2" refX="-1" viewBox="0 0 11 11" class="marker cross flowchart" id="flow1_flowchart-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#flow1_flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-B" id="L-A-B-0" d="M92.674,142.5L104.775,130.417C116.876,118.333,141.079,94.167,161.471,82.083C181.862,70,198.443,70,206.734,70L215.024,70"></path><path marker-end="url(#flow1_flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-B LE-C" id="L-B-C-0" d="M346.366,47.5L357.145,43.333C367.924,39.167,389.481,30.833,403.544,26.667C417.606,22.5,424.172,22.5,427.456,22.5L430.739,22.5"></path><path marker-end="url(#flow1_flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-B LE-D" id="L-B-D-0" d="M346.366,92.5L357.145,96.667C367.924,100.833,389.481,109.167,404.211,113.333C418.94,117.5,426.84,117.5,430.791,117.5L434.741,117.5"></path><path marker-end="url(#flow1_flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-E" id="L-A-E-0" d="M140.281,165L144.448,165C148.615,165,156.948,165,169.279,165C181.61,165,197.938,165,206.102,165L214.266,165"></path><path marker-end="url(#flow1_flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-F" id="L-A-F-0" d="M92.674,187.5L104.775,199.583C116.876,211.667,141.079,235.833,156.463,247.917C171.848,260,178.415,260,181.698,260L184.981,260"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><rect height="0" width="0" ry="0" rx="0"></rect><text style=""><tspan class="row" x="0" dy="1em" xml:space="preserve"></tspan></text></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><rect height="0" width="0" ry="0" rx="0"></rect><text style=""><tspan class="row" x="0" dy="1em" xml:space="preserve"></tspan></text></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><rect height="0" width="0" ry="0" rx="0"></rect><text style=""><tspan class="row" x="0" dy="1em" xml:space="preserve"></tspan></text></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><rect height="0" width="0" ry="0" rx="0"></rect><text style=""><tspan class="row" x="0" dy="1em" xml:space="preserve"></tspan></text></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><rect height="0" width="0" ry="0" rx="0"></rect><text style=""><tspan class="row" x="0" dy="1em" xml:space="preserve"></tspan></text></g></g></g><g class="nodes"><g transform="translate(70.140625, 165)" data-id="A" data-node="true" id="flowchart-A-0" class="node default default flowchart-label"><rect height="45" width="140.28125" y="-22.5" x="-70.140625" ry="0" rx="0" style="fill:#fdeceb;stroke:#9b2c2c;" class="basic label-container"></rect><g transform="translate(0, -15)" style="color:#161513;" class="label"><rect></rect><text style="fill:#161513;"><tspan class="row" x="0" dy="1em" xml:space="preserve">Rename DB column</tspan><tspan class="row" x="0" dy="1em" xml:space="preserve">phone → mobile</tspan></text></g></g><g transform="translate(288.16015625, 70)" data-id="B" data-node="true" id="flowchart-B-1" class="node default default flowchart-label"><rect height="45" width="135.671875" y="-22.5" x="-67.8359375" ry="0" rx="0" style="" class="basic label-container"></rect><g transform="translate(0, -15)" style="" class="label"><rect></rect><text style=""><tspan class="row" x="0" dy="1em" xml:space="preserve">API response field</tspan><tspan class="row" x="0" dy="1em" xml:space="preserve">{phone} disappears</tspan></text></g></g><g transform="translate(517.197265625, 22.5)" data-id="C" data-node="true" id="flowchart-C-3" class="node default default flowchart-label"><rect height="45" width="162.31640625" y="-22.5" x="-81.158203125" ry="0" rx="0" style="" class="basic label-container"></rect><g transform="translate(0, -15)" style="" class="label"><rect></rect><text style=""><tspan class="row" x="0" dy="1em" xml:space="preserve">UI component</tspan><tspan class="row" x="0" dy="1em" xml:space="preserve">contact field goes blank</tspan></text></g></g><g transform="translate(517.197265625, 117.5)" data-id="D" data-node="true" id="flowchart-D-5" class="node default default flowchart-label"><rect height="45" width="154.3125" y="-22.5" x="-77.15625" ry="0" rx="0" style="" class="basic label-container"></rect><g transform="translate(0, -15)" style="" class="label"><rect></rect><text style=""><tspan class="row" x="0" dy="1em" xml:space="preserve">API spec (Day 4)</tspan><tspan class="row" x="0" dy="1em" xml:space="preserve">the document now lies</tspan></text></g></g><g transform="translate(288.16015625, 165)" data-id="E" data-node="true" id="flowchart-E-7" class="node default default flowchart-label"><rect height="45" width="137.1875" y="-22.5" x="-68.59375" ry="0" rx="0" style="fill:#fdf6e3;stroke:#8a6d1c;" class="basic label-container"></rect><g transform="translate(0, -15)" style="color:#161513;" class="label"><rect></rect><text style="fill:#161513;"><tspan class="row" x="0" dy="1em" xml:space="preserve">Data already stored</tspan><tspan class="row" x="0" dy="1em" xml:space="preserve">must be migrated</tspan></text></g></g><g transform="translate(288.16015625, 260)" data-id="F" data-node="true" id="flowchart-F-9" class="node default default flowchart-label"><rect height="45" width="195.7578125" y="-22.5" x="-97.87890625" ry="0" rx="0" style="fill:#fdf6e3;stroke:#8a6d1c;" class="basic label-container"></rect><g transform="translate(0, -15)" style="color:#161513;" class="label"><rect></rect><text style="fill:#161513;"><tspan class="row" x="0" dy="1em" xml:space="preserve">Team vocabulary</tspan><tspan class="row" x="0" dy="1em" xml:space="preserve">half the team still says phone</tspan></text></g></g></g></g></g></svg></div>
+<p class="sub" style="text-align:center;margin-top:-6px">↑ Change one column and at least five places wobble. Three of them are not code — they are <b>documents and people</b>.</p>
+<p><b>This diagram is also the answer to "why does Task 02 (terminology standardisation) matter?"</b> Agree on the words up front and this domino never starts. Standardising vocabulary isn't admin busywork — it is <b>the cheapest insurance you will ever buy</b>.</p>
+
+<h3>3-2. Three grades of change — rate the risk first</h3>
+<div class="scroll">
+<table>
+<tr><th>Grade</th><th>Change</th><th>Why</th><th>What to do</th></tr>
+<tr><td><span class="tag t-ok">Safe</span></td><td><b>Add</b> an optional column</td><td>Existing code doesn't know it exists, so it ignores it</td><td>Just do it</td></tr>
+<tr><td><span class="tag t-warn">Caution</span></td><td><b>Rename</b> a column; add a required column</td><td>Everything reading it breaks; and there is no value to backfill</td><td>Write the impact list first</td></tr>
+<tr><td><span class="tag t-bad">Dangerous</span></td><td><b>Drop</b> a column, change a type, split a table</td><td><b>Irreversible.</b> Data actually disappears</td><td>Backup + full team agreement + decision log</td></tr>
+</table>
+</div>
+
+<h3>3-3. Copy this impact-analysis template</h3>
+<p>Your Task 03 deliverable can be exactly this table. One row per change.</p>
+<div class="scroll">
+<table>
+<tr><th>Change</th><th>Grade</th><th>APIs affected</th><th>Screens affected</th><th>Existing data</th><th>Decision / alternative</th></tr>
+<tr><td>USER.phone &rarr; mobile</td><td><span class="tag t-warn">Caution</span></td><td>GET /users, POST /signup</td><td>My Page, Signup form</td><td>Copy values, keep old column 2 weeks</td><td>Chose <b>keep both for a while</b> over an immediate drop</td></tr>
+<tr><td>Add pay_status to ENROLMENT</td><td><span class="tag t-ok">Safe</span></td><td>GET /enrolments</td><td>My Courses</td><td>Default 'pending'</td><td>Proceed as-is</td></tr>
+</table>
+</div>
+
+<div class="callout c-ok">
+<b>Stuck? Walk this order — it takes five minutes</b>
+① <b>Which screen</b> shows this column? → ② <b>Which API</b> feeds that screen? → ③ What does the <b>API spec (Day 4)</b> say about it? → ④ What happens to <b>data already stored</b>? → ⑤ Does anyone on the team <b>call this thing by another name?</b>
+</div>
+
+<div class="adv">
+<span class="tag t-adv">Deep dive</span>
+<p style="margin-top:2px">The professional answer is an <b>expand–contract migration</b>: ⓐ add the new column → ⓑ dual-write to both → ⓒ backfill existing rows → ⓓ switch reads to the new column → ⓔ drop the old one much later. You never rename in one shot. "Keep both for a while" in the table above is the compressed version. Seen this way, <b>impact analysis is a dependency-graph problem, not an ERD problem</b> — the database is the root, not a leaf, and APIs, screens, docs, analytics queries and even your team's vocabulary all sit on top of it.</p>
+</div>
+
+<h2><span class="num">04</span>How to actually interrogate Codex AI</h2>
+<p class="sub">Today the AI is not your database designer. It is your <b>hostile reviewer</b>. Copy its answer down and you will never learn why it's right.</p>
+
+<div class="grid2">
+<div class="card tight"><span class="tag t-bad">Bad prompt</span>
+<p style="margin-top:8px">"Design the database for our service."</p>
+<p class="sub">No context, so you get generic output — and then you present an ERD <b>you cannot explain</b>.</p></div>
+<div class="card tight"><span class="tag t-ok">Good prompt</span>
+<p style="margin-top:8px">"Here are our meeting notes. Extract <b>candidate entities</b> and, for each one, justify <b>why it deserves its own table</b>. Where it's ambiguous, say it's ambiguous."</p></div>
+</div>
+
+<h4>Five prompts to use verbatim today</h4>
+<ol>
+  <li><b>[Task 01]</b> "From these meeting notes, extract candidate entities and attributes. For each candidate, judge whether it is a real <b>entity or just an attribute</b>, using 'can it be counted independently?' as the test, and give your reasoning."</li>
+  <li><b>[Task 01]</b> "Find every <b>N:M relationship</b> in this ERD. For each, propose the required <b>junction table</b> and the attributes that belong to the relationship itself."</li>
+  <li><b>[Task 01]</b> "Judge my table against <b>1NF, 2NF and 3NF separately</b>. Where it fails, name the exact functional dependency that causes it. <b>Do not fix it — only diagnose.</b>"</li>
+  <li><b>[Task 02]</b> "In this column-name list, group the ones that mean <b>the same thing but are written differently</b> (user_name / userName / customer). Propose one standard for each group with reasoning."</li>
+  <li><b>[Mission 02]</b> "Find three scenarios where <b>referential integrity could break</b> in this schema, and three problems that arise when <b>two users act on the same record at once</b>. Our service context is ___."</li>
+</ol>
+
+<div class="callout c-warn">
+<b>Where the AI will be wrong today — expect all three</b>
+· It <b>helpfully invents</b> columns that were never in your notes (created_at, is_active…). Delete what you don't need.<br>
+· It <b>draws N:M as a single line</b> and forgets the junction table. Always check this yourself.<br>
+· It cannot know your <b>business rules</b>. "Keep records after account deletion" is not something an AI can decide for you.<br>
+<b>That is precisely why Mission 01 (decision log) exists: what you accepted, what you rejected, and why — that is your actual skill.</b>
+</div>
+
+<h2><span class="num">05</span>Exit check</h2>
+<p class="sub">All ticked? You're ready for Day 4 (API design). Anything unticked is your question for the AI or the TA.</p>
+<div class="card">
+<ul class="plain">
+  <li>I can list our tables and explain <b>in one sentence why each one exists separately</b>.</li>
+  <li>I can give a concrete example of why Table A is dangerous, naming <b>insert, update or delete anomaly</b>.</li>
+  <li>I counted <b>how many N:M relationships</b> our ERD has, and built <b>a junction table for each</b>.</li>
+  <li>I verified every line's cardinality by saying <b>both directions out loud</b>.</li>
+  <li>We found and unified <b>at least three words</b> that teammates were using differently.</li>
+  <li>Our team has an answer to <b>"what happens to a user's data when they delete their account?"</b></li>
+  <li>I filled the impact-analysis table for <b>at least one</b> schema change.</li>
+  <li>I logged <b>at least one rejected design option</b> and why. <span class="sub">(No rejected option means you never considered alternatives.)</span></li>
+  <li>I can point at the parts of the AI's design that <b>I personally changed</b>.</li>
+  <li>I can already guess our Day 4 API names <b>from our table names</b>. <span class="sub">(e.g. COURSE &rarr; /courses)</span></li>
+</ul>
+</div>
+
+<h2><span class="num">06</span>Mini glossary</h2>
+<div class="scroll">
+<table>
+<tr><th>Term</th><th>In plain words</th><th>Why you should care</th></tr>
+<tr><td>Entity</td><td>one table / a noun you count separately</td><td>Get it wrong and you end up with far too many or too few tables</td></tr>
+<tr><td>Attribute</td><td>a column</td><td>"Entity or attribute?" is today's core judgement call</td></tr>
+<tr><td>Schema</td><td>the blueprint; the constitution of your data</td><td>Change it and everything on top shakes</td></tr>
+<tr><td>Cardinality</td><td>how many to how many</td><td>Get 1:N backwards and the screen cannot be built</td></tr>
+<tr><td>Primary key (PK)</td><td>that row's ID number</td><td>The basis for deciding what counts as a duplicate</td></tr>
+<tr><td>Foreign key (FK)</td><td>a finger pointing at another table</td><td>This is what actually creates a relationship</td></tr>
+<tr><td>Referential integrity</td><td>something must exist where the finger points</td><td>Prevents ghost records</td></tr>
+<tr><td>Normalization</td><td>splitting so each fact is written once</td><td>Stops your data from contradicting itself</td></tr>
+<tr><td>Anomaly</td><td>the three accidents caused by not splitting</td><td>The entire reason normalization exists</td></tr>
+<tr><td>Junction table</td><td>the middle table an N:M gives birth to</td><td>Miss it and the design collapses</td></tr>
+<tr><td>Migration</td><td>moving already-stored data to a new design</td><td>The real cost of any change</td></tr>
+<tr><td>Mermaid</td><td>a tool where you write text and get a diagram</td><td>Lets you version-control an ERD like code</td></tr>
+</table>
+</div>
+
+<div class="foot">
+<p><b>ACE AI Startup Bootcamp &middot; Day 3 companion guide</b> — this does not replace the official curriculum (<a href="https://odatot.github.io/nigeria/NA/LMS/docs/day3/day3-ai-classroom.html">Day 3 AI Classroom</a>). Use it as pre-reading and as a lab reference.</p>
+<p>When stuck, in this order: ① the matching section above → ② Codex AI with one of the five prompts → ③ your TA or instructor. <b>Never sit on the same blocker for more than 20 minutes.</b></p>
+</div>
+
+</div>
+
+<script>
+var b=document.getElementById('btnBasic'), a=document.getElementById('btnAll');
+function setLvl(basic){
+  document.body.classList.toggle('basic-only', basic);
+  b.setAttribute('aria-pressed', basic?'true':'false');
+  a.setAttribute('aria-pressed', basic?'false':'true');
+}
+b.addEventListener('click',function(){setLvl(true)});
+a.addEventListener('click',function(){setLvl(false)});
+</script>
+</body>
+</html>
