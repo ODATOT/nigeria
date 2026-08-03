@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>목/금 워크북 — 하루 만에 만들고, 다음 날 발표하기</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--line:#30363d;--tx:#e6edf3;--tx2:#9198a1;--tx3:#6e7681;
+--acc:#d97757;--acc2:#f0b27a;--ok:#3fb950;--warn:#d29922;--bad:#f85149;--blue:#58a6ff;--purple:#bc8cff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.75;font-size:16px;padding-bottom:90px}
+.wrap{max-width:980px;margin:0 auto;padding:0 24px}
+code,pre,.mono{font-family:'SF Mono',Menlo,Consolas,'D2Coding',monospace}
+header{background:linear-gradient(160deg,#141018,#0d1117 60%);border-bottom:1px solid var(--line);padding:56px 0 40px;margin-bottom:40px}
+.eyebrow{color:var(--purple);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+h1{font-size:38px;line-height:1.2;font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
+h1 em{font-style:normal;color:var(--purple)}
+.sub{color:var(--tx2);font-size:17px;max-width:720px}
+.meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:24px}
+.pill{background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:5px 14px;font-size:12.5px;color:var(--tx2)}
+.pill b{color:var(--tx)}
+nav{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:48px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13.5px}
+nav a{color:var(--tx2);text-decoration:none}nav a:hover{color:var(--purple)}
+section{margin-bottom:64px;scroll-margin-top:16px}
+h2{font-size:26px;font-weight:800;letter-spacing:-.01em;margin-bottom:8px;display:flex;align-items:center;gap:14px;line-height:1.3}
+.num{flex:none;min-width:38px;height:38px;padding:0 9px;border-radius:10px;background:var(--purple);color:#17061f;display:grid;place-items:center;font-size:14px;font-weight:800}
+h2+.lede{color:var(--tx2);margin:0 0 24px 52px;font-size:15.5px}
+h3{font-size:19px;font-weight:700;margin:32px 0 12px}
+h4{font-size:15px;font-weight:700;margin:20px 0 8px;color:var(--acc2)}
+p{margin-bottom:12px;color:#cdd6e0}
+strong{color:#fff;font-weight:700}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:16px 0}
+.card.acc{border-color:#5a3a2a;background:linear-gradient(180deg,#1d1512,var(--panel))}
+.card.ok{border-color:#1f4a2a;background:linear-gradient(180deg,#101d14,var(--panel))}
+.card.bad{border-color:#5c2323;background:linear-gradient(180deg,#1d1212,var(--panel))}
+.card.warn{border-color:#5c4a17;background:linear-gradient(180deg,#1d1a10,var(--panel))}
+.card>h4:first-child{margin-top:0}
+.tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;padding:3px 9px;border-radius:5px;margin-bottom:9px;text-transform:uppercase}
+.t-ok{background:#0f2f1a;color:var(--ok)}.t-bad{background:#2f1212;color:var(--bad)}
+.t-warn{background:#2f2510;color:var(--warn)}.t-acc{background:#2f1d12;color:var(--acc2)}
+.t-pp{background:#20132f;color:var(--purple)}
+.term{background:#010409;border:1px solid var(--line);border-radius:12px;padding:15px 17px;font-family:'SF Mono',Menlo,monospace;font-size:12.6px;line-height:1.85;overflow-x:auto;white-space:pre-wrap;word-break:break-word;margin:14px 0}
+.cm{color:var(--tx3)}.us{color:var(--acc2)}.ai{color:var(--purple)}.g{color:var(--ok)}.r{color:var(--bad)}.y{color:var(--warn)}.hl{color:var(--blue)}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.6px}
+th{background:var(--panel2);text-align:left;padding:9px 11px;font-weight:700;border-bottom:2px solid var(--line);font-size:12.6px}
+td{padding:9px 11px;border-bottom:1px solid var(--line);color:#cdd6e0;vertical-align:top}
+tr:last-child td{border-bottom:none}
+td code,p code,li code{background:#010409;padding:2px 6px;border-radius:4px;font-size:12.2px;color:var(--acc2)}
+.quote{border-left:3px solid var(--purple);padding:6px 0 6px 20px;margin:18px 0;color:#fff;font-size:17px;font-weight:600;line-height:1.6}
+ul.bul{margin:10px 0 10px 3px;list-style:none}
+ul.bul li{padding-left:19px;position:relative;margin-bottom:7px;color:#cdd6e0}
+ul.bul li::before{content:"▸";position:absolute;left:2px;color:var(--purple)}
+ol.n2{margin:10px 0 10px 20px;color:#cdd6e0}ol.n2 li{margin-bottom:8px;padding-left:5px}
+.chk{margin:10px 0;list-style:none}
+.chk li{padding-left:28px;position:relative;margin-bottom:9px;color:#cdd6e0}
+.chk li::before{content:"☐";position:absolute;left:2px;color:var(--acc2);font-size:16px}
+.grid{display:grid;gap:12px;margin:16px 0}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:800px){.g2,.g3,.g4{grid-template-columns:1fr}h1{font-size:29px}}
+.blank{background:#010409;border:1px dashed #3d4652;border-radius:10px;min-height:76px;padding:12px 14px;margin:10px 0;color:var(--tx3);font-size:13.5px}
+.clock{display:inline-block;background:#010409;border:1px solid var(--line);border-radius:6px;padding:1px 8px;font-family:'SF Mono',Menlo,monospace;font-size:12.5px;color:var(--blue);margin-right:8px}
+.sheet td{height:38px}
+.linkcard{display:flex;gap:14px;align-items:center;padding:16px 20px;border:1px solid var(--line);border-radius:14px;background:var(--panel);text-decoration:none;color:inherit;margin:12px 0}
+.linkcard:hover{border-color:var(--purple)}
+.linkcard .ic{flex:none;width:46px;height:46px;border-radius:12px;background:#010409;color:var(--purple);display:grid;place-items:center;font-size:20px}
+.linkcard b{display:block;font-size:16px;color:var(--purple);word-break:break-all}
+.linkcard em{display:block;font-style:normal;color:var(--tx2);font-size:13px;margin-top:2px}
+.diagwrap{background:#0a0e14;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:16px 0;overflow-x:auto}
+.diagwrap svg{min-width:760px}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:26px 0 40px;color:var(--tx3);font-size:12.6px}
+@media print{body{background:#fff;color:#111}nav{display:none}.card,.term,table,.blank{break-inside:avoid}.blank{border-color:#999}}
+.figwrap{background:#fbfaf7;border:1px solid #30363d;border-radius:14px;padding:14px 16px;margin:16px 0;overflow-x:auto}.figwrap svg{display:block;width:100%;min-width:720px;height:auto}</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="eyebrow">수강생 워크북 · 목/금 스프린트 · Codex + GStack</div>
+    <h1>목요일 하루 만에 구축하고.<br><em>금요일에 발표합니다.</em></h1>
+    <p class="sub">완벽한 제품을 만드는 것이 아닙니다. <strong>논리적 서사 + 실제 증거 + 시연할 1개의 화면</strong>을 완성합니다. <strong>설치할 필요 없이</strong> Codex 앱에 프롬프트를 붙여넣기만 하면 됩니다.</p>
+    <div class="meta">
+      <span class="pill">발표 <b>각 7분 발표 + 5분 Q&amp;A</b></span>
+      <span class="pill">도구 <b>Codex 데스크톱 앱</b></span>
+      <span class="pill">평가 <b>디자인 완성도 점수 0점</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<nav>
+  <a href="#s0">0. 2일 스프린트 핵심</a><a href="#s1">1. 오늘 만들 4가지</a><a href="#s2">2. 도구 활용 2가지 방법</a>
+  <a href="#a">A 문제 검증</a><a href="#b">B 스코프 축소 &amp; 증거</a><a href="#c">C 시연 화면</a><a href="#d">D 발표 구상</a>
+  <a href="#fri">금요일 데모데이</a><a href="#pack">프롬프트 팩</a><a href="#trouble">문제 해결</a>
+</nav>
+
+<section id="s0">
+  <h2><span class="num">0</span>2일 스프린트의 핵심 명제</h2>
+  <p class="quote">내일 평가 기준은 <strong>“무엇을 만들었는가”</strong>가 아니라 <strong>“무엇을 새로 발견했는가”</strong>입니다.<br>데모 시연은 주인공이 아니라 <strong>증거 자료</strong>에 불과합니다.</p>
+
+  <div class="grid g2">
+    <div class="card bad"><span class="tag t-bad">탈락하는 발표</span><p>화면은 화려하지만 <strong>“누가 쓸지는 아직 찾아보는 중입니다…”</strong></p></div>
+    <div class="card ok"><span class="tag t-ok">합격하는 발표</span><p>화면은 투박하지만 <strong>“실제 사용자 2명에게 물어보니 내 가설이 틀렸음을 확인했습니다”</strong></p></div>
+  </div>
+
+  <div class="card acc">
+    <h4>솔직히 말씀드리면 — 이는 본 교육과정 범위를 넘어섭니다</h4>
+    <p>비즈니스 모델 이론은 본 교육과정 평가 항목이 아닙니다. <strong>BM 이론으로 점수를 매기지 않습니다.</strong></p>
+    <p>대신 평가하는 것은 <strong>문제를 얼마나 날카롭게 정의했는가 / 현실의 사용자를 직접 만났는가 / 한계를 솔직하게 밝혔는가</strong>입니다. 오늘 배우는 것은 스타트업 창업론이 아니라 <strong>AI를 활용해 판단의 질을 높이는 방법</strong>입니다. 이것이 바로 우리 수업의 핵심 목표입니다.</p>
+  </div>
+
+  <p class="quote">구축 비용이 0으로 수렴할수록, 모든 가치는 <strong>무엇을 만들지 선택하는 능력</strong>으로 이동합니다.</p>
+
+  <div class="card warn">
+    <p><strong>오해하지 마세요.</strong> “작게 만든다”는 것은 <strong>최소 기능(Minimum)</strong>을 의미하지 <strong>부실함(Mediocre)</strong>을 뜻하지 않습니다. 1개 화면으로 축소하되, 빈 상태(Empty State)와 오류 처리까지 완성도 높게 갖춰야 합니다.</p>
+  </div>
+</section>
+
+<section id="s1">
+  <h2><span class="num">1</span>오늘 완성할 4가지 — 그 이상은 금물</h2>
+
+  <div class="grid g4">
+    <div class="card ok"><span class="tag t-ok">①</span><p><strong>한 문장 가설</strong><br>누가 · 언제 · 무엇 때문에 · 어떤 손실을 입는가</p></div>
+    <div class="card ok"><span class="tag t-ok">②</span><p><strong>2개의 증거 자료</strong><br>실제 대상자에게 질문하고 인터뷰한 기록</p></div>
+    <div class="card ok"><span class="tag t-ok">③</span><p><strong>1개의 시연 동선</strong><br>3번의 클릭 · 90초 시연</p></div>
+    <div class="card ok"><span class="tag t-ok">④</span><p><strong>5슬롯 발표 대본</strong><br>내일 발표의 뼈대가 되는 구조</p></div>
+  </div>
+  <p>이 4가지가 전부입니다. <strong>다섯 번째 항목을 추가하려는 욕심이 오늘 가장 큰 위험 요소입니다.</strong></p>
+
+  <h3>목요일 타임테이블</h3>
+  <table>
+    <tr><th>시간</th><th>내용</th><th>마칠 때 손에 쥐어야 할 결과물</th></tr>
+    <tr><td><span class="clock">09:30</span></td><td>오프닝 &amp; 환경 점검 (5분)</td><td>—</td></tr>
+    <tr><td><span class="clock">10:05</span></td><td><strong>Block A — 문제 검증 (Interrogate)</strong> (65분)</td><td>한 문장 가설 + 핵심 위험 가설 + <strong>연락할 2명의 실명</strong></td></tr>
+    <tr><td><span class="clock">11:10</span></td><td><strong>Block B — 스코프 축소 &amp; 질문 전송</strong> (40분)</td><td>핵심 기능 1개 + <strong>실제 질문 전송 완료</strong></td></tr>
+    <tr><td><span class="clock">11:50</span></td><td>점심시간 <span style="color:var(--tx3)">— 답변이 돌아오는 시간</span></td><td>답변 확인 및 기록</td></tr>
+    <tr><td><span class="clock">12:50</span></td><td><strong>Block C — 시연 화면 구축</strong> (40분)</td><td>90초 시연 동선 + <strong>가짜 데이터 목록</strong></td></tr>
+    <tr><td><span class="clock">13:30</span></td><td>미니 강의 — 자동 수정의 위험성</td><td>—</td></tr>
+    <tr><td><span class="clock">13:50</span></td><td><strong>Block D — 발표 구상 &amp; 리허설</strong> (40분)</td><td>5슬롯 대본 · 페어 리허설 2회</td></tr>
+    <tr><td><span class="clock">14:30</span></td><td>전체 리허설 &amp; 내일 안내</td><td>—</td></tr>
+  </table>
+
+  <div class="card bad">
+    <span class="tag t-bad">오전에 절대 하지 말아야 할 일</span>
+    <div class="grid g2">
+      <div><p><strong>금지 사항</strong></p><ul class="bul"><li>새로운 기능 개발하기</li><li>디자인 다듬기</li><li>기술 스택 고민하기</li><li>gstack 명령어 구경하기</li></ul></div>
+      <div><p><strong>권장 사항</strong></p><ul class="bul"><li>문제 정의 문장 다듬기</li><li>사용자에게 연락하기</li><li>기능 <strong>과감히 덜어내기</strong></li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="s2">
+  <h2><span class="num">2</span>도구 활용 — 별도 설치 불필요</h2>
+  <p class="lede">우리는 <strong>Codex 데스크톱 앱</strong>을 사용합니다. 기본 방식은 <strong>프롬프트 붙여넣기</strong>입니다.</p>
+
+  <div class="grid g2">
+    <div class="card ok"><span class="tag t-ok">기본 방식 ✅ 모든 수강생</span><p>워크북의 <strong>프롬프트 팩(P1–P8)</strong>을 Codex 채팅창에 그대로 붙여넣습니다.<br><strong>설치 및 설정 0초, 100% 정상 작동.</strong></p></div>
+    <div class="card"><span class="tag t-pp">선택 사항 · 여유가 있을 때</span><p>gstack을 설치하고 <code>$office-hours</code>로 호출합니다.<br><strong>앱 환경에 따라 목록에 안 뜰 수 있음</strong></p></div>
+  </div>
+</section>
+
+<section id="a">
+  <h2><span class="num">A</span>Block A — 문제 검증 (10:05–11:10)</h2>
+  <p class="lede">개인 30분 → 페어 20분 → 전체 15분. 목표: <strong>한 문장 가설 + 가장 위험한 가설 1개</strong>.</p>
+
+  <h3>✍️ 워크시트 A-1 — 한 문장 가설</h3>
+  <div class="term"><span class="hl">[누가]</span>, <span class="hl">[언제 · 어떤 상황에서]</span>,
+<span class="hl">[어떤 원인 때문에]</span> <span class="hl">[어떤 손실/불편을 겪는가]</span>.
+
+<span class="cm"># 예시</span>
+<span class="g">통학하는 경영학과 3학년 학생은</span>,
+<span class="g">화/목 강의 사이 3시간의 공강 시간 동안</span>,
+<span class="g">당장 함께 식사할 사람을 찾지 못해</span>
+<span class="g">스낵바에서 혼자 때우며 오후 집중력을 망친다</span>.</div>
+  <div class="blank">여러분의 가설을 작성하세요 →<br><br></div>
+  <p><strong>이 문장에 솔루션이나 제품명이 들어있다면 잘못된 가설입니다.</strong> 문제에만 집중하세요.</p>
+
+  <h3>✍️ 워크시트 A-3 — 오늘 오후 연락할 대상자 2명 (실명)</h3>
+  <table class="sheet">
+    <tr><th>#</th><th>이름</th><th>관계</th><th>연락 수단</th></tr>
+    <tr><td>1</td><td></td><td></td><td></td></tr>
+    <tr><td>2</td><td></td><td></td><td></td></tr>
+  </table>
+</section>
+
+<section id="b">
+  <h2><span class="num">B</span>Block B — 스코프 축소 &amp; 질문 전송 (11:10–11:50)</h2>
+  <p class="lede">기능 덜어내기 20분 → 질문 작성 10분 → <strong>실제 질문 전송 10분</strong>.</p>
+
+  <div class="grid g4">
+    <div class="card"><p style="text-align:center"><strong style="font-size:30px;color:var(--purple)">1</strong><br>핵심 기능</p></div>
+    <div class="card"><p style="text-align:center"><strong style="font-size:30px;color:var(--purple)">2</strong><br>최대 화면 수</p></div>
+    <div class="card"><p style="text-align:center"><strong style="font-size:30px;color:var(--purple)">3</strong><br>클릭 내 시연</p></div>
+    <div class="card"><p style="text-align:center"><strong style="font-size:30px;color:var(--purple)">40</strong><br>분 개발 제한</p></div>
+  </div>
+
+  <h3>✍️ 워크시트 B-1 — 삭제한 기능 목록</h3>
+  <table class="sheet">
+    <tr><th>제외한 기능</th><th>제외 사유</th></tr>
+    <tr><td></td><td></td></tr>
+    <tr><td></td><td></td></tr>
+  </table>
+  <div class="blank"><strong>최종 남긴 1가지 핵심 기능 →</strong><br><br></div>
+</section>
+
+<section id="c">
+  <h2><span class="num">C</span>Block C — 1개의 시연 동선 (12:50–13:30)</h2>
+  <p class="lede">내일 90초 동안 보여줄 3번의 클릭 동선을 완성합니다.</p>
+
+  <h3>✍️ 워크시트 C-1 — 가짜/미구현 데이터 목록</h3>
+  <div class="term"><span class="c"># 현재 시연에서 가짜로 동작하는 항목</span>
+· 추천 알고리즘: <span class="r">없음</span> (최신순 정렬)
+· 사용자 데이터: <span class="r">더미 데이터 3건</span>
+· 로그인 기능: <span class="r">버튼 모양만 존재</span> (실제 인증 미작동)</div>
+  <div class="blank">나의 가짜/미구현 목록 →<br><br></div>
+</section>
+
+<section id="d">
+  <h2><span class="num">D</span>Block D — 발표 구상 (13:50–14:30)</h2>
+  <h3>내일의 발표 5슬롯 구조</h3>
+  <table class="sheet">
+    <tr><th>슬롯</th><th>시간</th><th>내용</th><th>✍️ 발표 대본 핵심</th></tr>
+    <tr><td>1</td><td>0:00–0:45</td><td><strong>문제 정의</strong> + 인터뷰 인용구 1개</td><td></td></tr>
+    <tr><td>2</td><td>0:45–1:30</td><td><strong>가설의 변화</strong> (Before ➔ After)</td><td></td></tr>
+    <tr><td>3</td><td>1:30–3:00</td><td><strong>시연</strong> (3번의 클릭)</td><td></td></tr>
+    <tr><td>4</td><td>3:00–4:00</td><td><strong>우리가 틀렸던 점 &amp; 미구현 항목</strong></td><td></td></tr>
+    <tr><td>5</td><td>4:00–5:00</td><td><strong>다음 검증 계획</strong></td><td></td></tr>
+  </table>
+</section>
+
+<section id="fri">
+  <h2><span class="num">F</span>금요일 — 데모데이 평가 기준</h2>
+  <h3>평가 루브릭 (100점 만점)</h3>
+  <table>
+    <tr><th>평가 항목</th><th>배점</th><th>만점 기준</th><th>0점 기준</th></tr>
+    <tr><td>문제의 명확성</td><td>20점</td><td>구체적 단 한 사람의 문제로 정의함</td><td>“학생들이 불편해해서”</td></tr>
+    <tr><td><strong>실제 인터뷰 증거</strong></td><td><strong>25점</strong></td><td>2명 이상 인터뷰 + 과거 행동 기반 검증</td><td>인터뷰 0건 또는 추측성 답변</td></tr>
+    <tr><td>가설 수정 과정</td><td>20점</td><td>인터뷰 후 가설이 어떻게 바뀌었는지 설명</td><td>“가설이 그대로 맞아떨어졌다”만 주장</td></tr>
+    <tr><td>시연 적합성</td><td>20점</td><td>가설 검증에 꼭 필요한 1개 동선 시연</td><td>전체 기능 나열식 투어</td></tr>
+    <tr><td>정직성 &amp; 한계 인정</td><td>15점</td><td>가짜/미구현 항목을 <strong>선제적으로 밝힘</strong></td><td>Q&amp;A에서 숨긴 점이 지적됨</td></tr>
+  </table>
+  <p><strong>디자인 화려함과 비즈니스 모델 이론 점수는 0점입니다.</strong></p>
+</section>
+
+<section id="pack">
+  <h2><span class="num">P</span>프롬프트 팩 (복사하여 사용)</h2>
+  <h4>P1 · 문제 검증 프롬프트 (Block A)</h4>
+  <div class="term">당신은 냉철한 초기의사 결정 투자자입니다. <span class="hl">빈말이나 칭찬은 금지합니다.</span>
+내 아이디어: [한 문장 가설]
+
+아래 6가지 질문을 <span class="hl">하나씩 순서대로</span> 제게 물어보세요.
+제가 답변할 때까지 다음 질문으로 넘어가가지 마세요. 답변이 모호하면 다시 물어보세요.
+
+1) 이 문제가 사라졌을 때 누군가 진심으로 곤란해할 가장 강력한 증거는 무엇인가요?
+2) 그 사람은 현재 이 문제를 어떻게 해결하고 있으며, 그 비용은 얼마인가요?
+3) 그 대상을 집단이 아닌 <span class="hl">구체적 단 한 사람</span>으로 기술해 보세요.
+4) 이번 주에 돈/시간을 지불하고라도 쓸 가장 작은 버전은 무엇인가요?
+5) 도우려 하지 않고 그 사람의 행동을 관찰해 본 적이 있나요?
+6) 3년 뒤 이 문제는 더 필요해질까요, 덜 필요해질까요?
+
+마지막에 <span class="hl">내 가설의 점수를 100점 만점으로 평가</span>하고 이유를 설명하세요.</div>
+</section>
+
+<footer>
+  <p><strong>ACE AI 스타트업 부트캠프 · 목/금 워크북</strong> — 본 자료는 가설 검증 및 시연 중심의 2일 스프린트를 지원합니다.</p>
+</footer>
+</div>
+</body>
+</html>

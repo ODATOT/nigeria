@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thu–Fri Workbook — Build It in One Day, Present It the Next</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2128;--line:#30363d;--tx:#e6edf3;--tx2:#9198a1;--tx3:#6e7681;
+--acc:#d97757;--acc2:#f0b27a;--ok:#3fb950;--warn:#d29922;--bad:#f85149;--blue:#58a6ff;--purple:#bc8cff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.75;font-size:16px;padding-bottom:90px}
+.wrap{max-width:980px;margin:0 auto;padding:0 24px}
+code,pre,.mono{font-family:'SF Mono',Menlo,Consolas,'D2Coding',monospace}
+header{background:linear-gradient(160deg,#141018,#0d1117 60%);border-bottom:1px solid var(--line);padding:56px 0 40px;margin-bottom:40px}
+.eyebrow{color:var(--purple);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+h1{font-size:38px;line-height:1.2;font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
+h1 em{font-style:normal;color:var(--purple)}
+.sub{color:var(--tx2);font-size:17px;max-width:720px}
+.meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:24px}
+.pill{background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:5px 14px;font-size:12.5px;color:var(--tx2)}
+.pill b{color:var(--tx)}
+nav{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:48px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13.5px}
+nav a{color:var(--tx2);text-decoration:none}nav a:hover{color:var(--purple)}
+section{margin-bottom:64px;scroll-margin-top:16px}
+h2{font-size:26px;font-weight:800;letter-spacing:-.01em;margin-bottom:8px;display:flex;align-items:center;gap:14px;line-height:1.3}
+.num{flex:none;min-width:38px;height:38px;padding:0 9px;border-radius:10px;background:var(--purple);color:#17061f;display:grid;place-items:center;font-size:14px;font-weight:800}
+h2+.lede{color:var(--tx2);margin:0 0 24px 52px;font-size:15.5px}
+h3{font-size:19px;font-weight:700;margin:32px 0 12px}
+h4{font-size:15px;font-weight:700;margin:20px 0 8px;color:var(--acc2)}
+p{margin-bottom:12px;color:#cdd6e0}
+strong{color:#fff;font-weight:700}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:16px 0}
+.card.acc{border-color:#5a3a2a;background:linear-gradient(180deg,#1d1512,var(--panel))}
+.card.ok{border-color:#1f4a2a;background:linear-gradient(180deg,#101d14,var(--panel))}
+.card.bad{border-color:#5c2323;background:linear-gradient(180deg,#1d1212,var(--panel))}
+.card.warn{border-color:#5c4a17;background:linear-gradient(180deg,#1d1a10,var(--panel))}
+.card>h4:first-child{margin-top:0}
+.tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;padding:3px 9px;border-radius:5px;margin-bottom:9px;text-transform:uppercase}
+.t-ok{background:#0f2f1a;color:var(--ok)}.t-bad{background:#2f1212;color:var(--bad)}
+.t-warn{background:#2f2510;color:var(--warn)}.t-acc{background:#2f1d12;color:var(--acc2)}
+.t-pp{background:#20132f;color:var(--purple)}
+.term{background:#010409;border:1px solid var(--line);border-radius:12px;padding:15px 17px;font-family:'SF Mono',Menlo,monospace;font-size:12.6px;line-height:1.85;overflow-x:auto;white-space:pre-wrap;word-break:break-word;margin:14px 0}
+.cm{color:var(--tx3)}.us{color:var(--acc2)}.ai{color:var(--purple)}.g{color:var(--ok)}.r{color:var(--bad)}.y{color:var(--warn)}.hl{color:var(--blue)}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.6px}
+th{background:var(--panel2);text-align:left;padding:9px 11px;font-weight:700;border-bottom:2px solid var(--line);font-size:12.6px}
+td{padding:9px 11px;border-bottom:1px solid var(--line);color:#cdd6e0;vertical-align:top}
+tr:last-child td{border-bottom:none}
+td code,p code,li code{background:#010409;padding:2px 6px;border-radius:4px;font-size:12.2px;color:var(--acc2)}
+.quote{border-left:3px solid var(--purple);padding:6px 0 6px 20px;margin:18px 0;color:#fff;font-size:17px;font-weight:600;line-height:1.6}
+ul.bul{margin:10px 0 10px 3px;list-style:none}
+ul.bul li{padding-left:19px;position:relative;margin-bottom:7px;color:#cdd6e0}
+ul.bul li::before{content:"▸";position:absolute;left:2px;color:var(--purple)}
+ol.n2{margin:10px 0 10px 20px;color:#cdd6e0}ol.n2 li{margin-bottom:8px;padding-left:5px}
+.chk{margin:10px 0;list-style:none}
+.chk li{padding-left:28px;position:relative;margin-bottom:9px;color:#cdd6e0}
+.chk li::before{content:"☐";position:absolute;left:2px;color:var(--acc2);font-size:16px}
+.grid{display:grid;gap:12px;margin:16px 0}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:800px){.g2,.g3,.g4{grid-template-columns:1fr}h1{font-size:29px}}
+.blank{background:#010409;border:1px dashed #3d4652;border-radius:10px;min-height:76px;padding:12px 14px;margin:10px 0;color:var(--tx3);font-size:13.5px}
+.clock{display:inline-block;background:#010409;border:1px solid var(--line);border-radius:6px;padding:1px 8px;font-family:'SF Mono',Menlo,monospace;font-size:12.5px;color:var(--blue);margin-right:8px}
+.sheet td{height:38px}
+.linkcard{display:flex;gap:14px;align-items:center;padding:16px 20px;border:1px solid var(--line);border-radius:14px;background:var(--panel);text-decoration:none;color:inherit;margin:12px 0}
+.linkcard:hover{border-color:var(--purple)}
+.linkcard .ic{flex:none;width:46px;height:46px;border-radius:12px;background:#010409;color:var(--purple);display:grid;place-items:center;font-size:20px}
+.linkcard b{display:block;font-size:16px;color:var(--purple);word-break:break-all}
+.linkcard em{display:block;font-style:normal;color:var(--tx2);font-size:13px;margin-top:2px}
+.diagwrap{background:#0a0e14;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:16px 0;overflow-x:auto}
+.diagwrap svg{min-width:760px}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:26px 0 40px;color:var(--tx3);font-size:12.6px}
+@media print{body{background:#fff;color:#111}nav{display:none}.card,.term,table,.blank{break-inside:avoid}.blank{border-color:#999}}
+.figwrap{background:#fbfaf7;border:1px solid #30363d;border-radius:14px;padding:14px 16px;margin:16px 0;overflow-x:auto}.figwrap svg{display:block;width:100%;min-width:720px;height:auto}</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Student Workbook · THU–FRI · Codex + GStack</div>
+    <h1>Build it in one Thursday.<br><em>Present it on Friday.</em></h1>
+    <p class="sub">You are not building a finished app. You are building <strong>a story that holds together + evidence + one screen to show</strong>. <strong>Nothing to install</strong> — you just paste prompts into the Codex app chat.</p>
+    <div class="meta">
+      <span class="pill">Talk <b>7 min each + 5 min Q&amp;A</b></span>
+      <span class="pill">Tool <b>Codex app (desktop)</b></span>
+      <span class="pill">Grading <b>zero points for polish</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<nav>
+  <a href="#s0">0. The Two-Day Thesis</a><a href="#s1">1. Four Things Today</a><a href="#s2">2. The Tool — Two Tracks</a>
+  <a href="#a">A Interrogate the Problem</a><a href="#b">B Scope &amp; Evidence</a><a href="#c">C Demo</a><a href="#d">D Design the Talk</a>
+  <a href="#fri">Friday</a><a href="#pack">Prompt Pack</a><a href="#trouble">Troubleshooting</a>
+</nav>
+
+<section id="s0">
+  <h2><span class="num">0</span>The Two-Day Thesis</h2>
+  <p class="quote">Tomorrow you are graded not on <strong>“what did you build”</strong> but on <strong>“what did you find out”</strong>.<br>The demo is not the star of the show. It is <strong>evidence</strong>.</p>
+
+  <div class="grid g2">
+    <div class="card bad"><span class="tag t-bad">The talk that fails</span><p>Beautiful screens, but <strong>“who will use it? Still figuring that out…”</strong></p></div>
+    <div class="card ok"><span class="tag t-ok">The talk that wins</span><p>An ugly mockup, but <strong>“I asked 2 people and one of them showed me I was wrong”</strong></p></div>
+  </div>
+
+  <div class="card acc">
+    <h4>Being honest — this is outside our course</h4>
+    <p>Business models are not part of this course’s curriculum. <strong>You will not be graded on BM theory.</strong></p>
+    <p>What we grade instead — <strong>how precisely you narrowed the problem / how much you touched reality / whether you say out loud what you could not do</strong>. So what you are learning today is not startup methodology. It is <strong>how to use AI to raise the quality of your judgment</strong>. And that is exactly our course.</p>
+  </div>
+
+  <p class="quote">As the cost of building falls toward zero, all the value moves to <strong>the ability to choose what to build</strong>.</p>
+
+  <div class="card warn">
+    <p><strong>Do not misread this.</strong> “Build small” means <strong>Minimum</strong>, not <strong>Mediocre</strong>. Cut down to 1 screen, but that 1 screen has to hold up — empty states and errors included. A demo full of bugs is not tight scope. It is just badly built.</p>
+  </div>
+</section>
+
+<section id="s1">
+  <h2><span class="num">1</span>Four Things You Make Today — No More</h2>
+
+  <div class="grid g4">
+    <div class="card ok"><span class="tag t-ok">①</span><p><strong>One-sentence hypothesis</strong><br>who · when · because of what · losing what</p></div>
+    <div class="card ok"><span class="tag t-ok">②</span><p><strong>2 pieces of evidence</strong><br>records of asking real people</p></div>
+    <div class="card ok"><span class="tag t-ok">③</span><p><strong>One demo path</strong><br>3 clicks · 90 seconds</p></div>
+    <div class="card ok"><span class="tag t-ok">④</span><p><strong>5-slot script</strong><br>the skeleton of tomorrow’s talk</p></div>
+  </div>
+  <p>These four are everything. <strong>The urge to build a fifth is today’s biggest risk.</strong></p>
+
+  <h3>Thursday Timetable</h3><div class="figwrap"><svg class="fig fig--slim2" viewBox="0 0 1200 112" role="img" aria-label="Daily schedule bar" xmlns="http://www.w3.org/2000/svg" font-family="inherit"><text x="40.0" y="34" font-size="14" fill="#5b6779" text-anchor="start" font-weight="700" letter-spacing="0">09:30</text><text x="1160.0" y="34" font-size="14" fill="#5b6779" text-anchor="end" font-weight="700" letter-spacing="0">15:00</text><text x="600.0" y="34" font-size="14" fill="#d94a34" text-anchor="middle" font-weight="700" letter-spacing="0">330 minutes — only 185 of them produce anything</text><rect x="40.0" y="48" width="101.8" height="54" rx="8" fill="#f1eee7" stroke="#d8d2c6" stroke-width="1"/><rect x="141.8" y="48" width="17.0" height="54" rx="8" fill="#f1eee7" stroke="#d8d2c6" stroke-width="1"/><rect x="158.8" y="48" width="220.6" height="54" rx="8" fill="#0a6e63" stroke="none" stroke-width="1"/><text x="269.1" y="74" font-size="15" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">A Interrogate</text><text x="269.1" y="92" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="400" letter-spacing="0">65 min</text><rect x="379.4" y="48" width="135.8" height="54" rx="8" fill="#0a6e63" stroke="none" stroke-width="1"/><text x="447.3" y="74" font-size="15" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">B Cut Scope</text><text x="447.3" y="92" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="400" letter-spacing="0">40 min</text><rect x="515.2" y="48" width="203.6" height="54" rx="8" fill="#fdf1d8" stroke="none" stroke-width="1"/><text x="617.0" y="74" font-size="15" fill="#b7791f" text-anchor="middle" font-weight="800" letter-spacing="0">Lunch</text><text x="617.0" y="92" font-size="11.5" fill="#b7791f" text-anchor="middle" font-weight="400" letter-spacing="0">replies come in</text><rect x="718.8" y="48" width="135.8" height="54" rx="8" fill="#0a6e63" stroke="none" stroke-width="1"/><text x="786.7" y="74" font-size="15" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">C Demo</text><text x="786.7" y="92" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="400" letter-spacing="0">40 min</text><rect x="854.5" y="48" width="67.9" height="54" rx="8" fill="#f1eee7" stroke="#d8d2c6" stroke-width="1"/><rect x="922.4" y="48" width="135.8" height="54" rx="8" fill="#0a6e63" stroke="none" stroke-width="1"/><text x="990.3" y="74" font-size="15" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">D The Talk</text><text x="990.3" y="92" font-size="11.5" fill="#fff" text-anchor="middle" font-weight="400" letter-spacing="0">40 min</text><rect x="1058.2" y="48" width="67.9" height="54" rx="8" fill="#f1eee7" stroke="#d8d2c6" stroke-width="1"/><rect x="1126.1" y="48" width="33.9" height="54" rx="8" fill="#f1eee7" stroke="#d8d2c6" stroke-width="1"/></svg></div>
+  <table>
+    <tr><th>Time</th><th>What happens</th><th>What must be in your hands at the end</th></tr>
+    <tr><td><span class="clock">09:30</span></td><td>Kickoff · install check (show of hands, 5 min)</td><td>—</td></tr>
+    <tr><td><span class="clock">10:05</span></td><td><strong>Block A — Interrogate the Problem</strong> (65 min)</td><td>one-sentence hypothesis + risky assumption + <strong>2 real names to contact</strong></td></tr>
+    <tr><td><span class="clock">11:10</span></td><td><strong>Block B — Cut Scope + Send Questions</strong> (40 min)</td><td>1 feature · <strong>questions actually sent</strong></td></tr>
+    <tr><td><span class="clock">11:50</span></td><td>Lunch <span style="color:var(--tx3)">— when replies come in</span></td><td>check replies</td></tr>
+    <tr><td><span class="clock">12:50</span></td><td><strong>Block C — One Demo Path</strong> (40 min)</td><td>90-second path + <strong>fake list</strong></td></tr>
+    <tr><td><span class="clock">13:30</span></td><td>Lecture — the danger of auto-fix</td><td>—</td></tr>
+    <tr><td><span class="clock">13:50</span></td><td><strong>Block D — Design the Talk + rehearsal</strong> (40 min)</td><td>5-slot script · 2 rehearsals</td></tr>
+    <tr><td><span class="clock">14:30</span></td><td>Open rehearsal + briefing for tomorrow</td><td>—</td></tr>
+  </table>
+
+  <div class="card bad">
+    <span class="tag t-bad">Never do these in the morning</span>
+    <div class="grid g2">
+      <div><p><strong>Forbidden</strong></p><ul class="bul"><li>Building a new feature</li><li>Polishing the design</li><li>Agonizing over the tech stack</li><li>Window-shopping gstack commands</li></ul></div>
+      <div><p><strong>Allowed</strong></p><ul class="bul"><li>Rewriting your problem sentence</li><li>Asking people</li><li><strong>Deleting</strong> features</li></ul></div>
+    </div>
+    <p>The morning’s two hours succeed or fail on <strong>how much you deleted</strong>.</p>
+  </div>
+</section>
+
+<section id="s2">
+  <h2><span class="num">2</span>The Tool — Nothing to Install</h2>
+  <p class="lede">We use the <strong>Codex desktop app</strong>. Today’s default is <strong>pasting prompts</strong>.</p>
+
+  <div class="grid g2">
+    <div class="card ok"><span class="tag t-ok">Default ✅ everyone</span><p>Paste the <strong>§prompt pack (P1–P8)</strong> straight into the app chat.<br><strong>Zero install, zero setup. Works 100% of the time.</strong></p></div>
+    <div class="card"><span class="tag t-pp">Optional · if you have spare time</span><p>Install gstack and call it with <code>$office-hours</code>.<br><strong>May not show up in the app</strong></p></div>
+  </div>
+  <div class="card bad">
+    <span class="tag t-bad">Why installing is not the default</span>
+    <p>There is a <strong>known unresolved issue</strong> where the Codex <strong>app</strong> fails to list personal skills (openai/codex #28505). Even after a clean install, typing <code>$</code> may give you “No skills or apps found”.</p>
+    <p>So today, <strong>pasting the prompt is the default</strong>. The output is exactly the same — because a gstack command <strong>is</strong>, under the hood, a <strong>Markdown prompt</strong>.</p>
+  </div>
+
+  <h3>What Is gstack — 90 Seconds</h3>
+  <p>MIT-licensed open source, released by Garry Tan (Y Combinator CEO). It does not give the AI <strong>abilities</strong> — it puts <strong>roles</strong> on it. A rulebook. The official docs are written for Claude Code.</p>
+  <p class="quote">“The browser is the hard part — <strong>everything else is Markdown</strong>.”<br><span style="font-size:13px;font-weight:400;color:var(--tx3)">ARCHITECTURE.md</span></p>
+  <p>In other words, <strong>one command = one Markdown file</strong>. Install it and the prompt sits right there in <code>.agents/skills/</code>, in plain sight. <strong>That is why “copy and paste” is equivalent to the real thing.</strong> That is the whole basis for today’s default track.</p>
+
+  <h3>Open It Yourself — 5 Minutes</h3>
+  <a class="linkcard" href="https://github.com/garrytan/gstack" target="_blank" rel="noopener"><span class="ic">⌥</span><span><b>github.com/garrytan/gstack</b><em>MIT license · full source in the open</em></span></a>
+  <p><strong>Open exactly two files. That’s it.</strong></p>
+  <ul class="bul">
+    <li><code>ETHOS.md</code> — what this tool believes. A 10-minute read</li>
+    <li>Any folder → <code>SKILL.md</code> — the moment you go <strong>“wait, that’s it?”</strong> is the whole point. It is just a Markdown prompt</li>
+  </ul>
+
+  <a class="linkcard" href="https://www.youtube.com/watch?v=wkv2ifxPpF8&amp;t=165s" target="_blank" rel="noopener"><span class="ic">▶</span><span><b>How to Make Claude Code Your AI Engineering Team</b><em>Y Combinator · Garry Tan himself · click to start at 2:45</em></span></a>
+  <div class="card">
+    <h4>Watch for just these three things</h4>
+    <ol class="n2">
+      <li><strong>The questions come first</strong> — the scene that opens with questions, not code. You will live through the same thing in Block A today</li>
+      <li><strong>The roles switch</strong> — the same AI is CEO one minute and reviewer the next, because a human <strong>assigns the role</strong></li>
+      <li><strong>The human says no</strong> — the scene where a proposal gets <strong>rejected</strong>. This is everything you are here to learn today</li>
+    </ol>
+    <p>The flashy automation will pull your eyes, but what we are stealing is <strong>① and ③</strong>.</p>
+  </div>
+
+  <h3>The Skill Catalog — When to Use What</h3><div class="figwrap"><svg class="diagram" viewBox="0 0 1200 376" role="img" aria-label="Before-code work versus code work" xmlns="http://www.w3.org/2000/svg" font-family="inherit"><rect x="20" y="44" width="620" height="254" rx="18" fill="#dcf1ee" stroke="#0a6e63" stroke-width="3"/><rect x="20" y="44" width="620" height="44" rx="18" fill="#0a6e63" stroke="none" stroke-width="1"/><rect x="20" y="70" width="620" height="18" rx="0" fill="#0a6e63" stroke="none" stroke-width="1"/><text x="330" y="74" font-size="19" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">Finish these before writing a line of code</text><rect x="40" y="100" width="580" height="52" rx="12" fill="#fff" stroke="#8fd0c6" stroke-width="1"/><text x="58" y="123" font-size="16" fill="#0f1729" text-anchor="start" font-weight="800" letter-spacing="0">Is this worth building?</text><text x="58" y="143" font-size="12.5" fill="#5b6779" text-anchor="start" font-weight="400" letter-spacing="0">a skeptic grills you for 30 minutes</text><rect x="432" y="112" width="172" height="28" rx="8" fill="#dcf1ee" stroke="#8fd0c6" stroke-width="1"/><text x="518" y="131" text-anchor="middle" font-size="13" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#0a6e63">office-hours</text><rect x="40" y="158" width="580" height="52" rx="12" fill="#fff" stroke="#8fd0c6" stroke-width="1"/><text x="58" y="181" font-size="16" fill="#0f1729" text-anchor="start" font-weight="800" letter-spacing="0">What do you cut?</text><text x="58" y="201" font-size="12.5" fill="#5b6779" text-anchor="start" font-weight="400" letter-spacing="0">if it will not fit in 40 minutes, cut it</text><rect x="432" y="170" width="172" height="28" rx="8" fill="#dcf1ee" stroke="#8fd0c6" stroke-width="1"/><text x="518" y="189" text-anchor="middle" font-size="13" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#0a6e63">plan-ceo-review</text><rect x="40" y="216" width="580" height="52" rx="12" fill="#fff" stroke="#8fd0c6" stroke-width="1"/><text x="58" y="239" font-size="16" fill="#0f1729" text-anchor="start" font-weight="800" letter-spacing="0">What do you check first?</text><text x="58" y="259" font-size="12.5" fill="#5b6779" text-anchor="start" font-weight="400" letter-spacing="0">ask people, not tools</text><rect x="432" y="228" width="172" height="28" rx="8" fill="#dcf1ee" stroke="#8fd0c6" stroke-width="1"/><text x="518" y="247" text-anchor="middle" font-size="13" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#0a6e63">(2 contacts)</text><text x="330" y="288" font-size="14" fill="#0a6e63" text-anchor="middle" font-weight="800" letter-spacing="0">Get these wrong and nothing below can save you</text><defs><marker id="a8" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#5b6779"/></marker></defs><line x1="652" y1="170" x2="694" y2="170" stroke="#5b6779" stroke-width="3" marker-end="url(#a8)"/><text x="673" y="152" font-size="11.5" fill="#5b6779" text-anchor="middle" font-weight="700" letter-spacing="0">then</text><rect x="706" y="44" width="474" height="254" rx="18" fill="#fff" stroke="#d8d2c6" stroke-width="1.5" stroke-dasharray="8 6"/><text x="943" y="74" font-size="17" fill="#5b6779" text-anchor="middle" font-weight="800" letter-spacing="0">Code — the part that got cheap</text><text x="943" y="96" font-size="13" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">AI handles this side for you</text><rect x="726" y="116" width="434" height="40" rx="10" fill="#f1eee7" stroke="#d8d2c6" stroke-width="1"/><text x="746" y="141" font-size="13.5" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#5b6779">design-html</text><text x="1140" y="141" font-size="13.5" fill="#5b6779" text-anchor="end" font-weight="400" letter-spacing="0">one screen</text><rect x="726" y="162" width="434" height="40" rx="10" fill="#f1eee7" stroke="#d8d2c6" stroke-width="1"/><text x="746" y="187" font-size="13.5" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#5b6779">review</text><text x="1140" y="187" font-size="13.5" fill="#5b6779" text-anchor="end" font-weight="400" letter-spacing="0">the risks</text><rect x="726" y="208" width="434" height="40" rx="10" fill="#f1eee7" stroke="#d8d2c6" stroke-width="1"/><text x="746" y="233" font-size="13.5" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#5b6779">qa</text><text x="1140" y="233" font-size="13.5" fill="#5b6779" text-anchor="end" font-weight="400" letter-spacing="0">click through it</text><rect x="726" y="254" width="434" height="40" rx="10" fill="#f1eee7" stroke="#d8d2c6" stroke-width="1"/><text x="746" y="279" font-size="13.5" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#5b6779">ship</text><text x="1140" y="279" font-size="13.5" fill="#5b6779" text-anchor="end" font-weight="400" letter-spacing="0">release · not today</text><rect x="20" y="314" width="1160" height="52" rx="14" fill="#0f1729" stroke="none" stroke-width="1"/><text x="40" y="335" font-size="15.5" fill="#b7c2d4" text-anchor="start" font-weight="400" letter-spacing="0">The value of gstack is not that it writes code for you.</text><text x="40" y="358" font-size="16.5" fill="#4bbfa8" text-anchor="start" font-weight="800" letter-spacing="0">It is that it stops you from building what should not be built.</text><text x="1160" y="348" font-size="13.5" fill="#8fd0c6" text-anchor="end" font-weight="700" letter-spacing="0">6 of 54 skills today</text><text x="600" y="26" font-size="15" fill="#5b6779" text-anchor="middle" font-weight="700" letter-spacing="0">The left side is today. The right side is what the tool mostly handles for you.</text></svg></div>
+  <p>There are 50+ skills, but the structure is simple. <strong>One role attaches at each step of building a product.</strong></p>
+  <div class="figwrap"><svg class="diagram" viewBox="0 0 1200 626" role="img" aria-label="gstack role diagram" xmlns="http://www.w3.org/2000/svg" font-family="inherit"><rect x="0" y="0" width="1200" height="56" rx="14" fill="#e7e8ff" stroke="none" stroke-width="1"/><text x="600" y="35" font-size="23" fill="#3a3f9e" text-anchor="middle" font-weight="800" letter-spacing="0">One AI — you just swap the role it plays</text><rect x="0" y="92" width="190" height="214" rx="16" fill="#fff" stroke="#d8d2c6" stroke-width="1"/><path d="M0 108 a16,16 0 0 1 16,-16 h158 a16,16 0 0 1 16,16 v10 h-190 z" fill="#0a6e63"/><text x="95.0" y="134" font-size="12.5" fill="#0a6e63" text-anchor="middle" font-weight="800" letter-spacing="1.2">THINK</text><text x="95.0" y="166" font-size="19.5" fill="#0f1729" text-anchor="middle" font-weight="800" letter-spacing="0">The Skeptic</text><text x="95.0" y="198" font-size="13.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">“Is this worth building?”</text><rect x="12" y="216" width="166" height="34" rx="9" fill="#dcf1ee" stroke="none" stroke-width="1"/><text x="95.0" y="239" text-anchor="middle" font-size="14" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#0a6e63">office-hours</text><text x="95.0" y="274" font-size="12.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">when · before any code</text><path d="M191 192 l7,7 l-7,7" fill="none" stroke="#5b6779" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="202" y="92" width="190" height="214" rx="16" fill="#fff" stroke="#d8d2c6" stroke-width="1"/><path d="M202 108 a16,16 0 0 1 16,-16 h158 a16,16 0 0 1 16,16 v10 h-190 z" fill="#3a3f9e"/><text x="297.0" y="134" font-size="12.5" fill="#3a3f9e" text-anchor="middle" font-weight="800" letter-spacing="1.2">PLAN</text><text x="297.0" y="166" font-size="19.5" fill="#0f1729" text-anchor="middle" font-weight="800" letter-spacing="0">Scope Cutter</text><text x="297.0" y="198" font-size="13.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">“What do we cut?”</text><rect x="214" y="216" width="166" height="34" rx="9" fill="#e7e8ff" stroke="none" stroke-width="1"/><text x="297.0" y="239" text-anchor="middle" font-size="14" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#3a3f9e">plan-ceo-review</text><text x="297.0" y="274" font-size="12.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">when · right before building</text><path d="M393 192 l7,7 l-7,7" fill="none" stroke="#5b6779" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="404" y="92" width="190" height="214" rx="16" fill="#fff" stroke="#d8d2c6" stroke-width="1"/><path d="M404 108 a16,16 0 0 1 16,-16 h158 a16,16 0 0 1 16,16 v10 h-190 z" fill="#b7791f"/><text x="499.0" y="134" font-size="12.5" fill="#b7791f" text-anchor="middle" font-weight="800" letter-spacing="1.2">BUILD</text><text x="499.0" y="166" font-size="19.5" fill="#0f1729" text-anchor="middle" font-weight="800" letter-spacing="0">Designer</text><text x="499.0" y="198" font-size="13.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">“Make me one screen”</text><rect x="416" y="216" width="166" height="34" rx="9" fill="#fdf1d8" stroke="none" stroke-width="1"/><text x="499.0" y="239" text-anchor="middle" font-size="14" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#b7791f">design-html</text><text x="499.0" y="274" font-size="12.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">when · nothing to show yet</text><path d="M595 192 l7,7 l-7,7" fill="none" stroke="#5b6779" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="606" y="92" width="190" height="214" rx="16" fill="#fff" stroke="#d8d2c6" stroke-width="1"/><path d="M606 108 a16,16 0 0 1 16,-16 h158 a16,16 0 0 1 16,16 v10 h-190 z" fill="#d94a34"/><text x="701.0" y="134" font-size="12.5" fill="#d94a34" text-anchor="middle" font-weight="800" letter-spacing="1.2">REVIEW</text><text x="701.0" y="166" font-size="19.5" fill="#0f1729" text-anchor="middle" font-weight="800" letter-spacing="0">Reviewer</text><text x="701.0" y="198" font-size="13.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">“What is risky here?”</text><rect x="618" y="216" width="166" height="34" rx="9" fill="#ffe9e5" stroke="none" stroke-width="1"/><text x="701.0" y="239" text-anchor="middle" font-size="14" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#d94a34">review</text><text x="701.0" y="274" font-size="12.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">when · before you commit</text><path d="M797 192 l7,7 l-7,7" fill="none" stroke="#5b6779" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="808" y="92" width="190" height="214" rx="16" fill="#fff" stroke="#d8d2c6" stroke-width="1"/><path d="M808 108 a16,16 0 0 1 16,-16 h158 a16,16 0 0 1 16,16 v10 h-190 z" fill="#0a6e63"/><text x="903.0" y="134" font-size="12.5" fill="#0a6e63" text-anchor="middle" font-weight="800" letter-spacing="1.2">TEST</text><text x="903.0" y="166" font-size="19.5" fill="#0f1729" text-anchor="middle" font-weight="800" letter-spacing="0">QA Lead</text><text x="903.0" y="198" font-size="13.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">“Click like a user”</text><rect x="820" y="216" width="166" height="34" rx="9" fill="#dcf1ee" stroke="none" stroke-width="1"/><text x="903.0" y="239" text-anchor="middle" font-size="14" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#0a6e63">qa</text><text x="903.0" y="274" font-size="12.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">when · before anyone sees it</text><path d="M999 192 l7,7 l-7,7" fill="none" stroke="#5b6779" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="1010" y="92" width="190" height="214" rx="16" fill="#fff" stroke="#3a3f9e" stroke-width="2.2" stroke-dasharray="7 5"/><path d="M1010 108 a16,16 0 0 1 16,-16 h158 a16,16 0 0 1 16,16 v10 h-190 z" fill="#3a3f9e"/><text x="1105.0" y="134" font-size="12.5" fill="#3a3f9e" text-anchor="middle" font-weight="800" letter-spacing="1.2">SHIP · optional</text><text x="1105.0" y="166" font-size="19.5" fill="#0f1729" text-anchor="middle" font-weight="800" letter-spacing="0">Release</text><text x="1105.0" y="198" font-size="13.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">“Ship it safely”</text><rect x="1022" y="216" width="166" height="34" rx="9" fill="#e7e8ff" stroke="none" stroke-width="1"/><text x="1105.0" y="239" text-anchor="middle" font-size="14" font-weight="700" font-family="SFMono-Regular,Consolas,monospace" fill="#3a3f9e">ship</text><text x="1105.0" y="274" font-size="12.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">when · optional · not today</text><defs><marker id="back" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#d94a34"/></marker></defs><path d="M701.0 308 V 340 H 297.0 V 314" fill="none" stroke="#d94a34" stroke-width="2.6" stroke-dasharray="8 6" marker-end="url(#back)"/><rect x="700" y="326" width="500" height="28" rx="14" fill="#fff" stroke="#ffe9e5" stroke-width="1"/><text x="950" y="345" font-size="14" fill="#d94a34" text-anchor="middle" font-weight="800" letter-spacing="0">This straight line is a lie — real work loops back from here</text><rect x="0" y="372" width="1200" height="66" rx="14" fill="#fdf1d8" stroke="#e8cb8c" stroke-width="1"/><text x="24" y="399" font-size="16" fill="#b7791f" text-anchor="start" font-weight="800" letter-spacing="0">Safety tools</text><text x="140" y="399" font-size="16" font-family="SFMono-Regular,Consolas,monospace" fill="#b7791f">careful · freeze · guard</text><text x="24" y="424" font-size="14.5" fill="#5b6779">They pause before dangerous commands (rm -rf, DROP TABLE) — but <tspan font-weight="800" fill="#d94a34">in Codex they have no enforcement.</tspan> Your real safety net is frequent commits</text><rect x="0" y="460" width="1200" height="126" rx="16" fill="#0f1729" stroke="none" stroke-width="1"/><text x="24" y="496" font-size="21" fill="#fff" text-anchor="start" font-weight="800" letter-spacing="0">People make the decisions</text><text x="24" y="524" font-size="15" fill="#b7c2d4">Choosing what to build · approving and <tspan font-weight="800" fill="#fff">rejecting</tspan> proposals · gathering evidence — AI cannot do these three</text><text x="1176" y="496" text-anchor="end" font-size="15" font-style="italic" fill="#8fd0c6">AI models recommend.</text><text x="1176" y="520" text-anchor="end" font-size="17" font-weight="800" fill="#4bbfa8">Users decide.</text><rect x="24" y="536" width="1152" height="38" rx="10" fill="#1b2740" stroke="#4bbfa8" stroke-width="1"/><text x="40" y="560" font-size="14" fill="#4bbfa8" text-anchor="start" font-weight="800" letter-spacing="0">Friday grading link</text><text x="200" y="560" font-size="14" fill="#e6edf3">Present AI-written lines as your own and you <tspan font-weight="800" fill="#ff9b86">lose Honesty points (15)</tspan>. Name one AI suggestion you rejected and you <tspan font-weight="800" fill="#8fd0c6">gain</tspan>.</text><text x="600" y="612" text-anchor="middle" font-size="13.5" fill="#5b6779">The gstack repo has <tspan font-weight="800" fill="#0f1729">54 SKILL.md files</tspan> (the README counts 31 — we cover that gap too). This diagram shows <tspan font-weight="800" fill="#0f1729">6</tspan> of them</text></svg></div>
+  <table>
+    <tr><th>Stage</th><th>Skill</th><th>When</th><th>Why it helps</th><th>Today</th></tr>
+    <tr><td>Think</td><td><code>office-hours</code></td><td>before writing code</td><td>Tells you <strong>in 10 minutes</strong> that you mistook a solution for a problem</td><td>✅ A</td></tr>
+    <tr><td>Plan</td><td><code>plan-ceo-review</code></td><td>right before you build</td><td>Left alone, AI <strong>always adds scope.</strong> The mode forces the cut</td><td>✅ B</td></tr>
+    <tr><td>Build</td><td><code>design-html</code></td><td>when you have nothing to show</td><td>One presentable screen in <strong>40 minutes</strong>, no backend</td><td>✅ C</td></tr>
+    <tr><td>Review</td><td><code>review</code></td><td>right before commit</td><td>Traces <strong>beyond the diff</strong> — defects humans are structurally unable to catch</td><td>✅ C</td></tr>
+    <tr><td>Test</td><td><code>qa</code></td><td>before anyone else sees it</td><td>Looks at <strong>what other people experience</strong>, not “what I think”</td><td>✅ C</td></tr>
+    <tr><td>Safety</td><td><code>careful</code> <code>freeze</code></td><td>before dangerous commands</td><td>Blocks on Claude. <strong>On Codex, advisory only</strong></td><td>FYI</td></tr>
+  </table>
+  <p class="sub" style="color:var(--tx3)">Not used today, but worth knowing — <code>spec</code> (intent → document) · <code>investigate</code> (never fix without a cause) · <code>cso</code> (security) · <code>ship</code> (release gate) · <code>retro</code> (retrospective). Bolt them onto a personal project after the semester — they pay off.</p>
+
+  <h3>Installing — Mon or Tue, Whenever Suits You (If It Fails, Just Paste)</h3><p class="hl"><b>gstack is the only thing you install.</b> Install other skill packs alongside it and the names collide — your <code>$</code> list runs past 30 entries and you can no longer tell which one to pick.</p><div class="figwrap"><svg class="fig" viewBox="0 0 1110 296" role="img" aria-label="Install then track decision flow" xmlns="http://www.w3.org/2000/svg" font-family="inherit"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#5b6779"/></marker></defs><rect x="370" y="8" width="370" height="30" rx="15" fill="#e7e8ff" stroke="#b0b3ef" stroke-width="1"/><text x="555" y="29" font-size="14.5" fill="#3a3f9e" text-anchor="middle" font-weight="800" letter-spacing="0">Install on Mon or Tue (paste from the workbook)</text><line x1="555" y1="38" x2="555" y2="54" stroke="#5b6779" stroke-width="2" marker-end="url(#ar)"/><rect x="400" y="56" width="310" height="46" rx="23" fill="#fff" stroke="#0f1729" stroke-width="2"/><text x="555" y="85" font-size="18" fill="#0f1729" text-anchor="middle" font-weight="800" letter-spacing="0">Type $office</text><path d="M400 79 L230 79 L230 128" fill="none" stroke="#0a6e63" stroke-width="2.6" marker-end="url(#ar)"/><path d="M710 79 L880 79 L880 128" fill="none" stroke="#5b6779" stroke-width="2" marker-end="url(#ar)"/><text x="300" y="72" font-size="12.5" fill="#0a6e63" text-anchor="middle" font-weight="800" letter-spacing="0">Office Hours shows up</text><text x="816" y="72" font-size="12.5" fill="#5b6779" text-anchor="middle" font-weight="700" letter-spacing="0">nothing / not installed</text><rect x="40" y="130" width="380" height="100" rx="14" fill="#dcf1ee" stroke="#0a6e63" stroke-width="3"/><text x="230" y="157" font-size="17" fill="#0a6e63" text-anchor="middle" font-weight="800" letter-spacing="0">Track A · default</text><text x="230" y="182" font-size="15" fill="#0f1729" text-anchor="middle" font-weight="400" letter-spacing="0">Call it: $office-hours</text><text x="230" y="208" font-size="13" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">type $off and pick from the list</text><rect x="690" y="130" width="380" height="100" rx="14" fill="#fff" stroke="#d8d2c6" stroke-width="1.5"/><text x="880" y="157" font-size="17" fill="#5b6779" text-anchor="middle" font-weight="800" letter-spacing="0">Track B · safety net</text><text x="880" y="182" font-size="14" fill="#0f1729" text-anchor="middle" font-weight="400" letter-spacing="0">Paste prompts P1-P8 from the workbook</text><text x="880" y="208" font-size="13" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">zero install · zero setup · always works</text><rect x="40" y="244" width="1030" height="44" rx="12" fill="#0f1729" stroke="none" stroke-width="1"/><text x="555" y="271" font-size="15" fill="#e6edf3" text-anchor="middle" font-weight="700" letter-spacing="0">Same output either way. Track B is not a punishment — Track A just saves you the pasting.</text></svg></div><p class="hl"><b>Paste that paragraph exactly as it is — do not shorten it, do not reword it.</b> When it finishes, quit and reopen the Codex app, type <code>$office</code>, and check that <b>Office Hours</b> shows up. If it doesn’t install, no problem — paste the prompts instead; grading is unaffected. Just tell your instructor “it didn’t work” and move on.</p><h3>On Windows — You Need 3 More Things</h3><table><tr><th>What you need</th><th>Mac</th><th>Windows</th></tr><tr><td><b>Shell</b></td><td>Terminal — already there</td><td><b>Install Git Bash separately</b><br>git-scm.com/download/win</td></tr><tr><td><b>Node.js</b></td><td>Not needed</td><td><b>Required</b> — nodejs.org</td></tr><tr><td><b>bun</b></td><td><code>curl -fsSL https://bun.sh/install | bash</code></td><td>In PowerShell<br><code>powershell -c "irm bun.sh/install.ps1|iex"</code></td></tr><tr><td><b>Running the install</b></td><td>Terminal, as-is</td><td>In a <b>Git Bash window</b> (not PowerShell)</td></tr></table><ul class="bul"><li><b>Shortcut</b> — if Node.js is already installed, it is one line on either system: <code>npm install -g bun</code></li><li>bun needs Windows 10 <b>1809 or later</b></li><li>The most common accident — <b>mixing up PowerShell and Git Bash.</b> bun goes in PowerShell, setup goes in Git Bash</li></ul><p class="hl"><b>Windows takes longer — there is more to prepare.</b> Set aside generous time on Mon/Tue, or just go with <b>pasting the prompts</b>. <b>Whether you use the tool is worth exactly 0 points in today’s grading.</b></p>
+  <div class="term"><span class="c"># No commands to memorize. Paste the paragraph below into the Codex chat, as-is.</span>
+<span class="c"># Codex runs it on its own, and when it hits a wall, it fixes it on its own.</span>
+
+<span class="us">Run the following in order. If anything fails along the way, find the cause and fix it.</span>
+<span class="us">1) If bun is missing, install it: curl -fsSL https://bun.sh/install | bash</span>
+<span class="us">2) git clone --single-branch --depth 1 \</span>
+<span class="us">     https://github.com/garrytan/gstack.git ~/gstack</span>
+<span class="us">3) cd ~/gstack &amp;&amp; ./setup --host codex</span>
+<span class="us">4) If it asks about naming style, choose option 1 (short names)</span>
+
+<span class="c"># Prerequisites: Git + Bun (Windows also needs Node.js)</span>
+<span class="c"># When it finishes, restart the Codex app and type $office in the chat</span>
+<span class="g">Office Hours   YC Office Hours — two modes. (gstack)   ← this shows up = success</span></div>
+  <p>You <strong>must</strong> include <code>--host codex</code> (the default is claude). <strong>If it takes more than 5 minutes, stop and switch to the prompt track.</strong> Nothing to be embarrassed about — the result is the same.</p>
+
+  <div class="card warn">
+    <span class="tag t-warn">You call it with <code>$</code>, not a slash</span>
+    <p>The gstack docs write <code>/office-hours</code>, but that is <strong>Claude Code notation</strong>. <strong>On Codex it is <code>$</code></strong> — type just <code>$</code> in the chat and the list appears.</p>
+    <p>Skills install under <strong>short names</strong> → <strong><code>$office-hours</code></strong>. Typing as little as <code>$offi</code> filters the list. The similar-looking <code>Gstack Openclaw Office Hours</code> is for a different agent — do not pick it. If nothing shows up, paste the prompt; the result is the same.</p>
+  </div>
+
+  <h3>6 Things That Are Different on Codex</h3>
+  <table>
+    <tr><th>Feature</th><th>What the docs say</th><th>What actually happens on Codex</th></tr>
+    <tr><td>Multiple-choice questions</td><td>Buttons appear</td><td><strong>They don’t.</strong> Questions arrive as prose; you answer in your next message</td></tr>
+    <tr><td><code>/careful</code> <code>/freeze</code></td><td><strong>Blocks</strong> dangerous commands</td><td><strong>No hooks.</strong> Advisory text only — nothing gets blocked</td></tr>
+    <tr><td>Second opinion</td><td><code>/codex</code></td><td><em>not used today</em></td></tr>
+    <tr><td>Parallel expert review</td><td>Runs</td><td><strong>Removed</strong></td></tr>
+    <tr><td>Invoking a skill</td><td><code>/name</code></td><td><strong><code>$name</code></strong> or auto-detected</td></tr>
+    <tr><td>In the app (GUI)</td><td>—</td><td>Personal skills <strong>may not appear in the list</strong></td></tr>
+  </table>
+  <div class="card bad">
+    <p><strong>The second row is today’s most important one.</strong> On Codex, the safety rails block nothing. The only thing standing between you and <code>rm -rf</code> · <code>git reset --hard</code> is <strong>committing often</strong>.</p>
+  </div>
+
+  <h3>The 6 You Use Today — the Left Column Is the Default</h3>
+  <table>
+    <tr><th>Block</th><th><strong>Default (everyone)</strong></th><th>Optional (installed and recognized)</th></tr>
+    <tr><td>A Interrogate the Problem</td><td>Paste <strong>P1</strong></td><td><code>$office-hours</code></td></tr>
+    <tr><td>B Cut Scope</td><td>Paste <strong>P3</strong></td><td><code>$plan-ceo-review</code></td></tr>
+    <tr><td>C Mockup</td><td>Paste <strong>P5</strong></td><td><code>$design-html</code></td></tr>
+    <tr><td>C Code check</td><td>Paste <strong>P6</strong></td><td><code>$review</code></td></tr>
+    <tr><td>C Screen check</td><td><strong>P7</strong> — hand it to your neighbor to click through</td><td><code>$qa</code></td></tr>
+    <tr><td>C Cross review</td><td><strong>Swap code with your neighbor</strong></td><td><em>not used today</em></td></tr>
+  </table>
+  <p><strong>The left column alone gets you through today, complete.</strong> The repo holds 50+ commands; today you use 6.</p>
+
+  <div class="card">
+    <h4>If you remember only one thing</h4>
+    <p class="quote">“AI models recommend. <strong>Users decide.</strong> This is the one rule that overrides all others.”<br><span style="font-size:13px;font-weight:400;color:var(--tx3)">gstack ETHOS.md</span></p>
+    <p><strong>“The AI told me to” is not a justification.</strong> If you insist on calling it your CTO — fine, then you are the CEO. And the CEO’s job is <strong>to reject</strong>.</p>
+  </div>
+</section>
+
+<section id="a">
+  <h2><span class="num">A</span>Block A — Interrogate the Problem <span style="font-size:15px;color:var(--tx2);font-weight:400">(10:05–11:10)</span></h2>
+  <p class="lede">30 min solo → 20 min in pairs → 15 min whole class. The goal: <strong>a one-sentence hypothesis + 1 risky assumption</strong>.</p>
+
+  <h3>The 6 Questions — Know Them Before You Walk In</h3>
+  <table>
+    <tr><th>Question</th><th>The point</th><th>Answers that fail</th></tr>
+    <tr><td><strong>Q1 Is the demand real</strong></td><td>Would anyone truly be stuck if this vanished</td><td>“My friends said they’d love it” · “80% in my survey said…”</td></tr>
+    <tr><td><strong>Q2 How do they cope now</strong></td><td>How are they getting by today</td><td>“There’s nothing out there — that’s the opportunity”</td></tr>
+    <tr><td><strong>Q3 Who exactly is that person</strong></td><td><strong>One person</strong>, not a category</td><td>“university students” · “students in the hostels” — <strong>You can’t email a category</strong></td></tr>
+    <tr><td><strong>Q4 The narrowest version</strong></td><td>The smallest version someone would pay for this week</td><td>“Once we build the whole platform…”</td></tr>
+    <tr><td><strong>Q5 Observation</strong></td><td>Have you watched without helping</td><td>“I ran a survey” — <strong>Surveys lie</strong></td></tr>
+    <tr><td><strong>Q6 Three years out</strong></td><td>More necessary then, or less</td><td>“The market grows 20% a year” — <strong>a growth rate is not a vision</strong></td></tr>
+  </table>
+  <p class="quote">“Push on each one until the answer is specific, evidence-based, and <strong>uncomfortable</strong>. Comfort means the founder hasn’t gone deep enough.”</p>
+  <p><strong>If you are getting uncomfortable, you are on the right track.</strong> Q5 cannot be satisfied today — there is no time. Admitting “we couldn’t do it” is itself part of tomorrow’s honesty score.</p>
+
+  <h3>✍️ Worksheet A-1 — One-Sentence Hypothesis</h3>
+  <div class="term"><span class="hl">[who]</span>, during <span class="hl">[when · what situation]</span>,
+suffers <span class="hl">[what loss]</span> because <span class="hl">[what cause]</span>.
+
+<span class="cm"># Example</span>
+<span class="g">A 300-level business admin student who commutes to campus</span>, during
+<span class="g">the Tue/Thu 3-hour gap between lectures</span>, suffers
+<span class="g">a snack-bar lunch and a wrecked afternoon of concentration</span> because
+<span class="g">she can’t find anyone to eat with on the spot</span>.</div>
+  <div class="blank">Write your hypothesis here →<br><br></div>
+  <p><strong>If this sentence contains a product name, it is wrong.</strong> The solution does not appear yet.</p>
+
+  <h3>✍️ Worksheet A-2 — Your Single Riskiest Assumption</h3><div class="figwrap"><svg class="fig" viewBox="0 0 1000 316" role="img" aria-label="Risky assumption 2x2 matrix" xmlns="http://www.w3.org/2000/svg" font-family="inherit"><rect x="70" y="26" width="450" height="130" rx="12" fill="#ffe9e5" stroke="#d94a34" stroke-width="2.5"/><rect x="530" y="26" width="450" height="130" rx="12" fill="#fff" stroke="#d8d2c6" stroke-width="1"/><rect x="70" y="164" width="450" height="118" rx="12" fill="#fff" stroke="#d8d2c6" stroke-width="1"/><rect x="530" y="164" width="450" height="118" rx="12" fill="#f1eee7" stroke="#d8d2c6" stroke-width="1"/><text x="92" y="52" font-size="16" fill="#d94a34" text-anchor="start" font-weight="800" letter-spacing="0">☠ Break this today</text><text x="92" y="76" font-size="13.5" fill="#0f1729" text-anchor="start" font-weight="400" letter-spacing="0">If this is wrong everything collapses — and nobody has asked yet</text><rect x="92" y="88" width="404" height="26" rx="7" fill="#fff" stroke="#f2ada0" stroke-width="1"/><text x="104" y="106" font-size="12.5" fill="#0f1729" text-anchor="start" font-weight="400" letter-spacing="0">e.g. people actually want instant matching / will open an app</text><text x="92" y="138" font-size="13" fill="#d94a34" text-anchor="start" font-weight="700" letter-spacing="0">Both of your 2 contacts aim at this box</text><text x="552" y="52" font-size="16" fill="#5b6779" text-anchor="start" font-weight="800" letter-spacing="0">Already known</text><text x="552" y="76" font-size="13.5" fill="#5b6779" text-anchor="start" font-weight="400" letter-spacing="0">Certain and important — no need to ask</text><text x="552" y="100" font-size="12.5" fill="#5b6779" text-anchor="start" font-weight="400" letter-spacing="0">e.g. students are short on money</text><text x="92" y="190" font-size="16" fill="#5b6779" text-anchor="start" font-weight="800" letter-spacing="0">Later</text><text x="92" y="214" font-size="13.5" fill="#5b6779" text-anchor="start" font-weight="400" letter-spacing="0">Uncertain, but being wrong costs little</text><text x="92" y="238" font-size="12.5" fill="#5b6779" text-anchor="start" font-weight="400" letter-spacing="0">e.g. button colours, the name</text><text x="552" y="190" font-size="16" fill="#5b6779" text-anchor="start" font-weight="800" letter-spacing="0">Ignore</text><text x="552" y="214" font-size="13.5" fill="#5b6779" text-anchor="start" font-weight="400" letter-spacing="0">Certain and trivial</text><text x="295" y="302" font-size="13.5" fill="#5b6779" text-anchor="middle" font-weight="700" letter-spacing="0">← uncertain</text><text x="755" y="302" font-size="13.5" fill="#5b6779" text-anchor="middle" font-weight="700" letter-spacing="0">certain →</text><text x="26" y="230" font-size="13.5" fill="#5b6779" font-weight="700" text-anchor="middle" transform="rotate(-90 26 230)">← low impact</text><text x="26" y="86" font-size="13.5" fill="#5b6779" font-weight="700" text-anchor="middle" transform="rotate(-90 26 86)">high impact →</text></svg></div>
+  <p>If your hypothesis collapses, <strong>at which point</strong> does it collapse?</p>
+  <div class="blank">My riskiest assumption →<br><br></div>
+  <p class="sub" style="color:var(--tx3)">e.g. “People want on-the-spot matching” — or maybe they simply <strong>prefer eating alone</strong> / “They will open an app” — or maybe <strong>the class WhatsApp group they already have</strong> is enough</p>
+
+  <h3>✍️ Worksheet A-3 — 2 People to Contact This Afternoon (Real Names)</h3>
+  <table class="sheet">
+    <tr><th>#</th><th>Name</th><th>Relationship</th><th>How you will reach them</th></tr>
+    <tr><td>1</td><td></td><td></td><td></td></tr>
+    <tr><td>2</td><td></td><td></td><td></td></tr>
+  </table>
+  <p><strong>If these rows are empty, you cannot move on to Block B.</strong> Can’t fill them? Switch to one of the starter topics below.</p>
+
+  <div class="card">
+    <h4>No topic? — 6 starters (pick one within 10 minutes)</h4>
+    <div class="grid g3">
+      <div><p><strong>① Campus cafeteria &amp; free periods</strong><br>eating alone in the cafeteria, endless queues, what’s on the menu</p></div>
+      <div><p><strong>② Secondhand resale</strong><br>on-campus resale deals, buyers who never show up</p></div>
+      <div><p><strong>③ Club &amp; association dues</strong><br>collecting club dues in cash and transfers, keeping the ledger straight</p></div>
+      <div><p><strong>④ Tutoring &amp; study groups</strong><br>finding tutoring gigs, matching, scheduling, people dropping out</p></div>
+      <div><p><strong>⑤ Cooking on a student budget</strong><br>splitting groceries, expiry dates, group buying</p></div>
+      <div><p><strong>⑥ Gym &amp; fitness</strong><br>waiting for gym equipment, workout partners, tracking progress</p></div>
+    </div>
+    <p>If you pick one, pick only a topic where <strong>you can reach an actually affected person this afternoon</strong>.</p>
+  </div>
+
+  <h3>Pair Cross-Examination — the 20-Minute Rules</h3>
+  <ol class="n2">
+    <li><strong>10 minutes each</strong>, then swap. The speaker reads the one-sentence hypothesis and then stays silent</li>
+    <li>The listener asks <strong>questions only</strong>. <strong>No pitching ideas</strong></li>
+    <li>Three mandatory questions — “How would you know if this is wrong?” / “Has anyone already spent money or time on this problem?” / “Who will you ask besides people you already know?”</li>
+    <li>Final minute: the listener <strong>repeats the hypothesis back in one sentence</strong>. If they can’t, the hypothesis is still blurry</li>
+  </ol>
+
+  <div class="card ok">
+    <span class="tag t-ok">To pass Block A</span>
+    <ul class="chk">
+      <li>One-sentence hypothesis (no product name)</li>
+      <li>1 riskiest assumption</li>
+      <li><strong>2 real names</strong> to contact</li>
+      <li>Your pair could repeat your hypothesis back</li>
+    </ul>
+  </div>
+</section>
+
+<section id="b">
+  <h2><span class="num">B</span>Block B — Cut Scope + Send Questions <span style="font-size:15px;color:var(--tx2);font-weight:400">(11:10–11:50)</span></h2>
+  <p class="lede">20 min cutting → 10 min writing questions → <strong>10 min actually sending them</strong>. Block B is not done until you hit send.</p>
+
+  <h3>Today’s Hard Limits</h3>
+  <div class="grid g4">
+    <div class="card"><p style="text-align:center"><strong style="font-size:30px;color:var(--purple)">1</strong><br>core feature</p></div>
+    <div class="card"><p style="text-align:center"><strong style="font-size:30px;color:var(--purple)">2</strong><br>screens, max</p></div>
+    <div class="card"><p style="text-align:center"><strong style="font-size:30px;color:var(--purple)">3</strong><br>clicks and it works</p></div>
+    <div class="card"><p style="text-align:center"><strong style="font-size:30px;color:var(--purple)">40</strong><br>minutes to build</p></div>
+  </div>
+  <p>If it cannot be built in 40 minutes, it is not what you are building today. <strong>Cutting scope is skill</strong>, not surrender.</p>
+
+  <h3>✍️ Worksheet B-1 — What You Cut</h3>
+  <p>Run <code>/plan-ceo-review</code> (SCOPE REDUCTION) or prompt P3, then <strong>write down what got cut, here.</strong> This is the raw material for <strong>slot 4</strong> of tomorrow’s talk.</p>
+  <table class="sheet">
+    <tr><th>Feature you cut</th><th>Why you cut it</th></tr>
+    <tr><td></td><td></td></tr>
+    <tr><td></td><td></td></tr>
+    <tr><td></td><td></td></tr>
+  </table>
+  <div class="blank"><strong>The 1 feature you kept →</strong><br><br></div>
+
+  <h3>The Ladder of Evidence — Today’s Target Is ③</h3><div class="figwrap"><svg class="fig" viewBox="0 0 1120 318" role="img" aria-label="Ladder of evidence" xmlns="http://www.w3.org/2000/svg" font-family="inherit"><text x="26" y="150" font-size="13.5" fill="#5b6779" font-weight="700" text-anchor="middle" transform="rotate(-90 26 150)">stronger →</text><rect x="58" y="202" width="200" height="52" rx="10" fill="#f1eee7" stroke="#d8d2c6" stroke-width="1"/><text x="158.0" y="232" font-size="14.5" fill="#5b6779" text-anchor="middle" font-weight="800" letter-spacing="0">① My hunch</text><text x="158.0" y="254" font-size="12.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">in my head</text><rect x="268" y="168" width="200" height="86" rx="10" fill="#f1eee7" stroke="#d8d2c6" stroke-width="1"/><text x="368.0" y="198" font-size="14.5" fill="#5b6779" text-anchor="middle" font-weight="800" letter-spacing="0">② Friends complaining</text><text x="368.0" y="220" font-size="12.5" fill="#5b6779" text-anchor="middle" font-weight="400" letter-spacing="0">things I overheard</text><rect x="478" y="134" width="200" height="120" rx="10" fill="#dcf1ee" stroke="#0a6e63" stroke-width="2.5"/><text x="578.0" y="164" font-size="14.5" fill="#0a6e63" text-anchor="middle" font-weight="800" letter-spacing="0">③ Answers I asked for</text><text x="578.0" y="186" font-size="12.5" fill="#0a6e63" text-anchor="middle" font-weight="400" letter-spacing="0">today · 2 contacts</text><rect x="688" y="100" width="200" height="154" rx="10" fill="#f7f5f1" stroke="#d8d2c6" stroke-width="1"/><text x="788.0" y="130" font-size="14.5" fill="#9aa4b2" text-anchor="middle" font-weight="800" letter-spacing="0">④ Observation</text><text x="788.0" y="152" font-size="12.5" fill="#9aa4b2" text-anchor="middle" font-weight="400" letter-spacing="0">not possible in a day</text><rect x="898" y="66" width="200" height="188" rx="10" fill="#f7f5f1" stroke="#d8d2c6" stroke-width="1"/><text x="998.0" y="96" font-size="14.5" fill="#9aa4b2" text-anchor="middle" font-weight="800" letter-spacing="0">⑤ Usage logs</text><text x="998.0" y="118" font-size="12.5" fill="#9aa4b2" text-anchor="middle" font-weight="400" letter-spacing="0">not possible in a day</text><line x1="48" y1="254" x2="1096" y2="254" stroke="#d8d2c6" stroke-width="2"/><rect x="58" y="268" width="1040" height="40" rx="11" fill="#0f1729" stroke="none" stroke-width="1"/><text x="578" y="293" font-size="15" fill="#e6edf3" text-anchor="middle" font-weight="700" letter-spacing="0">Saying “we only got to ③” tomorrow scores higher than pretending you reached ⑤.</text></svg></div>
+  <table>
+    <tr><td>①</td><td>My hunch</td></tr>
+    <tr><td>②</td><td>Friends complaining</td></tr>
+    <tr><td><strong style="color:var(--ok)">③</strong></td><td><strong style="color:var(--ok)">Answers I asked for ← today’s target (2 of them)</strong></td></tr>
+    <tr><td>④</td><td>Observation</td></tr>
+    <tr><td>⑤</td><td>Usage logs</td></tr>
+  </table>
+  <p>④ and ⑤ are impossible in a single day. <strong>Saying “we only got as far as ③” scores higher than pretending you reached ⑤.</strong></p>
+
+  <h3>The 3 Questions to Ask — and the Forbidden Ones</h3>
+  <div class="grid g2">
+    <div class="card ok"><span class="tag t-ok">Ask these (past behavior)</span>
+      <ul class="bul"><li>“<strong>When</strong> was the last time that happened to you?”</li><li>“What did you <strong>do</strong> about it that time?”</li><li>“Have you ever spent <strong>money or time</strong> because of it?”</li></ul></div>
+    <div class="card bad"><span class="tag t-bad">Forbidden (future intent)</span>
+      <ul class="bul"><li>“Would you use an app like this?” — everyone says yes</li><li>“What do you think of this feature?” — ask for a verdict and you get politeness back</li></ul></div>
+  </div>
+  <p class="quote">Ask about <strong>past behavior</strong>, not future intent.</p>
+
+  <div class="blank"><strong>✍️ The 3 questions I will send →</strong><br>1.<br>2.<br>3.</div>
+
+  <div class="card warn">
+    <span class="tag t-warn">Friend bias — don’t hide it, write it down</span>
+    <p>The 2 people you contact today will almost certainly be <strong>people you know</strong>. That is not the problem. <strong>Pretending otherwise is.</strong></p>
+    <p><strong>Loses points:</strong> “We validated with 2 users” (both are your roommates)<br>
+       <strong>Earns points:</strong> “Both are friends of mine, so there is bias. Here is how I discounted their answers because of it.”</p>
+  </div>
+
+  <h3>✍️ Worksheet B-2 — Evidence Log</h3>
+  <table class="sheet">
+    <tr><th>#</th><th>Who</th><th>Friend?</th><th>What they actually did <span style="font-weight:400;color:var(--tx3)">(in the past tense)</span></th><th><strong>Where it differed from my assumption</strong></th></tr>
+    <tr><td>1</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>2</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>3</td><td></td><td></td><td></td><td></td></tr>
+  </table>
+  <p><strong>If the last column is empty, you didn’t listen to that interview.</strong> You just went to get your own opinion confirmed.</p>
+
+  <div class="card ok">
+    <span class="tag t-ok">To pass Block B</span>
+    <ul class="chk">
+      <li>Cut down to 1 feature · 2 screens or fewer</li>
+      <li>The cut list survives, with reasons</li>
+      <li>Your 3 questions ask about <strong>past behavior</strong></li>
+      <li><strong>You actually sent them</strong> (screenshot check)</li>
+    </ul>
+  </div>
+
+  <div class="card acc">
+    <p><strong>Lunch (11:50–12:50) is when the replies come in.</strong> It is fine to watch your phone while you eat. The moment an answer lands, fill in the last column of the evidence log. If nothing comes, send to <strong>1 more person</strong> at the start of the afternoon.</p>
+  </div>
+</section>
+
+<section id="c">
+  <h2><span class="num">C</span>Block C — One Demo Path <span style="font-size:15px;color:var(--tx2);font-weight:400">(12:50–13:30)</span></h2>
+  <p class="lede">Two routes. Same destination — <strong>the 3 clicks you will show in 90 seconds tomorrow</strong>.</p>
+
+  <div class="grid g2">
+    <div class="card"><span class="tag t-acc">Already built something</span><p>Check it with <code>$review</code> → confirm the click path → keep <strong>only the one path you will show</strong> and hide the rest</p></div>
+    <div class="card ok"><span class="tag t-ok">Nothing yet (normal)</span><p>Use <code>$design-html</code> or prompt P5 to make <strong>one static screen</strong> + fake data. 40 minutes is plenty</p></div>
+  </div>
+  <p><strong>“Nothing yet” is not the embarrassing route.</strong> If anything, the people who already built something suffer more — they can’t bring themselves to cut screens.</p>
+
+  <h3>Building the Mockup — the 4 Mandatory States</h3>
+  <div class="grid g4">
+    <div class="card"><p><strong>Empty</strong><br>nothing there yet</p></div>
+    <div class="card"><p><strong>Loading</strong><br>still waiting</p></div>
+    <div class="card"><p><strong>Results</strong><br>working normally</p></div>
+    <div class="card"><p><strong>Error</strong><br>when it fails</p></div>
+  </div>
+  <p><strong>No lorem ipsum.</strong> Fill it with real sentences — real content runs longer and messier than lorem, so a layout that survives lorem breaks on the real thing.</p>
+
+  <div class="card bad">
+    <span class="tag t-bad">AI slop — what erodes your credibility tomorrow</span>
+    <div class="grid g2">
+      <div><p><strong>The signals</strong></p><ul class="bul"><li>Over-the-top purple-teal gradients</li><li>Meaningless emoji icons</li><li>Every card with the identical drop shadow</li><li>Leftover placeholder dummy text</li></ul></div>
+      <div><p><strong>The alternative</strong></p><ul class="bul"><li>Lay out with real sentences</li><li>Build the empty and error states first</li><li>Use color only where it means something</li></ul></div>
+    </div>
+    <p>Slop is not an aesthetics problem — it is a <strong>trust problem</strong>. The moment your screen reads as “an AI made this”, nobody hears your content.</p>
+  </div>
+
+  <h3>Got Code? — What <code>/review</code> Catches</h3>
+  <ol class="n2">
+    <li><strong>SQL &amp; data safety</strong> — string interpolation, writes that bypass validation</li>
+    <li><strong>Race conditions</strong> — duplicate submits, unsafe HTML rendering</li>
+    <li><strong>LLM output trust boundaries</strong> — model-generated values reaching the DB, email, or fetch unvalidated</li>
+    <li><strong>Shell injection</strong> — string-interpolated command execution</li>
+    <li><strong>Constant completeness</strong> — tracing new values to every consumer, <strong>beyond the diff</strong></li>
+  </ol>
+  <p>What actually gets caught in student projects is <strong>#3 and #5</strong>. #5 is a defect humans are structurally unable to catch — it never shows up in the diff.</p>
+
+  <div class="card bad">
+    <span class="tag t-bad">Auto-fix — a commit you haven’t read is not your code</span>
+    <p><code>/review</code> <strong>auto-fixes</strong> some findings. That list includes N+1 query fixes and added LLM output validation — <strong>both changes that can alter behavior</strong>. <code>$qa</code> fixes things and <strong>commits them too</strong>.</p>
+    <p><strong>Rule: read every auto-fix commit line by line with <code>git show</code>.</strong> Saying tomorrow “the AI fixed this part and I didn’t check it” beats presenting without knowing.</p>
+  </div>
+
+  <h3>✍️ Worksheet C-1 — the Fake List <span style="font-size:14px;color:var(--acc2)">(you will present this tomorrow, as-is)</span></h3>
+  <div class="term"><span class="c"># The parts of this demo that are lying, right now</span>
+· Recommendation algorithm: <span class="r">none</span> — just sorted by most recent
+· The 3 users are <span class="r">dummies I created</span>
+· Login <span class="r">does not work</span> — it is only a button
+· Notifications <span class="r">appear on screen only</span>. Nothing is actually sent</div>
+  <div class="blank">My fake list →<br><br><br></div>
+  <p><strong>Get caught hiding it in Q&amp;A and that talk is over. Say it first and it becomes your honesty score.</strong></p>
+
+  <h3>✍️ Worksheet C-2 — One Demo Path</h3>
+  <table class="sheet">
+    <tr><th>Step</th><th>Screen / action</th><th>The one sentence you will say</th></tr>
+    <tr><td>Start</td><td></td><td></td></tr>
+    <tr><td>Click 1</td><td></td><td></td></tr>
+    <tr><td>Click 2</td><td></td><td></td></tr>
+    <tr><td>Result</td><td></td><td></td></tr>
+  </table>
+  <p>You must be able to show it <strong>in under 90 seconds, without speaking</strong>. If it needs an explanation halfway through, that is not a path — it is an excuse. <strong>Practice it 3 times</strong> and delete any click that fails.</p>
+
+  <div class="card ok">
+    <span class="tag t-ok">To pass Block C</span>
+    <ul class="chk">
+      <li>A click path that finishes inside 90 seconds</li>
+      <li>Fake / not-implemented list written down</li>
+      <li>Opened it once on someone else’s laptop or phone</li>
+      <li>(Recommended) a 3-minute backup recording</li>
+    </ul>
+  </div>
+</section>
+
+<section id="d">
+  <h2><span class="num">D</span>Block D — Design the Talk <span style="font-size:15px;color:var(--tx2);font-weight:400">(13:50–14:30)</span></h2>
+
+  <h3>Tomorrow’s Talk — 5 Slots</h3><div class="figwrap"><svg class="fig" viewBox="0 0 1160 204" role="img" aria-label="Five-slot talk bar" xmlns="http://www.w3.org/2000/svg" font-family="inherit"><text x="40.0" y="26" font-size="13" fill="#5b6779" text-anchor="start" font-weight="700" letter-spacing="0">0:00</text><text x="1120.0" y="26" font-size="13" fill="#5b6779" text-anchor="end" font-weight="700" letter-spacing="0">5:00</text><rect x="40.0" y="36" width="158.0" height="74" rx="9" fill="#0a6e63" stroke="none" stroke-width="1"/><text x="119.0" y="66" font-size="14" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">① Problem</text><text x="119.0" y="88" font-size="11" fill="#e9f2f0" text-anchor="middle" font-weight="400" letter-spacing="0">whose loss + one quote</text><text x="119.0" y="128" font-size="13" fill="#5b6779" text-anchor="middle" font-weight="700" letter-spacing="0">45s</text><rect x="202.0" y="36" width="158.0" height="74" rx="9" fill="#0a6e63" stroke="none" stroke-width="1"/><text x="281.0" y="66" font-size="14" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">② Hypothesis</text><text x="281.0" y="88" font-size="11" fill="#e9f2f0" text-anchor="middle" font-weight="400" letter-spacing="0">how it changed</text><text x="281.0" y="128" font-size="13" fill="#5b6779" text-anchor="middle" font-weight="700" letter-spacing="0">45s</text><rect x="364.0" y="36" width="320.0" height="74" rx="9" fill="#3a3f9e" stroke="none" stroke-width="1"/><text x="524.0" y="66" font-size="14" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">③ Demo</text><text x="524.0" y="88" font-size="11" fill="#e9f2f0" text-anchor="middle" font-weight="400" letter-spacing="0">3 clicks, one path only</text><text x="524.0" y="128" font-size="13" fill="#5b6779" text-anchor="middle" font-weight="700" letter-spacing="0">90s</text><rect x="688.0" y="36" width="212.0" height="74" rx="9" fill="#d94a34" stroke="none" stroke-width="1"/><text x="794.0" y="66" font-size="14" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">④ What we got wrong</text><text x="794.0" y="88" font-size="11" fill="#e9f2f0" text-anchor="middle" font-weight="400" letter-spacing="0">wrong · unbuilt · faked</text><text x="794.0" y="128" font-size="13" fill="#d94a34" text-anchor="middle" font-weight="800" letter-spacing="0">60s</text><rect x="904.0" y="36" width="212.0" height="74" rx="9" fill="#0a6e63" stroke="none" stroke-width="1"/><text x="1010.0" y="66" font-size="14" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">⑤ Next test</text><text x="1010.0" y="88" font-size="11" fill="#e9f2f0" text-anchor="middle" font-weight="400" letter-spacing="0">what you will check, and how</text><text x="1010.0" y="128" font-size="13" fill="#5b6779" text-anchor="middle" font-weight="700" letter-spacing="0">60s</text><rect x="40" y="150" width="1080" height="44" rx="12" fill="#ffe9e5" stroke="#f2ada0" stroke-width="1"/><text x="580" y="178" font-size="15" fill="#0f1729" text-anchor="middle" font-weight="700" letter-spacing="0">Empty slot ④ makes it an investor pitch. A full slot ④ makes it a validation report.</text></svg></div>
+  <table class="sheet">
+    <tr><th>Slot</th><th>Time</th><th>Content</th><th>✍️ My script (one line each)</th></tr>
+    <tr><td>1</td><td>0:00–0:45</td><td><strong>The problem</strong> + 1 quote</td><td></td></tr>
+    <tr><td>2</td><td>0:45–1:30</td><td><strong>How the hypothesis changed</strong> — then → now</td><td></td></tr>
+    <tr><td>3</td><td>1:30–3:00</td><td><strong>Demo</strong> — 3 clicks</td><td></td></tr>
+    <tr><td>4</td><td>3:00–4:00</td><td><strong>What we got wrong</strong></td><td></td></tr>
+    <tr><td>5</td><td>4:00–5:00</td><td><strong>The next test</strong></td><td></td></tr>
+  </table>
+  <p><strong>Slot 4 decides what these two days were.</strong> Empty, and it is an investor pitch; filled, and it is a validation report. You get a 7-minute slot, but <strong>script for 5 minutes</strong> — the spare 2 minutes are for when the demo stutters.</p>
+
+  <h3>5 Things to Delete From Your Talk</h3>
+  <ol class="n2">
+    <li>Tech stack explanations — even “we used all 6 gstack commands” <strong>gets deleted</strong></li>
+    <li>Market sizes with no source</li>
+    <li>The full screen tour → <strong>cut to one path</strong></li>
+    <li>Roadmaps of features you didn’t build</li>
+    <li>No quotes → <strong>add 1 direct quote, mandatory</strong></li>
+  </ol>
+  <p>Take those five out of 5 minutes and 3 minutes remain. <strong>Those 3 minutes are the real content.</strong></p>
+
+  <div class="card bad">
+    <span class="tag t-bad">Do not say “we validated it”</span>
+    <p>Asking 2 people cannot <strong>verify</strong> a hypothesis. All you can do is <strong>attempt to falsify</strong> it.</p>
+    <p><strong>Wrong:</strong> “We validated the user need”<br>
+       <strong>Accurate:</strong> “1 of the 2 gave us a falsifying signal, so we changed the hypothesis like this”</p>
+  </div>
+
+  <h3>Pair Rehearsal — the 2-Run Rule</h3>
+  <ol class="n2">
+    <li><strong>Run 1</strong> — time it, nothing else. Over 5 minutes? Trim slot 3 (the demo)</li>
+    <li><strong>Run 2</strong> — the listener throws 2 Q&amp;A questions; the mandatory one is <strong>“How would you know if this is wrong?”</strong></li>
+    <li>If an answer stalls, write it into <strong>slot 5</strong> on the spot</li>
+  </ol>
+  <p>A question that stumps you is not something to hide — it is <strong>material for slot 5</strong>. Know it in advance and Q&amp;A stops being scary.</p>
+
+  <div class="card ok">
+    <span class="tag t-ok">Tonight’s final checklist</span>
+    <ul class="chk">
+      <li>One-sentence hypothesis (final)</li>
+      <li>2 evidence log entries — <strong>including the last column</strong></li>
+      <li>90-second demo path + fake list</li>
+      <li>5-slot script + 2 rehearsals</li>
+      <li>Laptop · adapter · backup file (or recording)</li>
+      <li>Notifications off — checked</li>
+    </ul>
+  </div>
+
+  <p class="quote">Presenting <strong>“this turned out to be wrong” tomorrow costs you nothing.</strong> Finding that out in one day is an achievement.<br>What costs you is <strong>inventing results you don’t have</strong>.</p>
+</section>
+
+<section id="fri">
+  <h2><span class="num">F</span>Friday — DEMO DAY</h2>
+
+  <h3>How the Day Runs</h3>
+  <table>
+    <tr><th>Time</th><th>What happens</th></tr>
+    <tr><td><span class="clock">09:30</span></td><td>Opening · <strong>speaking order drawn by lot</strong> · peer feedback cards handed out</td></tr>
+    <tr><td><span class="clock">09:50</span></td><td><strong>Session A — 8 students</strong> (15 min each: 7 talk + 5 Q&amp;A + 3 changeover)</td></tr>
+    <tr><td><span class="clock">11:50</span></td><td>Lunch</td></tr>
+    <tr><td><span class="clock">12:50</span></td><td>Morning-patterns briefing (3 min)</td><td>—</td></tr>
+    <tr><td><span class="clock">12:53</span></td><td><strong>Session B — 6 students</strong></td></tr>
+    <tr><td><span class="clock">14:23</span></td><td>Peer feedback delivered · best comments</td></tr>
+    <tr><td><span class="clock">14:40</span></td><td>Closing — how to doubt your tools</td></tr>
+  </table>
+  <p><strong>When the timer sounds at 7 minutes, you stop — even mid-sentence.</strong> Order is drawn in the morning.</p>
+
+  <h3>Grading Rubric (100 points)</h3><div class="figwrap"><svg class="fig fig--slim2" viewBox="0 0 1160 142" role="img" aria-label="100-point rubric bar" xmlns="http://www.w3.org/2000/svg" font-family="inherit"><rect x="40.0" y="22" width="213.0" height="58" rx="8" fill="#2f8a7d" stroke="none" stroke-width="1"/><text x="146.5" y="48" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700" letter-spacing="0">Problem clarity</text><text x="146.5" y="70" font-size="14.5" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">20 pts</text><rect x="256.0" y="22" width="267.0" height="58" rx="8" fill="#0a6e63" stroke="none" stroke-width="1"/><text x="389.5" y="48" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700" letter-spacing="0">Evidence of real contact</text><text x="389.5" y="70" font-size="14.5" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">25 pts</text><rect x="526.0" y="22" width="213.0" height="58" rx="8" fill="#3a3f9e" stroke="none" stroke-width="1"/><text x="632.5" y="48" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700" letter-spacing="0">Hypothesis updates</text><text x="632.5" y="70" font-size="14.5" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">20 pts</text><rect x="742.0" y="22" width="213.0" height="58" rx="8" fill="#5a5fbe" stroke="none" stroke-width="1"/><text x="848.5" y="48" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700" letter-spacing="0">Demo fit</text><text x="848.5" y="70" font-size="14.5" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">20 pts</text><rect x="958.0" y="22" width="159.0" height="58" rx="8" fill="#b7791f" stroke="none" stroke-width="1"/><text x="1037.5" y="48" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700" letter-spacing="0">Honesty</text><text x="1037.5" y="70" font-size="14.5" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0">15 pts</text><rect x="40" y="92" width="1080" height="40" rx="11" fill="#0f1729" stroke="none" stroke-width="1"/><text x="580" y="118" font-size="15" fill="#e6edf3" text-anchor="middle" font-weight="700" letter-spacing="0">Polish: 0 points. Business-model theory: 0 points — it is not what this course teaches.</text></svg></div>
+  <table>
+    <tr><th>Criterion</th><th>Points</th><th>Full marks</th><th>Zero</th></tr>
+    <tr><td>Problem clarity</td><td>20</td><td>Pinned down to a single person</td><td>“Students find it inconvenient”</td></tr>
+    <tr><td><strong>Evidence of real contact</strong></td><td><strong>25</strong></td><td>2 contacts + past behavior + friend ratio disclosed</td><td>0 contacts, or intent only</td></tr>
+    <tr><td>Hypothesis updates</td><td>20</td><td>Says what changed</td><td>Only “it went as expected”</td></tr>
+    <tr><td>Demo fit</td><td>20</td><td>Serves the hypothesis check</td><td>A feature tour</td></tr>
+    <tr><td>Honesty</td><td>15</td><td>States the limits <strong>first</strong></td><td>Something hidden surfaces in Q&amp;A</td></tr>
+  </table>
+  <p><strong>Polish and BM-theory correctness carry zero points.</strong></p>
+
+  <h3>30 Seconds Before You Present</h3>
+  <ul class="bul">
+    <li>Notifications off (Slack · WhatsApp · email)</li>
+    <li>Prefer a <strong>direct cable connection</strong> over screen sharing — no lag</li>
+    <li>Have the backup file and recording <strong>already open</strong></li>
+    <li>Say your first sentence out loud once — <strong>open with the problem sentence, not a greeting</strong></li>
+  </ul>
+
+  <h3>When You Are the Audience — 3 Kinds of Questions</h3>
+  <ol class="n2">
+    <li><strong>Falsify</strong> — “How would you know if that’s wrong?”</li>
+    <li><strong>Evidence</strong> — “Of the people you asked, had anyone already spent money or time on this?”</li>
+    <li><strong>Honesty</strong> — “Which part of this demo is fake?”</li>
+  </ol>
+  <p>Of each 5-minute Q&amp;A, <strong>students ask at least 2 of the questions.</strong> Write a question into box ③ of your peer feedback card as well.</p>
+
+  <div class="card">
+    <h4>Peer feedback card — no scores, 3 sentence boxes</h4>
+    <table>
+      <tr><th style="width:30%">① The strongest single line</th><td>Copy it down word for word</td></tr>
+      <tr><th>② The weakest link</th><td>The leap from problem → solution, or evidence → conclusion</td></tr>
+      <tr><th>③ 1 question you want to ask</th><td>Even if you couldn’t ask it in Q&amp;A</td></tr>
+    </table>
+    <p>Cards are collected anonymously and <strong>handed straight to the presenter</strong>. We don’t put scores on them because relationships contaminate grading.</p>
+  </div>
+</section>
+
+<section id="pack">
+  <h2><span class="num">P</span>Prompt Pack — Copy and Paste These</h2>
+  <p class="lede"><strong>How to use it: delete the first line (<code>/command</code>) and paste the rest straight into the Codex app chat.</strong> If gstack is installed and recognized, you may swap the first line for <code>$office-hours</code> and friends instead.</p>
+
+  <h4>P1 · Interrogate the Problem (Block A)</h4>
+  <div class="term"><span class="us">/office-hours</span>   <span class="cm">← Track B: delete this line</span>
+You are a cold-blooded early-stage investor. <span class="hl">No compliments.</span>
+My idea: [one sentence]
+
+Ask me the 6 questions below, <span class="hl">one at a time</span>. Do not move on to
+the next question until I have answered. If my answer is vague,
+ask the question again.
+
+1) What is the strongest evidence that someone would genuinely struggle if this disappeared?
+2) How is that person coping with the problem right now? What does coping cost them?
+3) Describe that person <span class="hl">as one individual</span>, not a category.
+4) What is the smallest version they would pay for this week?
+5) Have I ever watched them without helping? What surprised me?
+6) Three years from now, is this more necessary or less?
+
+At the end, <span class="hl">score my hypothesis out of 100</span> and explain why.</div>
+
+  <h4>P2 · Sharpen the One-Sentence Hypothesis</h4>
+  <div class="term">Rewrite the sentence below in the form
+“[who], during [when], suffers [what loss] because [what cause]”.
+<span class="hl">Do not include a product name or a solution.</span>
+Then point out <span class="hl">the single riskiest assumption</span> in this hypothesis,
+and tell me what we would observe if it turned out to be wrong.
+
+My sentence: [paste it here]</div>
+
+  <h4>P3 · Cut Scope (Block B)</h4>
+  <div class="term"><span class="us">/plan-ceo-review</span>   <span class="cm">← Track B: delete this line</span>
+Mode: <span class="hl">SCOPE REDUCTION</span> (cut like a surgeon)
+
+Constraints: 40 minutes this afternoon, working alone,
+coding experience [high/medium/low]
+Hypothesis: [one sentence]
+Success criterion: <span class="hl">[the single scene I will show in tomorrow’s 5-minute talk]</span>
+
+<span class="hl">Cut everything</span> that does not serve this criterion.
+Keep a list of what you cut, with the reason for each item.
+If what remains is more than 2 screens, cut deeper.</div>
+
+  <h4>P4 · Write the Contact Questions</h4>
+  <div class="term">I want to test the hypothesis below. Write 3 questions I can send
+over WhatsApp today.
+
+Rules:
+· Ask only about <span class="hl">past behavior</span>. Future intent is forbidden
+· <span class="r">Never include</span> questions like “Would you use something like this?”
+· Keep each question short enough to answer in under 1 minute
+
+Hypothesis: [one sentence] / Riskiest assumption: [one sentence]</div>
+
+  <h4>P5 · One-Screen Mockup (Block C)</h4>
+  <div class="term"><span class="us">/design-html</span>   <span class="cm">← Track B: delete this line</span>
+Build a single-page, <span class="hl">self-contained HTML</span> file.
+No external CDNs, fonts, or images. It must open as one file.
+
+The screen: [what this screen shows]
+Required states: <span class="hl">empty / loading / results / error</span> — all four
+Fill it with <span class="hl">realistic-looking fake data</span> — real names, plausible
+naira amounts, real sentences.
+<span class="r">No lorem ipsum.</span>
+
+Check that nothing breaks at 375px mobile width and report back.</div>
+
+  <h4>P6 · Code Check (Block C)</h4>
+  <div class="term"><span class="us">/review</span>   <span class="cm">← Track B: delete this line</span>
+Review this code in 2 passes, with the eyes of a paranoid senior engineer.
+
+Pass 1 (critical): SQL string interpolation / race conditions /
+  <span class="hl">anywhere LLM output reaches the DB, email, or fetch unvalidated</span> /
+  shell injection / <span class="hl">trace every use of new constants beyond the diff</span>
+Pass 2 (quality): dead code / stale comments / type coercion / completeness gaps
+
+For each finding, <span class="hl">quote the exact lines of code as evidence</span>
+and rate your confidence out of 10.
+<span class="r">Do not fix anything — give me the list only.</span></div>
+
+  <h4>P7 · Screen Check (Track B recommended)</h4>
+  <div class="term"><span class="cm"># The most effective method is not a prompt</span>
+Hand your laptop to the person next to you, tell them only the goal,
+and let them click for 3 minutes <span class="hl">with no explanation at all</span>.
+Watch where they get stuck.
+
+<span class="cm"># If you insist on using AI</span>
+Check the user flow of this screen. Look only for the following:
+· dead buttons / missing empty states / no feedback for over 500ms
+· error messages as meaningless as “Something went wrong”
+· missing alt text and labels
+Attach <span class="hl">reproduction steps</span> to every item.</div>
+
+  <h4>P8 · Talk Script (Block D)</h4>
+  <div class="term">Using the material below, write a <span class="hl">5-minute talk script</span>.
+
+Slots: problem (45s) / how the hypothesis changed (45s) / one demo path (90s) /
+      <span class="hl">What we got wrong (60s)</span> / the next test (60s)
+
+Rules:
+· <span class="r">No</span> tech stack explanations
+· <span class="r">No</span> market sizes without a source
+· Include <span class="hl">1 direct quote from an interview</span> — mandatory
+· The unfinished-and-fake list <span class="hl">must be included</span>
+· Say <span class="hl">“we attempted to falsify”</span>, never “we validated”
+
+Hypothesis: [ ] / Evidence log: [ ] / Demo path: [ ] / Fake list: [ ]</div>
+</section>
+
+<section id="trouble">
+  <h2><span class="num">T</span>Troubleshooting</h2>
+  <table>
+    <tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr>
+    <tr><td><strong>Typed <code>$</code> and nothing shows up</strong></td><td><strong>Known app issue</strong> (openai/codex #28505)</td><td><strong>Just paste the prompt pack.</strong> Same result. Do not waste time on it</td></tr>
+    <tr><td>Can’t find the command</td><td>Called it with a slash (<code>/</code>) or typed the whole name by hand</td><td>Type up to <code>$off</code> and <b>pick from the list</b>. Even <code>$</code> alone opens the list</td></tr>
+    <tr><td>“Skipped loading skill(s)…”</td><td>Stale skill description</td><td><code>cd ~/gstack &amp;&amp; git pull &amp;&amp; ./setup --host codex</code></td></tr>
+    <tr><td>Looks like it installed for Claude</td><td>Missing <code>--host codex</code></td><td>Re-run the same command with <code>--host codex</code></td></tr>
+    <tr><td>No choice buttons appear</td><td>Normal — Codex has none</td><td>Questions come as prose. Answer in your next message</td></tr>
+    <tr><td>Install still failing after 5 minutes</td><td>—</td><td><strong>Give up and go to the prompt pack.</strong> The result is the same</td></tr>
+    <tr><td>Bun error</td><td>Bun not installed</td><td>Check <code>bun --version</code> → <code>bun.sh</code></td></tr>
+    <tr><td>The AI starts writing code without asking anything</td><td>You didn’t give it the prompt</td><td>Paste P1, or use <code>$office-hours</code></td></tr>
+    <tr><td>Fixed one thing, something else broke</td><td>Piled-up auto-fixes</td><td>Roll back to the last commit and go one change at a time. <strong>Committing often is the only line of defense</strong></td></tr>
+    <tr><td>The screen looks “AI-made”</td><td>AI slop</td><td>Refill it with real content and draw the empty/error states first</td></tr>
+    <tr><td>No replies coming in</td><td>—</td><td>Send to 1 more person. Still nothing? <strong>Put “we reached out but got no reply” in the talk</strong> — that is information too</td></tr>
+  </table>
+
+  <h3>Want to Go Deeper</h3>
+  <table>
+    <tr><th>Resource</th><th>Notes</th></tr>
+    <tr><td>How to Make Claude Code Your AI Engineering Team<br><code>youtube.com/watch?v=wkv2ifxPpF8</code></td><td>Y Combinator · <strong>Garry Tan himself. 30 min. The canonical one</strong></td></tr>
+    <tr><td>Harness Engineering — putting Claude Code and Codex properly to work with gstack<br><code>youtube.com/watch?v=PeRUUFHvKq0</code></td><td>Bloom AI · in Korean</td></tr>
+    <tr><td><code>github.com/garrytan/gstack</code></td><td>The primary source. Start with <code>ETHOS.md</code> — it takes 10 minutes</td></tr>
+    <tr><td><strong>The 5-day, 130p deep-dive guide</strong></td><td>Everything cut from these two days — TDD, deployment, security audits, and how to criticize your tools</td></tr>
+  </table>
+  <p class="mono" style="font-size:13px;color:var(--tx3)">※ A high view count does not mean accuracy. The primary source is always the repository.</p>
+</section>
+
+<footer>
+  <p><strong>Sources</strong> — <code>github.com/garrytan/gstack</code> (MIT): README.md · ETHOS.md · ARCHITECTURE.md · docs/skills.md · each skill’s SKILL.md<br>Codex host: <code>setup</code> · <code>hosts/codex.ts</code> · <code>docs/spikes/codex-session-format.md</code></p>
+  <p>Rob Fitzpatrick, <em>The Mom Test</em> (question design)</p>
+  <p>Codex app grounding — OpenAI’s official skills docs (<code>learn.chatgpt.com/docs/build-skills</code>) · app skill-listing issue <code>github.com/openai/codex/issues/28505</code></p>
+  <p>Every quote and number in this workbook was checked directly against the repository.</p>
+</footer>
+</div>
+</body>
+</html>

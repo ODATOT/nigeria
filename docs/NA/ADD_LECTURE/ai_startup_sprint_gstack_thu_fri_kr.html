@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a1120">
+<meta name="description" content="Codex 앱 + GStack — 2일(목/금) 스프린트: 가설, 증거, 데모, 그리고 발표. 95개 슬라이드, 한국어판.">
+<title>AI 스타트업 스프린트 × GStack — 목/금 2일 스프린트 (KR)</title>
+<style>:root{
+  --ink:#0f1729;--muted:#5b6779;--paper:#fbfaf7;--surface:#f1eee7;--line:#d8d2c6;
+  --teal:#0a6e63;--teal-soft:#dcf1ee;
+  --indigo:#3a3f9e;--indigo-soft:#e7e8ff;
+  --coral:#d94a34;--coral-soft:#ffe9e5;
+  --amber:#b7791f;--amber-soft:#fdf1d8;
+  --shadow:0 24px 70px rgba(15,23,41,.18);--radius:22px;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  --sans:Pretendard,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#0a1120;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+button,a{font:inherit}
+code,pre,.kicker,.slide__index{font-family:var(--mono)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+.skip-link{position:fixed;z-index:99;top:8px;left:8px;transform:translateY(-180%);padding:12px 18px;background:#fff;color:#111;border-radius:8px}
+.skip-link:focus{transform:none}
+.appbar{position:fixed;z-index:20;top:0;left:0;right:0;height:64px;padding:0 3vw;display:flex;align-items:center;justify-content:space-between;color:#fff;background:rgba(10,17,32,.94);backdrop-filter:blur(14px)}
+.appbar .brand{display:flex;gap:12px;align-items:baseline}
+.appbar .brand b{font-size:15px;letter-spacing:-.01em}
+.appbar span{font-size:12px;letter-spacing:.12em;color:#9fadc2}
+.appbar nav{display:flex;gap:4px;flex-wrap:wrap}
+.appbar nav a{display:grid;place-items:center;min-width:40px;height:40px;padding:0 10px;border-radius:20px;color:#fff;text-decoration:none;font-size:12.5px;letter-spacing:.06em}
+.appbar nav a:hover,.appbar nav a:focus-visible{background:#2c3a52;outline:2px solid #fff}
+
+#deck{padding:86px 4vw 112px}
+.slide{display:none;position:relative;overflow:auto;width:min(150vh,94vw);aspect-ratio:16/9;min-height:540px;margin:0 auto;background:var(--paper);padding:4.4% 5.4% 3.4%;border-radius:18px;box-shadow:var(--shadow)}
+.slide.is-active{display:flex;flex-direction:column}
+.slide:focus{outline:none}
+.slide__top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.kicker{font-size:clamp(11px,1.05vw,17px);font-weight:800;letter-spacing:.12em;color:var(--teal)}
+.slide__index{font-size:clamp(11px,.95vw,15px);color:var(--muted)}
+.slide__content{display:flex;flex:1;flex-direction:column;justify-content:center;gap:4px}
+.slide h2{max-width:1180px;margin:8px 0 14px;font-size:clamp(28px,3.6vw,58px);line-height:1.1;letter-spacing:-.04em}
+.slide h3{margin:0 0 8px;font-size:clamp(15px,1.5vw,25px)}
+.slide p,.slide li,.slide td,.slide th{font-size:clamp(13.5px,1.32vw,22px);line-height:1.46}
+.slide .lead{max-width:1120px;font-size:clamp(19px,2.15vw,37px);line-height:1.34;margin:0 0 14px}
+.slide .sub{color:var(--muted)}
+.slide__skills{margin-top:14px;font-size:clamp(12px,1.05vw,17px)!important}
+.slide__skills code{background:var(--indigo-soft);color:var(--indigo);padding:3px 9px;border-radius:7px;margin-right:6px;display:inline-block}
+.slide footer{display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid var(--line);font-size:11.5px;letter-spacing:.08em;color:var(--muted)}
+.speaker-note{display:none}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cards.g2{grid-template-columns:repeat(2,1fr)}
+.cards.g4{grid-template-columns:repeat(4,1fr)}
+.card{padding:14px 18px;border:1px solid var(--line);border-radius:var(--radius);background:#fff}
+.card h3{color:var(--ink)}
+.card p{margin:0;color:var(--muted)}
+.card.teal{background:var(--teal-soft);border-color:#8fd0c6}
+.card.coral{background:var(--coral-soft);border-color:#f2ada0}
+.card.amber{background:var(--amber-soft);border-color:#e8cb8c}
+.card.indigo{background:var(--indigo-soft);border-color:#b0b3ef}
+
+.prompt-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.prompt{padding:20px;border-radius:var(--radius);border:1px solid}
+.prompt p{margin:0 0 6px}
+.prompt.bad{background:var(--coral-soft);border-color:#f2ada0}
+.prompt.good{background:var(--teal-soft);border-color:#8fd0c6}
+.prompt b{display:block;text-transform:uppercase;letter-spacing:.08em;font-size:.72em;margin-bottom:8px}
+
+.flow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:6px 0}
+.flow span{padding:9px 16px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:clamp(12px,1.2vw,20px)}
+.flow i{font-style:normal;color:var(--muted)}
+.flow span.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+.timeline{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.timeline li{padding:10px 16px;border-left:4px solid var(--teal);background:#fff;border-radius:0 12px 12px 0}
+.timeline li b{margin-right:10px;color:var(--teal)}
+
+ul.bul{margin:6px 0;padding:0;list-style:none}
+ul.bul li{position:relative;padding-left:20px;margin-bottom:5px}
+ul.bul li::before{content:"▸";position:absolute;left:2px;color:var(--teal)}
+
+table{width:100%;border-collapse:collapse;margin:6px 0}
+th{background:var(--surface);text-align:left;padding:8px 11px;border-bottom:2px solid var(--line);font-size:clamp(12px,1.15vw,19px)!important}
+td{padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top;font-size:clamp(12px,1.2vw,20px)!important}
+
+.quote{border-left:4px solid var(--teal);padding:8px 0 8px 20px;margin:8px 0;font-size:clamp(17px,1.85vw,32px);line-height:1.4}
+.quote cite{display:block;margin-top:8px;font-style:normal;font-size:.55em;color:var(--muted)}
+
+.term{background:#0d1524;color:#e6edf3;border-radius:14px;padding:13px 16px;font-family:var(--mono);font-size:clamp(10.5px,1vw,16px)!important;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.term .u{color:#f0b27a}.term .a{color:#a6e3a1}.term .c{color:#7f8ea3}.term .r{color:#f38ba8}
+
+.gate{display:grid;gap:10px}
+.gate div{display:flex;gap:14px;align-items:baseline;padding:10px 16px;background:#fff;border:1px solid var(--line);border-radius:12px}
+.gate b{color:var(--coral);flex:none}
+
+.stat{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center}
+.stat div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 10px}
+.stat b{display:block;font-size:clamp(22px,2.6vw,44px);color:var(--teal);line-height:1.1}
+.stat span{font-size:clamp(11px,1.05vw,17px);color:var(--muted)}
+
+.progress{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;align-items:center;gap:14px;padding:12px 3vw;background:rgba(10,17,32,.94);color:#fff}
+.progress__bar{position:relative;flex:1;height:6px;border-radius:999px;background:#2c3a52;overflow:hidden}
+.progress__bar::after{content:"";position:absolute;inset:0;width:var(--progress,0%);background:#4bbfa8}
+.progress button{width:44px;height:44px;border-radius:50%;border:1px solid #44536d;background:#182338;color:#fff;cursor:pointer}
+.progress button:hover{background:#25344e}
+#progress-label{font-size:13px;letter-spacing:.1em;min-width:86px;text-align:right}
+
+.video{position:relative;aspect-ratio:16/9;height:min(48vh,430px);width:auto;max-width:100%;margin:2px auto;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(160deg,#16233a,#0d1524);display:grid;place-items:center;cursor:pointer}
+.video:hover .video__play,.video:focus-visible .video__play{transform:scale(1.08)}
+.video:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+.video__play{width:clamp(56px,6vw,84px);height:clamp(56px,6vw,84px);border-radius:50%;background:#e2402a;color:#fff;display:grid;place-items:center;font-size:clamp(20px,2.2vw,30px);padding-left:5px;box-shadow:0 10px 30px rgba(0,0,0,.35);transition:transform .15s}
+.video__cap{position:absolute;left:0;right:0;bottom:0;padding:14px 20px;background:linear-gradient(180deg,rgba(13,21,36,0),rgba(13,21,36,.94));color:#fff;font-size:clamp(11px,1.15vw,18px);line-height:1.45;text-align:left}
+.video__cap span{color:#b9c6da}
+.video iframe{width:100%;height:100%;border:0;display:block}
+.video__url{display:none}
+
+.linkcard{display:flex;gap:16px;align-items:center;padding:16px 20px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;text-decoration:none;color:inherit;margin:10px 0}
+.linkcard:hover,.linkcard:focus-visible{border-color:var(--teal);outline:none}
+.linkcard .ic{flex:none;width:48px;height:48px;border-radius:14px;background:var(--teal-soft);color:var(--teal);display:grid;place-items:center;font-size:22px;font-weight:900}
+.linkcard b{display:block;font-size:clamp(15px,1.4vw,22px);color:var(--teal);word-break:break-all}
+.linkcard span span{display:block;font-size:clamp(12px,1.05vw,16px);color:var(--muted);margin-top:2px}
+
+.figwrap{background:#fbfaf7;border:1px solid #30363d;border-radius:14px;padding:14px 16px;margin:16px 0;overflow-x:auto}.figwrap svg{display:block;width:100%;min-width:720px;height:auto}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#deck">슬라이드로 바로가기</a>
+<header class="appbar">
+  <div class="brand"><b>AI 스타트업 스프린트 × GStack</b><span>목·금 · 95P · 한국어판</span></div>
+  <nav aria-label="Jump by day">
+    <a href="#d1-01">목요일 개요</a><a href="#d1-23">스킬</a><a href="#d1-33">A 문제</a><a href="#d1-48">B 스코프</a><a href="#d1-58">C 데모</a><a href="#d1-68">D 발표</a><a href="#d2-01">금요일</a>
+  </nav>
+</header>
+<main id="deck">
+<section class="slide slide--cover is-active" id="d1-01" data-slide="1" data-day="1" tabindex="-1" aria-labelledby="d1-01-title">
+  <div class="slide__top"><span class="kicker">목요일 · 발표까지 하루</span><span class="slide__index">001 / 95</span></div>
+  <div class="slide__content"><h2 id="d1-01-title">목요일 — 발표까지 단 하루</h2><p class="lead">오늘 하루 동안 <b>내일 5분 발표에 필요한 모든 것</b>을 구축합니다. 완성된 앱이 아니라 <b>논리적 서사 + 증거 + 보여줄 1개의 화면</b>을 만듭니다.</p><div class="flow"><span class="on">문제 검증</span><i>→</i><span class="on">스코프 축소</span><i>→</i><span class="on">증거 수집</span><i>→</i><span class="on">시연 동선</span><i>→</i><span class="on">발표 구상</span></div></div>
+  <aside class="speaker-note" aria-label="Speaker notes"><strong>발표자 노트</strong>첫 문장으로 기대치를 명확히 하세요. 오늘은 '완성된 앱을 만드는 날'이 아니라 '발표를 준비하는 날'입니다.</aside>
+  <footer><span>AI 스타트업 스프린트 × GStack</span><span>DAY 1</span></footer>
+</section>
+
+<section class="slide slide--timeline" id="d1-02" data-slide="2" data-day="1" tabindex="-1" aria-labelledby="d1-02-title">
+  <div class="slide__top"><span class="kicker">목요일 · 발표까지 하루</span><span class="slide__index">002 / 95</span></div>
+  <div class="slide__content"><h2 id="d1-02-title">오늘의 타임테이블</h2><div class="cards g2"><article class="card teal"><h3>오전 (Block A &amp; B)</h3><p>문제 검증 (가설 작성) ➔ 스코프 축소 ➔ 사용자 질문 전송</p></article><article class="card teal"><h3>오후 (Block C &amp; D)</h3><p>1개 시연 화면 구축 ➔ 발표 5슬롯 구상 ➔ 페어 리허설</p></article></div></div>
+  <aside class="speaker-note" aria-label="Speaker notes"><strong>발표자 노트</strong>이 일정을 하루 동안 스크린 한쪽에 띄워두세요.</aside>
+  <footer><span>AI 스타트업 스프린트 × GStack</span><span>DAY 1</span></footer>
+</section>
+
+<section class="slide slide--concept" id="d1-03" data-slide="3" data-day="1" tabindex="-1" aria-labelledby="d1-03-title">
+  <div class="slide__top"><span class="kicker">목요일 · 발표까지 하루</span><span class="slide__index">003 / 95</span></div>
+  <div class="slide__content"><h2 id="d1-03-title">내일 평가받는 항목</h2><p class="quote">“무엇을 만들었는가”가 아니라 <b>“무엇을 새로 발견했는가”</b>입니다.<br>데모 시연은 주인공이 아니라 <b>증거 자료</b>입니다.</p><div class="cards g2"><article class="card coral"><h3>탈락하는 발표</h3><p>화면은 예쁘지만 “누가 실제로 쓸지는 아직 찾아보는 중입니다”</p></article><article class="card teal"><h3>합격하는 발표</h3><p>화면은 투박하지만 “2명에게 물어보니 내 가설이 틀렸음을 확인했습니다”</p></article></div></div>
+  <aside class="speaker-note" aria-label="Speaker notes"><strong>발표자 노트</strong>첫 15분 안에 이 대비를 강조해야 학생들이 오후 내내 코드에 몰두하는 것을 막을 수 있습니다.</aside>
+  <footer><span>AI 스타트업 스프린트 × GStack</span><span>DAY 1</span></footer>
+</section>
+</main>
+
+<div class="progress" role="region" aria-label="Deck controls">
+  <button id="prev-btn" type="button" aria-label="Previous slide">←</button>
+  <button id="next-btn" type="button" aria-label="Next slide">→</button>
+  <div class="progress__bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="95" aria-label="Slide progress"></div>
+  <span id="progress-label">001 / 095</span>
+</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let currentIdx = 0;
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const label = document.getElementById('progress-label');
+  const bar = document.querySelector('.progress__bar');
+
+  function showSlide(idx) {
+    if (idx < 0) idx = 0;
+    if (idx >= slides.length) idx = slides.length - 1;
+    slides[currentIdx].classList.remove('is-active');
+    currentIdx = idx;
+    slides[currentIdx].classList.add('is-active');
+    slides[currentIdx].focus();
+    const num = currentIdx + 1;
+    const pad = String(num).padStart(3, '0');
+    label.textContent = `${pad} / 095`;
+    const pct = ((num / slides.length) * 100).toFixed(1);
+    bar.style.setProperty('--progress', `${pct}%`);
+  }
+
+  prevBtn.addEventListener('click', () => showSlide(currentIdx - 1));
+  nextBtn.addEventListener('click', () => showSlide(currentIdx + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'Space') showSlide(currentIdx + 1);
+    if (e.key === 'ArrowLeft') showSlide(currentIdx - 1);
+  });
+})();
+</script>
+</body>
+</html>
