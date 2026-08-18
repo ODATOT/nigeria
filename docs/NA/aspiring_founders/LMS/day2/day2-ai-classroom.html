@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 2 AI 자율 학습 강의실 | AI와 프로젝트 기획하기</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary: #3b82f6; --primary-dark: #1d4ed8; --secondary: #06b6d4;
+      --accent: #8b5cf6; --bg: #09090b; --panel: #111827; --surface: #1a1d24;
+      --text: #ffffff; --muted: #d4d4d8; --dim: #71717a;
+      --line: rgba(255,255,255,0.08); --radius: 16px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Pretendard',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; }
+    .topbar { position:sticky; top:0; z-index:100; background:rgba(9,9,11,0.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--line); padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+    .topbar-left { display:flex; align-items:center; gap:12px; }
+    .badge-day { background:linear-gradient(135deg,#8b5cf6,#06b6d4); color:#fff; font-size:0.8rem; font-weight:800; padding:4px 10px; border-radius:6px; }
+    .topbar-title { font-size:1.05rem; font-weight:700; }
+    .topbar-actions { display:flex; gap:10px; }
+    .btn-nav { color:var(--muted); text-decoration:none; font-size:0.85rem; font-weight:600; padding:6px 14px; border-radius:8px; border:1px solid var(--line); background:rgba(255,255,255,0.04); transition:all 0.2s ease; }
+    .btn-nav:hover { color:#fff; background:rgba(255,255,255,0.1); }
+    .btn-textbook { background:linear-gradient(135deg,var(--secondary),var(--primary)); color:#fff; border:none; }
+    .container { max-width:1100px; margin:0 auto; padding:32px 20px 60px; }
+    .header-box { background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:28px; margin-bottom:32px; box-shadow:0 10px 30px rgba(0,0,0,0.4); }
+    .header-box h1 { font-size:1.8rem; font-weight:800; margin-bottom:10px; }
+    .header-box p { color:var(--muted); font-size:0.98rem; margin-bottom:20px; }
+    .goals-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+    .goal-item { background:rgba(255,255,255,0.03); border:1px solid var(--line); border-radius:10px; padding:12px 14px; font-size:0.88rem; color:var(--muted); }
+    .goal-item strong { color:var(--secondary); display:block; margin-bottom:2px; }
+    .section-title { font-size:1.4rem; font-weight:800; margin:36px 0 18px; display:flex; align-items:center; gap:10px; }
+    .slide-viewer-box { background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:28px; margin-bottom:40px; box-shadow:0 12px 36px rgba(0,0,0,0.5); }
+    .slide-viewer-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid var(--line); padding-bottom:14px; }
+    .slide-viewer-title { font-size:1.15rem; font-weight:800; display:flex; align-items:center; gap:8px; }
+    .slide-controls { display:flex; align-items:center; gap:12px; }
+    .slide-btn { background:rgba(255,255,255,0.08); border:1px solid var(--line); color:#fff; padding:6px 14px; border-radius:8px; font-size:0.85rem; font-weight:700; cursor:pointer; transition:all 0.2s ease; }
+    .slide-btn:hover { background:rgba(255,255,255,0.18); }
+    .slide-counter-badge { font-size:0.88rem; font-weight:800; color:var(--secondary); background:rgba(6,182,212,0.1); padding:4px 12px; border-radius:999px; }
+    .slide-card-container { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:28px; min-height:260px; display:flex; flex-direction:column; justify-content:flex-start; margin-bottom:16px; }
+    .slide-notes-box { background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.25); border-radius:10px; padding:14px 18px; font-size:0.88rem; color:#ddd6fe; margin-top:14px; }
+    .timetable-table { width:100%; border-collapse:collapse; background:var(--panel); border-radius:var(--radius); overflow:hidden; border:1px solid var(--line); margin-bottom:36px; font-size:0.9rem; }
+    .timetable-table th, .timetable-table td { padding:12px 16px; text-align:left; border-bottom:1px solid var(--line); }
+    .timetable-table th { background:rgba(255,255,255,0.05); color:var(--muted); font-weight:700; }
+    .badge-time { color:var(--secondary); font-weight:700; }
+    /* Task Filter & Progress Bar */
+    .task-filter-bar {
+      display: flex;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+    }
+    .filter-btn {
+      background: transparent;
+      border: none;
+      color: var(--dim);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .filter-btn:hover {
+      color: #fff;
+    }
+    .filter-btn.active {
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--secondary);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    .progress-wrap {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+    }
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .progress-info strong {
+      color: var(--secondary);
+    }
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.35s ease;
+    }
+
+    /* Practice Card Grid */
+    .practice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .practice-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .practice-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(6, 182, 212, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(6, 182, 212, 0.12);
+    }
+    .practice-card.challenge-card {
+      border-color: rgba(139, 92, 246, 0.25);
+    }
+    .practice-card.challenge-card:hover {
+      border-color: rgba(139, 92, 246, 0.5);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.15);
+    }
+    .practice-card.is-completed {
+      border-color: rgba(134, 239, 172, 0.35);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.04) 0%, var(--panel) 100%);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .badge-group {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .badge-task {
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+    .badge-task.core {
+      background: rgba(59, 130, 246, 0.18);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+    }
+    .badge-task.challenge {
+      background: rgba(139, 92, 246, 0.18);
+      color: #ddd6fe;
+      border: 1px solid rgba(139, 92, 246, 0.35);
+    }
+    .badge-tool {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--dim);
+    }
+    .badge-tool.codex { color: #67e8f9; background: rgba(6, 182, 212, 0.1); }
+    .badge-tool.agy { color: #f472b6; background: rgba(244, 114, 182, 0.1); }
+
+    /* Custom Checkbox */
+    .check-container {
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      width: 22px;
+      height: 22px;
+    }
+    .check-container input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 22px;
+      width: 22px;
+      background-color: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    .check-container:hover input ~ .checkmark {
+      border-color: var(--secondary);
+    }
+    .check-container input:checked ~ .checkmark {
+      background-color: #10b981;
+      border-color: #10b981;
+    }
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 7px;
+      top: 3px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .check-container input:checked ~ .checkmark:after {
+      display: block;
+    }
+
+    .card-header {
+      margin-bottom: 16px;
+    }
+    .card-time {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 6px;
+    }
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+    .card-summary {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .card-deliverable {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .del-label {
+      color: var(--dim);
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+    .del-val {
+      color: #a5f3fc;
+      font-family: monospace;
+      font-size: 0.82rem;
+    }
+
+    .card-actions {
+      margin-top: auto;
+    }
+    .btn-detail-view {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+    .btn-detail-view:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(6, 182, 212, 0.3));
+      border-color: var(--secondary);
+      color: #fff;
+    }
+    .btn-detail-view .arrow {
+      transition: transform 0.2s ease;
+    }
+    .btn-detail-view:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    /* Modal Component */
+    .task-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .task-modal-backdrop.active {
+      display: flex;
+      opacity: 1;
+    }
+    .task-modal-box {
+      background: #0e131f;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 860px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(59, 130, 246, 0.15);
+      animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      0% { transform: scale(0.94); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-top {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-close-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--line);
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .modal-close-btn:hover {
+      background: rgba(239, 68, 68, 0.3);
+      border-color: rgba(239, 68, 68, 0.5);
+    }
+
+    .modal-body-scroll {
+      padding: 24px 28px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .modal-body-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .modal-body-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+
+    .modal-section-title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 22px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-section-title:first-of-type {
+      margin-top: 0;
+    }
+
+    .step-flow-box {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .flow-step-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .flow-step-num {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .flow-step-content strong {
+      display: block;
+      color: #fff;
+      font-size: 0.92rem;
+      margin-bottom: 2px;
+    }
+    .flow-step-content p {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+
+    .checklist-group {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .checklist-item input[type="checkbox"] {
+      accent-color: #10b981;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .modal-footer-bar {
+      padding: 14px 24px;
+      border-top: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 0 0 20px 20px;
+    }
+    .modal-nav-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .modal-nav-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .modal-step-indicator {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--secondary);
+    }
+
+    /* Prompt Card Component */
+    .prompt-card-box { background:rgba(6,10,18,0.85); border:1px solid rgba(59,130,246,0.3); border-radius:14px; padding:20px; text-align:left; margin-bottom:20px; }
+    .prompt-header-bar { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px; margin-bottom:14px; }
+    .prompt-title-text { font-size:0.9rem; font-weight:700; color:#67e8f9; display:flex; align-items:center; gap:6px; }
+    .btn-copy-action { background:rgba(59,130,246,0.15); color:#93c5fd; border:1px solid rgba(59,130,246,0.3); padding:4px 12px; border-radius:6px; font-size:0.78rem; font-weight:600; cursor:pointer; transition:all 0.2s ease; }
+    .btn-copy-action:hover { background:rgba(59,130,246,0.3); }
+    .prompt-body-text { font-family:'JetBrains Mono','Fira Code',monospace; font-size:0.88rem; color:#e2e8f0; white-space:pre-wrap; word-break:break-word; line-height:1.65; text-align:left; margin:0; background:transparent; border:none; }
+    .quiz-box { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:24px; margin-bottom:32px; }
+    .quiz-q { font-size:1.05rem; font-weight:800; margin-bottom:12px; }
+    .quiz-options { display:flex; flex-direction:column; gap:8px; }
+    .quiz-opt { background:rgba(255,255,255,0.03); border:1px solid var(--line); padding:10px 14px; border-radius:8px; cursor:pointer; font-size:0.9rem; color:var(--muted); transition:all 0.2s ease; }
+    .quiz-opt:hover { border-color:var(--secondary); color:#fff; }
+    .quiz-feedback { margin-top:10px; font-size:0.88rem; font-weight:700; display:none; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="badge-day">Day 2</span>
+      <span class="topbar-title">AI와 프로젝트 기획하기 (자율 학습 모듈)</span>
+    </div>
+    <div class="topbar-actions">
+      <a href="../index.html" class="btn-nav">🏠 LMS 홈</a>
+      <a href="../../LECTURE/docs/index.html" target="_blank" class="btn-nav">🖥️ 발표 슬라이드 열기</a>
+      <a href="day2-textbook.html" class="btn-nav btn-textbook">📖 교재 보기</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="header-box">
+      <h1>Day 2. AI와 개발 가능한 프로젝트 기획하기</h1>
+      <p>막연한 서비스 아이디어를 사용자 문제와 핵심 흐름 중심으로 좁히고, Codex로 Antigravity가 기준으로 삼을 <strong>PROJECT.md</strong>를 완성합니다.</p>
+      <div class="goals-grid">
+        <div class="goal-item"><strong>🎯 목표 1. 문제 정의</strong>아이디어와 문제의 차이를 이해하고 사용자 기반 문제 문장 작성</div>
+        <div class="goal-item"><strong>🎯 목표 2. 핵심 흐름 설계</strong>입력→처리→결과 기반 사용자 흐름 하나를 선택·정의</div>
+        <div class="goal-item"><strong>🎯 목표 3. PROJECT.md 작성</strong>Codex로 14섹션 기획 문서 생성 및 검토</div>
+        <div class="goal-item"><strong>🎯 목표 4. MVP 범위 결정</strong>Must 기능 3~5개로 제한 및 Antigravity 개발 지시문 완성</div>
+      </div>
+    </div>
+
+    <!-- Slide Viewer -->
+    <section class="slide-viewer-box">
+      <div class="slide-viewer-header">
+        <div class="slide-viewer-title">🖥️ Day 2 LECTURE 핵심 슬라이드 (자율 학습 카드)</div>
+        <div class="slide-controls">
+          <button class="slide-btn" onclick="prevSlideCard()">◀ 이전</button>
+          <span class="slide-counter-badge" id="slide-card-badge">1 / 14</span>
+          <button class="slide-btn" onclick="nextSlideCard()">다음 ▶</button>
+        </div>
+      </div>
+      <div class="slide-card-container" id="slide-card-content"></div>
+      <div class="slide-notes-box" id="slide-card-notes">
+        💡 <strong>자율 학습 팁:</strong> <span id="notes-text">Day 2는 코드를 작성하지 않습니다. 기획 문서 작성에 집중하세요.</span>
+      </div>
+    </section>
+
+    <!-- Timetable -->
+    <h2 class="section-title">⏱️ 시간별 학습 일정 (총 6시간)</h2>
+    <table class="timetable-table">
+      <thead><tr><th>시간</th><th>구분</th><th>주요 내용</th><th>산출물</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge-time">20분</span></td><td>회고</td><td>Day 1 결과 및 서비스 아이디어 과제 공유</td><td>아이디어 후보</td></tr>
+        <tr><td><span class="badge-time">40분</span></td><td>강의</td><td>문제, 사용자, 가치, 솔루션의 관계</td><td>문제 정의 초안</td></tr>
+        <tr><td><span class="badge-time">30분</span></td><td>강의·시연</td><td>좋은 요구사항과 PROJECT.md 구조 안내</td><td>문서 작성 기준</td></tr>
+        <tr><td><span class="badge-time">40분</span></td><td>실습 1</td><td>한 장 서비스 정의서 작성</td><td>서비스 정의서</td></tr>
+        <tr><td><span class="badge-time">40분</span></td><td>실습 2</td><td>핵심 흐름, 화면, 데이터 구조화</td><td>구조 설계 초안</td></tr>
+        <tr><td><span class="badge-time">60분</span></td><td>실습 3</td><td>Codex로 PROJECT.md 작성 및 검토</td><td>PROJECT.md 초안</td></tr>
+        <tr><td><span class="badge-time">30분</span></td><td>실습 4</td><td>기능 우선순위 결정 및 MVP 범위 줄이기</td><td>MVP 범위 확정</td></tr>
+        <tr><td><span class="badge-time">30분</span></td><td>실습 5</td><td>사용자 시나리오로 기획 문서 검증</td><td>시나리오 검증표</td></tr>
+        <tr><td><span class="badge-time">20분</span></td><td>실습 6</td><td>Antigravity 전달용 개발 지시문(HANDOFF) 작성</td><td>HANDOFF_PROMPT.md</td></tr>
+        <tr><td><span class="badge-time">20분</span></td><td>공유·리뷰</td><td>3분 발표와 동료 피드백</td><td>피드백 기록</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Interactive Practice Hub: Card Grid System with Rich Detail Views -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin: 40px 0 20px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h2 class="section-title" style="margin: 0 0 6px 0;">💻 Day 2 자율 실습 과제 보드</h2>
+        <p style="color: var(--muted); font-size: 0.92rem;">각 실습 카드를 클릭하여 <strong>단계별 상세 가이드, 전용 프롬프트, 파일 구조 및 자가 검증 체크리스트</strong>를 확인하세요.</p>
+      </div>
+      <!-- Task Category Filter Tabs -->
+      <div class="task-filter-bar">
+        <button class="filter-btn active" onclick="filterTasks('all')">전체 보기 (8)</button>
+        <button class="filter-btn" onclick="filterTasks('core')">📌 필수 실습 (6)</button>
+        <button class="filter-btn" onclick="filterTasks('challenge')">🚀 자율 도전 (2)</button>
+      </div>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span>실습 진행률: <strong id="progress-count">0 / 8 완료 (0%)</strong></span>
+        <span style="color: var(--dim); font-size: 0.8rem;">카드의 체크박스를 눌러 완료 상태를 기록하세요</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar" id="progress-fill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Practice Cards Grid -->
+    <div class="practice-grid" id="practiceGrid">
+      
+      <!-- Card 1 -->
+      <article class="practice-card" data-category="core" id="task-card-1">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 01</span>
+            <span class="badge-tool codex">Codex</span>
+          </div>
+          <label class="check-container" title="완료 체크">
+            <input type="checkbox" onchange="toggleTaskComplete(1, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 40분 소요</div>
+          <h3 class="card-title">한 장 서비스 정의서 작성</h3>
+          <p class="card-summary">목표 사용자, 핵심 문제, 대안, 핵심 가치 제안 및 한 줄 서비스 문장을 1~2문장으로 표준화합니다.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">산출물</span>
+          <span class="del-val">📄 SERVICE_DEFINITION.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(1)">
+            <span>상세 가이드 & 프롬프트</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="practice-card" data-category="core" id="task-card-2">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 02</span>
+            <span class="badge-tool codex">Codex</span>
+          </div>
+          <label class="check-container" title="완료 체크">
+            <input type="checkbox" onchange="toggleTaskComplete(2, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 40분 소요</div>
+          <h3 class="card-title">핵심 흐름 · 화면 · 데이터 구조화</h3>
+          <p class="card-summary">입력→처리→결과 기반의 핵심 흐름 하나를 선택하고, 필수 화면 3~5개와 데이터 모델을 명세화합니다.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">산출물</span>
+          <span class="del-val">📄 CORE_FLOW.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(2)">
+            <span>상세 가이드 & 프롬프트</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="practice-card" data-category="core" id="task-card-3">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 03</span>
+            <span class="badge-tool codex">Codex</span>
+          </div>
+          <label class="check-container" title="완료 체크">
+            <input type="checkbox" onchange="toggleTaskComplete(3, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 60분 소요</div>
+          <h3 class="card-title">Codex로 14섹션 PROJECT.md 생성</h3>
+          <p class="card-summary">Day 3 Antigravity 개발의 단일 기준 문서가 될 14개 필수 섹션을 포함한 정밀 기획 문서를 생성합니다.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">산출물</span>
+          <span class="del-val">📄 PROJECT.md (초안)</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(3)">
+            <span>상세 가이드 & 프롬프트</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="practice-card" data-category="core" id="task-card-4">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 04</span>
+            <span class="badge-tool codex">Codex</span>
+          </div>
+          <label class="check-container" title="완료 체크">
+            <input type="checkbox" onchange="toggleTaskComplete(4, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 30분 소요</div>
+          <h3 class="card-title">기능 우선순위 결정 & MVP 범위 축소</h3>
+          <p class="card-summary">Must / Should / Could / Out of Scope로 기능을 분류하고 Must를 3~5개로 엄격히 제한합니다.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">산출물</span>
+          <span class="del-val">📄 PROJECT.md (범위 확정)</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(4)">
+            <span>상세 가이드 & 프롬프트</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="practice-card" data-category="core" id="task-card-5">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 05</span>
+            <span class="badge-tool codex">Codex</span>
+          </div>
+          <label class="check-container" title="완료 체크">
+            <input type="checkbox" onchange="toggleTaskComplete(5, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 30분 소요</div>
+          <h3 class="card-title">사용자 시나리오로 기획 문서 검증</h3>
+          <p class="card-summary">정상·빈 값·실패 시나리오 3개를 도출하여 화면·기능·데이터가 모순 없이 완결되는지 검증합니다.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">산출물</span>
+          <span class="del-val">📄 SCENARIOS.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(5)">
+            <span>상세 가이드 & 프롬프트</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article class="practice-card" data-category="core" id="task-card-6">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 06</span>
+            <span class="badge-tool codex">Codex</span>
+            <span class="badge-tool agy">Antigravity</span>
+          </div>
+          <label class="check-container" title="완료 체크">
+            <input type="checkbox" onchange="toggleTaskComplete(6, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 20분 소요</div>
+          <h3 class="card-title">개발 지시문(HANDOFF_PROMPT.md) 완성</h3>
+          <p class="card-summary">Day 3에 Antigravity가 PROJECT.md를 읽고 즉시 개발할 수 있도록 지시문과 제약사항을 완성합니다.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">산출물</span>
+          <span class="del-val">📄 HANDOFF_PROMPT.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(6)">
+            <span>상세 가이드 & 프롬프트</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Challenge Card A -->
+      <article class="practice-card challenge-card" data-category="challenge" id="task-card-7">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task challenge">자율 도전 A</span>
+            <span class="badge-tool codex">Codex</span>
+          </div>
+          <label class="check-container" title="완료 체크">
+            <input type="checkbox" onchange="toggleTaskComplete(7, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">🚀 여행 플래너 특화</div>
+          <h3 class="card-title">AI 기반 여행 일정 플래너 기획</h3>
+          <p class="card-summary">선호 장소와 여행 기간을 입력하면 최적의 방문 순서와 동선을 추천해 주는 서비스의 PROJECT.md를 작성합니다.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">산출물</span>
+          <span class="del-val">📄 TRAVEL_PROJECT.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(7)">
+            <span>상세 가이드 & 프롬프트</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Challenge Card B -->
+      <article class="practice-card challenge-card" data-category="challenge" id="task-card-8">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task challenge">자율 도전 B</span>
+            <span class="badge-tool codex">Codex</span>
+          </div>
+          <label class="check-container" title="완료 체크">
+            <input type="checkbox" onchange="toggleTaskComplete(8, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">🚀 창업 아이디어 특화</div>
+          <h3 class="card-title">내 창업 아이디어 기반 PROJECT.md 완성</h3>
+          <p class="card-summary">수강생 본인의 창업 아이디어를 기반으로 사용자 문제, 핵심 흐름, Must 기능, 완료 기준까지 직접 정의합니다.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">산출물</span>
+          <span class="del-val">📄 MY_PROJECT.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(8)">
+            <span>상세 가이드 & 프롬프트</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Task Detail Modal Backdrop & Container -->
+    <div class="task-modal-backdrop" id="taskModalBackdrop" onclick="closeTaskModal(event)">
+      <div class="task-modal-box" onclick="event.stopPropagation()">
+        <div class="modal-top">
+          <div class="modal-badge-row" id="modalBadgeRow"></div>
+          <button class="modal-close-btn" onclick="closeTaskModalDirect()" title="닫기 (Esc)">✕</button>
+        </div>
+        <div class="modal-body-scroll" id="modalContent"></div>
+        <div class="modal-footer-bar">
+          <button class="modal-nav-btn" id="modalPrevBtn" onclick="navigateTaskModal(-1)">◀ 이전 Task</button>
+          <div class="modal-step-indicator" id="modalStepIndicator">Task 1 / 8</div>
+          <button class="modal-nav-btn" id="modalNextBtn" onclick="navigateTaskModal(1)">다음 Task ▶</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <h2 class="section-title">❓ Day 2 자율 이해도 체크 퀴즈</h2>
+    <div class="quiz-box">
+      <div class="quiz-q">Q. PROJECT.md를 작성할 때 AI(Codex)가 불확실한 사항을 어떻게 처리해야 할까요?</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="checkQuiz(this,false)">① AI가 스스로 적절한 내용을 추가하여 문서를 완성한다.</div>
+        <div class="quiz-opt" onclick="checkQuiz(this,true)">② 제공되지 않은 사실은 임의로 확정하지 않고 Open Questions 섹션으로 분리한다.</div>
+        <div class="quiz-opt" onclick="checkQuiz(this,false)">③ 불확실한 부분은 모두 삭제하고 확실한 내용만 남긴다.</div>
+      </div>
+      <div class="quiz-feedback" id="quiz-fb"></div>
+    </div>
+
+    <!-- Deliverables -->
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px;">
+      <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px;">🎁 Day 2 핵심 실습 결과물 정의</h2>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:24px;">Day 2 학습을 마쳤을 때 완성되어야 하는 핵심 산출물입니다.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:18px;">
+          <div style="font-size:0.82rem;font-weight:800;color:var(--secondary);margin-bottom:4px;">결과물 01</div>
+          <div style="font-size:1rem;font-weight:800;margin-bottom:8px;">📄 한 장 서비스 정의서</div>
+          <p style="font-size:0.85rem;color:var(--muted);">목표 사용자, 핵심 문제, 핵심 가치, 한 줄 서비스 문장이 정의된 문서</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:18px;">
+          <div style="font-size:0.82rem;font-weight:800;color:#67e8f9;margin-bottom:4px;">결과물 02</div>
+          <div style="font-size:1rem;font-weight:800;margin-bottom:8px;">📄 PROJECT.md</div>
+          <p style="font-size:0.85rem;color:var(--muted);">Codex로 작성된 14섹션 기획 문서. Day 3 Antigravity 개발의 단일 기준 문서</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:18px;">
+          <div style="font-size:0.82rem;font-weight:800;color:#86efac;margin-bottom:4px;">결과물 03</div>
+          <div style="font-size:1rem;font-weight:800;margin-bottom:8px;">📄 시나리오 검증표</div>
+          <p style="font-size:0.85rem;color:var(--muted);">정상·빈 값·실패 시나리오 3개와 각 단계별 화면·기능·데이터 연결 검증표</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:18px;">
+          <div style="font-size:0.82rem;font-weight:800;color:#fde047;margin-bottom:4px;">결과물 04</div>
+          <div style="font-size:1rem;font-weight:800;margin-bottom:8px;">📄 HANDOFF_PROMPT.md</div>
+          <p style="font-size:0.85rem;color:var(--muted);">Day 3 Antigravity에 전달할 개발 지시문. 기준 문서·작업 범위·완료 기준 포함</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Detailed Practice Tasks Data Model for Day 2
+    const taskDetailsData = {
+      1: {
+        id: 1,
+        type: "core",
+        badge: "Task 01 · 필수 실습",
+        tools: ["Codex"],
+        time: "40분",
+        title: "한 장 서비스 정의서 작성",
+        goal: "목표 사용자, 핵심 문제, 현재 대안, 핵심 가치 제안 및 한 줄 서비스 문장을 1~2문장으로 표준화합니다.",
+        steps: [
+          {
+            title: "아이디어 요약 정리",
+            desc: "자신이 만들고자 하는 창업/서비스 아이디어를 자유롭게 2~3줄로 정리합니다."
+          },
+          {
+            title: "Codex에 서비스 정의 프롬프트 전달",
+            desc: "사용자(상황·행동 기반), 문제, 가치 제안, 한 줄 정의 문성을 요청합니다."
+          },
+          {
+            title: "불확실한 항목 점검",
+            desc: "AI가 임의로 생성한 내용이 없는지 검토하고, 불확실한 부분은 질문으로 남겨둡니다."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 SERVICE_DEFINITION.md  (👈 본 단계에서 생성)
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "한 장 서비스 정의 프롬프트 (Codex)",
+            text: `내가 만들 서비스를 한 장 정의서로 작성해 줘.
+아이디어: [내 아이디어를 자유롭게 작성]
+
+아래 항목을 각각 1~2문장으로 정리해 줘:
+1. 목표 사용자 (나이보다 상황과 행동으로 정의)
+2. 사용자가 겪는 구체적인 문제 (상황, 불편, 현재 대안 포함)
+3. 내 서비스의 핵심 가치 제안 (기존 대안보다 무엇이 더 빠르고 쉬운가)
+4. 한 줄 서비스 문장: "[타겟]가 [문제]를 해결하기 위해 사용하는 [서비스 이름]"
+임의로 사실을 추가하지 말고, 불확실한 부분은 질문으로 남겨줘.`
+          }
+        ],
+        checklist: [
+          "목표 사용자가 연령대가 아닌 '구체적 상황과 행동'으로 정의되었는가?",
+          "사용자의 불편함과 기존 대안이 명확히 대비되는가?",
+          "한 줄 서비스 정의 문장이 명쾌하게 완성되었는가?"
+        ],
+        troubleshoot: "💡 '누구나 사용하는 앱'은 타겟이 아닙니다. '퇴근 후 10분 안에 결정을 원하는 직장인'처럼 좁혀보세요."
+      },
+      2: {
+        id: 2,
+        type: "core",
+        badge: "Task 02 · 필수 실습",
+        tools: ["Codex"],
+        time: "40분",
+        title: "핵심 흐름 · 화면 · 데이터 구조화",
+        goal: "입력→처리→결과 기반의 핵심 흐름 하나를 선택하고, 필수 화면 3~5개와 데이터 모델을 명세화합니다.",
+        steps: [
+          {
+            title: "핵심 흐름 한 줄 정의",
+            desc: "입력(사용자 행동) → 처리(시스템 작업) → 결과(확인 화면)로 한 줄 흐름을 설계합니다."
+          },
+          {
+            title: "화면 목록 도출 (3~5개)",
+            desc: "홈/시작 화면, 입력/설정 화면, 결과 확인 화면의 3~5개 화면과 전환 관계를 정리합니다."
+          },
+          {
+            title: "데이터 모델 정의",
+            desc: "핵심 흐름에 꼭 필요한 데이터 항목과 생성 시점을 명세화합니다."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 SERVICE_DEFINITION.md
+├── 📄 CORE_FLOW.md           (👈 본 단계에서 생성)
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "핵심 흐름 및 데이터 구조화 프롬프트 (Codex)",
+            text: `서비스 정의서를 기반으로 핵심 사용자 흐름을 구조화해 줘.
+
+1. 핵심 흐름 (입력→처리→결과 형태로 한 줄):
+   입력: [사용자 입력 행동]
+   처리: [서비스 처리 결과]
+   결과: [사용자가 확인하는 결과 화면]
+
+2. 화면 목록 (이름 / 목적 / 주요 요소 / 다음 이동 화면):
+   최소 3개, 최대 5개 화면만 정의해 줘.
+
+3. 데이터 모델 (이름 / 주요 항목 / 생성 시점 / 저장 필요 여부):
+   핵심 흐름에 필요한 데이터만 작성해 줘.
+
+문서에 없는 내용은 임의로 추가하지 말고 질문으로 남겨줘.`
+          }
+        ],
+        checklist: [
+          "입력→처리→결과 흐름이 단절 없이 연결되는가?",
+          "화면 목록이 5개를 초과하지 않고 MVP에 집중되어 있는가?",
+          "데이터 항목이 화면의 입력 및 결과 요소와 1:1로 매칭되는가?"
+        ],
+        troubleshoot: "⚠️ 로그인/회원가입은 핵심 흐름이 아닙니다. 서비스의 본질적인 핵심 가치 흐름을 우선 설계하세요."
+      },
+      3: {
+        id: 3,
+        type: "core",
+        badge: "Task 03 · 필수 실습",
+        tools: ["Codex"],
+        time: "60분",
+        title: "Codex로 14섹션 PROJECT.md 작성",
+        goal: "앞서 작성한 정의 내용을 종합하여 Day 3 Antigravity 개발의 단일 기준 문서가 될 14섹션 PROJECT.md를 생성합니다.",
+        steps: [
+          {
+            title: "14섹션 표준 템플릿 전달",
+            desc: "Overview, Problem, Flow, Screens, Data Model, MVP Scope, Out of Scope 등이 포함된 프롬프트를 실행합니다."
+          },
+          {
+            title: "Acceptance Criteria(완료 조건) 검토",
+            desc: "각 기능별로 브라우저에서 눈으로 확인할 수 있는 구체적 검증 기준이 작성되었는지 확인합니다."
+          },
+          {
+            title: "Open Questions 분리",
+            desc: "제공하지 않은 사실이나 미결정 사항이 Open Questions 섹션에 안전하게 격리되었는지 확인합니다."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md             (👈 14섹션 표준 기획서 생성)
+├── 📄 CORE_FLOW.md
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "14섹션 PROJECT.md 생성 프롬프트 (Codex)",
+            text: `PROJECT.md 파일을 생성해 줘. 아래 14개 섹션을 포함해야 해.
+
+## 1. Project Overview / 2. Problem / 3. Target User
+## 4. Current Alternatives / 5. Core Value and Hypothesis
+## 6. Core User Flow / 7. Features and Acceptance Criteria
+## 8. Screen List / 9. Data Model / 10. Technical Requirements
+## 11. MVP Scope / 12. Out of Scope
+## 13. Risks and Open Questions / 14. Demo Scenario
+
+조건:
+- 제공하지 않은 사실은 임의로 확정하지 말고 Open Questions로 분리해 줘.
+- Must 기능은 3~5개로 제한해 줘.
+- 각 기능에 확인 가능한 완료 조건(Acceptance Criteria)을 작성해 줘.
+- 실제 결제가 핵심이 아니라면 Mock Payment를 사용해 줘.
+- 구현하지 않을 항목을 Out of Scope에 명시해 줘.`
+          }
+        ],
+        checklist: [
+          "14개 필수 섹션이 누락 없이 구성되었는가?",
+          "모든 Must 기능에 구체적인 Acceptance Criteria가 있는가?",
+          "결제/인증 등 비필수 기능이 Mock 또는 Out of Scope로 분류되었는가?"
+        ],
+        troubleshoot: "💡 AI가 임의로 결제 PG사 연동 등을 추가했다면 즉시 Mock 처리하거나 Out of Scope로 이동시키세요."
+      },
+      4: {
+        id: 4,
+        type: "core",
+        badge: "Task 04 · 필수 실습",
+        tools: ["Codex"],
+        time: "30분",
+        title: "기능 우선순위 결정 & MVP 범위 줄이기",
+        goal: "기능을 Must / Should / Could / Out of Scope 4단계로 엄격히 분류하여 Must를 3~5개로 제한합니다.",
+        steps: [
+          {
+            title: "우선순위 분류 요청",
+            desc: "Codex에게 핵심 사용자 흐름에 꼭 필요하지 않은 기능을 식별하고 4단계로 분류하도록 요청합니다."
+          },
+          {
+            title: "Must 기능 축소 검토",
+            desc: "'이 기능이 없어도 핵심 행동을 마칠 수 있는가?'를 기준으로 Must 항목을 3~5개로 줄입니다."
+          },
+          {
+            title: "PROJECT.md 최종 범위 갱신",
+            desc: "확정된 MVP Scope와 Out of Scope를 PROJECT.md 문서에 반영합니다."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md             (👈 MVP Scope 3~5개 확정)
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "MVP 범위 검토 및 축소 프롬프트 (Codex)",
+            text: `PROJECT.md의 MVP 범위를 검토해 줘.
+핵심 사용자 흐름을 완성하는 데 꼭 필요하지 않은 기능을 찾아줘.
+각 기능을 Must / Should / Could / Out of Scope로 분류하고 근거를 설명해 줘.
+Must는 3~5개로 제한하고, 최종 결정 전에는 문서를 직접 수정하지 마세요.`
+          }
+        ],
+        checklist: [
+          "Must 기능이 5개 이하로 제한되었는가?",
+          "Should 및 Could 항목이 명확히 분리되었는가?",
+          "5일 완성 목표에 맞는 현실적인 개발 범위가 확정되었는가?"
+        ],
+        troubleshoot: "💡 기능이 많을수록 완성이 어려워집니다. 첫 MVP는 '한 가지 문제를 끝까지 해결하는 것'이 목표입니다."
+      },
+      5: {
+        id: 5,
+        type: "core",
+        badge: "Task 05 · 필수 실습",
+        tools: ["Codex"],
+        time: "30분",
+        title: "사용자 시나리오로 기획 문서 검증",
+        goal: "정상·빈 값·실패 시나리오 3개를 작성하여 PROJECT.md가 실제 사용자 흐름을 완벽히 커버하는지 점검합니다.",
+        steps: [
+          {
+            title: "3대 시나리오 작성 요청",
+            desc: "정상 시나리오, 필수값 미입력(빈 값) 시나리오, 처리 실패 시나리오를 도출합니다."
+          },
+          {
+            title: "화면·데이터 매핑 검증표 작성",
+            desc: "각 단계별 사용자 행동 → 기대 화면/결과 → 연결 기능 → 필요 데이터가 일치하는지 표로 정리합니다."
+          },
+          {
+            title: "문서 모순 및 누락 보완",
+            desc: "정의되지 않은 동작이나 모순된 요구사항을 발견하고 PROJECT.md를 수정합니다."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md             (검증 완료)
+├── 📄 SCENARIOS.md          (👈 본 단계에서 검증표 생성)
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "사용자 시나리오 검증 프롬프트 (Codex)",
+            text: `PROJECT.md를 기준으로 정상, 빈 값, 실패 사용자 시나리오를 만들어 줘.
+각 단계에서 필요한 화면, 기능, 데이터와 기대 결과를 표로 정리해 줘.
+문서에 정의되지 않은 동작이나 서로 모순되는 요구사항은 별도로 표시하고
+수정 후보를 제안해 줘. 임의로 요구사항을 추가하지 마세요.`
+          }
+        ],
+        checklist: [
+          "정상, 빈 값, 실패 시나리오 3개가 모두 도출되었는가?",
+          "오류 발생 시 사용자에게 보여줄 안내 메시지가 정의되었는가?",
+          "시나리오에서 발견된 결함이 PROJECT.md에 반영되었는가?"
+        ],
+        troubleshoot: "⚠️ 실패 시나리오가 없으면 개발 시 에러 화면에서 앱이 멈추게 됩니다. 실패 처리 화면을 꼭 명시하세요."
+      },
+      6: {
+        id: 6,
+        type: "core",
+        badge: "Task 06 · 필수 실습",
+        tools: ["Codex", "Antigravity"],
+        time: "20분",
+        title: "Antigravity 전달용 개발 지시문(HANDOFF_PROMPT.md) 완성",
+        goal: "Day 3에 Antigravity가 PROJECT.md를 기반으로 바로 개발을 시작할 수 있도록 지시문과 완료 기준을 완성합니다.",
+        steps: [
+          {
+            title: "개발 지시문 6요소 구성",
+            desc: "기준 문서, 작업 범위, 우선순위, 제약사항, 완료 기준, 작업 보고 양식을 포함합니다."
+          },
+          {
+            title: "HANDOFF_PROMPT.md 파일 생성",
+            desc: "Codex를 통해 단일 마크다운 지시문 파일로 저장합니다."
+          },
+          {
+            title: "Day 3 개발 준비 완료 확인",
+            desc: "PROJECT.md와 HANDOFF_PROMPT.md가 동일 폴더에 존재하는지 최종 확인합니다."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md             (기준 문서)
+├── 📄 HANDOFF_PROMPT.md      (👈 Day 3 개발 지시문 완성)
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "HANDOFF_PROMPT.md 생성 프롬프트 (Codex)",
+            text: `HANDOFF_PROMPT.md 파일을 생성해 줘.
+Day 3에 Antigravity가 PROJECT.md를 기반으로 바로 개발을 시작할 수 있도록
+아래 구조로 작성해 줘:
+
+[기준 문서] PROJECT.md를 먼저 읽고 구현 기준으로 사용해 주세요.
+[이번 작업 범위] MVP의 기본 프로젝트 구조와 첫 번째 핵심 사용자 흐름을 구현해 주세요.
+[우선순위] Must 기능부터 구현하고 Should/Could/Out of Scope는 구현하지 마세요.
+[제약사항] 문서에 없는 요구사항을 임의로 추가하지 마세요.
+[완료 기준] 프로젝트가 로컬에서 실행되고 핵심 흐름의 시작 화면을 확인할 수 있어야 합니다.
+[작업 보고] 생성·수정한 파일, 실행 방법, 구현 항목, 미구현 항목을 정리해 주세요.`
+          }
+        ],
+        checklist: [
+          "HANDOFF_PROMPT.md 파일이 정상 생성되었는가?",
+          "Day 3에서 Antigravity에 복사해 전달할 준비가 되었는가?",
+          "선-기획 후-개발 파이프라인의 핵심 전달 체계를 완성했는가?"
+        ],
+        troubleshoot: "💡 이 지시문이 잘 작성되어 있으면 Day 3 개발 시 AI가 엉뚱한 기능을 만드는 것을 100% 방지할 수 있습니다."
+      },
+      7: {
+        id: 7,
+        type: "challenge",
+        badge: "자율 도전 A · 플래너",
+        tools: ["Codex"],
+        time: "60~80분",
+        title: "AI 기반 여행 일정 플래너 기획",
+        goal: "선호 장소와 여행 기간을 입력하면 최적의 방문 순서와 동선을 추천해 주는 서비스의 TRAVEL_PROJECT.md를 작성합니다.",
+        steps: [
+          {
+            title: "여행 플래너 핵심 문제 정의",
+            desc: "동선 계획에 2시간 이상 소비하는 여행자의 페인포인트를 정리합니다."
+          },
+          {
+            title: "TRAVEL_PROJECT.md 14섹션 작성",
+            desc: "장소 입력 폼, 동선 생성 결과, 일정 저장 등 Must 기능을 정의합니다."
+          },
+          {
+            title: "지도/결제 제외 Out of Scope 확정",
+            desc: "5일 MVP에 맞게 외부 지도 API와 결제를 제외하고 Mock 데이터로 설계합니다."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 TRAVEL_PROJECT.md      (자율 기획서)
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "여행 플래너 기획 프롬프트 (Codex)",
+            text: `AI 기반 여행 일정 플래너 서비스의 TRAVEL_PROJECT.md를 작성해 줘.
+서비스명: TripFlow (또는 직접 결정)
+핵심 흐름: 선호 장소 입력 → AI 동선 생성 → 일정표 확인 → 저장
+Must 기능: 장소 입력 폼, 일정 생성 결과 화면, 일정 저장
+Out of Scope: 회원가입, 실제 지도 API, 결제
+완료 기준: 여행 일정표가 화면에 표시되고 저장 버튼이 동작할 것.`
+          }
+        ],
+        checklist: [
+          "장소 입력과 결과 일정표의 데이터 흐름이 구체적인가?",
+          "실제 지도 API 대신 Mock 시각화로 범위를 좁혔는가?",
+          "Antigravity가 구현할 수 있는 완료 기준이 명확한가?"
+        ],
+        troubleshoot: "💡 지도 연동은 초기 MVP에서 복잡도를 급증시킵니다. 먼저 리스트와 카드 형태의 동선 뷰로 기획하세요."
+      },
+      8: {
+        id: 8,
+        type: "challenge",
+        badge: "자율 도전 B · 내 창업",
+        tools: ["Codex"],
+        time: "60~80분",
+        title: "내 창업 아이디어 기반 PROJECT.md 완성",
+        goal: "수강생 본인의 창업 아이디어를 기반으로 사용자 문제, 핵심 흐름, Must 기능, 완료 기준까지 직접 정의합니다.",
+        steps: [
+          {
+            title: "나만의 아이디어 캔버스 작성",
+            desc: "실제 해결하고 싶은 나만의 문제와 목표 고객을 3문장으로 정의합니다."
+          },
+          {
+            title: "MY_PROJECT.md 14섹션 생성",
+            desc: "Codex를 통해 14개 섹션 표준 규격 기획 문서를 생성합니다."
+          },
+          {
+            title: "Must 3개로 범위 다이어트",
+            desc: "핵심 행동 1가지만 작동하는 초소형 MVP로 범위를 제한합니다."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 MY_PROJECT.md          (수강생 전용 기획서)
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "내 아이디어 기획 프롬프트 (Codex)",
+            text: `내 아이디어 기반 서비스 MY_PROJECT.md를 완성해 줘.
+아이디어 요약: [내 아이디어를 자유롭게 작성]
+목표 사용자: [상황과 행동으로 구체적으로]
+핵심 문제: [현재 사용자가 겪는 불편]
+Must 기능: 3~5개만 선택해서 정의해 줘.
+완료 기준: 각 기능마다 브라우저에서 확인할 수 있는 기준을 작성해 줘.
+불확실한 부분은 Open Questions로 남겨줘.`
+          }
+        ],
+        checklist: [
+          "본인의 실제 문제의식이 기획서에 담겼는가?",
+          "Must 기능이 3~5개로 엄격히 다이어트되었는가?",
+          "Day 3에서 바로 구현할 수 있는 완료 기준이 명시되었는가?"
+        ],
+        troubleshoot: "💡 기능이 욕심날 때는 'Day 5 데모 발표에서 보여줄 1가지 핵심 장면'만 남겨보세요."
+      }
+    };
+
+    let activeTaskId = 1;
+    const taskIds = [1, 2, 3, 4, 5, 6, 7, 8];
+
+    // Open Task Modal
+    function openTaskModal(taskId) {
+      activeTaskId = taskId;
+      const data = taskDetailsData[taskId];
+      if (!data) return;
+
+      const backdrop = document.getElementById('taskModalBackdrop');
+      const badgeRow = document.getElementById('modalBadgeRow');
+      const content = document.getElementById('modalContent');
+      const stepIndicator = document.getElementById('modalStepIndicator');
+      const prevBtn = document.getElementById('modalPrevBtn');
+      const nextBtn = document.getElementById('modalNextBtn');
+
+      badgeRow.innerHTML = `
+        <span class="badge-task ${data.type}">${data.badge}</span>
+        ${data.tools.map(t => `<span class="badge-tool ${t === 'Codex' ? 'codex' : 'agy'}">${t}</span>`).join('')}
+        <span style="font-size: 0.8rem; color: var(--secondary); font-weight: 700;">⏱️ ${data.time}</span>
+      `;
+
+      content.innerHTML = `
+        <h2 style="font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: 8px;">${data.title}</h2>
+        <p style="color: var(--muted); font-size: 0.94rem; line-height: 1.55; margin-bottom: 24px;">${data.goal}</p>
+
+        <h3 class="modal-section-title">📍 단계별 실습 가이드</h3>
+        <div class="step-flow-box">
+          ${data.steps.map((s, idx) => `
+            <div class="flow-step-item">
+              <div class="flow-step-num">${idx + 1}</div>
+              <div class="flow-step-content">
+                <strong>${s.title}</strong>
+                <p>${s.desc}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <h3 class="modal-section-title">📁 폴더 및 파일 구조 (예상 상태)</h3>
+        <div style="background: rgba(0, 0, 0, 0.45); border: 1px solid var(--line); padding: 14px 18px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; color: #a5f3fc; white-space: pre; margin-bottom: 20px; line-height: 1.5;">${data.fileTree}</div>
+
+        <h3 class="modal-section-title">💬 복사하여 사용할 실전 프롬프트</h3>
+        ${data.prompts.map((p, pIdx) => `
+          <div class="prompt-card-box">
+            <div class="prompt-header-bar">
+              <span class="prompt-title-text">📌 ${p.label}</span>
+              <button class="btn-copy-action" onclick="copyModalPrompt('modal_prompt_${taskId}_${pIdx}')">복사하기</button>
+            </div>
+            <pre class="prompt-body-text" id="modal_prompt_${taskId}_${pIdx}">${p.text}</pre>
+          </div>
+        `).join('')}
+
+        <h3 class="modal-section-title">✅ 자가 점검 체크리스트</h3>
+        <div class="checklist-group">
+          ${data.checklist.map((item, cIdx) => `
+            <label class="checklist-item">
+              <input type="checkbox" id="modal_chk_${taskId}_${cIdx}" />
+              <span>${item}</span>
+            </label>
+          `).join('')}
+        </div>
+
+        <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 10px; padding: 14px 18px; font-size: 0.88rem; color: #ddd6fe;">
+          ${data.troubleshoot}
+        </div>
+      `;
+
+      const currentIdx = taskIds.indexOf(taskId);
+      stepIndicator.innerText = `Task ${currentIdx + 1} / ${taskIds.length}`;
+      prevBtn.disabled = currentIdx === 0;
+      prevBtn.style.opacity = currentIdx === 0 ? '0.4' : '1';
+      prevBtn.style.cursor = currentIdx === 0 ? 'not-allowed' : 'pointer';
+
+      nextBtn.disabled = currentIdx === taskIds.length - 1;
+      nextBtn.style.opacity = currentIdx === taskIds.length - 1 ? '0.4' : '1';
+      nextBtn.style.cursor = currentIdx === taskIds.length - 1 ? 'not-allowed' : 'pointer';
+
+      backdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeTaskModalDirect() {
+      document.getElementById('taskModalBackdrop').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function closeTaskModal(e) {
+      if (e.target.id === 'taskModalBackdrop') closeTaskModalDirect();
+    }
+
+    function navigateTaskModal(direction) {
+      const currentIdx = taskIds.indexOf(activeTaskId);
+      const nextIdx = currentIdx + direction;
+      if (nextIdx >= 0 && nextIdx < taskIds.length) {
+        openTaskModal(taskIds[nextIdx]);
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeTaskModalDirect();
+    });
+
+    function copyModalPrompt(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      navigator.clipboard.writeText(el.innerText).then(() => alert('프롬프트가 클립보드에 복사되었습니다! 🎉'));
+    }
+
+    function filterTasks(category) {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const cards = document.querySelectorAll('.practice-card');
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        card.style.display = (category === 'all' || cardCat === category) ? 'flex' : 'none';
+      });
+    }
+
+    const completedTasks = new Set();
+    function toggleTaskComplete(taskId, isChecked) {
+      const card = document.getElementById(`task-card-${taskId}`);
+      if (isChecked) {
+        completedTasks.add(taskId);
+        if (card) card.classList.add('is-completed');
+      } else {
+        completedTasks.delete(taskId);
+        if (card) card.classList.remove('is-completed');
+      }
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const count = completedTasks.size;
+      const total = taskIds.length;
+      const pct = Math.round((count / total) * 100);
+      document.getElementById('progress-count').innerText = `${count} / ${total} 완료 (${pct}%)`;
+      document.getElementById('progress-fill').style.width = `${pct}%`;
+    }
+
+    const slideCardsData = [
+      { tag:"Slide 01 · 오프닝", title:"Day 2. AI와 개발 가능한 프로젝트 기획하기", body:`<p style="color:#93c5fd;font-size:1.05rem;margin-bottom:16px;">막연한 아이디어를 Antigravity가 실제로 개발할 수 있는 기획 문서로 만드는 날입니다.</p><div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);padding:14px;border-radius:10px;"><strong>💡 오늘의 원칙:</strong> 많은 기능보다 하나의 완전한 사용자 흐름을 먼저 만든다.</div>`, notes:"Day 2는 코드를 작성하지 않습니다. 기획 문서 작성에 집중합니다." },
+      { tag:"Slide 02 · 학습 목표", title:"🎯 Day 2 핵심 학습 목표", body:`<ul style="list-style:none;line-height:1.9;"><li>✅ 아이디어와 문제의 차이를 설명할 수 있다.</li><li>✅ 목표 사용자를 상황과 행동으로 정의할 수 있다.</li><li>✅ 핵심 사용자 흐름 하나를 선택·정의할 수 있다.</li><li>✅ 기능을 화면·데이터·완료 기준으로 구체화할 수 있다.</li><li>✅ PROJECT.md를 완성하고 Antigravity 개발 지시문을 만들 수 있다.</li></ul>`, notes:"5가지 학습 목표 모두 오늘 실습 내에서 달성합니다." },
+      { tag:"Slide 03 · 핵심 원칙", title:"💡 아이디어 vs 문제", body:`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.9rem;"><div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);padding:14px;border-radius:8px;"><strong style="color:#fca5a5;">❌ 아이디어 중심</strong><br><br>"AI 기반 여행 플래너 앱을 만들고 싶다"<br><br>→ 해결책부터 출발 (누구의 문제인지 불명확)</div><div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:14px;border-radius:8px;"><strong style="color:#86efac;">✅ 문제 중심</strong><br><br>"혼자 해외여행 가는 20~30대가 동선 계획에 2시간 이상 소비한다"<br><br>→ 사용자 + 상황 + 어려움 + 원하는 변화</div></div>`, notes:"기술이나 기능부터 정하면 실제 사용자 문제와 관계없는 제품이 됩니다." },
+      { tag:"Slide 04 · 사용자 정의", title:"👥 목표 사용자를 구체화하는 방법", body:`<ul style="list-style:none;line-height:1.9;"><li>❌ "20~30대 직장인" → 너무 광범위</li><li>✅ "퇴근 후 혼자 저녁 식사 장소를 10분 안에 결정하고 싶은 직장인"</li><li style="margin-top:12px;">문제 상황 캔버스 5요소:</li><li>사용자 → 상황 → 현재 행동 → 불편/비용 → 원하는 변화</li></ul>`, notes:"연령보다 상황과 행동으로 정의하면 인터뷰·테스트 대상을 찾기 훨씬 쉬워집니다." },
+      { tag:"Slide 05 · 핵심 흐름", title:"🔄 핵심 사용자 흐름 정의", body:`<div style="background:rgba(6,10,18,0.8);padding:14px;border-radius:10px;font-family:monospace;color:#67e8f9;font-size:0.9rem;margin-bottom:12px;">입력: 선호 장소와 여행 가능 시간<br>처리: 조건에 맞는 방문 순서와 이동 동선 생성<br>결과: 사용자가 일정표를 확인하고 저장</div><p style="font-size:0.88rem;color:var(--muted);">홈 → 조건 입력 → 일정 생성 → 결과 확인 → 일정 저장<br>이 흐름이 Day 3 구현 순서와 Day 5 데모 시나리오의 기준이 됩니다.</p>`, notes:"로그인은 핵심 흐름이 아닌 보조 기능입니다. 핵심 흐름을 먼저 완성하세요." },
+      { tag:"Slide 06 · PROJECT.md 구조", title:"📄 PROJECT.md 14섹션 구조", body:`<div style="font-size:0.85rem;background:rgba(6,10,18,0.8);padding:14px;border-radius:10px;font-family:monospace;color:#e2e8f0;line-height:1.7;">1. Project Overview &nbsp; 2. Problem &nbsp; 3. Target User<br>4. Current Alternatives &nbsp; 5. Core Value and Hypothesis<br>6. Core User Flow &nbsp; 7. Features and Acceptance Criteria<br>8. Screen List &nbsp; 9. Data Model &nbsp; 10. Technical Requirements<br>11. MVP Scope &nbsp; 12. Out of Scope<br>13. Risks and Open Questions &nbsp; 14. Demo Scenario</div>`, notes:"이 문서가 Day 3~5 동안 Antigravity와 Codex가 공유하는 단일 기준 문서입니다." },
+      { tag:"Slide 07 · 기능 우선순위", title:"📊 Must / Should / Could / Out of Scope", body:`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.85rem;"><div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:12px;border-radius:8px;"><strong style="color:#86efac;">Must</strong><br>핵심 사용자 흐름에 반드시 필요 → 이번 MVP 구현</div><div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);padding:12px;border-radius:8px;"><strong style="color:#93c5fd;">Should</strong><br>중요하지만 없어도 흐름 동작 → Must 완료 후</div><div style="background:rgba(107,114,128,0.2);border:1px solid rgba(107,114,128,0.3);padding:12px;border-radius:8px;"><strong style="color:#d1d5db;">Could</strong><br>있으면 좋음 → 향후 개선 목록</div><div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);padding:12px;border-radius:8px;"><strong style="color:#fca5a5;">Out of Scope</strong><br>5일 안에 구현 어려움 → 이번 과정 제외</div></div>`, notes:"Must는 최대 3~5개로 제한하세요. '이 기능이 없어도 핵심 행동을 완료할 수 있는가?'를 질문하세요." },
+      { tag:"Slide 08 · 시나리오 검증", title:"🧪 사용자 시나리오 3가지", body:`<ul style="list-style:none;line-height:1.9;"><li>1️⃣ <strong>정상 시나리오:</strong> 올바른 입력으로 핵심 행동 완료</li><li>2️⃣ <strong>빈 값 시나리오:</strong> 필수 정보 미입력 후 다음 단계 이동 시 안내 확인</li><li>3️⃣ <strong>실패 시나리오:</strong> 데이터 조회·처리 실패 시 오류 안내 확인</li><li style="margin-top:12px;color:var(--secondary);">각 단계: 사용자 행동 → 기대 화면/결과 → 연결 기능 → 필요 데이터</li></ul>`, notes:"시나리오로 문서의 누락·모순을 발견하고 PROJECT.md를 보완합니다." },
+      { tag:"Slide 09 · HANDOFF", title:"📤 Antigravity 개발 지시문 구조 (HANDOFF_PROMPT.md)", body:`<div style="font-size:0.85rem;background:rgba(6,10,18,0.8);padding:14px;border-radius:10px;font-family:monospace;color:#e2e8f0;line-height:1.7;">[기준 문서] PROJECT.md 참조<br>[이번 작업 범위] 기본 구조 + 첫 핵심 흐름<br>[우선순위] Must만 구현, Out of Scope 제외<br>[제약사항] 문서 없는 내용 임의 추가 금지<br>[완료 기준] 로컬 실행 + 시작 화면 확인 가능<br>[작업 보고] 파일목록·실행방법·미구현 정리</div>`, notes:"Day 3에 이 지시문을 Antigravity에 그대로 전달하여 개발을 시작합니다." },
+      { tag:"Slide 10 · 실습 1", title:"💻 [실습 1] 한 장 서비스 정의서 작성", body:`<p style="color:var(--muted);margin-bottom:10px;">목표 사용자, 문제, 핵심 가치, 한 줄 서비스 문장을 Codex로 정의합니다.</p><div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">📌 Codex: 내 서비스를 한 장 정의서로 작성해 줘. 불확실한 부분은 질문으로 남겨줘.</div>`, notes:"기술 이름보다 '어떤 사람이 어떤 상황에서 무엇이 불편한가'에 집중하세요." },
+      { tag:"Slide 11 · 실습 2", title:"💻 [실습 2] 핵심 흐름·화면·데이터 구조화", body:`<p style="color:var(--muted);margin-bottom:10px;">입력→처리→결과 한 줄 흐름, 화면 3~5개, 데이터 모델을 정의합니다.</p><div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">📌 Codex: 서비스 정의서 기반으로 핵심 흐름·화면 목록·데이터 모델을 구조화해 줘.</div>`, notes:"화면은 최소 3개, 최대 5개로 제한하세요." },
+      { tag:"Slide 12 · 실습 3~4", title:"💻 [실습 3·4] PROJECT.md 작성 & MVP 범위 결정", body:`<p style="color:var(--muted);margin-bottom:10px;">Codex로 14섹션 PROJECT.md를 생성하고 Must 기능을 3~5개로 줄입니다.</p><div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">📌 Codex: PROJECT.md 14섹션 생성 → Must/Should/Could/Out of Scope 분류 후 Must를 3~5개로 제한.</div>`, notes:"AI가 임의로 추가한 내용은 반드시 검토하고 수정하세요." },
+      { tag:"Slide 13 · 실습 5~6", title:"💻 [실습 5·6] 시나리오 검증 & 개발 지시문 완성", body:`<p style="color:var(--muted);margin-bottom:10px;">정상·빈값·실패 시나리오로 문서를 검증하고 HANDOFF_PROMPT.md를 완성합니다.</p><div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">📌 Codex: 정상·빈값·실패 시나리오 3개 생성 → HANDOFF_PROMPT.md 생성.</div>`, notes:"Day 3에 바로 사용할 수 있는 지시문을 오늘 완성합니다." },
+      { tag:"Slide 14 · 마무리", title:"🎉 Day 2 회고 & Day 3 예고", body:`<div style="text-align:center;padding:20px;"><h3 style="color:var(--secondary);margin-bottom:10px;">Day 3 예고: PROJECT.md에서 동작하는 MVP 만들기</h3><p style="color:var(--muted);">오늘 완성한 PROJECT.md를 Antigravity에 전달하여 실제 웹 서비스를 구현합니다!</p></div>`, notes:"오늘 PROJECT.md와 HANDOFF_PROMPT.md가 완성되었는지 반드시 확인하세요." },
+    ];
+
+    let currentCardIdx = 0;
+    function renderSlideCard() {
+      const card = slideCardsData[currentCardIdx];
+      document.getElementById('slide-card-badge').innerText = `${currentCardIdx+1} / ${slideCardsData.length}`;
+      document.getElementById('notes-text').innerText = card.notes;
+      document.getElementById('slide-card-content').innerHTML = `
+        <div>
+          <div style="font-size:0.82rem;font-weight:800;color:var(--secondary);margin-bottom:6px;">${card.tag}</div>
+          <h3 style="font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:16px;">${card.title}</h3>
+          <div>${card.body}</div>
+        </div>`;
+    }
+    function nextSlideCard() { if (currentCardIdx < slideCardsData.length-1) { currentCardIdx++; renderSlideCard(); } }
+    function prevSlideCard() { if (currentCardIdx > 0) { currentCardIdx--; renderSlideCard(); } }
+    function checkQuiz(el, isCorrect) {
+      const fb = document.getElementById('quiz-fb');
+      fb.style.display = 'block';
+      if (isCorrect) { fb.style.color='#86efac'; fb.innerText='🎉 정답! 불확실한 사항은 임의로 추가하지 않고 Open Questions로 분리해야 AI 문서의 신뢰성이 유지됩니다.'; }
+      else { fb.style.color='#fca5a5'; fb.innerText='❌ 다시 생각해보세요. AI가 임의로 추가한 내용은 검증되지 않은 요구사항입니다.'; }
+    }
+    renderSlideCard();
+    updateProgress();
+  </script>
+</body>
+</html>

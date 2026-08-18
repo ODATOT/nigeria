@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 3 자율 학습 교재 | PROJECT.md에서 MVP 만들기</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root { --primary:#059669; --secondary:#0891b2; --text-dark:#0f172a; --muted:#475569; --border:#e2e8f0; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Pretendard',-apple-system,sans-serif; background:#0f172a; color:var(--text-dark); line-height:1.65; }
+    .no-print-bar { position:sticky; top:0; z-index:1000; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.1); padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+    .no-print-bar .title-group { display:flex; align-items:center; gap:12px; color:#fff; }
+    .badge { background:linear-gradient(135deg,#059669,#06b6d4); color:#fff; font-size:0.75rem; font-weight:700; padding:4px 10px; border-radius:999px; }
+    .btn-action { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; font-size:0.88rem; font-weight:600; border-radius:8px; border:none; cursor:pointer; text-decoration:none; }
+    .btn-print { background:linear-gradient(135deg,#059669,#0891b2); color:#fff; }
+    .btn-back { background:rgba(255,255,255,0.1); color:#e2e8f0; border:1px solid rgba(255,255,255,0.15); }
+    .paper-container { max-width:900px; margin:30px auto; background:#fff; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.5); padding:48px 56px; }
+    .doc-header { border-bottom:3px solid var(--primary); padding-bottom:20px; margin-bottom:32px; }
+    .doc-category { color:var(--secondary); font-size:0.9rem; font-weight:800; text-transform:uppercase; margin-bottom:6px; }
+    .doc-title { font-size:2.2rem; font-weight:900; color:var(--text-dark); letter-spacing:-0.02em; }
+    h2 { font-size:1.45rem; font-weight:800; color:var(--text-dark); margin:36px 0 16px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+    h3 { font-size:1.15rem; font-weight:700; color:var(--primary); margin:24px 0 12px; }
+    p { margin-bottom:14px; color:#334155; }
+    ul,ol { margin:0 0 16px 20px; color:#334155; }
+    li { margin-bottom:6px; }
+    .callout-box { background:#f0fdf4; border-left:4px solid var(--primary); padding:16px 20px; border-radius:0 8px 8px 0; margin:20px 0; }
+    .prompt-block { background:#1e293b; border:1px solid #334155; border-radius:10px; padding:18px; margin:16px 0; font-family:monospace; font-size:0.88rem; color:#f8fafc; white-space:pre-wrap; text-align:left; }
+    table.data-table { width:100%; border-collapse:collapse; margin:20px 0; font-size:0.92rem; }
+    table.data-table th, table.data-table td { border:1px solid var(--border); padding:10px 14px; text-align:left; }
+    table.data-table th { background:#f1f5f9; }
+    @media print { .no-print-bar { display:none!important; } body { background:#fff!important; } .paper-container { box-shadow:none!important; margin:0!important; padding:0!important; } }
+  </style>
+</head>
+<body>
+  <div class="no-print-bar">
+    <div class="title-group"><span class="badge">Day 3 자율 교재</span><strong>PROJECT.md에서 동작하는 MVP 만들기 — Antigravity 구현 + Codex 검증 가이드</strong></div>
+    <div style="display:flex;gap:8px;">
+      <a href="day3-ai-classroom.html" class="btn-action btn-back">🏫 AI 자율 학습 강의실</a>
+      <button onclick="window.print()" class="btn-action btn-print">🖨️ 인쇄 / PDF 저장</button>
+    </div>
+  </div>
+
+  <div class="paper-container">
+    <header class="doc-header">
+      <div class="doc-category">ACE AI Startup Bootcamp · Day 3 Self-Study Textbook</div>
+      <h1 class="doc-title">PROJECT.md에서 동작하는 MVP 만들기</h1>
+    </header>
+
+    <h2>1. 교육 개요 및 핵심 원칙</h2>
+    <div class="callout-box">
+      <strong>💡 Day 3 핵심 원칙:</strong><br>
+      Antigravity에서 작게 구현 → 브라우저에서 바로 확인 → Codex에서 문서 대비 검증 → MD 수정 → 반영<br><br>
+      <strong>오늘의 목표:</strong> 화면을 많이 만드는 것이 아니라 핵심 사용자 흐름의 시작과 끝이 연결된 MVP v0.1을 완성한다.
+    </div>
+
+    <h2>2. 구현 단위 분리 원칙</h2>
+    <p>Antigravity에 전체 서비스를 한 번에 요청하지 않습니다. PROJECT.md에서 이번 작업에 필요한 범위만 확인하고 구현 순서를 나눕니다.</p>
+    <table class="data-table">
+      <thead><tr><th>잘못된 요청</th><th>올바른 요청</th></tr></thead>
+      <tbody><tr><td>"PROJECT.md를 보고 서비스를 전부 완성해 주세요."</td><td>"기본 구조와 홈 화면만 구현해 주세요. 실행 방법과 변경 파일을 보고해 주세요."</td></tr></tbody>
+    </table>
+
+    <h2>3. 화면 상태 5가지</h2>
+    <table class="data-table">
+      <thead><tr><th>상태</th><th>사용자에게 보여줄 내용</th><th>확인 질문</th></tr></thead>
+      <tbody>
+        <tr><td>기본</td><td>입력 또는 시작 안내</td><td>다음 행동이 분명한가?</td></tr>
+        <tr><td>로딩</td><td>처리 중 표시</td><td>중복 클릭을 방지하는가?</td></tr>
+        <tr><td>빈 값</td><td>필요한 입력 안내</td><td>무엇을 입력해야 하는가?</td></tr>
+        <tr><td>성공</td><td>핵심 결과와 다음 행동</td><td>목표를 완료했는가?</td></tr>
+        <tr><td>오류</td><td>원인과 다시 시도 방법</td><td>사용자가 복구할 수 있는가?</td></tr>
+      </tbody>
+    </table>
+
+    <h2>4. 실습별 프롬프트 가이드</h2>
+
+    <h3>실습 1A. 구현 전 요약 요청 (Antigravity)</h3>
+    <div class="prompt-block">📌 Antigravity:
+PROJECT.md와 HANDOFF_PROMPT.md를 읽고 이번 작업 범위를 먼저 요약해 주세요.
+아직 구현하지 말고 사용할 프로젝트 구조, 생성할 화면, 완료 기준,
+질문이 필요한 항목을 보고해 주세요.</div>
+
+    <h3>실습 1B. 첫 화면 구현 (Antigravity)</h3>
+    <div class="prompt-block">📌 Antigravity:
+PROJECT.md를 기준으로 공통 스타터 템플릿에 프로젝트 기본 구조와 홈 화면을
+구현해 주세요. 이번에는 홈 화면과 첫 번째 CTA까지만 작업합니다.
+Out of Scope는 구현하지 말고, 완료 후 실행 방법·변경 파일·미구현 Must를
+보고해 주세요.</div>
+
+    <h3>실습 2. 화면 연결과 핵심 입력 구현 (Antigravity)</h3>
+    <div class="prompt-block">📌 Antigravity:
+PROJECT.md의 Core User Flow 중 홈→입력 단계만 구현해 주세요.
+정의된 입력 필드와 완료 조건을 그대로 사용하고 빈 값 안내를 포함합니다.
+다른 Must 기능은 아직 구현하지 마세요.</div>
+
+    <h3>실습 3. 핵심 기능과 결과 화면 완성 (Antigravity)</h3>
+    <div class="prompt-block">📌 Antigravity:
+PROJECT.md의 첫 번째 핵심 사용자 흐름을 결과 화면까지 완성해 주세요.
+기본, 로딩, 빈 값, 성공, 오류 상태를 문서의 완료 기준에 맞게 처리합니다.
+실제 외부 서비스가 필요하면 교육용 Mock 데이터를 사용하고 이를 명시합니다.</div>
+
+    <h3>검증. 구현 비교 (Codex)</h3>
+    <div class="prompt-block">📌 Codex:
+PROJECT.md의 Acceptance Criteria와 현재 구현을 비교해 주세요.
+코드는 수정하지 말고 Pass, Fail, Manual Check, Not Implemented로 분류하고
+근거 파일과 브라우저 확인 방법을 표로 작성해 주세요.</div>
+
+    <h3>검증. VALIDATION_DAY3.md 생성 (Codex)</h3>
+    <div class="prompt-block">📌 Codex:
+PROJECT.md와 현재 MVP를 비교해 VALIDATION_DAY3.md를 작성해 주세요.
+Must별 Pass/Fail/Manual Check/Not Implemented 상태, 근거, 재현 단계와
+Day 4 수정 우선순위를 포함합니다. 먼저 검증하고 코드는 수정하지 마세요.</div>
+
+    <h2>5. Day 3 자율형 실습 주제 2종</h2>
+    <h3>[자율 주제 A] 단순 CRUD 노트 앱 MVP v0.1 구현</h3>
+    <div class="prompt-block">📌 Antigravity 자율 주제 A:
+단순 노트 앱 MVP를 구현해 주세요.
+Must 기능:
+1. 텍스트 노트 작성 후 저장 버튼 (localStorage 사용)
+2. 저장된 노트 목록 조회
+3. 노트 삭제 버튼
+상태 처리: 입력 빈값 안내, 노트 없을 때 빈 상태 메시지
+완료 기준: 노트 생성→조회→삭제 흐름이 새로고침 후에도 유지될 것.</div>
+
+    <h3>[자율 주제 B] 계산기 또는 단위 변환기 웹 도구</h3>
+    <div class="prompt-block">📌 Antigravity 자율 주제 B:
+BMI 계산기 웹 앱을 구현해 줘.
+Must 기능:
+1. 키(cm)와 몸무게(kg) 입력 폼
+2. BMI 수치 계산 및 결과 표시 (저체중/정상/과체중/비만 판정)
+3. 재입력 버튼
+완료 기준: 올바른 입력 시 BMI 수치와 판정 텍스트가 화면에 표시될 것.</div>
+
+    <h2>6. Day 3 완료 체크리스트</h2>
+    <ul>
+      <li>[ ] PROJECT.md를 기준으로 Antigravity에서 구현했다.</li>
+      <li>[ ] 프로젝트가 로컬에서 실행된다.</li>
+      <li>[ ] 핵심 사용자 흐름의 시작과 끝이 연결된다.</li>
+      <li>[ ] 로딩·빈 값·오류 상태를 확인했다.</li>
+      <li>[ ] Codex로 VALIDATION_DAY3.md를 작성했다.</li>
+      <li>[ ] Day 4 개선 백로그를 만들었다.</li>
+    </ul>
+  </div>
+</body>
+</html>

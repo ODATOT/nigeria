@@ -1,0 +1,274 @@
+<!-- Slide 1: [Divider] DAY 4 SESSION 01 -->
+<section class="slide-card divider-slide active session-1" id="day4-slide-1">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 4 | 서비스 기능 확장과 완성도 높이기</div>
+    <div class="slide-title">[세션 오프닝] Day 4. 서비스 기능 확장과 완성도 높이기</div>
+  </div>
+  <div class="divider-content">
+    <div class="divider-day">DAY 4</div>
+    <div class="divider-tag">SESSION 01</div>
+    <h1 class="divider-title">서비스 기능 확장과<br>완성도 높이기</h1>
+    <p class="divider-subtitle">변경 명세 → 트랙 구현 → 예외 처리 → 회귀 검증 (6시간 / 360분)</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> 안전한 변경 요구사항</div>
+      <div class="topic-badge"><span>02</span> 선택 트랙 기능 구현</div>
+      <div class="topic-badge"><span>03</span> 회귀 검증 사이클</div>
+    </div>
+  </div>
+  <div class="slide-body" style="display: none;"><p>Day 4. 서비스 기능 확장과 완성도 높이기</p></div>
+  <div class="presenter-notes" style="display:none;">Day 4의 핵심 원칙은 "변경은 코드를 바로 수정하는 작업이 아니라 기준 문서를 갱신하는 일부터 시작한다"입니다. 새 기능이 동작해도 Day 3의 정상 시나리오가 실패하면 MVP v1.0이 아님을 강조하세요.</div>
+</section>
+
+<!-- Slide 2: 핵심 원칙 -->
+<section class="slide-card" id="day4-slide-2">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Day 4 핵심 원칙</div>
+      <div class="slide-title">오늘의 핵심 원칙</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">4일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">문서 변경이 구현 변경보다 먼저다.</div>
+    <ul class="bullet-list">
+      <li>CHANGE_REQUEST_DAY4.md 없이 Antigravity에 구현을 요청하지 않는다</li>
+      <li>새 기능이 동작해도 Day 3의 정상 시나리오가 실패하면 MVP v1.0이 아니다</li>
+      <li>Must 기능은 최대 두 개만 추가한다</li>
+    </ul>
+  </div>
+  <div class="presenter-notes" style="display:none;">수강생이 "바로 구현하면 안 되나요?"라고 물으면, "문서 없이 추가하면 기존 기능이 깨질 위험이 높고, 검증도 어렵다"고 설명하세요.</div>
+</section>
+
+<!-- Slide 3: 선택 트랙 -->
+<section class="slide-card" id="day4-slide-3">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">강의 5.1</div>
+      <div class="slide-title">Day 4 선택 트랙 4가지</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">4일차</span></div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">🛒 커머스형:</span> 상품, 주문, Mock Payment, Point — 실제 결제·실개인정보 금지</li>
+      <li><span class="highlight">🏠 플랫폼형:</span> 회원 상태, 게시물, 검색, 상태 변경 — 간단한 Mock 사용자 허용</li>
+      <li><span class="highlight">🔧 업무도구형:</span> 입력, 조회, 수정, 필터, 내보내기 — 민감 데이터 사용 금지</li>
+      <li><span class="highlight">🤖 AI 서비스형:</span> 프롬프트, Mock/실제 AI 응답, 결과 저장 — API 키 노출 금지</li>
+    </ul>
+    <div class="code-box" style="text-align:left !important;">한 팀은 한 트랙만 선택. Must 기능은 최대 두 개 추가.</div>
+  </div>
+  <div class="presenter-notes" style="display:none;">트랙 선택은 VALIDATION_DAY3.md의 Fail 항목과 팀의 서비스 특성을 기준으로 합니다.</div>
+</section>
+
+<!-- Slide 4: 변경 요구사항 구조 -->
+<section class="slide-card" id="day4-slide-4">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">강의 5.2</div>
+      <div class="slide-title">안전한 변경 요구사항 구조</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">4일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">[변경 목적]        ← 왜 이 기능이 필요한가
+[추가할 기능]       ← 무엇을 만드는가
+[변경할 화면·데이터] ← 어디가 영향받는가
+[반드시 유지할 기존 기능]  ← 무엇이 깨지면 안 되는가
+[신규 완료 조건]    ← 언제 완료라고 판단하는가
+[오류·예외 상태]    ← 어떤 예외를 처리하는가
+[Out of Scope]      ← 이번에 만들지 않는 것
+[회귀 테스트 항목]  ← 기존 기능도 확인할 것</div>
+    <ul class="bullet-list">
+      <li><span class="highlight">핵심:</span> 추가할 것과 깨지면 안 되는 것을 함께 쓴다</li>
+    </ul>
+  </div>
+  <div class="presenter-notes" style="display:none;">보존 조건이 누락된 변경 요구사항은 기존 기능을 파괴할 위험이 높습니다. 8개 항목 중 보존 조건과 회귀 테스트를 가장 강조하세요.</div>
+</section>
+
+<!-- Slide 5: 오류·예외 처리 -->
+<section class="slide-card" id="day4-slide-5">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">강의 5.3</div>
+      <div class="slide-title">오류·예외·복구 경험 설계</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">4일차</span></div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">빈 값:</span> 아무 반응 없음 → 필요한 입력과 위치 안내</li>
+      <li><span class="highlight">중복:</span> 동일 항목 반복 생성 → 중복 안내와 기존 항목 보기</li>
+      <li><span class="highlight">처리 실패:</span> 기술 오류 노출 → 쉬운 설명과 다시 시도 버튼</li>
+      <li><span class="highlight">권한 없음:</span> 빈 화면 → 접근 조건과 돌아가기 제공</li>
+      <li><span class="highlight">데이터 없음:</span> 오류처럼 표시 → 첫 데이터 생성 행동 안내</li>
+    </ul>
+    <div class="code-box" style="text-align:left !important;">오류 화면도 사용자 흐름의 일부다.</div>
+  </div>
+  <div class="presenter-notes" style="display:none;">오류 메시지에 항상 다음 행동을 포함해야 합니다. 사용자가 오류에서 복구할 수 있는 UI가 완성도의 핵심입니다.</div>
+</section>
+
+<!-- Slide 6: 회귀 테스트 -->
+<section class="slide-card" id="day4-slide-6">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">강의 5.4</div>
+      <div class="slide-title">회귀 테스트란?</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">4일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">신규 기능 테스트 + 기존 핵심 흐름 테스트 + 오류 상태 테스트</div>
+    <ul class="bullet-list">
+      <li>새 기능을 추가했지만 기존 핵심 흐름이 깨졌다 → MVP v1.0이 아니다</li>
+      <li>VALIDATION_DAY4.md에 기존 Must와 신규 Must를 구분하여 기록</li>
+    </ul>
+    <div class="code-box" style="text-align:left !important;">새 기능을 확인하고 이전 기능도 다시 확인한다.</div>
+  </div>
+  <div class="presenter-notes" style="display:none;">회귀 테스트는 새 기능 추가 후 기존 기능이 여전히 동작하는지 확인하는 과정입니다. 별도의 자동화 도구 없이 브라우저에서 직접 확인하는 것도 회귀 테스트입니다.</div>
+</section>
+
+<!-- Slide 7: 실습 1 (Task 01) -->
+<section class="slide-card" id="day4-slide-7">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Task 01 | 필수 실습 (50분)</div>
+      <div class="slide-title">Codex로 변경 명세 작성 (CHANGE_REQUEST_DAY4.md)</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">4일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">📌 Codex 프롬프트:
+PROJECT.md와 VALIDATION_DAY3.md를 읽고 CHANGE_REQUEST_DAY4.md 초안을 작성해 줘.
+선택 트랙은 [트랙명]이고 추가할 Must는 [기능]이야.
+포함 내용:
+1. 변경 목적 및 추가 기능
+2. 영향받는 화면 및 데이터 구조
+3. 반드시 유지해야 할 기존 핵심 기능 (보존 조건)
+4. 신규 완료 조건 및 오류·예외 상태
+5. Out of Scope 및 회귀 테스트 항목
+아직 PROJECT.md나 코드는 수정하지 마.</div>
+    <ul class="bullet-list">
+      <li><span class="highlight">체크포인트:</span> 추가 Must 최대 2개 / 보존 조건 명시 / 회귀 테스트 포함</li>
+    </ul>
+  </div>
+  <div class="presenter-notes" style="display:none;">추가 Must가 최대 두 개인지, 기존 기능 보존 조건이 명시됐는지, 신규 완료 조건과 회귀 테스트가 있는지 확인하게 합니다.</div>
+</section>
+
+<!-- Slide 8: 실습 2 (Task 02) -->
+<section class="slide-card" id="day4-slide-8">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Task 02 | 필수 실습 (50분)</div>
+      <div class="slide-title">Antigravity로 선택 트랙 기능 구현</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">4일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">📌 Antigravity 프롬프트:
+갱신된 PROJECT.md와 CHANGE_REQUEST_DAY4.md를 기준으로 선택 기능을 구현해 줘.
+- 보존 조건에 있는 기존 핵심 흐름은 절대 변경하지 말 것.
+- 작업 전 수정 대상 파일 목록을 먼저 보고할 것.
+- 완료 후 변경 파일, 신규 기능 테스트 방법, 기존 기능 동작 확인 결과를 정리해 줘.</div>
+    <ul class="bullet-list">
+      <li><span class="highlight">구현 전:</span> 영향 파일 목록을 먼저 받아 예상 범위를 파악</li>
+      <li><span class="highlight">구현 후:</span> 신규 기능 + 기존 흐름이 모두 정상 동작하는지 브라우저 확인</li>
+    </ul>
+  </div>
+  <div class="presenter-notes" style="display:none;">구현 전 영향 파일 목록을 먼저 받는 것이 중요합니다. 예상보다 많은 파일이 영향받는다면 범위를 좁혀야 합니다.</div>
+</section>
+
+<!-- Slide 9: 실습 3 (Task 03) -->
+<section class="slide-card" id="day4-slide-9">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Task 03 | 필수 실습 (70분)</div>
+      <div class="slide-title">UX·오류·예외 복구 경험 완성 — MVP v1.0</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">4일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">📌 Antigravity 프롬프트:
+MVP v1.0의 완성도를 높여 줘.
+1. 필수 예외 처리: 빈 값 안내, 중복 입력 방지, 처리 실패 복구, 데이터 없음 안내
+2. 원칙:
+   - 기술 오류 메시지를 사용자에게 날것으로 보여주지 않을 것
+   - 처리 실패 시에도 사용자가 입력한 내용을 최대한 보존할 것
+   - 모든 오류 화면에 '다시 시도' 또는 '홈으로 돌아가기' 버튼을 제공할 것</div>
+    <ul class="bullet-list">
+      <li><span class="highlight">완료 기준:</span> 동료가 사전 설명 없이 5분간 핵심 흐름을 완주할 수 있는가?</li>
+    </ul>
+  </div>
+  <div class="presenter-notes" style="display:none;">동료 테스트가 가장 중요합니다. 설명 없이 5분간 사용하게 하고 막히는 지점을 기록합니다.</div>
+</section>
+
+<!-- Slide 10: 검증 실습 (Task 04) -->
+<section class="slide-card" id="day4-slide-10">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Task 04 | 필수 실습 (40분)</div>
+      <div class="slide-title">Codex 회귀 검증 (VALIDATION_DAY4.md)</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">4일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">📌 Codex 프롬프트:
+PROJECT.md, CHANGE_REQUEST_DAY4.md, VALIDATION_DAY3.md와 현재 구현을 비교해 회귀 검증해 줘.
+1. 기존 Must(Day 3)와 신규 Must(Day 4)를 명확히 구분하여 기록
+2. 각 항목을 Pass / Fail / Manual Check로 평가
+3. Fail 항목은 재현 단계와 기대/실제 결과를 명시
+4. 평가 결과를 VALIDATION_DAY4.md에 기록하고, 코드는 수정하지 마.</div>
+    <ul class="bullet-list">
+      <li><span class="highlight">중요:</span> 기존 Must(Day 3)와 신규 Must(Day 4)를 명확히 구분하여 기록</li>
+    </ul>
+  </div>
+  <div class="presenter-notes" style="display:none;">VALIDATION_DAY4.md는 Day 5 최종 데모 준비의 기준이 됩니다. Fail 항목은 Day 5에 해결하거나 데모 제한사항으로 명시합니다.</div>
+</section>
+
+<!-- Slide 11: 자율형 도전 실습 -->
+<section class="slide-card" id="day4-slide-11">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">자율형 실습 | Autonomous Challenge</div>
+      <div class="slide-title">🚀 Day 4 자율 도전 실습 과제 (Challenge A &amp; B)</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">4일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.3);border-radius:12px;padding:20px;text-align:left;">
+        <div style="color:#fbbf24;font-weight:800;margin-bottom:6px;font-size:0.85rem;">⚡ 자율 도전 A · 검색/탐색성</div>
+        <div style="font-weight:800;color:#fff;font-size:1.05rem;margin-bottom:8px;">실시간 키워드 검색 &amp; 카테고리 필터링</div>
+        <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;margin-bottom:10px;">기존 데이터 목록 상단에 검색창과 탭 필터를 추가하여 새로고침 없이 즉각 필터링되는 인터랙션 구현</p>
+        <div style="font-family:monospace;font-size:0.8rem;color:#fde68a;">산출물: src/components/search-filter.js</div>
+      </div>
+      <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:12px;padding:20px;text-align:left;">
+        <div style="color:#fca5a5;font-weight:800;margin-bottom:6px;font-size:0.85rem;">🛡️ 자율 도전 B · 완성도/복구</div>
+        <div style="font-weight:800;color:#fff;font-size:1.05rem;margin-bottom:8px;">에러 상태 &amp; 빈 값 UX 전면 리팩토링</div>
+        <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;margin-bottom:10px;">모든 입력 필드에 실시간 검증(Inline validation)과 에러 토스트 팝업, 친절한 빈 화면 일러스트/아이콘 적용</p>
+        <div style="font-family:monospace;font-size:0.8rem;color:#fca5a5;">산출물: src/styles/empty-state.css, toast.js</div>
+      </div>
+    </div>
+  </div>
+  <div class="presenter-notes" style="display:none;">필수 Task 01~04를 조기 완료한 학생들에게 실시간 검색/필터 또는 에러 복구 UX 심화 도전을 안내해 주세요.</div>
+</section>
+
+<!-- Slide 12: Day 4 결과물 & Day 5 예고 -->
+<section class="slide-card" id="day4-slide-12">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Day 4 마무리</div>
+      <div class="slide-title">Day 4 결과물 & Day 5 예고</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">4일차</span></div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">📄 CHANGE_REQUEST_DAY4.md:</span> 추가 기능, 영향 범위, 보존 조건, 회귀 테스트 포함</li>
+      <li><span class="highlight">🌐 MVP v1.0:</span> 선택 트랙 기능, 오류·예외 처리, 반응형 개선 완료</li>
+      <li><span class="highlight">📄 VALIDATION_DAY4.md:</span> 기존 Must와 신규 Must 구분 회귀 검증 결과</li>
+    </ul>
+    <div class="code-box" style="text-align:left !important;">Day 5 예고: 최종 검증·배포·발표와 개선
+→ FINAL_VALIDATION.md → 외부 배포 URL → 5분 발표 시연 → 2주 개선 로드맵</div>
+  </div>
+  <div class="presenter-notes" style="display:none;">VALIDATION_DAY4.md의 Fail 항목이 Day 5의 최우선 개선 대상입니다. 데이터·발표 시나리오 준비를 오늘 시작합니다.</div>
+</section>

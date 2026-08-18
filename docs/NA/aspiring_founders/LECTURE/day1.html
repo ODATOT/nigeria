@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 1 LECTURE Slide Deck | Codex & Antigravity 시작하기</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --secondary: #06b6d4;
+      --accent-purple: #8b5cf6;
+      --bg-dark: #09090b;
+      --panel-bg: #111827;
+      --card-bg: #1a1d24;
+      --text-main: #ffffff;
+      --text-muted: #d4d4d8;
+      --text-dim: #71717a;
+      --border-line: rgba(255, 255, 255, 0.1);
+      --radius: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* Presentation Header Controls */
+    .deck-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: rgba(9, 9, 11, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      z-index: 100;
+    }
+    .deck-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    .deck-badge {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .ctrl-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-line);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .ctrl-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+    .slide-counter {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--secondary);
+      min-width: 60px;
+      text-align: center;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      z-index: 99;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      transition: width 0.3s ease;
+    }
+
+    /* Slides Container */
+    .slides-wrapper {
+      height: calc(100vh - 64px);
+      margin-top: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1100px;
+      height: calc(100vh - 120px);
+      background: var(--panel-bg);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius);
+      padding: 40px 48px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease;
+    }
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Slide Typography & Layout */
+    .slide-tag {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--secondary);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .slide-title {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .divider-slide {
+      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .divider-slide .slide-title {
+      font-size: 2.8rem;
+      background: linear-gradient(135deg, #ffffff, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .bullet-list {
+      list-style: none;
+    }
+    .bullet-list li {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      position: relative;
+      padding-left: 24px;
+    }
+    .bullet-list li::before {
+      content: "•";
+      color: var(--secondary);
+      font-size: 1.5rem;
+      position: absolute;
+      left: 0;
+      top: -4px;
+    }
+    .bullet-list .highlight {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .code-box {
+      background: #141824;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      font-family: monospace;
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      margin-bottom: 16px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .info-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-line);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .info-card-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--secondary);
+      margin-bottom: 8px;
+    }
+    .info-card-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    /* Slide Footer & Presenter Notes */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-line);
+      padding-top: 16px;
+      margin-top: 24px;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+    .presenter-notes {
+      display: none;
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      color: #ddd6fe;
+      margin-top: 16px;
+    }
+    .show-notes .presenter-notes {
+      display: block;
+    }
+  </style>
+</head>
+<body class="show-notes">
+
+  <!-- Deck Top Controls -->
+  <header class="deck-header">
+    <div class="deck-brand">
+      <span class="deck-badge">Day 1 Slide Deck</span>
+      AI 기반 Web App MVP 개발 과정
+    </div>
+    <div class="deck-controls">
+      <button class="ctrl-btn" onclick="prevSlide()">◀ 이전 (←)</button>
+      <span class="slide-counter" id="slide-counter">1 / 14</span>
+      <button class="ctrl-btn" onclick="nextSlide()">다음 (→ / Space) ▶</button>
+      <button class="ctrl-btn" onclick="toggleNotes()">🎤 발표자 노점 켜기/끄기</button>
+    </div>
+  </header>
+
+  <!-- Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  <!-- Slides Container -->
+  <main class="slides-wrapper">
+
+    <!-- Slide 1: Cover -->
+    <section class="slide divider-slide active">
+      <div>
+        <div class="slide-tag">ACE AI Startup Bootcamp · Day 1 Lecture</div>
+        <h1 class="slide-title">Day 1. Codex & Antigravity 시작하기</h1>
+        <p style="font-size: 1.2rem; color: #93c5fd; margin-bottom: 24px;">AI 개발 도구와 표준 작업 방식 익히기</p>
+        <div style="display: inline-flex; gap: 12px;">
+          <span style="background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 8px; font-size: 0.9rem;">⏱️ 6시간 (360분)</span>
+          <span style="background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 8px; font-size: 0.9rem;">🛠️ Codex, Antigravity, Browser</span>
+        </div>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: Day 1 오프닝 슬라이드입니다. 수강생들에게 복잡한 코딩보다 "폴더 ➔ 파일 ➔ 프롬프트 ➔ 결과확인 ➔ 수정"이라는 기본 사이클을 배우는 날임을 강조하세요.
+      </div>
+    </section>
+
+    <!-- Slide 2: Course Objectives -->
+    <section class="slide">
+      <div>
+        <div class="slide-tag">Day 1 Overview</div>
+        <h2 class="slide-title">🎯 Day 1 핵심 학습 목표</h2>
+        <div class="card-grid">
+          <div class="info-card">
+            <div class="info-card-title">1. 동일 Workspace 구성</div>
+            <div class="info-card-desc">Codex와 Antigravity에서 같은 절대경로 프로젝트 폴더(my-project) 열기</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">2. 요구사항 MD 작성</div>
+            <div class="info-card-desc">Codex에서 목표, 조건, 완료 기준이 포함된 명세 문서 작성</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">3. MD 기반 구현</div>
+            <div class="info-card-desc">Antigravity로 MD를 분석하여 실습 웹페이지(index.html) 자동 생성</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">4. 품질 검증 & 보완</div>
+            <div class="info-card-desc">Codex로 구현 결과를 문서와 비교 검증하고 수정 요청 작성</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>AI 기반 Web App MVP 개발 과정</span>
+        <span>Slide 2 of 14</span>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: 수강생들이 오늘 세션이 끝났을 때 스스로 이 4가지 성과를 얻을 수 있음을 명확히 제시합니다.
+      </div>
+    </section>
+
+    <!-- Slide 3: Timetable -->
+    <section class="slide">
+      <div>
+        <div class="slide-tag">Day 1 Schedule</div>
+        <h2 class="slide-title">⏱️ 시간별 교육 일정 (총 6시간 / 360분)</h2>
+        <ul class="bullet-list">
+          <li><span class="highlight">01. 오리엔테이션 (20분):</span> 5일간 커리큘럼 흐름 및 오늘의 완료 기준 안내</li>
+          <li><span class="highlight">02. 이론 강의 (40분):</span> AI 개발 사이클 및 Codex vs Antigravity 역할 분담</li>
+          <li><span class="highlight">03. 실습 시연 (30분):</span> 프롬프트 작성, 파일 생성, 실행과 수정 전체 시연</li>
+          <li><span class="highlight">04. 실습 1 (50분):</span> 환경 구성 & `my-project` 공통 폴더 열기</li>
+          <li><span class="highlight">05. 실습 2 (50분):</span> Codex로 `README.md` & `PAGE_REQUIREMENTS.md` 작성</li>
+          <li><span class="highlight">06. 실습 3 (70분):</span> Antigravity로 MD 기반 `index.html` 구현</li>
+          <li><span class="highlight">07. 검증 실습 (40분):</span> Codex 문서 대비 검증 & `VALIDATION.md` 생성</li>
+          <li><span class="highlight">08. 공유 & 회고 (30분):</span> 프롬프트 경험 공유 및 Day 2 예고</li>
+        </ul>
+      </div>
+      <div class="slide-footer">
+        <span>AI 기반 Web App MVP 개발 과정</span>
+        <span>Slide 3 of 14</span>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: 강의 40분, 시연 30분 진행 후 직접 실습에 돌입하는 스케줄임을 안내합니다.
+      </div>
+    </section>
+
+    <!-- Slide 4: AI Development Cycle -->
+    <section class="slide">
+      <div>
+        <div class="slide-tag">Core Concept 01</div>
+        <h2 class="slide-title">🔄 AI 개발의 기본 파이프라인</h2>
+        <div class="code-box">
+Codex (요구사항 MD 작성)
+   ⬇️
+Antigravity (MD 분석 ➔ 서비스 코드 구현)
+   ⬇️
+Codex (문서 대비 구현 결과 검증 & 테스트)
+   ⬇️
+Codex (검증 결과를 MD에 반영)
+   ⬇️
+Antigravity (변경된 MD 기준으로 서비스 수정)
+        </div>
+        <ul class="bullet-list">
+          <li>AI가 만든 결과는 완성품이 아니라 <span class="highlight">검토 대상</span>입니다.</li>
+          <li>한 번에 전체를 만들기보다, 확인 가능한 작은 단위로 진행합니다.</li>
+        </ul>
+      </div>
+      <div class="slide-footer">
+        <span>AI 기반 Web App MVP 개발 과정</span>
+        <span>Slide 4 of 14</span>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: Codex는 기획/문서/검증의 주 도구이고, Antigravity는 코드 구현의 주 도구라는 파이프라인을 강조합니다.
+      </div>
+    </section>
+
+    <!-- Slide 5: Folder, Files, Absolute Path -->
+    <section class="slide">
+      <div>
+        <div class="slide-tag">Core Concept 02</div>
+        <h2 class="slide-title">📁 폴더, 파일, 그리고 절대경로</h2>
+        <div class="split-layout">
+          <div>
+            <ul class="bullet-list">
+              <li><span class="highlight">프로젝트 폴더:</span> 문서, 코드, 이미지가 함께 위치하는 공간</li>
+              <li><span class="highlight">절대경로:</span> 내 컴퓨터 안에서 해당 폴더의 고유 주소</li>
+              <li><span class="highlight">동일 경로:</span> Codex와 Antigravity에서 반드시 같은 경로를 열어야 변경 사항이 공유됩니다.</li>
+            </ul>
+          </div>
+          <div style="background: rgba(6, 10, 18, 0.85); border: 1px solid var(--border-line); padding: 20px; border-radius: 14px;">
+            <div style="font-weight: 800; color: var(--secondary); margin-bottom: 12px; font-size: 0.95rem;">📁 my-project/</div>
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 8px;">
+                <span style="font-family: monospace; color: #e2e8f0;">├── 📄 README.md</span>
+                <span style="color: var(--text-dim); font-size: 0.8rem;">프로젝트 목적</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 8px;">
+                <span style="font-family: monospace; color: #e2e8f0;">├── 📄 PAGE_REQUIREMENTS.md</span>
+                <span style="color: var(--secondary); font-size: 0.8rem; font-weight: 700;">Codex 요구사항 명세</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 8px;">
+                <span style="font-family: monospace; color: #e2e8f0;">├── 📄 VALIDATION.md</span>
+                <span style="color: #fde047; font-size: 0.8rem; font-weight: 700;">Codex 검증 보고서</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 8px;">
+                <span style="font-family: monospace; color: #e2e8f0;">└── 🌐 index.html</span>
+                <span style="color: #86efac; font-size: 0.8rem; font-weight: 700;">Antigravity 구현 코드</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>AI 기반 Web App MVP 개발 과정</span>
+        <span>Slide 5 of 14</span>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: 수강생들이 두 도구에서 다른 폴더를 열고 "AI가 수정한 파일이 안 보여요"라고 질문하지 않도록 강조하세요.
+      </div>
+    </section>
+
+    <!-- Slide 6: Tool Roles -->
+    <section class="slide">
+      <div>
+        <div class="slide-tag">Core Concept 03</div>
+        <h2 class="slide-title">🛠️ 도구별 명확한 역할 분담</h2>
+        <div class="card-grid">
+          <div class="info-card">
+            <div class="info-card-title">📘 Codex</div>
+            <div class="info-card-desc">아이디어를 MD로 구조화, 테스트 및 자동화 검증, <code>PAGE_REQUIREMENTS.md</code> 작성</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">⚡ Antigravity</div>
+            <div class="info-card-desc">MD를 읽고 프로젝트 자동 생성, UI/UX 개발, <code>index.html</code> 등 웹 코드 구현</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">🌐 브라우저 (Chrome)</div>
+            <div class="info-card-desc">AI의 대답이 아니라 실제 사용자 화면과 동작 결과를 직접 확인하는 최종 판단자</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>AI 기반 Web App MVP 개발 과정</span>
+        <span>Slide 6 of 14</span>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: 도구 간 중복 작업을 방지하기 위한 핵심 역할표입니다.
+      </div>
+    </section>
+
+    <!-- Slide 7: Good Prompt Elements -->
+    <section class="slide">
+      <div>
+        <div class="slide-tag">Prompting Guide</div>
+        <h2 class="slide-title">💡 좋은 프롬프트 작성의 3요소</h2>
+        <div class="card-grid">
+          <div class="info-card">
+            <div class="info-card-title">1. 목표 (Goal)</div>
+            <div class="info-card-desc">어떤 결과물(파일, 화면, 기능)을 만들어야 하는가?</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">2. 조건 (Constraints)</div>
+            <div class="info-card-desc">디자인 스타일, 폰트, 기술 조건, 포함 및 금지 사항</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-title">3. 완료 기준 (Criteria)</div>
+            <div class="info-card-desc">사용자가 어떤 클릭과 렌더링을 확인해야 성공인가?</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>AI 기반 Web App MVP 개발 과정</span>
+        <span>Slide 7 of 14</span>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: "그냥 잘 만들어줘"가 아닌 목표, 조건, 완료 기준 3요소를 프롬프트에 담도록 지도하세요.
+      </div>
+    </section>
+
+    <!-- Slide 8: Safety Guidelines -->
+    <section class="slide">
+      <div>
+        <div class="slide-tag">Security & Safety</div>
+        <h2 class="slide-title">⚠️ 안전한 작업과 보안 원칙</h2>
+        <ul class="bullet-list">
+          <li><span class="highlight">🔒 보안 원칙:</span> API 키, 개인정보, 비밀번호를 프롬프트에 절대 입력하지 않습니다.</li>
+          <li><span class="highlight">🔍 변경 파일 확인:</span> AI가 변경한 파일 목록을 적용 전에 실행 창에서 확인합니다.</li>
+          <li><span class="highlight">💾 복구 포인트:</span> 정상 동작하는 시점에 복사본을 남겨 원복 가능하게 합니다.</li>
+        </ul>
+      </div>
+      <div class="slide-footer">
+        <span>AI 기반 Web App MVP 개발 과정</span>
+        <span>Slide 8 of 14</span>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: 초보자 수강생들을 위한 실수를 방지하는 안전장치 안내 슬라이드입니다.
+      </div>
+    </section>
+
+    <!-- Slide 9: Hands-on 1 -->
+    <section class="slide">
+      <div>
+        <div class="slide-tag">Hands-on 01</div>
+        <h2 class="slide-title">💻 [실습 1] 환경 구성 & 공통 폴더 열기</h2>
+        <p style="color: var(--text-muted); margin-bottom: 16px;">`my-project` 폴더를 생성하고 Codex와 Antigravity에서 모두 엽니다.</p>
+        <div style="background: rgba(6, 10, 18, 0.85); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 14px; padding: 20px; text-align: left; margin: 16px 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px; margin-bottom: 14px;">
+            <span style="font-size: 0.9rem; font-weight: 700; color: #67e8f9; display: flex; align-items: center; gap: 6px;">
+              📌 Codex용 프롬프트
+            </span>
+            <span style="font-size: 0.78rem; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); padding: 3px 10px; border-radius: 6px; font-weight: 600;">Prompt</span>
+          </div>
+          <pre style="font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.92rem; color: #e2e8f0; white-space: pre-wrap; word-break: break-word; line-height: 1.65; text-align: left; margin: 0; background: transparent; border: none; padding: 0;">이 프로젝트 폴더(my-project)의 기본 역할을 정의해 줘.
+프로젝트 목적은 "AI 개발 도구를 활용한 기본 웹 서비스 실습"이야.
+기본 README.md 파일을 생성하고 설명 구조를 작성해 줘.</pre>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>AI 기반 Web App MVP 개발 과정</span>
+        <span>Slide 9 of 14</span>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: 실습 1에서는 두 앱에서 동일 폴더가 열렸는지 조교와 함께 개별 점검합니다.
+      </div>
+    </section>
+
+    <!-- Slide 10: Hands-on 2 -->
+    <section class="slide">
+      <div>
+        <div class="slide-tag">Hands-on 02</div>
+        <h2 class="slide-title">💻 [실습 2] Codex로 요구사항 MD 작성</h2>
+        <div style="background: rgba(6, 10, 18, 0.85); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 14px; padding: 20px; text-align: left; margin: 16px 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px; margin-bottom: 14px;">
+            <span style="font-size: 0.9rem; font-weight: 700; color: #67e8f9; display: flex; align-items: center; gap: 6px;">
+              📌 PAGE_REQUIREMENTS.md 생성 프롬프트
+            </span>
+            <span style="font-size: 0.78rem; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); padding: 3px 10px; border-radius: 6px; font-weight: 600;">Codex</span>
+          </div>
+          <pre style="font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.92rem; color: #e2e8f0; white-space: pre-wrap; word-break: break-word; line-height: 1.65; text-align: left; margin: 0; background: transparent; border: none; padding: 0;">PAGE_REQUIREMENTS.md 파일을 생성해 줘.
+내용: "예비창업자 프로필 및 서비스 소개 페이지"
+1. 제목: My Startup Pitch
+2. 상단: 창업자 이름, 한 줄 소개, 핵심 분야 태그
+3. 중단: 해결하려는 문제, 해결책 카드 2개
+4. 하단: 문의하기 버튼
+5. 조건: 다크 모드 스타일, Pretendard 폰트
+6. 완료 기준: 브라우저에서 올바르게 표시될 것.</pre>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>AI 기반 Web App MVP 개발 과정</span>
+        <span>Slide 10 of 14</span>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: 코드를 짜기 전에 요구사항 문서를 먼저 작성하는 습관을 강조합니다.
+      </div>
+    </section>
+
+    <!-- Slide 11: Hands-on 3 -->
+    <section class="slide">
+      <div>
+        <div class="slide-tag">Hands-on 03</div>
+        <h2 class="slide-title">💻 [실습 3] Antigravity로 웹페이지 구현</h2>
+        <div style="background: rgba(6, 10, 18, 0.85); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 14px; padding: 20px; text-align: left; margin: 16px 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px; margin-bottom: 14px;">
+            <span style="font-size: 0.9rem; font-weight: 700; color: #67e8f9; display: flex; align-items: center; gap: 6px;">
+              📌 Antigravity 서비스 개발 프롬프트
+            </span>
+            <span style="font-size: 0.78rem; background: rgba(6, 182, 212, 0.15); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3); padding: 3px 10px; border-radius: 6px; font-weight: 600;">Antigravity</span>
+          </div>
+          <pre style="font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.92rem; color: #e2e8f0; white-space: pre-wrap; word-break: break-word; line-height: 1.65; text-align: left; margin: 0; background: transparent; border: none; padding: 0;">PAGE_REQUIREMENTS.md 파일을 읽고, 명시된 요구사항을 만족하는 index.html 웹페이지를 만들어 줘.
+- Pretendard 폰트와 깔끔한 다크 UI를 적용해 줘.
+- 상단 프로필, 문제/해결책 카드, 하단 문의 버튼을 모두 포함해야 해.
+- 작성 완료 후 완성된 웹페이지를 바로 브라우저에서 실행할 수 있게 해줘.</pre>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>AI 기반 Web App MVP 개발 과정</span>
+        <span>Slide 11 of 14</span>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: Antigravity가 문서를 읽고 실제 HTML 코드를 뚝딱 만들어내는 장면을 학생들이 직접 경험하게 합니다.
+      </div>
+    </section>
+
+    <!-- Slide 12: Hands-on 4 -->
+    <section class="slide">
+      <div>
+        <div class="slide-tag">Hands-on 04</div>
+        <h2 class="slide-title">💻 [실습 4] Codex 문서 대비 품질 검증</h2>
+        <div style="background: rgba(6, 10, 18, 0.85); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 14px; padding: 20px; text-align: left; margin: 16px 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px; margin-bottom: 14px;">
+            <span style="font-size: 0.9rem; font-weight: 700; color: #c4b5fd; display: flex; align-items: center; gap: 6px;">
+              📌 Codex 검증 프롬프트
+            </span>
+            <span style="font-size: 0.78rem; background: rgba(139, 92, 246, 0.15); color: #ddd6fe; border: 1px solid rgba(139, 92, 246, 0.3); padding: 3px 10px; border-radius: 6px; font-weight: 600;">Validation</span>
+          </div>
+          <pre style="font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.92rem; color: #e2e8f0; white-space: pre-wrap; word-break: break-word; line-height: 1.65; text-align: left; margin: 0; background: transparent; border: none; padding: 0;">index.html 코드를 검토하고 PAGE_REQUIREMENTS.md 내용과 비교해 줘.
+1. 누락된 요구사항이나 잘못 구현된 부분이 있는지 점검해 줘.
+2. VALIDATION.md 파일을 새로 만들고 테스트 체크리스트(통과/미통과)를 작성해 줘.
+3. 누락 부분이 있다면 PAGE_REQUIREMENTS.md에 수정 요청사항으로 추가해 줘.</pre>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>AI 기반 Web App MVP 개발 과정</span>
+        <span>Slide 12 of 14</span>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: Codex가 코드의 누락사항을 검증해 주는 자동화 점검 과정입니다.
+      </div>
+    </section>
+
+    <!-- Slide 13: Shared Discussion -->
+    <section class="slide">
+      <div>
+        <div class="slide-tag">Discussion</div>
+        <h2 class="slide-title">💬 공유 및 토론 주제</h2>
+        <ul class="bullet-list">
+          <li>오늘 사용한 프롬프트 중 가장 <span class="highlight">효과적인 표현</span>은 무엇이었는가?</li>
+          <li>Antigravity가 구현할 때 <span class="highlight">발생한 오류</span>는 무엇이었으며 어떻게 해결했는가?</li>
+          <li>Codex와 Antigravity의 <span class="highlight">역할 차이</span>를 어떻게 체감했는가?</li>
+        </ul>
+      </div>
+      <div class="slide-footer">
+        <span>AI 기반 Web App MVP 개발 과정</span>
+        <span>Slide 13 of 14</span>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: 결과 화면뿐만 아니라 사용한 프롬프트와 수정 과정을 상호 공유하도록 유도하세요.
+      </div>
+    </section>
+
+    <!-- Slide 14: Day 2 Preview -->
+    <section class="slide divider-slide">
+      <div>
+        <div class="slide-tag">Next Step</div>
+        <h1 class="slide-title">Day 2 예고. AI와 프로젝트 기획하기</h1>
+        <p style="font-size: 1.2rem; color: #93c5fd; margin-top: 16px;">
+          머릿속 아이디어를 AI 지시서 <strong>PROJECT.md</strong>로 완벽하게 구조화하는 날입니다!
+        </p>
+        <p style="margin-top: 24px; color: var(--text-muted); font-size: 0.95rem;">수고 많으셨습니다. Day 1 실습 제출을 마쳐주세요! 🎉</p>
+      </div>
+      <div class="presenter-notes">
+        🎤 발표자 노트: Day 1 교육을 마무리하고 Day 2 기대감을 유도합니다.
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const counter = document.getElementById('slide-counter');
+    const progressBar = document.getElementById('progress-bar');
+
+    function updateDeck() {
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+      counter.innerText = `${currentSlide + 1} / ${totalSlides}`;
+      progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateDeck();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateDeck();
+      }
+    }
+
+    function toggleNotes() {
+      document.body.classList.toggle('show-notes');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    updateDeck();
+  </script>
+</body>
+</html>

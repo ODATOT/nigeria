@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 5 자율 학습 교재 | 최종 검증·배포·발표와 개선</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root { --primary:#7c3aed; --secondary:#0891b2; --text-dark:#0f172a; --muted:#475569; --border:#e2e8f0; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Pretendard',-apple-system,sans-serif; background:#0f172a; color:var(--text-dark); line-height:1.65; }
+    .no-print-bar { position:sticky; top:0; z-index:1000; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.1); padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+    .no-print-bar .title-group { display:flex; align-items:center; gap:12px; color:#fff; }
+    .badge { background:linear-gradient(135deg,#a855f7,#ec4899); color:#fff; font-size:0.75rem; font-weight:700; padding:4px 10px; border-radius:999px; }
+    .btn-action { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; font-size:0.88rem; font-weight:600; border-radius:8px; border:none; cursor:pointer; text-decoration:none; }
+    .btn-print { background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; }
+    .btn-back { background:rgba(255,255,255,0.1); color:#e2e8f0; border:1px solid rgba(255,255,255,0.15); }
+    .paper-container { max-width:900px; margin:30px auto; background:#fff; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.5); padding:48px 56px; }
+    .doc-header { border-bottom:3px solid var(--primary); padding-bottom:20px; margin-bottom:32px; }
+    .doc-category { color:var(--secondary); font-size:0.9rem; font-weight:800; text-transform:uppercase; margin-bottom:6px; }
+    .doc-title { font-size:2.2rem; font-weight:900; color:var(--text-dark); letter-spacing:-0.02em; }
+    h2 { font-size:1.45rem; font-weight:800; color:var(--text-dark); margin:36px 0 16px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+    h3 { font-size:1.15rem; font-weight:700; color:var(--primary); margin:24px 0 12px; }
+    p { margin-bottom:14px; color:#334155; }
+    ul,ol { margin:0 0 16px 20px; color:#334155; }
+    li { margin-bottom:6px; }
+    .callout-box { background:#fdf4ff; border-left:4px solid var(--primary); padding:16px 20px; border-radius:0 8px 8px 0; margin:20px 0; }
+    .callout-box.warning { background:#fffbe6; border-left-color:#b45309; }
+    .prompt-block { background:#1e293b; border:1px solid #334155; border-radius:10px; padding:18px; margin:16px 0; font-family:monospace; font-size:0.88rem; color:#f8fafc; white-space:pre-wrap; text-align:left; }
+    table.data-table { width:100%; border-collapse:collapse; margin:20px 0; font-size:0.92rem; }
+    table.data-table th, table.data-table td { border:1px solid var(--border); padding:10px 14px; text-align:left; }
+    table.data-table th { background:#f1f5f9; }
+    @media print { .no-print-bar { display:none!important; } body { background:#fff!important; } .paper-container { box-shadow:none!important; margin:0!important; padding:0!important; } }
+  </style>
+</head>
+<body>
+  <div class="no-print-bar">
+    <div class="title-group"><span class="badge">Day 5 자율 교재</span><strong>최종 검증·배포·발표와 개선 — 최종 배포부터 발표까지 완주 가이드</strong></div>
+    <div style="display:flex;gap:8px;">
+      <a href="day5-ai-classroom.html" class="btn-action btn-back">🏫 AI 자율 학습 강의실</a>
+      <button onclick="window.print()" class="btn-action btn-print">🖨️ 인쇄 / PDF 저장</button>
+    </div>
+  </div>
+
+  <div class="paper-container">
+    <header class="doc-header">
+      <div class="doc-category">ACE AI Startup Bootcamp · Day 5 Self-Study Textbook</div>
+      <h1 class="doc-title">최종 검증·배포·발표와 개선</h1>
+    </header>
+
+    <h2>1. 교육 개요 및 핵심 원칙</h2>
+    <div class="callout-box">
+      <strong>💡 Day 5 핵심 원칙:</strong><br>
+      로컬에서 동작함 ≠ 배포 환경에서 동작함<br>
+      AI가 완료했다고 말함 ≠ 사용자가 핵심 흐름을 완료함<br>
+      발표가 끝남 ≠ 검증이 끝남
+    </div>
+
+    <h2>2. 최종 검증 3단계 피라미드</h2>
+    <div class="prompt-block">자동 검사: 빌드, 테스트, 정적 검사, 민감정보 패턴 확인
+수동 검사: 핵심 흐름, 모바일, 오류 상태, 배포 URL
+사용자 검사: 설명 없이 첫 행동과 핵심 결과를 완료하는지 관찰</div>
+
+    <h2>3. 안전한 배포 체크리스트</h2>
+    <ul>
+      <li>☐ 비밀번호, API 키, 토큰이 코드나 MD에 포함되지 않았는가?</li>
+      <li>☐ .env 같은 비밀정보 파일이 공개 대상에서 제외됐는가?</li>
+      <li>☐ 실제 개인정보 대신 데모 데이터를 사용하는가?</li>
+      <li>☐ 실제 결제가 아닌 Mock Payment임을 화면에 표시했는가?</li>
+      <li>☐ 외부 API 실패 시 데모가 완전히 중단되지 않는가?</li>
+    </ul>
+
+    <h2>4. 5분 발표 이야기 구조</h2>
+    <table class="data-table">
+      <thead><tr><th>시간</th><th>발표 내용</th><th>보여줄 자료</th></tr></thead>
+      <tbody>
+        <tr><td>40초</td><td>사용자와 문제</td><td>문제 한 문장</td></tr>
+        <tr><td>40초</td><td>현재 대안과 핵심 가치</td><td>Before/After</td></tr>
+        <tr><td>2분</td><td>핵심 사용자 흐름</td><td>실제 데모 URL</td></tr>
+        <tr><td>50초</td><td>구현·검증 과정</td><td>Codex→Antigravity→Codex 흐름</td></tr>
+        <tr><td>30초</td><td>배운 점과 다음 단계</td><td>개선 로드맵</td></tr>
+        <tr><td>20초</td><td>여유 시간</td><td>데모 지연 대비</td></tr>
+      </tbody>
+    </table>
+
+    <h2>5. 실습별 프롬프트 가이드</h2>
+
+    <h3>실습 1. 최종 자동화·검증 (Codex)</h3>
+    <div class="prompt-block">📌 Codex:
+PROJECT.md, VALIDATION_DAY4.md와 현재 구현을 기준으로 최종 검증 계획을
+세워 주세요. 안전하게 실행 가능한 테스트·빌드·정적 검사와 민감정보
+패턴 점검을 수행하고, 브라우저에서 확인할 항목은 Manual Check로 남깁니다.
+결과를 FINAL_VALIDATION.md에 근거와 함께 기록해 주세요.
+검증 전에 코드를 수정하지 마세요.</div>
+
+    <h3>실습 2. 배포 후 제한사항 기록 (Codex)</h3>
+    <div class="prompt-block">📌 Codex:
+배포 URL에서 확인한 결과를 README.md에 추가해 줘.
+포함할 항목:
+- Demo URL
+- 확인된 기능 목록 (체크박스 형태)
+- Known Limitations (알려진 제한사항)
+- 데모 데이터 초기화 방법
+코드는 수정하지 말고 문서만 업데이트해 줘.</div>
+
+    <h3>실습 3. 5분 발표안 생성 (Codex)</h3>
+    <div class="prompt-block">📌 Codex:
+PROJECT.md와 FINAL_VALIDATION.md를 기반으로 5분 발표안을 작성해 줘.
+구조: 문제 → 핵심 가치 → 데모 시나리오 → 개발 과정 → 배운 점 → 다음 단계
+데모 시나리오는 5단계 이내로 제한하고,
+실패 시 보여줄 스크린샷과 대체 설명도 포함해 줘.</div>
+
+    <h3>최종 개선 (Codex + Antigravity)</h3>
+    <div class="prompt-block">📌 Codex:
+동료 피드백 내용을 기반으로 최종 변경 요구사항을 MD로 정리해 줘.
+피드백: [받은 피드백 내용 붙여넣기]
+'발표 전 필수'와 '발표 후 개선'으로 분류하고,
+대규모 구조 변경이나 새 기능은 '발표 후 로드맵'으로 이동해 줘.</div>
+
+    <h2>6. 상호 리뷰 피드백 양식</h2>
+    <div class="prompt-block">[관찰] 사용자가 실제로 한 행동
+[문제] 목표 달성을 막거나 혼란을 준 지점
+[근거] 화면, 메시지 또는 재현 단계
+[제안] 바꾸면 좋을 한 가지
+[우선순위] 발표 전 필수 / 발표 후 개선</div>
+
+    <h2>7. 발표 후 회고 질문 (NEXT_STEPS.md)</h2>
+    <ol>
+      <li>5일 동안 검증한 가장 중요한 가설은 무엇인가?</li>
+      <li>사용자 반응으로 새롭게 알게 된 사실은 무엇인가?</li>
+      <li>제거하거나 미룰 기능은 무엇인가?</li>
+      <li>다음에 인터뷰하거나 테스트할 사용자는 누구인가?</li>
+      <li>2주 안에 개선할 기능·문서·검증 항목은 무엇인가?</li>
+    </ol>
+
+    <div class="callout-box warning">
+      <strong>⚠️ 발표 직전 금지 사항:</strong><br>
+      대규모 구조 변경, 새 기능 추가, 미검증 코드 배포는 하지 않습니다.<br>
+      정상 데모를 깨뜨릴 가능성이 있는 변경은 발표 후 로드맵으로 이동합니다.
+    </div>
+
+    <h2>8. Day 5 최종 체크리스트</h2>
+    <ul>
+      <li>[ ] Codex로 FINAL_VALIDATION.md를 작성했다.</li>
+      <li>[ ] 비밀정보와 실제 개인정보가 공개되지 않았다.</li>
+      <li>[ ] 외부 데모 URL에서 핵심 흐름을 완료했다.</li>
+      <li>[ ] 다른 기기와 모바일 화면에서 접속했다.</li>
+      <li>[ ] 5분 발표와 백업 데모를 준비했다.</li>
+      <li>[ ] 동료 피드백을 관찰·근거·제안으로 기록했다.</li>
+      <li>[ ] 최종 수정 후 다시 검증했다.</li>
+      <li>[ ] NEXT_STEPS.md (2주 개선 로드맵)를 저장했다.</li>
+    </ul>
+  </div>
+</body>
+</html>

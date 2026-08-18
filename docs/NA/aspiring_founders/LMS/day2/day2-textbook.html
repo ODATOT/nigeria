@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 2 자율 학습 교재 | AI와 프로젝트 기획하기</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root { --primary:#2563eb; --secondary:#0891b2; --text-dark:#0f172a; --muted:#475569; --border:#e2e8f0; --code-bg:#1e293b; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Pretendard',-apple-system,sans-serif; background:#0f172a; color:var(--text-dark); line-height:1.65; }
+    .no-print-bar { position:sticky; top:0; z-index:1000; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.1); padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+    .no-print-bar .title-group { display:flex; align-items:center; gap:12px; color:#fff; }
+    .badge { background:linear-gradient(135deg,#8b5cf6,#06b6d4); color:#fff; font-size:0.75rem; font-weight:700; padding:4px 10px; border-radius:999px; }
+    .btn-action { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; font-size:0.88rem; font-weight:600; border-radius:8px; border:none; cursor:pointer; text-decoration:none; }
+    .btn-print { background:linear-gradient(135deg,#2563eb,#0891b2); color:#fff; }
+    .btn-back { background:rgba(255,255,255,0.1); color:#e2e8f0; border:1px solid rgba(255,255,255,0.15); }
+    .paper-container { max-width:900px; margin:30px auto; background:#fff; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.5); padding:48px 56px; }
+    .doc-header { border-bottom:3px solid var(--primary); padding-bottom:20px; margin-bottom:32px; }
+    .doc-category { color:var(--secondary); font-size:0.9rem; font-weight:800; text-transform:uppercase; margin-bottom:6px; }
+    .doc-title { font-size:2.2rem; font-weight:900; color:var(--text-dark); letter-spacing:-0.02em; }
+    h2 { font-size:1.45rem; font-weight:800; color:var(--text-dark); margin:36px 0 16px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+    h3 { font-size:1.15rem; font-weight:700; color:var(--primary); margin:24px 0 12px; }
+    p { margin-bottom:14px; color:#334155; }
+    ul,ol { margin:0 0 16px 20px; color:#334155; }
+    li { margin-bottom:6px; }
+    .callout-box { background:#eff6ff; border-left:4px solid var(--primary); padding:16px 20px; border-radius:0 8px 8px 0; margin:20px 0; }
+    .callout-box.warning { background:#fffbe6; border-left-color:#b45309; }
+    .prompt-block { background:#1e293b; border:1px solid #334155; border-radius:10px; padding:18px; margin:16px 0; font-family:monospace; font-size:0.88rem; color:#f8fafc; white-space:pre-wrap; text-align:left; }
+    table.data-table { width:100%; border-collapse:collapse; margin:20px 0; font-size:0.92rem; }
+    table.data-table th, table.data-table td { border:1px solid var(--border); padding:10px 14px; text-align:left; }
+    table.data-table th { background:#f1f5f9; }
+    @media print { .no-print-bar { display:none!important; } body { background:#fff!important; } .paper-container { box-shadow:none!important; margin:0!important; padding:0!important; } }
+  </style>
+</head>
+<body>
+  <div class="no-print-bar">
+    <div class="title-group"><span class="badge">Day 2 자율 교재</span><strong>AI와 프로젝트 기획하기 — PROJECT.md 완성 가이드북</strong></div>
+    <div style="display:flex;gap:8px;">
+      <a href="day2-ai-classroom.html" class="btn-action btn-back">🏫 AI 자율 학습 강의실</a>
+      <button onclick="window.print()" class="btn-action btn-print">🖨️ 인쇄 / PDF 저장</button>
+    </div>
+  </div>
+
+  <div class="paper-container">
+    <header class="doc-header">
+      <div class="doc-category">ACE AI Startup Bootcamp · Day 2 Self-Study Textbook</div>
+      <h1 class="doc-title">AI와 개발 가능한 프로젝트 기획하기</h1>
+    </header>
+
+    <h2>1. 교육 개요 및 핵심 원칙</h2>
+    <div class="callout-box"><strong>💡 Day 2 핵심 원칙:</strong> 많은 기능보다 하나의 완전한 사용자 흐름을 먼저 만든다.<br><br>Day 2에서는 서비스 코드를 구현하지 않습니다. Codex로 기획과 요구사항을 충분히 문서화하며, 완성된 PROJECT.md는 Day 3에 Antigravity가 읽고 서비스를 개발하는 단일 기준 문서로 사용됩니다.</div>
+
+    <h2>2. 아이디어 vs 문제 정의</h2>
+    <p>기술이나 기능부터 정하면 실제 사용자 문제와 관계없는 제품이 만들어집니다. 문제 문장에는 최소한 <strong>사용자, 상황, 어려움, 원하는 변화</strong>가 들어가야 합니다.</p>
+    <table class="data-table">
+      <thead><tr><th>아이디어 중심 (❌)</th><th>문제 중심 (✅)</th></tr></thead>
+      <tbody>
+        <tr><td>"AI 기반 여행 플래너 앱"</td><td>"혼자 해외여행 가는 사람이 동선 계획에 2시간 이상을 쓴다"</td></tr>
+        <tr><td>"식당 추천 앱"</td><td>"퇴근 후 혼자 저녁 장소를 10분 안에 결정하고 싶은 직장인"</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. 핵심 사용자 흐름 설계</h2>
+    <p>입력→처리→결과 한 줄 흐름으로 핵심 사용자 행동을 정의합니다.</p>
+    <div class="prompt-block">입력: 선호 장소와 여행 가능 시간 입력
+처리: 조건에 맞는 방문 순서와 이동 동선 생성
+결과: 사용자가 일정표를 확인하고 저장
+
+핵심 흐름 화면: 홈 → 조건 입력 → 일정 생성 → 결과 확인 → 일정 저장</div>
+
+    <h2>4. PROJECT.md 14섹션 구조</h2>
+    <div class="prompt-block">## 1. Project Overview  ## 2. Problem  ## 3. Target User
+## 4. Current Alternatives  ## 5. Core Value and Hypothesis
+## 6. Core User Flow  ## 7. Features and Acceptance Criteria
+## 8. Screen List  ## 9. Data Model  ## 10. Technical Requirements
+## 11. MVP Scope  ## 12. Out of Scope
+## 13. Risks and Open Questions  ## 14. Demo Scenario</div>
+
+    <h2>5. 실습별 프롬프트 가이드</h2>
+
+    <h3>실습 1. 한 장 서비스 정의서</h3>
+    <div class="prompt-block">📌 Codex:
+내가 만들 서비스를 한 장 정의서로 작성해 줘.
+아이디어: [내 아이디어]
+1. 목표 사용자 (상황과 행동으로 구체적으로)
+2. 사용자 문제 (상황, 불편, 현재 대안 포함)
+3. 핵심 가치 제안
+4. 한 줄 서비스 문장
+임의로 사실을 추가하지 말고, 불확실한 부분은 질문으로 남겨줘.</div>
+
+    <h3>실습 2. 핵심 흐름·화면·데이터 구조화</h3>
+    <div class="prompt-block">📌 Codex:
+서비스 정의서 기반으로 핵심 흐름, 화면 목록(3~5개), 데이터 모델을 구조화해 줘.
+핵심 흐름은 입력→처리→결과 형태로 한 줄 작성해 줘.
+문서에 없는 내용은 임의로 추가하지 말고 질문으로 남겨줘.</div>
+
+    <h3>실습 3. PROJECT.md 작성</h3>
+    <div class="prompt-block">📌 Codex:
+PROJECT.md 파일을 14섹션으로 생성해 줘.
+조건:
+- 제공하지 않은 사실은 임의로 확정하지 말고 Open Questions로 분리
+- Must 기능은 3~5개로 제한
+- 각 기능에 확인 가능한 완료 조건 포함
+- 구현하지 않을 항목을 Out of Scope에 명시</div>
+
+    <h3>실습 4. MVP 범위 결정</h3>
+    <div class="prompt-block">📌 Codex:
+PROJECT.md의 MVP 범위를 검토해 줘.
+각 기능을 Must/Should/Could/Out of Scope로 분류하고 근거를 설명해 줘.
+Must는 3~5개로 제한하고, 최종 결정 전에는 문서를 직접 수정하지 마세요.</div>
+
+    <h3>실습 5. 사용자 시나리오 검증</h3>
+    <div class="prompt-block">📌 Codex:
+PROJECT.md 기준으로 정상, 빈 값, 실패 사용자 시나리오를 만들어 줘.
+각 단계에서 필요한 화면, 기능, 데이터와 기대 결과를 표로 정리해 줘.
+문서에 정의되지 않은 동작이나 모순되는 요구사항은 별도 표시해 줘.</div>
+
+    <h3>실습 6. HANDOFF_PROMPT.md 개발 지시문 생성</h3>
+    <div class="prompt-block">📌 Codex:
+HANDOFF_PROMPT.md 파일을 생성해 줘.
+[기준 문서] PROJECT.md를 먼저 읽고 구현 기준으로 사용해 주세요.
+[이번 작업 범위] MVP 기본 구조와 첫 번째 핵심 사용자 흐름을 구현해 주세요.
+[우선순위] Must 기능부터 구현, Should/Could/Out of Scope 제외
+[제약사항] 문서에 없는 요구사항 임의 추가 금지
+[완료 기준] 로컬 실행 가능 + 핵심 흐름 시작 화면 확인 가능
+[작업 보고] 파일목록·실행방법·구현항목·미구현항목 정리</div>
+
+    <h2>5.5 Day 2 자율형 실습 주제 2종</h2>
+    <h3>[자율 주제 A] AI 기반 여행 일정 플래너 서비스 기획</h3>
+    <ul>
+      <li><strong>작성 명세:</strong> <code>TRAVEL_PROJECT.md</code></li>
+      <li><strong>핵심 흐름:</strong> 선호 장소 입력 → AI 동선 생성 → 일정표 확인 → 저장</li>
+    </ul>
+    <div class="prompt-block">📌 Codex 자율 주제 A:
+AI 기반 여행 일정 플래너 서비스의 PROJECT.md를 작성해 줘.
+Must 기능: 장소 입력 폼, 일정 생성 결과 화면, 일정 저장
+Out of Scope: 회원가입, 실제 지도 API, 결제</div>
+
+    <h3>[자율 주제 B] 내 아이디어 기반 서비스 PROJECT.md 직접 완성</h3>
+    <ul>
+      <li><strong>작성 명세:</strong> <code>MY_PROJECT.md</code></li>
+      <li><strong>핵심 구성:</strong> 사용자 문제 정의, 핵심 흐름, Must 기능 3~5개, 완료 기준</li>
+    </ul>
+
+    <h2>6. AI 문서 검토 체크리스트</h2>
+    <div class="callout-box warning">
+      <strong>⚠️ PROJECT.md 검토 포인트</strong><br>
+      - AI가 사용자 문제를 임의로 바꾸지 않았는가?<br>
+      - 존재하지 않는 사용자 요구를 추가하지 않았는가?<br>
+      - Must 기능이 핵심 사용자 흐름과 연결되는가?<br>
+      - 2일 안에 구현하기 어려운 기능이 Must에 포함되지 않았는가?<br>
+      - 개인정보, 결제, 외부 API 위험 요소가 표시되어 있는가?
+    </div>
+  </div>
+</body>
+</html>

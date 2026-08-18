@@ -1,0 +1,332 @@
+<!-- Slide 1: [Divider] DAY 5 SESSION 01 -->
+<section class="slide-card divider-slide active session-1" id="day5-slide-1">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 5 | 최종 검증·배포·발표와 개선</div>
+    <div class="slide-title">[세션 오프닝] Day 5. 최종 검증·배포·발표와 개선</div>
+  </div>
+  <div class="divider-content">
+    <div class="divider-day">DAY 5</div>
+    <div class="divider-tag">SESSION 01</div>
+    <h1 class="divider-title">최종 검증·배포·<br>발표와 개선</h1>
+    <p class="divider-subtitle">외부 데모 URL 완성 + 5분 발표 + 회고 (6시간 / 360분)</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> 최종 검증 피라미드</div>
+      <div class="topic-badge"><span>02</span> 안전한 배포</div>
+      <div class="topic-badge"><span>03</span> 5분 발표 구조</div>
+    </div>
+  </div>
+  <div class="slide-body" style="display: none;"><p>Day 5. 최종 검증·배포·발표와 개선</p></div>
+  <div class="presenter-notes" style="display:none;">Day 5는 5일 여정의 마지막입니다. 오늘의 목표는 외부 URL에서 핵심 흐름이 동작하는 MVP를 발표하는 것입니다. 발표 직전에 대규모 수정은 하지 않습니다.</div>
+</section>
+
+<!-- Slide 2: 핵심 원칙 -->
+<section class="slide-card" id="day5-slide-2">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Day 5 핵심 원칙</div>
+      <div class="slide-title">오늘의 핵심 원칙 3가지</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li>로컬에서 동작함 ≠ 배포 환경에서 동작함</li>
+      <li>AI가 완료했다고 말함 ≠ 사용자가 핵심 흐름을 완료함</li>
+      <li>발표가 끝남 ≠ 검증이 끝남</li>
+    </ul>
+    <div class="code-box" style="text-align:left !important;">발표 직전에는 대규모 구조 변경이나 새 기능을 추가하지 않는다.
+정상 데모를 깨뜨릴 가능성이 있는 변경은 발표 후 로드맵으로 이동한다.</div>
+  </div>
+  <div class="presenter-notes" style="display:none;">발표 직전에 새 기능을 추가하려는 팀이 있으면, "발표 후 로드맵으로 이동"을 권장하세요.</div>
+</section>
+
+<!-- Slide 3: 검증 피라미드 -->
+<section class="slide-card" id="day5-slide-3">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">강의 5.1</div>
+      <div class="slide-title">최종 검증 3단계 피라미드</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">🟢 자동 검사:</span> 빌드, 테스트, 정적 검사, 민감정보 패턴 확인</li>
+      <li><span class="highlight">🟡 수동 검사:</span> 핵심 흐름, 모바일, 오류 상태, 배포 URL</li>
+      <li><span class="highlight">🔴 사용자 검사:</span> 설명 없이 첫 행동과 핵심 결과를 완료하는지 관찰</li>
+    </ul>
+    <div class="code-box" style="text-align:left !important;">자동화만으로 사용자 경험을 검증할 수 없다.</div>
+  </div>
+  <div class="presenter-notes" style="display:none;">자동화가 많을수록 좋지만, 사용자 관찰 없이 "완료"라고 말할 수 없습니다. 오늘 상호 리뷰가 가장 중요한 검증입니다.</div>
+</section>
+
+<!-- Slide 4: 배포 안전 점검 -->
+<section class="slide-card" id="day5-slide-4">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">강의 5.2</div>
+      <div class="slide-title">배포 전 안전 점검 5가지</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li>비밀번호, API 키, 토큰이 코드나 MD에 포함되지 않았는가?</li>
+      <li>.env 같은 비밀정보 파일이 공개 대상에서 제외됐는가?</li>
+      <li>실제 개인정보 대신 데모 데이터를 사용하는가?</li>
+      <li>실제 결제가 아닌 Mock Payment임을 화면에 표시했는가?</li>
+      <li>외부 API 실패 시 데모가 완전히 중단되지 않는가?</li>
+    </ul>
+    <div class="code-box" style="text-align:left !important;">공개 URL은 로컬보다 더 엄격하게 확인한다.</div>
+  </div>
+  <div class="presenter-notes" style="display:none;">배포 전 이 5가지를 체크리스트로 확인합니다. API 키가 코드에 하드코딩된 경우가 자주 발생합니다.</div>
+</section>
+
+<!-- Slide 5: 배포 후 검증 -->
+<section class="slide-card" id="day5-slide-5">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">강의 5.3</div>
+      <div class="slide-title">배포 후 검증 순서</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">새 브라우저 → 데모 URL 접속 → 정상 시나리오
+→ 빈 값 → 실패 상태 → 모바일 화면
+→ 새로고침 → 공유 링크 재접속</div>
+    <ul class="bullet-list">
+      <li>로컬 캐시나 로그인 상태에 의존하지 않도록 시크릿 창 또는 다른 기기에서 확인</li>
+      <li><span class="highlight">핵심:</span> 배포 성공 메시지보다 실제 URL의 사용자 흐름을 확인한다</li>
+    </ul>
+  </div>
+  <div class="presenter-notes" style="display:none;">배포 로그에 "Success"가 뜨더라도 실제 URL에서 흐름이 동작하지 않는 경우가 있습니다. 반드시 다른 기기에서 확인하게 하세요.</div>
+</section>
+
+<!-- Slide 6: 5분 발표 구조 -->
+<section class="slide-card" id="day5-slide-6">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">강의 5.4</div>
+      <div class="slide-title">5분 발표 이야기 구조</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">40초 — 사용자와 문제:</span> "누구가 무엇 때문에 힘들었나?"</li>
+      <li><span class="highlight">40초 — 현재 대안과 핵심 가치:</span> Before / After</li>
+      <li><span class="highlight">2분 — 핵심 사용자 흐름:</span> 실제 데모 URL 시연</li>
+      <li><span class="highlight">50초 — 구현·검증 과정:</span> Codex → Antigravity → Codex 흐름</li>
+      <li><span class="highlight">30초 — 배운 점과 다음 단계:</span> 2주 개선 로드맵</li>
+      <li><span class="highlight">20초 — 여유:</span> 데모 지연 대비</li>
+    </ul>
+    <div class="code-box" style="text-align:left !important;">기능 목록보다 문제와 사용자 변화를 보여준다.</div>
+  </div>
+  <div class="presenter-notes" style="display:none;">발표 중 데모가 실패할 경우를 대비해 스크린샷을 준비합니다. "인터넷 연결이 불안정할 경우를 대비해..."라고 말하며 스크린샷으로 전환합니다.</div>
+</section>
+
+<!-- Slide 7: 실습 1 (Task 01) -->
+<section class="slide-card" id="day5-slide-7">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Task 01 | 필수 실습 (40분)</div>
+      <div class="slide-title">Codex로 최종 검증 (FINAL_VALIDATION.md)</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">📌 Codex 프롬프트:
+PROJECT.md, VALIDATION_DAY4.md와 현재 구현을 기준으로 최종 검증 계획을 세워 줘.
+안전하게 실행 가능한 테스트·빌드·정적 검사와 민감정보(API Key, Token) 패턴 점검을 수행하고,
+브라우저에서 확인할 항목은 Manual Check로 남겨줘.
+결과를 FINAL_VALIDATION.md에 근거와 함께 기록해 줘.
+검증 전에 코드를 절대 수정하지 마.</div>
+    <ul class="bullet-list">
+      <li><span class="highlight">원칙:</span> 검증 전에 코드를 수정하지 않습니다. 검증 결과에서 필수 문제만 이후 최종 개선에서 처리합니다.</li>
+    </ul>
+  </div>
+  <div class="presenter-notes" style="display:none;">검증 전에 코드를 수정하지 않습니다. 검증 결과에서 필수 문제만 이후 최종 개선에서 처리합니다.</div>
+</section>
+
+<!-- Slide 8: 실습 2 (Task 02) -->
+<section class="slide-card" id="day5-slide-8">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Task 02 | 필수 실습 (40분)</div>
+      <div class="slide-title">배포와 외부 URL 검증</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li>배포 대상·제외 파일·환경변수 확인 (6분)</li>
+      <li>공통 배포 방식으로 첫 배포 실행 (10분)</li>
+      <li>새 브라우저/모바일 기기에서 데모 URL 접속 (8분)</li>
+      <li>정상·빈 값·실패 상태 및 반응형 레이아웃 확인 (10분)</li>
+      <li>데모 URL과 알려진 제한사항(Known Limitations)을 README.md에 기록 (6분)</li>
+    </ul>
+    <div class="code-box" style="text-align:left !important;">📌 배포 후 README 업데이트 프롬프트 (Codex):
+배포 URL에서 확인한 결과를 README.md에 추가해 줘.
+포함 항목: Demo URL, 확인된 기능 체크리스트, Known Limitations, 데모 데이터 초기화 방법.
+코드는 수정하지 말고 문서만 업데이트해 줘.</div>
+  </div>
+  <div class="presenter-notes" style="display:none;">다른 학생의 기기에서도 접속을 확인하게 합니다. 모바일 화면에서 가로 스크롤이 생기는 경우가 많으므로 반드시 확인합니다.</div>
+</section>
+
+<!-- Slide 9: 실습 3 (Task 03) -->
+<section class="slide-card" id="day5-slide-9">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Task 03 | 필수 실습 (40분)</div>
+      <div class="slide-title">5분 발표 자료와 데모 시나리오 준비</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">📌 Codex 프롬프트:
+PROJECT.md와 FINAL_VALIDATION.md를 기반으로 5분 발표안을 작성해 줘.
+구조: 문제(40초) → 핵심 가치(40초) → 라이브 데모(2분) → 개발 과정(50초) → 다음 단계(30초)
+데모 시나리오는 5단계 이내로 제한하고,
+네트워크 장애 시 보여줄 백업 스크린샷과 대체 설명도 포함해 줘.</div>
+    <ul class="bullet-list">
+      <li><span class="highlight">실전 리허설:</span> 5분 발표를 실제로 말해보며 시간을 측정합니다 (초과 시 데모 단계 압축).</li>
+    </ul>
+  </div>
+  <div class="presenter-notes" style="display:none;">리허설 시간이 5분을 초과하면 데모 단계를 줄입니다. 발표 중 "모든 기능을 보여드리겠습니다"라고 하지 않도록 안내합니다.</div>
+</section>
+
+<!-- Slide 10: 상호 리뷰 & 최종 개선 (Task 04) -->
+<section class="slide-card" id="day5-slide-10">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Task 04 | 필수 실습 (50분)</div>
+      <div class="slide-title">상호 리뷰 &amp; 발표 전 최종 개선</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">피드백 기록 5요소:
+[관찰] 사용자가 실제로 한 행동
+[문제] 목표 달성을 막거나 혼란을 준 지점
+[근거] 화면, 메시지 또는 재현 단계
+[제안] 바꾸면 좋을 한 가지
+[우선순위] 발표 전 필수 / 발표 후 개선</div>
+    <ul class="bullet-list">
+      <li><span class="highlight">블라인드 체험:</span> 설명 없이 동료에게 URL을 주고 첫 5분간 막히는 지점을 관찰</li>
+      <li><span class="highlight">최소 긴급 패치:</span> '발표 전 필수'로 분류된 1~2개 항목만 수정 후 재배포</li>
+    </ul>
+  </div>
+  <div class="presenter-notes" style="display:none;">팀이 설명하려고 하면 막아야 합니다. "잠깐, 설명 없이 사용해 보세요"라고 안내합니다. 막히는 지점이 실제 UX 문제입니다.</div>
+</section>
+
+<!-- Slide 11: 2주 개선 로드맵 (Task 05) -->
+<section class="slide-card" id="day5-slide-11">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Task 05 | 필수 실습 (20분)</div>
+      <div class="slide-title">2주 개선 로드맵 작성 (NEXT_STEPS.md)</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">📌 Codex 프롬프트:
+5일간의 프로젝트(PROJECT.md, FINAL_VALIDATION.md, FEEDBACK_NOTES.md)를 바탕으로 NEXT_STEPS.md를 작성해 줘.
+1. 5일간 검증된 핵심 가설과 사용자 반응
+2. 기술적 부채 및 향후 개선 백로그
+3. 향후 2주간의 주차별 개발 로드맵 (Week 1, Week 2)
+4. 창업 관점에서의 다음 액션 아이템</div>
+    <ul class="bullet-list">
+      <li>5일 과정 종료 후에도 실제 창업/비즈니스로 확장할 수 있는 구체적인 실행 계획 수립</li>
+    </ul>
+  </div>
+  <div class="presenter-notes" style="display:none;">NEXT_STEPS.md는 5일 완주 후 실제 비즈니스로의 도약을 돕는 로드맵입니다.</div>
+</section>
+
+<!-- Slide 12: 자율형 도전 실습 -->
+<section class="slide-card" id="day5-slide-12">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">자율형 실습 | Autonomous Challenge</div>
+      <div class="slide-title">🚀 Day 5 자율 도전 실습 과제 (Challenge A &amp; B)</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.3);border-radius:12px;padding:20px;text-align:left;">
+        <div style="color:#c084fc;font-weight:800;margin-bottom:6px;font-size:0.85rem;">🛡️ 자율 도전 A · 안정성</div>
+        <div style="font-weight:800;color:#fff;font-size:1.05rem;margin-bottom:8px;">데모 안전 모드 (Mock Fallback Toggle) 구현</div>
+        <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;margin-bottom:10px;">발표 중 Wi-Fi 장애나 API 단절이 발생해도 시연이 중단되지 않도록 원클릭 데모 Mock 모드 토글 구축</p>
+        <div style="font-family:monospace;font-size:0.8rem;color:#e9d5ff;">산출물: src/demo-mode-fallback.js</div>
+      </div>
+      <div style="background:rgba(236,72,153,0.08);border:1px solid rgba(236,72,153,0.3);border-radius:12px;padding:20px;text-align:left;">
+        <div style="color:#f472b6;font-weight:800;margin-bottom:6px;font-size:0.85rem;">🌐 자율 도전 B · 바이럴/공유</div>
+        <div style="font-weight:800;color:#fff;font-size:1.05rem;margin-bottom:8px;">오픈 그래프(OG) 및 소셜 카드 최적화</div>
+        <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;margin-bottom:10px;">카카오톡, 슬랙, SNS에 배포 URL을 공유할 때 대표 썸네일과 서비스 소개가 매력적으로 표시되도록 메타태그 적용</p>
+        <div style="font-family:monospace;font-size:0.8rem;color:#fbcfe8;">산출물: index.html (OG 태그), og-thumbnail.png</div>
+      </div>
+    </div>
+  </div>
+  <div class="presenter-notes" style="display:none;">배포와 발표 준비를 일찍 마친 팀에게 라이브 데모 안전 모드 및 소셜 공유 최적화 도전을 권장하세요.</div>
+</section>
+
+<!-- Slide 13: 최종 발표 평가 기준 -->
+<section class="slide-card" id="day5-slide-13">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">최종 발표 평가 기준</div>
+      <div class="slide-title">발표 평가 6가지 기준</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">문제 명확성:</span> 목표 사용자와 문제가 구체적인가?</li>
+      <li><span class="highlight">핵심 가치:</span> 기존 방법보다 나아지는 변화가 보이는가?</li>
+      <li><span class="highlight">데모 완성도:</span> 외부 URL에서 핵심 흐름이 동작하는가?</li>
+      <li><span class="highlight">문서 일치성:</span> PROJECT.md와 구현 결과가 일치하는가?</li>
+      <li><span class="highlight">검증 과정:</span> 테스트·오류·제한사항을 솔직하게 설명하는가?</li>
+      <li><span class="highlight">향후 계획:</span> 다음 검증 또는 개선이 구체적인가?</li>
+    </ul>
+  </div>
+  <div class="presenter-notes" style="display:none;">평가 기준을 미리 공개합니다. "솔직한 제한사항 설명"을 긍정적으로 평가한다고 강조하세요.</div>
+</section>
+
+<!-- Slide 14: 회고 -->
+<section class="slide-card" id="day5-slide-14">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">과정 회고</div>
+      <div class="slide-title">5일 여정 회고 — 핵심 성과 정리</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">5일차</span></div>
+  </div>
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li>5일 동안 검증한 가장 중요한 가설은 무엇인가?</li>
+      <li>사용자 반응으로 새롭게 알게 된 사실은 무엇인가?</li>
+      <li>제거하거나 미룰 기능은 무엇인가?</li>
+      <li>다음에 인터뷰하거나 테스트할 사용자는 누구인가?</li>
+      <li>2주 안에 개선할 기능·문서·검증 항목은 무엇인가?</li>
+    </ul>
+    <div class="code-box" style="text-align:left !important;">💡 가설 수립 → AI 문서 기획 → 초고속 MVP 개발 → 회귀 검증 → 배포 &amp; 데모 피칭 완료!</div>
+  </div>
+  <div class="presenter-notes" style="display:none;">회고는 개인 또는 팀 단위로 진행합니다. NEXT_STEPS.md를 작성하면 과정 이후에도 계속 발전시킬 수 있습니다.</div>
+</section>
+
+<!-- Slide 15: 마무리 -->
+<section class="slide-card divider-slide session-1" id="day5-slide-15">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 5 · 과정 마무리</div>
+    <div class="slide-title">5일 AI 창업 부트캠프 — 여정 완주</div>
+  </div>
+  <div class="divider-content">
+    <div class="divider-day">COMPLETED</div>
+    <div class="divider-tag">AI STARTUP BOOTCAMP</div>
+    <h1 class="divider-title">5일 AI 창업 부트캠프<br>여정 완주를 축하합니다! 🎉</h1>
+    <p class="divider-subtitle">Day 1 환경구축 ➔ Day 2 PROJECT.md ➔ Day 3 MVP v0.1 ➔ Day 4 MVP v1.0 ➔ Day 5 배포 &amp; 발표</p>
+    <p style="margin-top: 20px; color: var(--text-muted); font-size: 0.95rem;">여러분의 아이디어가 AI를 통해 실제 동작하는 비즈니스가 되었습니다. 앞으로의 도전을 응원합니다! 🚀</p>
+  </div>
+  <div class="presenter-notes" style="display:none;">수강생들의 여정을 격려합니다. 부트캠프가 끝이 아니라 실제 창업의 시작임을 강조해 주세요.</div>
+</section>

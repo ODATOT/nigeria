@@ -1,0 +1,482 @@
+<!-- Slide 1: [Divider] DAY 1 SESSION 01 -->
+<section class="slide-card divider-slide active session-1" id="slide-1">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 1 | 1차시. Codex &amp; Antigravity 시작하기</div>
+    <div class="slide-title">[세션 오프닝] Day 1. Codex &amp; Antigravity 시작하기</div>
+  </div>
+
+  <div class="divider-content">
+    <div class="divider-day">DAY 1</div>
+    <div class="divider-tag">SESSION 01</div>
+    <h1 class="divider-title">Codex &amp; Antigravity 시작하기</h1>
+    <p class="divider-subtitle">AI 개발 도구와 표준 작업 방식 익히기 (6시간 / 360분)</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> AI 개발 기본 파이프라인</div>
+      <div class="topic-badge"><span>02</span> 폴더·파일·절대경로 이해</div>
+      <div class="topic-badge"><span>03</span> 도구별 역할 분담</div>
+    </div>
+  </div>
+
+  <div class="slide-body" style="display: none;">
+    <p>Day 1. Codex &amp; Antigravity 시작하기 세션 시작</p>
+    <p>AI 개발 도구와 표준 작업 방식 익히기</p>
+  </div>
+  <div class="presenter-notes" style="display:none;">Day 1 세션 오프닝입니다. 처음부터 복잡한 코딩을 진행하기보다 폴더 ➔ 파일 ➔ 프롬프트 ➔ 결과확인 ➔ 수정 요청이라는 기본 작업 사이클을 익히는 날임을 강조해 주세요.</div>
+</section>
+
+<!-- Slide 2: 사전 설문조사 -->
+<section class="slide-card session-1" id="slide-2">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">사전 설문조사 | Pre-Course Survey</div>
+      <div class="slide-title">교육 사전 설문조사 안내</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">설문 목적:</span> 수강생의 AI 및 SW 개발 사전 경험, 학습 기대사항 파악</li>
+          <li><span class="highlight">참여 방법:</span> 우측 QR 코드를 스마트폰 카메라로 스캔하거나 아래 링크로 접속해 주세요.</li>
+          <li><span class="highlight">설문 링크:</span> <a href="https://forms.gle/M33mFEgMro7TPkbt6" target="_blank" style="color: var(--accent-cyan); text-decoration: underline; word-break: break-all;">https://forms.gle/M33mFEgMro7TPkbt6</a></li>
+          <li><span class="highlight">유의 사항:</span> 본 설문 결과는 맞춤형 실습 진행 및 성과 분석용으로만 활용됩니다.</li>
+        </ul>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--panel-border); border-radius: 16px; padding: 24px; text-align: center;">
+        <div style="background: #ffffff; padding: 12px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); display: inline-block; margin-bottom: 16px;">
+          <img src="../images/qr_pre_survey.png" alt="사전 설문조사 QR 코드" style="width: 200px; height: 200px; display: block; border-radius: 6px;" onError="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://forms.gle/M33mFEgMro7TPkbt6'" />
+        </div>
+        <div style="font-size: 1.05rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 6px;">📱 스마트폰 카메라로 QR 스캔</div>
+        <div style="font-size: 0.9rem; color: var(--text-secondary);">사전 설문조사 (Google Forms)</div>
+      </div>
+    </div>
+
+    <div class="presenter-notes" style="display:none;">수업 시작 전 사전 설문조사 안내 슬라이드입니다. 수강생들의 AI 및 프로그래밍 경험 수준을 파악하기 위해 QR 코드를 스캔해 설문을 완료하도록 안내해 주세요.</div>
+  </div>
+</section>
+
+<!-- Slide 3: 핵심 학습 목표 -->
+<section class="slide-card session-1" id="slide-3">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">학습 목표 | Course Objectives</div>
+      <div class="slide-title">Day 1 핵심 학습 목표 (4대 산출물)</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); padding: 20px; border-radius: 14px;">
+        <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-cyan); margin-bottom: 8px;">1. 동일 Workspace 구성</div>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">Codex와 Antigravity에서 같은 프로젝트 절대경로(my-project)를 열 수 있다.</p>
+      </div>
+
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); padding: 20px; border-radius: 14px;">
+        <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-blue); margin-bottom: 8px;">2. 요구사항 MD 작성</div>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">Codex에서 목표, 조건, 완료 기준이 포함된 PAGE_REQUIREMENTS.md를 작성한다.</p>
+      </div>
+
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); padding: 20px; border-radius: 14px;">
+        <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-purple); margin-bottom: 8px;">3. MD 기반 구현</div>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">Antigravity에서 작성된 MD를 읽고 index.html 및 화면을 자동 구현한다.</p>
+      </div>
+
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); padding: 20px; border-radius: 14px;">
+        <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-green); margin-bottom: 8px;">4. 품질 검증 &amp; 보완</div>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">Codex에서 구현 결과가 MD와 일치하는지 테스트하고 VALIDATION.md를 작성한다.</p>
+      </div>
+    </div>
+
+    <div class="presenter-notes" style="display:none;">오늘 수업 종료 시 수강생들이 스스로 완성하게 될 4가지 핵심 목표입니다.</div>
+  </div>
+</section>
+
+<!-- Slide 4: 시간표 안내 -->
+<section class="slide-card session-1" id="slide-4">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">교육 일정 | Timetable</div>
+      <div class="slide-title">Day 1 시간별 교육 일정 (총 6시간 / 360분)</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list" style="font-size: 0.95rem;">
+      <li><span class="highlight">오리엔테이션 (20분):</span> 5일간 프로젝트 전체 흐름 및 오늘의 완료 기준 확인</li>
+      <li><span class="highlight">강의 (40분):</span> AI 개발 기본 사이클과 Codex vs Antigravity 도구별 역할 분담</li>
+      <li><span class="highlight">시연 (30분):</span> 프롬프트 작성, 파일 변경 확인, 브라우저 실행 및 수정 과정</li>
+      <li><span class="highlight">실습 1 (50분):</span> 설치·로그인 및 `my-project` 폴더 열기</li>
+      <li><span class="highlight">실습 2 (50분):</span> Codex로 `README.md` &amp; `PAGE_REQUIREMENTS.md` 작성</li>
+      <li><span class="highlight">실습 3 (70분):</span> Antigravity로 MD 기반 웹페이지(`index.html`) 구현</li>
+      <li><span class="highlight">검증 실습 (40분):</span> Codex로 문서 대비 구현 점검 &amp; `VALIDATION.md` 생성</li>
+      <li><span class="highlight">공유 &amp; 회고 (30분):</span> 프롬프트 경험 공유 및 Day 2 예고</li>
+    </ul>
+
+    <div class="presenter-notes" style="display:none;">Day 1 세부 일정 안내입니다. 강의 40분, 시연 30분 진행 후 즉시 직접 실습으로 들어가는 체계입니다.</div>
+  </div>
+</section>
+
+<!-- Slide 5: AI 개발 기본 사이클 -->
+<section class="slide-card session-1" id="slide-5">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">핵심 개념 | AI Workflow</div>
+      <div class="slide-title">AI 개발의 기본 파이프라인</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div style="background: rgba(6, 10, 18, 0.7); border: 1px solid var(--panel-border); padding: 24px; border-radius: 16px; font-family: monospace; font-size: 1rem; color: #67e8f9; line-height: 1.8; margin-bottom: 20px; white-space: pre-wrap;">
+Codex: 요구사항 MD 작성 ➔ Antigravity: 서비스 구현 ➔ Codex: 테스트·검증
+➔ Codex: 검증 결과를 MD에 반영 ➔ Antigravity: 변경된 MD 기준으로 수정
+    </div>
+
+    <ul class="bullet-list">
+      <li>AI가 생성한 코드는 완성품이 아니라 <span class="highlight">검토 대상</span>입니다.</li>
+      <li>한 번에 전체 서비스를 만들기보다, 확인 가능한 작은 단위로 작업을 나눕니다.</li>
+      <li>각 단계마다 <span class="highlight">파일 형태의 산출물</span>이 남아있어야 다음 AI가 같은 기준을 공유합니다.</li>
+    </ul>
+
+    <div class="presenter-notes" style="display:none;">Codex는 기획/검증, Antigravity는 개발이라는 역할 분담과 선-문서 후-개발 패턴을 설명해 주세요.</div>
+  </div>
+</section>
+
+<!-- Slide 6: 폴더, 파일, 절대경로 -->
+<section class="slide-card session-1" id="slide-6">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">핵심 개념 | Workspace &amp; Path</div>
+      <div class="slide-title">폴더, 파일, 그리고 절대경로</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">프로젝트 폴더:</span> 문서, 코드, 이미지가 함께 위치하는 작업 공간</li>
+          <li><span class="highlight">절대경로:</span> 컴퓨터 내에서 프로젝트 위치를 완벽히 지정하는 고유 주소 (예: `/Users/name/my-project`)</li>
+          <li><span class="highlight">동일 경로 열기:</span> 두 도구에서 같은 절대경로를 열어야 문서 수정 및 구현 결과가 실시간으로 공유됩니다.</li>
+        </ul>
+      </div>
+
+      <div style="background: rgba(6, 10, 18, 0.85); border: 1px solid var(--panel-border); padding: 20px; border-radius: 14px;">
+        <div style="font-weight: 800; color: var(--accent-cyan); margin-bottom: 12px; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+          📁 <span>my-project/</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+            <span style="font-family: monospace; color: #e2e8f0;">├── 📄 README.md</span>
+            <span style="color: var(--text-secondary); font-size: 0.8rem;">프로젝트 목적</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+            <span style="font-family: monospace; color: #e2e8f0;">├── 📄 PAGE_REQUIREMENTS.md</span>
+            <span style="color: var(--accent-cyan); font-size: 0.8rem; font-weight: 700;">Codex 요구사항 명세</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+            <span style="font-family: monospace; color: #e2e8f0;">├── 📄 VALIDATION.md</span>
+            <span style="color: var(--accent-yellow); font-size: 0.8rem; font-weight: 700;">Codex 검증 보고서</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+            <span style="font-family: monospace; color: #e2e8f0;">└── 🌐 index.html</span>
+            <span style="color: var(--accent-green); font-size: 0.8rem; font-weight: 700;">Antigravity 구현 코드</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="presenter-notes" style="display:none;">수강생들이 두 도구에서 서로 다른 폴더를 열지 않도록 절대경로 개념을 다시 가리켜 줍니다.</div>
+  </div>
+</section>
+
+<!-- Slide 7: 도구별 역할 분담 -->
+<section class="slide-card session-1" id="slide-7">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">핵심 개념 | Tool Roles</div>
+      <div class="slide-title">도구별 명확한 역할 분담</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); padding: 20px; border-radius: 14px;">
+        <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-cyan); margin-bottom: 8px;">📘 Codex</div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">요구사항 MD 작성·수정, 테스트·자동화 검증, PAGE_REQUIREMENTS.md 생성</p>
+      </div>
+
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); padding: 20px; border-radius: 14px;">
+        <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-blue); margin-bottom: 8px;">⚡ Antigravity</div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">MD 분석, 프로젝트 생성, UI/UX 화면 개발 및 index.html 웹 코드 구현</p>
+      </div>
+
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); padding: 20px; border-radius: 14px;">
+        <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-green); margin-bottom: 8px;">🌐 브라우저 (Chrome)</div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">AI 설명 대신 실제 사용자 화면과 동작 결과를 직접 검증하는 판단자</p>
+      </div>
+    </div>
+
+    <div class="presenter-notes" style="display:none;">도구 간 중복 작업을 하지 않도록 주 도구를 명확히 인식하게 시킵니다.</div>
+  </div>
+</section>
+
+<!-- Slide 8: 좋은 프롬프트의 3요소 -->
+<section class="slide-card session-1" id="slide-8">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">프롬프트 가이드 | Prompting</div>
+      <div class="slide-title">좋은 프롬프트 작성의 3요소</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px;">
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); padding: 20px; border-radius: 14px; text-align: center;">
+        <div style="font-size: 1.2rem; font-weight: 800; color: var(--accent-cyan); margin-bottom: 6px;">1. 목표 (Goal)</div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">어떤 결과물(파일, 화면)을 만들어야 하는가?</p>
+      </div>
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); padding: 20px; border-radius: 14px; text-align: center;">
+        <div style="font-size: 1.2rem; font-weight: 800; color: var(--accent-purple); margin-bottom: 6px;">2. 조건 (Constraints)</div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">디자인 스타일, 폰트, 기술 및 금지 조건</p>
+      </div>
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); padding: 20px; border-radius: 14px; text-align: center;">
+        <div style="font-size: 1.2rem; font-weight: 800; color: var(--accent-green); margin-bottom: 6px;">3. 완료 기준 (Criteria)</div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">사용자가 화면에서 무엇을 확인해야 성공인가?</p>
+      </div>
+    </div>
+
+    <div class="presenter-notes" style="display:none;">프롬프트를 줄 때 "잘 만들어줘"라는 모호한 표현을 버리고 3요소를 갖추도록 유도합니다.</div>
+  </div>
+</section>
+
+<!-- Slide 9: 안전한 작업과 보안 원칙 -->
+<section class="slide-card session-1" id="slide-9">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">보안 및 안전 | Security &amp; Safety</div>
+      <div class="slide-title">안전한 작업과 보안 원칙</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <ul class="bullet-list">
+      <li><span class="highlight">🔒 보안 원칙:</span> API 키, 개인정보, 비밀번호를 프롬프트에 절대 입력하지 않습니다.</li>
+      <li><span class="highlight">🔍 변경 파일 확인:</span> AI가 변경한 파일 목록을 적용 전에 실행 창에서 항상 확인합니다.</li>
+      <li><span class="highlight">💾 복구 포인트 생성:</span> 정상 동작하는 시점에 복사본을 남겨 언제든 복구할 수 있게 합니다.</li>
+    </ul>
+
+    <div class="presenter-notes" style="display:none;">초보자 수강생들의 실수를 예방하기 위한 보안 체크리스트입니다.</div>
+  </div>
+</section>
+
+<!-- Slide 10: 실습 1 안내 -->
+<section class="slide-card session-1" id="slide-10">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">실습 1 | Hands-on 01</div>
+      <div class="slide-title">환경 구성 &amp; 공통 폴더 열기</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <p style="color: var(--text-secondary); margin-bottom: 16px;">`my-project` 폴더를 생성하고 Codex와 Antigravity에서 각각 엽니다.</p>
+    <div style="background: rgba(6, 10, 18, 0.85); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 14px; padding: 20px; text-align: left; margin: 16px 0;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px; margin-bottom: 14px;">
+        <span style="font-size: 0.9rem; font-weight: 700; color: #67e8f9; display: flex; align-items: center; gap: 6px;">
+          📌 Codex용 프롬프트
+        </span>
+        <span style="font-size: 0.78rem; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); padding: 3px 10px; border-radius: 6px; font-weight: 600;">Prompt</span>
+      </div>
+      <pre style="font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.92rem; color: #e2e8f0; white-space: pre-wrap; word-break: break-word; line-height: 1.65; text-align: left; margin: 0; background: transparent; border: none; padding: 0;">이 프로젝트 폴더(my-project)의 기본 역할을 정의해 줘.
+프로젝트 목적은 "AI 개발 도구를 활용한 기본 웹 서비스 실습"이야.
+기본 README.md 파일을 생성하고 설명 구조를 작성해 줘.</pre>
+    </div>
+
+    <div class="presenter-notes" style="display:none;">두 도구 모두 동일 절대경로로 오픈했는지 실습 조교와 함께 확인해 줍니다.</div>
+  </div>
+</section>
+
+<!-- Slide 11: 실습 2 안내 -->
+<section class="slide-card session-1" id="slide-11">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">실습 2 | Hands-on 02</div>
+      <div class="slide-title">Codex로 요구사항 MD 작성</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div style="background: rgba(6, 10, 18, 0.85); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 14px; padding: 20px; text-align: left; margin: 16px 0;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px; margin-bottom: 14px;">
+        <span style="font-size: 0.9rem; font-weight: 700; color: #67e8f9; display: flex; align-items: center; gap: 6px;">
+          📌 PAGE_REQUIREMENTS.md 생성 프롬프트
+        </span>
+        <span style="font-size: 0.78rem; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); padding: 3px 10px; border-radius: 6px; font-weight: 600;">Codex</span>
+      </div>
+      <pre style="font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.92rem; color: #e2e8f0; white-space: pre-wrap; word-break: break-word; line-height: 1.65; text-align: left; margin: 0; background: transparent; border: none; padding: 0;">PAGE_REQUIREMENTS.md 파일을 생성해 줘.
+내용: "예비창업자 프로필 및 서비스 소개 페이지"
+1. 제목: My Startup Pitch
+2. 상단: 창업자 이름, 한 줄 소개, 핵심 분야 태그
+3. 중단: 해결하려는 문제, 해결책 카드 2개
+4. 하단: 문의하기 버튼
+5. 조건: 다크 모드 스타일, Pretendard 폰트
+6. 완료 기준: 브라우저에서 올바르게 표시될 것.</pre>
+    </div>
+
+    <div class="presenter-notes" style="display:none;">Codex로 요구사항 명세서를 먼저 문서화하는 실습입니다.</div>
+  </div>
+</section>
+
+<!-- Slide 12: 실습 3 안내 -->
+<section class="slide-card session-1" id="slide-12">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">실습 3 | Hands-on 03</div>
+      <div class="slide-title">Antigravity로 웹페이지 구현</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div style="background: rgba(6, 10, 18, 0.85); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 14px; padding: 20px; text-align: left; margin: 16px 0;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px; margin-bottom: 14px;">
+        <span style="font-size: 0.9rem; font-weight: 700; color: #67e8f9; display: flex; align-items: center; gap: 6px;">
+          📌 Antigravity 서비스 개발 프롬프트
+        </span>
+        <span style="font-size: 0.78rem; background: rgba(6, 182, 212, 0.15); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3); padding: 3px 10px; border-radius: 6px; font-weight: 600;">Antigravity</span>
+      </div>
+      <pre style="font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.92rem; color: #e2e8f0; white-space: pre-wrap; word-break: break-word; line-height: 1.65; text-align: left; margin: 0; background: transparent; border: none; padding: 0;">PAGE_REQUIREMENTS.md 파일을 읽고, 명시된 요구사항을 만족하는 index.html 웹페이지를 만들어 줘.
+- Pretendard 폰트와 깔끔한 다크 UI를 적용해 줘.
+- 상단 프로필, 문제/해결책 카드, 하단 문의 버튼을 모두 포함해야 해.
+- 작성 완료 후 완성된 웹페이지를 바로 브라우저에서 실행할 수 있게 해줘.</pre>
+    </div>
+
+    <div class="presenter-notes" style="display:none;">Antigravity가 문서를 읽고 실제 HTML 코드를 자동 작성하는 과정입니다.</div>
+  </div>
+</section>
+
+<!-- Slide 13: 검증 실습 안내 -->
+<section class="slide-card session-1" id="slide-13">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">검증 실습 | Validation</div>
+      <div class="slide-title">Codex 문서 대비 품질 검증</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div style="background: rgba(6, 10, 18, 0.85); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 14px; padding: 20px; text-align: left; margin: 16px 0;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px; margin-bottom: 14px;">
+        <span style="font-size: 0.9rem; font-weight: 700; color: #c4b5fd; display: flex; align-items: center; gap: 6px;">
+          📌 Codex 검증 프롬프트
+        </span>
+        <span style="font-size: 0.78rem; background: rgba(139, 92, 246, 0.15); color: #ddd6fe; border: 1px solid rgba(139, 92, 246, 0.3); padding: 3px 10px; border-radius: 6px; font-weight: 600;">Validation</span>
+      </div>
+      <pre style="font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.92rem; color: #e2e8f0; white-space: pre-wrap; word-break: break-word; line-height: 1.65; text-align: left; margin: 0; background: transparent; border: none; padding: 0;">index.html 코드를 검토하고 PAGE_REQUIREMENTS.md 내용과 비교해 줘.
+1. 누락된 요구사항이나 잘못 구현된 부분이 있는지 점검해 줘.
+2. VALIDATION.md 파일을 새로 만들고 테스트 체크리스트(통과/미통과)를 작성해 줘.
+3. 누락 부분이 있다면 PAGE_REQUIREMENTS.md에 수정 요청사항으로 추가해 줘.</pre>
+    </div>
+
+</section>
+
+<!-- Slide 14: 자율형 실습 주제 안내 -->
+<section class="slide-card session-1" id="slide-14">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">자율형 실습 | Autonomous Challenge</div>
+      <div class="slide-title">🚀 Day 1 자율 도전 실습 과제 (Bonus 01 &amp; 02)</div>
+    </div>
+    <div class="slide-meta">
+      <span class="day-badge">1일차</span>
+      <span>ACE Startup SW/AI 파일럿</span>
+    </div>
+  </div>
+
+  <div class="slide-body">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px;">
+      <div style="background: rgba(6, 10, 18, 0.85); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 12px; padding: 18px; text-align: left;">
+        <div style="font-size: 0.8rem; font-weight: 800; color: #67e8f9; margin-bottom: 4px;">Bonus 01 · 자율 도전 (UI/UX)</div>
+        <h4 style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 8px;">📱 모바일 반응형 뷰포트 &amp; 카드 레이아웃 최적화</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px;">스마트폰 화면(360px~480px)에서도 좌우 스크롤 없이 1열로 유려하게 정렬되는 반응형 미디어 쿼리 구현</p>
+        <div style="font-family: monospace; font-size: 0.78rem; color: #93c5fd; background: rgba(59, 130, 246, 0.1); padding: 6px 10px; border-radius: 6px;">산출물: my-project/index.html (반응형 개선)</div>
+      </div>
+
+      <div style="background: rgba(6, 10, 18, 0.85); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 18px; text-align: left;">
+        <div style="font-size: 0.8rem; font-weight: 800; color: #c4b5fd; margin-bottom: 4px;">Bonus 02 · 자율 도전 (인터랙션)</div>
+        <h4 style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 8px;">🌓 인터랙티브 다크/라이트 모드 토글 스위치</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px;">JavaScript 이벤트 리스너를 활용하여 브라우저 테마를 전환하고 사용자 선택을 유지하는 토글 버튼 구현</p>
+        <div style="font-family: monospace; font-size: 0.78rem; color: #c4b5fd; background: rgba(139, 92, 246, 0.1); padding: 6px 10px; border-radius: 6px;">산출물: my-project/index.html (다크모드 스크립트)</div>
+      </div>
+    </div>
+
+    <div class="presenter-notes" style="display:none;">기본 Task 01~04를 완료한 수강생에게 반응형 및 인터랙션 도전 과제를 안내해 주세요.</div>
+  </div>
+</section>
+
+<!-- Slide 15: 회고 & Day 2 예고 -->
+<section class="slide-card divider-slide session-1" id="slide-15">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 1 회고 &amp; Day 2 예고</div>
+    <div class="slide-title">Day 1 회고 &amp; Day 2 예고</div>
+  </div>
+
+  <div class="divider-content">
+    <div class="divider-day">NEXT STEP</div>
+    <div class="divider-tag">DAY 2 PREVIEW</div>
+    <h1 class="divider-title">Day 2. AI와 프로젝트 기획하기</h1>
+    <p class="divider-subtitle">머릿속 아이디어를 AI 지시서 PROJECT.md로 구조화하기</p>
+    <p style="margin-top: 20px; color: var(--text-muted); font-size: 0.95rem;">오늘 하루도 정말 수고 많으셨습니다! Day 1 실습 결과 제출을 완료해 주세요 🎉</p>
+  </div>
+
+  <div class="presenter-notes" style="display:none;">Day 1 세션을 종료하며 Day 2 기획 수업에 대한 동기부여와 실습 제출 안내를 진행해 주세요.</div>
+</section>
