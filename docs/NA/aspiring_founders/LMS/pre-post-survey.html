@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>사전·사후 종합 진단 설문 | 예비창업자 AI Web App MVP 과정</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --accent: #10b981;
+      --purple: #8b5cf6;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --bg-dark: #09090b;
+      --bg-panel: #111827;
+      --bg-card: rgba(26, 29, 36, 0.85);
+      --bg-card-hover: #1e293b;
+      --text-main: #ffffff;
+      --text-muted: #cbd5e1;
+      --text-dim: #94a3b8;
+      --border-line: rgba(255, 255, 255, 0.08);
+      --border-highlight: rgba(59, 130, 246, 0.35);
+      --radius: 16px;
+      --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.2);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+        linear-gradient(to bottom, #09090b 0%, #111827 100%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Top Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-line);
+      padding: 14px 0;
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-nav {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-line);
+      background: rgba(255, 255, 255, 0.04);
+      transition: all 0.2s ease;
+    }
+    .btn-nav:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .btn-nav.highlight {
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Hero Banner */
+    .hero {
+      padding: 56px 0 40px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-line);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #6ee7b7;
+      margin-bottom: 16px;
+    }
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 2.7rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #ffffff 40%, #a7f3d0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 780px;
+      margin: 0 auto 20px;
+      word-break: keep-all;
+    }
+    .info-tag-box {
+      display: inline-flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .info-tag {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-line);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 0.84rem;
+      color: var(--text-dim);
+    }
+    .info-tag strong {
+      color: #fff;
+    }
+
+    /* Main Section */
+    .survey-section {
+      padding: 50px 0 80px;
+      flex-grow: 1;
+    }
+
+    .survey-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      margin-bottom: 50px;
+    }
+
+    @media (max-width: 860px) {
+      .survey-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .survey-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius);
+      padding: 34px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-card);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .survey-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    /* Pre Survey Theme */
+    .survey-card.pre {
+      border-top: 4px solid var(--secondary);
+    }
+    .survey-card.pre:hover {
+      border-color: rgba(6, 182, 212, 0.45);
+    }
+
+    /* Post Survey Theme */
+    .survey-card.post {
+      border-top: 4px solid var(--accent);
+    }
+    .survey-card.post:hover {
+      border-color: rgba(16, 185, 129, 0.45);
+    }
+
+    .card-head {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-icon {
+      font-size: 2.2rem;
+    }
+    .card-badge {
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .card-badge.pre {
+      background: rgba(6, 182, 212, 0.15);
+      color: #67e8f9;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+    .card-badge.post {
+      background: rgba(16, 185, 129, 0.15);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #fff;
+    }
+    .card-desc {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+
+    /* Target Timing Box */
+    .timing-box {
+      background: rgba(0, 0, 0, 0.25);
+      border-left: 3px solid var(--secondary);
+      border-radius: 0 8px 8px 0;
+      padding: 8px 14px;
+      font-size: 0.84rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+    .survey-card.post .timing-box {
+      border-left-color: var(--accent);
+    }
+    .timing-box strong {
+      color: #e2e8f0;
+    }
+
+    /* Cohort Selector Tabs */
+    .cohort-tabs {
+      display: flex;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border-line);
+      margin: 16px 0 12px;
+    }
+    .cohort-tab-btn {
+      flex: 1;
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      border: none;
+      background: transparent;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .cohort-tab-btn:hover {
+      color: #fff;
+    }
+    .survey-card.pre .cohort-tab-btn.active {
+      background: linear-gradient(135deg, #0284c7, #06b6d4);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(6, 182, 212, 0.4);
+    }
+    .survey-card.post .cohort-tab-btn.active {
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4);
+    }
+
+    .cohort-panel {
+      display: none;
+      flex-direction: column;
+    }
+    .cohort-panel.active {
+      display: flex;
+    }
+
+    /* QR Code Box */
+    .qr-container {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 14px 0 18px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+    .qr-img {
+      width: 175px;
+      height: 175px;
+      display: block;
+      border-radius: 6px;
+    }
+    .qr-guide {
+      font-size: 0.78rem;
+      font-weight: 800;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* Action Buttons */
+    .card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn-action-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 18px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #fff;
+      transition: all 0.25s ease;
+      border: none;
+      cursor: pointer;
+    }
+    .survey-card.pre .btn-action-primary {
+      background: linear-gradient(135deg, #0284c7, #06b6d4);
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+    }
+    .survey-card.pre .btn-action-primary:hover {
+      background: linear-gradient(135deg, #0ea5e9, #22d3ee);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+    }
+
+    .survey-card.post .btn-action-primary {
+      background: linear-gradient(135deg, #059669, #10b981);
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    }
+    .survey-card.post .btn-action-primary:hover {
+      background: linear-gradient(135deg, #10b981, #34d399);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    }
+
+    .btn-copy-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-dim);
+      border: 1px solid var(--border-line);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-copy-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Navigation Bar at bottom */
+    .bottom-nav-bar {
+      background: rgba(17, 24, 39, 0.7);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius);
+      padding: 20px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .bottom-nav-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .day-pills-list {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .day-pill-link {
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text-dim);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-line);
+      transition: all 0.2s ease;
+    }
+    .day-pill-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .day-pill-link.hub {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      border-color: transparent;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(16, 185, 129, 0.95);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 2000;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border-line);
+      padding: 36px 0;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      background: rgba(9, 9, 11, 0.95);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand-logo">
+        <span class="brand-badge">Pre &amp; Post</span>
+        <span class="brand-title">사전·사후 종합 진단 센터</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="btn-nav">🏠 LMS 홈</a>
+        <a href="index.html#curriculum" class="btn-nav">📚 강좌 로드맵</a>
+        <a href="index.html#operations" class="btn-nav">📋 일자별 운영실</a>
+        <a href="../LECTURE/docs/index.html" target="_blank" class="btn-nav highlight">🖥️ 발표 슬라이드</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Header -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span>📊 Course Evaluation &amp; Diagnostics</span>
+      </div>
+      <h1 class="hero-title">사전 및 사후 역량 진단 설문</h1>
+      <p class="hero-desc">
+        교육 시작 전 학습자의 AI·SW 기초 역량 및 사전 기대치를 진단하고, 5일간의 MVP 완성 후 최종 성장도와 종합 성취도를 평가하는 종합 설문조사 허브입니다.
+      </p>
+      <div class="info-tag-box">
+        <div class="info-tag"><strong>사전 진단:</strong> 교육 시작 전 1회 필수 실시</div>
+        <div class="info-tag"><strong>사후 평가:</strong> 5일차 데모 발표 후 1회 필수 실시</div>
+        <div class="info-tag"><strong>참여 대상:</strong> 1기 및 2기 전체 수강생</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Survey Section -->
+  <main class="container survey-section">
+    <div class="survey-grid">
+
+      <!-- Card 1: 사전 설문 (Pre-Course) -->
+      <article class="survey-card pre">
+        <div class="card-head">
+          <div class="card-top-row">
+            <span class="card-icon">📋</span>
+            <span class="card-badge pre">Pre-Course</span>
+          </div>
+          <h3 class="card-title">사전 역량 &amp; 기대치 진단</h3>
+          <p class="card-desc">
+            과정 수강 전 AI 도구 활용 경험, 웹 기초 지식, 희망 창업 아이디어 및 학습 목표를 측정합니다.
+          </p>
+          <div class="timing-box">
+            <strong>실시 시기:</strong> 1일차 시작 전 (오리엔테이션)
+          </div>
+
+          <!-- Cohort Selector Tabs (Pre) -->
+          <div class="cohort-tabs">
+            <button type="button" class="cohort-tab-btn active" id="tabPreC1" onclick="switchPreCohort(1)">
+              <span>🌱</span> 1기 (Cohort 1)
+            </button>
+            <button type="button" class="cohort-tab-btn" id="tabPreC2" onclick="switchPreCohort(2)">
+              <span>🌿</span> 2기 (Cohort 2)
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <!-- Pre Cohort 1 Panel -->
+          <div class="cohort-panel active" id="panelPreC1">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSeVUzcBC5lUM8HsG3xpn0TLBJuNKD7dY-VIa87s-a3n9gZy_g%2Fviewform%3Fusp%3Ddialog" alt="1기 사전 설문 QR 코드" class="qr-img" />
+              <span class="qr-guide" style="color:#0284c7;">📱 [1기 전용] 사전 설문 스마트폰 QR</span>
+            </div>
+
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSeVUzcBC5lUM8HsG3xpn0TLBJuNKD7dY-VIa87s-a3n9gZy_g/viewform?usp=dialog" target="_blank" class="btn-action-primary">
+                <span>📋 1기 사전 설문 시작하기 (새 창) ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSeVUzcBC5lUM8HsG3xpn0TLBJuNKD7dY-VIa87s-a3n9gZy_g/viewform?usp=dialog', '1기 사전 설문 링크가 복사되었습니다!')">
+                <span>📋 1기 사전 설문 링크 복사</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Pre Cohort 2 Panel -->
+          <div class="cohort-panel" id="panelPreC2">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSeVUzcBC5lUM8HsG3xpn0TLBJuNKD7dY-VIa87s-a3n9gZy_g%2Fviewform%3Fusp%3Ddialog" alt="2기 사전 설문 QR 코드" class="qr-img" />
+              <span class="qr-guide" style="color:#0284c7;">📱 [2기 전용] 사전 설문 스마트폰 QR</span>
+            </div>
+
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSeVUzcBC5lUM8HsG3xpn0TLBJuNKD7dY-VIa87s-a3n9gZy_g/viewform?usp=dialog" target="_blank" class="btn-action-primary">
+                <span>📋 2기 사전 설문 시작하기 (새 창) ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSeVUzcBC5lUM8HsG3xpn0TLBJuNKD7dY-VIa87s-a3n9gZy_g/viewform?usp=dialog', '2기 사전 설문 링크가 복사되었습니다!')">
+                <span>📋 2기 사전 설문 링크 복사</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2: 사후 설문 (Post-Course) -->
+      <article class="survey-card post">
+        <div class="card-head">
+          <div class="card-top-row">
+            <span class="card-icon">🏆</span>
+            <span class="card-badge post">Post-Course</span>
+          </div>
+          <h3 class="card-title">사후 성장도 &amp; 종합 만족도 평가</h3>
+          <p class="card-desc">
+            5일간의 실습 후 Web App MVP 완성 역량 성장도, 피치 발표 경험, 강사진 및 커리큘럼 종합 만족도를 평가합니다.
+          </p>
+          <div class="timing-box">
+            <strong>실시 시기:</strong> 5일차 종료 시 (수료식)
+          </div>
+
+          <!-- Cohort Selector Tabs (Post) -->
+          <div class="cohort-tabs">
+            <button type="button" class="cohort-tab-btn active" id="tabPostC1" onclick="switchPostCohort(1)">
+              <span>🌱</span> 1기 (Cohort 1)
+            </button>
+            <button type="button" class="cohort-tab-btn" id="tabPostC2" onclick="switchPostCohort(2)">
+              <span>🌿</span> 2기 (Cohort 2)
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <!-- Post Cohort 1 Panel -->
+          <div class="cohort-panel active" id="panelPostC1">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfJsV9T_usHSeaq5vVNeQ-RWS8stJp-huBrnpl5mRHh8d47zA%2Fviewform%3Fusp%3Ddialog" alt="1기 사후 설문 QR 코드" class="qr-img" />
+              <span class="qr-guide" style="color:#059669;">📱 [1기 전용] 사후 설문 스마트폰 QR</span>
+            </div>
+
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfJsV9T_usHSeaq5vVNeQ-RWS8stJp-huBrnpl5mRHh8d47zA/viewform?usp=dialog" target="_blank" class="btn-action-primary">
+                <span>🏆 1기 사후 설문 시작하기 (새 창) ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSfJsV9T_usHSeaq5vVNeQ-RWS8stJp-huBrnpl5mRHh8d47zA/viewform?usp=dialog', '1기 사후 설문 링크가 복사되었습니다!')">
+                <span>📋 1기 사후 설문 링크 복사</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Post Cohort 2 Panel -->
+          <div class="cohort-panel" id="panelPostC2">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfJsV9T_usHSeaq5vVNeQ-RWS8stJp-huBrnpl5mRHh8d47zA%2Fviewform%3Fusp%3Ddialog" alt="2기 사후 설문 QR 코드" class="qr-img" />
+              <span class="qr-guide" style="color:#059669;">📱 [2기 전용] 사후 설문 스마트폰 QR</span>
+            </div>
+
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfJsV9T_usHSeaq5vVNeQ-RWS8stJp-huBrnpl5mRHh8d47zA/viewform?usp=dialog" target="_blank" class="btn-action-primary">
+                <span>🏆 2기 사후 설문 시작하기 (새 창) ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSfJsV9T_usHSeaq5vVNeQ-RWS8stJp-huBrnpl5mRHh8d47zA/viewform?usp=dialog', '2기 사후 설문 링크가 복사되었습니다!')">
+                <span>📋 2기 사후 설문 링크 복사</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav-bar">
+      <div class="bottom-nav-title">일자별 교육운영 지원실 바로가기:</div>
+      <div class="day-pills-list">
+        <a href="day1/day1-operations.html" class="day-pill-link">1일차 운영실</a>
+        <a href="day2/day2-operations.html" class="day-pill-link">2일차 운영실</a>
+        <a href="day3/day3-operations.html" class="day-pill-link">3일차 운영실</a>
+        <a href="day4/day4-operations.html" class="day-pill-link">4일차 운영실</a>
+        <a href="day5/day5-operations.html" class="day-pill-link">5일차 운영실</a>
+        <a href="index.html#operations" class="day-pill-link hub">📋 전체 운영 허브</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <span>✅</span>
+    <span id="toastMsg">링크가 복사되었습니다.</span>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 ACE AI Startup Bootcamp · 사전·사후 종합 진단 포털</p>
+    </div>
+  </footer>
+
+  <script>
+    function switchPreCohort(cohort) {
+      const btn1 = document.getElementById('tabPreC1');
+      const btn2 = document.getElementById('tabPreC2');
+      const p1 = document.getElementById('panelPreC1');
+      const p2 = document.getElementById('panelPreC2');
+
+      if (cohort === 1) {
+        btn1.classList.add('active');
+        btn2.classList.remove('active');
+        p1.classList.add('active');
+        p2.classList.remove('active');
+      } else {
+        btn2.classList.add('active');
+        btn1.classList.remove('active');
+        p2.classList.add('active');
+        p1.classList.remove('active');
+      }
+    }
+
+    function switchPostCohort(cohort) {
+      const btn1 = document.getElementById('tabPostC1');
+      const btn2 = document.getElementById('tabPostC2');
+      const p1 = document.getElementById('panelPostC1');
+      const p2 = document.getElementById('panelPostC2');
+
+      if (cohort === 1) {
+        btn1.classList.add('active');
+        btn2.classList.remove('active');
+        p1.classList.add('active');
+        p2.classList.remove('active');
+      } else {
+        btn2.classList.add('active');
+        btn1.classList.remove('active');
+        p2.classList.add('active');
+        p1.classList.remove('active');
+      }
+    }
+
+    function copyLink(url, msg) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(url).then(() => {
+          showToast(msg);
+        }).catch(() => {
+          fallbackCopy(url, msg);
+        });
+      } else {
+        fallbackCopy(url, msg);
+      }
+    }
+
+    function fallbackCopy(text, msg) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(msg);
+      } catch (err) {
+        alert('링크 주소: ' + text);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
