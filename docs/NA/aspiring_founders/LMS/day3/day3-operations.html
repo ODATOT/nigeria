@@ -1,6 +1,68 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      if (!loggedInUser) {
+        window.location.href = '../login/login.html';
+      }
+    })();
+
+    function logout() {
+      document.cookie = "currentUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      localStorage.removeItem('currentUserSession');
+      window.location.href = '../login/login.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        var user = null;
+        if (sessionStr) {
+          var s = JSON.parse(sessionStr);
+          user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
+        }
+        if (user) {
+          var userBadge = document.getElementById('userProfileBadge');
+          var userAvatar = document.getElementById('userAvatar');
+          var userName = document.getElementById('userName');
+          if (userBadge) userBadge.style.display = 'inline-flex';
+          if (userAvatar && user.avatar) userAvatar.textContent = user.avatar;
+          if (userName && user.name) userName.textContent = user.name;
+        }
+      } catch(e) {
+        console.error(e);
+      }
+    });
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Day 3 교육운영 지원실 | 멘토링 일지 · 설문조사(1기/2기) · 자료업로드</title>
@@ -467,23 +529,207 @@
       font-size: 0.85rem;
       background: rgba(9, 9, 11, 0.95);
     }
+  
+    /* Modern 2-Tier Header Styles */
+    .navbar-2tier {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(9, 9, 11, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-line);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+    .nav-row-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+    }
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand-tag {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .brand-tag.survey {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+    }
+    .brand-tag.day {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    }
+    .brand-name {
+      font-size: 1.08rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .user-session-wrap {
+      display: flex;
+      align-items: center;
+    }
+    .btn-account-header {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
+      border: 1px solid rgba(6, 182, 212, 0.45);
+      color: #67e8f9;
+      font-size: 0.8rem;
+      font-weight: 800;
+      border-radius: 6px;
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-account-header:hover {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(59, 130, 246, 0.35));
+      border-color: #38bdf8;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .btn-logout-header {
+      background: transparent;
+      border: none;
+      color: #f87171;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding-left: 8px;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .btn-logout-header:hover {
+      color: #fca5a5;
+    }
+
+    .nav-row-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-row-bottom::-webkit-scrollbar {
+      display: none;
+    }
+    .nav-sub-left, .nav-sub-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .nav-sub-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .nav-sub-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .nav-sub-btn.active {
+      color: #fff;
+      background: rgba(59, 130, 246, 0.18);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+    .nav-sub-btn.ops {
+      color: #6ee7b7;
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+    .nav-sub-btn.ops:hover, .nav-sub-btn.ops.active {
+      color: #fff;
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.45);
+    }
+    .nav-sub-btn.portal {
+      color: #93c5fd;
+      border-color: rgba(59, 130, 246, 0.25);
+    }
+    .nav-sub-btn.highlight {
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
+    }
+    .nav-sub-btn.highlight:hover {
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      transform: translateY(-1px);
+    }
+  
   </style>
 </head>
 <body>
 
   <!-- Top Navigation -->
-  <nav class="navbar">
-    <div class="container nav-inner">
-      <a href="../index.html" class="brand-logo">
-        <span class="brand-badge">Day 3</span>
-        <span class="brand-title">교육운영 지원 센터</span>
+  <!-- 2-Tier Header Navbar -->
+  <nav class="navbar-2tier">
+    <div class="container">
+      
+      <!-- Tier 1: Brand & User Session Profile -->
+      <div class="nav-row-top">
+        <div class="brand-wrap">
+          <a href="../index.html" class="brand-logo">
+        <span class="brand-tag day">Day 3</span>
+        <span class="brand-name">AI Web App MVP · Day 3</span>
       </a>
-      <div class="nav-links">
-        <a href="../index.html" class="btn-nav">🏠 LMS 홈</a>
-        <a href="day3-ai-classroom.html" class="btn-nav">🏫 AI 강의실</a>
-        <a href="day3-textbook.html" class="btn-nav">📖 강의 교재</a>
-        <a href="../../LECTURE/docs/index.html" target="_blank" class="btn-nav highlight">🖥️ 발표 슬라이드</a>
+        </div>
+
+        <div class="user-session-wrap">
+          <div id="userProfileBadge" style="display: none; align-items: center; gap: 10px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 5px 14px; border-radius: 999px;">
+            <span id="userAvatar" style="font-size: 1.1rem;">🚀</span>
+            <span id="userName" style="font-size: 0.88rem; font-weight: 800; color: #93c5fd;">팀명</span>
+            <button type="button" onclick="openAiAccountModal()" class="btn-account-header" title="안티그래비티 및 코덱스 실습 계정 확인">🔑 AI Account 확인</button>
+            <button type="button" onclick="logout()" class="btn-logout-header">로그아웃</button>
+          </div>
+        </div>
       </div>
+
+      <!-- Tier 2: Navigation Links -->
+      <div class="nav-row-bottom">
+        <div class="nav-sub-left">
+        <a href="../index.html" class="nav-sub-btn">🏠 LMS 홈</a>
+        <a href="day3-ai-classroom.html" class="nav-sub-btn ">🏫 AI 강의실</a>
+        <a href="day3-textbook.html" class="nav-sub-btn ">📖 강의 교재</a>
+        <a href="day3-operations.html" class="nav-sub-btn ops active">📋 3일차 교육운영</a>
+        <a href="../pre-post-survey.html" class="nav-sub-btn">📊 사전·사후 설문</a>
+      </div>
+      <div class="nav-sub-right">
+        <a href="../../LECTURE/docs/index.html" target="_blank" class="nav-sub-btn highlight">🖥️ 발표 슬라이드</a>
+      </div>
+      </div>
+
     </div>
   </nav>
 
@@ -719,5 +965,214 @@
       }, 2500);
     }
   </script>
+
+  <!-- AI Account Modal -->
+  <div id="aiAccountModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;">
+    <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 100%; max-width: 520px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.2); overflow: hidden; transform: translateY(20px); transition: transform 0.25s ease;" id="aiModalCard">
+      
+      <!-- Modal Header -->
+      <div style="padding: 24px 28px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #3b82f6, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🔑</div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">AI 실습 계정 정보</h3>
+            <span id="modalTeamBadge" style="font-size: 0.76rem; color: #94a3b8;">배정된 도구 계정 목록</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">✕</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div style="padding: 24px 28px; display: flex; flex-direction: column; gap: 20px;">
+        
+        <!-- Account Card 1: Antigravity -->
+        <div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 14px; padding: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.2rem;">🌐</span>
+              <strong style="color: #93c5fd; font-size: 0.95rem;">안티그래비티 (Google AGY)</strong>
+            </div>
+            <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3);">개발 도구</span>
+          </div>
+
+          <!-- AGY ID -->
+          <div style="margin-bottom: 10px;">
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Google)</div>
+            <div style="display: flex; gap: 6px;">
+              <input type="text" id="agyIdVal" readonly value="agy.pilot.team@gmail.com" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
+              <button type="button" onclick="copyAccountVal('agyIdVal', '안티그래비티 ID가 복사되었습니다!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">복사</button>
+            </div>
+          </div>
+
+          <!-- AGY Password -->
+          <div>
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">비밀번호 (Password)</div>
+            <div style="display: flex; gap: 6px;">
+              <input type="password" id="agyPwVal" readonly value="AcePilot2026!agy" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
+              <button type="button" onclick="togglePwVisibility('agyPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title="비밀번호 보기/숨기기">👁️</button>
+              <button type="button" onclick="copyAccountVal('agyPwVal', '안티그래비티 비밀번호가 복사되었습니다!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">복사</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Card 2: Codex -->
+        <div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px; padding: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.2rem;">🤖</span>
+              <strong style="color: #6ee7b7; font-size: 0.95rem;">코덱스 (OpenAI Codex)</strong>
+            </div>
+            <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">기획·검증 도구</span>
+          </div>
+
+          <!-- Codex ID -->
+          <div style="margin-bottom: 10px;">
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Codex)</div>
+            <div style="display: flex; gap: 6px;">
+              <input type="text" id="codexIdVal" readonly value="codex.pilot.team@openai.com" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
+              <button type="button" onclick="copyAccountVal('codexIdVal', '코덱스 ID가 복사되었습니다!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">복사</button>
+            </div>
+          </div>
+
+          <!-- Codex Password -->
+          <div>
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">비밀번호 (Password)</div>
+            <div style="display: flex; gap: 6px;">
+              <input type="password" id="codexPwVal" readonly value="AcePilot2026!codex" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
+              <button type="button" onclick="togglePwVisibility('codexPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title="비밀번호 보기/숨기기">👁️</button>
+              <button type="button" onclick="copyAccountVal('codexPwVal', '코덱스 비밀번호가 복사되었습니다!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">복사</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div style="padding: 16px 28px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: flex-end;">
+        <button type="button" onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 9px 20px; color: #fff; font-size: 0.88rem; font-weight: 700; cursor: pointer;">닫기</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function openAiAccountModal() {
+      const modal = document.getElementById('aiAccountModal');
+      const card = document.getElementById('aiModalCard');
+      if (!modal) return;
+      
+      // Update team info dynamically
+      try {
+        const sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          const s = JSON.parse(sessionStr);
+          const user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
+          if (user) {
+            const badge = document.getElementById('modalTeamBadge');
+            const agyId = document.getElementById('agyIdVal');
+            const codexId = document.getElementById('codexIdVal');
+            const agyPw = document.getElementById('agyPwVal');
+            const codexPw = document.getElementById('codexPwVal');
+            
+            const cohortPrefix = user.cohort ? 'c' + user.cohort : 'c1';
+            const teamNum = user.teamNum || 1;
+
+            if (badge) badge.textContent = user.name + ' 전용 AI 도구 계정';
+            if (agyId) agyId.value = 'agy.' + cohortPrefix + '.team' + teamNum + '@gmail.com';
+            if (codexId) codexId.value = 'codex.' + cohortPrefix + '.team' + teamNum + '@openai.com';
+            if (agyPw) agyPw.value = 'AgyPilot' + teamNum + '!2026';
+            if (codexPw) codexPw.value = 'CodexPilot' + teamNum + '!2026';
+          }
+        }
+      } catch(e) {
+        console.error(e);
+      }
+
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.style.opacity = '1';
+        if (card) card.style.transform = 'translateY(0)';
+      }, 10);
+    }
+
+    function closeAiAccountModal() {
+      const modal = document.getElementById('aiAccountModal');
+      const card = document.getElementById('aiModalCard');
+      if (!modal) return;
+      modal.style.opacity = '0';
+      if (card) card.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 250);
+    }
+
+    function togglePwVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🔒';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+    }
+
+    function copyAccountVal(inputId, successMsg) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      const val = input.value;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(val).then(() => {
+          if (typeof showToast === 'function') {
+            showToast(successMsg);
+          } else {
+            alert(successMsg);
+          }
+        }).catch(() => {
+          fallbackCopyVal(val, successMsg);
+        });
+      } else {
+        fallbackCopyVal(val, successMsg);
+      }
+    }
+
+    function fallbackCopyVal(val, successMsg) {
+      const textArea = document.createElement('textarea');
+      textArea.value = val;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        if (typeof showToast === 'function') {
+          showToast(successMsg);
+        } else {
+          alert(successMsg);
+        }
+      } catch (err) {
+        alert('복사할 값: ' + val);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // Close on click outside modal card
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('aiAccountModal');
+      if (modal && e.target === modal) {
+        closeAiAccountModal();
+      }
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeAiAccountModal();
+      }
+    });
+  </script>
+
 </body>
 </html>
