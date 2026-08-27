@@ -711,6 +711,209 @@
       transform: translateY(-1px);
     }
   
+  
+    /* Facilitator Section Styles */
+    .facil-tab-group {
+      display: flex;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border-line);
+    }
+    .facil-tab-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.86rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .facil-tab-btn:hover {
+      color: #fff;
+    }
+    .facil-tab-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(59, 130, 246, 0.35);
+    }
+
+    .facil-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .facil-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+    .facil-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Work A & Work B Accents */
+    .facil-card.work-a {
+      border-top: 3px solid #06b6d4;
+    }
+    .facil-card.work-a:hover {
+      border-color: rgba(6, 182, 212, 0.5);
+      box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2);
+    }
+
+    .facil-card.work-b {
+      border-top: 3px solid #f97316;
+    }
+    .facil-card.work-b:hover {
+      border-color: rgba(249, 115, 22, 0.5);
+      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.2);
+    }
+
+    .facil-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .facil-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+    .facil-badge {
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+    .facil-badge.work-a {
+      background: rgba(6, 182, 212, 0.15);
+      color: #67e8f9;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+    .facil-badge.work-b {
+      background: rgba(249, 115, 22, 0.15);
+      color: #fdba74;
+      border: 1px solid rgba(249, 115, 22, 0.3);
+    }
+
+    .facil-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .facil-role {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+    .facil-teams-summary {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .facil-action-btn {
+      width: 100%;
+      padding: 9px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+      font-size: 0.84rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .facil-card:hover .facil-action-btn {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+    }
+    .facil-card.work-b:hover .facil-action-btn {
+      background: linear-gradient(135deg, #ea580c, #f97316);
+      box-shadow: 0 4px 14px rgba(234, 88, 12, 0.3);
+    }
+
+  
+    /* Facilitator Quote Styling */
+    .facil-quote-box {
+      background: rgba(255, 255, 255, 0.025);
+      border-left: 2px solid var(--secondary);
+      border-radius: 0 8px 8px 0;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .facil-card.work-b .facil-quote-box {
+      border-left-color: #f97316;
+    }
+    .quote-mark {
+      font-size: 1.1rem;
+      line-height: 1;
+      color: var(--secondary);
+      font-family: serif;
+      margin-right: 4px;
+    }
+    .facil-card.work-b .quote-mark {
+      color: #f97316;
+    }
+    .facil-quote-text {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: #e2e8f0;
+      line-height: 1.45;
+      word-break: keep-all;
+      margin: 0;
+      display: inline;
+    }
+
+  
+    /* Facilitator Personal Intro Text Styling */
+    .facil-intro-text {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 8px 0 16px;
+      font-style: italic;
+      word-break: keep-all;
+      min-height: 48px;
+    }
+
   </style>
 </head>
 <body>
@@ -745,6 +948,7 @@
         <a href="#curriculum" class="nav-sub-btn">📚 강좌 커리큘럼</a>
         <a href="#operations" class="nav-sub-btn ops">📋 교육운영 지원 센터</a>
         <a href="pre-post-survey.html" class="nav-sub-btn">📊 사전·사후 설문</a>
+        <a href="#facilitators" class="nav-sub-btn">🧑‍🏫 퍼실리테이터</a>
         <a href="#pipeline" class="nav-sub-btn">💡 AI 파이프라인</a>
       </div>
       <div class="nav-sub-right">
@@ -1065,6 +1269,139 @@
       </div>
     </section>
 
+    
+    <!-- Facilitator Hub Section -->
+    <section id="facilitators" class="facilitator-section-block" style="margin-bottom: 60px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
+        <div>
+          <h2 class="section-title" style="margin: 0; color: #fff;">
+            <span style="color: #38bdf8;">🧑‍🏫</span> 전담 퍼실리테이터 센터 (Facilitators)
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 8px;">
+            <strong>Work A는 1기(1~30팀)</strong>, <strong>Work B는 2기(1~30팀)</strong>를 전담 코칭합니다. 카드를 클릭하여 <strong>담당 팀 목록</strong>을 확인하세요.
+          </p>
+        </div>
+
+        <!-- Work A / Work B Tab Filter -->
+        <div class="facil-tab-group">
+          <button type="button" class="facil-tab-btn active" id="facilTabAll" onclick="filterFacilitators('all', this)">
+            전체 보기 (15명)
+          </button>
+          <button type="button" class="facil-tab-btn" id="facilTabA" onclick="filterFacilitators('work-a', this)">
+            <span>💎</span> Work A (1기 전담 · 7명)
+          </button>
+          <button type="button" class="facil-tab-btn" id="facilTabB" onclick="filterFacilitators('work-b', this)">
+            <span>🔥</span> Work B (2기 전담 · 8명)
+          </button>
+        </div>
+      </div>
+
+      <!-- Facilitator Cards Grid -->
+      <div class="facil-grid" id="facilGrid">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- Facilitator Modal Layer -->
+    <div id="facilTeamModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;">
+      <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 100%; max-width: 580px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(6, 182, 212, 0.2); overflow: hidden; transform: translateY(20px); transition: transform 0.25s ease;" id="facilModalCard">
+        
+        <!-- Modal Header -->
+        <div style="padding: 24px 28px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <div id="modalFacilAvatar" style="width: 48px; height: 48px; border-radius: 12px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; font-size: 1.8rem;">👨🏾‍🏫</div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <h3 id="modalFacilName" style="font-size: 1.25rem; font-weight: 800; color: #fff; margin: 0;">Facilitator Name</h3>
+                <span id="modalFacilGroupBadge" style="font-size: 0.74rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3);">Work A</span>
+              </div>
+              <span id="modalFacilEmail" style="font-size: 0.8rem; color: #94a3b8; margin-top: 3px; display: block; font-family: monospace;">email@bootcamp.ai</span>
+            </div>
+          </div>
+          <button type="button" onclick="closeFacilModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">✕</button>
+        </div>
+
+        <!-- Modal Body -->
+        <div style="padding: 24px 28px;">
+          
+          <!-- Personal Intro / Quote Box in Modal -->
+          <div style="background: rgba(255, 255, 255, 0.03); border-left: 3px solid #06b6d4; border-radius: 0 10px 10px 0; padding: 12px 16px; margin-bottom: 20px;" id="modalQuoteWrap">
+            <div style="font-size: 0.75rem; font-weight: 800; color: #38bdf8; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;">퍼실리테이터 소개 (Introduction)</div>
+            <p id="modalFacilQuote" style="font-size: 0.94rem; color: #f1f5f9; font-style: italic; line-height: 1.55; word-break: keep-all; margin: 0;">“소개 문구”</p>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <strong style="color: #fff; font-size: 0.95rem;">🎯 <span id="modalCohortLabel">1기</span> 전담 멘토링 배정 팀 (<span id="modalTeamCount">4</span>개 팀)</strong>
+            <span style="font-size: 0.78rem; color: #64748b;" id="modalCohortSub">1기 수강생 팀</span>
+          </div>
+
+          <!-- Team List Container -->
+          <div id="modalTeamList" style="display: flex; flex-direction: column; gap: 10px; max-height: 260px; overflow-y: auto; padding-right: 4px;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div style="padding: 16px 28px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: flex-end;">
+          <button type="button" onclick="closeFacilModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 8px 20px; color: #fff; font-size: 0.86rem; font-weight: 700; cursor: pointer;">닫기</button>
+        </div>
+
+      </div>
+    </div>
+          <button type="button" onclick="closeFacilModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">✕</button>
+        </div>
+
+        <!-- Modal Body -->
+        <div style="padding: 24px 28px;">
+          
+          <!-- Quote Box in Modal -->
+          <div style="background: rgba(255, 255, 255, 0.03); border-left: 3px solid #06b6d4; border-radius: 0 10px 10px 0; padding: 12px 16px; margin-bottom: 20px;" id="modalQuoteWrap">
+            <div style="font-size: 0.75rem; font-weight: 800; color: #38bdf8; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;">멘토링 모토 (Motto)</div>
+            <p id="modalFacilQuote" style="font-size: 0.92rem; color: #e2e8f0; font-style: italic; line-height: 1.5; word-break: keep-all; margin: 0;">“아이디어를 실제 동작하는 AI 서비스로 만듭니다.”</p>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <strong style="color: #fff; font-size: 0.95rem;">🎯 <span id="modalCohortLabel">1기</span> 전담 멘토링 배정 팀 (<span id="modalTeamCount">4</span>개 팀)</strong>
+            <span style="font-size: 0.78rem; color: #64748b;" id="modalCohortSub">1기 수강생 팀</span>
+          </div>
+
+          <!-- Team List Container -->
+          <div id="modalTeamList" style="display: flex; flex-direction: column; gap: 10px; max-height: 260px; overflow-y: auto; padding-right: 4px;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div style="padding: 16px 28px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+          <span id="modalFacilEmail" style="font-size: 0.8rem; color: #64748b; font-family: monospace;">email@bootcamp.ai</span>
+          <button type="button" onclick="closeFacilModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 8px 18px; color: #fff; font-size: 0.86rem; font-weight: 700; cursor: pointer;">닫기</button>
+        </div>
+
+      </div>
+    </div>
+          <button type="button" onclick="closeFacilModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">✕</button>
+        </div>
+
+        <!-- Modal Body -->
+        <div style="padding: 24px 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <strong style="color: #fff; font-size: 0.95rem;">🎯 <span id="modalCohortLabel">1기</span> 전담 멘토링 배정 팀 (<span id="modalTeamCount">4</span>개 팀)</strong>
+            <span style="font-size: 0.78rem; color: #64748b;" id="modalCohortSub">1기 수강생 팀</span>
+          </div>
+
+          <!-- Team List Container -->
+          <div id="modalTeamList" style="display: flex; flex-direction: column; gap: 10px; max-height: 340px; overflow-y: auto; padding-right: 4px;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div style="padding: 16px 28px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+          <span id="modalFacilEmail" style="font-size: 0.8rem; color: #64748b; font-family: monospace;">email@bootcamp.ai</span>
+          <button type="button" onclick="closeFacilModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 8px 18px; color: #fff; font-size: 0.86rem; font-weight: 700; cursor: pointer;">닫기</button>
+      </div>
+    </div>
+
     <!-- AI Tool Pipeline Section -->
     <section id="pipeline" class="pipeline-box">
       <h2 style="font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 12px;">
@@ -1315,6 +1652,691 @@
       if (e.key === 'Escape') {
         closeAiAccountModal();
       }
+    });
+  </script>
+
+
+  <script>
+    const facilitatorData = [
+  {
+    "id": "fa-1",
+    "name": "Bolarinwa Bisola",
+    "workGroup": "Work A (1기)",
+    "groupClass": "work-a",
+    "targetCohort": 1,
+    "avatar": "👩🏾‍🏫",
+    "email": "bisola.b@bootcamp.ai",
+    "intro": "“아이디어를 실제 동작하는 AI 서비스로 전환하는 가장 확실한 길을 함께 만듭니다.”",
+    "teams": [
+      {
+        "cohort": 1,
+        "teamNum": 1,
+        "name": "1기 1팀 (Team 1)",
+        "startup": "AI Startup MVP #1"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 2,
+        "name": "1기 2팀 (Team 2)",
+        "startup": "AI Startup MVP #2"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 3,
+        "name": "1기 3팀 (Team 3)",
+        "startup": "AI Startup MVP #3"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 4,
+        "name": "1기 4팀 (Team 4)",
+        "startup": "AI Startup MVP #4"
+      }
+    ]
+  },
+  {
+    "id": "fa-2",
+    "name": "Teddy Aitan",
+    "workGroup": "Work A (1기)",
+    "groupClass": "work-a",
+    "targetCohort": 1,
+    "avatar": "👨🏾‍🏫",
+    "email": "teddy.a@bootcamp.ai",
+    "intro": "“데이터의 흐름을 지배하는 팀이 AI 시대의 시장을 선도합니다.”",
+    "teams": [
+      {
+        "cohort": 1,
+        "teamNum": 5,
+        "name": "1기 5팀 (Team 5)",
+        "startup": "AI Startup MVP #5"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 6,
+        "name": "1기 6팀 (Team 6)",
+        "startup": "AI Startup MVP #6"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 7,
+        "name": "1기 7팀 (Team 7)",
+        "startup": "AI Startup MVP #7"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 8,
+        "name": "1기 8팀 (Team 8)",
+        "startup": "AI Startup MVP #8"
+      }
+    ]
+  },
+  {
+    "id": "fa-3",
+    "name": "Clement Makinde",
+    "workGroup": "Work A (1기)",
+    "groupClass": "work-a",
+    "targetCohort": 1,
+    "avatar": "👨🏾‍💻",
+    "email": "clement.m@bootcamp.ai",
+    "intro": "“단 한 줄의 기획 명세가 AI를 만나 혁신적인 웹 인터페이스가 됩니다.”",
+    "teams": [
+      {
+        "cohort": 1,
+        "teamNum": 9,
+        "name": "1기 9팀 (Team 9)",
+        "startup": "AI Startup MVP #9"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 10,
+        "name": "1기 10팀 (Team 10)",
+        "startup": "AI Startup MVP #10"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 11,
+        "name": "1기 11팀 (Team 11)",
+        "startup": "AI Startup MVP #11"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 12,
+        "name": "1기 12팀 (Team 12)",
+        "startup": "AI Startup MVP #12"
+      }
+    ]
+  },
+  {
+    "id": "fa-4",
+    "name": "Emmanuel Bala Musa",
+    "workGroup": "Work A (1기)",
+    "groupClass": "work-a",
+    "targetCohort": 1,
+    "avatar": "👨🏾‍🏫",
+    "email": "emmanuel.b@bootcamp.ai",
+    "intro": "“기획의 깊이가 MVP의 완성도와 비즈니스의 생명력을 결정합니다.”",
+    "teams": [
+      {
+        "cohort": 1,
+        "teamNum": 13,
+        "name": "1기 13팀 (Team 13)",
+        "startup": "AI Startup MVP #13"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 14,
+        "name": "1기 14팀 (Team 14)",
+        "startup": "AI Startup MVP #14"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 15,
+        "name": "1기 15팀 (Team 15)",
+        "startup": "AI Startup MVP #15"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 16,
+        "name": "1기 16팀 (Team 16)",
+        "startup": "AI Startup MVP #16"
+      }
+    ]
+  },
+  {
+    "id": "fa-5",
+    "name": "Mustapha Adinoyi Abdulrahman",
+    "workGroup": "Work A (1기)",
+    "groupClass": "work-a",
+    "targetCohort": 1,
+    "avatar": "👨🏾‍💻",
+    "email": "mustapha.a@bootcamp.ai",
+    "intro": "“사용자의 감탄을 이끌어내는 세련되고 인터랙티브한 웹 경험을 만듭니다.”",
+    "teams": [
+      {
+        "cohort": 1,
+        "teamNum": 17,
+        "name": "1기 17팀 (Team 17)",
+        "startup": "AI Startup MVP #17"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 18,
+        "name": "1기 18팀 (Team 18)",
+        "startup": "AI Startup MVP #18"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 19,
+        "name": "1기 19팀 (Team 19)",
+        "startup": "AI Startup MVP #19"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 20,
+        "name": "1기 20팀 (Team 20)",
+        "startup": "AI Startup MVP #20"
+      }
+    ]
+  },
+  {
+    "id": "fa-6",
+    "name": "Ahmad Muhammad",
+    "workGroup": "Work A (1기)",
+    "groupClass": "work-a",
+    "targetCohort": 1,
+    "avatar": "👨🏾‍🏫",
+    "email": "ahmad.m@bootcamp.ai",
+    "intro": "“막힘없는 유저 플로우와 검증된 기능 로직으로 프로덕트 가치를 극대화합니다.”",
+    "teams": [
+      {
+        "cohort": 1,
+        "teamNum": 21,
+        "name": "1기 21팀 (Team 21)",
+        "startup": "AI Startup MVP #21"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 22,
+        "name": "1기 22팀 (Team 22)",
+        "startup": "AI Startup MVP #22"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 23,
+        "name": "1기 23팀 (Team 23)",
+        "startup": "AI Startup MVP #23"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 24,
+        "name": "1기 24팀 (Team 24)",
+        "startup": "AI Startup MVP #24"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 25,
+        "name": "1기 25팀 (Team 25)",
+        "startup": "AI Startup MVP #25"
+      }
+    ]
+  },
+  {
+    "id": "fa-7",
+    "name": "Aina Segun Aina",
+    "workGroup": "Work A (1기)",
+    "groupClass": "work-a",
+    "targetCohort": 1,
+    "avatar": "👨🏾‍💻",
+    "email": "aina.s@bootcamp.ai",
+    "intro": "“완성된 MVP를 세상에 라이브 배포하고 당당하게 피칭할 수 있도록 돕습니다.”",
+    "teams": [
+      {
+        "cohort": 1,
+        "teamNum": 26,
+        "name": "1기 26팀 (Team 26)",
+        "startup": "AI Startup MVP #26"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 27,
+        "name": "1기 27팀 (Team 27)",
+        "startup": "AI Startup MVP #27"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 28,
+        "name": "1기 28팀 (Team 28)",
+        "startup": "AI Startup MVP #28"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 29,
+        "name": "1기 29팀 (Team 29)",
+        "startup": "AI Startup MVP #29"
+      },
+      {
+        "cohort": 1,
+        "teamNum": 30,
+        "name": "1기 30팀 (Team 30)",
+        "startup": "AI Startup MVP #30"
+      }
+    ]
+  },
+  {
+    "id": "fb-1",
+    "name": "Adedayo Sarafa Adedeji",
+    "workGroup": "Work B (2기)",
+    "groupClass": "work-b",
+    "targetCohort": 2,
+    "avatar": "👨🏾‍🏫",
+    "email": "adedayo.s@bootcamp.ai",
+    "intro": "“상상을 초고속으로 현실화하는 AI 기반 프로토타이핑의 세계로 안내합니다.”",
+    "teams": [
+      {
+        "cohort": 2,
+        "teamNum": 1,
+        "name": "2기 1팀 (Team 1)",
+        "startup": "AI Startup MVP #1"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 2,
+        "name": "2기 2팀 (Team 2)",
+        "startup": "AI Startup MVP #2"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 3,
+        "name": "2기 3팀 (Team 3)",
+        "startup": "AI Startup MVP #3"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 4,
+        "name": "2기 4팀 (Team 4)",
+        "startup": "AI Startup MVP #4"
+      }
+    ]
+  },
+  {
+    "id": "fb-2",
+    "name": "Ivie Peace Ogiemwonyi",
+    "workGroup": "Work B (2기)",
+    "groupClass": "work-b",
+    "targetCohort": 2,
+    "avatar": "👩🏾‍🏫",
+    "email": "ivie.p@bootcamp.ai",
+    "intro": "“수익성 있는 비즈니스 모델과 사용자 중심 인터페이스의 완벽한 조화를 만듭니다.”",
+    "teams": [
+      {
+        "cohort": 2,
+        "teamNum": 5,
+        "name": "2기 5팀 (Team 5)",
+        "startup": "AI Startup MVP #5"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 6,
+        "name": "2기 6팀 (Team 6)",
+        "startup": "AI Startup MVP #6"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 7,
+        "name": "2기 7팀 (Team 7)",
+        "startup": "AI Startup MVP #7"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 8,
+        "name": "2기 8팀 (Team 8)",
+        "startup": "AI Startup MVP #8"
+      }
+    ]
+  },
+  {
+    "id": "fb-3",
+    "name": "Kayode Sunday Meyanbe",
+    "workGroup": "Work B (2기)",
+    "groupClass": "work-b",
+    "targetCohort": 2,
+    "avatar": "👨🏾‍💻",
+    "email": "kayode.s@bootcamp.ai",
+    "intro": "“안정적인 상태 관리와 똑똑한 AI 자동 개발로 견고한 웹앱을 완성합니다.”",
+    "teams": [
+      {
+        "cohort": 2,
+        "teamNum": 9,
+        "name": "2기 9팀 (Team 9)",
+        "startup": "AI Startup MVP #9"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 10,
+        "name": "2기 10팀 (Team 10)",
+        "startup": "AI Startup MVP #10"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 11,
+        "name": "2기 11팀 (Team 11)",
+        "startup": "AI Startup MVP #11"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 12,
+        "name": "2기 12팀 (Team 12)",
+        "startup": "AI Startup MVP #12"
+      }
+    ]
+  },
+  {
+    "id": "fb-4",
+    "name": "Jack MacDonald",
+    "workGroup": "Work B (2기)",
+    "groupClass": "work-b",
+    "targetCohort": 2,
+    "avatar": "👨🏼‍🏫",
+    "email": "jack.m@bootcamp.ai",
+    "intro": "“기술적 한계를 과감히 뛰어넘어 실제 시장에서 작동하는 프로덕트를 구축합니다.”",
+    "teams": [
+      {
+        "cohort": 2,
+        "teamNum": 13,
+        "name": "2기 13팀 (Team 13)",
+        "startup": "AI Startup MVP #13"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 14,
+        "name": "2기 14팀 (Team 14)",
+        "startup": "AI Startup MVP #14"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 15,
+        "name": "2기 15팀 (Team 15)",
+        "startup": "AI Startup MVP #15"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 16,
+        "name": "2기 16팀 (Team 16)",
+        "startup": "AI Startup MVP #16"
+      }
+    ]
+  },
+  {
+    "id": "fb-5",
+    "name": "Anietie Etuk",
+    "workGroup": "Work B (2기)",
+    "groupClass": "work-b",
+    "targetCohort": 2,
+    "avatar": "👨🏾‍💻",
+    "email": "anietie.e@bootcamp.ai",
+    "intro": "“예외와 에러까지 우아하게 다루는 완성도 높은 디테일이 최고의 프로덕트를 만듭니다.”",
+    "teams": [
+      {
+        "cohort": 2,
+        "teamNum": 17,
+        "name": "2기 17팀 (Team 17)",
+        "startup": "AI Startup MVP #17"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 18,
+        "name": "2기 18팀 (Team 18)",
+        "startup": "AI Startup MVP #18"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 19,
+        "name": "2기 19팀 (Team 19)",
+        "startup": "AI Startup MVP #19"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 20,
+        "name": "2기 20팀 (Team 20)",
+        "startup": "AI Startup MVP #20"
+      }
+    ]
+  },
+  {
+    "id": "fb-6",
+    "name": "Echegwo Arinze Joseph",
+    "workGroup": "Work B (2기)",
+    "groupClass": "work-b",
+    "targetCohort": 2,
+    "avatar": "👨🏾‍🏫",
+    "email": "arinze.j@bootcamp.ai",
+    "intro": "“정교한 프롬프트와 명확한 명세서로 AI의 잠재력을 200% 이끌어냅니다.”",
+    "teams": [
+      {
+        "cohort": 2,
+        "teamNum": 21,
+        "name": "2기 21팀 (Team 21)",
+        "startup": "AI Startup MVP #21"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 22,
+        "name": "2기 22팀 (Team 22)",
+        "startup": "AI Startup MVP #22"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 23,
+        "name": "2기 23팀 (Team 23)",
+        "startup": "AI Startup MVP #23"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 24,
+        "name": "2기 24팀 (Team 24)",
+        "startup": "AI Startup MVP #24"
+      }
+    ]
+  },
+  {
+    "id": "fb-7",
+    "name": "Olawoyin Shemuel Taiwo",
+    "workGroup": "Work B (2기)",
+    "groupClass": "work-b",
+    "targetCohort": 2,
+    "avatar": "👨🏾‍💻",
+    "email": "shemuel.t@bootcamp.ai",
+    "intro": "“각 팀의 독창적인 비즈니스 트랙에 맞춘 차별화된 핵심 기능을 구현합니다.”",
+    "teams": [
+      {
+        "cohort": 2,
+        "teamNum": 25,
+        "name": "2기 25팀 (Team 25)",
+        "startup": "AI Startup MVP #25"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 26,
+        "name": "2기 26팀 (Team 26)",
+        "startup": "AI Startup MVP #26"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 27,
+        "name": "2기 27팀 (Team 27)",
+        "startup": "AI Startup MVP #27"
+      }
+    ]
+  },
+  {
+    "id": "fb-8",
+    "name": "Moses Adamu",
+    "workGroup": "Work B (2기)",
+    "groupClass": "work-b",
+    "targetCohort": 2,
+    "avatar": "👨🏾‍🏫",
+    "email": "moses.a@bootcamp.ai",
+    "intro": "“여러분의 5분 데모 발표가 청중과 심사위원의 마음을 사로잡도록 끝까지 함께합니다.”",
+    "teams": [
+      {
+        "cohort": 2,
+        "teamNum": 28,
+        "name": "2기 28팀 (Team 28)",
+        "startup": "AI Startup MVP #28"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 29,
+        "name": "2기 29팀 (Team 29)",
+        "startup": "AI Startup MVP #29"
+      },
+      {
+        "cohort": 2,
+        "teamNum": 30,
+        "name": "2기 30팀 (Team 30)",
+        "startup": "AI Startup MVP #30"
+      }
+    ]
+  }
+];
+
+    let currentFacilFilter = 'all';
+
+    function filterFacilitators(group, btn) {
+      currentFacilFilter = group;
+      document.querySelectorAll('.facil-tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderFacilitators();
+    }
+
+    function renderFacilitators() {
+      const grid = document.getElementById('facilGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const filtered = facilitatorData.filter(f => {
+        if (currentFacilFilter === 'all') return true;
+        return f.groupClass === currentFacilFilter;
+      });
+
+      filtered.forEach(f => {
+        const card = document.createElement('article');
+        card.className = 'facil-card ' + f.groupClass;
+        card.onclick = () => openFacilModal(f);
+
+        const teamListPreview = f.teams.map(t => t.name.split(' (')[0]).join(', ');
+
+        card.innerHTML = `
+          <div style="display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1;">
+            <div>
+              <div class="facil-head">
+                <div class="facil-avatar">${f.avatar}</div>
+                <span class="facil-badge ${f.groupClass}">${f.workGroup}</span>
+              </div>
+              <h3 class="facil-name">${f.name}</h3>
+              
+              <!-- Replaced with Personal Intro Quote -->
+              <p class="facil-intro-text">${f.intro}</p>
+            </div>
+
+            <div>
+              <div class="facil-teams-summary">
+                <span>🎯</span>
+                <span><strong>${f.teams.length}개 팀 (${f.targetCohort}기):</strong> ${teamListPreview}</span>
+              </div>
+              <button type="button" class="facil-action-btn">
+                <span>👥 ${f.targetCohort}기 담당 팀 목록 조회</span>
+                <span>→</span>
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openFacilModal(facil) {
+      const modal = document.getElementById('facilTeamModal');
+      const card = document.getElementById('facilModalCard');
+      if (!modal) return;
+
+      document.getElementById('modalFacilAvatar').textContent = facil.avatar;
+      document.getElementById('modalFacilName').textContent = facil.name;
+      
+      const badge = document.getElementById('modalFacilGroupBadge');
+      badge.textContent = facil.workGroup;
+      badge.className = 'facil-badge ' + facil.groupClass;
+
+      document.getElementById('modalFacilQuote').textContent = facil.intro;
+      document.getElementById('modalFacilEmail').textContent = facil.email;
+      
+      const quoteWrap = document.getElementById('modalQuoteWrap');
+      if (quoteWrap) {
+        quoteWrap.style.borderLeftColor = facil.groupClass === 'work-b' ? '#f97316' : '#06b6d4';
+      }
+
+      document.getElementById('modalTeamCount').textContent = facil.teams.length;
+      document.getElementById('modalCohortLabel').textContent = facil.targetCohort + '기';
+      document.getElementById('modalCohortSub').textContent = facil.targetCohort + '기 전담 배정 수강생 팀';
+
+      const teamList = document.getElementById('modalTeamList');
+      teamList.innerHTML = '';
+
+      facil.teams.forEach(t => {
+        const item = document.createElement('div');
+        item.style.cssText = 'background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s;';
+        
+        const cohortBadgeColor = t.cohort === 1 ? 'background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3);' : 'background: rgba(249, 115, 22, 0.15); color: #fdba74; border: 1px solid rgba(249, 115, 22, 0.3);';
+
+        item.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">🚀</div>
+            <div>
+              <div style="font-size: 0.92rem; font-weight: 800; color: #fff;">${t.name}</div>
+              <div style="font-size: 0.78rem; color: #94a3b8;">${t.startup}</div>
+            </div>
+          </div>
+          <span style="font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; ${cohortBadgeColor}">${t.cohort}기 전담</span>
+        `;
+        teamList.appendChild(item);
+      });
+
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.style.opacity = '1';
+        if (card) card.style.transform = 'translateY(0)';
+      }, 10);
+    }
+
+    function closeFacilModal() {
+      const modal = document.getElementById('facilTeamModal');
+      const card = document.getElementById('facilModalCard');
+      if (!modal) return;
+      modal.style.opacity = '0';
+      if (card) card.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 250);
+    }
+
+    // Modal dismiss on backdrop click
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('facilTeamModal');
+      if (modal && e.target === modal) {
+        closeFacilModal();
+      }
+    });
+
+    // Modal dismiss on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeFacilModal();
+      }
+    });
+
+    // Initial render
+    document.addEventListener('DOMContentLoaded', function() {
+      renderFacilitators();
     });
   </script>
 
