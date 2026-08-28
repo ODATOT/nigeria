@@ -1,0 +1,308 @@
+<!-- Slide 1: [Divider] DAY 3 SESSION 01 -->
+<section class="slide-card divider-slide session-3" id="day3-slide-1">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 3 | Building MVP from PROJECT.md</div>
+    <div class="slide-title">[Session Opening] Day 3. Building MVP from PROJECT.md</div>
+  </div>
+  <div class="divider-content">
+    <div class="divider-day">DAY 3</div>
+    <div class="divider-tag">SESSION 01</div>
+    <h1 class="divider-title">Building MVP<br>from PROJECT.md</h1>
+    <p class="divider-subtitle">Spec-Driven Antigravity Implementation &amp; Codex QA Validation (MVP v0.1)</p>
+    <div class="divider-topics">
+      <div class="topic-badge"><span>01</span> PROJECT.md ➔ Antigravity</div>
+      <div class="topic-badge"><span>02</span> End-to-End User Flow Implementation</div>
+      <div class="topic-badge"><span>03</span> Codex QA &amp; Regression Check</div>
+    </div>
+  </div>
+  <div class="slide-body" style="display: none;"><p>Day 3. Building MVP from PROJECT.md</p></div>
+  <div class="presenter-notes" style="display:none;">Today is the day we turn yesterday's PROJECT.md into a fully working MVP v0.1 web application using Antigravity.</div>
+</section>
+
+<!-- Slide 2: Core Principle -->
+<section class="slide-card session-3" id="day3-slide-2">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Day 3 Core Principle</div>
+      <div class="slide-title">Today's Guiding Principle</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">Day 3</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">A working simple feature is 100x more valuable than a broken complex feature.</div>
+    <ul class="bullet-list">
+      <li><span class="highlight">MVP v0.1 Goal:</span> Complete the single primary user journey from input to output without crashes.</li>
+      <li><span class="highlight">Implementation Rule:</span> Feed PROJECT.md to Antigravity step-by-step; verify in Chrome at each stage.</li>
+      <li><span class="highlight">QA Rule:</span> Use Codex to run structured regression checks against the specification checklist.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Slide 3: 3-Stage Build Strategy -->
+<section class="slide-card session-3" id="day3-slide-3">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Lecture 7.1</div>
+      <div class="slide-title">3-Stage Incremental Build Strategy</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">Day 3</span></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <div class="step-card">
+        <div class="step-number" style="background:var(--accent-green);">1</div>
+        <div>
+          <div style="color:#fff;font-weight:800;margin-bottom:6px;">Stage 1: UI Skeleton</div>
+          <p style="color:var(--text-secondary);font-size:0.88rem;">Header, hero section, input forms, and card containers with responsive CSS layout.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-number" style="background:var(--accent-green);">2</div>
+        <div>
+          <div style="color:#fff;font-weight:800;margin-bottom:6px;">Stage 2: Core Logic</div>
+          <p style="color:var(--text-secondary);font-size:0.88rem;">Form event handling, state manipulation, and simulated AI output generation.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-number" style="background:var(--accent-green);">3</div>
+        <div>
+          <div style="color:#fff;font-weight:800;margin-bottom:6px;">Stage 3: Persistence &amp; Polish</div>
+          <p style="color:var(--text-secondary);font-size:0.88rem;">Saving to `localStorage`, copy/share actions, and loading spinner micro-animations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 4: Antigravity Initial Build -->
+<section class="slide-card session-3" id="day3-slide-4">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Hands-on Lab 1 | Task 01</div>
+      <div class="slide-title">Scaffolding UI Skeleton with Antigravity</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">Day 3</span></div>
+  </div>
+  <div class="slide-body">
+    <div style="background:rgba(6,10,18,0.85);border:1px solid rgba(16,185,129,0.3);border-radius:14px;padding:20px;text-align:left;margin:16px 0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:10px;margin-bottom:14px;">
+        <span style="font-size:0.9rem;font-weight:700;color:#86efac;">📌 Antigravity Prompt: Initial UI Scaffolding</span>
+        <span style="font-size:0.78rem;background:rgba(16,185,129,0.15);color:#86efac;border:1px solid rgba(16,185,129,0.3);padding:3px 10px;border-radius:6px;font-weight:600;">Phase 1</span>
+      </div>
+      <pre style="font-family:monospace;font-size:0.88rem;color:#e2e8f0;white-space:pre-wrap;line-height:1.6;margin:0;">Read PROJECT.md thoroughly and scaffold the initial `index.html` structure:
+- Follow the design system and screen layout defined in Section 5.
+- Implement responsive CSS for mobile and desktop screens.
+- Build the Header, Hero section, and Input form controls.</pre>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 5: Core Interaction Logic -->
+<section class="slide-card session-3" id="day3-slide-5">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Hands-on Lab 2 | Task 02</div>
+      <div class="slide-title">Implementing Core Interactive Logic</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">Day 3</span></div>
+  </div>
+  <div class="slide-body">
+    <div style="background:rgba(6,10,18,0.85);border:1px solid rgba(16,185,129,0.3);border-radius:14px;padding:20px;text-align:left;margin:16px 0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:10px;margin-bottom:14px;">
+        <span style="font-size:0.9rem;font-weight:700;color:#86efac;">📌 Antigravity Prompt: Logic &amp; Simulation</span>
+        <span style="font-size:0.78rem;background:rgba(16,185,129,0.15);color:#86efac;border:1px solid rgba(16,185,129,0.3);padding:3px 10px;border-radius:6px;font-weight:600;">Phase 2</span>
+      </div>
+      <pre style="font-family:monospace;font-size:0.88rem;color:#e2e8f0;white-space:pre-wrap;line-height:1.6;margin:0;">Add core interactivity to `index.html`:
+1. Form submission handler: Validate user input and display a loading spinner state.
+2. Output generation: Produce rich structured result cards matching Section 6 data schemas.
+3. Handle empty input validation with friendly error hints.</pre>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 6: Data Persistence with LocalStorage -->
+<section class="slide-card session-3" id="day3-slide-6">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Hands-on Lab 3 | Task 03</div>
+      <div class="slide-title">Adding Persistence with LocalStorage</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">Day 3</span></div>
+  </div>
+  <div class="slide-body">
+    <div style="background:rgba(6,10,18,0.85);border:1px solid rgba(16,185,129,0.3);border-radius:14px;padding:20px;text-align:left;margin:16px 0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:10px;margin-bottom:14px;">
+        <span style="font-size:0.9rem;font-weight:700;color:#86efac;">📌 Antigravity Prompt: Storage &amp; History</span>
+        <span style="font-size:0.78rem;background:rgba(16,185,129,0.15);color:#86efac;border:1px solid rgba(16,185,129,0.3);padding:3px 10px;border-radius:6px;font-weight:600;">Phase 3</span>
+      </div>
+      <pre style="font-family:monospace;font-size:0.88rem;color:#e2e8f0;white-space:pre-wrap;line-height:1.6;margin:0;">Implement local storage features:
+1. Save generated outputs to `localStorage` under a dedicated key.
+2. Render a "Recent Generations / History" list allowing users to reload previous results.
+3. Add a "Copy to Clipboard" button with instant visual feedback.</pre>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 7: Verification in Codex -->
+<section class="slide-card session-3" id="day3-slide-7">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Hands-on Lab 4 | Verification</div>
+      <div class="slide-title">Codex Regression Testing vs. PROJECT.md</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">Day 3</span></div>
+  </div>
+  <div class="slide-body">
+    <div style="background:rgba(6,10,18,0.85);border:1px solid rgba(139,92,246,0.3);border-radius:14px;padding:20px;text-align:left;margin:16px 0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:10px;margin-bottom:14px;">
+        <span style="font-size:0.9rem;font-weight:700;color:#c4b5fd;">📌 Codex Prompt: Full MVP QA Inspection</span>
+        <span style="font-size:0.78rem;background:rgba(139,92,246,0.15);color:#ddd6fe;border:1px solid rgba(139,92,246,0.3);padding:3px 10px;border-radius:6px;font-weight:600;">QA Testing</span>
+      </div>
+      <pre style="font-family:monospace;font-size:0.88rem;color:#e2e8f0;white-space:pre-wrap;line-height:1.6;margin:0;">Perform a full code review of `index.html` against `PROJECT.md`:
+1. Verify each acceptance criterion defined in Section 7.
+2. Check for JavaScript console errors, responsive layout bugs, and broken interactions.
+3. Update `VALIDATION.md` with test logs and remediation recommendations.</pre>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 8: Edge Cases & Error States -->
+<section class="slide-card session-3" id="day3-slide-8">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Lecture 8.1</div>
+      <div class="slide-title">Defensive UX: Handling Edge Cases &amp; Errors</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">Day 3</span></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--panel-border);border-radius:12px;padding:16px;">
+        <div style="color:var(--accent-yellow);font-weight:800;margin-bottom:6px;">1. Empty / Invalid Input</div>
+        <p style="color:var(--text-secondary);font-size:0.85rem;">Display clear helper messages instead of failing silently or crashing.</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--panel-border);border-radius:12px;padding:16px;">
+        <div style="color:var(--accent-cyan);font-weight:800;margin-bottom:6px;">2. Loading Feedback</div>
+        <p style="color:var(--text-secondary);font-size:0.85rem;">Always provide spinners or skeleton loaders during async operations.</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--panel-border);border-radius:12px;padding:16px;">
+        <div style="color:var(--accent-green);font-weight:800;margin-bottom:6px;">3. Empty State UI</div>
+        <p style="color:var(--text-secondary);font-size:0.85rem;">Show friendly guidance when no search results or history entries exist.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 9: Bonus Challenge -->
+<section class="slide-card session-3" id="day3-slide-9">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Autonomous Challenge | Bonus</div>
+      <div class="slide-title">🚀 Day 3 Extension Challenges</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">Day 3</span></div>
+  </div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px;">
+      <div style="background:rgba(6,10,18,0.85);border:1px solid rgba(16,185,129,0.3);border-radius:12px;padding:18px;text-align:left;">
+        <div style="font-size:0.8rem;font-weight:800;color:#86efac;margin-bottom:4px;">Bonus 01 · Export Features</div>
+        <h4 style="font-size:1.05rem;font-weight:800;color:#fff;margin-bottom:8px;">📥 Export Results as PDF / Markdown</h4>
+        <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.5;">Add a 1-click export button allowing users to download their generated plan as a clean `.md` or `.txt` file.</p>
+      </div>
+      <div style="background:rgba(6,10,18,0.85);border:1px solid rgba(139,92,246,0.3);border-radius:12px;padding:18px;text-align:left;">
+        <div style="font-size:0.8rem;font-weight:800;color:#c4b5fd;margin-bottom:4px;">Bonus 02 · Analytics / Tracking</div>
+        <h4 style="font-size:1.05rem;font-weight:800;color:#fff;margin-bottom:8px;">📊 Usage Counter &amp; Filter Tabs</h4>
+        <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.5;">Track the total number of generations and add category filter buttons to the history view.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 10: Deliverable Check -->
+<section class="slide-card session-3" id="day3-slide-10">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Milestone Check | MVP v0.1</div>
+      <div class="slide-title">Day 3 Deliverable Checklist</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">Day 3</span></div>
+  </div>
+  <div class="slide-body">
+    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--panel-border);border-radius:14px;padding:20px;text-align:left;">
+      <ul class="bullet-list">
+        <li><span class="highlight">Functional Web App:</span> `my-project/index.html` runs locally and executes the full user journey.</li>
+        <li><span class="highlight">Data Persistence:</span> Results are stored in `localStorage` and persist across page refreshes.</li>
+        <li><span class="highlight">Validation Report:</span> `my-project/VALIDATION.md` confirms all core acceptance criteria pass.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 11: HANDOFF.md Update -->
+<section class="slide-card session-3" id="day3-slide-11">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Transition | HANDOFF.md</div>
+      <div class="slide-title">Updating HANDOFF.md for Day 4</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">Day 3</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="code-box" style="text-align:left !important;">
+      # HANDOFF.md (Day 3 Update)<br>
+      ## Completed:<br>
+      - MVP v0.1 core flow fully functional in index.html<br>
+      ## Day 4 Goals:<br>
+      - Add selective track extensions (API integration / Advanced UI)<br>
+      - Implement comprehensive error recovery
+    </div>
+  </div>
+</section>
+
+<!-- Slide: Day 3 Operations & Daily Survey -->
+<section class="slide-card session-3" id="day3-slide-survey">
+  <div class="slide-header">
+    <div>
+      <div class="slide-category">Operations | Daily Survey &amp; Submission</div>
+      <div class="slide-title">📝 Day 3 Daily Feedback Survey &amp; Deliverable Submission</div>
+    </div>
+    <div class="slide-meta"><span class="day-badge">Day 3</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li><span class="highlight">Daily Survey:</span> Submit your Day 3 build feedback.</li>
+          <li><span class="highlight">Deliverable Upload:</span> Upload your working `index.html` and `VALIDATION.md`.</li>
+          <li><span class="highlight">Mentoring:</span> Note any difficult bugs for tomorrow's live debugging clinics.</li>
+        </ul>
+        <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="https://forms.gle/htTYggnmbibCSJ6LA" target="_blank" style="background:linear-gradient(135deg,#10b981,#06b6d4);color:#fff;font-size:0.88rem;font-weight:800;padding:10px 18px;border-radius:8px;text-decoration:none;">📝 Submit Daily Feedback (Survey) →</a>
+          <a href="https://drive.google.com" target="_blank" style="background:rgba(255,255,255,0.08);border:1px solid var(--panel-border);color:#fff;font-size:0.88rem;font-weight:700;padding:10px 18px;border-radius:8px;text-decoration:none;">📁 Upload Deliverables (Drive) →</a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,0.03);border:1px solid var(--panel-border);border-radius:16px;padding:20px;text-align:center;">
+        <div style="background:#fff;padding:8px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.4);margin-bottom:12px;">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fforms.gle%2FhtTYggnmbibCSJ6LA" alt="Day 3 Survey QR" style="width:140px;height:140px;display:block;" />
+        </div>
+        <div style="font-size:0.95rem;font-weight:800;color:var(--accent-green);margin-bottom:2px;">📱 Day 3 Feedback QR</div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);">Scan with phone camera to submit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 12: Day 3 Wrap-up & Day 4 Preview -->
+<section class="slide-card divider-slide session-3" id="day3-slide-12">
+  <div class="slide-header" style="display: none;">
+    <div class="slide-category">Day 3 Wrap-up &amp; Day 4 Preview</div>
+    <div class="slide-title">Day 3 Wrap-up &amp; Day 4 Preview</div>
+  </div>
+  <div class="divider-content">
+    <div class="divider-day">NEXT STEP</div>
+    <div class="divider-tag">DAY 4 PREVIEW</div>
+    <h1 class="divider-title">Day 4: Feature Expansion &amp; Polish</h1>
+    <p class="divider-subtitle">Selective track extensions, exception handling, and regression verification (MVP v1.0)</p>
+    <p style="margin-top: 20px; color: var(--text-muted); font-size: 0.95rem;">You built a working software prototype today! Tomorrow we level it up into a polished MVP v1.0. 🎉</p>
+  </div>
+</section>

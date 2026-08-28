@@ -1,0 +1,2477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      if (!loggedInUser) {
+        window.location.href = '../login/login.html';
+      }
+    })();
+
+    function logout() {
+      document.cookie = "currentUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      localStorage.removeItem('currentUserSession');
+      window.location.href = '../login/login.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        var user = null;
+        if (sessionStr) {
+          var s = JSON.parse(sessionStr);
+          user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
+        }
+        if (user) {
+          var userBadge = document.getElementById('userProfileBadge');
+          var userAvatar = document.getElementById('userAvatar');
+          var userName = document.getElementById('userName');
+          if (userBadge) userBadge.style.display = 'inline-flex';
+          if (userAvatar && user.avatar) userAvatar.textContent = user.avatar;
+          if (userName && user.name) userName.textContent = user.name;
+        }
+      } catch(e) {
+        console.error(e);
+      }
+    });
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 1 AI Classroom Lab | Aspiring Founders AI Web App MVP Bootcamp</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --accent: #8b5cf6;
+      --bg: #09090b;
+      --panel: #111827;
+      --surface: #1a1d24;
+      --text: #ffffff;
+      --muted: #d4d4d8;
+      --dim: #71717a;
+      --line: rgba(255, 255, 255, 0.08);
+      --radius: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Topbar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9, 9, 11, 0.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .badge-day {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .topbar-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .topbar-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-nav {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      transition: all 0.2s ease;
+    }
+    .btn-nav:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .btn-textbook {
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      color: #fff;
+      border: none;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    /* Overview Header */
+    .header-box {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    .header-box h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .header-box p {
+      color: var(--muted);
+      font-size: 0.98rem;
+      margin-bottom: 20px;
+    }
+    .goals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .goal-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .goal-item strong {
+      color: var(--secondary);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin: 36px 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Slide Viewer Module */
+    .slide-viewer-box {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 40px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+    }
+    .slide-viewer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+    }
+    .slide-viewer-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .slide-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .slide-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--line);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .slide-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+    .slide-counter-badge {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--secondary);
+      background: rgba(6, 182, 212, 0.1);
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .slide-card-container {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 28px;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .slide-notes-box {
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 0.88rem;
+      color: #ddd6fe;
+      margin-top: 14px;
+    }
+
+    /* Timetable Table */
+    .timetable-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      margin-bottom: 36px;
+      font-size: 0.9rem;
+    }
+    .timetable-table th, .timetable-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+    .timetable-table th {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .badge-time {
+      color: var(--secondary);
+      font-weight: 700;
+    }
+
+    /* Task Filter & Progress Bar */
+    .task-filter-bar {
+      display: flex;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+    }
+    .filter-btn {
+      background: transparent;
+      border: none;
+      color: var(--dim);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .filter-btn:hover {
+      color: #fff;
+    }
+    .filter-btn.active {
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--secondary);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    .progress-wrap {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+    }
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .progress-info strong {
+      color: var(--secondary);
+    }
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.35s ease;
+    }
+
+    /* Practice Card Grid */
+    .practice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .practice-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .practice-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(6, 182, 212, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(6, 182, 212, 0.12);
+    }
+    .practice-card.challenge-card {
+      border-color: rgba(139, 92, 246, 0.25);
+    }
+    .practice-card.challenge-card:hover {
+      border-color: rgba(139, 92, 246, 0.5);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.15);
+    }
+    .practice-card.is-completed {
+      border-color: rgba(134, 239, 172, 0.35);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.04) 0%, var(--panel) 100%);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .badge-group {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .badge-task {
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+    .badge-task.core {
+      background: rgba(59, 130, 246, 0.18);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+    }
+    .badge-task.challenge {
+      background: rgba(139, 92, 246, 0.18);
+      color: #ddd6fe;
+      border: 1px solid rgba(139, 92, 246, 0.35);
+    }
+    .badge-tool {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--dim);
+    }
+    .badge-tool.codex { color: #67e8f9; background: rgba(6, 182, 212, 0.1); }
+    .badge-tool.agy { color: #f472b6; background: rgba(244, 114, 182, 0.1); }
+
+    /* Custom Checkbox */
+    .check-container {
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      width: 22px;
+      height: 22px;
+    }
+    .check-container input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 22px;
+      width: 22px;
+      background-color: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    .check-container:hover input ~ .checkmark {
+      border-color: var(--secondary);
+    }
+    .check-container input:checked ~ .checkmark {
+      background-color: #10b981;
+      border-color: #10b981;
+    }
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 7px;
+      top: 3px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .check-container input:checked ~ .checkmark:after {
+      display: block;
+    }
+
+    .card-header {
+      margin-bottom: 16px;
+    }
+    .card-time {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 6px;
+    }
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+    .card-summary {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .card-deliverable {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .del-label {
+      color: var(--dim);
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+    .del-val {
+      color: #a5f3fc;
+      font-family: monospace;
+      font-size: 0.82rem;
+    }
+
+    .card-actions {
+      margin-top: auto;
+    }
+    .btn-detail-view {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+    .btn-detail-view:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(6, 182, 212, 0.3));
+      border-color: var(--secondary);
+      color: #fff;
+    }
+    .btn-detail-view .arrow {
+      transition: transform 0.2s ease;
+    }
+    .btn-detail-view:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    /* Modal Component */
+    .task-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .task-modal-backdrop.active {
+      display: flex;
+      opacity: 1;
+    }
+    .task-modal-box {
+      background: #0e131f;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 860px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(59, 130, 246, 0.15);
+      animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      0% { transform: scale(0.94); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-top {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-close-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--line);
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .modal-close-btn:hover {
+      background: rgba(239, 68, 68, 0.3);
+      border-color: rgba(239, 68, 68, 0.5);
+    }
+
+    .modal-body-scroll {
+      padding: 24px 28px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .modal-body-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .modal-body-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+
+    .modal-section-title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 22px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-section-title:first-of-type {
+      margin-top: 0;
+    }
+
+    .step-flow-box {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .flow-step-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .flow-step-num {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .flow-step-content strong {
+      display: block;
+      color: #fff;
+      font-size: 0.92rem;
+      margin-bottom: 2px;
+    }
+    .flow-step-content p {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+
+    .checklist-group {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .checklist-item input[type="checkbox"] {
+      accent-color: #10b981;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .modal-footer-bar {
+      padding: 14px 24px;
+      border-top: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 0 0 20px 20px;
+    }
+    .modal-nav-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .modal-nav-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .modal-step-indicator {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--secondary);
+    }
+
+    /* Prompt Card Component */
+    .prompt-card-box {
+      background: rgba(6, 10, 18, 0.85);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .prompt-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+    .prompt-title-text {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #67e8f9;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-copy-action {
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-copy-action:hover {
+      background: rgba(59, 130, 246, 0.3);
+    }
+    .prompt-body-text {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.65;
+      text-align: left;
+      margin: 0;
+      background: transparent;
+      border: none;
+    }
+
+    /* Self-Check Quiz Box */
+    .quiz-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    .quiz-q {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .quiz-opt {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--line);
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: all 0.2s ease;
+    }
+    .quiz-opt:hover {
+      border-color: var(--secondary);
+      color: #fff;
+    }
+    .quiz-feedback {
+      margin-top: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: none;
+    }
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: all 0.2s ease;
+    }
+    .quiz-opt:hover {
+      border-color: var(--secondary);
+      color: #fff;
+    }
+    .quiz-feedback {
+      margin-top: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: none;
+    }
+
+    /* Submission Form Box */
+    .submit-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+    textarea.form-control {
+      resize: vertical;
+      min-height: 90px;
+    }
+    .btn-submit {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+  
+    /* Modern 2-Tier Header Styles */
+    .navbar-2tier {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(9, 9, 11, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-line);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+    .nav-row-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+    }
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand-tag {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .brand-tag.survey {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+    }
+    .brand-tag.day {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    }
+    .brand-name {
+      font-size: 1.08rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .user-session-wrap {
+      display: flex;
+      align-items: center;
+    }
+    .btn-account-header {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
+      border: 1px solid rgba(6, 182, 212, 0.45);
+      color: #67e8f9;
+      font-size: 0.8rem;
+      font-weight: 800;
+      border-radius: 6px;
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-account-header:hover {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(59, 130, 246, 0.35));
+      border-color: #38bdf8;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .btn-logout-header {
+      background: transparent;
+      border: none;
+      color: #f87171;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding-left: 8px;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .btn-logout-header:hover {
+      color: #fca5a5;
+    }
+
+    .nav-row-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-row-bottom::-webkit-scrollbar {
+      display: none;
+    }
+    .nav-sub-left, .nav-sub-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .nav-sub-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .nav-sub-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .nav-sub-btn.active {
+      color: #fff;
+      background: rgba(59, 130, 246, 0.18);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+    .nav-sub-btn.ops {
+      color: #6ee7b7;
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+    .nav-sub-btn.ops:hover, .nav-sub-btn.ops.active {
+      color: #fff;
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.45);
+    }
+    .nav-sub-btn.portal {
+      color: #93c5fd;
+      border-color: rgba(59, 130, 246, 0.25);
+    }
+    .nav-sub-btn.highlight {
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
+    }
+    .nav-sub-btn.highlight:hover {
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      transform: translateY(-1px);
+    }
+  
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="badge-day">Day 1</span>
+      <span class="topbar-title">Codex & Antigravity  (  )</span>
+    </div>
+    <div class="topbar-actions">
+      <a href="../index.html" class="btn-nav">🏠 LMS Home</a>
+      <a href="../../LECTURE_ENG/docs/index.html#day-1" target="_blank" class="btn-nav">🖥️    </a>
+      <a href="day1-textbook.html" class="btn-nav btn-textbook">📖 View Textbook</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Header Overview -->
+    <div class="header-box">
+      <h1>Day 1. Mastering AI Dev Tools &amp; Development Workflows</h1>
+      <p>
+        A comprehensive <strong>interactive self-study lab guide</strong> for founders to master AI engineering workflows: drafting specifications in Codex, generating code in Antigravity, and auditing quality with automated QA checklists.
+      </p>
+
+      <div class="goals-grid">
+        <div class="goal-item">
+          <strong>🎯 Objective 1. Workspace Setup</strong>
+          Open the identical shared workspace folder in both Codex and Antigravity
+        </div>
+        <div class="goal-item">
+          <strong>🎯 Objective 2. Spec Engineering</strong>
+          Structure goals, constraints, and acceptance criteria in PAGE_REQUIREMENTS.md
+        </div>
+        <div class="goal-item">
+          <strong>🎯 Objective 3. Autonomous Coding</strong>
+          Prompt Antigravity to scaffold interactive web applications from specs
+        </div>
+        <div class="goal-item">
+          <strong>🎯 Objective 4. QA Audit & Iteration</strong>
+          Audit implementation in Codex against acceptance criteria
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Slide Viewer for Self-Study -->
+    <section class="slide-viewer-box">
+      <div class="slide-viewer-header">
+        <div class="slide-viewer-title">
+          <span>🖥️ Day 1 LECTURE Core Slide Deck (Interactive Viewer)</span>
+        </div>
+        <div class="slide-controls">
+          <button class="slide-btn" onclick="prevSlideCard()">◀ Previous Slide</button>
+          <span class="slide-counter-badge" id="slide-card-badge">1 / 14</span>
+          <button class="slide-btn" onclick="nextSlideCard()">Next Slide ▶</button>
+        </div>
+      </div>
+
+      <!-- Active Slide Card Content -->
+      <div class="slide-card-container" id="slide-card-content">
+        <!-- Injected via JS -->
+      </div>
+
+      <div class="slide-notes-box" id="slide-card-notes">
+        💡 <strong>Self-Study Tip:</strong> <span id="notes-text">Navigate through the slides to master core concepts before hands-on practice.</span>
+      </div>
+    </section>
+
+    <!-- Timetable -->
+    <h2 class="section-title">⏱️ Daily Schedule (6 Hours / 360 Mins)</h2>
+    <table class="timetable-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Type</th>
+          <th>Key Topics</th>
+          <th>Deliverable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge-time">20 Mins</span></td>
+          <td>Orientation</td>
+          <td>Bootcamp overview, 5-day trajectory, and Day 1 acceptance criteria</td>
+          <td>Verify Objectives</td>
+        </tr>
+        <tr>
+          <td><span class="badge-time">40 Mins</span></td>
+          <td>Lecture</td>
+          <td>Core AI development cycle (Codex ➔ Antigravity ➔ Codex) & tool roles</td>
+          <td>Workflow Understanding</td>
+        </tr>
+        <tr>
+          <td><span class="badge-time">30 Mins</span></td>
+          <td>Live Demo</td>
+          <td>Effective prompting, inspecting file diffs, and browser debugging</td>
+          <td>Demo Verification</td>
+        </tr>
+        <tr>
+          <td><span class="badge-time">50 Mins</span></td>
+          <td>Lab 1</td>
+          <td>Codex & Antigravity login, creating `my-project` shared folder</td>
+          <td>Workspace Config</td>
+        </tr>
+        <tr>
+          <td><span class="badge-time">50 Mins</span></td>
+          <td>Lab 2</td>
+          <td>Drafting `README.md` and `PAGE_REQUIREMENTS.md` in Codex</td>
+          <td>Spec Artifacts</td>
+        </tr>
+        <tr>
+          <td><span class="badge-time">70 Mins</span></td>
+          <td>Lab 3</td>
+          <td>Scaffolding responsive `index.html` via Antigravity</td>
+          <td>Running Web App</td>
+        </tr>
+        <tr>
+          <td><span class="badge-time">40 Mins</span></td>
+          <td>QA Audit Lab</td>
+          <td>Comparing code against specs and generating `VALIDATION.md`</td>
+          <td>QA Checklist</td>
+        </tr>
+        <tr>
+          <td><span class="badge-time">30 Mins</span></td>
+          <td>Retrospective</td>
+          <td>Discussion on prompts, debugging lessons, and next steps</td>
+          <td>Prompt Submission</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Interactive Practice Hub: Card Grid System with Rich Detail Views -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin: 40px 0 20px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h2 class="section-title" style="margin: 0 0 6px 0;">💻 Day 1 Hands-on Lab Assignment Board</h2>
+        <p style="color: var(--muted); font-size: 0.92rem;">    <strong>  ,  ,     QA Checklist</strong> .</p>
+      </div>
+      <!-- Task Category Filter Tabs -->
+      <div class="task-filter-bar">
+        <button class="filter-btn active" onclick="filterTasks('all')">All Tasks (6)</button>
+        <button class="filter-btn" onclick="filterTasks('core')">📌 Core Labs (4)</button>
+        <button class="filter-btn" onclick="filterTasks('challenge')">🚀 Bonus Challenges (2)</button>
+      </div>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span>Lab Progress: <strong id="progress-count">0 / 6 Completed (0%)</strong></span>
+        <span style="color: var(--dim); font-size: 0.8rem;">Click checkboxes on each card to track your progress</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar" id="progress-fill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Practice Cards Grid -->
+    <div class="practice-grid" id="practiceGrid">
+      
+      <!-- Card 1 -->
+      <article class="practice-card" data-category="core" id="task-card-1">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 01</span>
+            <span class="badge-tool codex">Codex</span>
+            <span class="badge-tool agy">Antigravity</span>
+          </div>
+          <label class="check-container" title="Mark complete">
+            <input type="checkbox" onchange="toggleTaskComplete(1, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 50 Mins </div>
+          <h3 class="card-title">Environment Setup & Shared Workspace</h3>
+          <p class="card-summary">Create local <code>my-project</code> folder, open in both tools using the exact same path, and scaffold <code>README.md</code>.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">Deliverable</span>
+          <span class="del-val">📁 my-project/ & 📄 README.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(1)">
+            <span>Guide &amp; Prompts</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="practice-card" data-category="core" id="task-card-2">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 02</span>
+            <span class="badge-tool codex">Codex</span>
+          </div>
+          <label class="check-container" title="Mark complete">
+            <input type="checkbox" onchange="toggleTaskComplete(2, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 50 Mins </div>
+          <h3 class="card-title">Drafting Specifications in Codex</h3>
+          <p class="card-summary">Draft <code>PAGE_REQUIREMENTS.md</code> defining goals, screen components, UI styles, and measurable acceptance criteria.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">Deliverable</span>
+          <span class="del-val">📄 PAGE_REQUIREMENTS.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(2)">
+            <span>Guide &amp; Prompts</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="practice-card" data-category="core" id="task-card-3">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 03</span>
+            <span class="badge-tool agy">Antigravity</span>
+          </div>
+          <label class="check-container" title="Mark complete">
+            <input type="checkbox" onchange="toggleTaskComplete(3, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 70 Mins </div>
+          <h3 class="card-title">Scaffolding Web App with Antigravity</h3>
+          <p class="card-summary">Deliver specifications to Antigravity to autonomously generate a modern dark-theme single-page app <code>index.html</code>.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">Deliverable</span>
+          <span class="del-val">🌐 index.html </span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(3)">
+            <span>Guide &amp; Prompts</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="practice-card" data-category="core" id="task-card-4">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 04</span>
+            <span class="badge-tool codex">Codex</span>
+          </div>
+          <label class="check-container" title="Mark complete">
+            <input type="checkbox" onchange="toggleTaskComplete(4, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 40 Mins </div>
+          <h3 class="card-title">Codex     </h3>
+          <p class="card-summary">   Codex  ,    <code>VALIDATION.md</code>   .</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">Deliverable</span>
+          <span class="del-val">📄 VALIDATION.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(4)">
+            <span>Guide &amp; Prompts</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Challenge Card A -->
+      <article class="practice-card challenge-card" data-category="challenge" id="task-card-5">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task challenge">  A</span>
+            <span class="badge-tool codex">Codex</span>
+            <span class="badge-tool agy">Antigravity</span>
+          </div>
+          <label class="check-container" title="Mark complete">
+            <input type="checkbox" onchange="toggleTaskComplete(5, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">🚀  </div>
+          <h3 class="card-title">  &   </h3>
+          <p class="card-summary">  ,    5,    3        .</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">Deliverable</span>
+          <span class="del-val">📄 PORTFOLIO_REQUIREMENTS.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(5)">
+            <span>Guide &amp; Prompts</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Challenge Card B -->
+      <article class="practice-card challenge-card" data-category="challenge" id="task-card-6">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task challenge">  B</span>
+            <span class="badge-tool codex">Codex</span>
+            <span class="badge-tool agy">Antigravity</span>
+          </div>
+          <label class="check-container" title="Mark complete">
+            <input type="checkbox" onchange="toggleTaskComplete(6, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">🚀 MVP  </div>
+          <h3 class="card-title">     </h3>
+          <p class="card-summary">         ,    ,    Q&A   .</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">Deliverable</span>
+          <span class="del-val">📄 LAUNCH_REQUIREMENTS.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(6)">
+            <span>Guide &amp; Prompts</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Task Detail Modal Backdrop & Container -->
+    <div class="task-modal-backdrop" id="taskModalBackdrop" onclick="closeTaskModal(event)">
+      <div class="task-modal-box" onclick="event.stopPropagation()">
+        
+        <div class="modal-top">
+          <div class="modal-badge-row" id="modalBadgeRow">
+            <!-- Injected via JS -->
+          </div>
+          <button class="modal-close-btn" onclick="closeTaskModalDirect()" title=" (Esc)">✕</button>
+        </div>
+
+        <div class="modal-body-scroll" id="modalContent">
+          <!-- Injected dynamically via JS -->
+        </div>
+
+        <div class="modal-footer-bar">
+          <button class="modal-nav-btn" id="modalPrevBtn" onclick="navigateTaskModal(-1)">◀  Task</button>
+          <div class="modal-step-indicator" id="modalStepIndicator">Task 1 / 6</div>
+          <button class="modal-nav-btn" id="modalNextBtn" onclick="navigateTaskModal(1)"> Task ▶</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Autonomous Practice Projects Section -->
+    <h2 class="section-title">🚀 Day 1    (   2)</h2>
+    <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 20px;">
+          ,       2         .
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; margin-bottom: 40px;">
+      
+      <!-- Autonomous Topic A -->
+      <div style="background: var(--surface); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: var(--radius); padding: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="font-size: 0.82rem; font-weight: 800; color: var(--secondary); background: rgba(6, 182, 212, 0.12); padding: 4px 10px; border-radius: 6px;">  A</span>
+          <span style="font-size: 0.8rem; color: var(--dim);">: PORTFOLIO_REQUIREMENTS.md</span>
+        </div>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 10px;">
+          💼 AI    &   
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 16px; line-height: 1.5;">
+            ,  ,    3   /    1   .
+        </p>
+
+        <div class="prompt-card-box" style="margin-bottom: 0;">
+          <div class="prompt-header-bar">
+            <span class="prompt-title-text">📌 Codex  </span>
+            <button class="btn-copy-action" onclick="copyText('pa')"></button>
+          </div>
+          <pre class="prompt-body-text" id="pa">PORTFOLIO_REQUIREMENTS.md   .
+: "/    "
+1. : My Professional Portfolio
+2. : ,   ,     
+3. :    5,    3 (, ,  )
+4. :      
+5. :   UI, Pretendard  
+6.  :      .</pre>
+        </div>
+      </div>
+
+      <!-- Autonomous Topic B -->
+      <div style="background: var(--surface); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: var(--radius); padding: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="font-size: 0.82rem; font-weight: 800; color: #c4b5fd; background: rgba(139, 92, 246, 0.12); padding: 4px 10px; border-radius: 6px;">  B</span>
+          <span style="font-size: 0.8rem; color: var(--dim);">: LAUNCH_REQUIREMENTS.md</span>
+        </div>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 10px;">
+          🚀       
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 16px; line-height: 1.5;">
+                     ,     ,       .
+        </p>
+
+        <div class="prompt-card-box" style="margin-bottom: 0;">
+          <div class="prompt-header-bar">
+            <span class="prompt-title-text">📌 Codex  </span>
+            <button class="btn-copy-action" onclick="copyText('pb')"></button>
+          </div>
+          <pre class="prompt-body-text" id="pb">LAUNCH_REQUIREMENTS.md   .
+: "      "
+1. : Service Pre-launch
+2. :  ,   ,   3 
+3. :     (,  ,   )
+4. :  Q&A 3  accordion
+5. :    UI,  
+6.  :            .</pre>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Self-Check Quiz Module -->
+    <h2 class="section-title">❓ Day 1    </h2>
+    <div class="quiz-box">
+      <div class="quiz-q">Q. Codex Antigravity      ?</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="checkQuiz(this, false)">①         .</div>
+        <div class="quiz-opt" onclick="checkQuiz(this, true)">②        (my-project)  .</div>
+        <div class="quiz-opt" onclick="checkQuiz(this, false)">③ Antigravity  (MD)   .</div>
+      </div>
+      <div class="quiz-feedback" id="quiz-fb"></div>
+    </div>
+
+    <!-- Deliverables Definition Box -->
+    <div class="deliverables-box" style="background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; margin-top: 32px;">
+      <h2 style="font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+        🎁 Day 1    (Deliverables) 
+      </h2>
+      <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 24px;">
+         Day 1      (<code>my-project</code>)     5   .
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
+        
+        <!-- Deliverable 1 -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 12px; padding: 18px;">
+          <div style="font-size: 0.82rem; font-weight: 800; color: var(--secondary); margin-bottom: 4px;"> 01.  </div>
+          <div style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 8px;">📁    (<code>my-project</code>)</div>
+          <p style="font-size: 0.88rem; color: var(--muted); line-height: 1.5;">
+            Codex Antigravity         .
+          </p>
+        </div>
+
+        <!-- Deliverable 2 -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 12px; padding: 18px;">
+          <div style="font-size: 0.82rem; font-weight: 800; color: var(--primary); margin-bottom: 4px;"> 02.  </div>
+          <div style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 8px;">📄 <code>README.md</code></div>
+          <p style="font-size: 0.88rem; color: var(--muted); line-height: 1.5;">
+            Codex   ("AI       ")     .
+          </p>
+        </div>
+
+        <!-- Deliverable 3 -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 12px; padding: 18px;">
+          <div style="font-size: 0.82rem; font-weight: 800; color: #67e8f9; margin-bottom: 4px;"> 03. Requirements Specification</div>
+          <div style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 8px;">📄 <code>PAGE_REQUIREMENTS.md</code></div>
+          <p style="font-size: 0.88rem; color: var(--muted); line-height: 1.5;">
+            Codex    ( , / ,  ,  UI,  ).
+          </p>
+        </div>
+
+        <!-- Deliverable 4 -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 12px; padding: 18px;">
+          <div style="font-size: 0.82rem; font-weight: 800; color: #86efac; margin-bottom: 4px;"> 04.    </div>
+          <div style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 8px;">🌐 <code>index.html</code></div>
+          <p style="font-size: 0.88rem; color: var(--muted); line-height: 1.5;">
+            Antigravity <code>PAGE_REQUIREMENTS.md</code>         .
+          </p>
+        </div>
+
+        <!-- Deliverable 5 -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 12px; padding: 18px; grid-column: 1 / -1;">
+          <div style="font-size: 0.82rem; font-weight: 800; color: #fde047; margin-bottom: 4px;"> 05. Quality Audit Report</div>
+          <div style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 8px;">📄 <code>VALIDATION.md</code></div>
+          <p style="font-size: 0.88rem; color: var(--muted); line-height: 1.5;">
+            Codex        Checklist(/)     .
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Detailed Practice Tasks Data Model
+    const taskDetailsData = {
+      1: {
+        id: 1,
+        type: "core",
+        badge: "Task 01 ·  ",
+        tools: ["Codex", "Antigravity"],
+        time: "50 Mins",
+        title: " Workspace Setup &  Workspace ",
+        goal: "Codex Antigravity     ,     README.md .",
+        steps: [
+          {
+            title: "   ",
+            desc: "     <code>my-project</code>   ."
+          },
+          {
+            title: "Codex  ",
+            desc: "Codex   <strong>Open Folder</strong>    <code>my-project</code>  ."
+          },
+          {
+            title: "Antigravity   ",
+            desc: "Antigravity  <code>my-project</code>  . (     )"
+          },
+          {
+            title: "Codex    README.md ",
+            desc: "Codex         ."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md              
+├── 📄 PAGE_REQUIREMENTS.md   (Task 02 )
+├── 📄 VALIDATION.md          (Task 04 )
+└── 🌐 index.html             (Task 03 )`,
+        prompts: [
+          {
+            label: "Codex Workspace Setup ",
+            text: `  (my-project)    .
+  "AI       ".
+Base README.md File  Project Overview & Folder Structure   .`
+          }
+        ],
+        checklist: [
+          "Codex Antigravity  'my-project'   ?",
+          "  'README.md'   ?",
+          "README.md       ?"
+        ],
+        troubleshoot: "⚠️            '(Refresh)' ."
+      },
+      2: {
+        id: 2,
+        type: "core",
+        badge: "Task 02 ·  ",
+        tools: ["Codex"],
+        time: "50 Mins",
+        title: "Codex Requirements Specification(PAGE_REQUIREMENTS.md) ",
+        goal: "  , //  , UI  ,      Codex .",
+        steps: [
+          {
+            title: "Structuring Planning Specifications",
+            desc: "Define core components required for founder profile and service introduction page."
+          },
+          {
+            title: "Submitting Specification Prompt to Codex",
+            desc: "Prompt Codex with title, profile header, problem/solution cards, contact button, and dark mode theme."
+          },
+          {
+            title: "Generating and Reviewing PAGE_REQUIREMENTS.md",
+            desc: "Open generated markdown to audit that all 6 mandatory constraints are articulated."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md
+├── 📄 PAGE_REQUIREMENTS.md   (👈   )
+├── 📄 VALIDATION.md
+└── 🌐 index.html`,
+        prompts: [
+          {
+            label: "PAGE_REQUIREMENTS.md   (Codex)",
+            text: `PAGE_REQUIREMENTS.md   .
+: "     "
+1. : My Startup Pitch
+2. :  ,   ,    3
+3. :  ,    2
+4. :   
+5. :    , Pretendard  
+6.  :       .`
+          }
+        ],
+        checklist: [
+          "PAGE_REQUIREMENTS.md  my-project  ?",
+          "(), (/ ),   ?",
+          "      ?"
+        ],
+        troubleshoot: "💡   Antigravity  UI ,        ."
+      },
+      3: {
+        id: 3,
+        type: "core",
+        badge: "Task 03 ·  ",
+        tools: ["Antigravity"],
+        time: "70 Mins",
+        title: "Antigravity MD     ",
+        goal: "Codex  PAGE_REQUIREMENTS.md Antigravity ,     index.html  .",
+        steps: [
+          {
+            title: "Activating Antigravity Workspace",
+            desc: "Switch to Antigravity and confirm PAGE_REQUIREMENTS.md exists in the workspace."
+          },
+          {
+            title: "Submitting Implementation Prompt",
+            desc: "Instruct AI to read the markdown spec and scaffold a single-file HTML app with inline styles and logic."
+          },
+          {
+            title: "Testing Browser Execution & Interactions",
+            desc: "Open <code>index.html</code> in browser to verify dark theme, button hover states, and responsive cards."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md
+├── 📄 PAGE_REQUIREMENTS.md
+├── 📄 VALIDATION.md
+└── 🌐 index.html             (👈 Antigravity  )`,
+        prompts: [
+          {
+            label: "   (Antigravity)",
+            text: `PAGE_REQUIREMENTS.md  ,     index.html   .
+1.  & :
+   - Pretendard    Dark Glassmorphism(Dark Glassmorphism) UI  .
+   - CSS <style>    /PC    Responsive flex/grid layout  .
+2.   :
+   - :  (, ,   ,    3)
+   - :  ' ' '()'  2 (, ,   )
+   - :  '(Contact)'    
+3.  :
+   -          Single-Page HTML File  .`
+          }
+        ],
+        checklist: [
+          "index.html  ?",
+          "      ?",
+          " UI      ?"
+        ],
+        troubleshoot: "⚠️    <meta charset='UTF-8'>    ."
+      },
+      4: {
+        id: 4,
+        type: "core",
+        badge: "Task 04 ·  ",
+        tools: ["Codex"],
+        time: "40 Mins",
+        title: "Codex       ",
+        goal: " index.html  Codex   PAGE_REQUIREMENTS.md  /  VALIDATION.md  .",
+        steps: [
+          {
+            title: "Running Codex QA Prompt",
+            desc: "Request Codex to compare <code>index.html</code> against <code>PAGE_REQUIREMENTS.md</code> and output a checklist."
+          },
+          {
+            title: "Reviewing VALIDATION.md Report",
+            desc: "Objectively review Pass and Fail/Review items."
+          },
+          {
+            title: "Feedback Integration & Iteration Lab",
+            desc: "If any specs are missing, prompt Antigravity to iteratively patch the codebase."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md
+├── 📄 PAGE_REQUIREMENTS.md
+├── 📄 VALIDATION.md          (👈     )
+└── 🌐 index.html             `,
+        prompts: [
+          {
+            label: "   (Codex)",
+            text: `index.html   PAGE_REQUIREMENTS.md   .
+1.         .
+2. VALIDATION.md     Checklist(/)   .
+3.            .`
+          }
+        ],
+        checklist: [
+          "VALIDATION.md  ?",
+          "  (Pass/Fail)   ?",
+          "Codex Antigravity      ?"
+        ],
+        troubleshoot: "💡       ,   Antigravity     AI  ."
+      },
+      5: {
+        id: 5,
+        type: "challenge",
+        badge: "  A · ",
+        tools: ["Codex", "Antigravity"],
+        time: "60~80",
+        title: "AI    &   ",
+        goal: "  ,   5,    3     1   .",
+        steps: [
+          {
+            title: "Drafting PORTFOLIO_REQUIREMENTS.md (Codex)",
+            desc: "Generate specifications articulating your real background and 3 representative projects."
+          },
+          {
+            title: "Generating Portfolio UI (Antigravity)",
+            desc: "Scaffold web page with dark card UI and modern badge tags."
+          },
+          {
+            title: "Link & Responsive QA Audit (Codex)",
+            desc: "Verify project cards stack cleanly on mobile viewports."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md
+├── 📄 PORTFOLIO_REQUIREMENTS.md   
+└── 🌐 index.html                  `,
+        prompts: [
+          {
+            label: "PORTFOLIO_REQUIREMENTS.md   (Codex)",
+            text: `PORTFOLIO_REQUIREMENTS.md   .
+: "/    "
+1. : My Professional Portfolio
+2. : ,  ,     
+3. :    5,    3 (, ,  , )
+4. :     GitHub/LinkedIn  
+5. :   UI, Pretendard ,  
+6.  :         .`
+          },
+          {
+            label: "   (Antigravity)",
+            text: `PORTFOLIO_REQUIREMENTS.md      index.html  .         .`
+          }
+        ],
+        checklist: [
+          "  3    ?",
+          "      ?",
+          "      ?"
+        ],
+        troubleshoot: "💡    (Unsplash, DiceBear  )       ."
+      },
+      6: {
+        id: 6,
+        type: "challenge",
+        badge: "  B · MVP ",
+        tools: ["Codex", "Antigravity"],
+        time: "60~80",
+        title: "     ",
+        goal: "Build a high-conversion landing page featuring value proposition cards, waitlist email form, and confirmation modal.",
+        steps: [
+          {
+            title: "Drafting LAUNCH_REQUIREMENTS.md (Codex)",
+            desc: "Draft specs for core value proposition and early access waitlist form."
+          },
+          {
+            title: "Scaffolding Interactive Landing (Antigravity)",
+            desc: "Implement JavaScript modal popup triggered on waitlist submission."
+          },
+          {
+            title: "Testing FAQ Accordion & Form Validation",
+            desc: "Validate FAQ accordion toggle behavior and email format validation."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md
+├── 📄 LAUNCH_REQUIREMENTS.md      
+└── 🌐 index.html                 `,
+        prompts: [
+          {
+            label: "LAUNCH_REQUIREMENTS.md   (Codex)",
+            text: `LAUNCH_REQUIREMENTS.md   .
+: "      "
+1. : Service Pre-launch
+2. :  ,   ,   3 
+3. :     (,  ,    )
+4. :  FAQ 3  accordion
+5. :   /  UI,  
+6.  :              .`
+          },
+          {
+            label: "   (Antigravity)",
+            text: `LAUNCH_REQUIREMENTS.md  index.html  .              JavaScript  .`
+          }
+        ],
+        checklist: [
+          "    3   ?",
+          "        ?",
+          "FAQ     ?"
+        ],
+        troubleshoot: "💡      JavaScript e.preventDefault()    ."
+      }
+    };
+
+    let activeTaskId = 1;
+    const taskIds = [1, 2, 3, 4, 5, 6];
+
+    // Open Task Modal
+    
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+    
+    function openTaskModal(taskId) {
+      activeTaskId = taskId;
+      const data = taskDetailsData[taskId];
+      if (!data) return;
+
+      const backdrop = document.getElementById('taskModalBackdrop');
+      const badgeRow = document.getElementById('modalBadgeRow');
+      const content = document.getElementById('modalContent');
+      const stepIndicator = document.getElementById('modalStepIndicator');
+      const prevBtn = document.getElementById('modalPrevBtn');
+      const nextBtn = document.getElementById('modalNextBtn');
+
+      // Update Top Badges
+      badgeRow.innerHTML = `
+        <span class="badge-task ${data.type}">${data.badge}</span>
+        ${data.tools.map(t => `<span class="badge-tool ${t === 'Codex' ? 'codex' : 'agy'}">${t}</span>`).join('')}
+        <span style="font-size: 0.8rem; color: var(--secondary); font-weight: 700;">⏱️ ${data.time}</span>
+      `;
+
+      // Update Body Content
+      content.innerHTML = `
+        <h2 style="font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: 8px;">${data.title}</h2>
+        <p style="color: var(--muted); font-size: 0.94rem; line-height: 1.55; margin-bottom: 24px;">${data.goal}</p>
+
+        <!-- Step-by-Step Flow -->
+        <h3 class="modal-section-title">📍   </h3>
+        <div class="step-flow-box">
+          ${data.steps.map((s, idx) => `
+            <div class="flow-step-item">
+              <div class="flow-step-num">${idx + 1}</div>
+              <div class="flow-step-content">
+                <strong>${s.title}</strong>
+                <p>${s.desc}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- File Structure -->
+        <h3 class="modal-section-title">📁     </h3>
+        <div style="background: rgba(0, 0, 0, 0.45); border: 1px solid var(--line); padding: 14px 18px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; color: #a5f3fc; white-space: pre; margin-bottom: 20px; line-height: 1.5;">${escapeHtml(data.fileTree)}</div>
+
+        <!-- Prompts -->
+        <h3 class="modal-section-title">💬    </h3>
+        ${data.prompts.map((p, pIdx) => `
+          <div class="prompt-card-box">
+            <div class="prompt-header-bar">
+              <span class="prompt-title-text">📌 ${p.label}</span>
+              <button type="button" class="btn-copy-action" onclick="copyModalPrompt('modal_prompt_${taskId}_${pIdx}', this)"></button>
+            </div>
+            <pre class="prompt-body-text" id="modal_prompt_${taskId}_${pIdx}">${escapeHtml(p.text)}</pre>
+          </div>
+        `).join('')}
+
+        <!-- Checklist -->
+        <h3 class="modal-section-title">✅ Self-Audit Checklist</h3>
+        <div class="checklist-group">
+          ${data.checklist.map((item, cIdx) => `
+            <label class="checklist-item">
+              <input type="checkbox" id="modal_chk_${taskId}_${cIdx}" />
+              <span>${item}</span>
+            </label>
+          `).join('')}
+        </div>
+
+        <!-- Troubleshooting Note -->
+        <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 10px; padding: 14px 18px; font-size: 0.88rem; color: #ddd6fe;">
+          ${data.troubleshoot}
+        </div>
+      `;
+
+      // Update Navigation Buttons & Indicator
+      const currentIdx = taskIds.indexOf(taskId);
+      stepIndicator.innerText = `Task ${currentIdx + 1} / ${taskIds.length}`;
+      prevBtn.disabled = currentIdx === 0;
+      prevBtn.style.opacity = currentIdx === 0 ? '0.4' : '1';
+      prevBtn.style.cursor = currentIdx === 0 ? 'not-allowed' : 'pointer';
+
+      nextBtn.disabled = currentIdx === taskIds.length - 1;
+      nextBtn.style.opacity = currentIdx === taskIds.length - 1 ? '0.4' : '1';
+      nextBtn.style.cursor = currentIdx === taskIds.length - 1 ? 'not-allowed' : 'pointer';
+
+      // Show Modal
+      backdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close Modal Direct
+    function closeTaskModalDirect() {
+      const backdrop = document.getElementById('taskModalBackdrop');
+      backdrop.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close Modal on Backdrop Click
+    function closeTaskModal(e) {
+      if (e.target.id === 'taskModalBackdrop') {
+        closeTaskModalDirect();
+      }
+    }
+
+    // Modal Navigation (Prev / Next)
+    function navigateTaskModal(direction) {
+      const currentIdx = taskIds.indexOf(activeTaskId);
+      const nextIdx = currentIdx + direction;
+      if (nextIdx >= 0 && nextIdx < taskIds.length) {
+        openTaskModal(taskIds[nextIdx]);
+      }
+    }
+
+    // Keyboard ESC to close modal
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeTaskModalDirect();
+      }
+    });
+
+    // Copy Prompt Helper
+    // Robust Copy Prompt Helper with textarea fallback
+    function copyModalPrompt(elementId, btnElement) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const textToCopy = el.textContent || el.innerText;
+
+      function onCopySuccess() {
+        if (btnElement) {
+          const originalText = btnElement.innerText;
+          btnElement.innerText = '! ✨';
+          btnElement.style.background = '#10b981';
+          btnElement.style.color = '#fff';
+          btnElement.style.borderColor = '#10b981';
+          setTimeout(() => {
+            btnElement.innerText = originalText;
+            btnElement.style.background = '';
+            btnElement.style.color = '';
+            btnElement.style.borderColor = '';
+          }, 2000);
+        } else {
+          alert('  ! 🎉');
+        }
+      }
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(textToCopy)
+          .then(onCopySuccess)
+          .catch(() => fallbackCopyText(textToCopy, onCopySuccess));
+      } else {
+        fallbackCopyText(textToCopy, onCopySuccess);
+      }
+    }
+
+    function fallbackCopyText(text, callback) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        const successful = document.execCommand('copy');
+        if (successful && callback) callback();
+      } catch (err) {
+        console.error('Fallback copy failed', err);
+        alert(' .     .');
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // Filter Tasks (All / Core / Challenge)
+    function filterTasks(category) {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const cards = document.querySelectorAll('.practice-card');
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        if (category === 'all' || cardCat === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Task Completion Toggle & Progress Track
+    const completedTasks = new Set();
+
+    function toggleTaskComplete(taskId, isChecked) {
+      const card = document.getElementById(`task-card-${taskId}`);
+      if (isChecked) {
+        completedTasks.add(taskId);
+        if (card) card.classList.add('is-completed');
+      } else {
+        completedTasks.delete(taskId);
+        if (card) card.classList.remove('is-completed');
+      }
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const count = completedTasks.size;
+      const total = taskIds.length;
+      const pct = Math.round((count / total) * 100);
+
+      document.getElementById('progress-count').innerText = `${count} / ${total}  (${pct}%)`;
+      document.getElementById('progress-fill').style.width = `${pct}%`;
+    }
+
+        // Slide Cards Data
+    const slideCardsData = [
+      {
+        tag: "Slide 01 · Opening",
+        title: "Day 1. Getting Started with Codex & Antigravity",
+        body: `<p style="font-size: 1.1rem; color: #93c5fd; margin-bottom: 16px;">Mastering AI Dev Tools & Development Workflows (6 Hours / 360 Mins)</p>
+               <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--line); padding: 16px; border-radius: 12px;">
+                 <strong>💡 Core Goal:</strong> Master the fundamental AI engineering loop: <code>Folder ➔ File ➔ Prompt ➔ Browser QA ➔ Iterate</code>.
+               </div>`,
+        notes: "Opening session: Focus on building solid human-AI pair programming disciplines before writing code."
+      },
+      {
+        tag: "Slide 02 · Objectives",
+        title: "🎯 Day 1 Core Learning Objectives",
+        body: `<ul style="list-style: none; line-height: 1.8;">
+                 <li>✅ <strong>1. Shared Workspace:</strong> Open identical local folder paths in both Codex and Antigravity</li>
+                 <li>✅ <strong>2. Spec Drafting:</strong> Draft goals, constraints, and acceptance criteria in PAGE_REQUIREMENTS.md</li>
+                 <li>✅ <strong>3. Autonomous Scaffolding:</strong> Feed specs into Antigravity to generate working index.html</li>
+                 <li>✅ <strong>4. Automated QA Audit:</strong> Verify implementation with Codex and generate VALIDATION.md</li>
+               </ul>`,
+        notes: "Four primary milestones every founder will achieve independently by the end of Day 1."
+      },
+      {
+        tag: "Slide 03 · Schedule",
+        title: "⏱️ Daily Schedule Breakdown",
+        body: `<p style="color: var(--muted); margin-bottom: 12px;">6-Hour Intensive Curriculum (360 Mins):</p>
+               <ul style="list-style: none; font-size: 0.9rem; line-height: 1.7;">
+                 <li>• Orientation (20m) ➔ Lecture (40m) ➔ Live Demo (30m)</li>
+                 <li>• Lab 1: Workspace Setup (50m) ➔ Lab 2: Spec Drafting (50m)</li>
+                 <li>• Lab 3: Antigravity Code Gen (70m) ➔ QA Audit Lab (40m) ➔ Retrospective (30m)</li>
+               </ul>`,
+        notes: "Concise theory and live demo, followed directly by hands-on practice."
+      },
+      {
+        tag: "Slide 04 · Pipeline",
+        title: "🔄 The Standard AI Engineering Pipeline",
+        body: `<div style="background: rgba(6,10,18,0.8); padding: 14px; border-radius: 10px; font-family: monospace; color: #67e8f9; margin-bottom: 12px;">
+Codex (Spec) ➔ Antigravity (Code) ➔ Codex (QA Audit) ➔ Codex (Spec Update) ➔ Antigravity (Polish)
+               </div>
+               <p style="font-size: 0.92rem; color: var(--muted);">AI-generated code requires modular verification. Always iterate in small, testable chunks.</p>`,
+        notes: "Spec-first development: Codex for planning/QA, Antigravity for code generation."
+      },
+      {
+        tag: "Slide 05 · Workspace",
+        title: "📁 Folders, Files & Shared Absolute Paths",
+        body: `<p style="margin-bottom: 10px;">Both tools must open the exact same local absolute path (<code>/Users/name/my-project</code>) for live synchronization.</p>
+               <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--line); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.88rem;">
+                 my-project/ ➔ README.md, PAGE_REQUIREMENTS.md, VALIDATION.md, index.html
+               </div>`,
+        notes: "Verify both tools are opened in the identical directory to avoid file synchronization issues."
+      },
+      {
+        tag: "Slide 06 · Tool Roles",
+        title: "🛠️ Clear Tool Role Division",
+        body: `<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 0.85rem;">
+                 <div style="background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px;"><strong>📘 Codex</strong><br>Spec Drafting, Requirements Definition, QA Audit</div>
+                 <div style="background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px;"><strong>⚡ Antigravity</strong><br>Spec Ingestion, Code Generation, Full UI Scaffolding</div>
+                 <div style="background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px;"><strong>🌐 Web Browser</strong><br>Real-time visual and interaction testing</div>
+               </div>`,
+        notes: "Separating spec engineering from code generation is essential for velocity."
+      },
+      {
+        tag: "Slide 07 · Prompting",
+        title: "💡 3 Pillars of Effective Prompt Engineering",
+        body: `<ul style="list-style: none; line-height: 1.8;">
+                 <li>🎯 <strong>1. Goal:</strong> Exactly what target file or component should be created?</li>
+                 <li>⚙️ <strong>2. Constraints:</strong> Themes (dark mode), fonts, layout guidelines & limits</li>
+                 <li>✅ <strong>3. Acceptance Criteria:</strong> What measurable outcome proves success in the browser?</li>
+               </ul>`,
+        notes: "Always define Goal, Constraints, and Criteria rather than sending vague prompts."
+      },
+      {
+        tag: "Slide 08 · Safety",
+        title: "⚠️ Safe Engineering & Security Principles",
+        body: `<ul style="list-style: none; line-height: 1.8;">
+                 <li>🔒 <strong>Security:</strong> Never paste real API keys, passwords, or PII into prompts</li>
+                 <li>🔍 <strong>Diff Check:</strong> Always inspect file changes before and after execution</li>
+                 <li>💾 <strong>Checkpoints:</strong> Keep backups of stable working versions</li>
+               </ul>`,
+        notes: "Essential safety guidelines to protect sensitive credentials."
+      },
+      {
+        tag: "Slide 09 · Lab 1",
+        title: "💻 [Lab 1] Setup & Shared Workspace",
+        body: `<p style="color: var(--muted); margin-bottom: 10px;">Create <code>my-project</code> and open in both applications.</p>
+               <div style="background: rgba(6,10,18,0.8); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; text-align: left;">
+                 📌 Codex: Define the core purpose of this workspace (my-project) and generate README.md.
+               </div>`,
+        notes: "Confirm both tools are pointing to the exact same directory."
+      },
+      {
+        tag: "Slide 10 · Lab 2",
+        title: "💻 [Lab 2] Spec Drafting with Codex",
+        body: `<p style="color: var(--muted); margin-bottom: 10px;">Draft <code>PAGE_REQUIREMENTS.md</code> before writing code.</p>
+               <div style="background: rgba(6,10,18,0.8); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; text-align: left;">
+                 📌 Codex: Create PAGE_REQUIREMENTS.md detailing title, founder profile, 2 solution cards, and contact button.
+               </div>`,
+        notes: "Build the habit of writing specifications before coding."
+      },
+      {
+        tag: "Slide 11 · Lab 3",
+        title: "💻 [Lab 3] Web App Scaffolding with Antigravity",
+        body: `<p style="color: var(--muted); margin-bottom: 10px;">Feed MD specs into Antigravity to generate index.html.</p>
+               <div style="background: rgba(6,10,18,0.8); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; text-align: left;">
+                 📌 Antigravity: Read PAGE_REQUIREMENTS.md and build a modern dark-theme, responsive index.html with all required components.
+               </div>`,
+        notes: "Experience autonomous code scaffolding from markdown specs."
+      },
+      {
+        tag: "Slide 12 · Lab 4",
+        title: "💻 [Lab 4] Automated QA Audit with Codex",
+        body: `<p style="color: var(--muted); margin-bottom: 10px;">Audit implementation accuracy against acceptance criteria.</p>
+               <div style="background: rgba(6,10,18,0.8); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; text-align: left;">
+                 📌 Codex: Review index.html against PAGE_REQUIREMENTS.md and generate VALIDATION.md report.
+               </div>`,
+        notes: "Objectively audit implementation with automated QA checklists."
+      },
+      {
+        tag: "Slide 13 · Discussion",
+        title: "💬 Wrap-up & Retrospective Discussion",
+        body: `<ul style="list-style: none; line-height: 1.8;">
+                 <li>1. How did separating spec drafting from coding impact your productivity?</li>
+                 <li>2. What prompt adjustments produced the highest-fidelity UI in Antigravity?</li>
+                 <li>3. What discrepancies did Codex catch during the QA audit?</li>
+               </ul>`,
+        notes: "Reflect on lessons learned and prepare for Day 2 project planning."
+      },
+      {
+        tag: "Slide 14 · Wrap-up",
+        title: "🎉 Day 1 Completed — Ready for Day 2!",
+        body: `<p style="font-size: 1.05rem; color: #4ade80; margin-bottom: 14px;">Great work! Day 1 foundation is complete.</p>
+               <p style="font-size: 0.9rem; color: var(--muted);">Tomorrow on Day 2, we architect a complete 14-section <code>PROJECT.md</code> for your real startup idea.</p>`,
+        notes: "Celebrate Day 1 completion and preview Day 2 architecture goals."
+      }
+    ];
+
+    let currentSlideIdx = 0;
+
+    function renderSlideCard() {
+      const card = slideCardsData[currentSlideIdx];
+      const container = document.getElementById('slide-card-content');
+      const badge = document.getElementById('slide-card-badge');
+      const notesText = document.getElementById('notes-text');
+
+      badge.innerText = `${currentSlideIdx + 1} / ${slideCardsData.length}`;
+      notesText.innerText = card.notes;
+
+      container.innerHTML = `
+        <div>
+          <div style="font-size: 0.82rem; font-weight: 800; color: var(--secondary); margin-bottom: 6px;">${card.tag}</div>
+          <h3 style="font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 16px;">${card.title}</h3>
+          <div>${card.body}</div>
+        </div>
+      `;
+    }
+
+    function nextSlideCard() {
+      if (currentSlideIdx < slideCardsData.length - 1) {
+        currentSlideIdx++;
+        renderSlideCard();
+      }
+    }
+
+    function prevSlideCard() {
+      if (currentSlideIdx > 0) {
+        currentSlideIdx--;
+        renderSlideCard();
+      }
+    }
+
+    function checkQuiz(el, isCorrect) {
+      const fb = document.getElementById('quiz-fb');
+      fb.style.display = 'block';
+      if (isCorrect) {
+        fb.style.color = '#86efac';
+        fb.innerText = '🎉 !     (my-project)    .';
+      } else {
+        fb.style.color = '#fca5a5';
+        fb.innerText = '❌   .         .';
+      }
+    }
+
+    // Initialize components
+    renderSlideCard();
+    updateProgress();
+  </script>
+
+  <!-- AI Account Modal -->
+  <div id="aiAccountModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;">
+    <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 100%; max-width: 520px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.2); overflow: hidden; transform: translateY(20px); transition: transform 0.25s ease;" id="aiModalCard">
+      
+      <!-- Modal Header -->
+      <div style="padding: 24px 28px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #3b82f6, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🔑</div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">AI   </h3>
+            <span id="modalTeamBadge" style="font-size: 0.76rem; color: #94a3b8;">   </span>
+          </div>
+        </div>
+        <button type="button" onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">✕</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div style="padding: 24px 28px; display: flex; flex-direction: column; gap: 20px;">
+        
+        <!-- Account Card 1: Antigravity -->
+        <div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 14px; padding: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.2rem;">🌐</span>
+              <strong style="color: #93c5fd; font-size: 0.95rem;"> (Google AGY)</strong>
+            </div>
+            <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3);"> </span>
+          </div>
+
+          <!-- AGY ID -->
+          <div style="margin-bottom: 10px;">
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Google)</div>
+            <div style="display: flex; gap: 6px;">
+              <input type="text" id="agyIdVal" readonly value="agy.pilot.team@gmail.com" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
+              <button type="button" onclick="copyAccountVal('agyIdVal', ' ID !')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;"></button>
+            </div>
+          </div>
+
+          <!-- AGY Password -->
+          <div>
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;"> (Password)</div>
+            <div style="display: flex; gap: 6px;">
+              <input type="password" id="agyPwVal" readonly value="AcePilot2026!agy" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
+              <button type="button" onclick="togglePwVisibility('agyPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title=" /">👁️</button>
+              <button type="button" onclick="copyAccountVal('agyPwVal', '  !')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;"></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Card 2: Codex -->
+        <div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px; padding: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.2rem;">🤖</span>
+              <strong style="color: #6ee7b7; font-size: 0.95rem;"> (OpenAI Codex)</strong>
+            </div>
+            <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">· </span>
+          </div>
+
+          <!-- Codex ID -->
+          <div style="margin-bottom: 10px;">
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Codex)</div>
+            <div style="display: flex; gap: 6px;">
+              <input type="text" id="codexIdVal" readonly value="codex.pilot.team@openai.com" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
+              <button type="button" onclick="copyAccountVal('codexIdVal', ' ID !')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;"></button>
+            </div>
+          </div>
+
+          <!-- Codex Password -->
+          <div>
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;"> (Password)</div>
+            <div style="display: flex; gap: 6px;">
+              <input type="password" id="codexPwVal" readonly value="AcePilot2026!codex" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
+              <button type="button" onclick="togglePwVisibility('codexPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title=" /">👁️</button>
+              <button type="button" onclick="copyAccountVal('codexPwVal', '  !')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;"></button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div style="padding: 16px 28px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: flex-end;">
+        <button type="button" onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 9px 20px; color: #fff; font-size: 0.88rem; font-weight: 700; cursor: pointer;"></button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function openAiAccountModal() {
+      const modal = document.getElementById('aiAccountModal');
+      const card = document.getElementById('aiModalCard');
+      if (!modal) return;
+      
+      // Update team info dynamically
+      try {
+        const sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          const s = JSON.parse(sessionStr);
+          const user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
+          if (user) {
+            const badge = document.getElementById('modalTeamBadge');
+            const agyId = document.getElementById('agyIdVal');
+            const codexId = document.getElementById('codexIdVal');
+            const agyPw = document.getElementById('agyPwVal');
+            const codexPw = document.getElementById('codexPwVal');
+            
+            const cohortPrefix = user.cohort ? 'c' + user.cohort : 'c1';
+            const teamNum = user.teamNum || 1;
+
+            if (badge) badge.textContent = user.name + '  AI  ';
+            if (agyId) agyId.value = 'agy.' + cohortPrefix + '.team' + teamNum + '@gmail.com';
+            if (codexId) codexId.value = 'codex.' + cohortPrefix + '.team' + teamNum + '@openai.com';
+            if (agyPw) agyPw.value = 'AgyPilot' + teamNum + '!2026';
+            if (codexPw) codexPw.value = 'CodexPilot' + teamNum + '!2026';
+          }
+        }
+      } catch(e) {
+        console.error(e);
+      }
+
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.style.opacity = '1';
+        if (card) card.style.transform = 'translateY(0)';
+      }, 10);
+    }
+
+    function closeAiAccountModal() {
+      const modal = document.getElementById('aiAccountModal');
+      const card = document.getElementById('aiModalCard');
+      if (!modal) return;
+      modal.style.opacity = '0';
+      if (card) card.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 250);
+    }
+
+    function togglePwVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🔒';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+    }
+
+    function copyAccountVal(inputId, successMsg) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      const val = input.value;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(val).then(() => {
+          if (typeof showToast === 'function') {
+            showToast(successMsg);
+          } else {
+            alert(successMsg);
+          }
+        }).catch(() => {
+          fallbackCopyVal(val, successMsg);
+        });
+      } else {
+        fallbackCopyVal(val, successMsg);
+      }
+    }
+
+    function fallbackCopyVal(val, successMsg) {
+      const textArea = document.createElement('textarea');
+      textArea.value = val;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        if (typeof showToast === 'function') {
+          showToast(successMsg);
+        } else {
+          alert(successMsg);
+        }
+      } catch (err) {
+        alert(' : ' + val);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // Close on click outside modal card
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('aiAccountModal');
+      if (modal && e.target === modal) {
+        closeAiAccountModal();
+      }
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeAiAccountModal();
+      }
+    });
+  </script>
+
+</body>
+</html>

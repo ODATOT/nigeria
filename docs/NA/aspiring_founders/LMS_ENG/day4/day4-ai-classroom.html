@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 4 AI Classroom Lab | Aspiring Founders AI Web App MVP Bootcamp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #090a0f;
+      --surface: #11131a;
+      --surface-card: #161922;
+      --line: rgba(255, 255, 255, 0.08);
+      --primary: #f59e0b; /* Amber theme for Day 4 */
+      --secondary: #06b6d4;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --dim: #64748b;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      line-height: 1.6;
+      padding-bottom: 80px;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Topbar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9, 10, 15, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .badge-day {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #000;
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .topbar-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+    .topbar-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .btn-nav {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-nav:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .btn-textbook {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(6, 182, 212, 0.2));
+      border-color: rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+    }
+    .btn-textbook:hover {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(6, 182, 212, 0.3));
+      color: #fff;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+
+    /* Header Box */
+    .header-box {
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.08) 0%, rgba(6, 182, 212, 0.02) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 20px;
+      padding: 32px 28px;
+      margin-bottom: 32px;
+    }
+    .header-box h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .header-box p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .goals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .goal-item {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+    }
+    .goal-item strong {
+      display: block;
+      color: #fbbf24;
+      font-size: 0.82rem;
+      margin-bottom: 4px;
+    }
+
+    /* Slide Viewer */
+    .slide-viewer-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 36px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    .slide-viewer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+    }
+    .slide-viewer-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .slide-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .slide-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .slide-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .slide-counter-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+    .slide-card-container {
+      min-height: 220px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide-notes-box {
+      margin-top: 14px;
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      color: #fde68a;
+    }
+
+    /* Timetable */
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .timetable-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 40px;
+      font-size: 0.9rem;
+    }
+    .timetable-table th {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 14px 18px;
+      text-align: left;
+      font-weight: 700;
+      color: #cbd5e1;
+      border-bottom: 1px solid var(--line);
+    }
+    .timetable-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+    }
+    .timetable-table tr:last-child td { border-bottom: none; }
+    .timetable-table td:nth-child(2) { color: #fff; font-weight: 600; }
+    .badge-time { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--secondary); font-weight: 700; }
+
+    /* Filter & Progress */
+    .task-filter-bar { display: flex; gap: 8px; }
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.4);
+      color: #fff;
+    }
+    .progress-wrap {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .progress-track {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    /* Cards Grid */
+    .practice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .practice-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .practice-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(245, 158, 11, 0.35);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    }
+    .practice-card.is-completed {
+      border-color: rgba(245, 158, 11, 0.5);
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.04) 0%, var(--surface) 100%);
+    }
+    .practice-card.challenge-card { border-color: rgba(6, 182, 212, 0.3); }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .badge-group { display: flex; gap: 6px; align-items: center; }
+    .badge-task { font-size: 0.75rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; }
+    .badge-task.core { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-task.challenge { background: rgba(6, 182, 212, 0.15); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3); }
+    .badge-tool { font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+    .badge-tool.agy { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-tool.codex { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .check-container { display: flex; align-items: center; cursor: pointer; }
+    .check-container input { accent-color: #f59e0b; width: 18px; height: 18px; cursor: pointer; }
+    .card-time { font-size: 0.8rem; font-weight: 700; color: var(--secondary); margin-bottom: 6px; }
+    .card-title { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 8px; line-height: 1.4; }
+    .card-summary { font-size: 0.88rem; color: var(--muted); line-height: 1.5; margin-bottom: 16px; }
+    .card-deliverable {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      margin-bottom: 16px;
+    }
+    .del-label { color: var(--dim); font-weight: 700; }
+    .del-val { color: #a5f3fc; font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+    .btn-detail-view {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+      color: #fff;
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+    .btn-detail-view:hover {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+    }
+
+    /* Modal */
+    .task-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .task-modal-backdrop.active { display: flex; }
+    .task-modal-box {
+      background: #0d1117;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 780px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+    }
+    .modal-top {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .modal-badge-row { display: flex; gap: 8px; align-items: center; }
+    .modal-close-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .modal-body-scroll { padding: 24px 28px; overflow-y: auto; flex: 1; }
+    .modal-section-title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 22px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-section-title:first-of-type { margin-top: 0; }
+    .step-flow-box { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .flow-step-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .flow-step-num {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #000;
+      font-size: 0.78rem;
+      font-weight: 800;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .flow-step-content strong { display: block; color: #fff; font-size: 0.92rem; margin-bottom: 2px; }
+    .flow-step-content p { color: var(--muted); font-size: 0.85rem; line-height: 1.45; }
+    
+    .checklist-group {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .checklist-item { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: var(--muted); }
+    .checklist-item input[type="checkbox"] { accent-color: #f59e0b; width: 16px; height: 16px; cursor: pointer; }
+    
+    .modal-footer-bar {
+      padding: 14px 24px;
+      border-top: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-nav-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .modal-step-indicator { font-size: 0.85rem; font-weight: 800; color: var(--secondary); }
+
+    /* Prompts */
+    .prompt-card-box { background: rgba(6, 10, 18, 0.85); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 14px; padding: 20px; text-align: left; margin-bottom: 20px; }
+    .prompt-header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px; margin-bottom: 14px; }
+    .prompt-title-text { font-size: 0.9rem; font-weight: 700; color: #fbbf24; display: flex; align-items: center; gap: 6px; }
+    .btn-copy-action { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 4px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; cursor: pointer; }
+    .btn-copy-action:hover { background: rgba(245, 158, 11, 0.3); color: #fff; }
+    .prompt-body-text { font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; color: #e2e8f0; white-space: pre-wrap; word-break: break-word; line-height: 1.65; margin: 0; background: transparent; border: none; }
+
+    /* Quiz */
+    .quiz-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; margin-bottom: 32px; }
+    .quiz-q { font-size: 1.05rem; font-weight: 800; margin-bottom: 12px; }
+    .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+    .quiz-opt { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line); padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; color: var(--muted); transition: all 0.2s ease; }
+    .quiz-opt:hover { border-color: var(--secondary); color: #fff; }
+    .quiz-feedback { margin-top: 10px; font-size: 0.88rem; font-weight: 700; display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="badge-day">Day 4</span>
+      <span class="topbar-title">Feature Expansion & Polish (Interactive Lab Module)</span>
+    </div>
+    <div class="topbar-actions">
+      <a href="../index.html" class="btn-nav">🏠 LMS Home</a>
+      <a href="../../LECTURE_ENG/docs/index.html#day-4" target="_blank" class="btn-nav">🖥️ Open Presentation Slides</a>
+      <a href="day4-textbook.html" class="btn-nav btn-textbook">📖 View Textbook</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+    <div class="header-box">
+      <h1>Day 4. Feature Expansion & Polish</h1>
+      <p>Finalize change requirements into markdown specifications using Codex, implement track extensions and defensive exception handling in Antigravity, and perform full regression testing with Codex. The objective is completing a robust, demo-ready <strong>MVP v1.0</strong> for Day 5.</p>
+      <div class="goals-grid">
+        <div class="goal-item"><strong>🎯 Objective 1. Specifying Changes</strong>Establish change requests and non-negotiable regression guardrails in CHANGE_REQUEST_DAY4.md first</div>
+        <div class="goal-item"><strong>🎯 Objective 2. Track Extensions</strong>Implement specialized features across Commerce, Platform, Productivity, or AI service tracks</div>
+        <div class="goal-item"><strong>🎯 Objective 3. Defensive UX</strong>Handle empty states, loading spinners, and error toasts to ensure seamless recovery</div>
+        <div class="goal-item"><strong>🎯 Objective 4. Zero-Regression QA</strong>Validate both legacy Day 3 flows and new Day 4 features using VALIDATION_DAY4.md</div>
+      </div>
+    </div>
+
+    <!-- Slide Viewer -->
+    <section class="slide-viewer-box">
+      <div class="slide-viewer-header">
+        <div class="slide-viewer-title">🖥️ Day 4 LECTURE Core Slide Deck (Interactive Viewer)</div>
+        <div class="slide-controls">
+          <button class="slide-btn" onclick="prevSlideCard()">◀ Previous Slide</button>
+          <span class="slide-counter-badge" id="slide-card-badge">1 / 12</span>
+          <button class="slide-btn" onclick="nextSlideCard()">Next Slide ▶</button>
+        </div>
+      </div>
+      <div class="slide-card-container" id="slide-card-content"></div>
+      <div class="slide-notes-box">💡 <strong>Self-Study Tip:</strong> <span id="notes-text">Spec modifications must always precede code modifications. Never build without CHANGE_REQUEST_DAY4.md.</span></div>
+    </section>
+
+    <!-- Timetable -->
+    <h2 class="section-title">⏱️ Daily Schedule Breakdown (6 Hours / 360 Mins)</h2>
+    <table class="timetable-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Type</th>
+          <th>Key Topics</th>
+          <th>Deliverable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="badge-time">20 Mins</span></td><td>Retrospective</td><td>Day 3 audit findings and selecting business track extensions</td><td>Change Candidates</td></tr>
+        <tr><td><span class="badge-time">40 Mins</span></td><td>Lecture 1</td><td>Change specs, impact radius analysis, and regression guardrails</td><td>Change Strategy</td></tr>
+        <tr><td><span class="badge-time">30 Mins</span></td><td>Lecture & Demo</td><td>Codex spec update ➔ Antigravity expansion ➔ Codex regression QA</td><td>Expansion Demo</td></tr>
+        <tr><td><span class="badge-time">50 Mins</span></td><td>Lab 1</td><td>Draft CHANGE_REQUEST_DAY4.md and regression guardrails</td><td>CHANGE_REQUEST_DAY4.md</td></tr>
+        <tr><td><span class="badge-time">50 Mins</span></td><td>Lab 2</td><td>Implement selected track feature extensions via Antigravity</td><td>Track Feature Modules</td></tr>
+        <tr><td><span class="badge-time">70 Mins</span></td><td>Lab 3</td><td>Polish UX, defensive error recovery, and mobile responsiveness</td><td>MVP v1.0</td></tr>
+        <tr><td><span class="badge-time">40 Mins</span></td><td>QA Audit Lab</td><td>Full regression testing across new & legacy flows via Codex</td><td>VALIDATION_DAY4.md</td></tr>
+        <tr><td><span class="badge-time">30 Mins</span></td><td>Wrap-up & Review</td><td>Peer testing exchange and Day 5 live demo readiness list</td><td>Demo Day Checklist</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Interactive Practice Hub -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin: 40px 0 20px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h2 class="section-title" style="margin: 0 0 6px 0;">💻 Day 4 Hands-on Lab Assignment Board</h2>
+        <p style="color: var(--muted); font-size: 0.92rem;">Click any task card to inspect <strong>step-by-step guides, copy-ready prompts, file structures, and self-audit checklists</strong>.</p>
+      </div>
+      <div class="task-filter-bar">
+        <button class="filter-btn active" onclick="filterTasks('all')">All Tasks (6)</button>
+        <button class="filter-btn" onclick="filterTasks('core')">📌 Core Labs (4)</button>
+        <button class="filter-btn" onclick="filterTasks('challenge')">🚀 Bonus Challenges (2)</button>
+      </div>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span>Lab Progress: <strong id="progress-count">0 / 6 Completed (0%)</strong></span>
+        <span style="color: var(--dim); font-size: 0.8rem;">Click checkboxes on each card to track your progress</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar" id="progress-fill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Practice Cards Grid -->
+    <div class="practice-grid" id="practiceGrid">
+      
+      <!-- Card 1 -->
+      <article class="practice-card" data-category="core" id="task-card-1">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 01</span>
+            <span class="badge-tool codex">Codex</span>
+          </div>
+          <label class="check-container" title="Mark complete">
+            <input type="checkbox" onchange="toggleTaskComplete(1, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 50 Mins</div>
+          <h3 class="card-title">Change Specifications & Regression Guardrails</h3>
+          <p class="card-summary">Based on Day 3 audit results, finalize new Must-Have additions and non-negotiable preservation rules in CHANGE_REQUEST_DAY4.md.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">Deliverable</span>
+          <span class="del-val">📄 CHANGE_REQUEST_DAY4.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(1)">
+            <span>Guide &amp; Prompts</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="practice-card" data-category="core" id="task-card-2">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 02</span>
+            <span class="badge-tool agy">Antigravity</span>
+          </div>
+          <label class="check-container" title="Mark complete">
+            <input type="checkbox" onchange="toggleTaskComplete(2, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 50 Mins</div>
+          <h3 class="card-title">Implementing Selected Track Extensions</h3>
+          <p class="card-summary">Implement specialized features (Commerce, Platform, Productivity, AI) in Antigravity while preserving all existing flows.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">Deliverable</span>
+          <span class="del-val">🌐 Extended Track Features</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(2)">
+            <span>Guide &amp; Prompts</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="practice-card" data-category="core" id="task-card-3">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 03</span>
+            <span class="badge-tool agy">Antigravity</span>
+          </div>
+          <label class="check-container" title="Mark complete">
+            <input type="checkbox" onchange="toggleTaskComplete(3, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 70 Mins</div>
+          <h3 class="card-title">UX, Error Handling & Recovery (MVP v1.0)</h3>
+          <p class="card-summary">Handle empty, duplicate, failed, unauthorized, and zero-data states with friendly recovery flows to deliver a polished MVP v1.0.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">Deliverable</span>
+          <span class="del-val">🚀 MVP v1.0 (Polished Version)</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(3)">
+            <span>Guide &amp; Prompts</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="practice-card" data-category="core" id="task-card-4">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task core">Task 04</span>
+            <span class="badge-tool codex">Codex</span>
+          </div>
+          <label class="check-container" title="Mark complete">
+            <input type="checkbox" onchange="toggleTaskComplete(4, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">⏱️ 40 Mins</div>
+          <h3 class="card-title">Codex Regression Testing (VALIDATION_DAY4)</h3>
+          <p class="card-summary">Distinguish legacy Must-Haves from new Must-Haves and perform rigorous regression testing to certify MVP v1.0.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">Deliverable</span>
+          <span class="del-val">📄 VALIDATION_DAY4.md</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(4)">
+            <span>Guide &amp; Prompts</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Challenge Card A -->
+      <article class="practice-card challenge-card" data-category="challenge" id="task-card-5">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task challenge">Bonus Track A</span>
+            <span class="badge-tool agy">Antigravity</span>
+          </div>
+          <label class="check-container" title="Mark complete">
+            <input type="checkbox" onchange="toggleTaskComplete(5, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">🚀 Search & Filter Specialization</div>
+          <h3 class="card-title">Real-Time Search & Multi-Tag Filtering</h3>
+          <p class="card-summary">Add keyword search and sorting toggles (newest/oldest) without breaking existing item creation and deletion workflows.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">Deliverable</span>
+          <span class="del-val">🌐 Filter & Search Bar</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(5)">
+            <span>Guide &amp; Prompts</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Challenge Card B -->
+      <article class="practice-card challenge-card" data-category="challenge" id="task-card-6">
+        <div class="card-top">
+          <div class="badge-group">
+            <span class="badge-task challenge">Bonus Track B</span>
+            <span class="badge-tool agy">Antigravity</span>
+          </div>
+          <label class="check-container" title="Mark complete">
+            <input type="checkbox" onchange="toggleTaskComplete(6, this.checked)" />
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="card-header">
+          <div class="card-time">🚀 Error UX Refactoring</div>
+          <h3 class="card-title">Comprehensive Error States & Empty UX Refactor</h3>
+          <p class="card-summary">Replace technical system error codes with clear recovery instructions, empty placeholders, and retry CTA triggers.</p>
+        </div>
+        <div class="card-deliverable">
+          <span class="del-label">Deliverable</span>
+          <span class="del-val">🛡️ Friendly Error UX</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-detail-view" onclick="openTaskModal(6)">
+            <span>Guide &amp; Prompts</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Task Detail Modal Backdrop & Container -->
+    <div class="task-modal-backdrop" id="taskModalBackdrop" onclick="closeTaskModal(event)">
+      <div class="task-modal-box" onclick="event.stopPropagation()">
+        <div class="modal-top">
+          <div class="modal-badge-row" id="modalBadgeRow"></div>
+          <button class="modal-close-btn" onclick="closeTaskModalDirect()" title="Close (Esc)">✕</button>
+        </div>
+        <div class="modal-body-scroll" id="modalContent"></div>
+        <div class="modal-footer-bar">
+          <button class="modal-nav-btn" id="modalPrevBtn" onclick="navigateTaskModal(-1)">◀ Previous Task</button>
+          <div class="modal-step-indicator" id="modalStepIndicator">Task 1 / 6</div>
+          <button class="modal-nav-btn" id="modalNextBtn" onclick="navigateTaskModal(1)">Next Task ▶</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <h2 class="section-title">❓ Day 4 Self-Evaluation Comprehension Quiz</h2>
+    <div class="quiz-box">
+      <div class="quiz-q">Q. What must be verified during Day 4 Regression Testing (VALIDATION_DAY4.md)?</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="checkQuiz(this,false)">① Only check Pass/Fail status for newly added Day 4 features.</div>
+        <div class="quiz-opt" onclick="checkQuiz(this,true)">② Distinguish legacy Must-Haves (Day 3 loop) from new Must-Haves (Day 4 extensions) and verify both thoroughly.</div>
+        <div class="quiz-opt" onclick="checkQuiz(this,false)">③ Since legacy features were verified on Day 3, only testing new features is sufficient.</div>
+      </div>
+      <div class="quiz-feedback" id="quiz-fb"></div>
+    </div>
+
+    <!-- Deliverables -->
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px;">
+      <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:8px;">🎁 Day 4 Core Deliverables Definition</h2>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:24px;">Essential deliverables that must be completed by the end of Day 4.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:18px;">
+          <div style="font-size:0.82rem;font-weight:800;color:#fbbf24;margin-bottom:4px;">Deliverable 01</div>
+          <div style="font-size:1rem;font-weight:800;margin-bottom:8px;">📄 CHANGE_REQUEST_DAY4.md</div>
+          <p style="font-size:0.85rem;color:var(--muted);">Change specification articulating new features, impact radius, non-negotiable guardrails, and regression items.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:18px;">
+          <div style="font-size:0.82rem;font-weight:800;color:#67e8f9;margin-bottom:4px;">Deliverable 02</div>
+          <div style="font-size:1rem;font-weight:800;margin-bottom:8px;">🌐 MVP v1.0</div>
+          <p style="font-size:0.85rem;color:var(--muted);">Production-ready demo version incorporating track extensions, defensive error recovery, and mobile polish.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:18px;">
+          <div style="font-size:0.82rem;font-weight:800;color:#86efac;margin-bottom:4px;">Deliverable 03</div>
+          <div style="font-size:1rem;font-weight:800;margin-bottom:8px;">📄 VALIDATION_DAY4.md</div>
+          <p style="font-size:0.85rem;color:var(--muted);">Comprehensive regression test audit classifying legacy and new Must-Haves with reproduction steps for issues.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Detailed Practice Tasks Data Model for Day 4
+    const taskDetailsData = {
+      1: {
+        id: 1,
+        type: "core",
+        badge: "Task 01 · Core Lab",
+        tools: ["Codex"],
+        time: "50 Mins",
+        title: "Change Specifications & Regression Guardrails",
+        goal: "Based on Day 3 audit results, finalize new feature additions and preservation rules in CHANGE_REQUEST_DAY4.md before editing code.",
+        steps: [
+          {
+            title: "Review Day 3 Results & Candidate Extensions",
+            desc: "Inspect VALIDATION_DAY3.md items and select 1–2 track extensions tailored to your business model."
+          },
+          {
+            title: "Draft CHANGE_REQUEST_DAY4.md in Codex",
+            desc: "Detail change purpose, affected screens/data, legacy guardrails, new acceptance criteria, and regression test checklists."
+          },
+          {
+            title: "Update PROJECT.md Baseline",
+            desc: "Synchronize approved change requirements into PROJECT.md Features and Acceptance Criteria sections."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md            (👈 Synchronized with changes)
+├── 📄 VALIDATION_DAY3.md
+└── 📄 CHANGE_REQUEST_DAY4.md (👈 Generated in this step)`,
+        prompts: [
+          {
+            label: "Change Request Drafting Prompt (Codex)",
+            text: `Read PROJECT.md and VALIDATION_DAY3.md and draft CHANGE_REQUEST_DAY4.md.
+Selected track: [Track Name], Additional Must-Have: [Feature].
+Detail change objectives, impact radius on screens/data, legacy preservation guardrails,
+new acceptance criteria, error/exception handling, Out of Scope, and regression checklist.
+Do not modify code or PROJECT.md yet.`
+          }
+        ],
+        checklist: [
+          "Are legacy core flows explicitly listed as non-negotiable preservation guardrails?",
+          "Are new Must-Have features strictly limited to a maximum of 2 additions?",
+          "Are Out-of-Scope boundaries clearly updated for the new features?"
+        ],
+        troubleshoot: "💡 Spec modifications must always precede code modifications. Never build without CHANGE_REQUEST_DAY4.md."
+      },
+      2: {
+        id: 2,
+        type: "core",
+        badge: "Task 02 · Core Lab",
+        tools: ["Antigravity"],
+        time: "50 Mins",
+        title: "Implementing Selected Track Extensions",
+        goal: "Implement approved track feature extensions in Antigravity while strictly honoring all preservation guardrails.",
+        steps: [
+          {
+            title: "Pre-Implementation Impact Report Request",
+            desc: "Instruct Antigravity to report the list of files to be modified/created and its strategy to protect existing flows."
+          },
+          {
+            title: "Implement Track-Specific Feature Logic",
+            desc: "Develop selected track features (Commerce mock checkout, Platform search/status, Productivity filters, AI prompt flows)."
+          },
+          {
+            title: "Integration Testing & Impact Audit",
+            desc: "Verify in the browser that new features integrate cleanly with legacy home and input workflows."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md
+├── 📄 CHANGE_REQUEST_DAY4.md
+└── src/
+    ├── 🌐 index.html
+    ├── 🌐 track-action.html (New Feature View)
+    └── ⚙️ service-logic.js`,
+        prompts: [
+          {
+            label: "Track Feature Implementation Prompt (Antigravity)",
+            text: `Implement the selected track features based on updated PROJECT.md and CHANGE_REQUEST_DAY4.md.
+Do not modify legacy user flows defined in the preservation guardrails.
+Report affected files before writing code, and summarize modified files, new features, and legacy verification steps upon completion.`
+          }
+        ],
+        checklist: [
+          "Did you review the impact report before Antigravity scaffolded code?",
+          "Do newly added track extensions function as specified in acceptance criteria?",
+          "Are all legacy Day 3 workflows still functioning without regression?"
+        ],
+        troubleshoot: "⚠️ Do not connect real payment APIs or real private credentials. Use realistic educational mock responses."
+      },
+      3: {
+        id: 3,
+        type: "core",
+        badge: "Task 03 · Core Lab",
+        tools: ["Antigravity"],
+        time: "70 Mins",
+        title: "UX, Error Handling & Recovery (MVP v1.0)",
+        goal: "Gracefully handle empty, duplicate, failed, unauthorized, and zero-data states to deliver a polished MVP v1.0 ready for peer testing.",
+        steps: [
+          {
+            title: "Implement 5 Defensive Exception States",
+            desc: "Replace raw technical errors with friendly user explanations and clear recovery actions (e.g., Retry buttons)."
+          },
+          {
+            title: "Form Input Retention & Mobile Viewport Polish",
+            desc: "Preserve user input upon validation errors and verify responsive layouts across mobile viewports."
+          },
+          {
+            title: "5-Minute Zero-Explanation Peer Usability Test",
+            desc: "Have a peer test the application without verbal instructions and polish friction points."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md
+└── src/
+    ├── 🌐 index.html (MVP v1.0 Complete)
+    ├── 🎨 styles.css (Responsive & Error States)
+    └── ⚙️ error-handler.js`,
+        prompts: [
+          {
+            label: "Defensive UX Hardening Prompt (Antigravity)",
+            text: `Elevate MVP v1.0 to production polish.
+Handle all 5 defensive exception states gracefully:
+- Empty Input: Highlight required fields with clear helper instructions
+- Duplicate Entry: Display duplicate notice with a link to view the existing item
+- Processing Failure: User-friendly explanation with an instant Retry button
+- Unauthorized: Access requirements notice with a Return Home button
+- Zero Data: Engaging empty placeholder with a primary Create First Item CTA
+
+Principles:
+- Never expose raw system stack traces to users
+- Always retain entered form data on validation failures
+- Every error message must include a clear next action button`
+          }
+        ],
+        checklist: [
+          "Do all error screens include a 'Retry' or clear next action button?",
+          "When search results or data lists are empty, does an engaging placeholder CTA appear?",
+          "Are buttons and typography perfectly aligned on mobile screen viewports?"
+        ],
+        troubleshoot: "💡 Error screens are part of the user experience. Empower users to recover seamlessly without pressing browser back."
+      },
+      4: {
+        id: 4,
+        type: "core",
+        badge: "Task 04 · Core Lab",
+        tools: ["Codex"],
+        time: "40 Mins",
+        title: "Codex Regression Testing (VALIDATION_DAY4.md)",
+        goal: "Rigorously audit both legacy Must-Haves (Day 3) and new Must-Haves (Day 4) to produce a certified regression report.",
+        steps: [
+          {
+            title: "Instruct Regression Audit in Codex",
+            desc: "Direct Codex to evaluate legacy and new features separately using Pass/Fail/Manual Check classifications."
+          },
+          {
+            title: "Generate VALIDATION_DAY4.md Report",
+            desc: "Document detailed reproduction steps, expected vs actual outcomes, and remaining risks for any failed items."
+          },
+          {
+            title: "Finalize Pre-Deployment Patch List",
+            desc: "Identify any critical blockers and perform rapid final patches for Day 5 live demonstration."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md
+├── 📄 CHANGE_REQUEST_DAY4.md
+├── 📄 VALIDATION_DAY3.md
+└── 📄 VALIDATION_DAY4.md     (👈 Generated in this step)`,
+        prompts: [
+          {
+            label: "Regression Audit Prompt (Codex)",
+            text: `Perform a comprehensive regression audit comparing PROJECT.md, CHANGE_REQUEST_DAY4.md, VALIDATION_DAY3.md, and the current codebase.
+Distinguish legacy Must-Haves from new Must-Haves and classify each item as Pass/Fail/Manual Check in VALIDATION_DAY4.md.
+For any Fail items, include exact reproduction steps, expected results, and actual observed behavior.`
+          }
+        ],
+        checklist: [
+          "Are all legacy Must-Have features still passing after adding new extensions?",
+          "Have all new Must-Have acceptance criteria been satisfied?",
+          "Is a finalized live demo script prepared for Day 5?"
+        ],
+        troubleshoot: "💡 Even if new features work, if legacy Home ➔ Input ➔ Result flows broke, patch them immediately before deployment."
+      },
+      5: {
+        id: 5,
+        type: "challenge",
+        badge: "Bonus Track A · Search/Filter",
+        tools: ["Antigravity"],
+        time: "60~80 Mins",
+        title: "Real-Time Search & Multi-Tag Filtering",
+        goal: "Add instant keyword search and sorting toggles (newest/oldest) while preserving item creation and deletion workflows.",
+        steps: [
+          {
+            title: "Search Bar & Sort Dropdown Placement",
+            desc: "Position search input and sorting controls at the top of the item list view."
+          },
+          {
+            title: "Client-Side Live Filtering Logic",
+            desc: "Filter items dynamically as characters are typed into the search bar without requiring enter key presses."
+          },
+          {
+            title: "Zero-Match Exception Handling",
+            desc: "Display a friendly 'No matching items found' banner when search queries return zero results."
+          }
+        ],
+        fileTree: `my-project/
+└── search-filter-feature/
+    ├── 🌐 index.html
+    └── ⚙️ search-filter.js`,
+        prompts: [
+          {
+            label: "Filter & Search Prompt (Antigravity)",
+            text: `Add real-time filter and search capabilities to the item list view.
+Features:
+1. Keyword Search: Real-time filtering by title and content
+2. Sorting: Toggle between Newest and Oldest
+
+Preservation Guardrails: Do not modify existing item creation, display, or deletion workflows.
+Edge Cases: Display 'No matching items found' when search returns zero results.
+Acceptance Criteria: Typing in the search bar immediately filters the visible card grid.`
+          }
+        ],
+        checklist: [
+          "Does the list filter in real time without requiring enter key presses?",
+          "Does clearing the search input immediately restore the full list?",
+          "Does changing sort order correctly reorder filtered search results?"
+        ],
+        troubleshoot: "💡 Use .toLowerCase().includes() when comparing search strings to ensure case-insensitive matching."
+      },
+      6: {
+        id: 6,
+        type: "challenge",
+        badge: "Bonus Track B · Error UX",
+        tools: ["Antigravity"],
+        time: "60~80 Mins",
+        title: "Comprehensive Error States & Empty UX Refactor",
+        goal: "Refactor all application error screens with friendly explanations and instant recovery CTA triggers.",
+        steps: [
+          {
+            title: "Real-Time Field Helper Text",
+            desc: "Display real-time inline validation feedback below inputs upon missing or invalid formatting."
+          },
+          {
+            title: "Data Retention on Failed Submissions",
+            desc: "Ensure user inputs are not wiped when submission errors occur."
+          },
+          {
+            title: "Engaging Empty State Placeholders",
+            desc: "Present engaging illustrations and prominent 'Create First Item' buttons when data lists are empty."
+          }
+        ],
+        fileTree: `my-project/
+└── ux-refactor/
+    ├── 🌐 index.html
+    └── 🎨 error-states.css`,
+        prompts: [
+          {
+            label: "Error UX Refactoring Prompt (Antigravity)",
+            text: `Refactor all error states across the application for maximum user friendliness.
+Scenarios to handle:
+1. Missing Required Input: Inline helper text below the field
+2. Processing Failure: Friendly explanation + Retry button
+3. Zero Data: Engaging empty placeholder with a Create Item button
+4. Duplicate Entry: Warning banner with a link to view existing item
+
+Principles:
+- Always include an actionable next button on every error screen
+- Retain user inputs upon failure`
+          }
+        ],
+        checklist: [
+          "Does every error screen feature an actionable next step button?",
+          "Are raw system errors (500, TypeError) completely masked from the UI?",
+          "Does the application remain stable without crashing during network or validation errors?"
+        ],
+        troubleshoot: "💡 Handle promise rejections with .catch() blocks and display user-friendly error banners."
+      }
+    };
+
+    let activeTaskId = 1;
+    const taskIds = [1, 2, 3, 4, 5, 6];
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function openTaskModal(taskId) {
+      activeTaskId = taskId;
+      const data = taskDetailsData[taskId];
+      if (!data) return;
+
+      const backdrop = document.getElementById('taskModalBackdrop');
+      const badgeRow = document.getElementById('modalBadgeRow');
+      const content = document.getElementById('modalContent');
+      const stepIndicator = document.getElementById('modalStepIndicator');
+      const prevBtn = document.getElementById('modalPrevBtn');
+      const nextBtn = document.getElementById('modalNextBtn');
+
+      badgeRow.innerHTML = `
+        <span class="badge-task ${data.type}">${data.badge}</span>
+        ${data.tools.map(t => `<span class="badge-tool ${t === 'Codex' ? 'codex' : 'agy'}">${t}</span>`).join('')}
+        <span style="font-size: 0.8rem; color: #fbbf24; font-weight: 700;">⏱️ ${data.time}</span>
+      `;
+
+      content.innerHTML = `
+        <h2 style="font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: 8px;">${data.title}</h2>
+        <p style="color: var(--muted); font-size: 0.94rem; line-height: 1.55; margin-bottom: 24px;">${data.goal}</p>
+
+        <h3 class="modal-section-title">📍 Step-by-Step Lab Guide</h3>
+        <div class="step-flow-box">
+          ${data.steps.map((s, idx) => `
+            <div class="flow-step-item">
+              <div class="flow-step-num">${idx + 1}</div>
+              <div class="flow-step-content">
+                <strong>${s.title}</strong>
+                <p>${s.desc}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <h3 class="modal-section-title">📁 Expected Workspace File Structure</h3>
+        <div style="background: rgba(0, 0, 0, 0.45); border: 1px solid var(--line); padding: 14px 18px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; color: #a5f3fc; white-space: pre; margin-bottom: 20px; line-height: 1.5;">${escapeHtml(data.fileTree)}</div>
+
+        <h3 class="modal-section-title">💬 Copy-Ready Turnkey Prompts</h3>
+        ${data.prompts.map((p, pIdx) => `
+          <div class="prompt-card-box">
+            <div class="prompt-header-bar">
+              <span class="prompt-title-text">📌 ${p.label}</span>
+              <button type="button" class="btn-copy-action" onclick="copyModalPrompt('modal_prompt_${taskId}_${pIdx}', this)">Copy</button>
+            </div>
+            <pre class="prompt-body-text" id="modal_prompt_${taskId}_${pIdx}">${escapeHtml(p.text)}</pre>
+          </div>
+        `).join('')}
+
+        <h3 class="modal-section-title">✅ Self-Audit Checklist</h3>
+        <div class="checklist-group">
+          ${data.checklist.map((item, cIdx) => `
+            <label class="checklist-item">
+              <input type="checkbox" id="modal_chk_${taskId}_${cIdx}" />
+              <span>${item}</span>
+            </label>
+          `).join('')}
+        </div>
+
+        <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 10px; padding: 14px 18px; font-size: 0.88rem; color: #fde68a;">
+          ${data.troubleshoot}
+        </div>
+      `;
+
+      const currentIdx = taskIds.indexOf(taskId);
+      stepIndicator.innerText = `Task ${currentIdx + 1} / ${taskIds.length}`;
+      prevBtn.disabled = currentIdx === 0;
+      prevBtn.style.opacity = currentIdx === 0 ? '0.4' : '1';
+      prevBtn.style.cursor = currentIdx === 0 ? 'not-allowed' : 'pointer';
+
+      nextBtn.disabled = currentIdx === taskIds.length - 1;
+      nextBtn.style.opacity = currentIdx === taskIds.length - 1 ? '0.4' : '1';
+      nextBtn.style.cursor = currentIdx === taskIds.length - 1 ? 'not-allowed' : 'pointer';
+
+      backdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeTaskModalDirect() {
+      document.getElementById('taskModalBackdrop').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function closeTaskModal(e) {
+      if (e.target.id === 'taskModalBackdrop') closeTaskModalDirect();
+    }
+
+    function navigateTaskModal(direction) {
+      const currentIdx = taskIds.indexOf(activeTaskId);
+      const nextIdx = currentIdx + direction;
+      if (nextIdx >= 0 && nextIdx < taskIds.length) {
+        openTaskModal(taskIds[nextIdx]);
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeTaskModalDirect();
+    });
+
+    function copyModalPrompt(elementId, btnElement) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      navigator.clipboard.writeText(el.innerText).then(() => {
+        if (btnElement) {
+          const orig = btnElement.innerText;
+          btnElement.innerText = 'Copied! ✨';
+          setTimeout(() => btnElement.innerText = orig, 2000);
+        } else {
+          alert('Prompt copied to clipboard! 🎉');
+        }
+      });
+    }
+
+    function filterTasks(category) {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const cards = document.querySelectorAll('.practice-card');
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        card.style.display = (category === 'all' || cardCat === category) ? 'flex' : 'none';
+      });
+    }
+
+    const completedTasks = new Set();
+    function toggleTaskComplete(taskId, isChecked) {
+      const card = document.getElementById(`task-card-${taskId}`);
+      if (isChecked) {
+        completedTasks.add(taskId);
+        if (card) card.classList.add('is-completed');
+      } else {
+        completedTasks.delete(taskId);
+        if (card) card.classList.remove('is-completed');
+      }
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const count = completedTasks.size;
+      const total = taskIds.length;
+      const pct = Math.round((count / total) * 100);
+      document.getElementById('progress-count').innerText = `${count} / ${total} Completed (${pct}%)`;
+      document.getElementById('progress-fill').style.width = `${pct}%`;
+    }
+
+    // Slide Cards Data for Day 4
+    const slideCardsData = [
+      {
+        tag: "Slide 01 · Opening",
+        title: "Day 4. Feature Expansion & Polish",
+        body: `<p style="color:#fde68a;font-size:1.05rem;margin-bottom:16px;">Polishing MVP v0.1 into a production-grade MVP v1.0.</p>
+               <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);padding:14px;border-radius:10px;font-family:monospace;font-size:0.9rem;text-align:left;">
+                 💡 Today's Principle:<br>
+                 Finalize change specs in Codex ➔ Scaffold extensions in Antigravity ➔ Regression audit in Codex
+               </div>`,
+        notes: "The objective is delivering a stable, production-ready MVP v1.0 for tomorrow's Day 5 demo day."
+      },
+      {
+        tag: "Slide 02 · Objectives",
+        title: "🎯 Day 4 Core Learning Objectives",
+        body: `<ul style="list-style:none;line-height:1.9;">
+                 <li>✅ Finalize change specifications in markdown before modifying code</li>
+                 <li>✅ Implement specialized track features while preserving legacy flows</li>
+                 <li>✅ Handle error, empty, duplicate, and zero-data states with recovery UX</li>
+                 <li>✅ Perform comprehensive regression audits using VALIDATION_DAY4.md</li>
+               </ul>`,
+        notes: "Never break working Day 3 features while adding new extensions."
+      },
+      {
+        tag: "Slide 03 · 4 Tracks",
+        title: "🗂️ 4 Specialized Business Tracks",
+        body: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.84rem;">
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#fbbf24;">1. Commerce</strong><br>Item catalog, mock checkout modal, order confirmation
+                 </div>
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#67e8f9;">2. Platform</strong><br>Category filter, multi-status tags, search bar
+                 </div>
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#a7f3d0;">3. Productivity</strong><br>Inline editing, CSV export, stats summary
+                 </div>
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#f472b6;">4. AI Service</strong><br>Prompt tuning, simulated streaming, history retention
+                 </div>
+               </div>`,
+        notes: "Choose the single track that most strongly amplifies your core value proposition."
+      },
+      {
+        tag: "Slide 04 · Change Spec",
+        title: "📝 CHANGE_REQUEST_DAY4.md Structure",
+        body: `<div style="font-family:monospace;font-size:0.85rem;background:rgba(6,10,18,0.8);padding:14px;border-radius:10px;text-align:left;color:#e2e8f0;line-height:1.7;">
+CHANGE_REQUEST_DAY4.md<br>
+├── Change Objective        → Purpose & business context<br>
+├── Impact Radius           → Affected screens and data models<br>
+├── Preservation Guardrails → Legacy flows that must NOT break<br>
+├── New Acceptance Criteria → Definition of Done for additions<br>
+└── Regression Test Plan    → Verification matrix
+               </div>`,
+        notes: "Articulating preservation guardrails upfront prevents code regressions."
+      },
+      {
+        tag: "Slide 05 · Defensive UX",
+        title: "🛡️ 5 Essential Defensive UX Scenarios",
+        body: `<ul style="list-style:none;line-height:1.8;font-size:0.88rem;">
+                 <li>• <strong>Empty Input:</strong> Inline helper text highlighting missing fields</li>
+                 <li>• <strong>Duplicate Entry:</strong> Warning banner with a link to existing record</li>
+                 <li>• <strong>Processing Failure:</strong> Friendly explanation with an instant Retry button</li>
+                 <li>• <strong>Unauthorized:</strong> Access requirement banner with a Return Home button</li>
+                 <li>• <strong>Zero Data:</strong> Engaging placeholder with a Create First Item CTA</li>
+               </ul>`,
+        notes: "Defensive UX ensures users never encounter confusing dead ends."
+      },
+      {
+        tag: "Slide 06 · Regression Audit",
+        title: "🧪 Distinguishing Legacy vs New Must-Haves",
+        body: `<table style="width:100%;border-collapse:collapse;font-size:0.82rem;text-align:left;">
+                 <thead><tr style="background:rgba(255,255,255,0.05);"><th style="padding:6px;border:1px solid var(--line);">Category</th><th style="padding:6px;border:1px solid var(--line);">Scope</th><th style="padding:6px;border:1px solid var(--line);">Status Criteria</th></tr></thead>
+                 <tbody>
+                   <tr><td style="padding:6px;border:1px solid var(--line);color:#93c5fd;">Legacy Must (Day 3)</td><td style="padding:6px;border:1px solid var(--line);">Home ➔ Input ➔ Result</td><td style="padding:6px;border:1px solid var(--line);">100% Pass (Zero Regressions)</td></tr>
+                   <tr><td style="padding:6px;border:1px solid var(--line);color:#fbbf24;">New Must (Day 4)</td><td style="padding:6px;border:1px solid var(--line);">Track Extension</td><td style="padding:6px;border:1px solid var(--line);">Pass against new criteria</td></tr>
+                 </tbody>
+               </table>`,
+        notes: "Regression testing guarantees that expanding features does not compromise core stability."
+      },
+      {
+        tag: "Slide 07 · Expansion Loop",
+        title: "🔄 The Day 4 Expansion & Polish Cycle",
+        body: `<div style="text-align:center;padding:10px;">
+                 <div style="display:flex;justify-content:center;align-items:center;gap:8px;font-size:0.95rem;flex-wrap:wrap;">
+                   <span style="background:rgba(245,158,11,0.2);padding:8px 14px;border-radius:8px;">Codex Spec</span>
+                   <span style="color:var(--secondary);">→</span>
+                   <span style="background:rgba(59,130,246,0.2);padding:8px 14px;border-radius:8px;">Antigravity Code</span>
+                   <span style="color:var(--secondary);">→</span>
+                   <span style="background:rgba(6,182,212,0.2);padding:8px 14px;border-radius:8px;">Browser Check</span>
+                   <span style="color:var(--secondary);">→</span>
+                   <span style="background:rgba(16,185,129,0.2);padding:8px 14px;border-radius:8px;">Codex Regression QA</span>
+                 </div>
+               </div>`,
+        notes: "Follow this disciplined loop to avoid breaking functional code."
+      },
+      {
+        tag: "Slide 08 · Lab 1",
+        title: "💻 [Lab 1] Change Specs & Guardrails",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Draft CHANGE_REQUEST_DAY4.md in Codex with explicit preservation rules.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Draft CHANGE_REQUEST_DAY4.md for [Selected Track]. Detail impact radius and preservation guardrails.
+               </div>`,
+        notes: "Lock in change specifications before prompting Antigravity for code."
+      },
+      {
+        tag: "Slide 09 · Lab 2",
+        title: "💻 [Lab 2] Selected Track Feature Implementation",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Implement chosen business track extensions in Antigravity.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Antigravity: Implement track extensions based on CHANGE_REQUEST_DAY4.md without altering legacy flows.
+               </div>`,
+        notes: "Verify that legacy Home ➔ Input ➔ Result flows remain intact."
+      },
+      {
+        tag: "Slide 10 · Lab 3",
+        title: "💻 [Lab 3] Defensive UX & Error Recovery",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Handle all 5 defensive exception states with friendly user recovery actions.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Antigravity: Add empty states, inline helper feedback, and retry buttons across all screens (MVP v1.0).
+               </div>`,
+        notes: "Conduct a 5-minute zero-explanation peer test to identify remaining UX friction."
+      },
+      {
+        tag: "Slide 11 · QA Lab",
+        title: "🔍 Regression QA: Generating VALIDATION_DAY4.md",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Perform comprehensive regression testing using Codex.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Compare codebase against PROJECT.md & CHANGE_REQUEST_DAY4.md. Evaluate legacy and new Must-Haves in VALIDATION_DAY4.md.
+               </div>`,
+        notes: "Ensure MVP v1.0 is certified with zero critical regressions."
+      },
+      {
+        tag: "Slide 12 · Wrap-up",
+        title: "🎉 Day 4 Retrospective & Day 5 Preview",
+        body: `<div style="text-align:center;padding:20px;">
+                 <h3 style="color:#fbbf24;margin-bottom:10px;">Day 5 Preview: Live Launch, 5-Min Pitch & Demo Day</h3>
+                 <p style="color:var(--muted);">Tomorrow we deploy MVP v1.0 to a public HTTPS URL and present live demonstrations!</p>
+               </div>`,
+        notes: "Verify your completed MVP v1.0 and VALIDATION_DAY4.md report before Day 5."
+      }
+    ];
+
+    let currentCardIdx = 0;
+    function renderSlideCard() {
+      const card = slideCardsData[currentCardIdx];
+      document.getElementById('slide-card-badge').innerText = `${currentCardIdx+1} / ${slideCardsData.length}`;
+      document.getElementById('notes-text').innerText = card.notes;
+      document.getElementById('slide-card-content').innerHTML = `
+        <div>
+          <div style="font-size:0.82rem;font-weight:800;color:#fbbf24;margin-bottom:6px;">${card.tag}</div>
+          <h3 style="font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:16px;">${card.title}</h3>
+          <div>${card.body}</div>
+        </div>`;
+    }
+    function nextSlideCard() { if (currentCardIdx < slideCardsData.length-1) { currentCardIdx++; renderSlideCard(); } }
+    function prevSlideCard() { if (currentCardIdx > 0) { currentCardIdx--; renderSlideCard(); } }
+    function checkQuiz(el, isCorrect) {
+      const fb = document.getElementById('quiz-fb');
+      fb.style.display = 'block';
+      if (isCorrect) {
+        fb.style.color = '#86efac';
+        fb.innerText = '🎉 Correct! Distinguish legacy Must-Haves from new additions and verify both to prevent regressions.';
+      } else {
+        fb.style.color = '#fca5a5';
+        fb.innerText = '❌ Only testing new features overlooks regressions in legacy core workflows.';
+      }
+    }
+    renderSlideCard();
+    updateProgress();
+  </script>
+
+</body>
+</html>

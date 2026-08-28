@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Powered Web App MVP 5-Day Bootcamp | LECTURE Presentation Deck Center</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --secondary: #06b6d4;
+      --bg-dark: #09090b;
+      --panel: #111827;
+      --surface: #1a1d24;
+      --text: #ffffff;
+      --muted: #d4d4d8;
+      --dim: #71717a;
+      --line: rgba(255, 255, 255, 0.08);
+      --radius: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+
+    .header-box {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .header-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #93c5fd;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .header-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffffff 30%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    .header-desc {
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .lecture-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .lecture-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+    }
+    .lecture-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.15);
+    }
+    .card-day {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--secondary);
+      background: rgba(6, 182, 212, 0.1);
+      padding: 3px 10px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .btn-slide {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+    .btn-slide:hover { opacity: 0.9; }
+    .btn-disabled {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--dim);
+      border: 1px solid var(--line);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+      <a href="../LMS_ENG/index.html" style="color: var(--muted); text-decoration: none; font-size: 0.88rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--line);">
+        🏠 Aspiring Founders LMS Home
+      </a>
+      <a href="docs/index.html" class="btn-slide" style="padding: 8px 16px; font-size: 0.88rem;">
+        🖥️ Open Full Integrated Slide Deck (Days 1–5)
+      </a>
+    </div>
+
+    <header class="header-box">
+      <span class="header-badge">🎤 LECTURE Presentation Deck</span>
+      <h1 class="header-title">Aspiring Founders: AI Web App MVP in 5 Days</h1>
+      <p class="header-desc">Interactive slide deck presentation center. Jump directly to daily slides or explore the all-in-one integrated viewer.</p>
+    </header>
+
+    <div class="lecture-grid">
+      <!-- Day 1 -->
+      <article class="lecture-card">
+        <div>
+          <span class="card-day">Day 1</span>
+          <h2 class="card-title">Getting Started with Codex &amp; Antigravity</h2>
+          <p class="card-desc">Basic AI development cycle, folder/file/absolute path setup, and role separation between tools (16 Slides)</p>
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 14px;">
+          <a href="docs/index.html#day-1" class="btn-slide" style="flex: 1;">🖥️ Open Slides</a>
+          <a href="../LMS_ENG/day1/day1-ai-classroom.html" class="btn-slide" style="background: rgba(255,255,255,0.06); border: 1px solid var(--line); color: var(--text);">🏫 Lab Room</a>
+        </div>
+      </article>
+
+      <!-- Day 2 -->
+      <article class="lecture-card">
+        <div>
+          <span class="card-day" style="background: rgba(6, 182, 212, 0.15); color: #67e8f9;">Day 2</span>
+          <h2 class="card-title">Project Planning with AI</h2>
+          <p class="card-desc">Standard guide to structuring raw ideas into the AI instruction document PROJECT.md (15 Slides)</p>
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 14px;">
+          <a href="docs/index.html#day-2" class="btn-slide" style="flex: 1; background: linear-gradient(135deg, #06b6d4, #3b82f6);">🖥️ Open Slides</a>
+          <a href="../LMS_ENG/day2/day2-ai-classroom.html" class="btn-slide" style="background: rgba(255,255,255,0.06); border: 1px solid var(--line); color: var(--text);">🏫 Lab Room</a>
+        </div>
+      </article>
+
+      <!-- Day 3 -->
+      <article class="lecture-card">
+        <div>
+          <span class="card-day" style="background: rgba(16, 185, 129, 0.15); color: #86efac;">Day 3</span>
+          <h2 class="card-title">Building MVP from PROJECT.md</h2>
+          <p class="card-desc">Auto-implementing PROJECT.md with Antigravity and verifying with Codex — MVP v0.1 (13 Slides)</p>
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 14px;">
+          <a href="docs/index.html#day-3" class="btn-slide" style="flex: 1; background: linear-gradient(135deg, #10b981, #06b6d4);">🖥️ Open Slides</a>
+          <a href="../LMS_ENG/day3/day3-ai-classroom.html" class="btn-slide" style="background: rgba(255,255,255,0.06); border: 1px solid var(--line); color: var(--text);">🏫 Lab Room</a>
+        </div>
+      </article>
+
+      <!-- Day 4 -->
+      <article class="lecture-card">
+        <div>
+          <span class="card-day" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">Day 4</span>
+          <h2 class="card-title">Feature Expansion &amp; Polish</h2>
+          <p class="card-desc">Selective track features, exception recovery UX, and regression validation — MVP v1.0 (13 Slides)</p>
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 14px;">
+          <a href="docs/index.html#day-4" class="btn-slide" style="flex: 1; background: linear-gradient(135deg, #f59e0b, #ef4444);">🖥️ Open Slides</a>
+          <a href="../LMS_ENG/day4/day4-ai-classroom.html" class="btn-slide" style="background: rgba(255,255,255,0.06); border: 1px solid var(--line); color: var(--text);">🏫 Lab Room</a>
+        </div>
+      </article>
+
+      <!-- Day 5 -->
+      <article class="lecture-card">
+        <div>
+          <span class="card-day" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">Day 5</span>
+          <h2 class="card-title">Final Testing, Deployment &amp; Pitch</h2>
+          <p class="card-desc">Live deployment check, 5-minute pitch presentations, peer reviews, and 2-week roadmap (17 Slides)</p>
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 14px;">
+          <a href="docs/index.html#day-5" class="btn-slide" style="flex: 1; background: linear-gradient(135deg, #a855f7, #ec4899);">🖥️ Open Slides</a>
+          <a href="../LMS_ENG/day5/day5-ai-classroom.html" class="btn-slide" style="background: rgba(255,255,255,0.06); border: 1px solid var(--line); color: var(--text);">🏫 Lab Room</a>
+        </div>
+      </article>
+    </div>
+  </div>
+
+</body>
+</html>
