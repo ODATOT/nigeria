@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>한-나이지리아 ODA AI·SW 교육 협력 포털 | Korea-Nigeria Digital Partnership</title>
+  <title>Korea-Nigeria ODA AI &amp; SW Education Cooperation Portal | Korea-Nigeria Digital Partnership</title>
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
     :root {
@@ -85,10 +85,6 @@
       border-radius: 999px;
       border: 1px solid var(--border);
     }
-    .flag-icon {
-      font-size: 1.25rem;
-      line-height: 1;
-    }
     .brand-text {
       font-size: 1.05rem;
       font-weight: 800;
@@ -128,6 +124,16 @@
     .nav-btn-highlight:hover {
       opacity: 0.95;
       transform: translateY(-1px);
+    }
+    .nav-btn-lang {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #93c5fd;
+      font-weight: 700;
+    }
+    .nav-btn-lang:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
     }
 
     /* Hero Section */
@@ -190,7 +196,7 @@
       transform: translateY(-6px) scale(1.1);
       box-shadow: 0 8px 24px rgba(255, 255, 255, 0.35);
     }
-    .flag-badge-svg svg {
+    .flag-badge-svg svg, .flag-badge-svg img {
       width: 100%;
       height: 100%;
       display: block;
@@ -204,7 +210,7 @@
       vertical-align: middle;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2);
     }
-    .flag-nav-svg svg {
+    .flag-nav-svg svg, .flag-nav-svg img {
       width: 100%;
       height: 100%;
       display: block;
@@ -618,10 +624,10 @@
   <!-- Top Navigation -->
   <nav class="navbar">
     <div class="container nav-inner">
-      <a href="index.html" class="brand-logo">
+      <a href="index_eng.html" class="brand-logo">
         <div class="flag-group">
           <span class="flag-nav-svg">
-            <img src="taegeukgi.svg" alt="대한민국 국기 (태극기)" style="width:100%;height:100%;display:block;object-fit:cover;" />
+            <img src="taegeukgi.svg" alt="Flag of South Korea (Taegeukgi)" style="width:100%;height:100%;display:block;object-fit:cover;" />
           </span>
           <span style="color:var(--text-dim);font-size:0.8rem;margin:0 2px;">✕</span>
           <span class="flag-nav-svg">
@@ -633,14 +639,14 @@
           </span>
         </div>
         <div class="brand-text">
-          <span>한-나이지리아 ODA</span> AI·SW 협력 포털
+          <span>Korea-Nigeria ODA</span> AI·SW Cooperation Portal
         </div>
       </a>
       <div class="nav-links">
-        <a href="#tracks" class="nav-btn">교육 과정 트랙</a>
-        <a href="#quick-access" class="nav-btn">포털 바로가기</a>
-        <a href="aspiring_founders/LMS/index.html" class="nav-btn nav-btn-highlight">🚀 예비창업자 LMS</a>
-        <a href="index_eng.html" class="nav-btn" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: #93c5fd; font-weight: 700;" title="Switch to English Portal">🌐 English</a>
+        <a href="#tracks" class="nav-btn">Program Tracks</a>
+        <a href="#quick-access" class="nav-btn">Quick Access</a>
+        <a href="aspiring_founders/LMS_ENG/index.html" class="nav-btn nav-btn-highlight">🚀 Founders LMS</a>
+        <a href="index.html" class="nav-btn nav-btn-lang" title="Switch to Korean Version">🇰🇷 한국어</a>
       </div>
     </div>
   </nav>
@@ -651,40 +657,40 @@
       <div class="partnership-pill">
         <span>🤝 Korea-Nigeria Digital ODA Partnership</span>
         <span style="color:#34d399;">●</span>
-        <span>글로벌 AI·SW 협력 프로젝트</span>
+        <span>Global AI·SW Cooperation Initiative</span>
       </div>
       
       <h1 class="hero-title">
-        <span class="title-kr">대한민국</span>
-        <span class="flag-badge-svg" title="대한민국 (Republic of Korea)">
-          <img src="taegeukgi.svg" alt="대한민국 국기 (태극기)" style="width:100%;height:100%;display:block;object-fit:cover;" />
+        <span class="title-kr">Republic of Korea</span>
+        <span class="flag-badge-svg" title="Republic of Korea">
+          <img src="taegeukgi.svg" alt="Flag of South Korea" style="width:100%;height:100%;display:block;object-fit:cover;" />
         </span>
-        <span class="title-kr">과 나이지리아</span>
-        <span class="flag-badge-svg" title="나이지리아 (Federal Republic of Nigeria)">
+        <span class="title-kr">&amp; Nigeria</span>
+        <span class="flag-badge-svg" title="Federal Republic of Nigeria">
           <svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg">
             <rect width="12" height="24" fill="#008751"/>
             <rect x="12" width="12" height="24" fill="#ffffff"/>
             <rect x="24" width="12" height="24" fill="#008751"/>
           </svg>
         </span>
-        <span class="title-kr">가 함께 여는</span><br>
-        <span class="title-highlight">글로벌 AI·SW 인재 &amp; 창업 생태계</span>
+        <span class="title-kr">Co-Fostering</span><br>
+        <span class="title-highlight">Global AI·SW Talent &amp; Startup Ecosystem</span>
       </h1>
       
       <p class="hero-desc">
-        한국의 선진 AI 소프트웨어 개발 노하우와 나이지리아의 역동적인 디지털 청년 잠재력을 연결합니다.<br>
-        10일 풀스택 미래인재 과정부터 5일 예비창업자 Web App MVP 부트캠프까지, 통합 학습 플랫폼에서 만나보세요.
+        Bridging Korea's advanced AI software engineering expertise with Nigeria's vibrant youth tech potential.<br>
+        From the 10-Day Full-Stack Talent Course to the 5-Day Aspiring Founders Web App MVP Bootcamp, explore our integrated learning platforms.
       </p>
 
       <!-- Bilateral Nation Banner -->
       <div class="bilateral-banner">
         <div class="country-card">
           <div class="country-emblem" style="padding:0;overflow:hidden;">
-            <img src="taegeukgi.svg" alt="대한민국 국기 (태극기)" style="width:100%;height:100%;display:block;object-fit:cover;" />
+            <img src="taegeukgi.svg" alt="Flag of South Korea" style="width:100%;height:100%;display:block;object-fit:cover;" />
           </div>
           <div>
-            <div class="country-name">대한민국 (Republic of Korea)</div>
-            <div class="country-role">K-Digital ODA 교육 커리큘럼 &amp; AI 기술 전수</div>
+            <div class="country-name">Republic of Korea</div>
+            <div class="country-role">K-Digital ODA Curriculum &amp; AI Technology Transfer</div>
           </div>
         </div>
 
@@ -702,8 +708,8 @@
             </svg>
           </div>
           <div>
-            <div class="country-name">나이지리아 (Federal Republic of Nigeria)</div>
-            <div class="country-role">서아프리카 디지털 테크 허브 &amp; 청년 창업가 육성</div>
+            <div class="country-name">Federal Republic of Nigeria</div>
+            <div class="country-role">West Africa Digital Tech Hub &amp; Youth Entrepreneurship</div>
           </div>
         </div>
       </div>
@@ -717,8 +723,8 @@
     <section id="tracks">
       <div class="section-header">
         <span class="section-badge">Featured Programs</span>
-        <h2 class="section-title">2대 핵심 교육 협력 트랙</h2>
-        <p class="section-subtitle">참여 학생과 예비 창업가의 학습 목적에 맞춘 전문화된 AI·SW 교육 포털을 제공합니다.</p>
+        <h2 class="section-title">2 Core Educational Tracks</h2>
+        <p class="section-subtitle">Dedicated AI &amp; SW learning portals tailored for engineering students and aspiring tech entrepreneurs.</p>
       </div>
 
       <div class="tracks-grid">
@@ -728,48 +734,48 @@
           <div class="track-banner" style="background-image: url('LMS/docs/img/day5_ai_integration.png');">
             <div class="track-banner-overlay"></div>
             <span class="track-badge blue">
-              <span>📘 Track 01</span> · 10일 정규 과정
+              <span>📘 Track 01</span> · 10-Day Standard Course
             </span>
           </div>
 
           <div class="track-body">
             <div>
-              <h3 class="track-title">디지털 미래인재 양성 과정<br><span style="font-size:1.1rem;color:#93c5fd;font-weight:600;">10-Day AI &amp; SW Full-Stack Course</span></h3>
+              <h3 class="track-title">Digital Future Talent Training Course<br><span style="font-size:1.1rem;color:#93c5fd;font-weight:600;">10-Day AI &amp; SW Full-Stack Course</span></h3>
               <p class="track-desc">
-                와이어프레임 설계, 프론트엔드 UI, 백엔드 API, 데이터베이스 연동, 클라우드 인증 및 AI 통합까지! 웹 애플리케이션 개발 전 과정을 10일간 체계적으로 습득합니다.
+                From wireframe design, frontend UI, backend API, database schemas, to cloud authentication and generative AI integration! Master the complete full-stack web development lifecycle over 10 intensive days.
               </p>
 
               <div class="track-meta-grid">
                 <div class="meta-box">
-                  <div class="meta-label">교육 기간</div>
+                  <div class="meta-label">Duration</div>
                   <div class="meta-val">10 Days (60h)</div>
                 </div>
                 <div class="meta-box">
-                  <div class="meta-label">지원 언어</div>
-                  <div class="meta-val">한국어 / English</div>
+                  <div class="meta-label">Languages</div>
+                  <div class="meta-val">English / Korean</div>
                 </div>
                 <div class="meta-box">
-                  <div class="meta-label">학습 산출물</div>
+                  <div class="meta-label">Final Deliverable</div>
                   <div class="meta-val">Full-Stack App</div>
                 </div>
               </div>
 
               <div class="track-curriculum-list">
-                <div class="curriculum-item"><span class="curriculum-dot"></span><strong>Day 1~3:</strong> 와이어프레임 &amp; 프론트엔드 UI 컴포넌트</div>
-                <div class="curriculum-item"><span class="curriculum-dot"></span><strong>Day 4~6:</strong> 백엔드 API 서버 &amp; 데이터베이스 설계</div>
-                <div class="curriculum-item"><span class="curriculum-dot"></span><strong>Day 7~10:</strong> AI API 연동, 보안 인증, 배포 및 최종 데모</div>
+                <div class="curriculum-item"><span class="curriculum-dot"></span><strong>Day 1~3:</strong> Wireframing &amp; Modern Frontend UI Components</div>
+                <div class="curriculum-item"><span class="curriculum-dot"></span><strong>Day 4~6:</strong> Backend API Server &amp; Database Architecture</div>
+                <div class="curriculum-item"><span class="curriculum-dot"></span><strong>Day 7~10:</strong> AI API Integration, Security Auth, Cloud Deployment &amp; Final Demo</div>
               </div>
             </div>
 
             <div class="track-actions">
-              <a href="LMS/docs/index.html" class="btn-portal btn-primary-blue">
-                🏫 국문 LMS 입장
+              <a href="LMS_ENG/docs/index.html" class="btn-portal btn-primary-blue">
+                🌐 English LMS Portal
               </a>
-              <a href="LMS_ENG/docs/index.html" class="btn-portal btn-secondary-portal">
-                🌐 English LMS
+              <a href="LMS/docs/index.html" class="btn-portal btn-secondary-portal">
+                🇰🇷 Korean LMS
               </a>
-              <a href="LECTURE/docs/index.html" target="_blank" class="btn-portal btn-secondary-portal" style="grid-column: span 2;">
-                🖥️ 10일 발표 슬라이드 보기 (LECTURE)
+              <a href="LECTURE_ENG/docs/index.html" target="_blank" class="btn-portal btn-secondary-portal" style="grid-column: span 2;">
+                🖥️ View 10-Day Slide Deck (LECTURE)
               </a>
             </div>
           </div>
@@ -780,48 +786,48 @@
           <div class="track-banner" style="background-image: url('aspiring_founders/LMS/img/day3_mvp.png');">
             <div class="track-banner-overlay"></div>
             <span class="track-badge green">
-              <span>🚀 Track 02</span> · 5일 집중 부트캠프
+              <span>🚀 Track 02</span> · 5-Day Intensive Bootcamp
             </span>
           </div>
 
           <div class="track-body">
             <div>
-              <h3 class="track-title">예비창업자 AI Web App MVP 5일 완성<br><span style="font-size:1.1rem;color:#6ee7b7;font-weight:600;">5-Day Aspiring Founders Bootcamp</span></h3>
+              <h3 class="track-title">Aspiring Founders AI Web App MVP Bootcamp<br><span style="font-size:1.1rem;color:#6ee7b7;font-weight:600;">5-Day Venture MVP Scaffolding Course</span></h3>
               <p class="track-desc">
-                아이디어를 Codex로 기획 문서(PROJECT.md)로 만들고, Antigravity로 동작하는 Web App MVP를 자동 구현하여 외부 데모 배포 및 5분 피치까지 완주하는 창업 실습입니다.
+                Transform entrepreneurial ideas into engineering specifications (PROJECT.md) via Codex, auto-generate functional Web App MVPs in Antigravity, and launch live cloud demos with 5-minute pitch scripts.
               </p>
 
               <div class="track-meta-grid">
                 <div class="meta-box">
-                  <div class="meta-label">교육 기간</div>
+                  <div class="meta-label">Duration</div>
                   <div class="meta-val">5 Days (30h)</div>
                 </div>
                 <div class="meta-box">
-                  <div class="meta-label">주요 AI 도구</div>
+                  <div class="meta-label">Core AI Tools</div>
                   <div class="meta-val">Codex + AGY</div>
                 </div>
                 <div class="meta-box">
-                  <div class="meta-label">최종 산출물</div>
+                  <div class="meta-label">Final Deliverable</div>
                   <div class="meta-val">Live MVP v1.0</div>
                 </div>
               </div>
 
               <div class="track-curriculum-list">
-                <div class="curriculum-item"><span class="curriculum-dot" style="background:#34d399;"></span><strong>Day 1~2:</strong> AI 도구 파이프라인 &amp; PROJECT.md 기획 명세</div>
-                <div class="curriculum-item"><span class="curriculum-dot" style="background:#34d399;"></span><strong>Day 3~4:</strong> MVP v0.1 자동 구현, 트랙 확장 &amp; 회귀 검증</div>
-                <div class="curriculum-item"><span class="curriculum-dot" style="background:#34d399;"></span><strong>Day 5:</strong> 배포 URL 검증, 5분 피치 발표 &amp; 2주 개선 로드맵</div>
+                <div class="curriculum-item"><span class="curriculum-dot" style="background:#34d399;"></span><strong>Day 1~2:</strong> AI Tool Pipeline &amp; Lean PROJECT.md Specification</div>
+                <div class="curriculum-item"><span class="curriculum-dot" style="background:#34d399;"></span><strong>Day 3~4:</strong> MVP v0.1 Scaffolding, Track Extensions &amp; QA Auditing</div>
+                <div class="curriculum-item"><span class="curriculum-dot" style="background:#34d399;"></span><strong>Day 5:</strong> Live Deployment Audit, 5-Min Pitch Presentation &amp; Next Steps</div>
               </div>
             </div>
 
             <div class="track-actions">
-              <a href="aspiring_founders/LMS/index.html" class="btn-portal btn-primary-green">
-                🚀 창업과정 LMS 입장
+              <a href="aspiring_founders/LMS_ENG/index.html" class="btn-portal btn-primary-green">
+                🚀 Founders LMS Portal
               </a>
-              <a href="aspiring_founders/LECTURE/docs/index.html" target="_blank" class="btn-portal btn-secondary-portal">
-                🖥️ 슬라이드 (LECTURE)
+              <a href="aspiring_founders/LECTURE_ENG/docs/index.html" target="_blank" class="btn-portal btn-secondary-portal">
+                🖥️ Slides (LECTURE)
               </a>
-              <a href="aspiring_founders/LMS/day1/day1-ai-classroom.html" class="btn-portal btn-secondary-portal" style="grid-column: span 2;">
-                ⚡ Day 1 AI 자율 학습실 바로가기
+              <a href="aspiring_founders/LMS_ENG/day1/day1-ai-classroom.html" class="btn-portal btn-secondary-portal" style="grid-column: span 2;">
+                ⚡ Day 1 AI Classroom Lab
               </a>
             </div>
           </div>
@@ -834,63 +840,63 @@
     <section id="quick-access">
       <div class="section-header" style="margin-top: 40px;">
         <span class="section-badge">Portals &amp; Resources</span>
-        <h2 class="section-title">통합 포털 바로가기</h2>
-        <p class="section-subtitle">각 과정의 LMS, LECTURE 슬라이드 및 특강 자료로 바로 연결됩니다.</p>
+        <h2 class="section-title">Integrated Portal Navigation</h2>
+        <p class="section-subtitle">Direct access to LMS classrooms, LECTURE interactive slide decks, and specialized workshop materials.</p>
       </div>
 
       <div class="portal-quick-grid">
-        <a href="LMS/docs/index.html" class="portal-quick-card">
-          <div>
-            <div class="quick-card-icon">🇰🇷 💻</div>
-            <div class="quick-card-title">10일 과정 국문 LMS</div>
-            <div class="quick-card-desc">한국어 강의 교재, 일자별 실습 코드 및 모달 상세 커리큘럼</div>
-          </div>
-          <div class="quick-card-link">포털 열기 →</div>
-        </a>
-
         <a href="LMS_ENG/docs/index.html" class="portal-quick-card">
           <div>
-            <div class="quick-card-icon">🇳🇬 🌍</div>
+            <div class="quick-card-icon">🇳🇬 💻</div>
             <div class="quick-card-title">10-Day English LMS</div>
-            <div class="quick-card-desc">English learning materials, hands-on tutorials for Nigerian students</div>
+            <div class="quick-card-desc">English learning materials, hands-on tutorials, and modal lab guides for Nigerian students</div>
           </div>
-          <div class="quick-card-link">Open Portal →</div>
+          <div class="quick-card-link">Open LMS →</div>
         </a>
 
-        <a href="aspiring_founders/LMS/index.html" class="portal-quick-card" style="border-color: rgba(16, 185, 129, 0.3);">
+        <a href="aspiring_founders/LMS_ENG/index.html" class="portal-quick-card" style="border-color: rgba(16, 185, 129, 0.3);">
           <div>
             <div class="quick-card-icon">🚀 💡</div>
-            <div class="quick-card-title">예비창업자 5일 LMS</div>
-            <div class="quick-card-desc">아이디어 기획부터 Antigravity MVP 구현, 배포 데모 시연까지</div>
+            <div class="quick-card-title">Founders 5-Day LMS</div>
+            <div class="quick-card-desc">From lean idea planning to Antigravity MVP code generation and live demo pitch</div>
           </div>
-          <div class="quick-card-link" style="color:#34d399;">창업 LMS 열기 →</div>
-        </a>
-
-        <a href="LECTURE/docs/index.html" target="_blank" class="portal-quick-card">
-          <div>
-            <div class="quick-card-icon">📊 🖥️</div>
-            <div class="quick-card-title">10일 국문 LECTURE</div>
-            <div class="quick-card-desc">웹 프레젠테이션 엔진 기반 반응형 인터랙티브 발표 슬라이드</div>
-          </div>
-          <div class="quick-card-link">슬라이드 열기 →</div>
+          <div class="quick-card-link" style="color:#34d399;">Open Founders LMS →</div>
         </a>
 
         <a href="LECTURE_ENG/docs/index.html" target="_blank" class="portal-quick-card">
           <div>
-            <div class="quick-card-icon">🌐 📊</div>
+            <div class="quick-card-icon">📊 🖥️</div>
             <div class="quick-card-title">10-Day Eng LECTURE</div>
-            <div class="quick-card-desc">English lecture slides for instructor presentation &amp; self-study</div>
+            <div class="quick-card-desc">Web presentation engine powered responsive interactive slide decks</div>
           </div>
           <div class="quick-card-link">Open Slides →</div>
+        </a>
+
+        <a href="aspiring_founders/LECTURE_ENG/docs/index.html" target="_blank" class="portal-quick-card">
+          <div>
+            <div class="quick-card-icon">🌐 🚀</div>
+            <div class="quick-card-title">Founders Eng LECTURE</div>
+            <div class="quick-card-desc">Interactive slide deck for 5-day venture MVP scaffolding and AI pipelines</div>
+          </div>
+          <div class="quick-card-link">Open Founders Slides →</div>
+        </a>
+
+        <a href="LMS/docs/index.html" class="portal-quick-card">
+          <div>
+            <div class="quick-card-icon">🇰🇷 📚</div>
+            <div class="quick-card-title">10-Day Korean LMS</div>
+            <div class="quick-card-desc">Korean textbook modules, daily code snippets, and curriculum guides</div>
+          </div>
+          <div class="quick-card-link">Open Korean LMS →</div>
         </a>
 
         <a href="ADD_LECTURE/docs/index.html" target="_blank" class="portal-quick-card">
           <div>
             <div class="quick-card-icon">✨ 📚</div>
-            <div class="quick-card-title">특강 &amp; 추가 세션</div>
-            <div class="quick-card-desc">AI 신기술 트렌드, 심화 프롬프트 엔지니어링 및 보충 자료</div>
+            <div class="quick-card-title">Special Seminars &amp; Extra</div>
+            <div class="quick-card-desc">Emerging AI trends, advanced prompt engineering, and supplemental references</div>
           </div>
-          <div class="quick-card-link">특강 자료 보기 →</div>
+          <div class="quick-card-link">View Seminars →</div>
         </a>
       </div>
     </section>
@@ -900,19 +906,19 @@
       <div class="metrics-grid">
         <div>
           <div class="metric-item-val">15 Days</div>
-          <div class="metric-item-label">총 90시간 융합 교육 커리큘럼</div>
+          <div class="metric-item-label">Total 90 Hours Converged Curriculum</div>
         </div>
         <div>
           <div class="metric-item-val">2 Tracks</div>
-          <div class="metric-item-label">풀스택 인재양성 &amp; 창업 MVP 트랙</div>
+          <div class="metric-item-label">Full-Stack Talent &amp; Startup MVP Tracks</div>
         </div>
         <div>
           <div class="metric-item-val">100% Live</div>
-          <div class="metric-item-label">동작하는 Web App &amp; 배포 데모</div>
+          <div class="metric-item-label">Working Web Apps &amp; Deployed Demos</div>
         </div>
         <div>
           <div class="metric-item-val">🇰🇷 ✕ 🇳🇬</div>
-          <div class="metric-item-label">지속가능한 글로벌 ODA 협력</div>
+          <div class="metric-item-label">Sustainable Global Digital ODA</div>
         </div>
       </div>
     </section>
@@ -924,7 +930,7 @@
     <div class="container">
       <div class="footer-flags">
         <span class="flag-nav-svg" style="width:28px;height:18px;">
-          <img src="taegeukgi.svg" alt="대한민국 국기 (태극기)" style="width:100%;height:100%;display:block;object-fit:cover;" />
+          <img src="taegeukgi.svg" alt="Flag of South Korea" style="width:100%;height:100%;display:block;object-fit:cover;" />
         </span>
         <span style="font-size:0.9rem;color:var(--text-dim);margin:0 4px;">✕</span>
         <span class="flag-nav-svg" style="width:28px;height:18px;">
@@ -936,11 +942,11 @@
         </span>
       </div>
       <div class="footer-links">
-        <a href="LMS/docs/index.html">10일 국문 LMS</a>
         <a href="LMS_ENG/docs/index.html">10-Day English LMS</a>
-        <a href="aspiring_founders/LMS/index.html">예비창업자 5일 LMS</a>
-        <a href="LECTURE/docs/index.html" target="_blank">10일 LECTURE</a>
-        <a href="aspiring_founders/LECTURE/docs/index.html" target="_blank">창업 LECTURE</a>
+        <a href="aspiring_founders/LMS_ENG/index.html">Founders 5-Day LMS</a>
+        <a href="LECTURE_ENG/docs/index.html" target="_blank">10-Day Slides</a>
+        <a href="aspiring_founders/LECTURE_ENG/docs/index.html" target="_blank">Founders Slides</a>
+        <a href="index.html">🇰🇷 Korean Portal</a>
       </div>
       <p>© 2026 Korea-Nigeria ODA AI·SW Education Cooperation Portal. All Rights Reserved.</p>
     </div>
