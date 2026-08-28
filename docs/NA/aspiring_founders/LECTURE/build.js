@@ -2,85 +2,62 @@ const fs = require('fs');
 const path = require('path');
 
 const srcDir = path.join(__dirname, 'src');
+const sessionDir = path.join(srcDir, 'session');
 const docsDir = path.join(__dirname, 'docs');
+const outputHtmlPath = path.join(docsDir, 'index.html');
 
-function build() {
-  console.log('Starting slide build and merge process for aspiring_founders LECTURE...');
+const sessionFiles = ['day1.html', 'day2.html', 'day3.html', 'day4.html', 'day5.html'];
 
-  if (!fs.existsSync(docsDir)) {
-    fs.mkdirSync(docsDir, { recursive: true });
-  }
+console.log('Starting slide build and merge process for aspiring_founders LECTURE...');
 
-  const indexHtmlPath = path.join(srcDir, 'index.html');
-  if (!fs.existsSync(indexHtmlPath)) {
-    console.error('Error: src/index.html not found!');
-    process.exit(1);
-  }
-  let indexHtml = fs.readFileSync(indexHtmlPath, 'utf8');
+let mergedSlidesHtml = '';
 
-  const sessionDir = path.join(srcDir, 'session');
-  let mergedSlidesHtml = '\n';
-
-  const sessions = [
-    'day1.html',
-    'day2.html',
-    'day3.html',
-    'day4.html',
-    'day5.html'
-  ];
-
-  sessions.forEach((filename, index) => {
-    const sessionNum = index + 1;
-    const sessionPath = path.join(sessionDir, filename);
-
-    if (fs.existsSync(sessionPath)) {
-      console.log(`Processing ${filename}...`);
-      let content = fs.readFileSync(sessionPath, 'utf8');
-
-      content = content.replace(
-        /(<section\s+[^>]*\bclass=["'])([^"']*\bslide-card\b[^"']*)(["'])/g,
-        `$1$2 session-${sessionNum}$3`
-      );
-
-      mergedSlidesHtml += `<!-- Start of ${filename} -->\n`;
-      mergedSlidesHtml += content.trim() + '\n';
-      mergedSlidesHtml += `<!-- End of ${filename} -->\n\n`;
-    } else {
-      console.warn(`Warning: ${filename} not found in src/session/`);
-    }
-  });
-
-  const canvasTarget = '<canvas class="drawing-canvas-layer" id="drawing-canvas"></canvas>';
-  if (indexHtml.includes(canvasTarget)) {
-    indexHtml = indexHtml.replace(canvasTarget, `${canvasTarget}${mergedSlidesHtml}`);
-    console.log('Successfully merged session slides into index.html');
+sessionFiles.forEach(file => {
+  const filePath = path.join(sessionDir, file);
+  if (fs.existsSync(filePath)) {
+    console.log(`Processing ${file}...`);
+    const content = fs.readFileSync(filePath, 'utf8');
+    mergedSlidesHtml += `\n<!-- Start of ${file} -->\n${content}\n<!-- End of ${file} -->\n`;
   } else {
-    console.error('Error: Could not find insertion target (<canvas class="drawing-canvas-layer" id="drawing-canvas"></canvas>) in index.html');
-    process.exit(1);
+    console.warn(`Warning: ${file} not found in ${sessionDir}`);
   }
+});
 
-  // Inline style.css and app.js
-  const stylePath = path.join(srcDir, 'style.css');
-  if (fs.existsSync(stylePath)) {
-    const styleCss = fs.readFileSync(stylePath, 'utf8');
-    indexHtml = indexHtml.replace(
-      '<link href="style.css" rel="stylesheet" />',
-      `<style>\n${styleCss}\n</style>`
-    );
-  }
+let indexHtml = fs.readFileSync(path.join(srcDir, 'index.html'), 'utf8');
 
-  const appJsPath = path.join(srcDir, 'app.js');
-  if (fs.existsSync(appJsPath)) {
-    const appJs = fs.readFileSync(appJsPath, 'utf8');
-    indexHtml = indexHtml.replace(
-      '<script src="app.js"></script>',
-      `<script>\n${appJs}\n</script>`
-    );
-  }
-
-  const outputPath = path.join(docsDir, 'index.html');
-  fs.writeFileSync(outputPath, indexHtml, 'utf8');
-  console.log(`Build complete! Output saved to: ${outputPath}`);
+// Merge Session Slides into .slides-wrapper
+const canvasTarget = '<canvas class="drawing-canvas-layer" id="drawing-canvas"></canvas>';
+if (indexHtml.includes(canvasTarget)) {
+  indexHtml = indexHtml.replace(canvasTarget, `${canvasTarget}${mergedSlidesHtml}`);
+} else {
+  console.warn('Canvas target not found in index.html');
 }
 
-build();
+// Inline style.css
+const stylePath = path.join(srcDir, 'style.css');
+if (fs.existsSync(stylePath)) {
+  const styleCss = fs.readFileSync(stylePath, 'utf8');
+  if (indexHtml.includes('<link href="style.css" rel="stylesheet" />')) {
+    indexHtml = indexHtml.replace('<link href="style.css" rel="stylesheet" />', `<style>\n${styleCss}\n</style>`);
+  } else {
+    indexHtml = indexHtml.replace('</head>', `<style>\n${styleCss}\n</style>\n</head>`);
+  }
+}
+
+// Inline app.js
+const appJsPath = path.join(srcDir, 'app.js');
+if (fs.existsSync(appJsPath)) {
+  const appJs = fs.readFileSync(appJsPath, 'utf8');
+  if (indexHtml.includes('<script src="app.js"></script>')) {
+    indexHtml = indexHtml.replace('<script src="app.js"></script>', `<script>\n${appJs}\n</script>`);
+  } else {
+    indexHtml = indexHtml.replace('</head>', `<script>\n${appJs}\n</script>\n</head>`);
+  }
+}
+
+if (!fs.existsSync(docsDir)) {
+  fs.mkdirSync(docsDir, { recursive: true });
+}
+
+fs.writeFileSync(outputHtmlPath, indexHtml, 'utf8');
+console.log(`Build complete! Output saved to: ${outputHtmlPath}`);

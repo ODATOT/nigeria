@@ -730,7 +730,7 @@
     </div>
     <div class="topbar-actions">
       <a href="../index.html" class="btn-nav">🏠 LMS 홈</a>
-      <a href="../../LECTURE/docs/index.html" target="_blank" class="btn-nav">🖥️ 발표 슬라이드 열기</a>
+      <a href="../../LECTURE/docs/index.html#day-3" target="_blank" class="btn-nav">🖥️ 발표 슬라이드 열기</a>
       <a href="day3-textbook.html" class="btn-nav btn-textbook">📖 교재 보기</a>
     </div>
   </header>
@@ -1307,6 +1307,17 @@ Must 기능:
     let activeTaskId = 1;
     const taskIds = [1, 2, 3, 4, 5, 6];
 
+    
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+    
     function openTaskModal(taskId) {
       activeTaskId = taskId;
       const data = taskDetailsData[taskId];
@@ -1343,16 +1354,16 @@ Must 기능:
         </div>
 
         <h3 class="modal-section-title">📁 폴더 및 파일 구조 (예상 상태)</h3>
-        <div style="background: rgba(0, 0, 0, 0.45); border: 1px solid var(--line); padding: 14px 18px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; color: #a5f3fc; white-space: pre; margin-bottom: 20px; line-height: 1.5;">${data.fileTree}</div>
+        <div style="background: rgba(0, 0, 0, 0.45); border: 1px solid var(--line); padding: 14px 18px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; color: #a5f3fc; white-space: pre; margin-bottom: 20px; line-height: 1.5;">${escapeHtml(data.fileTree)}</div>
 
         <h3 class="modal-section-title">💬 복사하여 사용할 실전 프롬프트</h3>
         ${data.prompts.map((p, pIdx) => `
           <div class="prompt-card-box">
             <div class="prompt-header-bar">
               <span class="prompt-title-text">📌 ${p.label}</span>
-              <button class="btn-copy-action" onclick="copyModalPrompt('modal_prompt_${taskId}_${pIdx}')">복사하기</button>
+              <button type="button" class="btn-copy-action" onclick="copyModalPrompt('modal_prompt_${taskId}_${pIdx}', this)">복사하기</button>
             </div>
-            <pre class="prompt-body-text" id="modal_prompt_${taskId}_${pIdx}">${p.text}</pre>
+            <pre class="prompt-body-text" id="modal_prompt_${taskId}_${pIdx}">${escapeHtml(p.text)}</pre>
           </div>
         `).join('')}
 
