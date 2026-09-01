@@ -410,6 +410,18 @@
       border-color: rgba(16, 185, 129, 0.5);
       transform: translateY(-1px);
     }
+    .btn-taskcards {
+      grid-column: span 2;
+      background: rgba(139, 92, 246, 0.12);
+      color: #c4b5fd;
+      border: 1px solid rgba(139, 92, 246, 0.35);
+    }
+    .btn-taskcards:hover {
+      background: rgba(139, 92, 246, 0.25);
+      color: #fff;
+      border-color: rgba(139, 92, 246, 0.6);
+      transform: translateY(-1px);
+    }
 
     /* Operation Cards Grid Section */
     .ops-section-block {
@@ -1020,6 +1032,7 @@
               <a href="day1/day1-ai-classroom.html" class="btn-lms btn-classroom">🏫 AI 강의실</a>
               <a href="day1/day1-textbook.html" class="btn-lms btn-textbook">📖 강의 교재</a>
               <a href="day1/day1-operations.html" class="btn-lms btn-operations">📋 1일차 교육운영 지원 (멘토링·설문·제출) →</a>
+              <a href="#" class="btn-lms btn-taskcards">🗂️ 1일차 업무카드 확인 하기 →</a>
             </div>
           </div>
         </article>
@@ -1049,6 +1062,7 @@
               <a href="day2/day2-ai-classroom.html" class="btn-lms btn-classroom">🏫 AI 강의실</a>
               <a href="day2/day2-textbook.html" class="btn-lms btn-textbook">📖 강의 교재</a>
               <a href="day2/day2-operations.html" class="btn-lms btn-operations">📋 2일차 교육운영 지원 (멘토링·설문·제출) →</a>
+              <a href="#" class="btn-lms btn-taskcards">🗂️ 2일차 업무카드 확인 하기 →</a>
             </div>
           </div>
         </article>
@@ -1078,6 +1092,7 @@
               <a href="day3/day3-ai-classroom.html" class="btn-lms btn-classroom">🏫 AI 강의실</a>
               <a href="day3/day3-textbook.html" class="btn-lms btn-textbook">📖 강의 교재</a>
               <a href="day3/day3-operations.html" class="btn-lms btn-operations">📋 3일차 교육운영 지원 (멘토링·설문·제출) →</a>
+              <a href="#" class="btn-lms btn-taskcards">🗂️ 3일차 업무카드 확인 하기 →</a>
             </div>
           </div>
         </article>
@@ -1107,6 +1122,7 @@
               <a href="day4/day4-ai-classroom.html" class="btn-lms btn-classroom">🏫 AI 강의실</a>
               <a href="day4/day4-textbook.html" class="btn-lms btn-textbook">📖 강의 교재</a>
               <a href="day4/day4-operations.html" class="btn-lms btn-operations">📋 4일차 교육운영 지원 (멘토링·설문·제출) →</a>
+              <a href="#" class="btn-lms btn-taskcards">🗂️ 4일차 업무카드 확인 하기 →</a>
             </div>
           </div>
         </article>
@@ -1136,6 +1152,7 @@
               <a href="day5/day5-ai-classroom.html" class="btn-lms btn-classroom">🏫 AI 강의실</a>
               <a href="day5/day5-textbook.html" class="btn-lms btn-textbook">📖 강의 교재</a>
               <a href="day5/day5-operations.html" class="btn-lms btn-operations">📋 5일차 교육운영 지원 (멘토링·설문·제출) →</a>
+              <a href="#" class="btn-lms btn-taskcards">🗂️ 5일차 업무카드 확인 하기 →</a>
             </div>
           </div>
         </article>
@@ -1166,9 +1183,14 @@
               <div class="ops-item-row"><span>☁️</span><strong>업로드:</strong> README &amp; PAGE_REQ 제출</div>
             </div>
           </div>
-          <a href="day1/day1-operations.html" class="btn-ops-enter">
-            <span>📋 1일차 운영실 열기 (QR·링크) →</span>
-          </a>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
+            <a href="day1/day1-operations.html" class="btn-ops-enter">
+              <span>📋 1일차 운영실 열기 (QR·링크) →</span>
+            </a>
+            <a href="#" class="btn-lms btn-taskcards">
+              <span>🗂️ 1일차 업무카드 확인 하기 →</span>
+            </a>
+          </div>
         </article>
 
         <!-- Day 2 Ops Card -->
@@ -1185,9 +1207,14 @@
               <div class="ops-item-row"><span>☁️</span><strong>업로드:</strong> PROJECT.md 14섹션 제출</div>
             </div>
           </div>
-          <a href="day2/day2-operations.html" class="btn-ops-enter">
-            <span>📋 2일차 운영실 열기 (QR·링크) →</span>
-          </a>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
+            <a href="day2/day2-operations.html" class="btn-ops-enter">
+              <span>📋 2일차 운영실 열기 (QR·링크) →</span>
+            </a>
+            <a href="#" class="btn-lms btn-taskcards">
+              <span>🗂️ 2일차 업무카드 확인 하기 →</span>
+            </a>
+          </div>
         </article>
 
         <!-- Day 3 Ops Card -->
@@ -1204,9 +1231,14 @@
               <div class="ops-item-row"><span>☁️</span><strong>업로드:</strong> MVP v0.1 &amp; VALIDATION.md</div>
             </div>
           </div>
-          <a href="day3/day3-operations.html" class="btn-ops-enter">
-            <span>📋 3일차 운영실 열기 (QR·링크) →</span>
-          </a>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
+            <a href="day3/day3-operations.html" class="btn-ops-enter">
+              <span>📋 3일차 운영실 열기 (QR·링크) →</span>
+            </a>
+            <a href="#" class="btn-lms btn-taskcards">
+              <span>🗂️ 3일차 업무카드 확인 하기 →</span>
+            </a>
+          </div>
         </article>
 
         <!-- Day 4 Ops Card -->
@@ -1223,9 +1255,14 @@
               <div class="ops-item-row"><span>☁️</span><strong>업로드:</strong> MVP v1.0 소스코드 제출</div>
             </div>
           </div>
-          <a href="day4/day4-operations.html" class="btn-ops-enter">
-            <span>📋 4일차 운영실 열기 (QR·링크) →</span>
-          </a>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
+            <a href="day4/day4-operations.html" class="btn-ops-enter">
+              <span>📋 4일차 운영실 열기 (QR·링크) →</span>
+            </a>
+            <a href="#" class="btn-lms btn-taskcards">
+              <span>🗂️ 4일차 업무카드 확인 하기 →</span>
+            </a>
+          </div>
         </article>
 
         <!-- Day 5 Ops Card -->
@@ -1242,9 +1279,14 @@
               <div class="ops-item-row"><span>☁️</span><strong>업로드:</strong> 데모 URL &amp; 발표자료 제출</div>
             </div>
           </div>
-          <a href="day5/day5-operations.html" class="btn-ops-enter">
-            <span>📋 5일차 운영실 열기 (QR·링크) →</span>
-          </a>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
+            <a href="day5/day5-operations.html" class="btn-ops-enter">
+              <span>📋 5일차 운영실 열기 (QR·링크) →</span>
+            </a>
+            <a href="#" class="btn-lms btn-taskcards">
+              <span>🗂️ 5일차 업무카드 확인 하기 →</span>
+            </a>
+          </div>
         </article>
 
         <!-- Pre & Post Survey Dedicated Card -->
