@@ -52,7 +52,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>예비창업자 AI Web App MVP 과정 | 로그인 (1기·2기 각 1팀~30팀)</title>
+  <title>예비창업자 AI Web App MVP 과정 | 개인별 로그인 (1기·2기 각 53명)</title>
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
     :root {
@@ -231,10 +231,10 @@
     /* Cards Grid */
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
       gap: 18px;
       width: 100%;
-      max-width: 1000px;
+      max-width: 1050px;
     }
 
     .profile-card {
@@ -243,7 +243,7 @@
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border-color);
       border-radius: var(--card-radius);
-      padding: 22px 16px;
+      padding: 24px 16px;
       text-align: center;
       cursor: pointer;
       position: relative;
@@ -251,6 +251,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      min-height: 220px;
       transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
       box-shadow: var(--shadow-sm);
     }
@@ -291,16 +293,16 @@
     }
 
     .avatar-wrapper {
-      width: 60px;
-      height: 60px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.85rem;
-      margin-bottom: 12px;
+      font-size: 1.75rem;
+      margin: 0 auto 10px auto;
       box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
       transition: all 0.3s ease;
     }
@@ -319,8 +321,8 @@
       border-radius: 999px;
       background: rgba(59, 130, 246, 0.12);
       border: 1px solid rgba(59, 130, 246, 0.25);
-      margin-bottom: 10px;
-      letter-spacing: 0.03em;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
     }
 
     .track-badge.c2 {
@@ -330,17 +332,30 @@
     }
 
     .founder-name {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 800;
       color: #ffffff;
       margin-bottom: 4px;
+      line-height: 1.3;
+      word-break: keep-all;
     }
 
-    .startup-name {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text-desc);
+    .team-badge-sub {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #38bdf8;
       margin-bottom: 8px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      padding: 3px 10px;
+      border-radius: 6px;
+      display: inline-block;
+      word-break: keep-all;
+    }
+    .team-badge-sub.c2 {
+      color: #34d399;
+      background: rgba(52, 211, 153, 0.08);
+      border-color: rgba(52, 211, 153, 0.2);
     }
 
     .email-label {
@@ -459,27 +474,27 @@
     <!-- Brand Header -->
     <div class="brand-section">
       <div class="brand-logo">
-        <span class="brand-badge">5일 완성 MVP 과정</span>
+        <span class="brand-badge">5-Day MVP Bootcamp</span>
         ACE AI Startup Bootcamp
       </div>
-      <h1>팀 로그인 및 아이덴티티 확인</h1>
-      <p>수강하시는 기수(1기 / 2기)를 선택하신 후, 배정받으신 팀 카드를 클릭하여 안전하게 LMS에 접속하세요.</p>
+      <h1>개인별 로그인 및 신원 확인</h1>
+      <p>참여하시는 기수(1기 / 2기)를 선택하신 후, 본인의 참가자 프로필 카드를 클릭하여 전용 LMS 워크스페이스에 안전하게 접속하세요.</p>
     </div>
 
     <!-- Controls: 1기 / 2기 Large Tabs & Search -->
     <div class="controls-container">
       <div class="cohort-main-tabs">
         <button type="button" class="cohort-tab-btn active c1" id="tabBtn1" onclick="switchCohortTab(1)">
-          <span>🌱 1기 (Cohort 1)</span>
-          <span class="cohort-tab-count">1팀 ~ 30팀</span>
+          <span>🌱 1기</span>
+          <span class="cohort-tab-count">53명 / 23팀</span>
         </button>
         <button type="button" class="cohort-tab-btn c2" id="tabBtn2" onclick="switchCohortTab(2)">
-          <span>🌿 2기 (Cohort 2)</span>
-          <span class="cohort-tab-count">1팀 ~ 30팀</span>
+          <span>🌿 2기</span>
+          <span class="cohort-tab-count">53명 / 23팀</span>
         </button>
       </div>
 
-      <input type="text" class="search-input" id="searchBar" placeholder="팀 번호(예: 1팀, 12, Team 5) 또는 프로젝트명으로 검색..." />
+      <input type="text" class="search-input" id="searchBar" placeholder="이름(Gormwa, Solomon, Victor 등), 팀명(Maikaratu, Gritin 등), 또는 팀 번호로 검색..." />
     </div>
 
     <!-- Cards Grid Container -->
@@ -493,746 +508,1510 @@
     <div class="biometric-sensor">
       <div class="sensor-icon">🔐</div>
     </div>
-    <h3 class="auth-title" id="authTitle">Connecting to LMS Workspace...</h3>
-    <div class="auth-status" id="authStatus">Security handshake...</div>
-    <button class="cancel-btn" onclick="cancelAuth()">인증 취소</button>
+    <h3 class="auth-title" id="authTitle">LMS 워크스페이스 연결 중...</h3>
+    <div class="auth-status" id="authStatus">보안 핸드셰이크 진행 중...</div>
+    <button class="cancel-btn" onclick="cancelAuth()">로그인 취소</button>
   </div>
 
   <footer class="site-footer">
     <div style="max-width: 1100px; margin: 0 auto;">
       <div style="margin-bottom: 6px; word-break: keep-all;">
-        <span>상호명: (주)에듀니티랩</span> | <span>대표자: 이기택</span> | <span>사업장주소: 서울 강남구 테헤란로21길 25 (역삼동, 태림빌딩) 2층</span>
+        <span>상호명: (주)에듀니티랩</span> | <span>대표자: 이기택</span> | <span>주소: 서울특별시 강남구 테헤란로21길 25 (역삼동, 하늘빌딩) 2층</span>
       </div>
       <div style="margin-bottom: 8px; word-break: keep-all;">
-        <span>연락처: (02)6240-0053</span> | <span>사업자등록번호: 132-86-35644</span> | <span>통신판매업신고번호: 제2024-서울강남-01134호</span> | <span>이메일: with@edunlab.kr</span>
+        <span>대표전화: (02)6240-0053</span> | <span>사업자등록번호: 132-86-35644</span> | <span>통신판매업신고번호: 2024-서울강남-01134</span> | <span>이메일: with@edunlab.kr</span>
       </div>
       <div style="color: #71717a; font-size: 0.8rem; font-weight: 500;">
-        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+        Copyright ⓒ 에듀니티랩 (Eduniety Lab). All Rights Reserved.
       </div>
     </div>
   </footer>
 
   <script>
-    const teams = [
+    const users = [
   {
     "id": "c1-1",
+    "participantNum": 1,
     "teamNum": 1,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 1팀 (Team 1)",
-    "startup": "AI Startup MVP #1",
+    "name": "Gormwa Solomon",
+    "teamName": "Maikaratu-Enterprice",
+    "startup": "Maikaratu-Enterprice",
     "track": "cohort1",
-    "trackName": "1기 · AI E-Commerce",
-    "avatar": "🚀",
-    "email": "c1.team1@bootcamp.ai"
+    "trackName": "1기 Maikaratu-Enterprice",
+    "avatar": "👨🏾‍💻",
+    "email": "c1.gormwa.solomon@bootcamp.ai"
   },
   {
     "id": "c1-2",
-    "teamNum": 2,
+    "participantNum": 2,
+    "teamNum": 1,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 2팀 (Team 2)",
-    "startup": "AI Startup MVP #2",
+    "name": "Nze-Esiaga Chinwenwa",
+    "teamName": "Maikaratu-Enterprice",
+    "startup": "Maikaratu-Enterprice",
     "track": "cohort1",
-    "trackName": "1기 · AI SaaS Platform",
-    "avatar": "💻",
-    "email": "c1.team2@bootcamp.ai"
+    "trackName": "1기 Maikaratu-Enterprice",
+    "avatar": "👩🏾‍💻",
+    "email": "c1.nze.esiaga.chinwenwa@bootcamp.ai"
   },
   {
     "id": "c1-3",
-    "teamNum": 3,
+    "participantNum": 3,
+    "teamNum": 1,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 3팀 (Team 3)",
-    "startup": "AI Startup MVP #3",
+    "name": "Nenrit Gotus",
+    "teamName": "Maikaratu-Enterprice",
+    "startup": "Maikaratu-Enterprice",
     "track": "cohort1",
-    "trackName": "1기 · AI Productivity Tool",
-    "avatar": "💡",
-    "email": "c1.team3@bootcamp.ai"
+    "trackName": "1기 Maikaratu-Enterprice",
+    "avatar": "👨🏾‍💼",
+    "email": "c1.nenrit.gotus@bootcamp.ai"
   },
   {
     "id": "c1-4",
-    "teamNum": 4,
+    "participantNum": 4,
+    "teamNum": 2,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 4팀 (Team 4)",
-    "startup": "AI Startup MVP #4",
+    "name": "Diony Elijah .O.",
+    "teamName": "Tip top tutors",
+    "startup": "Tip top tutors",
     "track": "cohort1",
-    "trackName": "1기 · AI Agent Service",
-    "avatar": "⚡",
-    "email": "c1.team4@bootcamp.ai"
+    "trackName": "1기 Tip top tutors",
+    "avatar": "👩🏾‍💼",
+    "email": "c1.diony.elijah.o@bootcamp.ai"
   },
   {
     "id": "c1-5",
-    "teamNum": 5,
+    "participantNum": 5,
+    "teamNum": 2,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 5팀 (Team 5)",
-    "startup": "AI Startup MVP #5",
+    "name": "Ijioma Onyemuuwa Chikezie",
+    "teamName": "Tip top tutors",
+    "startup": "Tip top tutors",
     "track": "cohort1",
-    "trackName": "1기 · AI Workflow Bot",
-    "avatar": "🤖",
-    "email": "c1.team5@bootcamp.ai"
+    "trackName": "1기 Tip top tutors",
+    "avatar": "👨🏾‍🎓",
+    "email": "c1.ijioma.onyemuuwa.chikezie@bootcamp.ai"
   },
   {
     "id": "c1-6",
-    "teamNum": 6,
+    "participantNum": 6,
+    "teamNum": 2,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 6팀 (Team 6)",
-    "startup": "AI Startup MVP #6",
+    "name": "Akano Richard Olasukanmi",
+    "teamName": "Tip top tutors",
+    "startup": "Tip top tutors",
     "track": "cohort1",
-    "trackName": "1기 · AI Content Creator",
-    "avatar": "🌐",
-    "email": "c1.team6@bootcamp.ai"
+    "trackName": "1기 Tip top tutors",
+    "avatar": "👩🏾‍🎓",
+    "email": "c1.akano.richard.olasukanmi@bootcamp.ai"
   },
   {
     "id": "c1-7",
-    "teamNum": 7,
+    "participantNum": 7,
+    "teamNum": 3,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 7팀 (Team 7)",
-    "startup": "AI Startup MVP #7",
+    "name": "Idoko Benson Onoja",
+    "teamName": "Saipris",
+    "startup": "Saipris",
     "track": "cohort1",
-    "trackName": "1기 · AI Customer Support",
-    "avatar": "📱",
-    "email": "c1.team7@bootcamp.ai"
+    "trackName": "1기 Saipris",
+    "avatar": "🚀",
+    "email": "c1.idoko.benson.onoja@bootcamp.ai"
   },
   {
     "id": "c1-8",
-    "teamNum": 8,
+    "participantNum": 8,
+    "teamNum": 3,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 8팀 (Team 8)",
-    "startup": "AI Startup MVP #8",
+    "name": "Claire Benson Idoko",
+    "teamName": "Saipris",
+    "startup": "Saipris",
     "track": "cohort1",
-    "trackName": "1기 · AI Market Analyst",
-    "avatar": "🧠",
-    "email": "c1.team8@bootcamp.ai"
+    "trackName": "1기 Saipris",
+    "avatar": "💡",
+    "email": "c1.claire.benson.idoko@bootcamp.ai"
   },
   {
     "id": "c1-9",
-    "teamNum": 9,
+    "participantNum": 9,
+    "teamNum": 4,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 9팀 (Team 9)",
-    "startup": "AI Startup MVP #9",
+    "name": "Victor Akpan",
+    "teamName": "Ikor",
+    "startup": "Ikor",
     "track": "cohort1",
-    "trackName": "1기 · AI FinTech Helper",
-    "avatar": "⚙️",
-    "email": "c1.team9@bootcamp.ai"
+    "trackName": "1기 Ikor",
+    "avatar": "⚡",
+    "email": "c1.victor.akpan@bootcamp.ai"
   },
   {
     "id": "c1-10",
-    "teamNum": 10,
+    "participantNum": 10,
+    "teamNum": 4,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 10팀 (Team 10)",
-    "startup": "AI Startup MVP #10",
+    "name": "Idopise Maxwell",
+    "teamName": "Ikor",
+    "startup": "Ikor",
     "track": "cohort1",
-    "trackName": "1기 · AI Health Tracker",
-    "avatar": "🔍",
-    "email": "c1.team10@bootcamp.ai"
+    "trackName": "1기 Ikor",
+    "avatar": "🧠",
+    "email": "c1.idopise.maxwell@bootcamp.ai"
   },
   {
     "id": "c1-11",
-    "teamNum": 11,
+    "participantNum": 11,
+    "teamNum": 5,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 11팀 (Team 11)",
-    "startup": "AI Startup MVP #11",
+    "name": "Joel Sylvester",
+    "teamName": "Sojent",
+    "startup": "Sojent",
     "track": "cohort1",
-    "trackName": "1기 · AI E-Commerce",
-    "avatar": "📊",
-    "email": "c1.team11@bootcamp.ai"
+    "trackName": "1기 Sojent",
+    "avatar": "✨",
+    "email": "c1.joel.sylvester@bootcamp.ai"
   },
   {
     "id": "c1-12",
-    "teamNum": 12,
+    "participantNum": 12,
+    "teamNum": 5,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 12팀 (Team 12)",
-    "startup": "AI Startup MVP #12",
+    "name": "Onize Okuoluse",
+    "teamName": "Sojent",
+    "startup": "Sojent",
     "track": "cohort1",
-    "trackName": "1기 · AI SaaS Platform",
-    "avatar": "🛡️",
-    "email": "c1.team12@bootcamp.ai"
+    "trackName": "1기 Sojent",
+    "avatar": "💻",
+    "email": "c1.onize.okuoluse@bootcamp.ai"
   },
   {
     "id": "c1-13",
-    "teamNum": 13,
+    "participantNum": 13,
+    "teamNum": 6,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 13팀 (Team 13)",
-    "startup": "AI Startup MVP #13",
+    "name": "Ugochukwu Peter Nnachor",
+    "teamName": "Gritin AI",
+    "startup": "Gritin AI",
     "track": "cohort1",
-    "trackName": "1기 · AI Productivity Tool",
-    "avatar": "🎯",
-    "email": "c1.team13@bootcamp.ai"
+    "trackName": "1기 Gritin AI",
+    "avatar": "🔬",
+    "email": "c1.ugochukwu.peter.nnachor@bootcamp.ai"
   },
   {
     "id": "c1-14",
-    "teamNum": 14,
+    "participantNum": 14,
+    "teamNum": 6,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 14팀 (Team 14)",
-    "startup": "AI Startup MVP #14",
+    "name": "Yusuf Silifat",
+    "teamName": "Gritin AI",
+    "startup": "Gritin AI",
     "track": "cohort1",
-    "trackName": "1기 · AI Agent Service",
-    "avatar": "✨",
-    "email": "c1.team14@bootcamp.ai"
+    "trackName": "1기 Gritin AI",
+    "avatar": "📱",
+    "email": "c1.yusuf.silifat@bootcamp.ai"
   },
   {
     "id": "c1-15",
-    "teamNum": 15,
+    "participantNum": 15,
+    "teamNum": 7,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 15팀 (Team 15)",
-    "startup": "AI Startup MVP #15",
+    "name": "Mercy Itohan Ekoh",
+    "teamName": "COMPINTEL(CCHRC)",
+    "startup": "COMPINTEL(CCHRC)",
     "track": "cohort1",
-    "trackName": "1기 · AI Workflow Bot",
-    "avatar": "🔥",
-    "email": "c1.team15@bootcamp.ai"
+    "trackName": "1기 COMPINTEL(CCHRC)",
+    "avatar": "🎯",
+    "email": "c1.mercy.itohan.ekoh@bootcamp.ai"
   },
   {
     "id": "c1-16",
-    "teamNum": 16,
+    "participantNum": 16,
+    "teamNum": 7,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 16팀 (Team 16)",
-    "startup": "AI Startup MVP #16",
+    "name": "Oluwakemisolo Olowosulu",
+    "teamName": "COMPINTEL(CCHRC)",
+    "startup": "COMPINTEL(CCHRC)",
     "track": "cohort1",
-    "trackName": "1기 · AI Content Creator",
-    "avatar": "🔮",
-    "email": "c1.team16@bootcamp.ai"
+    "trackName": "1기 COMPINTEL(CCHRC)",
+    "avatar": "👨🏾‍💻",
+    "email": "c1.oluwakemisolo.olowosulu@bootcamp.ai"
   },
   {
     "id": "c1-17",
-    "teamNum": 17,
+    "participantNum": 17,
+    "teamNum": 8,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 17팀 (Team 17)",
-    "startup": "AI Startup MVP #17",
+    "name": "Shemang David Joshua",
+    "teamName": "Magana AI",
+    "startup": "Magana AI",
     "track": "cohort1",
-    "trackName": "1기 · AI Customer Support",
-    "avatar": "🌟",
-    "email": "c1.team17@bootcamp.ai"
+    "trackName": "1기 Magana AI",
+    "avatar": "👩🏾‍💻",
+    "email": "c1.shemang.david.joshua@bootcamp.ai"
   },
   {
     "id": "c1-18",
-    "teamNum": 18,
+    "participantNum": 18,
+    "teamNum": 8,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 18팀 (Team 18)",
-    "startup": "AI Startup MVP #18",
+    "name": "Gawza Victoria Augustine",
+    "teamName": "Magana AI",
+    "startup": "Magana AI",
     "track": "cohort1",
-    "trackName": "1기 · AI Market Analyst",
-    "avatar": "🦄",
-    "email": "c1.team18@bootcamp.ai"
+    "trackName": "1기 Magana AI",
+    "avatar": "👨🏾‍💼",
+    "email": "c1.gawza.victoria.augustine@bootcamp.ai"
   },
   {
     "id": "c1-19",
-    "teamNum": 19,
+    "participantNum": 19,
+    "teamNum": 9,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 19팀 (Team 19)",
-    "startup": "AI Startup MVP #19",
+    "name": "Ibiyemi Praise Oluwatobiloba",
+    "teamName": "Loghema",
+    "startup": "Loghema",
     "track": "cohort1",
-    "trackName": "1기 · AI FinTech Helper",
-    "avatar": "🏆",
-    "email": "c1.team19@bootcamp.ai"
+    "trackName": "1기 Loghema",
+    "avatar": "👩🏾‍💼",
+    "email": "c1.ibiyemi.praise.oluwatobiloba@bootcamp.ai"
   },
   {
     "id": "c1-20",
-    "teamNum": 20,
+    "participantNum": 20,
+    "teamNum": 9,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 20팀 (Team 20)",
-    "startup": "AI Startup MVP #20",
+    "name": "Opara Barbra",
+    "teamName": "Loghema",
+    "startup": "Loghema",
     "track": "cohort1",
-    "trackName": "1기 · AI Health Tracker",
-    "avatar": "💎",
-    "email": "c1.team20@bootcamp.ai"
+    "trackName": "1기 Loghema",
+    "avatar": "👨🏾‍🎓",
+    "email": "c1.opara.barbra@bootcamp.ai"
   },
   {
     "id": "c1-21",
-    "teamNum": 21,
+    "participantNum": 21,
+    "teamNum": 10,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 21팀 (Team 21)",
-    "startup": "AI Startup MVP #21",
+    "name": "Nero-Christopher C. Nwachukwu",
+    "teamName": "XEELAA AI",
+    "startup": "XEELAA AI",
     "track": "cohort1",
-    "trackName": "1기 · AI E-Commerce",
-    "avatar": "🎨",
-    "email": "c1.team21@bootcamp.ai"
+    "trackName": "1기 XEELAA AI",
+    "avatar": "👩🏾‍🎓",
+    "email": "c1.nero.christopher.c.nwachukwu@bootcamp.ai"
   },
   {
     "id": "c1-22",
-    "teamNum": 22,
+    "participantNum": 22,
+    "teamNum": 10,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 22팀 (Team 22)",
-    "startup": "AI Startup MVP #22",
+    "name": "Prince Shammah",
+    "teamName": "XEELAA AI",
+    "startup": "XEELAA AI",
     "track": "cohort1",
-    "trackName": "1기 · AI SaaS Platform",
-    "avatar": "🧩",
-    "email": "c1.team22@bootcamp.ai"
+    "trackName": "1기 XEELAA AI",
+    "avatar": "🚀",
+    "email": "c1.prince.shammah@bootcamp.ai"
   },
   {
     "id": "c1-23",
-    "teamNum": 23,
+    "participantNum": 23,
+    "teamNum": 10,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 23팀 (Team 23)",
-    "startup": "AI Startup MVP #23",
+    "name": "Elyon Ihua Maduenyi",
+    "teamName": "XEELAA AI",
+    "startup": "XEELAA AI",
     "track": "cohort1",
-    "trackName": "1기 · AI Productivity Tool",
-    "avatar": "📈",
-    "email": "c1.team23@bootcamp.ai"
+    "trackName": "1기 XEELAA AI",
+    "avatar": "💡",
+    "email": "c1.elyon.ihua.maduenyi@bootcamp.ai"
   },
   {
     "id": "c1-24",
-    "teamNum": 24,
+    "participantNum": 24,
+    "teamNum": 11,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 24팀 (Team 24)",
-    "startup": "AI Startup MVP #24",
+    "name": "Mubarak Ahmed",
+    "teamName": "STACK",
+    "startup": "STACK",
     "track": "cohort1",
-    "trackName": "1기 · AI Agent Service",
-    "avatar": "🛰️",
-    "email": "c1.team24@bootcamp.ai"
+    "trackName": "1기 STACK",
+    "avatar": "⚡",
+    "email": "c1.mubarak.ahmed@bootcamp.ai"
   },
   {
     "id": "c1-25",
-    "teamNum": 25,
+    "participantNum": 25,
+    "teamNum": 11,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 25팀 (Team 25)",
-    "startup": "AI Startup MVP #25",
+    "name": "Abdullah Ahmad",
+    "teamName": "STACK",
+    "startup": "STACK",
     "track": "cohort1",
-    "trackName": "1기 · AI Workflow Bot",
-    "avatar": "🛠️",
-    "email": "c1.team25@bootcamp.ai"
+    "trackName": "1기 STACK",
+    "avatar": "🧠",
+    "email": "c1.abdullah.ahmad@bootcamp.ai"
   },
   {
     "id": "c1-26",
-    "teamNum": 26,
+    "participantNum": 26,
+    "teamNum": 12,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 26팀 (Team 26)",
-    "startup": "AI Startup MVP #26",
+    "name": "Sani Mahmud Madobi",
+    "teamName": "Meer Tech",
+    "startup": "Meer Tech",
     "track": "cohort1",
-    "trackName": "1기 · AI Content Creator",
-    "avatar": "🧬",
-    "email": "c1.team26@bootcamp.ai"
+    "trackName": "1기 Meer Tech",
+    "avatar": "✨",
+    "email": "c1.sani.mahmud.madobi@bootcamp.ai"
   },
   {
     "id": "c1-27",
-    "teamNum": 27,
+    "participantNum": 27,
+    "teamNum": 12,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 27팀 (Team 27)",
-    "startup": "AI Startup MVP #27",
+    "name": "Lawal Shuaibu",
+    "teamName": "Meer Tech",
+    "startup": "Meer Tech",
     "track": "cohort1",
-    "trackName": "1기 · AI Customer Support",
-    "avatar": "📦",
-    "email": "c1.team27@bootcamp.ai"
+    "trackName": "1기 Meer Tech",
+    "avatar": "💻",
+    "email": "c1.lawal.shuaibu@bootcamp.ai"
   },
   {
     "id": "c1-28",
-    "teamNum": 28,
+    "participantNum": 28,
+    "teamNum": 12,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 28팀 (Team 28)",
-    "startup": "AI Startup MVP #28",
+    "name": "Salisu Maryam",
+    "teamName": "Meer Tech",
+    "startup": "Meer Tech",
     "track": "cohort1",
-    "trackName": "1기 · AI Market Analyst",
-    "avatar": "🔑",
-    "email": "c1.team28@bootcamp.ai"
+    "trackName": "1기 Meer Tech",
+    "avatar": "🔬",
+    "email": "c1.salisu.maryam@bootcamp.ai"
   },
   {
     "id": "c1-29",
-    "teamNum": 29,
+    "participantNum": 29,
+    "teamNum": 13,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 29팀 (Team 29)",
-    "startup": "AI Startup MVP #29",
+    "name": "Halimat Musa",
+    "teamName": "Monovella",
+    "startup": "Monovella",
     "track": "cohort1",
-    "trackName": "1기 · AI FinTech Helper",
-    "avatar": "🌈",
-    "email": "c1.team29@bootcamp.ai"
+    "trackName": "1기 Monovella",
+    "avatar": "📱",
+    "email": "c1.halimat.musa@bootcamp.ai"
   },
   {
     "id": "c1-30",
-    "teamNum": 30,
+    "participantNum": 30,
+    "teamNum": 13,
     "cohort": 1,
     "cohortName": "1기",
-    "name": "1기 30팀 (Team 30)",
-    "startup": "AI Startup MVP #30",
+    "name": "Abdulazeez Jimoh",
+    "teamName": "Monovella",
+    "startup": "Monovella",
     "track": "cohort1",
-    "trackName": "1기 · AI Health Tracker",
-    "avatar": "🪐",
-    "email": "c1.team30@bootcamp.ai"
+    "trackName": "1기 Monovella",
+    "avatar": "🎯",
+    "email": "c1.abdulazeez.jimoh@bootcamp.ai"
+  },
+  {
+    "id": "c1-31",
+    "participantNum": 31,
+    "teamNum": 14,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "REAGAN ROWLAND",
+    "teamName": "One click med",
+    "startup": "One click med",
+    "track": "cohort1",
+    "trackName": "1기 One click med",
+    "avatar": "👨🏾‍💻",
+    "email": "c1.reagan.rowland@bootcamp.ai"
+  },
+  {
+    "id": "c1-32",
+    "participantNum": 32,
+    "teamNum": 14,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "WALE AJOMALE",
+    "teamName": "One click med",
+    "startup": "One click med",
+    "track": "cohort1",
+    "trackName": "1기 One click med",
+    "avatar": "👩🏾‍💻",
+    "email": "c1.wale.ajomale@bootcamp.ai"
+  },
+  {
+    "id": "c1-33",
+    "participantNum": 33,
+    "teamNum": 14,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "JOY ROWLAND",
+    "teamName": "One click med",
+    "startup": "One click med",
+    "track": "cohort1",
+    "trackName": "1기 One click med",
+    "avatar": "👨🏾‍💼",
+    "email": "c1.joy.rowland@bootcamp.ai"
+  },
+  {
+    "id": "c1-34",
+    "participantNum": 34,
+    "teamNum": 15,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "TEMIDAYO ADERIBIEBE",
+    "teamName": "KASI AI",
+    "startup": "KASI AI",
+    "track": "cohort1",
+    "trackName": "1기 KASI AI",
+    "avatar": "👩🏾‍💼",
+    "email": "c1.temidayo.aderibiebe@bootcamp.ai"
+  },
+  {
+    "id": "c1-35",
+    "participantNum": 35,
+    "teamNum": 15,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "DUROKAIYE OMOBOLAJI",
+    "teamName": "KASI AI",
+    "startup": "KASI AI",
+    "track": "cohort1",
+    "trackName": "1기 KASI AI",
+    "avatar": "👨🏾‍🎓",
+    "email": "c1.durokaiye.omobolaji@bootcamp.ai"
+  },
+  {
+    "id": "c1-36",
+    "participantNum": 36,
+    "teamNum": 16,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "ALIU JOHNSON TEMITOPE",
+    "teamName": "PROMETHUS",
+    "startup": "PROMETHUS",
+    "track": "cohort1",
+    "trackName": "1기 PROMETHUS",
+    "avatar": "👩🏾‍🎓",
+    "email": "c1.aliu.johnson.temitope@bootcamp.ai"
+  },
+  {
+    "id": "c1-37",
+    "participantNum": 37,
+    "teamNum": 16,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "SARAH AZUKA OBIAJULU",
+    "teamName": "PROMETHUS",
+    "startup": "PROMETHUS",
+    "track": "cohort1",
+    "trackName": "1기 PROMETHUS",
+    "avatar": "🚀",
+    "email": "c1.sarah.azuka.obiajulu@bootcamp.ai"
+  },
+  {
+    "id": "c1-38",
+    "participantNum": 38,
+    "teamNum": 17,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "VICTOR ONI",
+    "teamName": "TRANSAVE TECHNOLOGIES",
+    "startup": "TRANSAVE TECHNOLOGIES",
+    "track": "cohort1",
+    "trackName": "1기 TRANSAVE TECHNOLOGIES",
+    "avatar": "💡",
+    "email": "c1.victor.oni@bootcamp.ai"
+  },
+  {
+    "id": "c1-39",
+    "participantNum": 39,
+    "teamNum": 17,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "JAMES ARUA",
+    "teamName": "TRANSAVE TECHNOLOGIES",
+    "startup": "TRANSAVE TECHNOLOGIES",
+    "track": "cohort1",
+    "trackName": "1기 TRANSAVE TECHNOLOGIES",
+    "avatar": "⚡",
+    "email": "c1.james.arua@bootcamp.ai"
+  },
+  {
+    "id": "c1-40",
+    "participantNum": 40,
+    "teamNum": 18,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "UMAR ABDULGANIYY",
+    "teamName": "SOLARPEER 360",
+    "startup": "SOLARPEER 360",
+    "track": "cohort1",
+    "trackName": "1기 SOLARPEER 360",
+    "avatar": "🧠",
+    "email": "c1.umar.abdulganiyy@bootcamp.ai"
+  },
+  {
+    "id": "c1-41",
+    "participantNum": 41,
+    "teamNum": 18,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "IDRIS THAABIT",
+    "teamName": "SOLARPEER 360",
+    "startup": "SOLARPEER 360",
+    "track": "cohort1",
+    "trackName": "1기 SOLARPEER 360",
+    "avatar": "✨",
+    "email": "c1.idris.thaabit@bootcamp.ai"
+  },
+  {
+    "id": "c1-42",
+    "participantNum": 42,
+    "teamNum": 18,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "ABDULSALAM NAFISAT",
+    "teamName": "SOLARPEER 360",
+    "startup": "SOLARPEER 360",
+    "track": "cohort1",
+    "trackName": "1기 SOLARPEER 360",
+    "avatar": "💻",
+    "email": "c1.abdulsalam.nafisat@bootcamp.ai"
+  },
+  {
+    "id": "c1-43",
+    "participantNum": 43,
+    "teamNum": 19,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "ADEJUMOKE REBECCA AREMO",
+    "teamName": "ECO-ENGINE MRV",
+    "startup": "ECO-ENGINE MRV",
+    "track": "cohort1",
+    "trackName": "1기 ECO-ENGINE MRV",
+    "avatar": "🔬",
+    "email": "c1.adejumoke.rebecca.aremo@bootcamp.ai"
+  },
+  {
+    "id": "c1-44",
+    "participantNum": 44,
+    "teamNum": 19,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "AROYEHUN ABDULGHAFAR SUNKANMI",
+    "teamName": "ECO-ENGINE MRV",
+    "startup": "ECO-ENGINE MRV",
+    "track": "cohort1",
+    "trackName": "1기 ECO-ENGINE MRV",
+    "avatar": "📱",
+    "email": "c1.aroyehun.abdulghafar.sunkanmi@bootcamp.ai"
+  },
+  {
+    "id": "c1-45",
+    "participantNum": 45,
+    "teamNum": 19,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "OLAJIDE SANUSI ABAYOMI",
+    "teamName": "ECO-ENGINE MRV",
+    "startup": "ECO-ENGINE MRV",
+    "track": "cohort1",
+    "trackName": "1기 ECO-ENGINE MRV",
+    "avatar": "🎯",
+    "email": "c1.olajide.sanusi.abayomi@bootcamp.ai"
+  },
+  {
+    "id": "c1-46",
+    "participantNum": 46,
+    "teamNum": 20,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "Solomon Faith",
+    "teamName": "TeamManager",
+    "startup": "TeamManager",
+    "track": "cohort1",
+    "trackName": "1기 TeamManager",
+    "avatar": "👨🏾‍💻",
+    "email": "c1.solomon.faith@bootcamp.ai"
+  },
+  {
+    "id": "c1-47",
+    "participantNum": 47,
+    "teamNum": 20,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "Ojuka Miracle",
+    "teamName": "TeamManager",
+    "startup": "TeamManager",
+    "track": "cohort1",
+    "trackName": "1기 TeamManager",
+    "avatar": "👩🏾‍💻",
+    "email": "c1.ojuka.miracle@bootcamp.ai"
+  },
+  {
+    "id": "c1-48",
+    "participantNum": 48,
+    "teamNum": 21,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "IBRAHIM MUHAMMAD SANI",
+    "teamName": "LISSAFI SMART TECHNOLOGIES LTD",
+    "startup": "LISSAFI SMART TECHNOLOGIES LTD",
+    "track": "cohort1",
+    "trackName": "1기 LISSAFI SMART TECHNOLOGIES LTD",
+    "avatar": "👨🏾‍💼",
+    "email": "c1.ibrahim.muhammad.sani@bootcamp.ai"
+  },
+  {
+    "id": "c1-49",
+    "participantNum": 49,
+    "teamNum": 21,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "BAKO SHUAIBU ISMAILA",
+    "teamName": "LISSAFI SMART TECHNOLOGIES LTD",
+    "startup": "LISSAFI SMART TECHNOLOGIES LTD",
+    "track": "cohort1",
+    "trackName": "1기 LISSAFI SMART TECHNOLOGIES LTD",
+    "avatar": "👩🏾‍💼",
+    "email": "c1.bako.shuaibu.ismaila@bootcamp.ai"
+  },
+  {
+    "id": "c1-50",
+    "participantNum": 50,
+    "teamNum": 22,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "Peters Onyilo",
+    "teamName": "Every Byte",
+    "startup": "Every Byte",
+    "track": "cohort1",
+    "trackName": "1기 Every Byte",
+    "avatar": "👨🏾‍🎓",
+    "email": "c1.peters.onyilo@bootcamp.ai"
+  },
+  {
+    "id": "c1-51",
+    "participantNum": 51,
+    "teamNum": 22,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "Lawal Mohammed Abubakar",
+    "teamName": "Every Byte",
+    "startup": "Every Byte",
+    "track": "cohort1",
+    "trackName": "1기 Every Byte",
+    "avatar": "👩🏾‍🎓",
+    "email": "c1.lawal.mohammed.abubakar@bootcamp.ai"
+  },
+  {
+    "id": "c1-52",
+    "participantNum": 52,
+    "teamNum": 23,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "Abubakar Sadiq Abbas",
+    "teamName": "Cubeseed Africa",
+    "startup": "Cubeseed Africa",
+    "track": "cohort1",
+    "trackName": "1기 Cubeseed Africa",
+    "avatar": "🚀",
+    "email": "c1.abubakar.sadiq.abbas@bootcamp.ai"
+  },
+  {
+    "id": "c1-53",
+    "participantNum": 53,
+    "teamNum": 23,
+    "cohort": 1,
+    "cohortName": "1기",
+    "name": "Khadijah Garba",
+    "teamName": "Cubeseed Africa",
+    "startup": "Cubeseed Africa",
+    "track": "cohort1",
+    "trackName": "1기 Cubeseed Africa",
+    "avatar": "💡",
+    "email": "c1.khadijah.garba@bootcamp.ai"
   },
   {
     "id": "c2-1",
+    "participantNum": 1,
     "teamNum": 1,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 1팀 (Team 1)",
-    "startup": "AI Startup MVP #1",
+    "name": "Gormwa Solomon",
+    "teamName": "Maikaratu-Enterprice",
+    "startup": "Maikaratu-Enterprice",
     "track": "cohort2",
-    "trackName": "2기 · AI E-Commerce",
-    "avatar": "🚀",
-    "email": "c2.team1@bootcamp.ai"
+    "trackName": "2기 Maikaratu-Enterprice",
+    "avatar": "👨🏾‍💻",
+    "email": "c2.gormwa.solomon@bootcamp.ai"
   },
   {
     "id": "c2-2",
-    "teamNum": 2,
+    "participantNum": 2,
+    "teamNum": 1,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 2팀 (Team 2)",
-    "startup": "AI Startup MVP #2",
+    "name": "Nze-Esiaga Chinwenwa",
+    "teamName": "Maikaratu-Enterprice",
+    "startup": "Maikaratu-Enterprice",
     "track": "cohort2",
-    "trackName": "2기 · AI SaaS Platform",
-    "avatar": "💻",
-    "email": "c2.team2@bootcamp.ai"
+    "trackName": "2기 Maikaratu-Enterprice",
+    "avatar": "👩🏾‍💻",
+    "email": "c2.nze.esiaga.chinwenwa@bootcamp.ai"
   },
   {
     "id": "c2-3",
-    "teamNum": 3,
+    "participantNum": 3,
+    "teamNum": 1,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 3팀 (Team 3)",
-    "startup": "AI Startup MVP #3",
+    "name": "Nenrit Gotus",
+    "teamName": "Maikaratu-Enterprice",
+    "startup": "Maikaratu-Enterprice",
     "track": "cohort2",
-    "trackName": "2기 · AI Productivity Tool",
-    "avatar": "💡",
-    "email": "c2.team3@bootcamp.ai"
+    "trackName": "2기 Maikaratu-Enterprice",
+    "avatar": "👨🏾‍💼",
+    "email": "c2.nenrit.gotus@bootcamp.ai"
   },
   {
     "id": "c2-4",
-    "teamNum": 4,
+    "participantNum": 4,
+    "teamNum": 2,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 4팀 (Team 4)",
-    "startup": "AI Startup MVP #4",
+    "name": "Diony Elijah .O.",
+    "teamName": "Tip top tutors",
+    "startup": "Tip top tutors",
     "track": "cohort2",
-    "trackName": "2기 · AI Agent Service",
-    "avatar": "⚡",
-    "email": "c2.team4@bootcamp.ai"
+    "trackName": "2기 Tip top tutors",
+    "avatar": "👩🏾‍💼",
+    "email": "c2.diony.elijah.o@bootcamp.ai"
   },
   {
     "id": "c2-5",
-    "teamNum": 5,
+    "participantNum": 5,
+    "teamNum": 2,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 5팀 (Team 5)",
-    "startup": "AI Startup MVP #5",
+    "name": "Ijioma Onyemuuwa Chikezie",
+    "teamName": "Tip top tutors",
+    "startup": "Tip top tutors",
     "track": "cohort2",
-    "trackName": "2기 · AI Workflow Bot",
-    "avatar": "🤖",
-    "email": "c2.team5@bootcamp.ai"
+    "trackName": "2기 Tip top tutors",
+    "avatar": "👨🏾‍🎓",
+    "email": "c2.ijioma.onyemuuwa.chikezie@bootcamp.ai"
   },
   {
     "id": "c2-6",
-    "teamNum": 6,
+    "participantNum": 6,
+    "teamNum": 2,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 6팀 (Team 6)",
-    "startup": "AI Startup MVP #6",
+    "name": "Akano Richard Olasukanmi",
+    "teamName": "Tip top tutors",
+    "startup": "Tip top tutors",
     "track": "cohort2",
-    "trackName": "2기 · AI Content Creator",
-    "avatar": "🌐",
-    "email": "c2.team6@bootcamp.ai"
+    "trackName": "2기 Tip top tutors",
+    "avatar": "👩🏾‍🎓",
+    "email": "c2.akano.richard.olasukanmi@bootcamp.ai"
   },
   {
     "id": "c2-7",
-    "teamNum": 7,
+    "participantNum": 7,
+    "teamNum": 3,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 7팀 (Team 7)",
-    "startup": "AI Startup MVP #7",
+    "name": "Idoko Benson Onoja",
+    "teamName": "Saipris",
+    "startup": "Saipris",
     "track": "cohort2",
-    "trackName": "2기 · AI Customer Support",
-    "avatar": "📱",
-    "email": "c2.team7@bootcamp.ai"
+    "trackName": "2기 Saipris",
+    "avatar": "🚀",
+    "email": "c2.idoko.benson.onoja@bootcamp.ai"
   },
   {
     "id": "c2-8",
-    "teamNum": 8,
+    "participantNum": 8,
+    "teamNum": 3,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 8팀 (Team 8)",
-    "startup": "AI Startup MVP #8",
+    "name": "Claire Benson Idoko",
+    "teamName": "Saipris",
+    "startup": "Saipris",
     "track": "cohort2",
-    "trackName": "2기 · AI Market Analyst",
-    "avatar": "🧠",
-    "email": "c2.team8@bootcamp.ai"
+    "trackName": "2기 Saipris",
+    "avatar": "💡",
+    "email": "c2.claire.benson.idoko@bootcamp.ai"
   },
   {
     "id": "c2-9",
-    "teamNum": 9,
+    "participantNum": 9,
+    "teamNum": 4,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 9팀 (Team 9)",
-    "startup": "AI Startup MVP #9",
+    "name": "Victor Akpan",
+    "teamName": "Ikor",
+    "startup": "Ikor",
     "track": "cohort2",
-    "trackName": "2기 · AI FinTech Helper",
-    "avatar": "⚙️",
-    "email": "c2.team9@bootcamp.ai"
+    "trackName": "2기 Ikor",
+    "avatar": "⚡",
+    "email": "c2.victor.akpan@bootcamp.ai"
   },
   {
     "id": "c2-10",
-    "teamNum": 10,
+    "participantNum": 10,
+    "teamNum": 4,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 10팀 (Team 10)",
-    "startup": "AI Startup MVP #10",
+    "name": "Idopise Maxwell",
+    "teamName": "Ikor",
+    "startup": "Ikor",
     "track": "cohort2",
-    "trackName": "2기 · AI Health Tracker",
-    "avatar": "🔍",
-    "email": "c2.team10@bootcamp.ai"
+    "trackName": "2기 Ikor",
+    "avatar": "🧠",
+    "email": "c2.idopise.maxwell@bootcamp.ai"
   },
   {
     "id": "c2-11",
-    "teamNum": 11,
+    "participantNum": 11,
+    "teamNum": 5,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 11팀 (Team 11)",
-    "startup": "AI Startup MVP #11",
+    "name": "Joel Sylvester",
+    "teamName": "Sojent",
+    "startup": "Sojent",
     "track": "cohort2",
-    "trackName": "2기 · AI E-Commerce",
-    "avatar": "📊",
-    "email": "c2.team11@bootcamp.ai"
+    "trackName": "2기 Sojent",
+    "avatar": "✨",
+    "email": "c2.joel.sylvester@bootcamp.ai"
   },
   {
     "id": "c2-12",
-    "teamNum": 12,
+    "participantNum": 12,
+    "teamNum": 5,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 12팀 (Team 12)",
-    "startup": "AI Startup MVP #12",
+    "name": "Onize Okuoluse",
+    "teamName": "Sojent",
+    "startup": "Sojent",
     "track": "cohort2",
-    "trackName": "2기 · AI SaaS Platform",
-    "avatar": "🛡️",
-    "email": "c2.team12@bootcamp.ai"
+    "trackName": "2기 Sojent",
+    "avatar": "💻",
+    "email": "c2.onize.okuoluse@bootcamp.ai"
   },
   {
     "id": "c2-13",
-    "teamNum": 13,
+    "participantNum": 13,
+    "teamNum": 6,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 13팀 (Team 13)",
-    "startup": "AI Startup MVP #13",
+    "name": "Ugochukwu Peter Nnachor",
+    "teamName": "Gritin AI",
+    "startup": "Gritin AI",
     "track": "cohort2",
-    "trackName": "2기 · AI Productivity Tool",
-    "avatar": "🎯",
-    "email": "c2.team13@bootcamp.ai"
+    "trackName": "2기 Gritin AI",
+    "avatar": "🔬",
+    "email": "c2.ugochukwu.peter.nnachor@bootcamp.ai"
   },
   {
     "id": "c2-14",
-    "teamNum": 14,
+    "participantNum": 14,
+    "teamNum": 6,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 14팀 (Team 14)",
-    "startup": "AI Startup MVP #14",
+    "name": "Yusuf Silifat",
+    "teamName": "Gritin AI",
+    "startup": "Gritin AI",
     "track": "cohort2",
-    "trackName": "2기 · AI Agent Service",
-    "avatar": "✨",
-    "email": "c2.team14@bootcamp.ai"
+    "trackName": "2기 Gritin AI",
+    "avatar": "📱",
+    "email": "c2.yusuf.silifat@bootcamp.ai"
   },
   {
     "id": "c2-15",
-    "teamNum": 15,
+    "participantNum": 15,
+    "teamNum": 7,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 15팀 (Team 15)",
-    "startup": "AI Startup MVP #15",
+    "name": "Mercy Itohan Ekoh",
+    "teamName": "COMPINTEL(CCHRC)",
+    "startup": "COMPINTEL(CCHRC)",
     "track": "cohort2",
-    "trackName": "2기 · AI Workflow Bot",
-    "avatar": "🔥",
-    "email": "c2.team15@bootcamp.ai"
+    "trackName": "2기 COMPINTEL(CCHRC)",
+    "avatar": "🎯",
+    "email": "c2.mercy.itohan.ekoh@bootcamp.ai"
   },
   {
     "id": "c2-16",
-    "teamNum": 16,
+    "participantNum": 16,
+    "teamNum": 7,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 16팀 (Team 16)",
-    "startup": "AI Startup MVP #16",
+    "name": "Oluwakemisolo Olowosulu",
+    "teamName": "COMPINTEL(CCHRC)",
+    "startup": "COMPINTEL(CCHRC)",
     "track": "cohort2",
-    "trackName": "2기 · AI Content Creator",
-    "avatar": "🔮",
-    "email": "c2.team16@bootcamp.ai"
+    "trackName": "2기 COMPINTEL(CCHRC)",
+    "avatar": "👨🏾‍💻",
+    "email": "c2.oluwakemisolo.olowosulu@bootcamp.ai"
   },
   {
     "id": "c2-17",
-    "teamNum": 17,
+    "participantNum": 17,
+    "teamNum": 8,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 17팀 (Team 17)",
-    "startup": "AI Startup MVP #17",
+    "name": "Shemang David Joshua",
+    "teamName": "Magana AI",
+    "startup": "Magana AI",
     "track": "cohort2",
-    "trackName": "2기 · AI Customer Support",
-    "avatar": "🌟",
-    "email": "c2.team17@bootcamp.ai"
+    "trackName": "2기 Magana AI",
+    "avatar": "👩🏾‍💻",
+    "email": "c2.shemang.david.joshua@bootcamp.ai"
   },
   {
     "id": "c2-18",
-    "teamNum": 18,
+    "participantNum": 18,
+    "teamNum": 8,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 18팀 (Team 18)",
-    "startup": "AI Startup MVP #18",
+    "name": "Gawza Victoria Augustine",
+    "teamName": "Magana AI",
+    "startup": "Magana AI",
     "track": "cohort2",
-    "trackName": "2기 · AI Market Analyst",
-    "avatar": "🦄",
-    "email": "c2.team18@bootcamp.ai"
+    "trackName": "2기 Magana AI",
+    "avatar": "👨🏾‍💼",
+    "email": "c2.gawza.victoria.augustine@bootcamp.ai"
   },
   {
     "id": "c2-19",
-    "teamNum": 19,
+    "participantNum": 19,
+    "teamNum": 9,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 19팀 (Team 19)",
-    "startup": "AI Startup MVP #19",
+    "name": "Ibiyemi Praise Oluwatobiloba",
+    "teamName": "Loghema",
+    "startup": "Loghema",
     "track": "cohort2",
-    "trackName": "2기 · AI FinTech Helper",
-    "avatar": "🏆",
-    "email": "c2.team19@bootcamp.ai"
+    "trackName": "2기 Loghema",
+    "avatar": "👩🏾‍💼",
+    "email": "c2.ibiyemi.praise.oluwatobiloba@bootcamp.ai"
   },
   {
     "id": "c2-20",
-    "teamNum": 20,
+    "participantNum": 20,
+    "teamNum": 9,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 20팀 (Team 20)",
-    "startup": "AI Startup MVP #20",
+    "name": "Opara Barbra",
+    "teamName": "Loghema",
+    "startup": "Loghema",
     "track": "cohort2",
-    "trackName": "2기 · AI Health Tracker",
-    "avatar": "💎",
-    "email": "c2.team20@bootcamp.ai"
+    "trackName": "2기 Loghema",
+    "avatar": "👨🏾‍🎓",
+    "email": "c2.opara.barbra@bootcamp.ai"
   },
   {
     "id": "c2-21",
-    "teamNum": 21,
+    "participantNum": 21,
+    "teamNum": 10,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 21팀 (Team 21)",
-    "startup": "AI Startup MVP #21",
+    "name": "Nero-Christopher C. Nwachukwu",
+    "teamName": "XEELAA AI",
+    "startup": "XEELAA AI",
     "track": "cohort2",
-    "trackName": "2기 · AI E-Commerce",
-    "avatar": "🎨",
-    "email": "c2.team21@bootcamp.ai"
+    "trackName": "2기 XEELAA AI",
+    "avatar": "👩🏾‍🎓",
+    "email": "c2.nero.christopher.c.nwachukwu@bootcamp.ai"
   },
   {
     "id": "c2-22",
-    "teamNum": 22,
+    "participantNum": 22,
+    "teamNum": 10,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 22팀 (Team 22)",
-    "startup": "AI Startup MVP #22",
+    "name": "Prince Shammah",
+    "teamName": "XEELAA AI",
+    "startup": "XEELAA AI",
     "track": "cohort2",
-    "trackName": "2기 · AI SaaS Platform",
-    "avatar": "🧩",
-    "email": "c2.team22@bootcamp.ai"
+    "trackName": "2기 XEELAA AI",
+    "avatar": "🚀",
+    "email": "c2.prince.shammah@bootcamp.ai"
   },
   {
     "id": "c2-23",
-    "teamNum": 23,
+    "participantNum": 23,
+    "teamNum": 10,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 23팀 (Team 23)",
-    "startup": "AI Startup MVP #23",
+    "name": "Elyon Ihua Maduenyi",
+    "teamName": "XEELAA AI",
+    "startup": "XEELAA AI",
     "track": "cohort2",
-    "trackName": "2기 · AI Productivity Tool",
-    "avatar": "📈",
-    "email": "c2.team23@bootcamp.ai"
+    "trackName": "2기 XEELAA AI",
+    "avatar": "💡",
+    "email": "c2.elyon.ihua.maduenyi@bootcamp.ai"
   },
   {
     "id": "c2-24",
-    "teamNum": 24,
+    "participantNum": 24,
+    "teamNum": 11,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 24팀 (Team 24)",
-    "startup": "AI Startup MVP #24",
+    "name": "Mubarak Ahmed",
+    "teamName": "STACK",
+    "startup": "STACK",
     "track": "cohort2",
-    "trackName": "2기 · AI Agent Service",
-    "avatar": "🛰️",
-    "email": "c2.team24@bootcamp.ai"
+    "trackName": "2기 STACK",
+    "avatar": "⚡",
+    "email": "c2.mubarak.ahmed@bootcamp.ai"
   },
   {
     "id": "c2-25",
-    "teamNum": 25,
+    "participantNum": 25,
+    "teamNum": 11,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 25팀 (Team 25)",
-    "startup": "AI Startup MVP #25",
+    "name": "Abdullah Ahmad",
+    "teamName": "STACK",
+    "startup": "STACK",
     "track": "cohort2",
-    "trackName": "2기 · AI Workflow Bot",
-    "avatar": "🛠️",
-    "email": "c2.team25@bootcamp.ai"
+    "trackName": "2기 STACK",
+    "avatar": "🧠",
+    "email": "c2.abdullah.ahmad@bootcamp.ai"
   },
   {
     "id": "c2-26",
-    "teamNum": 26,
+    "participantNum": 26,
+    "teamNum": 12,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 26팀 (Team 26)",
-    "startup": "AI Startup MVP #26",
+    "name": "Sani Mahmud Madobi",
+    "teamName": "Meer Tech",
+    "startup": "Meer Tech",
     "track": "cohort2",
-    "trackName": "2기 · AI Content Creator",
-    "avatar": "🧬",
-    "email": "c2.team26@bootcamp.ai"
+    "trackName": "2기 Meer Tech",
+    "avatar": "✨",
+    "email": "c2.sani.mahmud.madobi@bootcamp.ai"
   },
   {
     "id": "c2-27",
-    "teamNum": 27,
+    "participantNum": 27,
+    "teamNum": 12,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 27팀 (Team 27)",
-    "startup": "AI Startup MVP #27",
+    "name": "Lawal Shuaibu",
+    "teamName": "Meer Tech",
+    "startup": "Meer Tech",
     "track": "cohort2",
-    "trackName": "2기 · AI Customer Support",
-    "avatar": "📦",
-    "email": "c2.team27@bootcamp.ai"
+    "trackName": "2기 Meer Tech",
+    "avatar": "💻",
+    "email": "c2.lawal.shuaibu@bootcamp.ai"
   },
   {
     "id": "c2-28",
-    "teamNum": 28,
+    "participantNum": 28,
+    "teamNum": 12,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 28팀 (Team 28)",
-    "startup": "AI Startup MVP #28",
+    "name": "Salisu Maryam",
+    "teamName": "Meer Tech",
+    "startup": "Meer Tech",
     "track": "cohort2",
-    "trackName": "2기 · AI Market Analyst",
-    "avatar": "🔑",
-    "email": "c2.team28@bootcamp.ai"
+    "trackName": "2기 Meer Tech",
+    "avatar": "🔬",
+    "email": "c2.salisu.maryam@bootcamp.ai"
   },
   {
     "id": "c2-29",
-    "teamNum": 29,
+    "participantNum": 29,
+    "teamNum": 13,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 29팀 (Team 29)",
-    "startup": "AI Startup MVP #29",
+    "name": "Halimat Musa",
+    "teamName": "Monovella",
+    "startup": "Monovella",
     "track": "cohort2",
-    "trackName": "2기 · AI FinTech Helper",
-    "avatar": "🌈",
-    "email": "c2.team29@bootcamp.ai"
+    "trackName": "2기 Monovella",
+    "avatar": "📱",
+    "email": "c2.halimat.musa@bootcamp.ai"
   },
   {
     "id": "c2-30",
-    "teamNum": 30,
+    "participantNum": 30,
+    "teamNum": 13,
     "cohort": 2,
     "cohortName": "2기",
-    "name": "2기 30팀 (Team 30)",
-    "startup": "AI Startup MVP #30",
+    "name": "Abdulazeez Jimoh",
+    "teamName": "Monovella",
+    "startup": "Monovella",
     "track": "cohort2",
-    "trackName": "2기 · AI Health Tracker",
-    "avatar": "🪐",
-    "email": "c2.team30@bootcamp.ai"
+    "trackName": "2기 Monovella",
+    "avatar": "🎯",
+    "email": "c2.abdulazeez.jimoh@bootcamp.ai"
+  },
+  {
+    "id": "c2-31",
+    "participantNum": 31,
+    "teamNum": 14,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "REAGAN ROWLAND",
+    "teamName": "One click med",
+    "startup": "One click med",
+    "track": "cohort2",
+    "trackName": "2기 One click med",
+    "avatar": "👨🏾‍💻",
+    "email": "c2.reagan.rowland@bootcamp.ai"
+  },
+  {
+    "id": "c2-32",
+    "participantNum": 32,
+    "teamNum": 14,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "WALE AJOMALE",
+    "teamName": "One click med",
+    "startup": "One click med",
+    "track": "cohort2",
+    "trackName": "2기 One click med",
+    "avatar": "👩🏾‍💻",
+    "email": "c2.wale.ajomale@bootcamp.ai"
+  },
+  {
+    "id": "c2-33",
+    "participantNum": 33,
+    "teamNum": 14,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "JOY ROWLAND",
+    "teamName": "One click med",
+    "startup": "One click med",
+    "track": "cohort2",
+    "trackName": "2기 One click med",
+    "avatar": "👨🏾‍💼",
+    "email": "c2.joy.rowland@bootcamp.ai"
+  },
+  {
+    "id": "c2-34",
+    "participantNum": 34,
+    "teamNum": 15,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "TEMIDAYO ADERIBIEBE",
+    "teamName": "KASI AI",
+    "startup": "KASI AI",
+    "track": "cohort2",
+    "trackName": "2기 KASI AI",
+    "avatar": "👩🏾‍💼",
+    "email": "c2.temidayo.aderibiebe@bootcamp.ai"
+  },
+  {
+    "id": "c2-35",
+    "participantNum": 35,
+    "teamNum": 15,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "DUROKAIYE OMOBOLAJI",
+    "teamName": "KASI AI",
+    "startup": "KASI AI",
+    "track": "cohort2",
+    "trackName": "2기 KASI AI",
+    "avatar": "👨🏾‍🎓",
+    "email": "c2.durokaiye.omobolaji@bootcamp.ai"
+  },
+  {
+    "id": "c2-36",
+    "participantNum": 36,
+    "teamNum": 16,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "ALIU JOHNSON TEMITOPE",
+    "teamName": "PROMETHUS",
+    "startup": "PROMETHUS",
+    "track": "cohort2",
+    "trackName": "2기 PROMETHUS",
+    "avatar": "👩🏾‍🎓",
+    "email": "c2.aliu.johnson.temitope@bootcamp.ai"
+  },
+  {
+    "id": "c2-37",
+    "participantNum": 37,
+    "teamNum": 16,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "SARAH AZUKA OBIAJULU",
+    "teamName": "PROMETHUS",
+    "startup": "PROMETHUS",
+    "track": "cohort2",
+    "trackName": "2기 PROMETHUS",
+    "avatar": "🚀",
+    "email": "c2.sarah.azuka.obiajulu@bootcamp.ai"
+  },
+  {
+    "id": "c2-38",
+    "participantNum": 38,
+    "teamNum": 17,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "VICTOR ONI",
+    "teamName": "TRANSAVE TECHNOLOGIES",
+    "startup": "TRANSAVE TECHNOLOGIES",
+    "track": "cohort2",
+    "trackName": "2기 TRANSAVE TECHNOLOGIES",
+    "avatar": "💡",
+    "email": "c2.victor.oni@bootcamp.ai"
+  },
+  {
+    "id": "c2-39",
+    "participantNum": 39,
+    "teamNum": 17,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "JAMES ARUA",
+    "teamName": "TRANSAVE TECHNOLOGIES",
+    "startup": "TRANSAVE TECHNOLOGIES",
+    "track": "cohort2",
+    "trackName": "2기 TRANSAVE TECHNOLOGIES",
+    "avatar": "⚡",
+    "email": "c2.james.arua@bootcamp.ai"
+  },
+  {
+    "id": "c2-40",
+    "participantNum": 40,
+    "teamNum": 18,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "UMAR ABDULGANIYY",
+    "teamName": "SOLARPEER 360",
+    "startup": "SOLARPEER 360",
+    "track": "cohort2",
+    "trackName": "2기 SOLARPEER 360",
+    "avatar": "🧠",
+    "email": "c2.umar.abdulganiyy@bootcamp.ai"
+  },
+  {
+    "id": "c2-41",
+    "participantNum": 41,
+    "teamNum": 18,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "IDRIS THAABIT",
+    "teamName": "SOLARPEER 360",
+    "startup": "SOLARPEER 360",
+    "track": "cohort2",
+    "trackName": "2기 SOLARPEER 360",
+    "avatar": "✨",
+    "email": "c2.idris.thaabit@bootcamp.ai"
+  },
+  {
+    "id": "c2-42",
+    "participantNum": 42,
+    "teamNum": 18,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "ABDULSALAM NAFISAT",
+    "teamName": "SOLARPEER 360",
+    "startup": "SOLARPEER 360",
+    "track": "cohort2",
+    "trackName": "2기 SOLARPEER 360",
+    "avatar": "💻",
+    "email": "c2.abdulsalam.nafisat@bootcamp.ai"
+  },
+  {
+    "id": "c2-43",
+    "participantNum": 43,
+    "teamNum": 19,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "ADEJUMOKE REBECCA AREMO",
+    "teamName": "ECO-ENGINE MRV",
+    "startup": "ECO-ENGINE MRV",
+    "track": "cohort2",
+    "trackName": "2기 ECO-ENGINE MRV",
+    "avatar": "🔬",
+    "email": "c2.adejumoke.rebecca.aremo@bootcamp.ai"
+  },
+  {
+    "id": "c2-44",
+    "participantNum": 44,
+    "teamNum": 19,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "AROYEHUN ABDULGHAFAR SUNKANMI",
+    "teamName": "ECO-ENGINE MRV",
+    "startup": "ECO-ENGINE MRV",
+    "track": "cohort2",
+    "trackName": "2기 ECO-ENGINE MRV",
+    "avatar": "📱",
+    "email": "c2.aroyehun.abdulghafar.sunkanmi@bootcamp.ai"
+  },
+  {
+    "id": "c2-45",
+    "participantNum": 45,
+    "teamNum": 19,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "OLAJIDE SANUSI ABAYOMI",
+    "teamName": "ECO-ENGINE MRV",
+    "startup": "ECO-ENGINE MRV",
+    "track": "cohort2",
+    "trackName": "2기 ECO-ENGINE MRV",
+    "avatar": "🎯",
+    "email": "c2.olajide.sanusi.abayomi@bootcamp.ai"
+  },
+  {
+    "id": "c2-46",
+    "participantNum": 46,
+    "teamNum": 20,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "Solomon Faith",
+    "teamName": "TeamManager",
+    "startup": "TeamManager",
+    "track": "cohort2",
+    "trackName": "2기 TeamManager",
+    "avatar": "👨🏾‍💻",
+    "email": "c2.solomon.faith@bootcamp.ai"
+  },
+  {
+    "id": "c2-47",
+    "participantNum": 47,
+    "teamNum": 20,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "Ojuka Miracle",
+    "teamName": "TeamManager",
+    "startup": "TeamManager",
+    "track": "cohort2",
+    "trackName": "2기 TeamManager",
+    "avatar": "👩🏾‍💻",
+    "email": "c2.ojuka.miracle@bootcamp.ai"
+  },
+  {
+    "id": "c2-48",
+    "participantNum": 48,
+    "teamNum": 21,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "IBRAHIM MUHAMMAD SANI",
+    "teamName": "LISSAFI SMART TECHNOLOGIES LTD",
+    "startup": "LISSAFI SMART TECHNOLOGIES LTD",
+    "track": "cohort2",
+    "trackName": "2기 LISSAFI SMART TECHNOLOGIES LTD",
+    "avatar": "👨🏾‍💼",
+    "email": "c2.ibrahim.muhammad.sani@bootcamp.ai"
+  },
+  {
+    "id": "c2-49",
+    "participantNum": 49,
+    "teamNum": 21,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "BAKO SHUAIBU ISMAILA",
+    "teamName": "LISSAFI SMART TECHNOLOGIES LTD",
+    "startup": "LISSAFI SMART TECHNOLOGIES LTD",
+    "track": "cohort2",
+    "trackName": "2기 LISSAFI SMART TECHNOLOGIES LTD",
+    "avatar": "👩🏾‍💼",
+    "email": "c2.bako.shuaibu.ismaila@bootcamp.ai"
+  },
+  {
+    "id": "c2-50",
+    "participantNum": 50,
+    "teamNum": 22,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "Peters Onyilo",
+    "teamName": "Every Byte",
+    "startup": "Every Byte",
+    "track": "cohort2",
+    "trackName": "2기 Every Byte",
+    "avatar": "👨🏾‍🎓",
+    "email": "c2.peters.onyilo@bootcamp.ai"
+  },
+  {
+    "id": "c2-51",
+    "participantNum": 51,
+    "teamNum": 22,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "Lawal Mohammed Abubakar",
+    "teamName": "Every Byte",
+    "startup": "Every Byte",
+    "track": "cohort2",
+    "trackName": "2기 Every Byte",
+    "avatar": "👩🏾‍🎓",
+    "email": "c2.lawal.mohammed.abubakar@bootcamp.ai"
+  },
+  {
+    "id": "c2-52",
+    "participantNum": 52,
+    "teamNum": 23,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "Abubakar Sadiq Abbas",
+    "teamName": "Cubeseed Africa",
+    "startup": "Cubeseed Africa",
+    "track": "cohort2",
+    "trackName": "2기 Cubeseed Africa",
+    "avatar": "🚀",
+    "email": "c2.abubakar.sadiq.abbas@bootcamp.ai"
+  },
+  {
+    "id": "c2-53",
+    "participantNum": 53,
+    "teamNum": 23,
+    "cohort": 2,
+    "cohortName": "2기",
+    "name": "Khadijah Garba",
+    "teamName": "Cubeseed Africa",
+    "startup": "Cubeseed Africa",
+    "track": "cohort2",
+    "trackName": "2기 Cubeseed Africa",
+    "avatar": "💡",
+    "email": "c2.khadijah.garba@bootcamp.ai"
   }
 ];
 
@@ -1261,56 +2040,56 @@
       renderCards(searchBar.value);
     }
 
-    // Render team profile cards
+    // Render personal profile cards
     function renderCards(filterQuery = '') {
       cardsGrid.innerHTML = '';
       
       const query = filterQuery.toLowerCase().trim();
-      const filtered = teams.filter(t => {
-        const matchesCohort = t.cohort === currentCohort;
+      const filtered = users.filter(u => {
+        const matchesCohort = u.cohort === currentCohort;
         const matchesQuery = !query || 
-          t.name.toLowerCase().includes(query) || 
-          t.startup.toLowerCase().includes(query) ||
-          t.trackName.toLowerCase().includes(query) ||
-          t.teamNum.toString() === query ||
-          (query.includes('팀') && t.name.includes(query)) ||
-          ('team ' + t.teamNum).includes(query);
+          u.name.toLowerCase().includes(query) || 
+          u.teamName.toLowerCase().includes(query) || 
+          u.trackName.toLowerCase().includes(query) ||
+          u.teamNum.toString() === query ||
+          ('team ' + u.teamNum).includes(query);
         return matchesCohort && matchesQuery;
       });
 
       if (filtered.length === 0) {
         cardsGrid.innerHTML = `
           <div style="grid-column: 1/-1; text-align: center; padding: 60px 0; color: var(--text-desc);">
-            <h4>일치하는 팀 프로필이 없습니다.</h4>
-            <p style="font-size: 0.85rem; margin-top: 8px; color: #64748b;">${currentCohort}기 내에서 팀 번호 또는 키워드를 다시 확인해 주세요.</p>
+            <h4>일치하는 참가자 프로필이 없습니다.</h4>
+            <p style="font-size: 0.85rem; margin-top: 8px; color: #64748b;">${currentCohort}기 내에서 참가자 이름, 팀명 또는 팀 번호를 다시 확인해 주세요.</p>
           </div>
         `;
         return;
       }
 
-      filtered.forEach(t => {
+      filtered.forEach(u => {
         const card = document.createElement('div');
-        card.className = 'profile-card' + (t.cohort === 2 ? ' cohort2' : '');
-        card.onclick = () => startAuth(t);
+        card.className = 'profile-card' + (u.cohort === 2 ? ' cohort2' : '');
+        card.onclick = () => startAuth(u);
 
-        const badgeClass = t.cohort === 2 ? 'c2' : '';
+        const badgeClass = u.cohort === 2 ? 'c2' : '';
 
         card.innerHTML = `
           <div class="scan-line"></div>
-          <span class="track-badge ${badgeClass}">${t.trackName}</span>
-          <div class="avatar-wrapper">
-            <span>${t.avatar}</span>
+          <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+            <span class="track-badge ${badgeClass}">${u.trackName}</span>
+            <div class="avatar-wrapper">
+              <span>${u.avatar}</span>
+            </div>
+            <h4 class="founder-name">${u.name}</h4>
+            <div class="team-badge-sub ${badgeClass}">🏢 ${u.teamName}</div>
           </div>
-          <h4 class="founder-name">${t.name}</h4>
-          <span class="startup-name">${t.startup}</span>
-          <span class="email-label">${t.email}</span>
         `;
         cardsGrid.appendChild(card);
       });
     }
 
     // Dynamic verification simulation flow
-    function startAuth(team) {
+    function startAuth(user) {
       authOverlay.classList.add('active');
       document.body.style.overflow = 'hidden';
 
@@ -1319,24 +2098,25 @@
 
       // Step 1: scan credentials
       cancelTimer1 = setTimeout(() => {
-        authTitle.textContent = `팀 인증 정보 검증 중...`;
-        authStatus.textContent = `User: ${team.name} | ${team.startup}`;
+        authTitle.textContent = `참가자 신원 검증 중...`;
+        authStatus.textContent = `User: ${user.name} | ${user.teamName}`;
       }, 600);
 
       // Step 2: access granted
       cancelTimer2 = setTimeout(() => {
         authTitle.textContent = `인증 성공 (Access Granted!)`;
-        authStatus.textContent = `환영합니다, ${team.name}! LMS 메인으로 이동합니다...`;
+        authStatus.textContent = `환영합니다, ${user.name} 님! (${user.teamName}) LMS 메인으로 이동합니다...`;
         
         const userData = JSON.stringify({
-          id: team.id,
-          cohort: team.cohort,
-          teamNum: team.teamNum,
-          name: team.name,
-          email: team.email,
-          avatar: team.avatar,
-          startup: team.startup,
-          track: team.track
+          id: user.id,
+          cohort: user.cohort,
+          teamNum: user.teamNum,
+          name: user.name,
+          teamName: user.teamName,
+          email: user.email,
+          avatar: user.avatar,
+          startup: user.teamName,
+          track: user.track
         });
         
         // Set cookie (24 hours)
