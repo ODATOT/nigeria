@@ -720,6 +720,25 @@
       transform: translateY(-1px);
     }
   
+  
+    .btn-assignment-submit:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 14px 36px rgba(37, 99, 235, 0.55), 0 0 30px rgba(6, 182, 212, 0.45) !important;
+      filter: brightness(1.1);
+    }
+
+  
+    .btn-assignment-submit:hover {
+      transform: translateY(-3px) scale(1.02);
+      filter: brightness(1.1);
+    }
+    .btn-assignment-submit.drive:hover {
+      box-shadow: 0 14px 36px rgba(37, 99, 235, 0.55), 0 0 30px rgba(6, 182, 212, 0.45) !important;
+    }
+    .btn-assignment-submit.classroom:hover {
+      box-shadow: 0 14px 36px rgba(16, 185, 129, 0.55), 0 0 30px rgba(5, 150, 105, 0.45) !important;
+    }
+
   </style>
 </head>
 <body>
@@ -1050,6 +1069,61 @@
         <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:18px;"><div style="font-size:0.82rem;font-weight:800;color:#fde047;margin-bottom:4px;">결과물 04</div><div style="font-size:1rem;font-weight:800;margin-bottom:8px;">📄 NEXT_STEPS.md</div><p style="font-size:0.85rem;color:var(--muted);">5일간 검증한 가설, 사용자 반응, 향후 2주 개선 계획이 담긴 회고 문서</p></div>
       </div>
     </div>
+
+  
+    <!-- Assignment Submission & Registration Section -->
+    <div class="assignment-submission-section" style="margin-top: 36px; margin-bottom: 24px; background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(16, 185, 129, 0.12)); border: 1px solid rgba(59, 130, 246, 0.4); border-radius: var(--radius); padding: 36px 28px; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 30px rgba(59, 130, 246, 0.15);">
+      <div style="font-size: 0.85rem; font-weight: 800; color: #38bdf8; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">
+        📬 실습 과제 제출 &amp; 등록 센터 (Deliverables &amp; Classroom)
+      </div>
+      <h2 style="font-size: 1.55rem; font-weight: 900; color: #ffffff; margin-bottom: 12px; letter-spacing: -0.02em;">
+        Day 5 최종 실습 과제 제출 &amp; 구글 클래스룸 등록
+      </h2>
+      <p style="color: #cbd5e1; font-size: 0.95rem; max-width: 680px; margin: 0 auto 20px; line-height: 1.6;">
+        오늘 완성한 핵심 실습 결과물을 구글 드라이브에 업로드하고, 구글 클래스룸 해당 과제에 등록을 완료해 주세요.
+      </p>
+
+      <!-- Guidelines Box -->
+      <div style="background: rgba(0, 0, 0, 0.35); border: 1px dashed rgba(59, 130, 246, 0.4); border-radius: 12px; padding: 18px 22px; max-width: 720px; margin: 0 auto 28px; text-align: left; font-size: 0.9rem; color: #e2e8f0; line-height: 1.7;">
+        <div style="font-weight: 800; color: #93c5fd; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+          <span>💡</span> 과제 제출 &amp; 등록 방법 안내
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div>
+            <strong style="color: #67e8f9;">[Step 1] 구글 드라이브 파일 업로드:</strong>
+            <span style="color: #cbd5e1;"> 파일명 형식은 </span>
+            <code style="background: rgba(59, 130, 246, 0.2); color: #93c5fd; padding: 2px 6px; border-radius: 4px; font-weight: 700;">팀명_제목</code>
+            <span style="color: #94a3b8; font-size: 0.84rem;"> (예: <code>Maikaratu-Enterprice_Day5_과제</code>)</span>
+            <span style="color: #cbd5e1;">으로 설정하여 업로드해 주세요.</span>
+          </div>
+          <div>
+            <strong style="color: #86efac;">[Step 2] 구글 클래스룸 과제 등록:</strong>
+            <span style="color: #cbd5e1;"> 아래 [과제제출 등록하기] 버튼을 눌러 클래스룸 과제를 열고, 댓글에 </span>
+            <code style="background: rgba(16, 185, 129, 0.2); color: #86efac; padding: 2px 6px; border-radius: 4px; font-weight: 700;">과제 등록 완료 : 구글드라이브 링크</code>
+            <span style="color: #cbd5e1;"> 형태로 작성해 주세요.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons Row -->
+      <div style="display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap;">
+        <!-- Button 1: Drive Upload -->
+        <a href="https://drive.google.com/drive/folders/19eedRn5oFQA9kNr2xiPTzG7KerxmjYp3" target="_blank" rel="noopener noreferrer" class="btn-assignment-submit drive" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #2563eb, #06b6d4); color: #ffffff; font-size: 1.05rem; font-weight: 800; padding: 16px 32px; border-radius: 12px; text-decoration: none; box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45), 0 0 20px rgba(6, 182, 212, 0.25); transition: all 0.25s ease;">
+          <span>☁️</span>
+          <span>Day 5 실습 과제 제출하기 (구글 드라이브)</span>
+          <span style="font-size: 1.2rem;">↗</span>
+        </a>
+
+        <!-- Button 2: Classroom Registration -->
+        <a href="https://classroom.google.com/w/ODcyNTMzNjk5NzEx/t/all" target="_blank" rel="noopener noreferrer" class="btn-assignment-submit classroom" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #059669, #10b981); color: #ffffff; font-size: 1.05rem; font-weight: 800; padding: 16px 32px; border-radius: 12px; text-decoration: none; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4), 0 0 20px rgba(5, 150, 105, 0.25); transition: all 0.25s ease;">
+          <span>📋</span>
+          <span>과제제출 등록하기 (구글 클래스룸)</span>
+          <span style="font-size: 1.2rem;">↗</span>
+        </a>
+      </div>
+    </div>
+    <!-- /Assignment Submission & Registration Section -->
+
   </main>
 
   <script>
