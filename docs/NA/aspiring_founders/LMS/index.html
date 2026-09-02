@@ -2379,27 +2379,33 @@
 
 
   <script>
-    // 요일별 일차 순차 오픈 제어기 (월: 1일차, 화: 1~2일차, 수: 1~3일차, 목: 1~4일차, 금~일: 1~5일차)
+    // 요일별 일차 순차 오픈 제어기 (2026년 9월 5일 토요일부터 적용)
+    // 월: 1일차, 화: 1~2일차, 수: 1~3일차, 목: 1~4일차, 금~일: 1~5일차
     (function() {
       function applyDaySchedule() {
         const urlParams = new URLSearchParams(window.location.search);
         const forceDay = urlParams.get('day'); // 테스트 및 미리보기용 ?day=all 또는 ?day=1~5
 
+        const effectiveStartDate = new Date(2026, 8, 5, 0, 0, 0); // 2026년 9월 5일 (0-indexed 월: 8 = 9월)
         const now = new Date();
-        const dayOfWeek = now.getDay(); // 0: 일, 1: 월, 2: 화, 3: 수, 4: 목, 5: 금, 6: 토
         
-        let maxOpenDay = 1;
-        if (forceDay === 'all') {
-          maxOpenDay = 5;
-        } else if (forceDay && !isNaN(parseInt(forceDay))) {
-          maxOpenDay = parseInt(forceDay);
-        } else {
+        let maxOpenDay = 5; // 2026년 9월 5일 이전에는 준비 및 검토를 위해 전체 오픈
+        
+        if (now >= effectiveStartDate) {
+          // 2026년 9월 5일 이후부터 요일별 제한 적용
+          const dayOfWeek = now.getDay(); // 0: 일, 1: 월, 2: 화, 3: 수, 4: 목, 5: 금, 6: 토
           if (dayOfWeek === 1) maxOpenDay = 1;      // 월요일: 1일차
           else if (dayOfWeek === 2) maxOpenDay = 2; // 화요일: 1~2일차
           else if (dayOfWeek === 3) maxOpenDay = 3; // 수요일: 1~3일차
           else if (dayOfWeek === 4) maxOpenDay = 4; // 목요일: 1~4일차
           else if (dayOfWeek === 5) maxOpenDay = 5; // 금요일: 1~5일차 전체 오픈
-          else if (dayOfWeek === 6 || dayOfWeek === 0) maxOpenDay = 5; // 토요일 및 일요일(주말): 1~5일차 전체 오픈 // 금요일 및 주말: 1~5일차
+          else if (dayOfWeek === 6 || dayOfWeek === 0) maxOpenDay = 5; // 토요일 및 일요일(주말): 1~5일차 전체 오픈
+        }
+
+        if (forceDay === 'all') {
+          maxOpenDay = 5;
+        } else if (forceDay && !isNaN(parseInt(forceDay))) {
+          maxOpenDay = parseInt(forceDay);
         }
 
         const weekdayNames = {
