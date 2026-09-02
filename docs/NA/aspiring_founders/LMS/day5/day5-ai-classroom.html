@@ -234,6 +234,7 @@
     }
     .badge-tool.codex { color: #67e8f9; background: rgba(6, 182, 212, 0.1); }
     .badge-tool.agy { color: #f472b6; background: rgba(244, 114, 182, 0.1); }
+    .badge-tool.chatgpt { color: #10b981; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.25); }
     .badge-tool.deploy { color: #86efac; background: rgba(16, 185, 129, 0.1); }
 
     /* Custom Checkbox */
@@ -831,6 +832,7 @@
           <div class="badge-group">
             <span class="badge-task core">Task 01</span>
             <span class="badge-tool codex">Codex</span>
+            <span class="badge-tool chatgpt">Web ChatGPT</span>
           </div>
           <label class="check-container" title="완료 체크">
             <input type="checkbox" onchange="toggleTaskComplete(1, this.checked)" />
@@ -860,6 +862,7 @@
           <div class="badge-group">
             <span class="badge-task core">Task 02</span>
             <span class="badge-tool deploy">Deploy</span>
+            <span class="badge-tool chatgpt">Web ChatGPT</span>
           </div>
           <label class="check-container" title="완료 체크">
             <input type="checkbox" onchange="toggleTaskComplete(2, this.checked)" />
@@ -889,6 +892,7 @@
           <div class="badge-group">
             <span class="badge-task core">Task 03</span>
             <span class="badge-tool codex">Codex</span>
+            <span class="badge-tool chatgpt">Web ChatGPT</span>
           </div>
           <label class="check-container" title="완료 체크">
             <input type="checkbox" onchange="toggleTaskComplete(3, this.checked)" />
@@ -947,6 +951,7 @@
           <div class="badge-group">
             <span class="badge-task core">Task 05</span>
             <span class="badge-tool codex">Codex</span>
+            <span class="badge-tool chatgpt">Web ChatGPT</span>
           </div>
           <label class="check-container" title="완료 체크">
             <input type="checkbox" onchange="toggleTaskComplete(5, this.checked)" />
@@ -1133,7 +1138,7 @@
         id: 1,
         type: "core",
         badge: "Task 01 · 필수 실습",
-        tools: ["Codex"],
+        tools: ["Codex", "Web ChatGPT"],
         time: "40분",
         title: "최종 검증 & 보안 점검",
         goal: "테스트·빌드·정적 검사를 수행하고 API Key 등 비밀정보 누출 여부를 점검하여 FINAL_VALIDATION.md를 작성합니다.",
@@ -1176,7 +1181,7 @@
         id: 2,
         type: "core",
         badge: "Task 02 · 필수 실습",
-        tools: ["Deploy", "Codex"],
+        tools: ["Deploy", "Codex", "Web ChatGPT"],
         time: "40분",
         title: "배포 & 외부 데모 URL 검증",
         goal: "공통 배포 플랫폼(Vercel, Netlify, Cloudflare 등)으로 배포하고 외부 URL에서 핵심 흐름을 재현합니다.",
@@ -1220,7 +1225,7 @@
         id: 3,
         type: "core",
         badge: "Task 03 · 필수 실습",
-        tools: ["Codex"],
+        tools: ["Codex", "Web ChatGPT"],
         time: "40분",
         title: "5분 발표안 & 데모 시나리오 준비",
         goal: "문제→해결→데모→학습 구조의 5분 발표안을 구성하고 5단계 이내 데모 시나리오와 실패 대비 백업을 준비합니다.",
@@ -1303,7 +1308,7 @@
         id: 5,
         type: "core",
         badge: "Task 05 · 필수 실습",
-        tools: ["Codex"],
+        tools: ["Codex", "Web ChatGPT"],
         time: "20분",
         title: "2주 개선 로드맵 작성 (NEXT_STEPS.md)",
         goal: "5일간 검증한 가설, 사용자 반응, 과정 종료 후 2주 동안 실행할 개발 로드맵을 작성합니다.",
@@ -1482,6 +1487,18 @@
 
         <h3 class="modal-section-title">📁 폴더 및 파일 구조 (예상 상태)</h3>
         <div style="background: rgba(0, 0, 0, 0.45); border: 1px solid var(--line); padding: 14px 18px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; color: #e9d5ff; white-space: pre; margin-bottom: 20px; line-height: 1.5;">${escapeHtml(data.fileTree)}</div>
+
+        
+        ${data.tools.includes('Web ChatGPT') ? `
+          <!-- Web ChatGPT Token Saving Tip -->
+          <div style="margin: 16px 0 20px; background: linear-gradient(135deg, rgba(16, 163, 127, 0.12), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(16, 163, 127, 0.35); border-radius: 10px; padding: 14px 18px; display: flex; align-items: flex-start; gap: 12px;">
+            <span style="font-size: 1.25rem; line-height: 1;">💡</span>
+            <div style="font-size: 0.88rem; color: #d1fae5; line-height: 1.6;">
+              <strong style="color: #6ee7b7; font-size: 0.92rem;">[토큰 절약 꿀팁] Web ChatGPT로 MD 파일 직접 생성하기</strong><br>
+              Codex/Antigravity 내에서 문서를 생성하는 대신, <strong>Web ChatGPT</strong>에 아래 프롬프트를 전달하여 마크다운(<code>.md</code>) 본문을 완성한 뒤 로컬 파일로 직접 저장하면 <strong>AI 크레딧 및 토큰 소모를 크게 절약</strong>할 수 있습니다!
+            </div>
+          </div>
+        ` : ''}
 
         <h3 class="modal-section-title">💬 복사하여 사용할 실전 프롬프트</h3>
         ${data.prompts.map((p, pIdx) => `

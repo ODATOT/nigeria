@@ -372,6 +372,7 @@
       color: #93c5fd;
       border: 1px solid rgba(59, 130, 246, 0.3);
     }
+    .badge-tool.chatgpt { color: #10b981; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.25); }
     .badge-tool.codex {
       background: rgba(16, 185, 129, 0.15);
       color: #6ee7b7;
@@ -791,6 +792,7 @@
           <div class="badge-group">
             <span class="badge-task core">Task 04</span>
             <span class="badge-tool codex">Codex</span>
+            <span class="badge-tool chatgpt">Web ChatGPT</span>
           </div>
           <label class="check-container" title="Mark complete">
             <input type="checkbox" onchange="toggleTaskComplete(4, this.checked)" />
@@ -1123,7 +1125,7 @@ If external APIs are required, use realistic educational mock data and document 
         id: 4,
         type: "core",
         badge: "Task 04 · Core Lab",
-        tools: ["Codex"],
+        tools: ["Codex", "Web ChatGPT"],
         time: "40 Mins",
         title: "Drafting VALIDATION_DAY3.md with Codex",
         goal: "Cross-audit implementation code against PROJECT.md Acceptance Criteria and produce a comprehensive QA test report.",
@@ -1288,7 +1290,7 @@ Acceptance Criteria: Valid inputs display calculated BMI number and color-coded 
 
       badgeRow.innerHTML = `
         <span class="badge-task ${data.type}">${data.badge}</span>
-        ${data.tools.map(t => `<span class="badge-tool ${t === 'Codex' ? 'codex' : 'agy'}">${t}</span>`).join('')}
+        ${data.tools.map(t => `<span class="badge-tool ${t.includes('ChatGPT') ? 'chatgpt' : (t === 'Codex' ? 'codex' : (t === 'Deploy' ? 'deploy' : 'agy'))}">${t}</span>`).join('')}
         <span style="font-size: 0.8rem; color: #34d399; font-weight: 700;">⏱️ ${data.time}</span>
       `;
 
@@ -1311,6 +1313,18 @@ Acceptance Criteria: Valid inputs display calculated BMI number and color-coded 
 
         <h3 class="modal-section-title">📁 Expected Workspace File Structure</h3>
         <div style="background: rgba(0, 0, 0, 0.45); border: 1px solid var(--line); padding: 14px 18px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; color: #a5f3fc; white-space: pre; margin-bottom: 20px; line-height: 1.5;">${escapeHtml(data.fileTree)}</div>
+
+        
+        ${data.tools.includes('Web ChatGPT') ? `
+          <!-- Web ChatGPT Token Saving Tip -->
+          <div style="margin: 16px 0 20px; background: linear-gradient(135deg, rgba(16, 163, 127, 0.12), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(16, 163, 127, 0.35); border-radius: 10px; padding: 14px 18px; display: flex; align-items: flex-start; gap: 12px;">
+            <span style="font-size: 1.25rem; line-height: 1;">💡</span>
+            <div style="font-size: 0.88rem; color: #d1fae5; line-height: 1.6;">
+              <strong style="color: #6ee7b7; font-size: 0.92rem;">[Token-Saving Tip] Generate MD Files with Web ChatGPT</strong><br>
+              Instead of generating documentation within Codex/Antigravity, paste the prompt below into <strong>Web ChatGPT</strong> to generate the Markdown (<code>.md</code>) text, then manually save it as a new file in your workspace. This significantly <strong>conserves your AI credits and token budget</strong>!
+            </div>
+          </div>
+        ` : ''}
 
         <h3 class="modal-section-title">💬 Copy-Ready Turnkey Prompts</h3>
         ${data.prompts.map((p, pIdx) => `

@@ -926,6 +926,66 @@
       min-height: 48px;
     }
 
+  
+    /* Locked Day Card Styles (Day-by-Day Release) */
+    .day-card.is-locked {
+      position: relative;
+      opacity: 0.78;
+      border-color: rgba(255, 255, 255, 0.1);
+      cursor: not-allowed;
+    }
+    .day-card.is-locked:hover {
+      transform: none !important;
+      box-shadow: var(--card-shadow) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    .day-card.is-locked .day-actions a {
+      pointer-events: none !important;
+      cursor: not-allowed !important;
+      opacity: 0.55;
+      filter: grayscale(0.5);
+    }
+    .day-card .locked-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(9, 9, 11, 0.52);
+      backdrop-filter: blur(1.5px);
+      -webkit-backdrop-filter: blur(1.5px);
+      border-radius: var(--card-radius);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: not-allowed;
+      transition: all 0.25s ease;
+      padding: 20px;
+      text-align: center;
+    }
+    .day-card .locked-overlay:hover {
+      background: rgba(9, 9, 11, 0.65);
+    }
+    .day-card .locked-badge-center {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      color: #fde047;
+      font-size: 0.92rem;
+      font-weight: 800;
+      padding: 10px 22px;
+      border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.2);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .day-card .locked-sub-text {
+      color: #94a3b8;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
   </style>
 </head>
 <body>
@@ -1008,7 +1068,7 @@
       <div class="days-grid">
         
         <!-- Day 1 Card -->
-        <article class="day-card">
+        <article class="day-card" data-day="1">
           <div class="day-thumb-wrapper">
             <div class="day-thumb" style="background-image: url('img/day1_tools.png');"></div>
             <div class="day-thumb-overlay"></div>
@@ -1038,7 +1098,7 @@
         </article>
 
         <!-- Day 2 Card -->
-        <article class="day-card">
+        <article class="day-card" data-day="2">
           <div class="day-thumb-wrapper">
             <div class="day-thumb" style="background-image: url('img/day2_planning.png');"></div>
             <div class="day-thumb-overlay"></div>
@@ -1068,7 +1128,7 @@
         </article>
 
         <!-- Day 3 Card -->
-        <article class="day-card">
+        <article class="day-card" data-day="3">
           <div class="day-thumb-wrapper">
             <div class="day-thumb" style="background-image: url('img/day3_mvp.png');"></div>
             <div class="day-thumb-overlay"></div>
@@ -1098,7 +1158,7 @@
         </article>
 
         <!-- Day 4 Card -->
-        <article class="day-card">
+        <article class="day-card" data-day="4">
           <div class="day-thumb-wrapper">
             <div class="day-thumb" style="background-image: url('img/day4_expansion.png');"></div>
             <div class="day-thumb-overlay"></div>
@@ -1128,7 +1188,7 @@
         </article>
 
         <!-- Day 5 Card -->
-        <article class="day-card">
+        <article class="day-card" data-day="5">
           <div class="day-thumb-wrapper">
             <div class="day-thumb" style="background-image: url('img/day5_presentation.png');"></div>
             <div class="day-thumb-overlay"></div>
@@ -2315,6 +2375,85 @@
     document.addEventListener('DOMContentLoaded', function() {
       renderFacilitators();
     });
+  </script>
+
+
+  <script>
+    // 요일별 일차 순차 오픈 제어기 (월: 1일차, 화: 1~2일차, 수: 1~3일차, 목: 1~4일차, 금~일: 1~5일차)
+    (function() {
+      function applyDaySchedule() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const forceDay = urlParams.get('day'); // 테스트 및 미리보기용 ?day=all 또는 ?day=1~5
+
+        const now = new Date();
+        const dayOfWeek = now.getDay(); // 0: 일, 1: 월, 2: 화, 3: 수, 4: 목, 5: 금, 6: 토
+        
+        let maxOpenDay = 1;
+        if (forceDay === 'all') {
+          maxOpenDay = 5;
+        } else if (forceDay && !isNaN(parseInt(forceDay))) {
+          maxOpenDay = parseInt(forceDay);
+        } else {
+          if (dayOfWeek === 1) maxOpenDay = 1;      // 월요일: 1일차
+          else if (dayOfWeek === 2) maxOpenDay = 2; // 화요일: 1~2일차
+          else if (dayOfWeek === 3) maxOpenDay = 3; // 수요일: 1~3일차
+          else if (dayOfWeek === 4) maxOpenDay = 4; // 목요일: 1~4일차
+          else if (dayOfWeek === 5) maxOpenDay = 5; // 금요일: 1~5일차 전체 오픈
+          else if (dayOfWeek === 6 || dayOfWeek === 0) maxOpenDay = 5; // 토요일 및 일요일(주말): 1~5일차 전체 오픈 // 금요일 및 주말: 1~5일차
+        }
+
+        const weekdayNames = {
+          1: '월요일',
+          2: '화요일',
+          3: '수요일',
+          4: '목요일',
+          5: '금요일'
+        };
+
+        const cards = document.querySelectorAll('.day-card[data-day]');
+        cards.forEach(card => {
+          const cardDay = parseInt(card.getAttribute('data-day'));
+          if (cardDay > maxOpenDay) {
+            card.classList.add('is-locked');
+            
+            // 중복 오버레이 방지
+            if (!card.querySelector('.locked-overlay')) {
+              const overlay = document.createElement('div');
+              overlay.className = 'locked-overlay';
+              const targetDayName = weekdayNames[cardDay] || '금요일';
+              
+              overlay.innerHTML = `
+                <div class="locked-badge-center">
+                  <span>🔒</span>
+                  <span>${targetDayName} 오픈 예정 (${cardDay}일차)</span>
+                </div>
+                <div class="locked-sub-text">
+                  해당 일차의 커리큘럼은 ${targetDayName}에 순차적으로 오픈됩니다.
+                </div>
+              `;
+              
+              overlay.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                alert(`🔒 ${cardDay}일차 강좌는 ${targetDayName}에 오픈됩니다.`);
+              });
+              
+              card.appendChild(overlay);
+            }
+          } else {
+            card.classList.remove('is-locked');
+            const existingOverlay = card.querySelector('.locked-overlay');
+            if (existingOverlay) existingOverlay.remove();
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyDaySchedule);
+      } else {
+        applyDaySchedule();
+      }
+    })();
   </script>
 
 </body>

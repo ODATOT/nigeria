@@ -326,6 +326,7 @@
     .badge-task.challenge { background: rgba(6, 182, 212, 0.15); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3); }
     .badge-tool { font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
     .badge-tool.agy { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-tool.chatgpt { color: #10b981; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.25); }
     .badge-tool.codex { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
     .check-container { display: flex; align-items: center; cursor: pointer; }
     .check-container input { accent-color: #f59e0b; width: 18px; height: 18px; cursor: pointer; }
@@ -615,6 +616,7 @@
           <div class="badge-group">
             <span class="badge-task core">Task 01</span>
             <span class="badge-tool codex">Codex</span>
+            <span class="badge-tool chatgpt">Web ChatGPT</span>
           </div>
           <label class="check-container" title="Mark complete">
             <input type="checkbox" onchange="toggleTaskComplete(1, this.checked)" />
@@ -702,6 +704,7 @@
           <div class="badge-group">
             <span class="badge-task core">Task 04</span>
             <span class="badge-tool codex">Codex</span>
+            <span class="badge-tool chatgpt">Web ChatGPT</span>
           </div>
           <label class="check-container" title="Mark complete">
             <input type="checkbox" onchange="toggleTaskComplete(4, this.checked)" />
@@ -899,7 +902,7 @@
         id: 1,
         type: "core",
         badge: "Task 01 · Core Lab",
-        tools: ["Codex"],
+        tools: ["Codex", "Web ChatGPT"],
         time: "50 Mins",
         title: "Change Specifications & Regression Guardrails",
         goal: "Based on Day 3 audit results, finalize new feature additions and preservation rules in CHANGE_REQUEST_DAY4.md before editing code.",
@@ -1038,7 +1041,7 @@ Principles:
         id: 4,
         type: "core",
         badge: "Task 04 · Core Lab",
-        tools: ["Codex"],
+        tools: ["Codex", "Web ChatGPT"],
         time: "40 Mins",
         title: "Codex Regression Testing (VALIDATION_DAY4.md)",
         goal: "Rigorously audit both legacy Must-Haves (Day 3) and new Must-Haves (Day 4) to produce a certified regression report.",
@@ -1199,7 +1202,7 @@ Principles:
 
       badgeRow.innerHTML = `
         <span class="badge-task ${data.type}">${data.badge}</span>
-        ${data.tools.map(t => `<span class="badge-tool ${t === 'Codex' ? 'codex' : 'agy'}">${t}</span>`).join('')}
+        ${data.tools.map(t => `<span class="badge-tool ${t.includes('ChatGPT') ? 'chatgpt' : (t === 'Codex' ? 'codex' : (t === 'Deploy' ? 'deploy' : 'agy'))}">${t}</span>`).join('')}
         <span style="font-size: 0.8rem; color: #fbbf24; font-weight: 700;">⏱️ ${data.time}</span>
       `;
 
@@ -1222,6 +1225,18 @@ Principles:
 
         <h3 class="modal-section-title">📁 Expected Workspace File Structure</h3>
         <div style="background: rgba(0, 0, 0, 0.45); border: 1px solid var(--line); padding: 14px 18px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; color: #a5f3fc; white-space: pre; margin-bottom: 20px; line-height: 1.5;">${escapeHtml(data.fileTree)}</div>
+
+        
+        ${data.tools.includes('Web ChatGPT') ? `
+          <!-- Web ChatGPT Token Saving Tip -->
+          <div style="margin: 16px 0 20px; background: linear-gradient(135deg, rgba(16, 163, 127, 0.12), rgba(6, 182, 212, 0.08)); border: 1px solid rgba(16, 163, 127, 0.35); border-radius: 10px; padding: 14px 18px; display: flex; align-items: flex-start; gap: 12px;">
+            <span style="font-size: 1.25rem; line-height: 1;">💡</span>
+            <div style="font-size: 0.88rem; color: #d1fae5; line-height: 1.6;">
+              <strong style="color: #6ee7b7; font-size: 0.92rem;">[Token-Saving Tip] Generate MD Files with Web ChatGPT</strong><br>
+              Instead of generating documentation within Codex/Antigravity, paste the prompt below into <strong>Web ChatGPT</strong> to generate the Markdown (<code>.md</code>) text, then manually save it as a new file in your workspace. This significantly <strong>conserves your AI credits and token budget</strong>!
+            </div>
+          </div>
+        ` : ''}
 
         <h3 class="modal-section-title">💬 Copy-Ready Turnkey Prompts</h3>
         ${data.prompts.map((p, pIdx) => `
