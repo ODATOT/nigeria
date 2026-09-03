@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Day 10 Textbook | Service Launch and Final Presentation</title><link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/><style>
-    :root {
+:root {
       --primary: #2563eb;
       --primary-dark: #1d4ed8;
       --secondary: #0891b2;
@@ -91,30 +91,86 @@
     }
     .btn-back:hover { background: rgba(255, 255, 255, 0.2); }
 
-    /* Book Page Container */
+    /* Standard A4 Screen & Print Styling */
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      background: #cbd5e1 !important;
+      color: var(--text-dark);
+      line-height: 1.55;
+      word-break: keep-all;
+      margin: 0;
+      padding: 0;
+    }
+
+    .no-print-bar .action-btns {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-download {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+    .btn-download:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4); }
+
+    /* A4 Book Page Container & True A4 Vertical Sheets */
     .book-container {
-      max-width: 900px;
-      margin: 30px auto;
-      background: #ffffff;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-      border-radius: 12px;
-      overflow: hidden;
+      width: 210mm !important;
+      max-width: 100% !important;
+      margin: 36px auto 60px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 36px !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
     }
 
+    .cover-page,
     .book-page {
-      padding: 60px 50px;
-      position: relative;
-      background: var(--paper-tint);
-      border-bottom: 1px solid #e2e8f0;
+      width: 210mm !important;
+      min-height: 297mm !important;
+      box-sizing: border-box !important;
+      position: relative !important;
+      background: #ffffff !important;
+      border-radius: 3px !important;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25), 0 3px 10px rgba(0, 0, 0, 0.12) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      padding: 18mm 18mm 16mm 18mm !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
     }
 
-    /* Page Breaks for Print */
-    .page-break {
-      page-break-after: always;
-      break-after: page;
+    .cover-page {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%) !important;
+      color: #ffffff !important;
+      padding: 24mm 20mm 20mm 20mm !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
     }
 
-    /* Book Header / Footer */
+    @media screen and (max-width: 820px) {
+      .book-container {
+        width: 100% !important;
+      }
+      .cover-page,
+      .book-page {
+        width: 95vw !important;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        padding: 22px 18px !important;
+      }
+    }
+
     .book-header-line {
       display: flex;
       justify-content: space-between;
@@ -122,8 +178,9 @@
       font-size: 0.8rem;
       color: var(--text-muted);
       border-bottom: 1px solid var(--border-color);
-      padding-bottom: 12px;
-      margin-bottom: 32px;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      flex-shrink: 0;
     }
 
     .book-footer-line {
@@ -133,396 +190,144 @@
       font-size: 0.8rem;
       color: var(--text-muted);
       border-top: 1px solid var(--border-color);
-      padding-top: 16px;
-      margin-top: 48px;
-    }
-
-    /* Cover Page */
-    .cover-page {
-      min-height: 840px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
-      color: #ffffff;
-      padding: 80px 60px;
-      border-radius: 12px 12px 0 0;
-    }
-
-    .cover-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .cover-tag {
-      background: rgba(59, 130, 246, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      color: #60a5fa;
-      padding: 6px 16px;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
-    .cover-main {
-      margin: 80px 0;
-    }
-
-    .cover-subtitle {
-      font-size: 1.25rem;
-      color: #94a3b8;
-      font-weight: 500;
-      margin-bottom: 12px;
-    }
-
-    .cover-title {
-      font-size: 2.75rem;
-      font-weight: 800;
-      line-height: 1.25;
-      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 24px;
-    }
-
-    .cover-desc {
-      font-size: 1.05rem;
-      color: #cbd5e1;
-      max-width: 650px;
-      line-height: 1.7;
-    }
-
-    .cover-footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-      padding-top: 24px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      color: #94a3b8;
-    }
-
-    /* Typography & Components */
-    h1.chapter-title {
-      font-size: 1.85rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .chapter-number {
-      color: var(--primary);
-      font-size: 1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
-    }
-
-    h2.section-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: #1e293b;
-      margin: 32px 0 16px 0;
-      padding-bottom: 8px;
-      border-bottom: 2px solid #f1f5f9;
-    }
-
-    h3.sub-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #334155;
-      margin: 20px 0 10px 0;
-    }
-
-    p { margin-bottom: 14px; font-size: 0.98rem; color: #334155; }
-
-    .lead {
-      font-size: 1.08rem;
-      line-height: 1.8;
-      color: #1e293b;
-      max-width: 70ch;
-    }
-
-    .learning-map {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      margin: 22px 0;
-    }
-
-    .learning-item {
-      border-top: 3px solid var(--primary);
-      background: #ffffff;
-      padding: 16px;
-      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
-    }
-
-    .learning-item strong { display: block; margin-bottom: 5px; color: #0f172a; }
-    .learning-item p { margin: 0; font-size: 0.9rem; }
-
-    .study-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 14px 0 24px;
-    }
-
-    .study-chip {
-      background: #eaf2ff;
-      color: #1e40af;
-      border: 1px solid #bfdbfe;
-      padding: 6px 10px;
-      font-size: 0.82rem;
-      font-weight: 700;
-    }
-
-    .check-point {
-      margin: 22px 0;
-      padding: 20px 22px;
-      border: 1px solid #f3d18b;
-      background: #fffbeb;
-    }
-
-    .check-point h3 { color: #92400e; font-size: 1rem; margin-bottom: 10px; }
-    .check-point ol, .check-point ul, .practice-box ol { padding-left: 22px; }
-    .check-point li, .practice-box li { margin: 7px 0; color: #334155; }
-
-    .practice-box {
-      margin: 24px 0;
-      padding: 22px;
-      border: 2px solid #cbd5e1;
-      background: #ffffff;
-    }
-
-    .practice-label {
-      display: inline-block;
-      margin-bottom: 10px;
-      color: #ffffff;
-      background: #334155;
-      padding: 4px 9px;
-      font-weight: 800;
-      font-size: 0.78rem;
-      letter-spacing: .04em;
-    }
-
-    .answer-box {
-      margin: 18px 0;
-      border: 1px solid #bbf7d0;
-      background: #f0fdf4;
-      padding: 18px 20px;
-    }
-
-    .answer-box summary {
-      cursor: pointer;
-      font-weight: 800;
-      color: var(--success);
-    }
-
-    .answer-box p { margin: 12px 0 0; }
-
-    .wrong-right {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin: 18px 0;
-    }
-
-    .example-panel { padding: 16px; border: 1px solid var(--border-color); background: #fff; }
-    .example-panel.bad { border-top: 4px solid var(--danger); }
-    .example-panel.good { border-top: 4px solid var(--success); }
-    .example-panel h4 { margin-bottom: 8px; }
-    .example-panel p { margin: 0; font-size: .9rem; }
-
-    .rubric { counter-reset: rubric; list-style: none; }
-    .rubric li { position: relative; padding: 10px 10px 10px 42px; border-bottom: 1px solid #e2e8f0; }
-    .rubric li::before { counter-increment: rubric; content: counter(rubric); position: absolute; left: 6px; top: 9px; width: 24px; height: 24px; border-radius: 50%; background: #dbeafe; color: #1d4ed8; display: grid; place-items: center; font-weight: 800; }
-
-    code { font-family: 'Menlo', 'Monaco', 'Courier New', monospace; background: #e2e8f0; padding: 1px 5px; border-radius: 3px; font-size: .88em; }
-    .code-box code { background: transparent; padding: 0; color: inherit; }
-
-    @media (max-width: 720px) {
-      .no-print-bar { position: static; align-items: flex-start; gap: 12px; padding: 12px 14px; }
-      .no-print-bar .title-group strong { display: none; }
-      .action-btns { flex-wrap: wrap; justify-content: flex-end; }
-      .btn-action { min-height: 44px; padding: 9px 12px; }
-      .book-container { margin: 0; border-radius: 0; }
-      .book-page, .cover-page { padding: 42px 24px; }
-      .cover-title { font-size: 2.15rem; }
-      .learning-map, .wrong-right { grid-template-columns: 1fr; }
-      .book-table { display: block; overflow-x: auto; }
-      .toc-page { display: none; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
-    }
-
-    /* Callout Box */
-    .callout {
-      background: #f8fafc;
-      border-left: 4px solid var(--primary);
-      padding: 18px 22px;
-      border-radius: 0 8px 8px 0;
-      margin: 20px 0;
-    }
-    .callout.cyan { border-left-color: var(--secondary); background: #ecfeff; }
-    .callout.purple { border-left-color: var(--accent); background: #f5f3ff; }
-
-    .callout-title {
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: #1e293b;
-      margin-bottom: 6px;
-    }
-
-    /* Tables */
-    .book-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      font-size: 0.92rem;
-    }
-
-    .book-table th, .book-table td {
-      padding: 12px 16px;
-      border: 1px solid var(--border-color);
-      text-align: left;
-    }
-
-    .book-table th {
-      background: #f1f5f9;
-      font-weight: 700;
-      color: #1e293b;
-    }
-
-    /* Code Blocks */
-    .code-box {
-      background: var(--code-bg);
-      color: var(--code-text);
-      border-radius: 8px;
-      padding: 16px 20px;
-      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
-      font-size: 0.88rem;
-      overflow-x: auto;
-      margin: 16px 0;
-      line-height: 1.5;
-    }
-
-    .code-box-header {
-      font-size: 0.78rem;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    /* Step List */
-    .step-flow {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin: 20px 0;
-    }
-
-    .step-card {
-      display: flex;
-      gap: 16px;
-      background: #f8fafc;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 18px;
-    }
-
-    .step-num {
-      width: 36px;
-      height: 36px;
-      background: var(--primary);
-      color: #ffffff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 1rem;
+      padding-top: 10px;
+      margin-top: auto;
       flex-shrink: 0;
     }
 
-    .step-body h4 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #1e293b;
-      margin-bottom: 4px;
-    }
-
-    .step-body p {
-      font-size: 0.92rem;
-      color: #64748b;
+    /* A4 Size & Print Styles */
+    @page {
+      size: A4 portrait;
       margin: 0;
     }
 
-    /* TOC (Table of Contents) */
-    .toc-list {
-      list-style: none;
-      margin: 24px 0;
-    }
-
-    .toc-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px dashed var(--border-color);
-      font-size: 1rem;
-    }
-
-    .toc-title {
-      font-weight: 600;
-      color: #1e293b;
-    }
-
-    .toc-page {
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    /* Print Styles */
     @media print {
-      body { background: #ffffff; color: #000000; }
-      .no-print-bar { display: none !important; }
+      html, body {
+        width: 210mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11.5px !important;
+        line-height: 1.42 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .no-print-bar {
+        display: none !important;
+      }
+
       .book-container {
-        max-width: 100%;
-        margin: 0;
-        box-shadow: none;
-        border-radius: 0;
+        width: 210mm !important;
+        max-width: 210mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
       }
+
+      .page-break {
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+
+      .cover-page,
       .book-page {
-        padding: 40px 30px;
-        page-break-after: always;
-        break-after: page;
-        border-bottom: none;
+        width: 210mm !important;
+        height: 297mm !important;
+        min-height: 297mm !important;
+        max-height: 297mm !important;
+        margin: 0 !important;
+        padding: 16mm 16mm 14mm 16mm !important;
+        box-sizing: border-box !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        border: none !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        background: #ffffff !important;
       }
+
       .cover-page {
-        min-height: 98vh;
-        border-radius: 0;
         background: #0f172a !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        color: #ffffff !important;
+        padding: 26mm 16mm 18mm 16mm !important;
       }
-      .callout, .step-card, .code-box, .book-table th {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+
+      .cover-title {
+        font-size: 2.1rem !important;
+        line-height: 1.25 !important;
       }
-      .answer-box[open] summary { display: none; }
-      .learning-item, .practice-box, .check-point, .answer-box { break-inside: avoid; }
+
+      .chapter-title {
+        font-size: 1.35rem !important;
+        margin-bottom: 6px !important;
+      }
+
+      .section-title {
+        font-size: 1.05rem !important;
+        margin-top: 10px !important;
+        margin-bottom: 6px !important;
+      }
+
+      .book-header-line {
+        margin-bottom: 10px !important;
+        padding-bottom: 5px !important;
+      }
+
+      .book-footer-line {
+        margin-top: auto !important;
+        padding-top: 6px !important;
+        border-top: 1px solid #cbd5e1 !important;
+      }
+
+      .book-table, .step-flow, .wrong-right, .code-box, .callout, .practice-box, .check-point, .answer-box {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin-top: 6px !important;
+        margin-bottom: 6px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .book-table th, .book-table td {
+        padding: 4px 7px !important;
+        font-size: 0.8rem !important;
+      }
+
+      .code-box {
+        padding: 6px 8px !important;
+        font-size: 0.75rem !important;
+        line-height: 1.3 !important;
+      }
+
+      .answer-box {
+        padding: 6px 10px !important;
+        margin: 6px 0 !important;
+      }
+
+      .answer-box summary {
+        display: block !important;
+        font-weight: 800 !important;
+        margin-bottom: 4px !important;
+        color: #166534 !important;
+      }
     }
+
   </style></head><body>
-<div class="no-print-bar"><div class="title-group"><span class="badge">ACE AI Startup Bootcamp</span><strong>Day 10: Service Launch and Final Presentation</strong></div><div class="action-btns"><a href="day10-ai-classroom.html" class="btn-action btn-back">← Back to LMS Classroom</a><button onclick="window.print()" class="btn-action btn-print">Save as PDF / Print</button></div></div><main class="book-container">
-<section class="cover-page page-break"><div class="cover-top"><span class="cover-tag">DAY 10 TEXTBOOK</span><span>ACE Startup SW/AI Pilot</span></div><div class="cover-main"><div class="cover-subtitle">ACE AI Startup Bootcamp Textbook Series 10</div><h1 class="cover-title">Service Launch and Final Presentation</h1><p class="cover-desc">A self-study textbook covering essential theory, comparative examples, guided practice, quality review, and a capstone exercise. Central question: How do we release a service safely and explain its value convincingly?</p></div><div class="cover-footer"><div>Estimated study time: 3 hours</div><div>Audience: Third-year undergraduate SW/AI students</div></div></section>
+<div class="no-print-bar"><div class="title-group"><span class="badge">ACE AI Startup Bootcamp</span><strong>Day 10: Service Launch and Final Presentation</strong></div><div class="action-btns"><a href="day10-ai-classroom.html" class="btn-action btn-back">← Back to LMS Classroom</a><button id="btn-download-pdf" onclick="downloadPDF()" class="btn-action btn-download">📥 Download A4 PDF</button>
+      <button onclick="window.print()" class="btn-action btn-print">Save as PDF / Print</button></div></div><main class="book-container">
+<section class="cover-page page-break"><div class="cover-top"><span class="cover-tag">DAY 10 TEXTBOOK</span><span>ACE Startup SW/AI Pilot</span></div><div class="cover-main"><div class="cover-subtitle">ACE AI Startup Bootcamp Textbook Series 10</div><h1 class="cover-title">Service Launch and Final Presentation</h1><p class="cover-desc">A self-study textbook covering essential theory, comparative examples, guided practice, quality review, and a capstone exercise. Central question: How do we release a service safely and explain its value convincingly?</p></div><div class="cover-footer"><div>Estimated study time: 6 hours</div><div>Audience: Third-year undergraduate SW/AI students</div></div></section>
 <section class="book-page page-break"><div class="book-header-line"><span>ACE AI Startup Bootcamp | Day 10</span><span>Study Guide</span></div><div class="chapter-number">HOW TO STUDY</div><h1 class="chapter-title">Learning Goals and Study Routine</h1><p class="lead"><strong>How do we release a service safely and explain its value convincingly?</strong> You complete today’s lesson when you can answer this question in your own words, produce the required artifact, and review its quality.</p><div class="study-meta"><span class="study-chip">Theory: 60 min</span><span class="study-chip">Practice: 90 min</span><span class="study-chip">Review: 30 min</span></div><div class="learning-map"><div class="learning-item"><strong>01</strong><p>Explain the difference between deployment and release.</p></div><div class="learning-item"><strong>02</strong><p>Design zero-downtime deployment and rollback.</p></div><div class="learning-item"><strong>03</strong><p>Manage environment variables and secrets safely.</p></div><div class="learning-item"><strong>04</strong><p>Define monitoring signals and incident response.</p></div><div class="learning-item"><strong>05</strong><p>Create launch checklists and Go/No-Go criteria.</p></div><div class="learning-item"><strong>06</strong><p>Build a final presentation around problem, solution, and evidence.</p></div></div><div class="check-point"><h3>Recommended self-study routine</h3><ol><li>Explain why a problem occurs before memorizing its terminology.</li><li>Describe the difference between good and poor examples using observable criteria.</li><li>Attempt the capstone before opening the model answer.</li><li>Mark missing conditions in a second color and revise your artifact.</li></ol></div><div class="book-footer-line"><span>ACE AI Startup Bootcamp</span><span>2</span></div></section>
 <section class="book-page page-break"><div class="book-header-line"><span>ACE AI Startup Bootcamp | Day 10</span><span>Table of Contents</span></div><div class="chapter-number">CONTENTS</div><h1 class="chapter-title">Table of Contents</h1><ul class="toc-list"><li class="toc-item"><span class="toc-title">Study Guide and Learning Goals</span><span class="toc-page">Page 02</span></li><li class="toc-item"><span class="toc-title">Chapter 1. Core Theory and Design Principles</span><span class="toc-page">Page 04</span></li><li class="toc-item"><span class="toc-title">Chapter 2. Guided Design Practice</span><span class="toc-page">Page 05</span></li><li class="toc-item"><span class="toc-title">Chapter 3. Case Review and Quality Check</span><span class="toc-page">Page 06</span></li><li class="toc-item"><span class="toc-title">Chapter 4. Capstone and Model Answer</span><span class="toc-page">Page 07</span></li><li class="toc-item"><span class="toc-title">Glossary and Final Checklist</span><span class="toc-page">Page 08</span></li></ul><div class="callout cyan"><div class="callout-title">Completion standard</div><p style="margin:0">Submit the capstone artifact, score at least 80/100 on the self-review, and write your own answers to the four concept questions.</p></div><div class="book-footer-line"><span>ACE AI Startup Bootcamp</span><span>3</span></div></section>
 <section class="book-page page-break"><div class="book-header-line"><span>ACE AI Startup Bootcamp | Day 10</span><span>Chapter 1 · Core Theory</span></div><div class="chapter-number">CHAPTER 01</div><h1 class="chapter-title">Core Theory: Service Launch and Final Presentation</h1><p class="lead">Each technical term exists to solve a recurring design problem. Study when and why the concept is needed, not merely its definition.</p><table class="book-table"><thead><tr><th style="width:28%">Core concept</th><th>Working definition</th></tr></thead><tbody><tr><td><strong>Deployment</strong></td><td>The technical act of installing code in an environment.</td></tr><tr><td><strong>Release</strong></td><td>The product decision to expose a capability to users.</td></tr><tr><td><strong>Blue-Green</strong></td><td>Running old and new environments and switching traffic between them.</td></tr><tr><td><strong>Canary</strong></td><td>Exposing a change to a small audience first.</td></tr><tr><td><strong>Rollback</strong></td><td>Returning to the previous stable version after a problem.</td></tr><tr><td><strong>Observability</strong></td><td>Understanding internal behavior through logs, metrics, and traces.</td></tr></tbody></table><h2 class="section-title">Poor and Effective Approaches</h2><div class="wrong-right"><div class="example-panel bad"><h4>Avoid</h4><p>Deploy to every user immediately because tests passed, and rely on developers to respond manually.</p></div><div class="example-panel good"><h4>Prefer</h4><p>Define backup, migration, health checks, staged traffic, alerts, rollback conditions, and owners before deployment.</p></div></div><div class="callout purple"><div class="callout-title">Design formula</div><p style="margin:0"><strong>[Release Scope] → [Preflight Checks] → [Deployment Strategy] → [Health Check] → [Progressive Exposure] → [Observe, Respond, Roll Back]</strong></p></div><div class="book-footer-line"><span>ACE AI Startup Bootcamp</span><span>4</span></div></section>
@@ -537,6 +342,33 @@ NO-GO
 - Migration recovery is untested
 - No owner, monitoring, or rollback access</div><div class="check-point"><h3>Questions for reading the example</h3><ul><li>Are the input and initiating condition explicit?</li><li>Are success and failure outcomes observable?</li><li>Are duplication, authorization, concurrency, and dependency failure covered as needed?</li><li>Can the result be traced back to a requirement?</li></ul></div><div class="book-footer-line"><span>ACE AI Startup Bootcamp</span><span>5</span></div></section>
 <section class="book-page page-break"><div class="book-header-line"><span>ACE AI Startup Bootcamp | Day 10</span><span>Chapter 3 · Review</span></div><div class="chapter-number">CHAPTER 03</div><h1 class="chapter-title">Concept Check and Quality Review</h1><div class="practice-box"><span class="practice-label">CONCEPT CHECK</span><ol><li>What do we gain by separating deployment from release?</li><li>Why can a database migration make rollback difficult?</li><li>Why is p95 more useful than an average latency alone?</li><li>Why is evidence stronger than a feature list in a final presentation?</li></ol><p>Answer each in two or three sentences and add one example that supports your explanation.</p></div><h2 class="section-title">Self-Assessment · 100 points</h2><table class="book-table"><thead><tr><th>Area</th><th>Standard</th><th>Points</th></tr></thead><tbody><tr><td>Accuracy</td><td>Concepts and technical choices match the facts and requirements.</td><td>25</td></tr><tr><td>Completeness</td><td>Normal flow, boundaries, failures, and recovery are covered.</td><td>25</td></tr><tr><td>Consistency</td><td>Terms, IDs, states, and interfaces agree across artifacts.</td><td>20</td></tr><tr><td>Verifiability</td><td>Observable outcomes and completion criteria are present.</td><td>20</td></tr><tr><td>Reasoning</td><td>The choice and its tradeoffs can be explained clearly.</td><td>10</td></tr></tbody></table><div class="callout"><div class="callout-title">If your score is below 80</div><p style="margin:0">Do not only correct the result. Record which question you failed to ask so your next design process prevents the same omission.</p></div><div class="book-footer-line"><span>ACE AI Startup Bootcamp</span><span>6</span></div></section>
-<section class="book-page page-break"><div class="book-header-line"><span>ACE AI Startup Bootcamp | Day 10</span><span>Chapter 4 · Capstone</span></div><div class="chapter-number">CHAPTER 04</div><h1 class="chapter-title">Capstone Exercise and Model Answer</h1><div class="practice-box"><span class="practice-label">SUBMISSION</span><p><strong>Assume you are launching a reservation service. Write a 30-minute deployment runbook and a five-minute final presentation outline.</strong></p><ol><li>List assumptions and unresolved decisions first.</li><li>Produce the main design as a table, diagram, or code block.</li><li>Include the normal flow and at least three failures or boundaries.</li><li>Score it with the rubric and compare before and after revision.</li></ol></div><details class="answer-box"><summary>Open the model answer</summary><p>The runbook should name owners, backup, deployment steps, health checks, 10%/50%/100% traffic stages, error thresholds, rollback commands, and user communication. A five-minute presentation can allocate 40 seconds to the problem, 50 to user and solution, 100 to demo, 50 to technical decisions, 40 to evidence, and 20 to next steps.</p></details><div class="check-point"><h3>How to use the answer</h3><p>The model is not the only valid design. If yours differs, explain the requirement, cost, complexity, or risk that justifies your choice.</p></div><div class="book-footer-line"><span>ACE AI Startup Bootcamp</span><span>7</span></div></section>
+<section class="book-page page-break"><div class="book-header-line"><span>ACE AI Startup Bootcamp | Day 10</span><span>Chapter 4 · Capstone</span></div><div class="chapter-number">CHAPTER 04</div><h1 class="chapter-title">Capstone Exercise and Model Answer</h1><div class="practice-box"><span class="practice-label">SUBMISSION</span><p><strong>Assume you are launching a reservation service. Write a 30-minute deployment runbook and a five-minute final presentation outline.</strong></p><ol><li>List assumptions and unresolved decisions first.</li><li>Produce the main design as a table, diagram, or code block.</li><li>Include the normal flow and at least three failures or boundaries.</li><li>Score it with the rubric and compare before and after revision.</li></ol></div><details class="answer-box" open><summary>Open the model answer</summary><p>The runbook should name owners, backup, deployment steps, health checks, 10%/50%/100% traffic stages, error thresholds, rollback commands, and user communication. A five-minute presentation can allocate 40 seconds to the problem, 50 to user and solution, 100 to demo, 50 to technical decisions, 40 to evidence, and 20 to next steps.</p></details><div class="check-point"><h3>How to use the answer</h3><p>The model is not the only valid design. If yours differs, explain the requirement, cost, complexity, or risk that justifies your choice.</p></div><div class="book-footer-line"><span>ACE AI Startup Bootcamp</span><span>7</span></div></section>
 <section class="book-page page-break"><div class="book-header-line"><span>ACE AI Startup Bootcamp | Day 10</span><span>Lesson Review</span></div><div class="chapter-number">REVIEW</div><h1 class="chapter-title">Glossary and Final Checklist</h1><table class="book-table"><thead><tr><th style="width:28%">Term</th><th>Plain-English meaning</th></tr></thead><tbody><tr><td><strong>Blue-Green</strong></td><td>Switching traffic between two complete environments.</td></tr><tr><td><strong>Canary</strong></td><td>Validating a release with limited traffic first.</td></tr><tr><td><strong>Rollback</strong></td><td>Returning to a previous stable state.</td></tr><tr><td><strong>Runbook</strong></td><td>An executable operations and incident procedure.</td></tr><tr><td><strong>SLO</strong></td><td>A reliability objective the service is expected to meet.</td></tr><tr><td><strong>p95</strong></td><td>A latency below which 95% of requests complete.</td></tr></tbody></table><h2 class="section-title">Eight checks before submission</h2><ol class="rubric"><li>Can you answer today’s central question in your own words?</li><li>Are inputs, conditions, and results explicit?</li><li>Did you include failures and recovery, not only the happy path?</li><li>Did you review concurrency, duplicate requests, and permissions?</li><li>Did you account for dependency failure and timeouts?</li><li>Can you explain the disadvantages and alternatives to your choice?</li><li>Are terminology and states consistent across artifacts?</li><li>Is there an observable or testable completion standard?</li></ol><div class="callout cyan"><div class="callout-title">Day 10 in one question</div><p style="margin:0"><strong>How do we release a service safely and explain its value convincingly?</strong> Answer it now using evidence from the artifact you created.</p></div><div class="book-footer-line"><span>ACE AI Startup Bootcamp</span><span>8</span></div></section>
-</main></body></html>
+</main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    function downloadPDF() {
+      const btn = document.getElementById('btn-download-pdf');
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) btn.innerHTML = '⏳ PDF 생성 중...';
+
+      const element = document.querySelector('.book-container');
+      const opt = {
+        margin:       0,
+        filename:     'Day10_Textbook_A4.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, logging: false },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: ['css', 'legacy'] }
+      };
+
+      html2pdf().set(opt).from(element).save().then(() => {
+        if (btn) btn.innerHTML = originalText;
+      }).catch(err => {
+        console.error('PDF 다운로드 실패:', err);
+        if (btn) btn.innerHTML = originalText;
+        window.print();
+      });
+    }
+  </script>
+</body></html>
