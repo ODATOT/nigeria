@@ -139,14 +139,7 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    .paper-container {
-      max-width: 900px;
-      margin: 30px auto;
-      background: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-      padding: 48px 56px;
-    }
+    
 
     .doc-header {
       border-bottom: 3px solid var(--primary);
@@ -223,45 +216,7 @@
     }
     table.data-table th { background: #f1f5f9; }
 
-        /* A4 Size & Print Styles */
-    @page {
-      size: A4 portrait;
-      margin: 12mm 14mm 12mm 14mm;
-    }
-
-    @media print {
-      html, body {
-        width: 100% !important;
-        background: #ffffff !important;
-        color: #000000 !important;
-        font-size: 12.5px !important;
-        line-height: 1.5 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-      .no-print-bar, .navbar-2tier { display: none !important; }
-      .paper-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-shadow: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border-radius: 0 !important;
-      }
-      .page-break {
-        page-break-after: always !important;
-        break-after: page !important;
-      }
-      .paper-page {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        margin-bottom: 20px !important;
-      }
-      table.data-table, .prompt-block, .callout-box {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-      }
-    }
+        
     }
   
     /* Modern 2-Tier Header Styles */
@@ -423,9 +378,14 @@
     }
   
   
-    /* Standard A4 Screen & Print Styling */
+    /* ==========================================================================
+       Standard A4 Portrait Screen & Print Engine
+       ========================================================================== */
     body {
       background: #cbd5e1 !important;
+      color: var(--text-dark);
+      margin: 0;
+      padding: 0;
     }
 
     .paper-container {
@@ -435,9 +395,11 @@
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      gap: 36px !important;
+      gap: 32px !important;
       box-shadow: none !important;
       border-radius: 0 !important;
+      background: transparent !important;
+      padding: 0 !important;
     }
 
     .paper-page {
@@ -445,19 +407,90 @@
       min-height: 297mm !important;
       box-sizing: border-box !important;
       background: #ffffff !important;
-      border-radius: 3px !important;
+      border-radius: 4px !important;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12) !important;
       padding: 18mm 18mm 16mm 18mm !important;
       page-break-after: always !important;
       break-after: page !important;
-      page-break-inside: avoid !important;
-      break-inside: avoid !important;
+      page-break-inside: auto !important;
+      break-inside: auto !important;
       position: relative !important;
+      overflow: visible !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+    }
+
+    .cover-page {
+      padding: 0 !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      border-radius: 4px !important;
+      overflow: hidden !important;
+      justify-content: stretch !important;
+    }
+    .cover-page > div {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .page-content-body {
+      flex: 1 0 auto;
+    }
+
+    .book-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    .book-footer-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
+      margin-top: 24px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    /* Prevent cut-off / splitting at page boundaries */
+    .compare-grid, .compare-bad, .compare-good,
+    .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+    .info-cards, .info-card, .checklist, .checklist li, .example-result,
+    .story-box, .script-box, .qa-item, .screen-state-card,
+    .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+    .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+    .data-table, h1, h2, h3, h4, pre, blockquote {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    h1, h2, h3, h4 {
+      break-after: avoid !important;
+      page-break-after: avoid !important;
+    }
+
+    p, li {
+      orphans: 3;
+      widows: 3;
     }
 
     @media screen and (max-width: 820px) {
-      .paper-container { width: 100% !important; }
-      .paper-page { width: 95vw !important; min-height: auto !important; padding: 22px 18px !important; }
+      .paper-container { width: 100% !important; margin: 16px auto !important; }
+      .paper-page { width: 95vw !important; min-height: auto !important; padding: 20px 16px !important; }
     }
 
     .btn-download {
@@ -490,6 +523,8 @@
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -500,14 +535,14 @@
         margin: 0 !important;
         padding: 0 !important;
         gap: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
       }
       .paper-page {
         width: 210mm !important;
         min-height: 297mm !important;
-        height: 297mm !important;
-        max-height: 297mm !important;
         margin: 0 !important;
-        padding: 16mm 16mm 14mm 16mm !important;
+        padding: 15mm 15mm 13mm 15mm !important;
         box-shadow: none !important;
         border-radius: 0 !important;
         border: none !important;
@@ -515,8 +550,262 @@
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-        overflow: hidden !important;
+        overflow: visible !important;
+        background: #ffffff !important;
       }
+      .cover-page {
+        padding: 0 !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        border-radius: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+      .compare-grid, .compare-bad, .compare-good,
+      .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+      .info-cards, .info-card, .checklist, .checklist li, .example-result,
+      .story-box, .script-box, .qa-item, .screen-state-card,
+      .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+      .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+      .data-table, h1, h2, h3, h4, pre, blockquote {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+    }
+
+
+
+    /* ===== Self-Study Enrichment Styles ===== */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .compare-bad {
+      background: #fff1f2;
+      border: 2px solid #fca5a5;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .compare-good {
+      background: #f0fdf4;
+      border: 2px solid #86efac;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .compare-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .compare-bad .compare-label { color: #dc2626; }
+    .compare-good .compare-label { color: #16a34a; }
+    .compare-text { font-size: 0.92rem; color: #334155; line-height: 1.6; }
+
+    .step-guide {
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .step-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+    .step-num {
+      min-width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .step-content { flex: 1; }
+    .step-title { font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+    .step-desc { font-size: 0.9rem; color: #475569; }
+
+    .tip-box {
+      background: linear-gradient(135deg, #fefce8, #fef9c3);
+      border: 1.5px solid #fde047;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 16px 0;
+    }
+    .tip-box strong { color: #92400e; }
+
+    .danger-box {
+      background: #fff1f2;
+      border: 1.5px solid #f87171;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 16px 0;
+    }
+    .danger-box strong { color: #b91c1c; }
+
+    .success-box {
+      background: #f0fdf4;
+      border: 1.5px solid #4ade80;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 16px 0;
+    }
+    .success-box strong { color: #15803d; }
+
+    .info-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .info-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px;
+    }
+    .info-card-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .info-card-title { font-weight: 800; color: #0f172a; margin-bottom: 6px; }
+    .info-card-desc { font-size: 0.88rem; color: #475569; line-height: 1.55; }
+
+    .checklist {
+      list-style: none;
+      margin: 16px 0;
+      padding: 0;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px dashed #e2e8f0;
+      font-size: 0.92rem;
+      color: #334155;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before {
+      content: '☐';
+      color: #2563eb;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .example-result {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 16px 0;
+    }
+    .example-result-label {
+      color: #38bdf8;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+    .example-result code {
+      color: #86efac;
+      font-size: 0.88rem;
+      line-height: 1.8;
+    }
+
+    .story-box {
+      background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+      border-left: 4px solid #7c3aed;
+      border-radius: 0 10px 10px 0;
+      padding: 18px 20px;
+      margin: 20px 0;
+      font-size: 0.95rem;
+      color: #3b0764;
+      line-height: 1.7;
+    }
+    .story-box .story-name {
+      font-weight: 800;
+      color: #6d28d9;
+      margin-bottom: 8px;
+    }
+
+    .term-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .term-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+    }
+    .term-word {
+      min-width: 130px;
+      font-weight: 800;
+      color: #1d4ed8;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    .term-def {
+      flex: 1;
+      font-size: 0.9rem;
+      color: #334155;
+    }
+
+    .flow-steps {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+    .flow-step {
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    .flow-arrow {
+      color: #94a3b8;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    @media (max-width: 640px) {
+      .compare-grid { grid-template-columns: 1fr; }
+      .info-cards { grid-template-columns: 1fr; }
     }
 
   </style>
@@ -537,28 +826,288 @@
 
   <div class="paper-container">
 
-    <header class="doc-header">
-      <div class="doc-category">ACE AI Startup Bootcamp · Day 1 Self-Study Textbook</div>
+    <!-- ===== COVER PAGE ===== -->
+    <section class="paper-page cover-page" data-page="cover" style="padding:0 !important; overflow:hidden !important; justify-content:stretch !important;">
+      <div style="
+        width:100%; height:100%;
+        background: linear-gradient(160deg, #0f172a 0%, #1e3a5f 40%, #1d4ed8 75%, #2563eb 100%);
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        padding: 20mm 18mm;
+        position:relative;
+        box-sizing:border-box;
+      ">
+        <!-- Decorative background circles -->
+        <div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(37,99,235,0.25);"></div>
+        <div style="position:absolute;bottom:-80px;left:-80px;width:360px;height:360px;border-radius:50%;background:rgba(124,58,237,0.2);"></div>
+        <div style="position:absolute;top:40%;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(8,145,178,0.18);"></div>
+
+        <!-- Program badge -->
+        <div style="
+          background:rgba(255,255,255,0.12);
+          border:1px solid rgba(255,255,255,0.25);
+          border-radius:50px;
+          padding:8px 24px;
+          color:#93c5fd;
+          font-size:0.82rem;
+          font-weight:700;
+          letter-spacing:1.5px;
+          text-transform:uppercase;
+          margin-bottom:32px;
+          position:relative;
+        ">ACE AI Startup Bootcamp · 자기주도 학습 교재</div>
+
+        <!-- Day badge -->
+        <div style="
+          width:100px; height:100px;
+          background:linear-gradient(135deg,#3b82f6,#7c3aed);
+          border-radius:24px;
+          display:flex; align-items:center; justify-content:center;
+          font-size:2rem; font-weight:900; color:#fff;
+          margin-bottom:28px;
+          position:relative;
+          box-shadow:0 12px 40px rgba(37,99,235,0.5);
+        ">D1</div>
+
+        <!-- Title -->
+        <h1 style="
+          font-size:2.6rem; font-weight:900; color:#ffffff;
+          text-align:center; line-height:1.25; letter-spacing:-0.03em;
+          margin-bottom:14px; position:relative;
+        ">AI 개발 도구와<br>작업 방식 익히기</h1>
+
+        <!-- Subtitle -->
+        <p style="
+          font-size:1.05rem; color:#93c5fd; font-weight:500;
+          text-align:center; margin-bottom:44px; position:relative;
+        ">AI 도구로 아이디어를 실제 서비스로 만드는 첫 번째 단계</p>
+
+        <!-- Divider -->
+        <div style="width:60px;height:3px;background:linear-gradient(90deg,#3b82f6,#7c3aed);border-radius:4px;margin-bottom:44px;position:relative;"></div>
+
+        <!-- Topics -->
+        <div style="
+          display:grid; grid-template-columns:1fr 1fr;
+          gap:12px; width:100%; max-width:440px;
+          position:relative; margin-bottom:48px;
+        ">
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">🤖</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 1</div><div style="color:#93c5fd;font-size:0.82rem;">AI 개발 도구 소개</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">⚙️</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 2</div><div style="color:#93c5fd;font-size:0.82rem;">Codex vs Antigravity</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">📝</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 3</div><div style="color:#93c5fd;font-size:0.82rem;">개발 환경 세팅</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">🚀</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 4</div><div style="color:#93c5fd;font-size:0.82rem;">첫 번째 AI 실습</div></div>
+          </div>
+        </div>
+
+        <!-- Footer info -->
+        <div style="
+          position:relative;
+          display:flex; align-items:center; gap:24px;
+          padding-top:24px;
+          border-top:1px solid rgba(255,255,255,0.15);
+          width:100%;
+        ">
+          <div style="flex:1; color:#64748b; font-size:0.8rem;">
+            <div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">교육 기관</div>
+            <div style="color:#cbd5e1;">ODA AI SW · ACE Program</div>
+          </div>
+          <div style="color:#64748b; font-size:0.8rem; text-align:right;">
+            <div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">과정</div>
+            <div style="color:#cbd5e1;">창업 지망생 AI 웹 개발</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="1">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 1</span>
+        <span>도입 및 학습 안내</span>
+      </div>
+      <div class="page-content-body">
+<header class="doc-header">
+      <div class="doc-category">ACE AI Startup Bootcamp · Day 1 자기주도 학습 교재</div>
       <h1 class="doc-title">AI 개발 도구와 작업 방식 익히기</h1>
+      <p style="color:#475569; margin-top:10px; font-size:0.95rem;">
+        📚 이 교재는 <strong>혼자 읽으면서 완전히 이해하고 따라할 수 있도록</strong> 설계되었습니다.<br>
+        개념 설명 → 실제 예시 → 단계별 실습 → 셀프 체크 순서로 진행합니다.
+      </p>
     </header>
 
-    <h2>1. 교육 개요 및 핵심 학습 목표</h2>
-    <p>
-      본 자율 학습 교재는 개발 경험이 없거나 적은 예비창업자가 AI 개발 도구인 <strong>Codex</strong>와 <strong>Antigravity</strong>를 
-      활용하여 생각을 명확한 문서로 만들고, 실제 동작하는 웹 서비스 MVP로 만드는 표준 가이드입니다.
-    </p>
+    <!-- ===== 1. 도입 이야기 ===== -->
+    <h2>1. 왜 AI 개발 도구를 써야 하는가?</h2>
 
-    <div class="callout-box">
-      <strong>🔄 AI 기반 개발 파이프라인</strong><br>
-      <code>Codex(요구사항 MD 작성) ➔ Antigravity(서비스 구현) ➔ Codex(테스트·검증) ➔ Codex(MD 보완) ➔ Antigravity(코드 수정)</code>
+    <div class="story-box">
+      <div class="story-name">💬 실제 창업자 이야기</div>
+      김 대표는 "강아지 산책 대행 매칭 앱"을 만들고 싶었습니다. 개발 외주 업체에 맡겼더니 
+      3개월 뒤 앱이 나왔는데 "산책 신청하기 버튼이 있긴 한데 눌러도 아무 일도 안 일어났습니다." 
+      원하던 게 아니었습니다. 다시 수정하려니 추가 비용 500만원이 필요했습니다.<br><br>
+      <strong>문제의 근본 원인: 머릿속 생각을 정확한 문서로 표현하지 못했습니다.</strong><br>
+      AI 개발 도구를 사용하면 창업자 본인이 직접 "무엇을 어떻게 만들어라"를 문서로 작성하고,
+      AI가 그 문서를 읽고 실제로 동작하는 웹 서비스를 만들어줍니다.
     </div>
 
-    <h2>2. 폴더, 파일, 그리고 절대경로</h2>
-    <p>
-      AI 기반 개발에서 가장 중요한 원칙은 <strong>두 AI 도구가 동일한 프로젝트 로컬 절대경로를 바라보고 있어야 한다</strong>는 점입니다.
-    </p>
+    <p><strong>이 과정에서 배우는 핵심 가치:</strong></p>
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card-icon">✍️</div>
+        <div class="info-card-title">생각을 문서로</div>
+        <div class="info-card-desc">머릿속 아이디어를 AI가 이해할 수 있는 명확한 요구사항 문서로 변환합니다.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🤖</div>
+        <div class="info-card-title">문서를 코드로</div>
+        <div class="info-card-desc">작성한 문서를 AI가 읽고 실제 동작하는 웹 서비스 코드로 자동 생성합니다.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🔄</div>
+        <div class="info-card-title">빠른 반복 개선</div>
+        <div class="info-card-desc">마음에 안 들면 문서를 수정하고 다시 요청하는 방식으로 빠르게 개선합니다.</div>
+      </div>
+    </div>
 
-    <!-- Structured File Tree Component -->
+    <!-- ===== 2. 두 가지 AI 도구의 역할 ===== -->
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 1 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="2">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 1</span>
+        <span>Codex와 Antigravity 비교</span>
+      </div>
+      <div class="page-content-body">
+<h2>2. Codex와 Antigravity — 무슨 차이인가?</h2>
+
+    <div class="callout-box">
+      <strong>🏗️ 건축 비유로 이해하기</strong><br>
+      집을 짓는다고 생각해보세요.<br>
+      <strong>Codex = 건축 설계사</strong> — "이 집은 방 3개, 거실 1개, 화장실 2개가 필요합니다"라고 도면을 그리는 사람<br>
+      <strong>Antigravity = 시공사</strong> — 도면을 받아 실제로 집을 짓는 사람<br>
+      도면(요구사항 MD 문서) 없이 시공사에게 집을 지어달라고 하면 원하는 집이 나오지 않습니다.
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>🤖 Codex (OpenAI)</th>
+          <th>🌐 Antigravity (Google AGY)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>핵심 역할</strong></td>
+          <td>생각을 정리하고 문서를 작성 · 검토</td>
+          <td>문서를 읽고 실제 동작하는 코드 생성</td>
+        </tr>
+        <tr>
+          <td><strong>언제 사용</strong></td>
+          <td>요구사항 작성, 내용 검토, 문서 보완할 때</td>
+          <td>웹 화면 구현, 코드 수정, 기능 추가할 때</td>
+        </tr>
+        <tr>
+          <td><strong>주요 산출물</strong></td>
+          <td><code>PAGE_REQUIREMENTS.md</code>, <code>VALIDATION.md</code></td>
+          <td><code>index.html</code>, CSS, JavaScript 파일들</td>
+        </tr>
+        <tr>
+          <td><strong>비유</strong></td>
+          <td>설계사 (도면 작성)</td>
+          <td>시공사 (실제 건설)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>📌 개발 파이프라인 전체 흐름</h3>
+    <div class="flow-steps">
+      <span class="flow-step">1. Codex<br>요구사항 작성</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">2. Antigravity<br>서비스 구현</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">3. 브라우저<br>결과 확인</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">4. Codex<br>품질 검증</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">5. 필요시<br>반복</span>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 핵심 원칙:</strong> Codex와 Antigravity가 항상 <strong>동일한 프로젝트 폴더</strong>를 바라봐야 합니다.
+      두 도구가 서로 다른 폴더를 보고 있으면, 한 쪽에서 만든 문서를 다른 쪽이 못 읽습니다.
+    </div>
+
+    <!-- ===== 3. 폴더, 파일, 절대경로 ===== -->
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 2 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="3">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 1</span>
+        <span>폴더와 절대경로 이해</span>
+      </div>
+      <div class="page-content-body">
+<h2>3. 폴더, 파일, 절대경로 완전 이해하기</h2>
+
+    <p>AI 도구에게 "이 파일을 수정해줘"라고 말할 때, AI가 파일을 찾을 수 있으려면 <strong>정확한 위치 주소</strong>가 필요합니다. 이 주소를 <strong>절대경로</strong>라고 합니다.</p>
+
+    <div class="compare-grid">
+      <div class="compare-bad">
+        <div class="compare-label">❌ 이렇게 하면 안 됨</div>
+        <div class="compare-text">
+          "프로젝트 폴더에 있는 requirements 파일 수정해줘"<br><br>
+          <strong>문제:</strong> AI가 프로젝트 폴더가 어디 있는지, requirements 파일이 어떤 파일인지 알 수 없습니다.
+        </div>
+      </div>
+      <div class="compare-good">
+        <div class="compare-label">✅ 이렇게 해야 함</div>
+        <div class="compare-text">
+          "C:\Users\kim\Desktop\my-project\PAGE_REQUIREMENTS.md 파일을 수정해줘"<br><br>
+          <strong>이유:</strong> 컴퓨터 어디에 있는지 정확한 주소를 주면 AI가 바로 찾아갑니다.
+        </div>
+      </div>
+    </div>
+
+    <h3>📂 절대경로 찾는 방법</h3>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <div class="step-num">A</div>
+        <div class="step-content">
+          <div class="step-title">Windows (윈도우)</div>
+          <div class="step-desc">폴더를 열고 → 주소창을 클릭하면 전체 경로가 보입니다.<br>
+          예: <code>C:\Users\홍길동\Desktop\my-project</code></div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">B</div>
+        <div class="step-content">
+          <div class="step-title">Mac (맥북)</div>
+          <div class="step-desc">Finder에서 폴더 우클릭 → "정보 가져오기" → "위치" 항목 확인<br>
+          예: <code>/Users/홍길동/Desktop/my-project</code></div>
+        </div>
+      </div>
+    </div>
+
+    <h3>📁 프로젝트 폴더 구조 (권장)</h3>
+    <p>아래 구조로 폴더를 만들면 Codex와 Antigravity가 서로 파일을 찾기 쉽습니다.</p>
+
     <div style="background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 12px; margin: 20px 0;">
       <div style="font-weight: 800; color: #38bdf8; margin-bottom: 12px; font-size: 0.95rem;">📁 my-project/</div>
       <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;">
@@ -566,134 +1115,543 @@
           <span style="font-family: monospace; color: #f8fafc;">├── 📄 README.md</span>
           <span style="color: #94a3b8; font-size: 0.82rem;">프로젝트 목적 및 개요</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 6px;">
-          <span style="font-family: monospace; color: #f8fafc;">├── 📄 PAGE_REQUIREMENTS.md</span>
-          <span style="color: #38bdf8; font-size: 0.82rem; font-weight: 700;">Codex 화면 요구사항 명세</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(59,130,246,0.15); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(59,130,246,0.3);">
+          <span style="font-family: monospace; color: #93c5fd;">├── 📄 PAGE_REQUIREMENTS.md</span>
+          <span style="color: #38bdf8; font-size: 0.82rem; font-weight: 700;">★ Codex가 작성, Antigravity가 읽음</span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 6px;">
           <span style="font-family: monospace; color: #f8fafc;">├── 📄 VALIDATION.md</span>
           <span style="color: #fde047; font-size: 0.82rem; font-weight: 700;">Codex 검증 체크리스트</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 6px;">
-          <span style="font-family: monospace; color: #f8fafc;">└── 🌐 index.html</span>
-          <span style="color: #4ade80; font-size: 0.82rem; font-weight: 700;">Antigravity 웹 애플리케이션</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(16,185,129,0.15); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(16,185,129,0.3);">
+          <span style="font-family: monospace; color: #6ee7b7;">└── 🌐 index.html</span>
+          <span style="color: #4ade80; font-size: 0.82rem; font-weight: 700;">★ Antigravity가 생성하는 웹 서비스</span>
         </div>
       </div>
     </div>
 
-    <h2>3. 도구별 역할 분담</h2>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>도구</th>
-          <th>주요 역할</th>
-          <th>핵심 산출물</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Codex</strong></td>
-          <td>생각과 아이디어를 요구사항 MD로 작성, 테스트 및 품질 검증</td>
-          <td><code>PAGE_REQUIREMENTS.md</code>, <code>VALIDATION.md</code></td>
-        </tr>
-        <tr>
-          <td><strong>Antigravity</strong></td>
-          <td>작성된 MD를 분석하여 프로젝트 자동 생성 및 UI/UX 코드 구현</td>
-          <td><code>index.html</code> 등 실제 동작하는 웹 코드</td>
-        </tr>
-        <tr>
-          <td><strong>웹 브라우저</strong></td>
-          <td>실제 사용자 화면과 버튼 클릭 동작 결과를 직접 검증</td>
-          <td>브라우저 실행 화면</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h2>4. 프롬프트 작성의 3요소</h2>
-    <p>AI에게 지시할 때 대답의 품질을 결정하는 3가지 핵심 요소입니다.</p>
-    <ol>
-      <li><strong>목표 (Goal):</strong> 구체적으로 생성할 결과물 파일이나 화면 지정</li>
-      <li><strong>조건 (Constraints):</strong> 디자인 모드, 폰트, 포함 및 제약 사항</li>
-      <li><strong>완료 기준 (Acceptance Criteria):</strong> 사용자가 브라우저에서 무엇을 확인해야 성공인가?</li>
-    </ol>
-
-    <h2>5. 실습 단계별 프롬프트 가이드</h2>
-
-    <h3>실습 1. Codex용 환경 구성 프롬프트</h3>
-    <div class="prompt-block">📌 Codex:
-이 프로젝트 폴더(my-project)의 기본 역할을 정의해 줘.
-프로젝트 목적은 "AI 개발 도구를 활용한 기본 웹 서비스 실습"이야.
-기본 README.md 파일을 생성하고 설명 구조를 작성해 줘.</div>
-
-    <h3>실습 2. Codex용 PAGE_REQUIREMENTS.md 생성 프롬프트</h3>
-    <div class="prompt-block">📌 Codex:
-PAGE_REQUIREMENTS.md 파일을 생성해 줘.
-내용: "예비창업자 프로필 및 서비스 소개 페이지"
-1. 제목: My Startup Pitch
-2. 상단: 창업자 이름, 한 줄 소개, 핵심 분야 태그
-3. 중단: 해결하려는 문제, 해결책 카드 2개
-4. 하단: 문의하기 버튼
-5. 조건: 다크 모드 스타일, Pretendard 폰트
-6. 완료 기준: 브라우저에서 올바르게 표시될 것.</div>
-
-    <h3>실습 3. Antigravity용 서비스 구현 프롬프트</h3>
-    <div class="prompt-block">📌 Antigravity:
-PAGE_REQUIREMENTS.md 파일을 읽고, 명시된 요구사항을 완벽히 만족하는 index.html 웹페이지를 만들어 줘.
-1. 디자인: Pretendard 폰트와 모던 다크 글래스모피즘 UI 적용
-2. 스타일: <style> 태그 내에 CSS 작성 및 모바일/PC 반응형 레이아웃 지원
-3. 구성요소: 상단 프로필(아바타·이름·소개·태그), 중단 문제/해결책 카드 2개, 하단 인터랙티브 문의하기 버튼
-4. 완료기준: 브라우저에서 즉시 열어 동작을 확인할 수 있는 단일 index.html 완성</div>
-
-    <h3>실습 4. Codex용 품질 검증 프롬프트</h3>
-    <div class="prompt-block">📌 Codex:
-index.html 코드를 검토하고 PAGE_REQUIREMENTS.md 내용과 비교해 줘.
-1. 누락된 요구사항이나 잘못 구현된 부분이 있는지 점검해 줘.
-2. VALIDATION.md 파일을 새로 만들고 테스트 체크리스트(통과/미통과)를 작성해 줘.
-3. 누락 부분이 있다면 PAGE_REQUIREMENTS.md에 수정 요청사항으로 추가해 줘.</div>
-
-    <h2>5.5 Day 1 자율형 실습 주제 2종 (Autonomous Practice Projects)</h2>
-    <p>기본 따라하기 실습을 마친 학습자가 처음부터 스스로 요구사항 MD를 작성하고 서비스를 구축할 수 있는 선택 도전 주제입니다.</p>
-
-    <h3>[자율 주제 A] AI 기반 개인 포트폴리오 & 경력 소개 웹페이지</h3>
-    <ul>
-      <li><strong>작성 명세:</strong> <code>PORTFOLIO_REQUIREMENTS.md</code></li>
-      <li><strong>핵심 구성:</strong> 프로필 헤더, 기술 스택 태그 5개, 주요 프로젝트 카드 3개, 이메일 문의 및 소셜 링크</li>
-    </ul>
-    <div class="prompt-block">📌 Codex 자율 주제 A 프롬프트 예시:
-PORTFOLIO_REQUIREMENTS.md 파일을 생성해 줘.
-내용: "개발자/기획자 개인 포트폴리오 원페이지 웹사이트"
-1. 제목: My Professional Portfolio
-2. 상단: 이름, 프로필 이미지 영역, 핵심 역량 한 줄 요약
-3. 중단: 기술 스택 태그 5개, 주요 프로젝트 카드 3개 (제목, 설명, 사용 기술)
-4. 하단: 이메일 문의하기 버튼 및 소셜 링크
-5. 조건: 모던 다크 UI, Pretendard 폰트 적용
-6. 완료 기준: 브라우저에서 프로젝트 카드가 반응형으로 정렬될 것.</div>
-
-    <h3>[자율 주제 B] 신규 아이템 출시 전 랜딩 페이지 & 사전 신청 웹 서비스</h3>
-    <ul>
-      <li><strong>작성 명세:</strong> <code>LAUNCH_REQUIREMENTS.md</code></li>
-      <li><strong>핵심 구성:</strong> 헤드라인, 해결 과제 및 혜택 카드 3개, 사전 알림 신청 폼, 신청 완료 팝업 알림</li>
-    </ul>
-    <div class="prompt-block">📌 Codex 자율 주제 B 프롬프트 예시:
-LAUNCH_REQUIREMENTS.md 파일을 생성해 줘.
-내용: "신규 서비스 사전 알림 신청 랜딩 페이지"
-1. 제목: Service Pre-launch
-2. 상단: 서비스 로고, 강렬한 헤드라인 문구, 기대 효과 3가지 카드
-3. 중단: 사전 신청 입력 폼 (이름, 이메일 주소, 사전 등록 버튼)
-4. 하단: 서비스 Q&A 3개 항목 accordion
-5. 조건: 깔끔한 푸른색 톤 UI, 반응형 렌더링
-6. 완료 기준: 이메일 입력 후 사전 등록 버튼 클릭 시 성공 메시지가 팝업될 것.</div>
-
-    <h2>6. 안전 원칙 및 자주 묻는 질문 (FAQ)</h2>
-    <div class="callout-box warning">
-      <strong>⚠️ 안전 보안 원칙</strong><br>
-      - API 키, 개인정보, 비밀번호는 프롬프트에 절대 작성하지 마세요.<br>
-      - AI가 수정한 파일 목록을 실행 창에서 사전 확인하세요.<br>
-      - 정상 동작 시점의 복사본을 남겨두면 손쉽게 원복할 수 있습니다.
+    <div class="danger-box">
+      <strong>⚠️ 자주 하는 실수:</strong> 폴더 이름이나 파일 이름에 <strong>한글, 공백, 특수문자</strong>를 사용하면 경로를 읽을 때 오류가 납니다.<br>
+      ✅ 권장: <code>my-project</code> &nbsp;&nbsp; ❌ 비권장: <code>내 프로젝트 (1)</code>
     </div>
 
-  </div>
+    <!-- ===== 4. 프롬프트 3요소 ===== -->
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 3 of 10</span>
+      </div>
+    </section>
 
+    <section class="paper-page" data-page="4">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 1</span>
+        <span>프롬프트 작성의 3요소</span>
+      </div>
+      <div class="page-content-body">
+<h2>4. 프롬프트 작성의 3요소 — AI에게 잘 말하는 방법</h2>
+
+    <p>AI에게 지시할 때, 대답의 품질을 결정하는 가장 중요한 요소는 <strong>프롬프트(지시문)의 구체성</strong>입니다. 막연하게 요청하면 막연한 결과가 나옵니다.</p>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card-icon">🎯</div>
+        <div class="info-card-title">① 목표 (Goal)</div>
+        <div class="info-card-desc">어떤 결과물 파일이나 화면을 만들어야 하는지 구체적으로 명시<br>
+        <br><strong>예:</strong> "PAGE_REQUIREMENTS.md 파일을 생성해줘"</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">📋</div>
+        <div class="info-card-title">② 조건 (Constraints)</div>
+        <div class="info-card-desc">디자인 스타일, 포함해야 할 내용, 하지 말아야 할 것 명시<br>
+        <br><strong>예:</strong> "다크 모드, Pretendard 폰트 사용"</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">✅</div>
+        <div class="info-card-title">③ 완료 기준 (Acceptance Criteria)</div>
+        <div class="info-card-desc">브라우저에서 무엇이 보이면 성공인지 확인 가능한 기준 제시<br>
+        <br><strong>예:</strong> "버튼 클릭 시 팝업이 뜨면 완료"</div>
+      </div>
+    </div>
+
+    <h3>📝 나쁜 프롬프트 vs 좋은 프롬프트 비교</h3>
+
+    <div class="compare-grid">
+      <div class="compare-bad">
+        <div class="compare-label">❌ 나쁜 프롬프트 예시</div>
+        <div class="compare-text">
+          "웹사이트 만들어줘. 이쁘게."<br><br>
+          <strong>문제점:</strong><br>
+          • 어떤 내용의 웹사이트인지 불명확<br>
+          • "이쁘게"는 주관적 기준<br>
+          • 파일명, 폴더 위치 미지정<br>
+          • 성공 기준 없음
+        </div>
+      </div>
+      <div class="compare-good">
+        <div class="compare-label">✅ 좋은 프롬프트 예시</div>
+        <div class="compare-text">
+          "PAGE_REQUIREMENTS.md 파일을 생성해줘.<br>
+          내용: 예비창업자 소개 페이지<br>
+          구성: 이름/소개/태그(상단), 문제/해결책 카드 2개(중단), 문의 버튼(하단)<br>
+          스타일: 다크 모드, Pretendard 폰트<br>
+          완료 기준: 브라우저에서 카드가 반응형으로 보일 것"<br><br>
+          <strong>좋은 이유:</strong><br>
+          • 생성할 파일명 명확<br>
+          • 구성 요소 구체적<br>
+          • 스타일 조건 명시<br>
+          • 검증 가능한 완료 기준
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 프롬프트 작성 꿀팁:</strong> 요청 후 AI가 뭔가 이상한 결과를 줬다면,<br>
+      "방금 생성한 파일에서 [구체적인 문제]를 수정해줘. 수정 전에 변경할 내용을 먼저 나에게 알려줘."<br>
+      라고 요청하면 실수를 줄일 수 있습니다.
+    </div>
+
+    <!-- ===== 5. 단계별 실습 가이드 ===== -->
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 4 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="5">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 1</span>
+        <span>실습: 폴더 및 요구사항 문서</span>
+      </div>
+      <div class="page-content-body">
+<h2>5. 오늘의 실습 — 단계별 따라하기</h2>
+
+    <div class="callout-box">
+      <strong>🎯 오늘의 목표:</strong> 예비창업자 소개 웹페이지 1개를 Codex와 Antigravity를 활용하여 처음부터 끝까지 만들어본다.
+    </div>
+
+    <!-- 실습 준비 -->
+    <h3>🔧 실습 전 준비</h3>
+    <div class="step-guide">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">프로젝트 폴더 만들기</div>
+          <div class="step-desc">바탕화면에 <code>my-project</code> 폴더를 생성합니다. (한글, 공백 없이)<br>
+          경로 예: <code>C:\Users\이름\Desktop\my-project</code></div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Codex 열기</div>
+          <div class="step-desc">Codex 앱을 실행하고 위에서 만든 my-project 폴더를 프로젝트로 설정합니다.<br>
+          Codex → 상단 폴더 아이콘 → 폴더 선택</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Antigravity 열기</div>
+          <div class="step-desc">Antigravity(Google AGY)를 실행하고 동일한 my-project 폴더를 작업 경로로 지정합니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 실습 1 -->
+    <h3>📝 실습 1 — Codex로 환경 구성 문서 만들기</h3>
+    <p>먼저 프로젝트의 기본 설명 파일인 <code>README.md</code>를 Codex로 만들어봅니다.</p>
+
+    <div class="prompt-block">📌 Codex에 다음 프롬프트를 입력하세요:
+
+이 프로젝트 폴더(my-project)의 기본 역할을 정의해줘.
+프로젝트 목적은 "AI 개발 도구를 활용한 기본 웹 서비스 실습"이야.
+기본 README.md 파일을 생성하고 아래 구조로 작성해줘:
+- 프로젝트 이름
+- 목적 (한 줄 설명)
+- 사용 도구 (Codex, Antigravity)
+- 폴더 구조 설명
+- 사용 방법</div>
+
+    <div class="success-box">
+      <strong>✅ 이렇게 보이면 성공입니다:</strong><br>
+      my-project 폴더 안에 <code>README.md</code> 파일이 생성되고,<br>
+      Codex 화면에 위에서 지시한 구조대로 내용이 작성된 것을 확인할 수 있습니다.
+    </div>
+
+    <!-- 실습 2 -->
+    <h3>📝 실습 2 — Codex로 요구사항 명세서 작성하기</h3>
+    <p>이제 핵심 문서인 <code>PAGE_REQUIREMENTS.md</code>를 작성합니다. 이 문서가 Antigravity가 웹페이지를 만들 때 기준이 됩니다.</p>
+
+    <div class="prompt-block">📌 Codex에 다음 프롬프트를 입력하세요:
+
+PAGE_REQUIREMENTS.md 파일을 생성해줘.
+내용: "예비창업자 프로필 및 서비스 소개 페이지"
+
+## 페이지 구성
+1. 제목: My Startup Pitch
+2. 상단 섹션: 창업자 이름, 한 줄 소개, 핵심 분야 태그 2~3개
+3. 중단 섹션: 내가 해결하려는 문제 설명, 해결책 카드 2개
+4. 하단 섹션: 문의하기 버튼 (클릭 시 이메일 주소 표시)
+
+## 디자인 조건
+- 다크 모드 스타일 (배경 #0f172a)
+- Pretendard 폰트 사용
+- 모바일과 PC 모두 잘 보이는 반응형 레이아웃
+
+## 완료 기준
+- 브라우저에서 열었을 때 모든 섹션이 올바르게 표시될 것
+- 문의하기 버튼 클릭 시 이메일 주소가 나타날 것</div>
+
+    <div class="tip-box">
+      <strong>💡 이 단계의 핵심:</strong> Codex는 이 문서를 <strong>파일로 저장</strong>합니다. 
+      Codex 화면에서 "파일 저장" 또는 "Create file" 버튼을 눌러 반드시 저장하세요.
+      저장 후 my-project 폴더 안에 PAGE_REQUIREMENTS.md 파일이 생겼는지 확인하세요.
+    </div>
+
+    <!-- 실습 3 -->
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 5 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="6">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 1</span>
+        <span>실습: 웹페이지 구현 및 검증</span>
+      </div>
+      <div class="page-content-body">
+<h3>⚙️ 실습 3 — Antigravity로 웹페이지 구현하기</h3>
+    <p>Codex가 만든 문서를 Antigravity가 읽고 실제로 동작하는 웹페이지를 만듭니다.</p>
+
+    <div class="prompt-block">📌 Antigravity에 다음 프롬프트를 입력하세요:
+
+PAGE_REQUIREMENTS.md 파일을 읽고, 명시된 요구사항을 완벽히 만족하는
+index.html 웹페이지를 만들어줘.
+
+조건:
+1. 디자인: Pretendard 폰트와 모던 다크 글래스모피즘 UI 적용
+2. CSS: &lt;style&gt; 태그 안에 모두 작성 (외부 CSS 파일 사용 안 함)
+3. JavaScript: &lt;script&gt; 태그 안에 작성
+4. 구성: 상단 프로필, 중단 카드 2개, 하단 문의 버튼
+5. 완료 기준: 브라우저에서 바로 열어볼 수 있는 단일 index.html 파일 완성
+
+작업 후 생성/수정한 파일 목록을 알려줘.</div>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Antigravity 실행 확인</div>
+          <div class="step-desc">Antigravity가 파일을 생성하는 동안 잠시 기다립니다. (10~30초 소요)</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">생성된 파일 확인</div>
+          <div class="step-desc">my-project 폴더 안에 <code>index.html</code> 파일이 생성되었는지 확인합니다.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">브라우저에서 열기</div>
+          <div class="step-desc"><code>index.html</code> 파일을 더블클릭하거나, 크롬 브라우저에 파일을 드래그하여 엽니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="success-box">
+      <strong>✅ 이렇게 보이면 성공입니다:</strong><br>
+      • 브라우저에 어두운 배경의 소개 페이지가 열림<br>
+      • 창업자 이름, 소개 문구, 태그가 상단에 표시됨<br>
+      • 문제/해결책 카드 2개가 중단에 보임<br>
+      • "문의하기" 버튼이 하단에 있고, 클릭하면 이메일 주소가 나타남
+    </div>
+
+    <!-- 실습 4 -->
+    <h3>🔍 실습 4 — Codex로 품질 검증하기</h3>
+    <p>Antigravity가 만든 결과물이 요구사항을 제대로 구현했는지 Codex로 검증합니다.</p>
+
+    <div class="prompt-block">📌 Codex에 다음 프롬프트를 입력하세요:
+
+index.html 코드를 검토하고 PAGE_REQUIREMENTS.md 내용과 비교해줘.
+
+1. 누락된 요구사항이나 잘못 구현된 부분이 있는지 점검해줘
+2. VALIDATION.md 파일을 새로 만들고 아래 형식으로 체크리스트를 작성해줘:
+   - 요구사항 항목 | 구현 여부(통과/미통과) | 비고
+3. 누락 부분이 있다면 PAGE_REQUIREMENTS.md에 수정 요청사항으로 추가해줘</div>
+
+    <div class="example-result">
+      <div class="example-result-label">📄 VALIDATION.md 예시 결과물</div>
+      <code>
+# 품질 검증 체크리스트<br>
+작성일: 2026-09-05<br>
+<br>
+## 요구사항 검증 결과<br>
+| 요구사항 | 구현 여부 | 비고 |<br>
+|---------|--------|------|<br>
+| 창업자 이름 표시 | ✅ 통과 | 상단에 정상 표시 |<br>
+| 핵심 분야 태그 표시 | ✅ 통과 | 2개 표시 |<br>
+| 해결책 카드 2개 | ✅ 통과 | 반응형 그리드 |<br>
+| 문의하기 버튼 | ✅ 통과 | 클릭시 이메일 표시 |<br>
+| 반응형 레이아웃 | ⚠️ 미통과 | 모바일에서 카드 겹침 |<br>
+<br>
+## 수정 필요 항목<br>
+- 모바일(375px 이하) 카드 레이아웃 수정 필요
+      </code>
+    </div>
+
+    <!-- ===== 6. 자율형 실습 ===== -->
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 6 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="7">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 1</span>
+        <span>도전! 자율형 실습 주제 2종</span>
+      </div>
+      <div class="page-content-body">
+<h2>6. 도전! 자율형 실습 주제 2종</h2>
+    <p>기본 실습을 완료했다면 아래 주제 중 하나를 선택해서 처음부터 스스로 만들어보세요.</p>
+
+    <h3>🏆 [자율 주제 A] 개인 포트폴리오 웹페이지</h3>
+    <div class="callout-box">
+      <strong>만들 것:</strong> 나를 소개하는 포트폴리오 한 페이지 웹사이트<br>
+      <strong>핵심 구성:</strong> 프로필 헤더, 기술/역량 태그 5개, 주요 프로젝트·경험 카드 3개, 연락처
+    </div>
+    <div class="prompt-block">📌 Codex 시작 프롬프트 예시:
+
+PORTFOLIO_REQUIREMENTS.md 파일을 생성해줘.
+내용: "개발자/기획자 개인 포트폴리오 원페이지 웹사이트"
+
+## 페이지 구성
+1. 제목: My Professional Portfolio
+2. 상단: 이름, 프로필 이미지 영역(이미지 없이 이니셜 원형), 핵심 역량 한 줄 요약
+3. 중단: 역량/기술 태그 5개, 주요 경험 카드 3개 (제목, 설명, 기간)
+4. 하단: 이메일 문의 버튼
+
+## 완료 기준
+- 경험 카드 3개가 PC에서 가로로, 모바일에서 세로로 정렬될 것
+- 다크 모드 스타일 적용</div>
+
+    <h3>🚀 [자율 주제 B] 서비스 사전 신청 랜딩 페이지</h3>
+    <div class="callout-box">
+      <strong>만들 것:</strong> 내가 만들 서비스를 소개하고 관심 있는 사람을 모으는 랜딩 페이지<br>
+      <strong>핵심 구성:</strong> 헤드라인, 혜택 카드 3개, 사전 신청 이메일 폼, 신청 완료 메시지
+    </div>
+    <div class="prompt-block">📌 Codex 시작 프롬프트 예시:
+
+LAUNCH_REQUIREMENTS.md 파일을 생성해줘.
+내용: "신규 서비스 사전 신청 랜딩 페이지"
+
+## 페이지 구성
+1. 제목: [내 서비스 이름] - Pre-launch
+2. 상단: 로고 영역, 강렬한 헤드라인, 혜택 3가지 카드
+3. 중단: 사전 신청 폼 (이름, 이메일, 신청 버튼)
+4. 하단: 자주 묻는 질문 3개 아코디언
+
+## 완료 기준
+- 이메일 입력 후 버튼 클릭 시 "신청 완료!" 메시지가 화면에 표시될 것</div>
+
+    <!-- ===== 7. 막혔을 때 해결법 ===== -->
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 7 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="8">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 1</span>
+        <span>트러블슈팅 가이드</span>
+      </div>
+      <div class="page-content-body">
+<h2>7. 막혔을 때 트러블슈팅 가이드</h2>
+    <p>실습 중 문제가 생겼을 때 아래 체크리스트를 순서대로 확인하세요.</p>
+
+    <h3>🔴 AI가 엉뚱한 결과를 줬을 때</h3>
+    <div class="step-guide">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">프롬프트에 파일명을 명확히 지정했는가?</div>
+          <div class="step-desc">"파일 만들어줘" → "PAGE_REQUIREMENTS.md 파일을 생성해줘"로 수정</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">프롬프트에 완료 기준이 있는가?</div>
+          <div class="step-desc">"완료 기준: 버튼 클릭 시 팝업이 뜰 것"처럼 검증 가능한 기준 추가</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">수정 요청 시 구체적으로 무엇이 문제인지 설명</div>
+          <div class="step-desc">"이상해" → "버튼이 클릭되지 않습니다. 클릭 이벤트가 연결되지 않은 것 같습니다. 수정해줘"</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>🔴 파일이 폴더에 보이지 않을 때</h3>
+    <div class="step-guide">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Codex/Antigravity가 올바른 폴더를 보고 있는가?</div>
+          <div class="step-desc">각 도구에서 현재 작업 경로가 my-project 폴더인지 확인</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">파일 저장 버튼을 눌렀는가?</div>
+          <div class="step-desc">Codex에서 파일 생성 후 반드시 "저장" 또는 "Create" 버튼 클릭 필요</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">폴더 새로고침</div>
+          <div class="step-desc">탐색기/Finder에서 F5 또는 폴더 닫고 다시 열기</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>🔴 브라우저에서 페이지가 안 열릴 때</h3>
+    <div class="step-guide">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">파일 이름이 index.html인지 확인</div>
+          <div class="step-desc">index.HTML, Index.html 등 대소문자도 주의하세요.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Chrome 브라우저로 열기</div>
+          <div class="step-desc">파일을 Chrome 브라우저 창에 직접 드래그앤드롭으로 넣어보세요.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 8. 핵심 용어 사전 ===== -->
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 8 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="9">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 1</span>
+        <span>핵심 용어 사전</span>
+      </div>
+      <div class="page-content-body">
+<h2>8. 핵심 용어 사전</h2>
+    <div class="term-grid">
+      <div class="term-item">
+        <div class="term-word">Codex</div>
+        <div class="term-def">OpenAI의 AI 코딩 어시스턴트. 이 과정에서는 요구사항 문서 작성과 검증에 사용합니다.</div>
+      </div>
+      <div class="term-item">
+        <div class="term-word">Antigravity</div>
+        <div class="term-def">Google의 AI 개발 도구(AGY). 작성된 문서를 읽고 실제 웹 코드를 생성합니다.</div>
+      </div>
+      <div class="term-item">
+        <div class="term-word">.md (Markdown)</div>
+        <div class="term-def">마크다운 파일. 간단한 문법으로 제목, 목록, 표를 작성할 수 있는 텍스트 형식입니다. AI가 읽기 좋아합니다.</div>
+      </div>
+      <div class="term-item">
+        <div class="term-word">절대경로</div>
+        <div class="term-def">파일의 정확한 위치 주소. 예: C:\Users\kim\Desktop\my-project</div>
+      </div>
+      <div class="term-item">
+        <div class="term-word">MVP</div>
+        <div class="term-def">Minimum Viable Product. 핵심 기능만 포함한 최소 버전 제품. 빠르게 만들어 사용자 반응을 확인하는 전략입니다.</div>
+      </div>
+      <div class="term-item">
+        <div class="term-word">요구사항 명세</div>
+        <div class="term-def">서비스가 무엇을 해야 하는지, 어떻게 보여야 하는지를 명확하게 기술한 문서입니다.</div>
+      </div>
+      <div class="term-item">
+        <div class="term-word">반응형 레이아웃</div>
+        <div class="term-def">PC, 태블릿, 스마트폰 화면 크기에 따라 자동으로 레이아웃이 조정되는 디자인입니다.</div>
+      </div>
+      <div class="term-item">
+        <div class="term-word">프롬프트</div>
+        <div class="term-def">AI에게 작업을 지시하는 텍스트 입력. 구체적이고 명확할수록 좋은 결과를 얻습니다.</div>
+      </div>
+    </div>
+
+    <!-- ===== 9. 오늘의 셀프 체크리스트 ===== -->
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 9 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="10">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 1</span>
+        <span>체크리스트 및 안전 원칙</span>
+      </div>
+      <div class="page-content-body">
+<h2>9. Day 1 완료 셀프 체크리스트</h2>
+    <p>아래 항목들을 순서대로 확인하세요. 모두 체크되면 Day 1 완료입니다! 🎉</p>
+
+    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:20px; margin:16px 0;">
+      <ul class="checklist">
+        <li>my-project 폴더를 바탕화면에 만들었다 (한글/공백 없이)</li>
+        <li>Codex를 열고 my-project 폴더를 작업 폴더로 설정했다</li>
+        <li>Antigravity를 열고 동일한 my-project 폴더를 작업 경로로 지정했다</li>
+        <li>Codex로 README.md 파일을 생성했다</li>
+        <li>Codex로 PAGE_REQUIREMENTS.md 파일을 생성하고 저장했다</li>
+        <li>Antigravity로 index.html 웹페이지를 생성했다</li>
+        <li>브라우저에서 index.html을 열어 정상 작동을 확인했다</li>
+        <li>Codex로 VALIDATION.md 품질 검증 체크리스트를 작성했다</li>
+        <li>프롬프트의 3요소(목표, 조건, 완료 기준)를 이해했다</li>
+        <li>(선택) 자율 주제 A 또는 B를 직접 시도해봤다</li>
+      </ul>
+    </div>
+
+    <!-- ===== 10. 안전 원칙 ===== -->
+    <h2>10. 안전 원칙 및 주의사항</h2>
+
+    <div class="danger-box">
+      <strong>🔒 반드시 지켜야 할 보안 원칙</strong><br><br>
+      • <strong>API 키, 개인 비밀번호</strong>를 프롬프트에 절대 입력하지 마세요.<br>
+      • <strong>타인의 개인정보</strong>(이름, 전화번호, 이메일 등)를 실습에 사용하지 마세요.<br>
+      • AI가 수정한 파일 목록을 실행 전에 미리 확인하세요.<br>
+      • 중요한 파일은 AI에게 수정 요청 전에 반드시 복사본을 만드세요.
+    </div>
+
+    <div class="callout-box">
+      <strong>📌 다음 시간 예고 — Day 2: AI와 개발 가능한 프로젝트 기획하기</strong><br>
+      Day 2에서는 내가 만들 서비스 아이디어를 AI가 이해할 수 있는 체계적인 기획 문서(PROJECT.md)로 만드는 방법을 배웁니다.
+      오늘 배운 Codex 사용법이 Day 2의 기초가 됩니다!
+    </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 10 of 10</span>
+      </div>
+    </section>
+  </div>
 
   <!-- AI Account Modal -->
   <div id="aiAccountModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;">
@@ -904,30 +1862,60 @@ LAUNCH_REQUIREMENTS.md 파일을 생성해 줘.
   </script>
 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    function downloadPDF() {
+    async function downloadPDF() {
       const btn = document.getElementById('btn-download-pdf');
       const originalText = btn ? btn.innerHTML : '';
-      if (btn) btn.innerHTML = '⏳ PDF 생성 중...';
+      if (btn) {
+        btn.innerHTML = '⏳ A4 PDF 준비 중...';
+        btn.disabled = true;
+      }
 
-      const element = document.querySelector('.paper-container');
-      const opt = {
-        margin:       0,
-        filename:     '창업가_Day1_교재_A4.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, logging: false },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak:    { mode: ['css', 'legacy'] }
-      };
+      try {
+        if (!window.jspdf || !window.html2canvas) {
+          throw new Error('PDF 생성 라이브러리를 불러오지 못했습니다.');
+        }
 
-      html2pdf().set(opt).from(element).save().then(() => {
-        if (btn) btn.innerHTML = originalText;
-      }).catch(err => {
-        console.error('PDF 다운로드 실패:', err);
-        if (btn) btn.innerHTML = originalText;
+        const pages = document.querySelectorAll('.paper-page');
+        const total = pages.length;
+        if (!total) throw new Error('교재 페이지를 찾을 수 없습니다.');
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4',
+          compress: true
+        });
+
+        for (let i = 0; i < total; i++) {
+          if (btn) btn.innerHTML = `⏳ A4 PDF 생성 중 (${i + 1}/${total})...`;
+          const page = pages[i];
+          const canvas = await html2canvas(page, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: '#ffffff',
+            windowWidth: 1200
+          });
+          const imgData = canvas.toDataURL('image/jpeg', 0.95);
+          if (i > 0) pdf.addPage('a4', 'portrait');
+          pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+        }
+
+        pdf.save('창업가_Day1_교재_A4.pdf');
+      } catch (err) {
+        console.error('PDF 생성 실패:', err);
+        alert('PDF 자동 다운로드 중 오류가 발생하여 브라우저 인쇄 창으로 전환합니다.\n[인쇄 창 > 대상: PDF로 저장]을 선택하시면 깨끗하게 저장할 수 있습니다.');
         window.print();
-      });
+      } finally {
+        if (btn) {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }
+      }
     }
   </script>
 </body>

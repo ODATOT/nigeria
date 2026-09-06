@@ -76,7 +76,7 @@
     .btn-action { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; font-size:0.88rem; font-weight:600; border-radius:8px; border:none; cursor:pointer; text-decoration:none; }
     .btn-print { background:linear-gradient(135deg,#2563eb,#0891b2); color:#fff; }
     .btn-back { background:rgba(255,255,255,0.1); color:#e2e8f0; border:1px solid rgba(255,255,255,0.15); }
-    .paper-container { max-width:900px; margin:30px auto; background:#fff; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.5); padding:48px 56px; }
+    
     .doc-header { border-bottom:3px solid var(--primary); padding-bottom:20px; margin-bottom:32px; }
     .doc-category { color:var(--secondary); font-size:0.9rem; font-weight:800; text-transform:uppercase; margin-bottom:6px; }
     .doc-title { font-size:2.2rem; font-weight:900; color:var(--text-dark); letter-spacing:-0.02em; }
@@ -91,45 +91,7 @@
     table.data-table { width:100%; border-collapse:collapse; margin:20px 0; font-size:0.92rem; }
     table.data-table th, table.data-table td { border:1px solid var(--border); padding:10px 14px; text-align:left; }
     table.data-table th { background:#f1f5f9; }
-        /* A4 Size & Print Styles */
-    @page {
-      size: A4 portrait;
-      margin: 12mm 14mm 12mm 14mm;
-    }
-
-    @media print {
-      html, body {
-        width: 100% !important;
-        background: #ffffff !important;
-        color: #000000 !important;
-        font-size: 12.5px !important;
-        line-height: 1.5 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-      .no-print-bar, .navbar-2tier { display: none !important; }
-      .paper-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-shadow: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border-radius: 0 !important;
-      }
-      .page-break {
-        page-break-after: always !important;
-        break-after: page !important;
-      }
-      .paper-page {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        margin-bottom: 20px !important;
-      }
-      table.data-table, .prompt-block, .callout-box {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-      }
-    } }
+         }
   
     /* Modern 2-Tier Header Styles */
     .navbar-2tier {
@@ -290,9 +252,14 @@
     }
   
   
-    /* Standard A4 Screen & Print Styling */
+    /* ==========================================================================
+       Standard A4 Portrait Screen & Print Engine
+       ========================================================================== */
     body {
       background: #cbd5e1 !important;
+      color: var(--text-dark);
+      margin: 0;
+      padding: 0;
     }
 
     .paper-container {
@@ -302,9 +269,11 @@
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      gap: 36px !important;
+      gap: 32px !important;
       box-shadow: none !important;
       border-radius: 0 !important;
+      background: transparent !important;
+      padding: 0 !important;
     }
 
     .paper-page {
@@ -312,19 +281,90 @@
       min-height: 297mm !important;
       box-sizing: border-box !important;
       background: #ffffff !important;
-      border-radius: 3px !important;
+      border-radius: 4px !important;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12) !important;
       padding: 18mm 18mm 16mm 18mm !important;
       page-break-after: always !important;
       break-after: page !important;
-      page-break-inside: avoid !important;
-      break-inside: avoid !important;
+      page-break-inside: auto !important;
+      break-inside: auto !important;
       position: relative !important;
+      overflow: visible !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+    }
+
+    .cover-page {
+      padding: 0 !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      border-radius: 4px !important;
+      overflow: hidden !important;
+      justify-content: stretch !important;
+    }
+    .cover-page > div {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .page-content-body {
+      flex: 1 0 auto;
+    }
+
+    .book-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    .book-footer-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
+      margin-top: 24px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    /* Prevent cut-off / splitting at page boundaries */
+    .compare-grid, .compare-bad, .compare-good,
+    .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+    .info-cards, .info-card, .checklist, .checklist li, .example-result,
+    .story-box, .script-box, .qa-item, .screen-state-card,
+    .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+    .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+    .data-table, h1, h2, h3, h4, pre, blockquote {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    h1, h2, h3, h4 {
+      break-after: avoid !important;
+      page-break-after: avoid !important;
+    }
+
+    p, li {
+      orphans: 3;
+      widows: 3;
     }
 
     @media screen and (max-width: 820px) {
-      .paper-container { width: 100% !important; }
-      .paper-page { width: 95vw !important; min-height: auto !important; padding: 22px 18px !important; }
+      .paper-container { width: 100% !important; margin: 16px auto !important; }
+      .paper-page { width: 95vw !important; min-height: auto !important; padding: 20px 16px !important; }
     }
 
     .btn-download {
@@ -357,6 +397,8 @@
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -367,14 +409,14 @@
         margin: 0 !important;
         padding: 0 !important;
         gap: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
       }
       .paper-page {
         width: 210mm !important;
         min-height: 297mm !important;
-        height: 297mm !important;
-        max-height: 297mm !important;
         margin: 0 !important;
-        padding: 16mm 16mm 14mm 16mm !important;
+        padding: 15mm 15mm 13mm 15mm !important;
         box-shadow: none !important;
         border-radius: 0 !important;
         border: none !important;
@@ -382,9 +424,70 @@
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-        overflow: hidden !important;
+        overflow: visible !important;
+        background: #ffffff !important;
+      }
+      .cover-page {
+        padding: 0 !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        border-radius: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+      .compare-grid, .compare-bad, .compare-good,
+      .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+      .info-cards, .info-card, .checklist, .checklist li, .example-result,
+      .story-box, .script-box, .qa-item, .screen-state-card,
+      .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+      .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+      .data-table, h1, h2, h3, h4, pre, blockquote {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
       }
     }
+
+
+    /* ===== Self-Study Enrichment Styles ===== */
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+    .compare-bad { background:#fff1f2; border:2px solid #fca5a5; border-radius:10px; padding:16px; }
+    .compare-good { background:#f0fdf4; border:2px solid #86efac; border-radius:10px; padding:16px; }
+    .compare-label { font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; }
+    .compare-bad .compare-label { color:#dc2626; }
+    .compare-good .compare-label { color:#16a34a; }
+    .compare-text { font-size:0.92rem; color:#334155; line-height:1.6; }
+    .step-guide { margin:20px 0; display:flex; flex-direction:column; gap:12px; }
+    .step-item { display:flex; gap:16px; align-items:flex-start; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 18px; }
+    .step-num { min-width:32px; height:32px; background:linear-gradient(135deg,#2563eb,#0891b2); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; }
+    .step-content { flex:1; }
+    .step-title { font-weight:700; color:#0f172a; margin-bottom:4px; }
+    .step-desc { font-size:0.9rem; color:#475569; }
+    .tip-box { background:linear-gradient(135deg,#fefce8,#fef9c3); border:1.5px solid #fde047; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .tip-box strong { color:#92400e; }
+    .danger-box { background:#fff1f2; border:1.5px solid #f87171; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .danger-box strong { color:#b91c1c; }
+    .success-box { background:#f0fdf4; border:1.5px solid #4ade80; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .success-box strong { color:#15803d; }
+    .info-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin:20px 0; }
+    .info-card { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px; }
+    .info-card-icon { font-size:1.8rem; margin-bottom:8px; }
+    .info-card-title { font-weight:800; color:#0f172a; margin-bottom:6px; }
+    .info-card-desc { font-size:0.88rem; color:#475569; line-height:1.55; }
+    .checklist { list-style:none; margin:16px 0; padding:0; }
+    .checklist li { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed #e2e8f0; font-size:0.92rem; color:#334155; }
+    .checklist li:last-child { border-bottom:none; }
+    .checklist li::before { content:'☐'; color:#2563eb; font-size:1.1rem; flex-shrink:0; margin-top:1px; }
+    .example-result { background:linear-gradient(135deg,#0f172a,#1e293b); border:1px solid #334155; border-radius:12px; padding:20px; margin:16px 0; }
+    .example-result-label { color:#38bdf8; font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; }
+    .example-result code { color:#86efac; font-size:0.88rem; line-height:1.8; }
+    .story-box { background:linear-gradient(135deg,#ede9fe,#ddd6fe); border-left:4px solid #7c3aed; border-radius:0 10px 10px 0; padding:18px 20px; margin:20px 0; font-size:0.95rem; color:#3b0764; line-height:1.7; }
+    .story-box .story-name { font-weight:800; color:#6d28d9; margin-bottom:8px; }
+    .md-section { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 18px; margin:10px 0; }
+    .md-section-num { font-size:0.78rem; font-weight:800; color:#2563eb; margin-bottom:4px; }
+    .md-section-title { font-weight:700; color:#0f172a; margin-bottom:4px; }
+    .md-section-desc { font-size:0.88rem; color:#475569; }
+    .md-section-example { font-size:0.82rem; color:#64748b; font-style:italic; margin-top:6px; }
+    @media (max-width:640px) { .compare-grid { grid-template-columns:1fr; } .info-cards { grid-template-columns:1fr; } }
 
   </style>
 </head>
@@ -399,115 +502,648 @@
   </div>
 
   <div class="paper-container">
-    <header class="doc-header">
-      <div class="doc-category">ACE AI Startup Bootcamp · Day 2 Self-Study Textbook</div>
+
+    <!-- ===== COVER PAGE ===== -->
+    <section class="paper-page cover-page" data-page="cover" style="padding:0 !important; overflow:hidden !important; justify-content:stretch !important;">
+      <div style="
+        width:100%; height:100%;
+        background: linear-gradient(160deg, #0f172a 0%, #1a3a4a 40%, #0891b2 75%, #06b6d4 100%);
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        padding: 20mm 18mm;
+        position:relative;
+        box-sizing:border-box;
+      ">
+        <div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(8,145,178,0.25);"></div>
+        <div style="position:absolute;bottom:-80px;left:-80px;width:360px;height:360px;border-radius:50%;background:rgba(124,58,237,0.2);"></div>
+        <div style="position:absolute;top:40%;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(37,99,235,0.18);"></div>
+
+        <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:50px;padding:8px 24px;color:#a5f3fc;font-size:0.82rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:32px;position:relative;">ACE AI Startup Bootcamp · 자기주도 학습 교재</div>
+
+        <div style="width:100px;height:100px;background:linear-gradient(135deg,#06b6d4,#3b82f6);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:900;color:#fff;margin-bottom:28px;position:relative;box-shadow:0 12px 40px rgba(8,145,178,0.5);">D2</div>
+
+        <h1 style="font-size:2.6rem;font-weight:900;color:#ffffff;text-align:center;line-height:1.25;letter-spacing:-0.03em;margin-bottom:14px;position:relative;">AI와 개발 가능한<br>프로젝트 기획하기</h1>
+
+        <p style="font-size:1.05rem;color:#a5f3fc;font-weight:500;text-align:center;margin-bottom:44px;position:relative;">AI가 이해하는 완성도 높은 기획 문서(PROJECT.md) 작성</p>
+
+        <div style="width:60px;height:3px;background:linear-gradient(90deg,#06b6d4,#3b82f6);border-radius:4px;margin-bottom:44px;position:relative;"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:440px;position:relative;margin-bottom:48px;">
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">🎯</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 1</div><div style="color:#a5f3fc;font-size:0.82rem;">문제 정의 4요소</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">💡</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 2</div><div style="color:#a5f3fc;font-size:0.82rem;">아이디어 검증</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">📋</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 3</div><div style="color:#a5f3fc;font-size:0.82rem;">PROJECT.md 작성</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">✅</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 4</div><div style="color:#a5f3fc;font-size:0.82rem;">기획 완성 체크</div></div>
+          </div>
+        </div>
+
+        <div style="position:relative;display:flex;align-items:center;gap:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.15);width:100%;">
+          <div style="flex:1;color:#64748b;font-size:0.8rem;">
+            <div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">교육 기관</div>
+            <div style="color:#cbd5e1;">ODA AI SW · ACE Program</div>
+          </div>
+          <div style="color:#64748b;font-size:0.8rem;text-align:right;">
+            <div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">과정</div>
+            <div style="color:#cbd5e1;">창업 지망생 AI 웹 개발</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="1">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 2</span>
+        <span>도입 및 문제 정의 4요소</span>
+      </div>
+      <div class="page-content-body">
+<header class="doc-header">
+      <div class="doc-category">ACE AI Startup Bootcamp · Day 2 자기주도 학습 교재</div>
       <h1 class="doc-title">AI와 개발 가능한 프로젝트 기획하기</h1>
+      <p style="color:#475569; margin-top:10px; font-size:0.95rem;">
+        📚 오늘은 코드를 작성하지 않습니다. <strong>완성도 높은 기획 문서(PROJECT.md)가 목표</strong>입니다.<br>
+        이 문서 하나로 Day 3에 Antigravity가 실제 서비스를 만들 수 있습니다.
+      </p>
     </header>
 
-    <h2>1. 교육 개요 및 핵심 원칙</h2>
-    <div class="callout-box"><strong>💡 Day 2 핵심 원칙:</strong> 많은 기능보다 하나의 완전한 사용자 흐름을 먼저 만든다.<br><br>Day 2에서는 서비스 코드를 구현하지 않습니다. Codex로 기획과 요구사항을 충분히 문서화하며, 완성된 PROJECT.md는 Day 3에 Antigravity가 읽고 서비스를 개발하는 단일 기준 문서로 사용됩니다.</div>
+    <!-- 1. 왜 기획 문서가 중요한가 -->
+    <h2>1. 왜 오늘은 코드를 만들지 않는가?</h2>
 
-    <h2>2. 아이디어 vs 문제 정의</h2>
-    <p>기술이나 기능부터 정하면 실제 사용자 문제와 관계없는 제품이 만들어집니다. 문제 문장에는 최소한 <strong>사용자, 상황, 어려움, 원하는 변화</strong>가 들어가야 합니다.</p>
-    <table class="data-table">
-      <thead><tr><th>아이디어 중심 (❌)</th><th>문제 중심 (✅)</th></tr></thead>
-      <tbody>
-        <tr><td>"AI 기반 여행 플래너 앱"</td><td>"혼자 해외여행 가는 사람이 동선 계획에 2시간 이상을 쓴다"</td></tr>
-        <tr><td>"식당 추천 앱"</td><td>"퇴근 후 혼자 저녁 장소를 10분 안에 결정하고 싶은 직장인"</td></tr>
-      </tbody>
-    </table>
-
-    <h2>3. 핵심 사용자 흐름 설계</h2>
-    <p>입력→처리→결과 한 줄 흐름으로 핵심 사용자 행동을 정의합니다.</p>
-    <div class="prompt-block">입력: 선호 장소와 여행 가능 시간 입력
-처리: 조건에 맞는 방문 순서와 이동 동선 생성
-결과: 사용자가 일정표를 확인하고 저장
-
-핵심 흐름 화면: 홈 → 조건 입력 → 일정 생성 → 결과 확인 → 일정 저장</div>
-
-    <h2>4. PROJECT.md 14섹션 구조</h2>
-    <div class="prompt-block">## 1. Project Overview  ## 2. Problem  ## 3. Target User
-## 4. Current Alternatives  ## 5. Core Value and Hypothesis
-## 6. Core User Flow  ## 7. Features and Acceptance Criteria
-## 8. Screen List  ## 9. Data Model  ## 10. Technical Requirements
-## 11. MVP Scope  ## 12. Out of Scope
-## 13. Risks and Open Questions  ## 14. Demo Scenario</div>
-
-    <h2>5. 실습별 프롬프트 가이드</h2>
-
-    <h3>실습 1. 한 장 서비스 정의서</h3>
-    <div class="prompt-block">📌 Codex:
-내가 만들 서비스를 한 장 정의서로 작성해 줘.
-아이디어: [내 아이디어]
-1. 목표 사용자 (상황과 행동으로 구체적으로)
-2. 사용자 문제 (상황, 불편, 현재 대안 포함)
-3. 핵심 가치 제안
-4. 한 줄 서비스 문장
-임의로 사실을 추가하지 말고, 불확실한 부분은 질문으로 남겨줘.</div>
-
-    <h3>실습 2. 핵심 흐름·화면·데이터 구조화</h3>
-    <div class="prompt-block">📌 Codex:
-서비스 정의서 기반으로 핵심 흐름, 화면 목록(3~5개), 데이터 모델을 구조화해 줘.
-핵심 흐름은 입력→처리→결과 형태로 한 줄 작성해 줘.
-문서에 없는 내용은 임의로 추가하지 말고 질문으로 남겨줘.</div>
-
-    <h3>실습 3. PROJECT.md 작성</h3>
-    <div class="prompt-block">📌 Codex:
-PROJECT.md 파일을 14섹션으로 생성해 줘.
-조건:
-- 제공하지 않은 사실은 임의로 확정하지 말고 Open Questions로 분리
-- Must 기능은 3~5개로 제한
-- 각 기능에 확인 가능한 완료 조건 포함
-- 구현하지 않을 항목을 Out of Scope에 명시</div>
-
-    <h3>실습 4. MVP 범위 결정</h3>
-    <div class="prompt-block">📌 Codex:
-PROJECT.md의 MVP 범위를 검토해 줘.
-각 기능을 Must/Should/Could/Out of Scope로 분류하고 근거를 설명해 줘.
-Must는 3~5개로 제한하고, 최종 결정 전에는 문서를 직접 수정하지 마세요.</div>
-
-    <h3>실습 5. 사용자 시나리오 검증</h3>
-    <div class="prompt-block">📌 Codex:
-PROJECT.md 기준으로 정상, 빈 값, 실패 사용자 시나리오를 만들어 줘.
-각 단계에서 필요한 화면, 기능, 데이터와 기대 결과를 표로 정리해 줘.
-문서에 정의되지 않은 동작이나 모순되는 요구사항은 별도 표시해 줘.</div>
-
-    <h3>실습 6. HANDOFF_PROMPT.md 개발 지시문 생성</h3>
-    <div class="prompt-block">📌 Codex:
-HANDOFF_PROMPT.md 파일을 생성해 줘.
-[기준 문서] PROJECT.md를 먼저 읽고 구현 기준으로 사용해 주세요.
-[이번 작업 범위] MVP 기본 구조와 첫 번째 핵심 사용자 흐름을 구현해 주세요.
-[우선순위] Must 기능부터 구현, Should/Could/Out of Scope 제외
-[제약사항] 문서에 없는 요구사항 임의 추가 금지
-[완료 기준] 로컬 실행 가능 + 핵심 흐름 시작 화면 확인 가능
-[작업 보고] 파일목록·실행방법·구현항목·미구현항목 정리</div>
-
-    <h2>5.5 Day 2 자율형 실습 주제 2종</h2>
-    <h3>[자율 주제 A] AI 기반 여행 일정 플래너 서비스 기획</h3>
-    <ul>
-      <li><strong>작성 명세:</strong> <code>TRAVEL_PROJECT.md</code></li>
-      <li><strong>핵심 흐름:</strong> 선호 장소 입력 → AI 동선 생성 → 일정표 확인 → 저장</li>
-    </ul>
-    <div class="prompt-block">📌 Codex 자율 주제 A:
-AI 기반 여행 일정 플래너 서비스의 PROJECT.md를 작성해 줘.
-Must 기능: 장소 입력 폼, 일정 생성 결과 화면, 일정 저장
-Out of Scope: 회원가입, 실제 지도 API, 결제</div>
-
-    <h3>[자율 주제 B] 내 아이디어 기반 서비스 PROJECT.md 직접 완성</h3>
-    <ul>
-      <li><strong>작성 명세:</strong> <code>MY_PROJECT.md</code></li>
-      <li><strong>핵심 구성:</strong> 사용자 문제 정의, 핵심 흐름, Must 기능 3~5개, 완료 기준</li>
-    </ul>
-
-    <h2>6. AI 문서 검토 체크리스트</h2>
-    <div class="callout-box warning">
-      <strong>⚠️ PROJECT.md 검토 포인트</strong><br>
-      - AI가 사용자 문제를 임의로 바꾸지 않았는가?<br>
-      - 존재하지 않는 사용자 요구를 추가하지 않았는가?<br>
-      - Must 기능이 핵심 사용자 흐름과 연결되는가?<br>
-      - 2일 안에 구현하기 어려운 기능이 Must에 포함되지 않았는가?<br>
-      - 개인정보, 결제, 외부 API 위험 요소가 표시되어 있는가?
+    <div class="story-box">
+      <div class="story-name">💬 두 창업팀의 이야기</div>
+      <strong>A팀:</strong> "일단 만들어보자!" → Antigravity에게 바로 "반려동물 매칭 앱 만들어줘"라고 요청<br>
+      → 결과: 로그인 화면만 나오고 핵심 기능은 없음. 수정 요청을 10번 이상 반복.<br><br>
+      <strong>B팀:</strong> "먼저 문서를 완성하자" → Codex로 PROJECT.md 14섹션을 꼼꼼히 작성<br>
+      → 결과: Antigravity가 한 번 요청에 핵심 흐름까지 동작하는 MVP를 생성.<br><br>
+      <strong>차이: B팀은 오늘(Day 2)을 문서 작성에 투자했습니다.</strong>
     </div>
+
+    <div class="callout-box">
+      <strong>💡 Day 2 핵심 원칙:</strong> 많은 기능보다 <strong>하나의 완전한 사용자 흐름</strong>을 먼저 설계한다.<br>
+      Codex가 만든 PROJECT.md 한 파일이 Day 3~5 개발의 모든 기준이 됩니다.
+    </div>
+
+    <!-- 2. 아이디어 vs 문제 정의 -->
+    <h2>2. 아이디어 vs 문제 정의 — 무엇이 다른가?</h2>
+
+    <p>기술이나 기능부터 정하면 실제 사용자 문제와 관계없는 제품이 만들어집니다.<br>
+    좋은 기획은 <strong>"누가, 어떤 상황에서, 무엇이 불편해서, 어떻게 해결되길 바라는가"</strong>를 명확히 합니다.</p>
+
+    <h3>📌 문제 정의의 4가지 요소</h3>
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card-icon">👤</div>
+        <div class="info-card-title">사용자 (Who)</div>
+        <div class="info-card-desc">구체적인 사람. "사람들"이 아니라 "1인 가구 20대 직장인"처럼 좁게 정의</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">📍</div>
+        <div class="info-card-title">상황 (When/Where)</div>
+        <div class="info-card-desc">어떤 순간에 문제를 겪는가? "퇴근 후 집에서 혼자"처럼 구체적으로</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">😣</div>
+        <div class="info-card-title">불편 (Problem)</div>
+        <div class="info-card-desc">지금 어떻게 해결하고 있으며 무엇이 불편한가? 현재 대안의 한계</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🎯</div>
+        <div class="info-card-title">원하는 변화 (Goal)</div>
+        <div class="info-card-desc">이 문제가 해결되면 어떤 상태가 되길 바라는가?</div>
+      </div>
+    </div>
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 1 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="2">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 2</span>
+        <span>문제 정의 비교 및 전환법</span>
+      </div>
+      <div class="page-content-body">
+<h3>📝 나쁜 예 vs 좋은 예 비교</h3>
+    <div class="compare-grid">
+      <div class="compare-bad">
+        <div class="compare-label">❌ 아이디어 중심 (나쁜 예)</div>
+        <div class="compare-text">
+          "AI 기반 여행 플래너 앱"<br><br>
+          "식당 추천 앱"<br><br>
+          "펫시터 매칭 플랫폼"<br><br>
+          <strong>문제:</strong> 기능 이름만 있고 누가, 왜 필요한지 없음
+        </div>
+      </div>
+      <div class="compare-good">
+        <div class="compare-label">✅ 문제 중심 (좋은 예)</div>
+        <div class="compare-text">
+          "혼자 해외여행 가는 2030대가 동선 계획에 2시간 이상 쓴다"<br><br>
+          "퇴근 후 혼자 저녁 장소를 10분 안에 결정하고 싶은 직장인"<br><br>
+          "장기 출장 시 반려견 돌봄 믿을 수 있는 사람 찾기 어려운 1인 가구"<br><br>
+          <strong>이유:</strong> 사용자·상황·불편·목표가 명확
+        </div>
+      </div>
+    </div>
+
+    <h3>💡 내 아이디어를 문제 정의로 바꾸는 방법</h3>
+    <div class="step-guide">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">내 아이디어를 한 줄로 쓴다</div>
+          <div class="step-desc">예: "산책 대행 앱"</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">"이게 왜 필요한가?"를 3번 묻는다</div>
+          <div class="step-desc">왜? → "강아지 산책이 어려운 사람이 있어서" → 왜? → "혼자 사는 직장인은 퇴근이 늦어서" → 왜? → "강아지가 밖에 못 나가면 스트레스를 받아서"</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">4가지 요소를 하나의 문장으로 합친다</div>
+          <div class="step-desc">결과: "야근이 잦은 1인 가구 직장인이 반려견 산책을 매일 챙기지 못해 죄책감을 느끼는 문제"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 핵심 사용자 흐름 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 2 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="3">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 2</span>
+        <span>핵심 사용자 흐름 설계</span>
+      </div>
+      <div class="page-content-body">
+<h2>3. 핵심 사용자 흐름 설계하기</h2>
+
+    <p>"핵심 흐름"이란 사용자가 서비스에 들어와서 <strong>가장 중요한 작업을 완료하기까지의 경로</strong>입니다.<br>
+    이 흐름을 먼저 설계해야 어떤 화면과 기능이 필요한지 정확히 알 수 있습니다.</p>
+
+    <div class="callout-box">
+      <strong>📐 공식: 입력 → 처리 → 결과</strong><br>
+      사용자가 <strong>무엇을 입력</strong>하면, 시스템이 <strong>어떻게 처리</strong>해서, <strong>어떤 결과</strong>를 보여주는가?
+    </div>
+
+    <h3>📋 핵심 흐름 예시 — 반려동물 산책 매칭 서비스</h3>
+    <div class="example-result">
+      <div class="example-result-label">📄 핵심 사용자 흐름 예시</div>
+      <code>
+입력: 보호자가 산책 희망 날짜, 시간, 위치, 반려견 정보를 입력<br>
+처리: 해당 조건에 맞는 산책 도우미 목록을 거리순으로 정렬 표시<br>
+결과: 보호자가 도우미를 선택하고 예약 완료 확인 메시지를 받음<br>
+<br>
+핵심 흐름 화면: 홈 → 조건 입력 → 도우미 목록 → 상세보기 → 예약 완료
+      </code>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 주의:</strong> 핵심 흐름은 반드시 <strong>1개</strong>여야 합니다. Day 2에서 여러 흐름을 설계하려고 하면 범위가 너무 커집니다.<br>
+      Must 기능은 이 하나의 핵심 흐름을 완성하는 데 필요한 것들만으로 제한합니다.
+    </div>
+
+    <!-- 4. PROJECT.md 14섹션 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 3 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="4">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 2</span>
+        <span>PROJECT.md 핵심 구조 (1~7)</span>
+      </div>
+      <div class="page-content-body">
+<h2>4. PROJECT.md 14섹션 완전 이해하기</h2>
+    <p>PROJECT.md는 내 서비스의 모든 것을 담은 <strong>"설계 도면"</strong>입니다. 아래 14개 섹션 각각의 의미와 작성 방법을 이해하세요.</p>
+
+    <div class="md-section">
+      <div class="md-section-num">섹션 1</div>
+      <div class="md-section-title">## Project Overview — 프로젝트 한 줄 요약</div>
+      <div class="md-section-desc">이 서비스가 무엇인지 한두 문장으로 설명. 처음 보는 사람도 이해해야 함.</div>
+      <div class="md-section-example">예: "야근이 잦은 직장인이 신뢰할 수 있는 반려견 산책 도우미를 10분 안에 예약할 수 있는 매칭 서비스"</div>
+    </div>
+    <div class="md-section">
+      <div class="md-section-num">섹션 2</div>
+      <div class="md-section-title">## Problem — 해결하려는 문제</div>
+      <div class="md-section-desc">앞서 정의한 4요소 문제 문장. 실제 사용자의 불편을 데이터나 상황으로 표현.</div>
+      <div class="md-section-example">예: "야근 직장인의 73%가 반려견 산책을 주 3회 미만 시킨다(불편함 원인 상위 1위: 시간 부족)"</div>
+    </div>
+    <div class="md-section">
+      <div class="md-section-num">섹션 3</div>
+      <div class="md-section-title">## Target User — 핵심 타겟 사용자</div>
+      <div class="md-section-desc">가장 이 서비스가 필요한 한 명의 구체적인 사람. 나이, 상황, 습관까지.</div>
+      <div class="md-section-example">예: "25~35세, 서울 거주, 주 5일 이상 야근하는 1인 가구 직장인, 반려견 보유"</div>
+    </div>
+    <div class="md-section">
+      <div class="md-section-num">섹션 4</div>
+      <div class="md-section-title">## Current Alternatives — 현재 대안과 한계</div>
+      <div class="md-section-desc">사용자가 지금 이 문제를 어떻게 해결하고 있는가? 왜 그 방법이 불충분한가?</div>
+      <div class="md-section-example">예: "지인 부탁 → 부탁하기 눈치 보임. 일반 펫시터 앱 → 후기 신뢰성 불투명"</div>
+    </div>
+    <div class="md-section">
+      <div class="md-section-num">섹션 5</div>
+      <div class="md-section-title">## Core Value and Hypothesis — 핵심 가치와 가설</div>
+      <div class="md-section-desc">내 서비스가 기존 대안보다 나은 점. 가설이므로 검증 필요.</div>
+      <div class="md-section-example">예: "인증된 도우미 + 실시간 산책 경로 공유로 신뢰 문제 해결. 직장인 80%는 이를 위해 월 3만원 지불 의향"</div>
+    </div>
+    <div class="md-section">
+      <div class="md-section-num">섹션 6</div>
+      <div class="md-section-title">## Core User Flow — 핵심 사용자 흐름</div>
+      <div class="md-section-desc">입력→처리→결과 형태의 한 줄 흐름. 화면 목록 포함.</div>
+      <div class="md-section-example">예: "조건 입력 → 도우미 목록 → 상세 → 예약 완료"</div>
+    </div>
+    <div class="md-section">
+      <div class="md-section-num">섹션 7</div>
+      <div class="md-section-title">## Features and Acceptance Criteria — 기능과 완료 기준</div>
+      <div class="md-section-desc">Must/Should/Could로 분류한 기능 목록. 각 기능마다 "이렇게 동작하면 완료"라는 기준 필요.</div>
+      <div class="md-section-example">예: "Must: 도우미 목록 화면 → '목록에서 도우미를 클릭하면 상세 화면으로 이동'"</div>
+    </div>
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 4 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="5">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 2</span>
+        <span>PROJECT.md 상세 명세 (8~14)</span>
+      </div>
+      <div class="page-content-body">
+<div class="md-section">
+      <div class="md-section-num">섹션 8</div>
+      <div class="md-section-title">## Screen List — 화면 목록</div>
+      <div class="md-section-desc">서비스를 구성하는 화면들. MVP는 3~5개로 제한.</div>
+      <div class="md-section-example">예: "홈, 조건 입력, 도우미 목록, 도우미 상세, 예약 완료"</div>
+    </div>
+    <div class="md-section">
+      <div class="md-section-num">섹션 9</div>
+      <div class="md-section-title">## Data Model — 데이터 구조</div>
+      <div class="md-section-desc">서비스에서 다루는 데이터 종류. 어떤 정보를 저장하고 표시하는가.</div>
+      <div class="md-section-example">예: "도우미: 이름, 사진, 위치, 가격, 평점 / 예약: 날짜, 시간, 보호자ID, 도우미ID"</div>
+    </div>
+    <div class="md-section">
+      <div class="md-section-num">섹션 10</div>
+      <div class="md-section-title">## Technical Requirements — 기술 요건</div>
+      <div class="md-section-desc">어떤 기술 스택으로 만들지. 초보자는 "HTML/CSS/JS 단일 파일"로 설정.</div>
+      <div class="md-section-example">예: "HTML/CSS/JavaScript, localStorage로 데이터 관리, 외부 API 미사용"</div>
+    </div>
+    <div class="md-section">
+      <div class="md-section-num">섹션 11</div>
+      <div class="md-section-title">## MVP Scope — MVP 범위</div>
+      <div class="md-section-desc">이번 개발에서 반드시 완성해야 하는 것. Must 기능 3~5개로 제한.</div>
+      <div class="md-section-example">예: "Must: 도우미 목록 표시, 도우미 상세보기, 예약 신청 폼"</div>
+    </div>
+    <div class="md-section">
+      <div class="md-section-num">섹션 12</div>
+      <div class="md-section-title">## Out of Scope — 이번에 만들지 않는 것</div>
+      <div class="md-section-desc">나중에 만들 기능을 미리 선언. AI가 범위를 넘지 않도록 명시.</div>
+      <div class="md-section-example">예: "회원가입/로그인, 결제 시스템, 실시간 채팅, 지도 API 연동"</div>
+    </div>
+    <div class="md-section">
+      <div class="md-section-num">섹션 13</div>
+      <div class="md-section-title">## Risks and Open Questions — 위험과 미결 사항</div>
+      <div class="md-section-desc">아직 확인되지 않은 사항, 결정이 필요한 것들을 솔직하게 나열.</div>
+      <div class="md-section-example">예: "Q: 도우미 데이터는 실제로 어떻게 입력할 것인가? (현재 임시 더미 데이터 사용 예정)"</div>
+    </div>
+    <div class="md-section">
+      <div class="md-section-num">섹션 14</div>
+      <div class="md-section-title">## Demo Scenario — 데모 시나리오</div>
+      <div class="md-section-desc">발표 때 보여줄 5분 데모의 흐름. "나는 OOO로 시작해서 OOO를 보여줄 것"</div>
+      <div class="md-section-example">예: "홈에서 날짜 선택 → 도우미 3명 목록 표시 → '박산책' 클릭 → 상세 확인 → 예약 신청 버튼 클릭 → 완료 메시지"</div>
+    </div>
+
+    <!-- 5. 완성된 PROJECT.md 예시 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 5 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="6">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 2</span>
+        <span>완성된 PROJECT.md 전체 예시</span>
+      </div>
+      <div class="page-content-body">
+<h2>5. 완성된 PROJECT.md 예시 (전체)</h2>
+    <p>아래는 "반려동물 산책 매칭" 서비스를 기준으로 작성한 PROJECT.md 전체 예시입니다. 여러분의 서비스에 맞게 수정하세요.</p>
+
+    <div class="example-result">
+      <div class="example-result-label">📄 PROJECT.md 완성 예시 (반려동물 산책 매칭)</div>
+      <code>
+# PROJECT.md — 반려동물 산책 매칭 서비스<br>
+<br>
+## 1. Project Overview<br>
+야근이 잦은 1인 가구 직장인이 신뢰할 수 있는<br>
+반려견 산책 도우미를 10분 안에 예약하는 매칭 서비스<br>
+<br>
+## 2. Problem<br>
+야근 직장인의 73%가 반려견 산책을 주 3회 미만 시킴<br>
+원인: 퇴근 후 너무 늦거나, 지인에게 부탁하기 눈치 보임<br>
+<br>
+## 3. Target User<br>
+25~35세, 서울 거주, 주 5일 이상 야근, 1인 가구, 소형견 보유<br>
+<br>
+## 4. Current Alternatives<br>
+- 지인 부탁: 관계 부담<br>
+- 기존 펫시터 앱: 후기 신뢰성 불투명, UI 복잡<br>
+<br>
+## 5. Core Value<br>
+인증된 도우미 + 간단한 예약 3단계로 신뢰 문제 해결<br>
+<br>
+## 6. Core User Flow<br>
+입력: 날짜, 시간, 위치, 견종<br>
+처리: 조건 맞는 도우미 목록 표시 (거리순)<br>
+결과: 도우미 선택 → 예약 완료 확인<br>
+화면: 홈 → 조건입력 → 도우미목록 → 상세보기 → 예약완료<br>
+<br>
+## 7. Features (Must 3개만)<br>
+1. 도우미 목록 화면 — 카드 형태 3개 이상 표시<br>
+2. 도우미 상세 화면 — 이름, 소개, 가격, 후기<br>
+3. 예약 신청 폼 — 날짜/시간 입력 후 신청 버튼<br>
+<br>
+## 12. Out of Scope<br>
+회원가입, 결제, 실시간 채팅, 지도 API<br>
+<br>
+## 13. Open Questions<br>
+- 도우미 데이터: 임시 더미 데이터 3명 사용<br>
+- 예약 저장: localStorage 사용<br>
+<br>
+## 14. Demo Scenario<br>
+홈 → 조건 입력 → 도우미 '박산책' 선택<br>
+→ 상세보기 확인 → 예약 신청 → 완료 메시지
+      </code>
+    </div>
+
+    <!-- 6. 실습별 프롬프트 가이드 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 6 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="7">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 2</span>
+        <span>실습: 기획서 작성 및 범위 결정</span>
+      </div>
+      <div class="page-content-body">
+<h2>6. 오늘의 실습 — 단계별 따라하기</h2>
+
+    <h3>📝 실습 1 — 한 장 서비스 정의서 만들기</h3>
+    <p>내 아이디어를 AI와 함께 체계적인 문제 정의로 발전시킵니다.</p>
+
+    <div class="prompt-block">📌 Codex 프롬프트:
+
+내가 만들 서비스를 한 장 정의서로 작성해줘.
+내 아이디어: [여기에 내 아이디어를 구체적으로 적어줘]
+
+작성 항목:
+1. 목표 사용자 — 나이, 상황, 생활 패턴까지 구체적으로
+2. 사용자 문제 — 현재 상황, 불편한 점, 지금 어떻게 해결하는지
+3. 핵심 가치 제안 — 내 서비스가 기존보다 나은 점
+4. 한 줄 서비스 문장 — "OOO가 OOO 상황에서 OOO를 OOO할 수 있는 서비스"
+
+주의: 임의로 사실을 추가하지 마. 불확실한 부분은 질문으로 남겨줘.</div>
+
+    <div class="tip-box">
+      <strong>💡 아이디어가 없다면?</strong> 아래 중 하나를 선택하세요:<br>
+      • "동네 맛집 모아보기 서비스" • "독서 기록 & 요약 서비스"<br>
+      • "운동 루틴 추천 서비스" • "중고 물물교환 서비스"
+    </div>
+
+    <h3>📝 실습 2 — 핵심 흐름·화면·데이터 구조화</h3>
+
+    <div class="prompt-block">📌 Codex 프롬프트:
+
+서비스 정의서를 기반으로 아래 3가지를 구조화해줘.
+
+1. 핵심 흐름 — "입력 → 처리 → 결과" 형태로 한 줄
+2. 화면 목록 — MVP에 필요한 화면 3~5개, 각 화면에 포함할 요소 목록
+3. 데이터 모델 — 이 서비스에서 다룰 데이터 종류와 필드
+
+조건:
+- 문서에 없는 내용은 임의로 추가하지 말고 질문으로 남겨줘
+- 화면은 최대 5개를 넘지 않도록 제안해줘</div>
+
+    <h3>📝 실습 3 — PROJECT.md 14섹션 작성</h3>
+
+    <div class="prompt-block">📌 Codex 프롬프트:
+
+PROJECT.md 파일을 14섹션으로 생성해줘.
+기준 문서: 위에서 작성한 서비스 정의서와 구조화 내용
+
+조건:
+- 제공하지 않은 사실은 임의로 확정하지 말고 ## 13. Open Questions에 분리
+- Must 기능은 3~5개로 제한
+- 각 기능에 "이렇게 동작하면 완료"라는 완료 기준 포함
+- ## 12. Out of Scope에 이번에 만들지 않는 것 명시
+- 기술 요건: HTML/CSS/JS 단일 파일, localStorage 사용</div>
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 7 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="8">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 2</span>
+        <span>실습: 시나리오 검증 및 개발 지시문</span>
+      </div>
+      <div class="page-content-body">
+<h3>📝 실습 4 — MVP 범위 최종 결정</h3>
+
+    <div class="prompt-block">📌 Codex 프롬프트:
+
+PROJECT.md의 ## 7. Features를 검토해줘.
+
+각 기능을 아래 기준으로 분류하고 근거를 설명해줘:
+- Must: 핵심 흐름 완성에 반드시 필요
+- Should: 있으면 좋지만 없어도 동작함
+- Could: 나중에 추가할 기능
+- Out of Scope: 이번 MVP에서 제외
+
+Must는 반드시 3~5개로 제한해줘.
+내가 검토 후 확정하기 전까지는 파일을 직접 수정하지 마세요.</div>
+
+    <h3>📝 실습 5 — 사용자 시나리오 검증</h3>
+
+    <div class="prompt-block">📌 Codex 프롬프트:
+
+PROJECT.md 기준으로 아래 3가지 사용자 시나리오를 표로 만들어줘:
+
+1. 정상 시나리오 (Happy Path): 모든 것이 잘 됐을 때
+2. 빈 값 시나리오: 사용자가 아무것도 입력하지 않았을 때
+3. 실패 시나리오: 결과가 없거나 오류가 발생했을 때
+
+표 형식: 단계 | 화면 | 사용자 행동 | 기대 결과
+문서에 정의되지 않은 동작이 있으면 Open Questions에 추가해줘.</div>
+
+    <h3>📝 실습 6 — Antigravity용 개발 지시문 생성</h3>
+    <p>Day 3에 Antigravity가 읽을 최종 지시문 파일을 만듭니다.</p>
+
+    <div class="prompt-block">📌 Codex 프롬프트:
+
+HANDOFF_PROMPT.md 파일을 생성해줘.
+이 파일은 Antigravity(AI 개발 도구)가 읽고 서비스를 구현하는 지시문이야.
+
+내용 구조:
+[기준 문서] PROJECT.md를 먼저 읽고 구현 기준으로 사용하세요.
+[이번 작업 범위] MVP Must 기능과 핵심 흐름을 구현하세요.
+[우선순위] Must 기능부터 구현, Should/Could/Out of Scope 제외
+[기술 스택] HTML/CSS/JS 단일 파일 index.html, localStorage
+[제약사항] PROJECT.md에 없는 요구사항 임의 추가 금지
+[완료 기준] 로컬에서 열면 핵심 흐름 시작 화면이 보일 것
+[작업 보고] 완료 후 생성 파일 목록과 실행 방법 알려줄 것</div>
+
+    <div class="success-box">
+      <strong>✅ Day 2 완료 기준:</strong><br>
+      프로젝트 폴더 안에 아래 파일들이 있으면 성공입니다:<br>
+      • <code>PROJECT.md</code> (14섹션 완성)<br>
+      • <code>HANDOFF_PROMPT.md</code> (개발 지시문)<br>
+      • <code>README.md</code> (갱신된 프로젝트 설명)
+    </div>
+
+    <!-- 7. 자율 실습 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 8 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="9">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 2</span>
+        <span>자율 실습 & 흔히 하는 실수</span>
+      </div>
+      <div class="page-content-body">
+<h2>7. 도전! 자율형 실습 주제 2종</h2>
+
+    <h3>🏆 [자율 주제 A] AI 기반 여행 일정 플래너 서비스 기획</h3>
+    <div class="prompt-block">📌 Codex 시작 프롬프트:
+
+AI 기반 여행 일정 플래너 서비스의 PROJECT.md를 작성해줘.
+Must 기능: 여행지/날짜 입력 폼, 일정 생성 결과 화면, 일정 저장
+Out of Scope: 회원가입, 실제 지도 API, 결제, 숙소 예약</div>
+
+    <h3>🚀 [자율 주제 B] 내 아이디어 기반 PROJECT.md 완성</h3>
+    <div class="callout-box">
+      내 창업 아이디어를 기반으로 PROJECT.md를 처음부터 완성해보세요.<br>
+      핵심: 사용자 문제 정의 → Must 기능 3~5개 → 완료 기준 → Out of Scope
+    </div>
+
+    <!-- 8. 흔히 하는 실수 -->
+    <h2>8. 흔히 하는 실수 Top 5</h2>
+
+    <div class="danger-box">
+      <strong>🚫 실수 1: Must에 너무 많이 넣기</strong><br>
+      "회원가입, 결제, 리뷰, 채팅, 지도..." → Must는 핵심 흐름에 필요한 3~5개만!
+    </div>
+    <div class="danger-box">
+      <strong>🚫 실수 2: AI가 임의로 추가한 기능을 그냥 두기</strong><br>
+      프롬프트에 "임의로 추가하지 마세요"를 꼭 넣고, AI 결과물을 반드시 검토하세요.
+    </div>
+    <div class="danger-box">
+      <strong>🚫 실수 3: 타겟 사용자를 "모든 사람"으로 설정</strong><br>
+      타겟이 넓을수록 제품이 누구에게도 맞지 않게 됩니다. 한 명을 구체적으로 설정하세요.
+    </div>
+    <div class="danger-box">
+      <strong>🚫 실수 4: 완료 기준 없이 기능만 나열</strong><br>
+      "예약 기능" → "사용자가 예약 버튼을 클릭하면 확인 메시지가 나타날 것"처럼 검증 가능하게.
+    </div>
+    <div class="danger-box">
+      <strong>🚫 실수 5: Out of Scope를 비워두기</strong><br>
+      AI는 비어있는 공간을 임의로 채웁니다. "만들지 않을 것"을 명확히 적어야 합니다.
+    </div>
+
+    <!-- 9. 셀프 체크 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 9 of 10</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="10">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 2</span>
+        <span>체크리스트 및 마무리</span>
+      </div>
+      <div class="page-content-body">
+<h2>9. Day 2 완료 셀프 체크리스트</h2>
+    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:20px; margin:16px 0;">
+      <ul class="checklist">
+        <li>내 서비스 아이디어를 문제 정의 4요소로 정리했다</li>
+        <li>핵심 사용자 흐름을 "입력→처리→결과" 형태로 한 줄로 표현했다</li>
+        <li>화면 목록을 3~5개로 제한했다</li>
+        <li>PROJECT.md 14섹션을 모두 작성했다</li>
+        <li>Must 기능이 3~5개로 제한되어 있다</li>
+        <li>각 Must 기능마다 완료 기준이 있다</li>
+        <li>Out of Scope 목록이 있다</li>
+        <li>Open Questions에 불확실한 사항을 정리했다</li>
+        <li>HANDOFF_PROMPT.md 개발 지시문을 생성했다</li>
+        <li>AI가 임의로 추가한 내용이 없는지 직접 검토했다</li>
+      </ul>
+    </div>
+
+    <div class="callout-box">
+      <strong>📌 다음 시간 예고 — Day 3: PROJECT.md에서 동작하는 MVP 만들기</strong><br>
+      오늘 완성한 PROJECT.md와 HANDOFF_PROMPT.md를 가지고 Antigravity로 실제 동작하는 웹 서비스를 만듭니다!
+    </div>
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 10 of 10</span>
+      </div>
+    </section>
   </div>
 
   <!-- AI Account Modal -->
@@ -719,30 +1355,60 @@ Out of Scope: 회원가입, 실제 지도 API, 결제</div>
   </script>
 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    function downloadPDF() {
+    async function downloadPDF() {
       const btn = document.getElementById('btn-download-pdf');
       const originalText = btn ? btn.innerHTML : '';
-      if (btn) btn.innerHTML = '⏳ PDF 생성 중...';
+      if (btn) {
+        btn.innerHTML = '⏳ A4 PDF 준비 중...';
+        btn.disabled = true;
+      }
 
-      const element = document.querySelector('.paper-container');
-      const opt = {
-        margin:       0,
-        filename:     '창업가_Day2_교재_A4.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, logging: false },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak:    { mode: ['css', 'legacy'] }
-      };
+      try {
+        if (!window.jspdf || !window.html2canvas) {
+          throw new Error('PDF 생성 라이브러리를 불러오지 못했습니다.');
+        }
 
-      html2pdf().set(opt).from(element).save().then(() => {
-        if (btn) btn.innerHTML = originalText;
-      }).catch(err => {
-        console.error('PDF 다운로드 실패:', err);
-        if (btn) btn.innerHTML = originalText;
+        const pages = document.querySelectorAll('.paper-page');
+        const total = pages.length;
+        if (!total) throw new Error('교재 페이지를 찾을 수 없습니다.');
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4',
+          compress: true
+        });
+
+        for (let i = 0; i < total; i++) {
+          if (btn) btn.innerHTML = `⏳ A4 PDF 생성 중 (${i + 1}/${total})...`;
+          const page = pages[i];
+          const canvas = await html2canvas(page, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: '#ffffff',
+            windowWidth: 1200
+          });
+          const imgData = canvas.toDataURL('image/jpeg', 0.95);
+          if (i > 0) pdf.addPage('a4', 'portrait');
+          pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+        }
+
+        pdf.save('창업가_Day2_교재_A4.pdf');
+      } catch (err) {
+        console.error('PDF 생성 실패:', err);
+        alert('PDF 자동 다운로드 중 오류가 발생하여 브라우저 인쇄 창으로 전환합니다.\n[인쇄 창 > 대상: PDF로 저장]을 선택하시면 깨끗하게 저장할 수 있습니다.');
         window.print();
-      });
+      } finally {
+        if (btn) {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }
+      }
     }
   </script>
 </body>

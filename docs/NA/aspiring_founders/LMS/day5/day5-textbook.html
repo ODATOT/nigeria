@@ -76,7 +76,7 @@
     .btn-action { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; font-size:0.88rem; font-weight:600; border-radius:8px; border:none; cursor:pointer; text-decoration:none; }
     .btn-print { background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; }
     .btn-back { background:rgba(255,255,255,0.1); color:#e2e8f0; border:1px solid rgba(255,255,255,0.15); }
-    .paper-container { max-width:900px; margin:30px auto; background:#fff; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.5); padding:48px 56px; }
+    
     .doc-header { border-bottom:3px solid var(--primary); padding-bottom:20px; margin-bottom:32px; }
     .doc-category { color:var(--secondary); font-size:0.9rem; font-weight:800; text-transform:uppercase; margin-bottom:6px; }
     .doc-title { font-size:2.2rem; font-weight:900; color:var(--text-dark); letter-spacing:-0.02em; }
@@ -91,45 +91,7 @@
     table.data-table { width:100%; border-collapse:collapse; margin:20px 0; font-size:0.92rem; }
     table.data-table th, table.data-table td { border:1px solid var(--border); padding:10px 14px; text-align:left; }
     table.data-table th { background:#f1f5f9; }
-        /* A4 Size & Print Styles */
-    @page {
-      size: A4 portrait;
-      margin: 12mm 14mm 12mm 14mm;
-    }
-
-    @media print {
-      html, body {
-        width: 100% !important;
-        background: #ffffff !important;
-        color: #000000 !important;
-        font-size: 12.5px !important;
-        line-height: 1.5 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-      .no-print-bar, .navbar-2tier { display: none !important; }
-      .paper-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-shadow: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border-radius: 0 !important;
-      }
-      .page-break {
-        page-break-after: always !important;
-        break-after: page !important;
-      }
-      .paper-page {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        margin-bottom: 20px !important;
-      }
-      table.data-table, .prompt-block, .callout-box {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-      }
-    } }
+         }
   
     /* Modern 2-Tier Header Styles */
     .navbar-2tier {
@@ -290,9 +252,14 @@
     }
   
   
-    /* Standard A4 Screen & Print Styling */
+    /* ==========================================================================
+       Standard A4 Portrait Screen & Print Engine
+       ========================================================================== */
     body {
       background: #cbd5e1 !important;
+      color: var(--text-dark);
+      margin: 0;
+      padding: 0;
     }
 
     .paper-container {
@@ -302,9 +269,11 @@
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      gap: 36px !important;
+      gap: 32px !important;
       box-shadow: none !important;
       border-radius: 0 !important;
+      background: transparent !important;
+      padding: 0 !important;
     }
 
     .paper-page {
@@ -312,19 +281,90 @@
       min-height: 297mm !important;
       box-sizing: border-box !important;
       background: #ffffff !important;
-      border-radius: 3px !important;
+      border-radius: 4px !important;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12) !important;
       padding: 18mm 18mm 16mm 18mm !important;
       page-break-after: always !important;
       break-after: page !important;
-      page-break-inside: avoid !important;
-      break-inside: avoid !important;
+      page-break-inside: auto !important;
+      break-inside: auto !important;
       position: relative !important;
+      overflow: visible !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+    }
+
+    .cover-page {
+      padding: 0 !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      border-radius: 4px !important;
+      overflow: hidden !important;
+      justify-content: stretch !important;
+    }
+    .cover-page > div {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .page-content-body {
+      flex: 1 0 auto;
+    }
+
+    .book-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    .book-footer-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
+      margin-top: 24px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    /* Prevent cut-off / splitting at page boundaries */
+    .compare-grid, .compare-bad, .compare-good,
+    .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+    .info-cards, .info-card, .checklist, .checklist li, .example-result,
+    .story-box, .script-box, .qa-item, .screen-state-card,
+    .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+    .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+    .data-table, h1, h2, h3, h4, pre, blockquote {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    h1, h2, h3, h4 {
+      break-after: avoid !important;
+      page-break-after: avoid !important;
+    }
+
+    p, li {
+      orphans: 3;
+      widows: 3;
     }
 
     @media screen and (max-width: 820px) {
-      .paper-container { width: 100% !important; }
-      .paper-page { width: 95vw !important; min-height: auto !important; padding: 22px 18px !important; }
+      .paper-container { width: 100% !important; margin: 16px auto !important; }
+      .paper-page { width: 95vw !important; min-height: auto !important; padding: 20px 16px !important; }
     }
 
     .btn-download {
@@ -357,6 +397,8 @@
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -367,14 +409,14 @@
         margin: 0 !important;
         padding: 0 !important;
         gap: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
       }
       .paper-page {
         width: 210mm !important;
         min-height: 297mm !important;
-        height: 297mm !important;
-        max-height: 297mm !important;
         margin: 0 !important;
-        padding: 16mm 16mm 14mm 16mm !important;
+        padding: 15mm 15mm 13mm 15mm !important;
         box-shadow: none !important;
         border-radius: 0 !important;
         border: none !important;
@@ -382,9 +424,69 @@
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-        overflow: hidden !important;
+        overflow: visible !important;
+        background: #ffffff !important;
+      }
+      .cover-page {
+        padding: 0 !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        border-radius: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+      .compare-grid, .compare-bad, .compare-good,
+      .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+      .info-cards, .info-card, .checklist, .checklist li, .example-result,
+      .story-box, .script-box, .qa-item, .screen-state-card,
+      .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+      .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+      .data-table, h1, h2, h3, h4, pre, blockquote {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
       }
     }
+
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+    .compare-bad { background:#fff1f2; border:2px solid #fca5a5; border-radius:10px; padding:16px; }
+    .compare-good { background:#f0fdf4; border:2px solid #86efac; border-radius:10px; padding:16px; }
+    .compare-label { font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; }
+    .compare-bad .compare-label { color:#dc2626; }
+    .compare-good .compare-label { color:#16a34a; }
+    .compare-text { font-size:0.92rem; color:#334155; line-height:1.6; }
+    .step-guide { margin:20px 0; display:flex; flex-direction:column; gap:12px; }
+    .step-item { display:flex; gap:16px; align-items:flex-start; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 18px; }
+    .step-num { min-width:32px; height:32px; background:linear-gradient(135deg,#2563eb,#0891b2); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; }
+    .step-content { flex:1; }
+    .step-title { font-weight:700; color:#0f172a; margin-bottom:4px; }
+    .step-desc { font-size:0.9rem; color:#475569; }
+    .tip-box { background:linear-gradient(135deg,#fefce8,#fef9c3); border:1.5px solid #fde047; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .tip-box strong { color:#92400e; }
+    .danger-box { background:#fff1f2; border:1.5px solid #f87171; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .danger-box strong { color:#b91c1c; }
+    .success-box { background:#f0fdf4; border:1.5px solid #4ade80; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .success-box strong { color:#15803d; }
+    .info-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin:20px 0; }
+    .info-card { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px; }
+    .info-card-icon { font-size:1.8rem; margin-bottom:8px; }
+    .info-card-title { font-weight:800; color:#0f172a; margin-bottom:6px; }
+    .info-card-desc { font-size:0.88rem; color:#475569; line-height:1.55; }
+    .checklist { list-style:none; margin:16px 0; padding:0; }
+    .checklist li { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed #e2e8f0; font-size:0.92rem; color:#334155; }
+    .checklist li:last-child { border-bottom:none; }
+    .checklist li::before { content:'☐'; color:#2563eb; font-size:1.1rem; flex-shrink:0; margin-top:1px; }
+    .example-result { background:linear-gradient(135deg,#0f172a,#1e293b); border:1px solid #334155; border-radius:12px; padding:20px; margin:16px 0; }
+    .example-result-label { color:#38bdf8; font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; }
+    .example-result code { color:#86efac; font-size:0.88rem; line-height:1.8; }
+    .story-box { background:linear-gradient(135deg,#ede9fe,#ddd6fe); border-left:4px solid #7c3aed; border-radius:0 10px 10px 0; padding:18px 20px; margin:20px 0; font-size:0.95rem; color:#3b0764; line-height:1.7; }
+    .story-box .story-name { font-weight:800; color:#6d28d9; margin-bottom:8px; }
+    .script-box { background:#f0fdf4; border:1.5px solid #4ade80; border-radius:10px; padding:16px 20px; margin:10px 0; }
+    .script-time { font-size:0.75rem; font-weight:800; color:#15803d; margin-bottom:6px; }
+    .script-text { font-size:0.9rem; color:#1a2e1a; line-height:1.65; }
+    .qa-item { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 18px; margin:10px 0; }
+    .qa-q { font-weight:700; color:#0f172a; margin-bottom:6px; }
+    .qa-a { font-size:0.9rem; color:#475569; }
+    @media (max-width:640px) { .compare-grid { grid-template-columns:1fr; } .info-cards { grid-template-columns:1fr; } }
 
   </style>
 </head>
@@ -399,113 +501,533 @@
   </div>
 
   <div class="paper-container">
-    <header class="doc-header">
-      <div class="doc-category">ACE AI Startup Bootcamp · Day 5 Self-Study Textbook</div>
+
+    <!-- ===== COVER PAGE ===== -->
+    <section class="paper-page cover-page" data-page="cover" style="padding:0 !important; overflow:hidden !important; justify-content:stretch !important;">
+      <div style="
+        width:100%; height:100%;
+        background: linear-gradient(160deg, #0f172a 0%, #3b1d11 40%, #c2410c 75%, #f97316 100%);
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        padding: 20mm 18mm;
+        position:relative;
+        box-sizing:border-box;
+      ">
+        <div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(234,88,12,0.25);"></div>
+        <div style="position:absolute;bottom:-80px;left:-80px;width:360px;height:360px;border-radius:50%;background:rgba(245,158,11,0.2);"></div>
+        <div style="position:absolute;top:40%;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(225,29,72,0.18);"></div>
+
+        <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:50px;padding:8px 24px;color:#fed7aa;font-size:0.82rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:32px;position:relative;">ACE AI Startup Bootcamp · 자기주도 학습 교재</div>
+
+        <div style="width:100px;height:100px;background:linear-gradient(135deg,#f97316,#e11d48);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:900;color:#fff;margin-bottom:28px;position:relative;box-shadow:0 12px 40px rgba(234,88,12,0.5);">D5</div>
+
+        <h1 style="font-size:2.6rem;font-weight:900;color:#ffffff;text-align:center;line-height:1.25;letter-spacing:-0.03em;margin-bottom:14px;position:relative;">최종 검증·배포·<br>발표와 개선</h1>
+
+        <p style="font-size:1.05rem;color:#fed7aa;font-weight:500;text-align:center;margin-bottom:44px;position:relative;">5일간의 여정을 마무리하고 완성된 서비스를 세상에 공개하기</p>
+
+        <div style="width:60px;height:3px;background:linear-gradient(90deg,#f97316,#e11d48);border-radius:4px;margin-bottom:44px;position:relative;"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:440px;position:relative;margin-bottom:48px;">
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">🔍</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 1</div><div style="color:#fed7aa;font-size:0.82rem;">최종 검증 3단계</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">🚀</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 2</div><div style="color:#fed7aa;font-size:0.82rem;">GitHub Pages 배포</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">🎤</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 3</div><div style="color:#fed7aa;font-size:0.82rem;">5분 발표 준비</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">🏆</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 4</div><div style="color:#fed7aa;font-size:0.82rem;">최종 점검 & 수료</div></div>
+          </div>
+        </div>
+
+        <div style="position:relative;display:flex;align-items:center;gap:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.15);width:100%;">
+          <div style="flex:1;color:#64748b;font-size:0.8rem;">
+            <div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">교육 기관</div>
+            <div style="color:#cbd5e1;">ODA AI SW · ACE Program</div>
+          </div>
+          <div style="color:#64748b;font-size:0.8rem;text-align:right;">
+            <div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">과정</div>
+            <div style="color:#cbd5e1;">창업 지망생 AI 웹 개발</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="1">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 5</span>
+        <span>도입 및 최종 검증 3단계</span>
+      </div>
+      <div class="page-content-body">
+<header class="doc-header">
+      <div class="doc-category">ACE AI Startup Bootcamp · Day 5 자기주도 학습 교재</div>
       <h1 class="doc-title">최종 검증·배포·발표와 개선</h1>
+      <p style="color:#475569; margin-top:10px; font-size:0.95rem;">
+        📚 오늘은 5일간의 여정을 마무리합니다. <strong>완성된 서비스를 검증하고, 온라인에 배포하고, 5분 발표를 준비</strong>합니다.
+      </p>
     </header>
 
-    <h2>1. 교육 개요 및 핵심 원칙</h2>
-    <div class="callout-box">
-      <strong>💡 Day 5 핵심 원칙:</strong><br>
-      로컬에서 동작함 ≠ 배포 환경에서 동작함<br>
-      AI가 완료했다고 말함 ≠ 사용자가 핵심 흐름을 완료함<br>
-      발표가 끝남 ≠ 검증이 끝남
+    <!-- 1. 오늘의 목표 -->
+    <h2>1. 오늘은 무엇을 하는가?</h2>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card-icon">🔍</div>
+        <div class="info-card-title">최종 검증</div>
+        <div class="info-card-desc">PROJECT.md 기준으로 모든 Must 기능이 동작하는지 체크리스트로 확인</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🌐</div>
+        <div class="info-card-title">온라인 배포</div>
+        <div class="info-card-desc">GitHub Pages를 사용해 누구나 URL로 접속할 수 있게 배포</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🎤</div>
+        <div class="info-card-title">5분 발표 준비</div>
+        <div class="info-card-desc">이야기 구조로 문제→해결→데모→다음 계획을 설명하는 발표 준비</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🔄</div>
+        <div class="info-card-title">회고와 개선 계획</div>
+        <div class="info-card-desc">배운 것, 아쉬운 것, 다음에 만들 것을 정리하는 NEXT_STEPS.md 작성</div>
+      </div>
     </div>
 
+    <!-- 2. 최종 검증 3단계 -->
     <h2>2. 최종 검증 3단계 피라미드</h2>
-    <div class="prompt-block">자동 검사: 빌드, 테스트, 정적 검사, 민감정보 패턴 확인
-수동 검사: 핵심 흐름, 모바일, 오류 상태, 배포 URL
-사용자 검사: 설명 없이 첫 행동과 핵심 결과를 완료하는지 관찰</div>
 
-    <h2>3. 안전한 배포 체크리스트</h2>
-    <ul>
-      <li>☐ 비밀번호, API 키, 토큰이 코드나 MD에 포함되지 않았는가?</li>
-      <li>☐ .env 같은 비밀정보 파일이 공개 대상에서 제외됐는가?</li>
-      <li>☐ 실제 개인정보 대신 데모 데이터를 사용하는가?</li>
-      <li>☐ 실제 결제가 아닌 Mock Payment임을 화면에 표시했는가?</li>
-      <li>☐ 외부 API 실패 시 데모가 완전히 중단되지 않는가?</li>
-    </ul>
+    <p>배포 전 서비스가 제대로 동작하는지 아래 3단계 순서로 확인합니다.</p>
 
-    <h2>4. 5분 발표 이야기 구조</h2>
+    <div class="step-guide">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">기능 검증 — Must 기능이 모두 동작하는가?</div>
+          <div class="step-desc">PROJECT.md ## 7. Features의 Must 기능을 하나씩 직접 클릭해서 확인.<br>
+          VALIDATION.md에 통과/미통과를 기록합니다.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">시나리오 검증 — 핵심 흐름이 끊기지 않는가?</div>
+          <div class="step-desc">PROJECT.md ## 14. Demo Scenario를 그대로 따라 해봅니다.<br>
+          처음부터 끝까지 막힘 없이 동작하면 통과.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">예외 검증 — 빈 값, 잘못된 입력에서 오류 메시지가 나오는가?</div>
+          <div class="step-desc">필수 입력란을 비우고 제출, 이상한 값을 입력해도 서비스가 멈추지 않는지 확인.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>📋 최종 검증 Codex 프롬프트</h3>
+    <div class="prompt-block">📌 Codex 요청:
+
+VALIDATION.md를 최종 업데이트해줘.
+검증 기준: PROJECT.md ## 7. Features의 Must 기능 전체
+
+표 형식으로 작성:
+| 기능명 | 검증 방법 | 결과(통과/미통과) | 비고 |
+
+추가로 아래 공통 예외 사항도 검증 항목에 추가해줘:
+- 필수 입력 빈 칸 제출 시 오류 메시지 표시 여부
+- 목록 Empty State 메시지 표시 여부
+- 브라우저 새로고침 후 데이터 유지 여부 (localStorage)</div>
+
+    <!-- 3. GitHub Pages 배포 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 1 of 6</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="2">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 5</span>
+        <span>GitHub Pages 배포 가이드</span>
+      </div>
+      <div class="page-content-body">
+<h2>3. GitHub Pages로 온라인 배포하기</h2>
+
+    <div class="callout-box">
+      <strong>🌐 배포란?</strong> 내 컴퓨터에서만 보이던 서비스를 <strong>인터넷에 올려 누구나 URL로 접속할 수 있게</strong> 하는 것입니다.<br>
+      GitHub Pages는 무료로 HTML 파일을 온라인에 배포할 수 있는 서비스입니다.
+    </div>
+
+    <h3>📌 GitHub Pages 배포 단계별 가이드</h3>
+    <div class="step-guide">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">GitHub 계정 만들기 (없다면)</div>
+          <div class="step-desc"><a href="https://github.com" target="_blank">github.com</a> 접속 → Sign Up → 이메일 인증 완료</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">새 Repository(저장소) 만들기</div>
+          <div class="step-desc">우측 상단 + 버튼 → New repository<br>
+          이름: <code>my-project</code> (또는 서비스 이름)<br>
+          Public 선택 → Create repository 클릭</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">파일 업로드</div>
+          <div class="step-desc">"uploading an existing file" 클릭 → my-project 폴더의 <strong>index.html</strong>을 드래그앤드롭<br>
+          Commit message: "Day 5: Final MVP upload" → Commit changes 클릭</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">GitHub Pages 설정</div>
+          <div class="step-desc">Repository → Settings → Pages (좌측 메뉴)<br>
+          Source: "Deploy from a branch" → Branch: main → / (root) → Save</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">배포 URL 확인</div>
+          <div class="step-desc">1~3분 후 Pages 설정 화면 상단에 URL이 나타납니다:<br>
+          형식: <code>https://[GitHub 아이디].github.io/my-project</code><br>
+          이 URL을 팀원, 멘토에게 공유하세요!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 배포 후 수정하려면?</strong><br>
+      index.html 수정 → GitHub Repository 접속 → index.html 파일 클릭 → ✏️ 편집 버튼 → 수정 후 Commit<br>
+      자동으로 사이트가 업데이트됩니다 (1~2분 소요).
+    </div>
+
+    <!-- 4. 5분 발표 준비 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 2 of 6</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="3">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 5</span>
+        <span>5분 발표 이야기 구조 설계</span>
+      </div>
+      <div class="page-content-body">
+<h2>4. 5분 발표 이야기 구조 만들기</h2>
+
+    <p>훌륭한 5분 발표는 기술 설명이 아니라 <strong>이야기</strong>입니다. 아래 구조를 따르면 청중이 집중합니다.</p>
+
     <table class="data-table">
-      <thead><tr><th>시간</th><th>발표 내용</th><th>보여줄 자료</th></tr></thead>
+      <thead>
+        <tr><th>파트</th><th>시간</th><th>내용</th></tr>
+      </thead>
       <tbody>
-        <tr><td>40초</td><td>사용자와 문제</td><td>문제 한 문장</td></tr>
-        <tr><td>40초</td><td>현재 대안과 핵심 가치</td><td>Before/After</td></tr>
-        <tr><td>2분</td><td>핵심 사용자 흐름</td><td>실제 데모 URL</td></tr>
-        <tr><td>50초</td><td>구현·검증 과정</td><td>Codex→Antigravity→Codex 흐름</td></tr>
-        <tr><td>30초</td><td>배운 점과 다음 단계</td><td>개선 로드맵</td></tr>
-        <tr><td>20초</td><td>여유 시간</td><td>데모 지연 대비</td></tr>
+        <tr>
+          <td><strong>①  훅 (Hook)</strong></td>
+          <td>30초</td>
+          <td>청중이 공감할 수 있는 문제 상황 한 문장</td>
+        </tr>
+        <tr>
+          <td><strong>② 문제</strong></td>
+          <td>45초</td>
+          <td>누가, 어떤 상황에서, 왜 불편한가?</td>
+        </tr>
+        <tr>
+          <td><strong>③ 해결책</strong></td>
+          <td>30초</td>
+          <td>내 서비스가 어떻게 이 문제를 해결하는가?</td>
+        </tr>
+        <tr>
+          <td><strong>④ 라이브 데모</strong></td>
+          <td>2분</td>
+          <td>실제 서비스 화면으로 핵심 흐름 시연</td>
+        </tr>
+        <tr>
+          <td><strong>⑤ 성과와 배운 점</strong></td>
+          <td>45초</td>
+          <td>5일 동안 만들면서 배운 것, 다음에 추가할 기능</td>
+        </tr>
+        <tr>
+          <td><strong>⑥ 마무리</strong></td>
+          <td>30초</td>
+          <td>한 줄 요약 + 배포 URL 공유</td>
+        </tr>
       </tbody>
     </table>
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 3 of 6</span>
+      </div>
+    </section>
 
-    <h2>5. 실습별 프롬프트 가이드</h2>
+    <section class="paper-page" data-page="4">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 5</span>
+        <span>발표 스크립트 예시 & Codex 프롬프트</span>
+      </div>
+      <div class="page-content-body">
+<h3>📝 발표 스크립트 작성 예시 (반려동물 산책 매칭)</h3>
 
-    <h3>실습 1. 최종 자동화·검증 (Codex)</h3>
-    <div class="prompt-block">📌 Codex:
-PROJECT.md, VALIDATION_DAY4.md와 현재 구현을 기준으로 최종 검증 계획을
-세워 주세요. 안전하게 실행 가능한 테스트·빌드·정적 검사와 민감정보
-패턴 점검을 수행하고, 브라우저에서 확인할 항목은 Manual Check로 남깁니다.
-결과를 FINAL_VALIDATION.md에 근거와 함께 기록해 주세요.
-검증 전에 코드를 수정하지 마세요.</div>
-
-    <h3>실습 2. 배포 후 제한사항 기록 (Codex)</h3>
-    <div class="prompt-block">📌 Codex:
-배포 URL에서 확인한 결과를 README.md에 추가해 줘.
-포함할 항목:
-- Demo URL
-- 확인된 기능 목록 (체크박스 형태)
-- Known Limitations (알려진 제한사항)
-- 데모 데이터 초기화 방법
-코드는 수정하지 말고 문서만 업데이트해 줘.</div>
-
-    <h3>실습 3. 5분 발표안 생성 (Codex)</h3>
-    <div class="prompt-block">📌 Codex:
-PROJECT.md와 FINAL_VALIDATION.md를 기반으로 5분 발표안을 작성해 줘.
-구조: 문제 → 핵심 가치 → 데모 시나리오 → 개발 과정 → 배운 점 → 다음 단계
-데모 시나리오는 5단계 이내로 제한하고,
-실패 시 보여줄 스크린샷과 대체 설명도 포함해 줘.</div>
-
-    <h3>최종 개선 (Codex + Antigravity)</h3>
-    <div class="prompt-block">📌 Codex:
-동료 피드백 내용을 기반으로 최종 변경 요구사항을 MD로 정리해 줘.
-피드백: [받은 피드백 내용 붙여넣기]
-'발표 전 필수'와 '발표 후 개선'으로 분류하고,
-대규모 구조 변경이나 새 기능은 '발표 후 로드맵'으로 이동해 줘.</div>
-
-    <h2>6. 상호 리뷰 피드백 양식</h2>
-    <div class="prompt-block">[관찰] 사용자가 실제로 한 행동
-[문제] 목표 달성을 막거나 혼란을 준 지점
-[근거] 화면, 메시지 또는 재현 단계
-[제안] 바꾸면 좋을 한 가지
-[우선순위] 발표 전 필수 / 발표 후 개선</div>
-
-    <h2>7. 발표 후 회고 질문 (NEXT_STEPS.md)</h2>
-    <ol>
-      <li>5일 동안 검증한 가장 중요한 가설은 무엇인가?</li>
-      <li>사용자 반응으로 새롭게 알게 된 사실은 무엇인가?</li>
-      <li>제거하거나 미룰 기능은 무엇인가?</li>
-      <li>다음에 인터뷰하거나 테스트할 사용자는 누구인가?</li>
-      <li>2주 안에 개선할 기능·문서·검증 항목은 무엇인가?</li>
-    </ol>
-
-    <div class="callout-box warning">
-      <strong>⚠️ 발표 직전 금지 사항:</strong><br>
-      대규모 구조 변경, 새 기능 추가, 미검증 코드 배포는 하지 않습니다.<br>
-      정상 데모를 깨뜨릴 가능성이 있는 변경은 발표 후 로드맵으로 이동합니다.
+    <div class="script-box">
+      <div class="script-time">① 훅 (30초)</div>
+      <div class="script-text">
+        "야근 후 집에 돌아왔을 때 강아지가 하루 종일 못 나간 걸 알면서도 너무 지쳐서 산책을 못 시킨 경험이 있으신가요?<br>
+        저는 그 죄책감이 너무 싫어서 이 서비스를 만들었습니다."
+      </div>
+    </div>
+    <div class="script-box">
+      <div class="script-time">② 문제 (45초)</div>
+      <div class="script-text">
+        "1인 가구 야근 직장인의 73%가 반려견을 주 3회 미만 산책시킨다는 통계가 있습니다.<br>
+        지인에게 부탁하기엔 눈치 보이고, 기존 앱은 후기를 믿기 어렵습니다.<br>
+        결국 반려견도, 보호자도 스트레스를 받게 됩니다."
+      </div>
+    </div>
+    <div class="script-box">
+      <div class="script-time">③ 해결책 (30초)</div>
+      <div class="script-text">
+        "저는 3단계로 간단히 신뢰할 수 있는 산책 도우미를 예약하는 서비스를 만들었습니다.<br>
+        조건 입력 → 도우미 목록 → 예약 완료. 5분도 안 걸립니다."
+      </div>
+    </div>
+    <div class="script-box">
+      <div class="script-time">④ 라이브 데모 (2분)</div>
+      <div class="script-text">
+        "지금 바로 보여드리겠습니다. 이 URL로 접속하면 됩니다.<br>
+        [화면 공유] 날짜를 선택하고... 박산책 도우미를 선택하면... 예약 완료!<br>
+        [즐겨찾기] 이처럼 마음에 드는 도우미를 저장할 수도 있습니다."
+      </div>
+    </div>
+    <div class="script-box">
+      <div class="script-time">⑤ 성과와 배운 점 (45초)</div>
+      <div class="script-text">
+        "5일 만에 처음으로 혼자 동작하는 웹 서비스를 만들었습니다.<br>
+        AI 도구에게 막연하게 요청하면 원하는 결과가 안 나온다는 것을 배웠습니다.<br>
+        다음에는 실제 결제 기능과 실시간 위치 공유를 추가하고 싶습니다."
+      </div>
+    </div>
+    <div class="script-box">
+      <div class="script-time">⑥ 마무리 (30초)</div>
+      <div class="script-text">
+        "'야근 직장인의 반려견 산책 걱정을 해결하는 10분 예약 서비스'입니다.<br>
+        지금 바로 이 URL에서 사용해볼 수 있습니다: https://username.github.io/my-project<br>
+        감사합니다!"
+      </div>
     </div>
 
-    <h2>8. Day 5 최종 체크리스트</h2>
-    <ul>
-      <li>[ ] Codex로 FINAL_VALIDATION.md를 작성했다.</li>
-      <li>[ ] 비밀정보와 실제 개인정보가 공개되지 않았다.</li>
-      <li>[ ] 외부 데모 URL에서 핵심 흐름을 완료했다.</li>
-      <li>[ ] 다른 기기와 모바일 화면에서 접속했다.</li>
-      <li>[ ] 5분 발표와 백업 데모를 준비했다.</li>
-      <li>[ ] 동료 피드백을 관찰·근거·제안으로 기록했다.</li>
-      <li>[ ] 최종 수정 후 다시 검증했다.</li>
-      <li>[ ] NEXT_STEPS.md (2주 개선 로드맵)를 저장했다.</li>
-    </ul>
+    <h3>📌 Codex로 발표 스크립트 생성하기</h3>
+    <div class="prompt-block">📌 Codex 요청:
+
+PROJECT.md를 기반으로 5분 발표 스크립트를 작성해줘.
+
+구조:
+1. 훅 (30초): 청중이 공감할 문제 상황 한 문장
+2. 문제 설명 (45초): Target User의 불편과 현재 대안의 한계
+3. 해결책 소개 (30초): 핵심 가치 제안
+4. 데모 시나리오 (2분): ## 14. Demo Scenario 기반 단계별 설명
+5. 성과 (45초): 만들면서 배운 점, 다음에 추가할 기능
+6. 마무리 (30초): 한 줄 요약 + URL
+
+파일명: PRESENTATION_SCRIPT.md로 저장해줘.</div>
+
+    <!-- 5. 예상 Q&A -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 4 of 6</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="5">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 5</span>
+        <span>발표 후 예상 Q&A 10가지</span>
+      </div>
+      <div class="page-content-body">
+<h2>5. 발표 후 예상 Q&A 10가지</h2>
+
+    <div class="qa-item">
+      <div class="qa-q">Q1. 왜 이 문제를 선택했나요?</div>
+      <div class="qa-a">A: 직접 경험하거나 주변에서 자주 보이는 문제를 선택했습니다. [구체적 경험 언급]</div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Q2. 기존 앱과 무엇이 다른가요?</div>
+      <div class="qa-a">A: PROJECT.md ## 4. Current Alternatives에 정리한 기존 대안의 한계와 내 서비스의 차이를 설명합니다.</div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Q3. 실제로 사용자가 있나요?</div>
+      <div class="qa-a">A: 아직 MVP 단계입니다. 다음 단계는 지인 5명에게 직접 써보게 하고 피드백을 받을 계획입니다.</div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Q4. 어떻게 돈을 버나요?</div>
+      <div class="qa-a">A: 현재는 서비스 가능성 검증이 목표입니다. 향후 수수료 모델을 검토 중입니다.</div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Q5. 데이터는 어디에 저장되나요?</div>
+      <div class="qa-a">A: MVP는 브라우저 localStorage에 저장됩니다. 실제 서비스에서는 서버 DB로 전환할 계획입니다.</div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Q6. 5일 만에 혼자 만들었나요?</div>
+      <div class="qa-a">A: Codex와 Antigravity(AI 개발 도구)를 활용했습니다. AI가 코드를 생성하고, 저는 요구사항 문서와 방향을 결정했습니다.</div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Q7. 가장 어려웠던 부분은?</div>
+      <div class="qa-a">A: AI에게 명확하게 요청하는 방법을 배우는 것이 가장 어려웠습니다. 구체적인 완료 기준을 쓰는 것이 핵심이었습니다.</div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Q8. 다음에 뭘 추가할 건가요?</div>
+      <div class="qa-a">A: NEXT_STEPS.md에 정리한 내용입니다. [우선순위 1~3위 기능 언급]</div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Q9. 모바일에서도 되나요?</div>
+      <div class="qa-a">A: 네, 반응형으로 설계해서 스마트폰에서도 사용 가능합니다. 직접 QR코드로 확인해보세요.</div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Q10. 이 서비스를 실제로 창업할 생각인가요?</div>
+      <div class="qa-a">A: 이번 5일 과정을 통해 아이디어를 실제로 만드는 방법을 배웠습니다. 사용자 반응을 더 보고 결정하겠습니다.</div>
+    </div>
+
+    <!-- 6. 상호 리뷰 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 5 of 6</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="6">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 5</span>
+        <span>상호 리뷰 & 배포 안전 체크리스트</span>
+      </div>
+      <div class="page-content-body">
+<h2>6. 팀 간 상호 리뷰 피드백 양식</h2>
+
+    <div class="example-result">
+      <div class="example-result-label">📄 PEER_REVIEW.md 작성 양식</div>
+      <code>
+# 상호 리뷰 피드백<br>
+<br>
+## 리뷰 대상 서비스: [서비스 이름]<br>
+## 리뷰어: [이름]<br>
+<br>
+### ✅ 잘 된 점 (2가지 이상)<br>
+1. <br>
+2. <br>
+<br>
+### 💡 개선 제안 (구체적으로)<br>
+1. <br>
+2. <br>
+<br>
+### 🎯 핵심 흐름 완성도<br>
+- 시작 → 완료까지 막힘 없이 동작했는가?: 예 / 아니오<br>
+- 아니오라면 어느 단계에서 막혔는가?:<br>
+<br>
+### ⭐ 전체 완성도 (5점 만점): &nbsp; / 5점<br>
+### 📌 한 줄 총평:
+      </code>
+    </div>
+
+    <h3>📌 Codex로 NEXT_STEPS.md 작성하기</h3>
+    <div class="prompt-block">📌 Codex 요청:
+
+NEXT_STEPS.md 파일을 생성해줘.
+기준 문서: PROJECT.md, VALIDATION.md
+
+내용:
+## 1. 이번 과정에서 배운 것
+- 기술적으로 배운 것 3가지
+- 기획/설계에서 배운 것 2가지
+
+## 2. 아쉬운 점
+- 완성하지 못한 Should/Could 기능 목록
+
+## 3. 다음 개선 계획 (우선순위 순)
+1. [기능명]: 이유와 예상 구현 방법
+2.
+3.
+
+## 4. 사용자 검증 계획
+- 다음 주에 OO명에게 사용해보게 하고 피드백 수집
+- 확인할 질문 3가지</div>
+
+    <!-- 7. 배포 체크리스트 -->
+    <h2>7. 배포 전 최종 안전 체크리스트</h2>
+
+    <div class="danger-box">
+      <strong>🔒 배포 전 반드시 확인!</strong><br>
+      • 코드에 비밀번호, API 키가 없는지 확인<br>
+      • 타인의 개인정보(전화번호, 이메일 등)가 더미 데이터에 없는지 확인<br>
+      • index.html 외 추가 파일이 필요한지 확인 (CSS, JS 파일 분리 시)
+    </div>
+
+    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:20px; margin:16px 0;">
+      <ul class="checklist">
+        <li>VALIDATION.md 최종 업데이트 완료</li>
+        <li>PROJECT.md ## 14. Demo Scenario 흐름이 처음부터 끝까지 동작함</li>
+        <li>빈 입력 제출 시 오류 메시지가 표시됨</li>
+        <li>GitHub 계정이 있고 Repository를 만들었음</li>
+        <li>index.html을 GitHub에 업로드했음</li>
+        <li>GitHub Pages가 활성화되어 URL이 생성됨</li>
+        <li>배포 URL에서 서비스가 정상 동작함</li>
+        <li>모바일에서도 화면이 깨지지 않음</li>
+        <li>PRESENTATION_SCRIPT.md 발표 스크립트 작성 완료</li>
+        <li>NEXT_STEPS.md 회고 문서 작성 완료</li>
+      </ul>
+    </div>
+
+    <!-- 8. 마무리 -->
+    <h2>8. 5일 과정을 마치며</h2>
+
+    <div class="story-box">
+      <div class="story-name">🎉 축하합니다!</div>
+      5일 전에는 개발 도구 사용법도 몰랐던 여러분이 지금은:<br>
+      • 사용자 문제를 정의하고 PROJECT.md로 체계화할 수 있습니다.<br>
+      • AI 도구를 활용해 실제 동작하는 웹 서비스를 만들 수 있습니다.<br>
+      • 만든 서비스를 온라인에 배포해 누구나 접속할 수 있게 했습니다.<br>
+      • 5분 발표로 서비스를 설명할 수 있습니다.<br><br>
+      <strong>이제 두 번째 서비스는 혼자서도 만들 수 있습니다. 계속 만들어 나가세요!</strong>
+    </div>
+
+    <div class="success-box">
+      <strong>✅ Day 5 완료 = 전체 과정 완료! 수고하셨습니다 🎊</strong><br>
+      배포 URL을 멘토에게 공유하고, 발표를 준비하세요.
+    </div>
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 6 of 6</span>
+      </div>
+    </section>
   </div>
 
   <!-- AI Account Modal -->
@@ -717,30 +1239,60 @@ PROJECT.md와 FINAL_VALIDATION.md를 기반으로 5분 발표안을 작성해 �
   </script>
 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    function downloadPDF() {
+    async function downloadPDF() {
       const btn = document.getElementById('btn-download-pdf');
       const originalText = btn ? btn.innerHTML : '';
-      if (btn) btn.innerHTML = '⏳ PDF 생성 중...';
+      if (btn) {
+        btn.innerHTML = '⏳ A4 PDF 준비 중...';
+        btn.disabled = true;
+      }
 
-      const element = document.querySelector('.paper-container');
-      const opt = {
-        margin:       0,
-        filename:     '창업가_Day5_교재_A4.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, logging: false },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak:    { mode: ['css', 'legacy'] }
-      };
+      try {
+        if (!window.jspdf || !window.html2canvas) {
+          throw new Error('PDF 생성 라이브러리를 불러오지 못했습니다.');
+        }
 
-      html2pdf().set(opt).from(element).save().then(() => {
-        if (btn) btn.innerHTML = originalText;
-      }).catch(err => {
-        console.error('PDF 다운로드 실패:', err);
-        if (btn) btn.innerHTML = originalText;
+        const pages = document.querySelectorAll('.paper-page');
+        const total = pages.length;
+        if (!total) throw new Error('교재 페이지를 찾을 수 없습니다.');
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4',
+          compress: true
+        });
+
+        for (let i = 0; i < total; i++) {
+          if (btn) btn.innerHTML = `⏳ A4 PDF 생성 중 (${i + 1}/${total})...`;
+          const page = pages[i];
+          const canvas = await html2canvas(page, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: '#ffffff',
+            windowWidth: 1200
+          });
+          const imgData = canvas.toDataURL('image/jpeg', 0.95);
+          if (i > 0) pdf.addPage('a4', 'portrait');
+          pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+        }
+
+        pdf.save('창업가_Day5_교재_A4.pdf');
+      } catch (err) {
+        console.error('PDF 생성 실패:', err);
+        alert('PDF 자동 다운로드 중 오류가 발생하여 브라우저 인쇄 창으로 전환합니다.\n[인쇄 창 > 대상: PDF로 저장]을 선택하시면 깨끗하게 저장할 수 있습니다.');
         window.print();
-      });
+      } finally {
+        if (btn) {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }
+      }
     }
   </script>
 </body>

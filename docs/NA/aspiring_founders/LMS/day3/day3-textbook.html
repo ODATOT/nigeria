@@ -76,7 +76,7 @@
     .btn-action { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; font-size:0.88rem; font-weight:600; border-radius:8px; border:none; cursor:pointer; text-decoration:none; }
     .btn-print { background:linear-gradient(135deg,#059669,#0891b2); color:#fff; }
     .btn-back { background:rgba(255,255,255,0.1); color:#e2e8f0; border:1px solid rgba(255,255,255,0.15); }
-    .paper-container { max-width:900px; margin:30px auto; background:#fff; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.5); padding:48px 56px; }
+    
     .doc-header { border-bottom:3px solid var(--primary); padding-bottom:20px; margin-bottom:32px; }
     .doc-category { color:var(--secondary); font-size:0.9rem; font-weight:800; text-transform:uppercase; margin-bottom:6px; }
     .doc-title { font-size:2.2rem; font-weight:900; color:var(--text-dark); letter-spacing:-0.02em; }
@@ -90,45 +90,7 @@
     table.data-table { width:100%; border-collapse:collapse; margin:20px 0; font-size:0.92rem; }
     table.data-table th, table.data-table td { border:1px solid var(--border); padding:10px 14px; text-align:left; }
     table.data-table th { background:#f1f5f9; }
-        /* A4 Size & Print Styles */
-    @page {
-      size: A4 portrait;
-      margin: 12mm 14mm 12mm 14mm;
-    }
-
-    @media print {
-      html, body {
-        width: 100% !important;
-        background: #ffffff !important;
-        color: #000000 !important;
-        font-size: 12.5px !important;
-        line-height: 1.5 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-      .no-print-bar, .navbar-2tier { display: none !important; }
-      .paper-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-shadow: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border-radius: 0 !important;
-      }
-      .page-break {
-        page-break-after: always !important;
-        break-after: page !important;
-      }
-      .paper-page {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        margin-bottom: 20px !important;
-      }
-      table.data-table, .prompt-block, .callout-box {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-      }
-    } }
+         }
   
     /* Modern 2-Tier Header Styles */
     .navbar-2tier {
@@ -289,9 +251,14 @@
     }
   
   
-    /* Standard A4 Screen & Print Styling */
+    /* ==========================================================================
+       Standard A4 Portrait Screen & Print Engine
+       ========================================================================== */
     body {
       background: #cbd5e1 !important;
+      color: var(--text-dark);
+      margin: 0;
+      padding: 0;
     }
 
     .paper-container {
@@ -301,9 +268,11 @@
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      gap: 36px !important;
+      gap: 32px !important;
       box-shadow: none !important;
       border-radius: 0 !important;
+      background: transparent !important;
+      padding: 0 !important;
     }
 
     .paper-page {
@@ -311,19 +280,90 @@
       min-height: 297mm !important;
       box-sizing: border-box !important;
       background: #ffffff !important;
-      border-radius: 3px !important;
+      border-radius: 4px !important;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12) !important;
       padding: 18mm 18mm 16mm 18mm !important;
       page-break-after: always !important;
       break-after: page !important;
-      page-break-inside: avoid !important;
-      break-inside: avoid !important;
+      page-break-inside: auto !important;
+      break-inside: auto !important;
       position: relative !important;
+      overflow: visible !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+    }
+
+    .cover-page {
+      padding: 0 !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      border-radius: 4px !important;
+      overflow: hidden !important;
+      justify-content: stretch !important;
+    }
+    .cover-page > div {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .page-content-body {
+      flex: 1 0 auto;
+    }
+
+    .book-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    .book-footer-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
+      margin-top: 24px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    /* Prevent cut-off / splitting at page boundaries */
+    .compare-grid, .compare-bad, .compare-good,
+    .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+    .info-cards, .info-card, .checklist, .checklist li, .example-result,
+    .story-box, .script-box, .qa-item, .screen-state-card,
+    .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+    .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+    .data-table, h1, h2, h3, h4, pre, blockquote {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    h1, h2, h3, h4 {
+      break-after: avoid !important;
+      page-break-after: avoid !important;
+    }
+
+    p, li {
+      orphans: 3;
+      widows: 3;
     }
 
     @media screen and (max-width: 820px) {
-      .paper-container { width: 100% !important; }
-      .paper-page { width: 95vw !important; min-height: auto !important; padding: 22px 18px !important; }
+      .paper-container { width: 100% !important; margin: 16px auto !important; }
+      .paper-page { width: 95vw !important; min-height: auto !important; padding: 20px 16px !important; }
     }
 
     .btn-download {
@@ -356,6 +396,8 @@
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -366,14 +408,14 @@
         margin: 0 !important;
         padding: 0 !important;
         gap: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
       }
       .paper-page {
         width: 210mm !important;
         min-height: 297mm !important;
-        height: 297mm !important;
-        max-height: 297mm !important;
         margin: 0 !important;
-        padding: 16mm 16mm 14mm 16mm !important;
+        padding: 15mm 15mm 13mm 15mm !important;
         box-shadow: none !important;
         border-radius: 0 !important;
         border: none !important;
@@ -381,9 +423,67 @@
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-        overflow: hidden !important;
+        overflow: visible !important;
+        background: #ffffff !important;
+      }
+      .cover-page {
+        padding: 0 !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        border-radius: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+      .compare-grid, .compare-bad, .compare-good,
+      .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+      .info-cards, .info-card, .checklist, .checklist li, .example-result,
+      .story-box, .script-box, .qa-item, .screen-state-card,
+      .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+      .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+      .data-table, h1, h2, h3, h4, pre, blockquote {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
       }
     }
+
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+    .compare-bad { background:#fff1f2; border:2px solid #fca5a5; border-radius:10px; padding:16px; }
+    .compare-good { background:#f0fdf4; border:2px solid #86efac; border-radius:10px; padding:16px; }
+    .compare-label { font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; }
+    .compare-bad .compare-label { color:#dc2626; }
+    .compare-good .compare-label { color:#16a34a; }
+    .compare-text { font-size:0.92rem; color:#334155; line-height:1.6; }
+    .step-guide { margin:20px 0; display:flex; flex-direction:column; gap:12px; }
+    .step-item { display:flex; gap:16px; align-items:flex-start; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 18px; }
+    .step-num { min-width:32px; height:32px; background:linear-gradient(135deg,#2563eb,#0891b2); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; }
+    .step-content { flex:1; }
+    .step-title { font-weight:700; color:#0f172a; margin-bottom:4px; }
+    .step-desc { font-size:0.9rem; color:#475569; }
+    .tip-box { background:linear-gradient(135deg,#fefce8,#fef9c3); border:1.5px solid #fde047; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .tip-box strong { color:#92400e; }
+    .danger-box { background:#fff1f2; border:1.5px solid #f87171; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .danger-box strong { color:#b91c1c; }
+    .success-box { background:#f0fdf4; border:1.5px solid #4ade80; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .success-box strong { color:#15803d; }
+    .info-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin:20px 0; }
+    .info-card { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px; }
+    .info-card-icon { font-size:1.8rem; margin-bottom:8px; }
+    .info-card-title { font-weight:800; color:#0f172a; margin-bottom:6px; }
+    .info-card-desc { font-size:0.88rem; color:#475569; line-height:1.55; }
+    .checklist { list-style:none; margin:16px 0; padding:0; }
+    .checklist li { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed #e2e8f0; font-size:0.92rem; color:#334155; }
+    .checklist li:last-child { border-bottom:none; }
+    .checklist li::before { content:'☐'; color:#2563eb; font-size:1.1rem; flex-shrink:0; margin-top:1px; }
+    .example-result { background:linear-gradient(135deg,#0f172a,#1e293b); border:1px solid #334155; border-radius:12px; padding:20px; margin:16px 0; }
+    .example-result-label { color:#38bdf8; font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; }
+    .example-result code { color:#86efac; font-size:0.88rem; line-height:1.8; }
+    .story-box { background:linear-gradient(135deg,#ede9fe,#ddd6fe); border-left:4px solid #7c3aed; border-radius:0 10px 10px 0; padding:18px 20px; margin:20px 0; font-size:0.95rem; color:#3b0764; line-height:1.7; }
+    .story-box .story-name { font-weight:800; color:#6d28d9; margin-bottom:8px; }
+    .screen-state-card { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:16px; margin:10px 0; }
+    .screen-state-title { font-weight:800; color:#0f172a; margin-bottom:6px; font-size:1rem; }
+    .screen-state-desc { font-size:0.9rem; color:#475569; margin-bottom:10px; }
+    .screen-state-code { background:#1e293b; border-radius:8px; padding:12px; font-family:monospace; font-size:0.82rem; color:#86efac; white-space:pre; overflow-x:auto; }
+    @media (max-width:640px) { .compare-grid { grid-template-columns:1fr; } .info-cards { grid-template-columns:1fr; } }
 
   </style>
 </head>
@@ -398,105 +498,497 @@
   </div>
 
   <div class="paper-container">
-    <header class="doc-header">
-      <div class="doc-category">ACE AI Startup Bootcamp · Day 3 Self-Study Textbook</div>
+
+    <!-- ===== COVER PAGE ===== -->
+    <section class="paper-page cover-page" data-page="cover" style="padding:0 !important; overflow:hidden !important; justify-content:stretch !important;">
+      <div style="
+        width:100%; height:100%;
+        background: linear-gradient(160deg, #0f172a 0%, #2d1b5e 40%, #7c3aed 75%, #8b5cf6 100%);
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        padding: 20mm 18mm;
+        position:relative;
+        box-sizing:border-box;
+      ">
+        <div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(124,58,237,0.25);"></div>
+        <div style="position:absolute;bottom:-80px;left:-80px;width:360px;height:360px;border-radius:50%;background:rgba(37,99,235,0.2);"></div>
+        <div style="position:absolute;top:40%;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(139,92,246,0.18);"></div>
+
+        <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:50px;padding:8px 24px;color:#c4b5fd;font-size:0.82rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:32px;position:relative;">ACE AI Startup Bootcamp · 자기주도 학습 교재</div>
+
+        <div style="width:100px;height:100px;background:linear-gradient(135deg,#7c3aed,#2563eb);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:900;color:#fff;margin-bottom:28px;position:relative;box-shadow:0 12px 40px rgba(124,58,237,0.5);">D3</div>
+
+        <h1 style="font-size:2.6rem;font-weight:900;color:#ffffff;text-align:center;line-height:1.25;letter-spacing:-0.03em;margin-bottom:14px;position:relative;">PROJECT.md에서<br>동작하는 MVP 만들기</h1>
+
+        <p style="font-size:1.05rem;color:#c4b5fd;font-weight:500;text-align:center;margin-bottom:44px;position:relative;">기획 문서를 AI로 실제 동작하는 서비스로 구현하기</p>
+
+        <div style="width:60px;height:3px;background:linear-gradient(90deg,#7c3aed,#2563eb);border-radius:4px;margin-bottom:44px;position:relative;"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:440px;position:relative;margin-bottom:48px;">
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">🏗️</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 1</div><div style="color:#c4b5fd;font-size:0.82rem;">점진적 개발 원칙</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">⚡</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 2</div><div style="color:#c4b5fd;font-size:0.82rem;">Antigravity로 MVP 생성</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">🔧</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 3</div><div style="color:#c4b5fd;font-size:0.82rem;">오류 수정 & 디버깅</div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">🌐</span>
+            <div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 4</div><div style="color:#c4b5fd;font-size:0.82rem;">로컬 서버 실행</div></div>
+          </div>
+        </div>
+
+        <div style="position:relative;display:flex;align-items:center;gap:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.15);width:100%;">
+          <div style="flex:1;color:#64748b;font-size:0.8rem;">
+            <div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">교육 기관</div>
+            <div style="color:#cbd5e1;">ODA AI SW · ACE Program</div>
+          </div>
+          <div style="color:#64748b;font-size:0.8rem;text-align:right;">
+            <div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">과정</div>
+            <div style="color:#cbd5e1;">창업 지망생 AI 웹 개발</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="1">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 3</span>
+        <span>도입 및 점진적 개발 원칙</span>
+      </div>
+      <div class="page-content-body">
+<header class="doc-header">
+      <div class="doc-category">ACE AI Startup Bootcamp · Day 3 자기주도 학습 교재</div>
       <h1 class="doc-title">PROJECT.md에서 동작하는 MVP 만들기</h1>
+      <p style="color:#475569; margin-top:10px; font-size:0.95rem;">
+        📚 오늘은 Day 2에서 완성한 PROJECT.md를 가지고 <strong>실제로 브라우저에서 동작하는 웹 서비스</strong>를 만듭니다.<br>
+        Antigravity(Google AGY)를 주도구로 사용합니다.
+      </p>
     </header>
 
-    <h2>1. 교육 개요 및 핵심 원칙</h2>
+    <!-- 1. 오늘의 목표 -->
+    <h2>1. 오늘은 무엇을 만드는가?</h2>
+
     <div class="callout-box">
-      <strong>💡 Day 3 핵심 원칙:</strong><br>
-      Antigravity에서 작게 구현 → 브라우저에서 바로 확인 → Codex에서 문서 대비 검증 → MD 수정 → 반영<br><br>
-      <strong>오늘의 목표:</strong> 화면을 많이 만드는 것이 아니라 핵심 사용자 흐름의 시작과 끝이 연결된 MVP v0.1을 완성한다.
+      <strong>🎯 Day 3 핵심 목표:</strong><br>
+      HANDOFF_PROMPT.md를 Antigravity에게 전달하여, 브라우저에서 핵심 흐름이 동작하는 <strong>MVP 웹 서비스</strong>를 완성합니다.<br><br>
+      <strong>완료 기준:</strong> 브라우저에서 index.html을 열었을 때, PROJECT.md에 정의한 핵심 흐름(입력→처리→결과)을 실제로 확인할 수 있어야 합니다.
     </div>
 
-    <h2>2. 구현 단위 분리 원칙</h2>
-    <p>Antigravity에 전체 서비스를 한 번에 요청하지 않습니다. PROJECT.md에서 이번 작업에 필요한 범위만 확인하고 구현 순서를 나눕니다.</p>
-    <table class="data-table">
-      <thead><tr><th>잘못된 요청</th><th>올바른 요청</th></tr></thead>
-      <tbody><tr><td>"PROJECT.md를 보고 서비스를 전부 완성해 주세요."</td><td>"기본 구조와 홈 화면만 구현해 주세요. 실행 방법과 변경 파일을 보고해 주세요."</td></tr></tbody>
-    </table>
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card-icon">📄</div>
+        <div class="info-card-title">준비물</div>
+        <div class="info-card-desc">Day 2에서 만든 PROJECT.md와 HANDOFF_PROMPT.md 파일이 my-project 폴더에 있어야 합니다.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">⚙️</div>
+        <div class="info-card-title">주 도구</div>
+        <div class="info-card-desc">Antigravity(Google AGY) — 코드 생성<br>Codex — 오류 수정 요청, 검증</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🌐</div>
+        <div class="info-card-title">최종 결과물</div>
+        <div class="info-card-desc">index.html 하나로 동작하는 웹 서비스. 브라우저에서 열면 핵심 흐름 확인 가능.</div>
+      </div>
+    </div>
 
-    <h2>3. 화면 상태 5가지</h2>
+    <!-- 2. 구현 단위 분리 원칙 -->
+    <h2>2. 한 번에 다 요청하면 안 되는 이유</h2>
+
+    <div class="story-box">
+      <div class="story-name">❌ 흔히 하는 실수</div>
+      "반려동물 산책 매칭 서비스를 전부 만들어줘. 회원가입, 도우미 목록, 예약, 결제, 채팅까지."<br><br>
+      → Antigravity가 너무 많은 것을 한 번에 처리하려다 중요한 기능이 빠지거나, 동작하지 않는 화면이 생깁니다.<br>
+      → 오류가 나도 어디서 났는지 찾기 어렵습니다.
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-bad">
+        <div class="compare-label">❌ 한 번에 다 요청</div>
+        <div class="compare-text">
+          "모든 기능을 완성해줘"<br><br>
+          문제: 어떤 부분이 틀렸는지 알 수 없음.<br>
+          실패 시 처음부터 다시 해야 함.<br>
+          AI가 임의로 기능 추가할 가능성 높음.
+        </div>
+      </div>
+      <div class="compare-good">
+        <div class="compare-label">✅ 단계별 요청</div>
+        <div class="compare-text">
+          1단계: 기본 구조와 홈 화면만<br>
+          2단계: 도우미 목록 화면 추가<br>
+          3단계: 상세보기 + 예약 폼<br><br>
+          각 단계마다 브라우저에서 확인 후 다음 단계 진행.
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 구현 우선순위 결정 원칙:</strong><br>
+      PROJECT.md의 핵심 흐름 순서대로 구현합니다.<br>
+      예: 홈 → 조건 입력 화면 → 목록 화면 → 상세 화면 → 완료 화면
+    </div>
+
+    <!-- 3. 화면 상태 5가지 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 1 of 6</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="2">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 3</span>
+        <span>화면 상태 5가지 UX 원칙</span>
+      </div>
+      <div class="page-content-body">
+<h2>3. 화면 상태 5가지 — 반드시 알아야 할 UX 원칙</h2>
+
+    <p>모든 화면에는 5가지 상태가 있습니다. Antigravity에게 구현을 요청할 때 이 5가지를 지정하면 완성도 높은 서비스가 만들어집니다.</p>
+
+    <div class="screen-state-card">
+      <div class="screen-state-title">① Empty State — 빈 상태</div>
+      <div class="screen-state-desc">데이터가 없을 때 보여주는 화면. 사용자가 다음에 무엇을 해야 하는지 안내해야 합니다.</div>
+      <div class="screen-state-code"><!-- 예시 -->
+&lt;div class="empty-state"&gt;
+  &lt;p&gt;🐕 아직 등록된 도우미가 없습니다.&lt;/p&gt;
+  &lt;p&gt;조건을 변경하거나 다른 날짜를 선택해보세요.&lt;/p&gt;
+&lt;/div&gt;</div>
+    </div>
+
+    <div class="screen-state-card">
+      <div class="screen-state-title">② Loading State — 로딩 상태</div>
+      <div class="screen-state-desc">데이터를 불러오는 중일 때. 사용자가 "기다려야 하는구나"를 알게 해야 합니다.</div>
+      <div class="screen-state-code"><!-- 예시 -->
+&lt;div class="loading"&gt;⏳ 도우미를 검색 중입니다...&lt;/div&gt;</div>
+    </div>
+
+    <div class="screen-state-card">
+      <div class="screen-state-title">③ Success State — 성공 상태</div>
+      <div class="screen-state-desc">정상 데이터가 있을 때 보여주는 화면. 핵심 정보를 명확하게 표시합니다.</div>
+      <div class="screen-state-code"><!-- 예시: 도우미 카드 목록 -->
+&lt;div class="helper-list"&gt;
+  &lt;div class="helper-card"&gt;박산책 · ⭐4.9 · 시간당 15,000원&lt;/div&gt;
+  &lt;div class="helper-card"&gt;이돌봄 · ⭐4.7 · 시간당 12,000원&lt;/div&gt;
+&lt;/div&gt;</div>
+    </div>
+
+    <div class="screen-state-card">
+      <div class="screen-state-title">④ Error State — 오류 상태</div>
+      <div class="screen-state-desc">문제가 발생했을 때. 사용자가 무엇을 할 수 있는지 알려줘야 합니다.</div>
+      <div class="screen-state-code"><!-- 예시 -->
+&lt;div class="error-state"&gt;
+  &lt;p&gt;⚠️ 검색 중 오류가 발생했습니다.&lt;/p&gt;
+  &lt;button onclick="retry()"&gt;다시 시도하기&lt;/button&gt;
+&lt;/div&gt;</div>
+    </div>
+
+    <div class="screen-state-card">
+      <div class="screen-state-title">⑤ Partial State — 부분 상태</div>
+      <div class="screen-state-desc">일부 데이터만 있는 상태. 예: 도우미가 1명만 있을 때, 오늘만 가능한 경우.</div>
+      <div class="screen-state-code"><!-- 예시 -->
+&lt;div class="partial-result"&gt;
+  &lt;p&gt;선택한 날짜에 가능한 도우미가 1명입니다.&lt;/p&gt;
+  &lt;p&gt;날짜를 변경하면 더 많은 도우미를 찾을 수 있습니다.&lt;/p&gt;
+&lt;/div&gt;</div>
+    </div>
+
+    <!-- 4. 단계별 실습 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 2 of 6</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="3">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 3</span>
+        <span>실습: MVP 구조 및 기본 화면</span>
+      </div>
+      <div class="page-content-body">
+<h2>4. 오늘의 실습 — Antigravity로 MVP 구현하기</h2>
+
+    <h3>🔧 실습 전 체크 — Day 2 파일 확인</h3>
+    <div class="step-guide">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">my-project 폴더에 파일 있는지 확인</div>
+          <div class="step-desc"><code>PROJECT.md</code>와 <code>HANDOFF_PROMPT.md</code>가 있어야 합니다.<br>
+          없다면 Day 2 교재로 돌아가서 먼저 완성하세요.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Antigravity 폴더 경로 확인</div>
+          <div class="step-desc">Antigravity의 작업 폴더가 <code>my-project</code>로 설정되어 있는지 확인합니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>⚙️ 실습 1 — 첫 번째 요청: 기본 구조 생성</h3>
+    <p>한 번에 모든 것을 요청하지 말고, 기본 구조부터 시작합니다.</p>
+
+    <div class="prompt-block">📌 Antigravity 첫 번째 요청:
+
+HANDOFF_PROMPT.md와 PROJECT.md를 읽고 아래 범위만 구현해줘.
+
+[이번 구현 범위]
+1. 기본 HTML 구조 (head, body, 기본 스타일)
+2. 상단 네비게이션 바 (서비스 이름, 배경 다크 네이비)
+3. 홈 화면 (서비스 소개 문구, 시작하기 버튼)
+
+[조건]
+- 단일 index.html 파일로 구현
+- Pretendard 폰트 사용 (CDN)
+- 다크 모드 기본 스타일
+- PROJECT.md의 Out of Scope 항목은 구현하지 마세요
+
+[완료 기준]
+브라우저에서 열면 서비스 이름과 "시작하기" 버튼이 보이면 완료</div>
+
+    <div class="step-guide">
+      <div class="step-item">
+        <div class="step-num">✓</div>
+        <div class="step-content">
+          <div class="step-title">완료 확인</div>
+          <div class="step-desc">index.html 파일이 생성되면 Chrome 브라우저로 열어 확인합니다.<br>
+          서비스 이름과 시작하기 버튼이 보이면 다음 단계로!</div>
+        </div>
+      </div>
+    </div>
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 3 of 6</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="4">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 3</span>
+        <span>실습: 상세 및 완료 흐름 구현</span>
+      </div>
+      <div class="page-content-body">
+<h3>⚙️ 실습 2 — 두 번째 요청: 핵심 화면 추가</h3>
+
+    <div class="prompt-block">📌 Antigravity 두 번째 요청:
+
+기존 index.html에 아래 화면들을 추가해줘.
+기준 문서: PROJECT.md ## 8. Screen List 참고
+
+[추가할 화면]
+1. 조건 입력 화면: PROJECT.md에 명시한 입력 필드들
+2. [서비스 핵심] 목록 화면: 더미 데이터 3개로 카드 형태 표시
+   (카드에는 PROJECT.md ## 9. Data Model 기준 필드 표시)
+
+[화면 전환]
+- 홈 "시작하기" 버튼 클릭 → 조건 입력 화면
+- 입력 후 "검색/찾기" 버튼 → 목록 화면
+
+[Empty State]
+- 목록이 비어있을 때 "결과가 없습니다" 메시지 표시
+
+[완료 기준]
+버튼을 클릭해서 화면이 전환되고, 더미 데이터 카드 3개가 보이면 완료</div>
+
+    <h3>⚙️ 실습 3 — 세 번째 요청: 상세보기 + 완료 흐름</h3>
+
+    <div class="prompt-block">📌 Antigravity 세 번째 요청:
+
+index.html에 아래 기능을 추가해줘.
+
+[추가할 화면/기능]
+1. 상세보기 화면: 목록에서 카드 클릭하면 상세 정보 표시
+2. 예약/신청 폼: 날짜, 시간 등 PROJECT.md에 명시한 입력 필드
+3. 완료 화면: 신청 버튼 클릭 시 "신청이 완료되었습니다!" 메시지
+
+[데이터 저장]
+신청 정보를 localStorage에 저장 (Key: 'reservations')
+
+[완료 기준]
+카드 클릭 → 상세보기 → 신청 버튼 클릭 → 완료 메시지까지
+전체 핵심 흐름이 하나의 index.html에서 동작하면 완료</div>
+
+    <div class="success-box">
+      <strong>✅ 핵심 흐름 완성 기준 체크:</strong><br>
+      위 3단계 실습을 마쳤을 때 브라우저에서 아래 흐름이 동작해야 합니다:<br>
+      홈 화면 → [시작하기 클릭] → 조건 입력 → [검색 클릭] → 목록(카드 3개) → [카드 클릭] → 상세보기 → [신청 클릭] → 완료 메시지
+    </div>
+
+    <!-- 5. 오류 발생 시 대처법 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 4 of 6</span>
+      </div>
+    </section>
+
+    <section class="paper-page" data-page="5">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 3</span>
+        <span>오류 대처 3단계 & 복사 프롬프트</span>
+      </div>
+      <div class="page-content-body">
+<h2>5. 오류가 났을 때 어떻게 하는가?</h2>
+
+    <p>Antigravity가 만든 코드에서 오류가 생기는 것은 정상입니다. 중요한 것은 오류를 읽고 <strong>구체적으로 수정 요청</strong>하는 방법을 아는 것입니다.</p>
+
+    <h3>🔴 브라우저 콘솔에서 오류 확인하기</h3>
+    <div class="step-guide">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Chrome 개발자 도구 열기</div>
+          <div class="step-desc">Windows: <code>F12</code> 또는 <code>Ctrl + Shift + J</code><br>
+          Mac: <code>Cmd + Option + J</code></div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Console 탭 클릭</div>
+          <div class="step-desc">빨간색 글자로 오류 메시지가 나타납니다. 이 메시지를 복사하세요.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Codex에 오류 메시지 전달</div>
+          <div class="step-desc">오류 메시지를 붙여넣고 어떤 상황에서 났는지 설명하면 Codex가 원인을 분석해줍니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>📋 오류 유형별 대처 방법</h3>
     <table class="data-table">
-      <thead><tr><th>상태</th><th>사용자에게 보여줄 내용</th><th>확인 질문</th></tr></thead>
+      <thead><tr><th>오류 메시지 패턴</th><th>의미</th><th>해결 방법</th></tr></thead>
       <tbody>
-        <tr><td>기본</td><td>입력 또는 시작 안내</td><td>다음 행동이 분명한가?</td></tr>
-        <tr><td>로딩</td><td>처리 중 표시</td><td>중복 클릭을 방지하는가?</td></tr>
-        <tr><td>빈 값</td><td>필요한 입력 안내</td><td>무엇을 입력해야 하는가?</td></tr>
-        <tr><td>성공</td><td>핵심 결과와 다음 행동</td><td>목표를 완료했는가?</td></tr>
-        <tr><td>오류</td><td>원인과 다시 시도 방법</td><td>사용자가 복구할 수 있는가?</td></tr>
+        <tr>
+          <td><code>is not defined</code></td>
+          <td>없는 함수나 변수를 사용함</td>
+          <td>Codex에 오류 메시지 붙여넣고 "undefined 오류 수정해줘" 요청</td>
+        </tr>
+        <tr>
+          <td><code>null</code> 관련</td>
+          <td>HTML 요소가 없는데 JS가 찾으려 함</td>
+          <td>"HTML과 JS의 ID가 일치하는지 확인하고 수정해줘" 요청</td>
+        </tr>
+        <tr>
+          <td>화면이 흰 화면</td>
+          <td>JS 오류로 렌더링 실패</td>
+          <td>콘솔 오류 확인 후 해당 오류 메시지로 수정 요청</td>
+        </tr>
+        <tr>
+          <td>버튼 클릭 무반응</td>
+          <td>이벤트 리스너 미연결</td>
+          <td>"버튼 클릭 이벤트가 동작하지 않습니다. 이벤트 연결 확인해줘" 요청</td>
+        </tr>
       </tbody>
     </table>
 
-    <h2>4. 실습별 프롬프트 가이드</h2>
+    <h3>🔧 Antigravity에게 오류 수정 요청 프롬프트 예시</h3>
+    <div class="prompt-block">📌 오류 수정 요청 방법:
 
-    <h3>실습 1A. 구현 전 요약 요청 (Antigravity)</h3>
-    <div class="prompt-block">📌 Antigravity:
-PROJECT.md와 HANDOFF_PROMPT.md를 읽고 이번 작업 범위를 먼저 요약해 주세요.
-아직 구현하지 말고 사용할 프로젝트 구조, 생성할 화면, 완료 기준,
-질문이 필요한 항목을 보고해 주세요.</div>
+index.html에서 아래 문제가 발생했어.
 
-    <h3>실습 1B. 첫 화면 구현 (Antigravity)</h3>
-    <div class="prompt-block">📌 Antigravity:
-PROJECT.md를 기준으로 공통 스타터 템플릿에 프로젝트 기본 구조와 홈 화면을
-구현해 주세요. 이번에는 홈 화면과 첫 번째 CTA까지만 작업합니다.
-Out of Scope는 구현하지 말고, 완료 후 실행 방법·변경 파일·미구현 Must를
-보고해 주세요.</div>
+[문제 상황]
+도우미 카드를 클릭해도 상세보기 화면으로 이동하지 않음.
 
-    <h3>실습 2. 화면 연결과 핵심 입력 구현 (Antigravity)</h3>
-    <div class="prompt-block">📌 Antigravity:
-PROJECT.md의 Core User Flow 중 홈→입력 단계만 구현해 주세요.
-정의된 입력 필드와 완료 조건을 그대로 사용하고 빈 값 안내를 포함합니다.
-다른 Must 기능은 아직 구현하지 마세요.</div>
+[브라우저 콘솔 오류]
+Uncaught TypeError: Cannot read properties of undefined (reading 'id')
+at showDetail (index.html:124)
 
-    <h3>실습 3. 핵심 기능과 결과 화면 완성 (Antigravity)</h3>
-    <div class="prompt-block">📌 Antigravity:
-PROJECT.md의 첫 번째 핵심 사용자 흐름을 결과 화면까지 완성해 주세요.
-기본, 로딩, 빈 값, 성공, 오류 상태를 문서의 완료 기준에 맞게 처리합니다.
-실제 외부 서비스가 필요하면 교육용 Mock 데이터를 사용하고 이를 명시합니다.</div>
+[수정 요청]
+위 오류를 수정하고, 카드 클릭 시 상세보기가 정상 동작하도록 해줘.
+수정 전에 어떤 부분이 문제인지 먼저 설명해줘.</div>
 
-    <h3>검증. 구현 비교 (Codex)</h3>
-    <div class="prompt-block">📌 Codex:
-PROJECT.md의 Acceptance Criteria와 현재 구현을 비교해 주세요.
-코드는 수정하지 말고 Pass, Fail, Manual Check, Not Implemented로 분류하고
-근거 파일과 브라우저 확인 방법을 표로 작성해 주세요.</div>
+    <!-- 6. 자율 실습 -->
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 5 of 6</span>
+      </div>
+    </section>
 
-    <h3>검증. VALIDATION_DAY3.md 생성 (Codex)</h3>
-    <div class="prompt-block">📌 Codex:
-PROJECT.md와 현재 MVP를 비교해 VALIDATION_DAY3.md를 작성해 주세요.
-Must별 Pass/Fail/Manual Check/Not Implemented 상태, 근거, 재현 단계와
-Day 4 수정 우선순위를 포함합니다. 먼저 검증하고 코드는 수정하지 마세요.</div>
+    <section class="paper-page" data-page="6">
+      <div class="book-header-line">
+        <span>ACE AI Startup Bootcamp · Day 3</span>
+        <span>자율 실습 및 체크리스트</span>
+      </div>
+      <div class="page-content-body">
+<h2>6. 도전! 자율형 실습 주제 2종</h2>
 
-    <h2>5. Day 3 자율형 실습 주제 2종</h2>
-    <h3>[자율 주제 A] 단순 CRUD 노트 앱 MVP v0.1 구현</h3>
-    <div class="prompt-block">📌 Antigravity 자율 주제 A:
-단순 노트 앱 MVP를 구현해 주세요.
+    <h3>🏆 [자율 주제 A] 독서 기록 & 요약 서비스 MVP</h3>
+    <div class="callout-box">
+      책 제목, 저자, 읽은 날짜, 감상 메모를 입력하면 목록으로 관리할 수 있는 서비스<br>
+      핵심 흐름: 책 추가 → 목록 확인 → 상세 보기
+    </div>
+    <div class="prompt-block">📌 Antigravity 요청:
+
+BOOK_REQUIREMENTS.md를 읽고 독서 기록 MVP를 만들어줘.
+
 Must 기능:
-1. 텍스트 노트 작성 후 저장 버튼 (localStorage 사용)
-2. 저장된 노트 목록 조회
-3. 노트 삭제 버튼
-상태 처리: 입력 빈값 안내, 노트 없을 때 빈 상태 메시지
-완료 기준: 노트 생성→조회→삭제 흐름이 새로고침 후에도 유지될 것.</div>
+1. 책 추가 폼 (제목, 저자, 읽은 날짜, 별점, 메모)
+2. 책 목록 화면 (카드 형태, localStorage 저장)
+3. 책 상세보기 (기록한 모든 정보 표시)
 
-    <h3>[자율 주제 B] 계산기 또는 단위 변환기 웹 도구</h3>
-    <div class="prompt-block">📌 Antigravity 자율 주제 B:
-BMI 계산기 웹 앱을 구현해 줘.
-Must 기능:
-1. 키(cm)와 몸무게(kg) 입력 폼
-2. BMI 수치 계산 및 결과 표시 (저체중/정상/과체중/비만 판정)
-3. 재입력 버튼
-완료 기준: 올바른 입력 시 BMI 수치와 판정 텍스트가 화면에 표시될 것.</div>
+Empty State: "아직 기록한 책이 없습니다. 첫 책을 추가해보세요!"
+기술: 단일 index.html, localStorage</div>
 
-    <h2>6. Day 3 완료 체크리스트</h2>
-    <ul>
-      <li>[ ] PROJECT.md를 기준으로 Antigravity에서 구현했다.</li>
-      <li>[ ] 프로젝트가 로컬에서 실행된다.</li>
-      <li>[ ] 핵심 사용자 흐름의 시작과 끝이 연결된다.</li>
-      <li>[ ] 로딩·빈 값·오류 상태를 확인했다.</li>
-      <li>[ ] Codex로 VALIDATION_DAY3.md를 작성했다.</li>
-      <li>[ ] Day 4 개선 백로그를 만들었다.</li>
-    </ul>
+    <h3>🚀 [자율 주제 B] 내 MVP 기능 개선</h3>
+    <div class="callout-box">
+      기본 MVP 완성 후 아래 중 1가지를 직접 추가해보세요:<br>
+      • 검색 기능 추가 (목록에서 이름/제목으로 필터링)<br>
+      • 삭제 기능 추가 (카드에 삭제 버튼)<br>
+      • 빈 상태/로딩 상태 메시지 추가
+    </div>
+
+    <!-- 7. 체크리스트 -->
+    <h2>7. Day 3 완료 셀프 체크리스트</h2>
+    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:20px; margin:16px 0;">
+      <ul class="checklist">
+        <li>Antigravity가 my-project 폴더를 작업 경로로 인식하고 있다</li>
+        <li>첫 번째 요청(기본 구조)을 완료하고 브라우저에서 확인했다</li>
+        <li>두 번째 요청(목록 화면)을 완료하고 더미 카드 3개가 보인다</li>
+        <li>세 번째 요청(상세보기 + 완료)을 완료했다</li>
+        <li>홈 → 입력 → 목록 → 상세 → 완료 전체 흐름이 동작한다</li>
+        <li>Empty State(빈 상태) 메시지가 있다</li>
+        <li>오류가 발생했다면 콘솔에서 확인하고 수정 요청했다</li>
+        <li>신청 정보가 localStorage에 저장된다</li>
+      </ul>
+    </div>
+
+    <div class="callout-box">
+      <strong>📌 다음 시간 예고 — Day 4: 서비스 기능 확장과 완성도 높이기</strong><br>
+      오늘 만든 MVP를 기반으로 검색, 필터, 오류 처리 등 사용자 경험을 높이는 기능을 추가합니다.
+    </div>
+      </div>
+      </div>
+      </div>
+      <div class="book-footer-line">
+        <span>창업가를 위한 AI 웹 개발 자율 학습 교재</span>
+        <span>Page 6 of 6</span>
+      </div>
+    </section>
   </div>
 
   <!-- AI Account Modal -->
@@ -708,30 +1200,60 @@ Must 기능:
   </script>
 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    function downloadPDF() {
+    async function downloadPDF() {
       const btn = document.getElementById('btn-download-pdf');
       const originalText = btn ? btn.innerHTML : '';
-      if (btn) btn.innerHTML = '⏳ PDF 생성 중...';
+      if (btn) {
+        btn.innerHTML = '⏳ A4 PDF 준비 중...';
+        btn.disabled = true;
+      }
 
-      const element = document.querySelector('.paper-container');
-      const opt = {
-        margin:       0,
-        filename:     '창업가_Day3_교재_A4.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, logging: false },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak:    { mode: ['css', 'legacy'] }
-      };
+      try {
+        if (!window.jspdf || !window.html2canvas) {
+          throw new Error('PDF 생성 라이브러리를 불러오지 못했습니다.');
+        }
 
-      html2pdf().set(opt).from(element).save().then(() => {
-        if (btn) btn.innerHTML = originalText;
-      }).catch(err => {
-        console.error('PDF 다운로드 실패:', err);
-        if (btn) btn.innerHTML = originalText;
+        const pages = document.querySelectorAll('.paper-page');
+        const total = pages.length;
+        if (!total) throw new Error('교재 페이지를 찾을 수 없습니다.');
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4',
+          compress: true
+        });
+
+        for (let i = 0; i < total; i++) {
+          if (btn) btn.innerHTML = `⏳ A4 PDF 생성 중 (${i + 1}/${total})...`;
+          const page = pages[i];
+          const canvas = await html2canvas(page, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: '#ffffff',
+            windowWidth: 1200
+          });
+          const imgData = canvas.toDataURL('image/jpeg', 0.95);
+          if (i > 0) pdf.addPage('a4', 'portrait');
+          pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+        }
+
+        pdf.save('창업가_Day3_교재_A4.pdf');
+      } catch (err) {
+        console.error('PDF 생성 실패:', err);
+        alert('PDF 자동 다운로드 중 오류가 발생하여 브라우저 인쇄 창으로 전환합니다.\n[인쇄 창 > 대상: PDF로 저장]을 선택하시면 깨끗하게 저장할 수 있습니다.');
         window.print();
-      });
+      } finally {
+        if (btn) {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }
+      }
     }
   </script>
 </body>

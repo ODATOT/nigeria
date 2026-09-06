@@ -21,10 +21,12 @@
     
     body {
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-      background: #0f172a;
+      background: #cbd5e1;
       color: var(--text-dark);
-      line-height: 1.6;
+      line-height: 1.55;
       word-break: keep-all;
+      margin: 0;
+      padding: 0;
     }
 
     /* Screen Navigation Bar */
@@ -83,6 +85,13 @@
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     }
     .btn-print:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4); }
+    .btn-download {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+    .btn-download:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4); }
+
 
     .btn-back {
       background: rgba(255, 255, 255, 0.1);
@@ -90,6 +99,430 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
     }
     .btn-back:hover { background: rgba(255, 255, 255, 0.2); }
+
+    /* A4 Book Page Container & True A4 Vertical Sheets */
+    .book-container {
+      width: 210mm;
+      max-width: 100%;
+      margin: 36px auto 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      background: transparent;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    .cover-page,
+    .book-page {
+      width: 210mm;
+      min-height: 297mm;
+      box-sizing: border-box;
+      position: relative;
+      background: #ffffff;
+      border-radius: 3px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 3px 10px rgba(0, 0, 0, 0.18);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 18mm 18mm 16mm 18mm;
+      page-break-after: always;
+      break-after: page;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Cover Page */
+    .cover-page {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%) !important;
+      color: #ffffff;
+      padding: 24mm 20mm 20mm 20mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Responsive scaling for mobile devices */
+    @media screen and (max-width: 820px) {
+      .book-container {
+        width: 100%;
+      }
+      .cover-page,
+      .book-page {
+        width: 95vw;
+        height: auto;
+        min-height: auto;
+        max-height: none;
+        padding: 22px 18px;
+      }
+    }
+
+    /* Book Header / Footer */
+    .book-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .book-footer-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+      padding-top: 10px;
+      margin-top: auto;
+      flex-shrink: 0;
+    }
+
+    .cover-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cover-tag {
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #60a5fa;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .cover-main {
+      margin: 80px 0;
+    }
+
+    .cover-subtitle {
+      font-size: 1.25rem;
+      color: #94a3b8;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .cover-title {
+      font-size: 2.75rem;
+      font-weight: 800;
+      line-height: 1.25;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 24px;
+    }
+
+    .cover-desc {
+      font-size: 1.05rem;
+      color: #cbd5e1;
+      max-width: 650px;
+      line-height: 1.7;
+    }
+
+    .cover-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+
+    /* Typography & Components */
+    h1.chapter-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chapter-number {
+      color: var(--primary);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    h2.section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 32px 0 16px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+
+    h3.sub-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #334155;
+      margin: 20px 0 10px 0;
+    }
+
+    p { margin-bottom: 14px; font-size: 0.98rem; color: #334155; }
+
+    .lead {
+      font-size: 1.08rem;
+      line-height: 1.8;
+      color: #1e293b;
+      max-width: 70ch;
+    }
+
+    .learning-map {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0;
+    }
+
+    .learning-item {
+      border-top: 3px solid var(--primary);
+      background: #ffffff;
+      padding: 16px;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
+    }
+
+    .learning-item strong { display: block; margin-bottom: 5px; color: #0f172a; }
+    .learning-item p { margin: 0; font-size: 0.9rem; }
+
+    .study-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 24px;
+    }
+
+    .study-chip {
+      background: #eaf2ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .check-point {
+      margin: 22px 0;
+      padding: 20px 22px;
+      border: 1px solid #f3d18b;
+      background: #fffbeb;
+    }
+
+    .check-point h3 { color: #92400e; font-size: 1rem; margin-bottom: 10px; }
+    .check-point ol, .check-point ul, .practice-box ol { padding-left: 22px; }
+    .check-point li, .practice-box li { margin: 7px 0; color: #334155; }
+
+    .practice-box {
+      margin: 24px 0;
+      padding: 22px;
+      border: 2px solid #cbd5e1;
+      background: #ffffff;
+    }
+
+    .practice-label {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: #ffffff;
+      background: #334155;
+      padding: 4px 9px;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: .04em;
+    }
+
+    .answer-box {
+      margin: 18px 0;
+      border: 1px solid #bbf7d0;
+      background: #f0fdf4;
+      padding: 18px 20px;
+    }
+
+    .answer-box summary {
+      cursor: pointer;
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    .answer-box p { margin: 12px 0 0; }
+
+    .wrong-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .example-panel { padding: 16px; border: 1px solid var(--border-color); background: #fff; }
+    .example-panel.bad { border-top: 4px solid var(--danger); }
+    .example-panel.good { border-top: 4px solid var(--success); }
+    .example-panel h4 { margin-bottom: 8px; }
+    .example-panel p { margin: 0; font-size: .9rem; }
+
+    .rubric { counter-reset: rubric; list-style: none; }
+    .rubric li { position: relative; padding: 10px 10px 10px 42px; border-bottom: 1px solid #e2e8f0; }
+    .rubric li::before { counter-increment: rubric; content: counter(rubric); position: absolute; left: 6px; top: 9px; width: 24px; height: 24px; border-radius: 50%; background: #dbeafe; color: #1d4ed8; display: grid; place-items: center; font-weight: 800; }
+
+    code { font-family: 'Menlo', 'Monaco', 'Courier New', monospace; background: #e2e8f0; padding: 1px 5px; border-radius: 3px; font-size: .88em; }
+    .code-box code { background: transparent; padding: 0; color: inherit; }
+
+    @media (max-width: 720px) {
+      .no-print-bar { position: static; align-items: flex-start; gap: 12px; padding: 12px 14px; }
+      .no-print-bar .title-group strong { display: none; }
+      .action-btns { flex-wrap: wrap; justify-content: flex-end; }
+      .btn-action { min-height: 44px; padding: 9px 12px; }
+      .book-container { margin: 0; border-radius: 0; }
+      .book-page, .cover-page { padding: 42px 24px; }
+      .cover-title { font-size: 2.15rem; }
+      .learning-map, .wrong-right { grid-template-columns: 1fr; }
+      .book-table { display: block; overflow-x: auto; }
+      .toc-page { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* Callout Box */
+    .callout {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      padding: 18px 22px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+    .callout.cyan { border-left-color: var(--secondary); background: #ecfeff; }
+    .callout.purple { border-left-color: var(--accent); background: #f5f3ff; }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    .book-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.92rem;
+    }
+
+    .book-table th, .book-table td {
+      padding: 12px 16px;
+      border: 1px solid var(--border-color);
+      text-align: left;
+    }
+
+    .book-table th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    /* Code Blocks */
+    .code-box {
+      background: var(--code-bg);
+      color: var(--code-text);
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+      font-size: 0.88rem;
+      overflow-x: auto;
+      margin: 16px 0;
+      line-height: 1.5;
+    }
+
+    .code-box-header {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    /* Step List */
+    .step-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .step-card {
+      display: flex;
+      gap: 16px;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .step-num {
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .step-body h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+
+    .step-body p {
+      font-size: 0.92rem;
+      color: #64748b;
+      margin: 0;
+    }
+
+    /* TOC (Table of Contents) */
+    .toc-list {
+      list-style: none;
+      margin: 24px 0;
+    }
+
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--border-color);
+      font-size: 1rem;
+    }
+
+    .toc-title {
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .toc-page {
+      font-weight: 700;
+      color: var(--primary);
+    }
 
     /* Standard A4 Screen & Print Styling */
     body {
@@ -347,7 +780,7 @@ Uncertainty: If evidence is missing, classify as an open question.</div><div cla
     function downloadPDF() {
       const btn = document.getElementById('btn-download-pdf');
       const originalText = btn ? btn.innerHTML : '';
-      if (btn) btn.innerHTML = '⏳ PDF 생성 중...';
+      if (btn) btn.innerHTML = '⏳ Generating A4 PDF...';
 
       const element = document.querySelector('.book-container');
       const opt = {
@@ -362,7 +795,7 @@ Uncertainty: If evidence is missing, classify as an open question.</div><div cla
       html2pdf().set(opt).from(element).save().then(() => {
         if (btn) btn.innerHTML = originalText;
       }).catch(err => {
-        console.error('PDF 다운로드 실패:', err);
+        console.error('PDF download failed:', err);
         if (btn) btn.innerHTML = originalText;
         window.print();
       });
