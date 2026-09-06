@@ -497,7 +497,7 @@
     <div style="display:flex;gap:8px;">
       <a href="day2-ai-classroom.html" class="btn-action btn-back">🏫 AI 자율 학습 강의실</a>
       <button id="btn-download-pdf" onclick="downloadPDF()" class="btn-action btn-download">📥 A4 PDF 다운로드</button>
-      <button onclick="window.print()" class="btn-action btn-print">🖨️ 인쇄 / PDF 저장</button>
+      <button onclick="downloadPDF()" class="btn-action btn-download">🖨️ 인쇄 / PDF 저장</button>
     </div>
   </div>
 
@@ -1391,7 +1391,21 @@ Out of Scope: 회원가입, 실제 지도 API, 결제, 숙소 예약</div>
             useCORS: true,
             logging: false,
             backgroundColor: '#ffffff',
-            windowWidth: 1200
+            windowWidth: 1200,
+            onclone: function(clonedDoc) {
+              // Fix: html2canvas cannot render -webkit-background-clip:text
+              const coverTitles = clonedDoc.querySelectorAll('.cover-title');
+              coverTitles.forEach(function(el) {
+                el.style.webkitBackgroundClip = 'unset';
+                el.style.backgroundClip = 'unset';
+                el.style.webkitTextFillColor = '#ffffff';
+                el.style.color = '#ffffff';
+                el.style.background = 'none';
+              });
+              // Remove nav bar
+              const cloneNav = clonedDoc.querySelector('.no-print-bar');
+              if (cloneNav) cloneNav.style.display = 'none';
+            }
           });
           const imgData = canvas.toDataURL('image/jpeg', 0.95);
           if (i > 0) pdf.addPage('a4', 'portrait');
