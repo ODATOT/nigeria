@@ -57,6 +57,14 @@
           if (userBadge) userBadge.style.display = 'inline-flex';
           if (userAvatar && user.avatar) userAvatar.textContent = user.avatar;
           if (userName && user.name) userName.textContent = user.name;
+        
+          // 멘토/퍼실리테이터 전용: 전체과정한눈에보기 버튼 노출
+          var isMentor = user.role === 'mentor' || user.role === 'facilitator' || user.id === 'mentor-staff' || (user.name && (user.name.includes('멘토') || user.name.includes('Facilitator') || user.name.includes('Mentor')));
+          if (isMentor) {
+            document.querySelectorAll('.btn-course-overview').forEach(function(btn) {
+              btn.style.display = 'inline-flex';
+            });
+          }
         }
       } catch(e) {
         console.error(e);
@@ -1025,6 +1033,7 @@
       </div>
       <div class="nav-sub-right">
         <a href="../LECTURE/docs/index.html" target="_blank" class="nav-sub-btn highlight">🖥️ 발표 슬라이드</a>
+        <a href="course-overview.html" class="btn-course-overview nav-sub-btn highlight" style="display: none; background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2)); border-color: rgba(168, 85, 247, 0.45); color: #e9d5ff; font-weight: 800;">🌟 전체과정한눈에보기</a>
       </div>
       </div>
 

@@ -1,0 +1,3671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌟 Full Course Overview at a Glance · 5-Day AI Web App MVP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) { console.error(e); }
+        }
+      }
+      if (!loggedInUser) {
+        window.location.href = 'login/login.html';
+      }
+    })();
+
+    function logout() {
+      document.cookie = "currentUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      localStorage.removeItem('currentUserSession');
+      window.location.href = 'login/login.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        var user = null;
+        if (sessionStr) {
+          var s = JSON.parse(sessionStr);
+          user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
+        }
+        if (user) {
+          var userBadge = document.getElementById('userProfileBadge');
+          var userAvatar = document.getElementById('userAvatar');
+          var userName = document.getElementById('userName');
+          if (userBadge) userBadge.style.display = 'inline-flex';
+          if (userAvatar && user.avatar) userAvatar.textContent = user.avatar;
+          if (userName && user.name) userName.textContent = user.name;
+        
+        // 멘토/퍼실리테이터 접근 권한 확인
+        var isMentor = user.role === 'mentor' || user.role === 'facilitator' || user.id === 'mentor-staff' || (user.name && (user.name.includes('멘토') || user.name.includes('Facilitator') || user.name.includes('Mentor')));
+        if (!isMentor) {
+          alert('This page is restricted to Mentors and Facilitators only.');
+          window.location.href = 'index.html';
+        }
+        }
+      } catch(e) { console.error(e); }
+    });
+  </script>
+
+  <style>
+    :root {
+      --bg: #09090b;
+      --surface: #111827;
+      --surface-card: rgba(26, 29, 36, 0.95);
+      --surface-hover: rgba(36, 41, 51, 0.95);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-bright: rgba(255, 255, 255, 0.16);
+      --primary: #3b82f6;
+      --primary-light: #93c5fd;
+      --secondary: #06b6d4;
+      --emerald: #10b981;
+      --emerald-light: #6ee7b7;
+      --purple: #8b5cf6;
+      --purple-light: #c4b5fd;
+      --amber: #f59e0b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --dim: #64748b;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Navigation */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(9, 9, 11, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .badge-overview {
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(59, 130, 246, 0.3));
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: #e9d5ff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.03em;
+    }
+
+    .topbar-brand {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .user-badge {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #93c5fd;
+    }
+
+    .btn-nav {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-nav:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #fff;
+    }
+
+    .btn-nav.highlight {
+      background: rgba(59, 130, 246, 0.18);
+      border-color: rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+    }
+
+    .btn-nav.highlight:hover {
+      background: rgba(59, 130, 246, 0.3);
+      color: #fff;
+    }
+
+    .btn-logout {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #fca5a5;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-logout:hover {
+      background: rgba(239, 68, 68, 0.25);
+      color: #fff;
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+      flex: 1;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(17, 24, 39, 0.9));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(147, 51, 234, 0.25), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(147, 51, 234, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: #c084fc;
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: 2.1rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+
+    .hero p {
+      color: #cbd5e1;
+      font-size: 1.02rem;
+      max-width: 900px;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .curriculum-flow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .flow-step {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .flow-step:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--primary);
+    }
+
+    .flow-step strong {
+      color: var(--secondary);
+    }
+
+    .flow-arrow {
+      color: var(--dim);
+      font-size: 0.9rem;
+    }
+
+    /* Sticky Control Toolbar */
+    .toolbar-sticky {
+      position: sticky;
+      top: 61px;
+      z-index: 900;
+      background: rgba(9, 9, 11, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 12px 18px;
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .day-tab-list {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .day-tab-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .day-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.09);
+      color: #fff;
+    }
+
+    .day-tab-btn.active {
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+    }
+
+    .type-filter-list {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .type-filter-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .type-filter-btn:hover {
+      color: #fff;
+    }
+
+    .type-filter-btn.active {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--line-bright);
+      color: #38bdf8;
+    }
+
+    /* Day Block Section */
+    .day-block {
+      background: var(--surface-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      margin-bottom: 40px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 28px;
+    }
+
+    .day-header-left {
+      max-width: 840px;
+    }
+
+    .day-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .badge-day-number {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 900;
+      padding: 3px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.05em;
+    }
+
+    .day-time-tag {
+      font-size: 0.8rem;
+      color: var(--secondary);
+      font-weight: 700;
+    }
+
+    .day-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .day-goals-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .day-goal-pill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+    }
+
+    .day-goal-pill strong {
+      color: #93c5fd;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .day-header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* Subsections in Day Block */
+    .content-subsection {
+      margin-bottom: 36px;
+    }
+
+    .content-subsection:last-child {
+      margin-bottom: 0;
+    }
+
+    .sub-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .sub-title-bar h3 {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sub-count-tag {
+      font-size: 0.78rem;
+      color: var(--dim);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    /* Slides Carousel / Viewer inside Overview */
+    .slides-overview-card {
+      background: #0d121d;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .slide-viewer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .slide-tag {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #93c5fd;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .slide-counter {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .slide-body-box {
+      min-height: 120px;
+      margin-bottom: 16px;
+    }
+
+    .slide-body-box h4 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .slide-body-box .body-content {
+      color: #cbd5e1;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .slide-notes-card {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.83rem;
+      color: #fde68a;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .slide-ctrl-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .slide-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--line);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .slide-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .slide-quick-pills {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      max-width: 70%;
+      padding: 2px 0;
+    }
+
+    .slide-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .slide-dot.active {
+      background: #38bdf8;
+      width: 24px;
+    }
+
+    /* Practice Tasks Grid */
+    .task-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 16px;
+    }
+
+    .task-card {
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .task-card:hover {
+      border-color: rgba(59, 130, 246, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .task-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .task-badge-group {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .badge-task-id {
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .badge-task-id.challenge {
+      background: rgba(147, 51, 234, 0.2);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #c084fc;
+    }
+
+    .badge-tool {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+
+    .badge-tool.codex {
+      background: rgba(16, 185, 129, 0.12);
+      color: #6ee7b7;
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-tool.agy {
+      background: rgba(59, 130, 246, 0.12);
+      color: #93c5fd;
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .badge-tool.chatgpt {
+      background: rgba(168, 85, 247, 0.12);
+      color: #c4b5fd;
+      border-color: rgba(168, 85, 247, 0.3);
+    }
+
+    .badge-tool.deploy {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fcd34d;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .task-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .task-goal {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .task-footer-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .task-time {
+      font-size: 0.78rem;
+      color: var(--secondary);
+      font-weight: 700;
+    }
+
+    .btn-expand-task {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--line);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-expand-task:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* Task Detail Inline Accordion */
+    .task-inline-detail {
+      display: none;
+      background: #09090b;
+      border: 1px solid var(--line-bright);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 14px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .detail-step-item {
+      margin-bottom: 12px;
+      padding-left: 14px;
+      border-left: 2px solid var(--primary);
+    }
+
+    .detail-step-item strong {
+      color: #fff;
+      font-size: 0.85rem;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .detail-step-item span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .prompt-box-area {
+      background: #000;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .prompt-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .prompt-top-bar span {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+
+    .btn-copy {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-copy:hover {
+      background: #38bdf8;
+      color: #000;
+    }
+
+    .prompt-content-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #a5f3fc;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    /* Autonomous Challenge Cards (Section 3) */
+    .challenge-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 18px;
+    }
+
+    .challenge-card {
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.6), rgba(17, 24, 39, 0.95));
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 12px;
+      padding: 22px;
+      transition: all 0.2s;
+    }
+
+    .challenge-card:hover {
+      border-color: rgba(168, 85, 247, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(147, 51, 234, 0.15);
+    }
+
+    .challenge-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .challenge-badge {
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: #c4b5fd;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    .challenge-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .challenge-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #10b981;
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 12px 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.25s ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 30px 20px;
+      text-align: center;
+      color: var(--dim);
+      font-size: 0.85rem;
+      background: #09090b;
+    }
+
+    @media (max-width: 768px) {
+      .topbar { padding: 10px 16px; flex-direction: column; align-items: flex-start; }
+      .hero { padding: 24px 20px; }
+      .hero h1 { font-size: 1.6rem; }
+      .task-cards-grid, .challenge-cards-grid { grid-template-columns: 1fr; }
+      .toolbar-sticky { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="badge-overview">🌟 5-Day Full Course Overview</span>
+      <a href="index.html" class="topbar-brand">
+        <span>🚀</span>
+        <span>ACE AI Startup Bootcamp</span>
+      </a>
+    </div>
+    <div class="topbar-actions">
+      <div id="userProfileBadge" class="user-badge">
+        <span id="userAvatar">🚀</span>
+        <span id="userName">User</span>
+      </div>
+      <a href="index.html" class="btn-nav">🏠 LMS Home</a>
+      <a href="../LECTURE_ENG/docs/index.html" target="_blank" class="btn-nav">🖥️ Presentation Slides</a>
+      <a href="day1/day1-textbook.html" class="btn-nav">📖 Day 1 Textbook</a>
+      <a href="../LMS/course-overview.html" class="btn-nav highlight">🇰🇷 한국어</a>
+      <button type="button" onclick="logout()" class="btn-logout">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Hero Header -->
+    <section class="hero">
+      <div class="hero-pill">
+        <span>📋</span>
+        <span>Day 1 ~ Day 5 Comprehensive Curriculum Matrix</span>
+      </div>
+      <h1>Full Course Overview at a Glance</h1>
+      <p>A comprehensive all-in-one viewport showcasing the <strong>Lecture Slides</strong>, <strong>Autonomous Practice Task Boards</strong>, and <strong>Autonomous Projects</strong> from Day 1 to Day 5.</p>
+      
+      <div class="curriculum-flow">
+        <div class="flow-step" onclick="selectDay(1)">
+          <strong>Day 1</strong>
+          <span>🛠️ Tools & Workflow</span>
+        </div>
+        <span class="flow-arrow">➔</span>
+        <div class="flow-step" onclick="selectDay(2)">
+          <strong>Day 2</strong>
+          <span>📝 Lean Planning</span>
+        </div>
+        <span class="flow-arrow">➔</span>
+        <div class="flow-step" onclick="selectDay(3)">
+          <strong>Day 3</strong>
+          <span>🚀 MVP v0.1 Build</span>
+        </div>
+        <span class="flow-arrow">➔</span>
+        <div class="flow-step" onclick="selectDay(4)">
+          <strong>Day 4</strong>
+          <span>⚡ Feature Expansion</span>
+        </div>
+        <span class="flow-arrow">➔</span>
+        <div class="flow-step" onclick="selectDay(5)">
+          <strong>Day 5</strong>
+          <span>🏆 Deploy & Pitch</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Sticky Toolbar -->
+    <div class="toolbar-sticky" id="toolbar">
+      <!-- Day Selector Tabs -->
+      <div class="day-tab-list">
+        <button class="day-tab-btn active" data-day="all" onclick="selectDay('all')">🌟 All Days Overview</button>
+        <button class="day-tab-btn" data-day="1" onclick="selectDay(1)">Day 1</button>
+        <button class="day-tab-btn" data-day="2" onclick="selectDay(2)">Day 2</button>
+        <button class="day-tab-btn" data-day="3" onclick="selectDay(3)">Day 3</button>
+        <button class="day-tab-btn" data-day="4" onclick="selectDay(4)">Day 4</button>
+        <button class="day-tab-btn" data-day="5" onclick="selectDay(5)">Day 5</button>
+      </div>
+
+      <!-- Content Type Filter Tabs -->
+      <div class="type-filter-list">
+        <button class="type-filter-btn active" data-type="all" onclick="filterType('all')">All Content</button>
+        <button class="type-filter-btn" data-type="slides" onclick="filterType('slides')">🖥️ Lecture Slides</button>
+        <button class="type-filter-btn" data-type="tasks" onclick="filterType('tasks')">💻 Core Practice Tasks</button>
+        <button class="type-filter-btn" data-type="challenges" onclick="filterType('challenges')">🚀 Autonomous Projects</button>
+      </div>
+    </div>
+
+    <!-- Main Content Container for Day 1 ~ 5 -->
+    <div id="daysContainer">
+      <!-- Rendered dynamically by JavaScript -->
+    </div>
+
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="toast">
+    <span>✅</span>
+    <span id="toastMsg">Prompt copied to clipboard!</span>
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 ACE AI Startup Bootcamp · Full Curriculum Overview Portal</p>
+  </footer>
+
+  <script>
+    // Injected Curriculum Data
+    const courseData = [
+  {
+    day: 1,
+    title: "Day 1. Mastering AI Development Tools &amp; Workflow",
+    badgeTitle: "Getting Started with Codex &amp; Antigravity (Interactive Lab Module)",
+    goals: ["<strong>🎯 Objective 1. Environment Setup</strong>Open identical absolute local project path in both Codex and Antigravity", "<strong>🎯 Objective 2. Requirements Specification</strong>Draft objectives, UI components, constraints, and DoD in PAGE_REQUIREMENTS.md", "<strong>🎯 Objective 3. Spec-Driven Scaffolding</strong>Auto-generate functional single-page web app in Antigravity based on markdown", "<strong>🎯 Objective 4. QA Audit &amp; Iteration</strong>Test against specifications and iterate using Codex &amp; VALIDATION.md"],
+    classroomUrl: 'day1/day1-ai-classroom.html',
+    textbookUrl: 'day1/day1-textbook.html',
+    opsUrl: 'day1/day1-operations.html',
+    slides: [
+      {
+        tag: "Slide 01 · Course Overview",
+        title: "Welcome to Aspiring Founders AI Web App MVP Bootcamp",
+        body: `<p style="color:#93c5fd;font-size:1.05rem;margin-bottom:16px;">Transform abstract entrepreneurial ideas into working software in 5 days.</p>
+               <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);padding:14px;border-radius:10px;font-family:monospace;font-size:0.9rem;text-align:left;">
+                 💡 Course Vision:<br>
+                 Master the modern dual-AI pipeline: Architect in Codex ➔ Code in Antigravity ➔ Audit in Codex
+               </div>`,
+        notes: "Welcome to Day 1! Today we lay the technical foundation for your 5-day venture building journey."
+      },
+      {
+        tag: "Slide 02 · 5-Day Roadmap",
+        title: "🗺️ 5-Day Bootcamp Journey at a Glance",
+        body: `<ul style="list-style:none;line-height:1.9;">
+                 <li>• <strong>Day 1:</strong> AI Tools Mastery &amp; Spec-Driven Scaffolding</li>
+                 <li>• <strong>Day 2:</strong> Lean Planning &amp; PROJECT.md Specification</li>
+                 <li>• <strong>Day 3:</strong> MVP v0.1 Core Loop Implementation</li>
+                 <li>• <strong>Day 4:</strong> Business Track Expansion &amp; Defensive UX Polish</li>
+                 <li>• <strong>Day 5:</strong> Live Deployment, 5-Min Pitch &amp; Retrospective</li>
+               </ul>`,
+        notes: "Each day delivers an essential, tangible milestone toward your final live launch."
+      },
+      {
+        tag: "Slide 03 · Tool Specialization",
+        title: "🤖 Distinct Roles: Codex vs Antigravity",
+        body: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.88rem;">
+                 <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:14px;border-radius:10px;">
+                   <strong style="color:#6ee7b7;">Codex (Architect &amp; QA)</strong><br><br>
+                   - Requirements specification<br>
+                   - Data schemas &amp; acceptance criteria<br>
+                   - Automated validation audits
+                 </div>
+                 <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);padding:14px;border-radius:10px;">
+                   <strong style="color:#93c5fd;">Antigravity (Builder &amp; Engine)</strong><br><br>
+                   - Code generation &amp; scaffolding<br>
+                   - UI/UX layout implementation<br>
+                   - Interactive event handling
+                 </div>
+               </div>`,
+        notes: "Strict role separation prevents hallucination and guarantees verifiable software quality."
+      },
+      {
+        tag: "Slide 04 · Development Loop",
+        title: "🔄 The Standard 3-Step AI Pipeline",
+        body: `<div style="text-align:center;padding:10px;">
+                 <div style="display:flex;justify-content:center;align-items:center;gap:8px;font-size:0.95rem;flex-wrap:wrap;">
+                   <span style="background:rgba(16,185,129,0.2);padding:8px 14px;border-radius:8px;">1. Codex Spec</span>
+                   <span style="color:var(--secondary);">➔</span>
+                   <span style="background:rgba(59,130,246,0.2);padding:8px 14px;border-radius:8px;">2. Antigravity Code</span>
+                   <span style="color:var(--secondary);">➔</span>
+                   <span style="background:rgba(139,92,246,0.2);padding:8px 14px;border-radius:8px;">3. Codex Audit</span>
+                 </div>
+               </div>`,
+        notes: "Spec first, code second, verify third. Follow this loop consistently throughout the course."
+      },
+      {
+        tag: "Slide 05 · Spec Standard",
+        title: "📄 Markdown: The Universal Contract",
+        body: `<p style="color:var(--muted);margin-bottom:12px;">Markdown files serve as the single source of truth between human founders and AI assistants.</p>
+               <div style="font-family:monospace;font-size:0.85rem;background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;text-align:left;color:#e2e8f0;line-height:1.7;">
+                 PAGE_REQUIREMENTS.md<br>
+                 ├── Objective &amp; Target User<br>
+                 ├── Layout &amp; Components<br>
+                 ├── UI Constraints &amp; Theme<br>
+                 └── Definition of Done (DoD)
+               </div>`,
+        notes: "Writing clear markdown specifications eliminates 90% of AI hallucination issues."
+      },
+      {
+        tag: "Slide 06 · Prompt Strategy",
+        title: "💬 Effective Prompt Architecture",
+        body: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.88rem;">
+                 <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);padding:12px;border-radius:8px;">
+                   <strong style="color:#fca5a5;">❌ Ambiguous Prompt</strong><br><br>
+                   "Make a nice founder profile website."
+                 </div>
+                 <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:12px;border-radius:8px;">
+                   <strong style="color:#86efac;">✅ Structured Prompt</strong><br><br>
+                   "Read PAGE_REQUIREMENTS.md. Build index.html with dark glassmorphism and responsive grid."
+                 </div>
+               </div>`,
+        notes: "Direct AI tools to read markdown specification files rather than pasting massive raw prompts."
+      },
+      {
+        tag: "Slide 07 · Workspace Setup",
+        title: "📁 Common Absolute Workspace Rule",
+        body: `<p style="color:var(--muted);margin-bottom:12px;">Both Codex and Antigravity must point to the identical local directory.</p>
+               <div style="font-family:monospace;font-size:0.85rem;background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;text-align:left;color:#e2e8f0;line-height:1.7;">
+                 /Users/founder/my-project/<br>
+                 ├── 📄 README.md<br>
+                 ├── 📄 PAGE_REQUIREMENTS.md<br>
+                 ├── 📄 VALIDATION.md<br>
+                 └── 🌐 index.html
+               </div>`,
+        notes: "Mismatched paths are the #1 cause of synchronization failures during initial setup."
+      },
+      {
+        tag: "Slide 08 · Lab 1",
+        title: "💻 [Lab 1] Workspace & README.md",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Create local folder, open in both tools, and scaffold README.md in Codex.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Define the role of my-project and scaffold README.md with project overview.
+               </div>`,
+        notes: "Lab Takeaway: Verify that files created in Codex immediately reflect in Antigravity."
+      },
+      {
+        tag: "Slide 09 · Lab 2",
+        title: "💻 [Lab 2] PAGE_REQUIREMENTS.md",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Structure founder profile requirements into markdown specifications using Codex.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Generate PAGE_REQUIREMENTS.md specifying profile, cards, contact CTA, and dark UI.
+               </div>`,
+        notes: "Audit your generated markdown file before moving to code generation."
+      },
+      {
+        tag: "Slide 10 · Lab 3",
+        title: "💻 [Lab 3] Web Scaffolding (index.html)",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Pass markdown specs to Antigravity to auto-code index.html.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Antigravity: Read PAGE_REQUIREMENTS.md and build single-page index.html with dark glassmorphism.
+               </div>`,
+        notes: "Open the resulting HTML file in your browser to inspect styling and layout responsiveness."
+      },
+      {
+        tag: "Slide 11 · QA Lab",
+        title: "🔍 QA Audit: Generating VALIDATION.md",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Audit implementation code against requirements using Codex.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Compare index.html against PAGE_REQUIREMENTS.md. Create VALIDATION.md with Pass/Fail checklist.
+               </div>`,
+        notes: "Document any defects in VALIDATION.md and prompt Antigravity to iteratively patch them."
+      },
+      {
+        tag: "Slide 12 · Autonomous Practice",
+        title: "🚀 Bonus Tracks: Portfolio & Landing",
+        body: `<ul style="list-style:none;line-height:1.8;font-size:0.88rem;">
+                 <li>• <strong>Track A:</strong> Personal Career Showcase &amp; Portfolio</li>
+                 <li>• <strong>Track B:</strong> Pre-Launch Waitlist &amp; Demand Validation Page</li>
+               </ul>`,
+        notes: "Choose one bonus track to test your independent mastery of the 3-step AI pipeline."
+      },
+      {
+        tag: "Slide 13 · Review & Retrospective",
+        title: "💬 Prompts, Retrospectives & Key Learnings",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Document what worked, what failed, and why spec-driven development saves time.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 💡 Key Takeaway: Quality specifications produce quality software. AI is only as good as the prompt constraints.
+               </div>`,
+        notes: "Reflect on your experience and share successful prompt patterns with peers."
+      },
+      {
+        tag: "Slide 14 · Wrap-up",
+        title: "🎉 Day 1 Completed & Day 2 Preview",
+        body: `<div style="text-align:center;padding:20px;">
+                 <h3 style="color:#93c5fd;margin-bottom:10px;">Day 2 Preview: Lean Venture Planning &amp; PROJECT.md</h3>
+                 <p style="color:var(--muted);">Tomorrow we define real customer problem statements, lean canvas models, and complete the comprehensive PROJECT.md specification!</p>
+               </div>`,
+        notes: "Ensure all 5 deliverables are saved in your my-project workspace before wrapping up Day 1."
+      }
+    ],
+    tasks: {
+      1: {
+        id: 1,
+        type: "core",
+        badge: "Task 01 · Core Lab",
+        tools: ["Codex", "Antigravity", "Web ChatGPT"],
+        time: "50 Mins",
+        title: "Workspace Setup & Common Project Directory",
+        goal: "Open the identical local absolute path in both Codex and Antigravity, and scaffold README.md establishing the project purpose.",
+        steps: [
+          {
+            title: "Create Local Project Folder",
+            desc: "Create a new folder named <code>my-project</code> in your local workspace or Desktop directory."
+          },
+          {
+            title: "Open Folder in Codex",
+            desc: "Launch Codex and use <strong>Open Folder</strong> to select your newly created <code>my-project</code> directory."
+          },
+          {
+            title: "Open Identical Folder in Antigravity",
+            desc: "Launch Antigravity and open the exact same <code>my-project</code> directory. (Absolute paths must match exactly for automatic synchronization)."
+          },
+          {
+            title: "Generate README.md via Codex Prompt",
+            desc: "Submit the prompt below in Codex to generate the foundational project overview document."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md              (👈 Generated in this step)
+├── 📄 PAGE_REQUIREMENTS.md   (Task 02)
+├── 📄 VALIDATION.md          (Task 04)
+└── 🌐 index.html             (Task 03)`,
+        prompts: [
+          {
+            label: "Codex Workspace Initialization Prompt",
+            text: `Define the foundational role of this project workspace (my-project).
+The project objective is "Foundational Web Service Development using AI Coding Tools".
+Generate a base README.md file articulating the project overview and folder hierarchy.`
+          }
+        ],
+        checklist: [
+          "Is the identical 'my-project' workspace open in both Codex and Antigravity?",
+          "Was 'README.md' successfully created at the project root?",
+          "Does README.md include the project objectives and directory descriptions?"
+        ],
+        troubleshoot: "⚠️ If created files are not visible across tools, verify the folder path in file explorer and click 'Refresh' in each tool."
+      },
+      2: {
+        id: 2,
+        type: "core",
+        badge: "Task 02 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "50 Mins",
+        title: "Drafting Requirements Specification (PAGE_REQUIREMENTS.md)",
+        goal: "Before coding, structure objectives, layout components, constraints, and Definition of Done in PAGE_REQUIREMENTS.md.",
+        steps: [
+          {
+            title: "Structure Planning Requirements",
+            desc: "Define the core components required for the founder profile and service introduction page."
+          },
+          {
+            title: "Submit Requirements Prompt to Codex",
+            desc: "Instruct Codex with title, profile header, problem/solution cards, contact button, and dark theme constraints."
+          },
+          {
+            title: "Audit Generated PAGE_REQUIREMENTS.md",
+            desc: "Review the generated markdown document to verify all 6 mandatory constraints are explicitly defined."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md
+├── 📄 PAGE_REQUIREMENTS.md   (👈 Generated in this step)
+├── 📄 VALIDATION.md
+└── 🌐 index.html`,
+        prompts: [
+          {
+            label: "PAGE_REQUIREMENTS.md Generation Prompt (Codex)",
+            text: `Generate PAGE_REQUIREMENTS.md.
+Topic: "Aspiring Founder Profile & Venture Introduction Page"
+1. Title: My Startup Pitch
+2. Top: Founder name, one-line bio, 3 core domain tags
+3. Middle: Problem statement card, Solution card (2 cards total)
+4. Bottom: Interactive Email Contact CTA button
+5. Constraints: Modern dark mode theme, Pretendard font
+6. Definition of Done: All cards must render cleanly and responsively across mobile and desktop viewports.`
+          }
+        ],
+        checklist: [
+          "Was PAGE_REQUIREMENTS.md created in the my-project root directory?",
+          "Are top (profile), middle (problem/solution cards), and bottom (contact CTA) clearly defined?",
+          "Are dark theme styling and responsive layout criteria explicitly stated?"
+        ],
+        troubleshoot: "💡 Vague requirements cause AI tools to invent arbitrary UI structures. Specifying color tones and component counts upfront ensures predictable results."
+      },
+      3: {
+        id: 3,
+        type: "core",
+        badge: "Task 03 · Core Lab",
+        tools: ["Antigravity"],
+        time: "70 Mins",
+        title: "Spec-Driven Web App Scaffolding in Antigravity",
+        goal: "Pass PAGE_REQUIREMENTS.md to Antigravity to auto-code a modern dark glassmorphism web application in index.html.",
+        steps: [
+          {
+            title: "Activate Antigravity Workspace",
+            desc: "Switch to Antigravity and confirm that PAGE_REQUIREMENTS.md is detected in the workspace."
+          },
+          {
+            title: "Submit Implementation Prompt",
+            desc: "Instruct AI to parse the markdown specifications and scaffold a runnable single-file HTML web application."
+          },
+          {
+            title: "Verify Browser Execution & Interactions",
+            desc: "Open <code>index.html</code> in a web browser to verify dark glassmorphism UI, button hover states, and responsive card alignment."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md
+├── 📄 PAGE_REQUIREMENTS.md
+├── 📄 VALIDATION.md
+└── 🌐 index.html             (👈 Auto-generated by Antigravity)`,
+        prompts: [
+          {
+            label: "Web Scaffolding Prompt (Antigravity)",
+            text: `Read PAGE_REQUIREMENTS.md and build an index.html web page satisfying all specifications.
+1. Layout & Design:
+   - Apply Pretendard typography and sleek modern dark glassmorphism UI.
+   - Organize CSS inside <style> tags with fully responsive flex/grid layouts supporting both mobile and desktop.
+2. Mandatory Components:
+   - Top: Founder profile (avatar placeholder, name, bio, 3 domain tags)
+   - Middle: 2 cards for 'Problem Statement' and 'Solution' (including icons, titles, descriptions)
+   - Bottom: Interactive 'Contact Us' CTA button with smooth hover animation
+3. Definition of Done:
+   - Deliver a polished, standalone, runnable single-page HTML file.`
+          }
+        ],
+        checklist: [
+          "Was index.html successfully generated?",
+          "Does index.html render cleanly without layout breaks when opened in a browser?",
+          "Are the dark UI theme and required cards visually balanced and interactive?"
+        ],
+        troubleshoot: "⚠️ If character encoding issues occur, verify that <meta charset='UTF-8'> is properly included in the <head>."
+      },
+      4: {
+        id: 4,
+        type: "core",
+        badge: "Task 04 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "40 Mins",
+        title: "Codex QA Audit & Quality Refinement Pipeline",
+        goal: "Rigorously analyze implementation code against PAGE_REQUIREMENTS.md in Codex and generate the VALIDATION.md audit report.",
+        steps: [
+          {
+            title: "Execute Codex QA Audit Prompt",
+            desc: "Request Codex to perform a diff audit comparing <code>index.html</code> against <code>PAGE_REQUIREMENTS.md</code>."
+          },
+          {
+            title: "Review VALIDATION.md Report",
+            desc: "Inspect Pass and Fail/Review items objectively."
+          },
+          {
+            title: "Feedback Integration & Iterative Patching",
+            desc: "If defects or omissions are identified, pass targeted prompts to Antigravity to iteratively elevate code quality."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md
+├── 📄 PAGE_REQUIREMENTS.md
+├── 📄 VALIDATION.md          (👈 Generated in this step)
+└── 🌐 index.html             (Iteratively refined)`,
+        prompts: [
+          {
+            label: "QA Audit Prompt (Codex)",
+            text: `Review index.html and compare it against PAGE_REQUIREMENTS.md.
+1. Inspect each requirement for missing items or improper implementations.
+2. Generate a new VALIDATION.md file containing a Pass/Fail checklist and overall quality assessment.
+3. If omissions exist, provide recommended turnkey prompts to patch them immediately in Antigravity.`
+          }
+        ],
+        checklist: [
+          "Was VALIDATION.md generated at the project root?",
+          "Are requirement items organized into a structured Pass/Fail table or checklist?",
+          "Do you understand the disciplined role division across Codex and Antigravity?"
+        ],
+        troubleshoot: "💡 When bugs are identified, prompt Antigravity with the QA audit findings rather than manually editing code by hand."
+      },
+      5: {
+        id: 5,
+        type: "challenge",
+        badge: "Bonus Track A · Portfolio",
+        tools: ["Codex", "Antigravity", "Web ChatGPT"],
+        time: "60~80 Mins",
+        title: "AI-Powered Career Showcase & Portfolio Site",
+        goal: "Build a personal one-page portfolio featuring your background, 5 tech stack badges, 3 featured project cards, and contact CTA.",
+        steps: [
+          {
+            title: "Draft PORTFOLIO_REQUIREMENTS.md (Codex)",
+            desc: "Draft requirements specifications tailored to your real background and 3 representative projects."
+          },
+          {
+            title: "Auto-Generate Portfolio UI (Antigravity)",
+            desc: "Scaffold web page with dark card UI and modern badge tags."
+          },
+          {
+            title: "Link & Responsive QA Audit (Codex)",
+            desc: "Verify project cards stack cleanly on mobile viewports."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md
+├── 📄 PORTFOLIO_REQUIREMENTS.md   (Autonomous spec)
+└── 🌐 index.html                  (Portfolio app)`,
+        prompts: [
+          {
+            label: "PORTFOLIO_REQUIREMENTS.md Prompt (Codex)",
+            text: `Generate PORTFOLIO_REQUIREMENTS.md.
+Topic: "Professional Developer & Founder One-Page Portfolio"
+1. Title: My Professional Portfolio
+2. Top: Name, avatar placeholder, one-line value proposition
+3. Middle: 5 tech stack badges, 3 featured project cards (Title, Description, Tech Used, Link)
+4. Bottom: Contact CTA button and GitHub/LinkedIn social links
+5. Constraints: Modern dark theme, Pretendard font, smooth hover animations
+6. DoD: Project cards render responsively with clean spacing across all screen sizes.`
+          },
+          {
+            label: "Portfolio Scaffolding Prompt (Antigravity)",
+            text: `Read PORTFOLIO_REQUIREMENTS.md and build a sleek dark theme portfolio index.html with smooth hover elevation on project cards.`
+          }
+        ],
+        checklist: [
+          "Were your 3 projects and tech stack badges accurately reflected?",
+          "Are card hover micro-animations and responsive layouts smooth?",
+          "Is an external contact button or email link properly wired up?"
+        ],
+        troubleshoot: "💡 Specifying free placeholder image services (Unsplash, DiceBear avatars) in prompts creates visually stunning cards."
+      },
+      6: {
+        id: 6,
+        type: "challenge",
+        badge: "Bonus Track B · MVP Landing",
+        tools: ["Codex", "Antigravity", "Web ChatGPT"],
+        time: "60~80 Mins",
+        title: "Pre-Launch Waitlist & Demand Validation Page",
+        goal: "Construct a pre-launch landing page with 3 value proposition cards, email waitlist capture form, success modal, and FAQ accordion.",
+        steps: [
+          {
+            title: "Draft LAUNCH_REQUIREMENTS.md (Codex)",
+            desc: "Draft specs for core value proposition and early access waitlist form."
+          },
+          {
+            title: "Scaffold Interactive Landing (Antigravity)",
+            desc: "Implement JavaScript modal popup triggered on waitlist submission."
+          },
+          {
+            title: "Test FAQ Accordion & Form Validation",
+            desc: "Validate FAQ accordion toggle behavior and email format validation."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md
+├── 📄 LAUNCH_REQUIREMENTS.md      (Autonomous spec)
+└── 🌐 index.html                  (Landing page)`,
+        prompts: [
+          {
+            label: "LAUNCH_REQUIREMENTS.md Prompt (Codex)",
+            text: `Generate LAUNCH_REQUIREMENTS.md.
+Topic: "New Venture Pre-Launch Waitlist Landing Page"
+1. Title: Service Pre-launch
+2. Top: Brand logo, compelling headline, 3 key value proposition cards
+3. Middle: Early access waitlist form (Name, Email address, Submit CTA)
+4. Bottom: 3-item FAQ accordion
+5. Constraints: Sleek cyan/blue dark theme, fully responsive layout
+6. DoD: Submitting valid email triggers a polished success modal confirmation popup.`
+          },
+          {
+            label: "Landing Page Scaffolding Prompt (Antigravity)",
+            text: `Read LAUNCH_REQUIREMENTS.md and scaffold index.html. Include JavaScript form validation that displays a beautiful confirmation modal popup upon submission.`
+          }
+        ],
+        checklist: [
+          "Are headline and 3 value proposition cards persuasively laid out?",
+          "Does submitting the waitlist form trigger the interactive modal popup?",
+          "Does clicking FAQ questions smoothly expand and collapse the accordion?"
+        ],
+        troubleshoot: "💡 Ensure e.preventDefault() is included in the submit handler to prevent unwanted page reloads."
+      }
+    }
+  },
+  {
+    day: 2,
+    title: "Day 2. Lean Planning &amp; PROJECT.md",
+    badgeTitle: "Lean Planning &amp; PROJECT.md (Interactive Lab Module)",
+    goals: ["<strong>🎯 Objective 1. Customer Problem Definition</strong>Define specific customer persona, core problem, and unique value proposition", "<strong>🎯 Objective 2. Core User Flow &amp; Screens</strong>Map unbroken Input ➔ Processing ➔ Result flow and screen hierarchy", "<strong>🎯 Objective 3. 14-Section PROJECT.md</strong>Draft comprehensive baseline specifications with concrete Acceptance Criteria", "<strong>🎯 Objective 4. Scope Trimming &amp; Handoff</strong>Trim Must-Haves to 3–5 items and finalize HANDOFF_PROMPT.md for Day 3"],
+    classroomUrl: 'day2/day2-ai-classroom.html',
+    textbookUrl: 'day2/day2-textbook.html',
+    opsUrl: 'day2/day2-operations.html',
+    slides: [
+      {
+        tag: "Slide 01 · Planning",
+        title: "Day 2. Lean Planning & PROJECT.md",
+        body: `<p style="color:#93c5fd;font-size:1.05rem;margin-bottom:16px;">From customer problem to comprehensive 14-section specification.</p>
+               <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);padding:14px;border-radius:10px;font-family:monospace;font-size:0.9rem;text-align:left;">
+                 💡 Planning Principle:<br>
+                 Solving one problem end-to-end is 10x better than building 10 half-finished features.
+               </div>`,
+        notes: "Today we formulate the blueprint that drives Antigravity code generation on Day 3."
+      },
+      {
+        tag: "Slide 02 · Objectives",
+        title: "🎯 Day 2 Core Learning Objectives",
+        body: `<ul style="list-style:none;line-height:1.9;">
+                 <li>✅ Articulate target user persona, problem, and value hypothesis</li>
+                 <li>✅ Map unbroken Input ➔ Processing ➔ Result flow and 3–5 screens</li>
+                 <li>✅ Draft standard 14-section PROJECT.md with Acceptance Criteria</li>
+                 <li>✅ Trim Must-Have features to 3–5 and finalize HANDOFF_PROMPT.md</li>
+               </ul>`,
+        notes: "Clear planning specifications prevent scope creep and guarantee high-velocity execution."
+      },
+      {
+        tag: "Slide 03 · Problem First",
+        title: "🔍 Starting with Real Customer Friction",
+        body: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.88rem;">
+                 <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);padding:12px;border-radius:8px;">
+                   <strong style="color:#fca5a5;">❌ Feature-First</strong><br><br>
+                   "I want to build an AI app with cool tech."
+                 </div>
+                 <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:12px;border-radius:8px;">
+                   <strong style="color:#86efac;">✅ Problem-First</strong><br><br>
+                   "Freelancers spend 2 hours creating invoices and need a 30-second generator."
+                 </div>
+               </div>`,
+        notes: "Every successful venture begins with a specific customer pain point."
+      },
+      {
+        tag: "Slide 04 · User Flow",
+        title: "🔄 The End-to-End Core Value Loop",
+        body: `<div style="text-align:center;padding:10px;">
+                 <div style="display:flex;justify-content:center;align-items:center;gap:8px;font-size:0.95rem;flex-wrap:wrap;">
+                   <span style="background:rgba(59,130,246,0.2);padding:8px 14px;border-radius:8px;">1. User Input</span>
+                   <span style="color:var(--secondary);">➔</span>
+                   <span style="background:rgba(6,182,212,0.2);padding:8px 14px;border-radius:8px;">2. AI Processing</span>
+                   <span style="color:var(--secondary);">➔</span>
+                   <span style="background:rgba(16,185,129,0.2);padding:8px 14px;border-radius:8px;">3. Resolved Output</span>
+                 </div>
+               </div>`,
+        notes: "Design the complete path from initial input to tangible user value."
+      },
+      {
+        tag: "Slide 05 · 14 Sections",
+        title: "📄 14-Section PROJECT.md Standard Structure",
+        body: `<div style="font-family:monospace;font-size:0.85rem;background:rgba(6,10,18,0.8);padding:14px;border-radius:10px;text-align:left;color:#e2e8f0;line-height:1.7;">
+PROJECT.md Overview<br>
+├── 1~5. Problem, Persona, Alternatives &amp; Core Value<br>
+├── 6~10. User Flow, Features, Screens, Data &amp; Tech<br>
+└── 11~14. MVP Scope, Out of Scope, Risks &amp; Demo Scenario
+               </div>`,
+        notes: "This document serves as the contract between founder and AI developer."
+      },
+      {
+        tag: "Slide 06 · Criteria",
+        title: "✅ Verifiable Acceptance Criteria",
+        body: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.88rem;">
+                 <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);padding:12px;border-radius:8px;">
+                   <strong style="color:#fca5a5;">❌ Vague Criteria</strong><br><br>
+                   "Generate nice output fast."
+                 </div>
+                 <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:12px;border-radius:8px;">
+                   <strong style="color:#86efac;">✅ Concrete Criteria</strong><br><br>
+                   "Clicking Submit renders 3 result cards with copy button within 2 seconds."
+                 </div>
+               </div>`,
+        notes: "Acceptance criteria must be visually testable in the browser."
+      },
+      {
+        tag: "Slide 07 · Scope Trimming",
+        title: "✂️ MoSCoW Prioritization & Scope Trimming",
+        body: `<ul style="list-style:none;line-height:1.8;font-size:0.88rem;">
+                 <li>• <strong>Must Have (3~5):</strong> Essential for the core value loop</li>
+                 <li>• <strong>Should Have:</strong> Valuable enhancements for Day 4</li>
+                 <li>• <strong>Could Have:</strong> Nice-to-have exploratory features</li>
+                 <li>• <strong>Out of Scope:</strong> Explicit boundaries (e.g. real PG payments)</li>
+               </ul>`,
+        notes: "Strictly limit your Day 3 MVP build to 3–5 Must-Have features."
+      },
+      {
+        tag: "Slide 08 · Lab 1",
+        title: "💻 [Lab 1] Customer Problem Definition",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Define target user, pain point, and value hypothesis in Codex.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Draft PROBLEM_DEFINITION.md detailing user persona, friction point, and core value.
+               </div>`,
+        notes: "Ensure your value hypothesis follows the 'If we provide X, then user will Y' pattern."
+      },
+      {
+        tag: "Slide 09 · Lab 2",
+        title: "💻 [Lab 2] Core User Flow & Screens",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Map the 3–5 screen hierarchy and data model in CORE_FLOW.md.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Generate CORE_FLOW.md mapping Input ➔ Processing ➔ Result flow and schemas.
+               </div>`,
+        notes: "Verify that form inputs map 1:1 with output result data fields."
+      },
+      {
+        tag: "Slide 10 · Lab 3",
+        title: "💻 [Lab 3] 14-Section PROJECT.md",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Synthesize definitions into comprehensive specifications.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Generate standard 14-section PROJECT.md with Acceptance Criteria and Out of Scope.
+               </div>`,
+        notes: "Audit all 14 sections to ensure no placeholder text remains."
+      },
+      {
+        tag: "Slide 11 · Lab 4 & 5",
+        title: "💻 [Lab 4 & 5] Scope Trimming & Scenarios",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Trim Must-Haves to 3–5 items and simulate error scenarios in SCENARIOS.md.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Test Happy Path, Empty Input, and Error states to patch edge cases in PROJECT.md.
+               </div>`,
+        notes: "Simulating edge cases beforehand eliminates 80% of Day 3 debugging time."
+      },
+      {
+        tag: "Slide 12 · Handoff",
+        title: "💻 [Lab 6] HANDOFF_PROMPT.md Preparation",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Structure the turnkey prompt instructing Antigravity to build on Day 3.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Generate HANDOFF_PROMPT.md with Reference Doc, Scope, Priority, Constraints &amp; DoD.
+               </div>`,
+        notes: "This handoff prompt ensures Day 3 development begins instantly without confusion."
+      },
+      {
+        tag: "Slide 13 · Autonomous Practice",
+        title: "🚀 Bonus Tracks: Trip Planner & Custom Idea",
+        body: `<ul style="list-style:none;line-height:1.8;font-size:0.88rem;">
+                 <li>• <strong>Track A:</strong> AI Travel Itinerary Planner (TRAVEL_PROJECT.md)</li>
+                 <li>• <strong>Track B:</strong> Founder Custom Venture Specification (MY_PROJECT.md)</li>
+               </ul>`,
+        notes: "Apply the 14-section specification structure to your own startup idea."
+      },
+      {
+        tag: "Slide 14 · Wrap-up",
+        title: "🎉 Day 2 Completed & Day 3 Preview",
+        body: `<div style="text-align:center;padding:20px;">
+                 <h3 style="color:#93c5fd;margin-bottom:10px;">Day 3 Preview: Building MVP v0.1 in Antigravity</h3>
+                 <p style="color:var(--muted);">Tomorrow we pass PROJECT.md and HANDOFF_PROMPT.md to Antigravity to build our functional MVP v0.1!</p>
+               </div>`,
+        notes: "Ensure PROJECT.md and HANDOFF_PROMPT.md are finalized before Day 3."
+      }
+    ],
+    tasks: {
+      1: {
+        id: 1,
+        type: "core",
+        badge: "Task 01 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "50 Mins",
+        title: "Customer Problem & Core Value Definition",
+        goal: "Structure target user persona, pain points, current alternatives, and value hypothesis into PROBLEM_DEFINITION.md.",
+        steps: [
+          {
+            title: "Define Target Customer Persona",
+            desc: "Specify exact behavioral context and pain point frequency for your target user."
+          },
+          {
+            title: "Draft PROBLEM_DEFINITION.md in Codex",
+            desc: "Run the structured prompt to articulate problem, existing alternatives, and unique value proposition."
+          },
+          {
+            title: "Audit Problem Sharpness",
+            desc: "Verify that the problem is actionable and distinct from existing solutions."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md
+├── 📄 PROBLEM_DEFINITION.md   (👈 Generated in this step)
+└── 📄 PROJECT.md`,
+        prompts: [
+          {
+            label: "Problem Definition Prompt (Codex)",
+            text: `Generate PROBLEM_DEFINITION.md.
+Topic: [My Startup Idea]
+1. Target User: Specific persona, situation, and pain frequency
+2. Core Problem: The primary unsolved friction and why it matters
+3. Current Alternatives: Existing workarounds and their limitations
+4. Core Value Proposition: Key benefit delivered in one concise sentence
+5. Value Hypothesis: 'If we provide [Solution], then [User] will [Outcome].'`
+          }
+        ],
+        checklist: [
+          "Is the target customer defined by real behavior rather than broad demographics?",
+          "Are existing alternatives and their pain points explicitly listed?",
+          "Is the value hypothesis testable and concise?"
+        ],
+        troubleshoot: "💡 Vague problems lead to bloated MVPs. Focus sharply on solving one painful friction point."
+      },
+      2: {
+        id: 2,
+        type: "core",
+        badge: "Task 02 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "50 Mins",
+        title: "Core User Flow & Screen Mapping",
+        goal: "Map out the complete end-to-end Input ➔ Processing ➔ Result flow, 3–5 core screens, and data models in CORE_FLOW.md.",
+        steps: [
+          {
+            title: "Design Core User Loop",
+            desc: "Map user actions from landing to input, processing feedback, and output resolution."
+          },
+          {
+            title: "Structure Screen List (3–5 Screens)",
+            desc: "List Home, Input, Processing, and Result views with their primary components."
+          },
+          {
+            title: "Define Data Schema",
+            desc: "Map input attributes, processing state, and output result data models."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROBLEM_DEFINITION.md
+├── 📄 CORE_FLOW.md            (👈 Generated in this step)
+└── 📄 PROJECT.md`,
+        prompts: [
+          {
+            label: "Core User Flow Prompt (Codex)",
+            text: `Based on PROBLEM_DEFINITION.md, generate CORE_FLOW.md.
+1. Core User Flow: Step-by-step Input ➔ Processing ➔ Result sequence
+2. Screen List: 3–5 essential screens (Home, Input, Result, etc.)
+3. Data Model: Input schema, internal state, and result payload
+Leave unconfirmed details as Open Questions rather than inventing arbitrary data.`
+          }
+        ],
+        checklist: [
+          "Does the Input ➔ Processing ➔ Result flow connect without broken steps?",
+          "Is the screen count restricted to 3–5 views strictly focused on the MVP?",
+          "Do data schema fields correspond 1:1 with form inputs and result views?"
+        ],
+        troubleshoot: "⚠️ Authentication and user signup are rarely core MVP flows. Prioritize the core value loop first."
+      },
+      3: {
+        id: 3,
+        type: "core",
+        badge: "Task 03 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "60 Mins",
+        title: "Standard 14-Section PROJECT.md Specification",
+        goal: "Synthesize definitions into the comprehensive 14-section PROJECT.md baseline document with verifiable Acceptance Criteria.",
+        steps: [
+          {
+            title: "Submit 14-Section Specification Prompt",
+            desc: "Pass standard sections (Overview, Problem, User, Flow, Screens, Scope, Acceptance Criteria) to Codex."
+          },
+          {
+            title: "Review Acceptance Criteria",
+            desc: "Verify that each Must-Have feature includes testable, observable criteria in the browser."
+          },
+          {
+            title: "Isolate Open Questions",
+            desc: "Ensure unconfirmed assumptions are isolated in the Risks & Open Questions section."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md             (👈 14-Section Standard Spec)
+├── 📄 CORE_FLOW.md
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "14-Section PROJECT.md Generation Prompt (Codex)",
+            text: `Generate PROJECT.md with the following 14 sections:
+
+## 1. Project Overview / 2. Problem / 3. Target User
+## 4. Current Alternatives / 5. Core Value and Hypothesis
+## 6. Core User Flow / 7. Features and Acceptance Criteria
+## 8. Screen List / 9. Data Model / 10. Technical Requirements
+## 11. MVP Scope / 12. Out of Scope
+## 13. Risks and Open Questions / 14. Demo Scenario
+
+Constraints:
+- Restrict Must-Have features to 3–5 items.
+- Write verifiable Acceptance Criteria for each feature.
+- Use mock data/payments unless real transactions are essential.
+- Explicitly list non-essential features in Out of Scope.`
+          }
+        ],
+        checklist: [
+          "Are all 14 mandatory sections included without omission?",
+          "Does every Must-Have feature have verifiable Acceptance Criteria?",
+          "Are non-essential features (real payments, OAuth) classified under Out of Scope?"
+        ],
+        troubleshoot: "💡 If AI introduces complex payment gateways, immediately replace them with educational mock data."
+      },
+      4: {
+        id: 4,
+        type: "core",
+        badge: "Task 04 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "30 Mins",
+        title: "Feature Prioritization & MVP Scope Trimming",
+        goal: "Classify features into Must/Should/Could/Out of Scope to strictly restrict Must-Have features to 3–5 items.",
+        steps: [
+          {
+            title: "Request MoSCoW Feature Classification",
+            desc: "Instruct Codex to identify non-essential features and classify items into 4 priority buckets."
+          },
+          {
+            title: "Perform Scope Trimming Audit",
+            desc: "Apply the filter: 'Can the user complete the core value loop without this feature?' and trim Musts."
+          },
+          {
+            title: "Update PROJECT.md Baseline",
+            desc: "Synchronize approved MVP Scope and Out of Scope sections in PROJECT.md."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md             (👈 Must-Have scope trimmed to 3–5)
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "Scope Trimming Prompt (Codex)",
+            text: `Review the MVP scope in PROJECT.md.
+Identify any features that are not strictly necessary to complete the primary user loop.
+Classify each feature as Must / Should / Could / Out of Scope with brief rationales.
+Limit Must-Have features strictly to 3–5 items.`
+          }
+        ],
+        checklist: [
+          "Are Must-Have features limited to 5 or fewer items?",
+          "Are secondary features clearly separated into Should and Could?",
+          "Is the development scope realistic for a 5-day bootcamp timeframe?"
+        ],
+        troubleshoot: "💡 More features make completion harder. The goal of MVP v0.1 is solving one problem end-to-end."
+      },
+      5: {
+        id: 5,
+        type: "core",
+        badge: "Task 05 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "30 Mins",
+        title: "User Scenario Simulation & QA Audit",
+        goal: "Simulate Happy Path, Empty/Missing Input, and Failure recovery scenarios to eliminate contradictions in SCENARIOS.md.",
+        steps: [
+          {
+            title: "Generate 3 User Scenarios",
+            desc: "Draft Happy Path, Empty/Invalid Input, and Processing Failure recovery scenarios."
+          },
+          {
+            title: "Build Screen & Data Mapping Table",
+            desc: "Map User Action ➔ Expected Screen/Result ➔ Triggered Feature ➔ Required Data in a verification table."
+          },
+          {
+            title: "Patch Contradictions in PROJECT.md",
+            desc: "Identify undefined edge cases or contradictory requirements and update PROJECT.md."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md             (Audited & verified)
+├── 📄 SCENARIOS.md          (👈 Generated in this step)
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "User Scenario Simulation Prompt (Codex)",
+            text: `Based on PROJECT.md, generate Happy Path, Empty/Missing Input, and Failure recovery scenarios.
+Create a table mapping each step to required screens, features, data, and expected results.
+Highlight any undefined behaviors or contradictory requirements and suggest fixes.`
+          }
+        ],
+        checklist: [
+          "Were Happy Path, Empty Input, and Error recovery scenarios all generated?",
+          "Are clear user-facing error messages defined for failure states?",
+          "Were discovered edge cases patched back into PROJECT.md?"
+        ],
+        troubleshoot: "⚠️ Without error scenarios, applications will freeze on failure. Always specify error recovery flows."
+      },
+      6: {
+        id: 6,
+        type: "core",
+        badge: "Task 06 · Core Lab",
+        tools: ["Codex", "Antigravity", "Web ChatGPT"],
+        time: "20 Mins",
+        title: "Antigravity Development Handoff Prompt",
+        goal: "Structure the 6-element development prompt in HANDOFF_PROMPT.md so Antigravity can start building on Day 3.",
+        steps: [
+          {
+            title: "Structure 6-Element Handoff Prompt",
+            desc: "Include Reference Document, Scope, Priorities, Constraints, Definition of Done, and Reporting Schema."
+          },
+          {
+            title: "Save HANDOFF_PROMPT.md Document",
+            desc: "Generate the standalone markdown handoff prompt file via Codex."
+          },
+          {
+            title: "Verify Day 3 Readiness",
+            desc: "Confirm that PROJECT.md and HANDOFF_PROMPT.md exist side-by-side in your project root."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md             (Baseline specification)
+├── 📄 HANDOFF_PROMPT.md      (👈 Turnkey Day 3 handoff prompt)
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "HANDOFF_PROMPT.md Generation Prompt (Codex)",
+            text: `Generate HANDOFF_PROMPT.md.
+Structure it so Antigravity can immediately start implementation on Day 3 based on PROJECT.md:
+
+[Reference Doc] Read PROJECT.md first as the single source of truth.
+[Current Scope] Implement the base project scaffolding and the first core user flow.
+[Priority] Implement Must-Have features first. Do NOT implement Out-of-Scope items.
+[Constraints] Do not invent arbitrary requirements not listed in the document.
+[DoD] The app must run locally with the start screen and primary CTA verified.
+[Work Report] Summarize modified files, run command, implemented features, and next backlog.`
+          }
+        ],
+        checklist: [
+          "Was HANDOFF_PROMPT.md successfully created at the project root?",
+          "Is the prompt ready to copy and pass to Antigravity on Day 3?",
+          "Is the spec-first handoff pipeline completely established?"
+        ],
+        troubleshoot: "💡 A precise handoff prompt prevents AI from generating random unrequested features on Day 3."
+      },
+      7: {
+        id: 7,
+        type: "challenge",
+        badge: "Bonus Track A · Planner",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "60~80 Mins",
+        title: "AI Travel Itinerary Planner Specification",
+        goal: "Draft TRAVEL_PROJECT.md for an AI itinerary service recommending route optimization based on user preferences.",
+        steps: [
+          {
+            title: "Define Travel Planner Problem Statement",
+            desc: "Articulate the pain point of spending 2+ hours researching and mapping trip routes."
+          },
+          {
+            title: "Draft 14-Section TRAVEL_PROJECT.md",
+            desc: "Define destination inputs, itinerary generator, and schedule save features."
+          },
+          {
+            title: "Exclude Complex Map/Payment APIs",
+            desc: "Scope out complex third-party map SDKs and use clean card-based itinerary views for MVP."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 TRAVEL_PROJECT.md      (Autonomous spec)
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "Travel Planner Spec Prompt (Codex)",
+            text: `Generate TRAVEL_PROJECT.md for an AI Travel Itinerary Planner service.
+Service Name: TripFlow
+Core Flow: Destination Input ➔ AI Route Generation ➔ Schedule View ➔ Save
+Must Features: Destination input form, itinerary result view, save schedule
+Out of Scope: Authentication, real map SDKs, payments
+DoD: Route schedule renders cleanly in browser with functional save action.`
+          }
+        ],
+        checklist: [
+          "Is the data flow from destination inputs to itinerary cards concrete?",
+          "Were third-party map APIs cleanly scoped out in favor of mock visualizations?",
+          "Are acceptance criteria clear enough for Antigravity to code directly?"
+        ],
+        troubleshoot: "💡 External map APIs add unnecessary complexity to initial MVPs. Use clean card views first."
+      },
+      8: {
+        id: 8,
+        type: "challenge",
+        badge: "Bonus Track B · Custom Idea",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "60~80 Mins",
+        title: "Custom Venture Idea PROJECT.md Formulation",
+        goal: "Formulate a comprehensive 14-section MY_PROJECT.md specification based on your own real-world startup concept.",
+        steps: [
+          {
+            title: "Draft Custom Idea Canvas",
+            desc: "Define the specific user problem and target audience in 3 concise sentences."
+          },
+          {
+            title: "Generate 14-Section MY_PROJECT.md",
+            desc: "Draft standard specifications across all 14 sections in Codex."
+          },
+          {
+            title: "Trim to 3–5 Must-Have Features",
+            desc: "Strictly restrict scope to a razor-focused MVP that proves one core hypothesis."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 MY_PROJECT.md          (Founder-custom specification)
+└── 📄 README.md`,
+        prompts: [
+          {
+            label: "Custom Idea Spec Prompt (Codex)",
+            text: `Generate MY_PROJECT.md for my custom startup concept.
+Idea Summary: [Briefly describe your startup idea]
+Target User: [Specific situation and user context]
+Core Problem: [Primary friction point]
+Must Features: Define 3–5 essential features only.
+Acceptance Criteria: Provide verifiable criteria for each feature.
+Isolate unconfirmed details in Open Questions.`
+          }
+        ],
+        checklist: [
+          "Does the specification articulate your real entrepreneurial hypothesis?",
+          "Are Must-Have features strictly restricted to 3–5 items?",
+          "Are Acceptance Criteria actionable for implementation on Day 3?"
+        ],
+        troubleshoot: "💡 Focus on the single core feature you want to showcase during your Day 5 demo presentation."
+      }
+    }
+  },
+  {
+    day: 3,
+    title: "Day 3. Building MVP from PROJECT.md",
+    badgeTitle: "Building MVP from PROJECT.md (Interactive Lab Module)",
+    goals: ["<strong>🎯 Objective 1. Phased Scaffolding</strong>Step-by-step implementation instructions based on PROJECT.md to generate the initial home view", "<strong>🎯 Objective 2. Core User Flow</strong>Verify complete end-to-end Input ➔ Processing ➔ Output flow in the browser", "<strong>🎯 Objective 3. Defensive States</strong>Implement loading, empty, success, and error states to handle edge cases", "<strong>🎯 Objective 4. Automated QA Audit</strong>Create VALIDATION_DAY3.md and improvement backlog using Codex"],
+    classroomUrl: 'day3/day3-ai-classroom.html',
+    textbookUrl: 'day3/day3-textbook.html',
+    opsUrl: 'day3/day3-operations.html',
+    slides: [
+      {
+        tag: "Slide 01 · Opening",
+        title: "Day 3. Building MVP from PROJECT.md",
+        body: `<p style="color:#86efac;font-size:1.05rem;margin-bottom:16px;">Today we transform planning blueprints into working web software.</p>
+               <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);padding:14px;border-radius:10px;font-family:monospace;font-size:0.9rem;text-align:left;">
+                 💡 Today's Principle:<br>
+                 Scaffold in Antigravity → Verify in browser → QA Audit in Codex → Iterate specs
+               </div>`,
+        notes: "The objective is not building many screens, but completing a functioning MVP v0.1 with an unbroken core loop."
+      },
+      {
+        tag: "Slide 02 · Objectives",
+        title: "🎯 Day 3 Core Learning Objectives",
+        body: `<ul style="list-style:none;line-height:1.9;">
+                 <li>✅ Provide phased implementation prompts based on PROJECT.md</li>
+                 <li>✅ Break tasks down into verifiable, bite-sized scaffolding chunks</li>
+                 <li>✅ Run project locally and test the primary user loop in the browser</li>
+                 <li>✅ Handle loading, empty, success, and error states gracefully</li>
+                 <li>✅ Create VALIDATION_DAY3.md using Codex to guide Day 4 improvements</li>
+               </ul>`,
+        notes: "Accuracy and modular verification are far more important than raw coding speed today."
+      },
+      {
+        tag: "Slide 03 · Spec Standard",
+        title: "📄 Using PROJECT.md as the Sole Source of Truth",
+        body: `<div style="font-family:monospace;font-size:0.88rem;background:rgba(6,10,18,0.8);padding:14px;border-radius:10px;text-align:left;color:#e2e8f0;line-height:1.7;">
+PROJECT.md<br>
+├── Core User Flow      → Implementation sequence<br>
+├── Features            → Work units & scope<br>
+├── Screen List         → File mapping & routing<br>
+├── Data Model          → State & input schemas<br>
+├── Acceptance Criteria → Definition of Done<br>
+└── Out of Scope        → Guardrails (do not build)
+               </div>`,
+        notes: "Never request the whole app at once. Verify the scope for each phase and scaffold incrementally."
+      },
+      {
+        tag: "Slide 04 · Project Hierarchy",
+        title: "📁 MVP Base Project Structure",
+        body: `<div style="font-family:monospace;font-size:0.85rem;background:rgba(6,10,18,0.8);padding:14px;border-radius:10px;text-align:left;color:#e2e8f0;line-height:1.8;">
+my-startup-mvp/<br>
+├── 📄 PROJECT.md<br>
+├── 📄 HANDOFF_PROMPT.md<br>
+├── 📁 src/ (or index.html)<br>
+│   ├── 🌐 screens/ or pages/<br>
+│   ├── 🧩 components/<br>
+│   ├── 📦 data/<br>
+│   └── 🎨 styles/<br>
+└── 📄 VALIDATION_DAY3.md
+               </div>`,
+        notes: "Focus on understanding component roles and data flow rather than rigid folder naming."
+      },
+      {
+        tag: "Slide 05 · Modular Units",
+        title: "🔨 Scaffolding in Testable, Bite-Sized Chunks",
+        body: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.88rem;">
+                 <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);padding:14px;border-radius:8px;">
+                   <strong style="color:#fca5a5;">❌ Monolithic Request</strong><br><br>
+                   "Read PROJECT.md and build the entire service all at once."
+                 </div>
+                 <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:14px;border-radius:8px;">
+                   <strong style="color:#86efac;">✅ Modular Request</strong><br><br>
+                   "Implement only the layout and home view. Report the run command and modified files."
+                 </div>
+               </div>`,
+        notes: "Scaffold one step, test one step. Incremental verification guarantees stable software."
+      },
+      {
+        tag: "Slide 06 · 5 Screen States",
+        title: "🖥️ 5 Essential Screen States to Handle",
+        body: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.84rem;">
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#93c5fd;">Default</strong><br>Initial input guide<br>→ Clear call to action?
+                 </div>
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#fde047;">Loading</strong><br>Processing feedback<br>→ Prevent multi-clicks?
+                 </div>
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#f97316;">Empty</strong><br>Zero-data helper<br>→ How to start?
+                 </div>
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#86efac;">Success</strong><br>Calculated result<br>→ Goal achieved?
+                 </div>
+               </div>`,
+        notes: "A happy-path screen alone does not constitute a complete user experience. Handle edge cases."
+      },
+      {
+        tag: "Slide 07 · Scaffolding Loop",
+        title: "🔄 The Standard Implementation & QA Loop",
+        body: `<div style="text-align:center;padding:10px;">
+                 <div style="display:flex;justify-content:center;align-items:center;gap:8px;font-size:0.95rem;flex-wrap:wrap;">
+                   <span style="background:rgba(59,130,246,0.2);padding:8px 14px;border-radius:8px;">Antigravity Code</span>
+                   <span style="color:var(--secondary);">→</span>
+                   <span style="background:rgba(6,182,212,0.2);padding:8px 14px;border-radius:8px;">Browser Check</span>
+                   <span style="color:var(--secondary);">→</span>
+                   <span style="background:rgba(16,185,129,0.2);padding:8px 14px;border-radius:8px;">Codex QA Audit</span>
+                   <span style="color:var(--secondary);">→</span>
+                   <span style="background:rgba(139,92,246,0.2);padding:8px 14px;border-radius:8px;">Spec Iteration</span>
+                 </div>
+               </div>`,
+        notes: "Next steps are guided by objective audit results rather than subjective completion feelings."
+      },
+      {
+        tag: "Slide 08 · Lab 1",
+        title: "💻 [Lab 1] Base Project Shell & Home View",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Request a scope summary and clarifying questions before generating the home view.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Antigravity: Read PROJECT.md and HANDOFF_PROMPT.md. Summarize the scope first without writing code yet.
+               </div>`,
+        notes: "Lab Takeaway: Do not generate all views in the first prompt. Record run commands in README.md."
+      },
+      {
+        tag: "Slide 09 · Lab 2",
+        title: "💻 [Lab 2] Screen Routing & Form Input Validation",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Implement Home ➔ Input navigation, mandatory fields, and empty validation feedback.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Antigravity: Implement only the Home ➔ Input stage of the Core User Flow. Do not write other features yet.
+               </div>`,
+        notes: "Verification Checklist: Navigation works / Validation triggers / No horizontal scroll on mobile."
+      },
+      {
+        tag: "Slide 10 · Lab 3",
+        title: "💻 [Lab 3] Core Logic & Results View (MVP v0.1)",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Complete the full Input ➔ Processing ➔ Output flow across all 5 defensive states.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Antigravity: Complete the core user flow through the results view with loading, empty, and error handling.
+               </div>`,
+        notes: "If external services are required, use mock educational data and document it clearly."
+      },
+      {
+        tag: "Slide 11 · QA Lab",
+        title: "🔍 QA Audit: Generating VALIDATION_DAY3.md",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Compare implementation against PROJECT.md criteria and create a QA report.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Classify Must-Haves as Pass/Fail/Manual Check/Not Implemented with reproduction steps and Day 4 priorities.
+               </div>`,
+        notes: "Prioritize your Day 4 improvement backlog based on objective audit evidence."
+      },
+      {
+        tag: "Slide 12 · Wrap-up",
+        title: "🎉 Day 3 Retrospective & Day 4 Preview",
+        body: `<div style="text-align:center;padding:20px;">
+                 <h3 style="color:#34d399;margin-bottom:10px;">Day 4 Preview: Feature Expansion & Polish</h3>
+                 <p style="color:var(--muted);">Tomorrow we expand MVP v0.1 with selective tracks, defensive error UX, and mock payments to achieve MVP v1.0!</p>
+               </div>`,
+        notes: "Ensure your running MVP v0.1 and VALIDATION_DAY3.md report are verified before concluding Day 3."
+      }
+    ],
+    tasks: {
+      1: {
+        id: 1,
+        type: "core",
+        badge: "Task 01 · Core Lab",
+        tools: ["Antigravity"],
+        time: "50 Mins",
+        title: "Project Structure & Home Screen Scaffolding",
+        goal: "Read PROJECT.md to establish the project workspace hierarchy and scaffold the home view with the initial CTA button.",
+        steps: [
+          {
+            title: "Pre-Implementation Summary Request (Step 1-A)",
+            desc: "Instruct Antigravity to read PROJECT.md and HANDOFF_PROMPT.md, summarize the scope, and list any clarifying questions before writing code."
+          },
+          {
+            title: "Home Screen & Primary CTA Implementation (Step 1-B)",
+            desc: "Render service title, value proposition summary, and main CTA button, verifying execution in the local browser."
+          },
+          {
+            title: "Verify Reported Deliverables",
+            desc: "Confirm execution steps, modified files list, and pending Must-Have backlog reported by Antigravity."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md
+├── 📄 HANDOFF_PROMPT.md
+└── src/ (or index.html)
+    ├── 🌐 index.html (Home View)
+    └── 🎨 styles.css`,
+        prompts: [
+          {
+            label: "Pre-Implementation Summary Prompt (Antigravity)",
+            text: `Read PROJECT.md and HANDOFF_PROMPT.md and summarize the scope of work first.
+Do not write code yet. Report the proposed folder structure, screens to create, acceptance criteria,
+and any clarifying questions needed.`
+          },
+          {
+            label: "Home Screen Scaffolding Prompt (Antigravity)",
+            text: `Based on PROJECT.md, scaffold the basic project structure and home screen.
+Only implement the home screen and primary CTA button for this step.
+Do not implement Out-of-Scope items. When finished, report the run command, modified files, and remaining Must-Have features.`
+          }
+        ],
+        checklist: [
+          "Did Antigravity report the proposed scope and questions before generating code?",
+          "Does the home screen render cleanly without layout breakage in the browser?",
+          "Do the title and description on the home view match PROJECT.md?"
+        ],
+        troubleshoot: "💡 Attempting to scaffold all screens at once makes debugging impossible. Verify the home screen first before moving forward."
+      },
+      2: {
+        id: 2,
+        type: "core",
+        badge: "Task 02 · Core Lab",
+        tools: ["Antigravity"],
+        time: "50 Mins",
+        title: "Screen Transitions & Core Form Input Validation",
+        goal: "Implement screen routing from home to the input form, configure mandatory fields, and handle empty submission validation.",
+        steps: [
+          {
+            title: "Connect Home ➔ Input Screen Routing",
+            desc: "Ensure clicking the home CTA transitions seamlessly to the data input screen without full page reloads."
+          },
+          {
+            title: "Configure Mandatory Form Fields",
+            desc: "Layout all input fields defined in PROJECT.md Section 09 (Data Model)."
+          },
+          {
+            title: "Empty Input Validation Handling",
+            desc: "Display friendly validation warnings when submitting the form with required inputs left blank."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md
+└── src/
+    ├── 🌐 index.html (Home)
+    ├── 🌐 input.html (Input Form Screen)
+    └── ⚙️ form-validator.js`,
+        prompts: [
+          {
+            label: "Input Screen & Validation Prompt (Antigravity)",
+            text: `Implement the Home ➔ Input stage of the Core User Flow from PROJECT.md.
+Use the defined input fields and completion criteria with empty validation messages.
+Do not implement subsequent Must-Have features yet.`
+          }
+        ],
+        checklist: [
+          "Does clicking the home CTA navigate cleanly to the input screen?",
+          "Are warning messages displayed when submitting empty mandatory fields?",
+          "Are form fields fully responsive without horizontal scrolling on mobile viewports?"
+        ],
+        troubleshoot: "⚠️ Beyond HTML required attributes, implement custom JavaScript validation for a polished user feedback experience."
+      },
+      3: {
+        id: 3,
+        type: "core",
+        badge: "Task 03 · Core Lab",
+        tools: ["Antigravity"],
+        time: "70 Mins",
+        title: "Core Features & Results Screen Completion (MVP v0.1)",
+        goal: "Complete the full Input ➔ Processing ➔ Result flow, gracefully handling default, loading, empty, success, and error states.",
+        steps: [
+          {
+            title: "Processing Logic & Mock Data Integration",
+            desc: "Write event handlers to process user input and simulate computation or AI generation results."
+          },
+          {
+            title: "Loading Spinner & Progress Feedback",
+            desc: "Prevent duplicate click submissions and display animated loading states during processing."
+          },
+          {
+            title: "Results View & 5 Defensive States",
+            desc: "Render success result cards, provide retry buttons on errors, and ensure end-to-end loop closure."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md
+└── src/
+    ├── 🌐 index.html (Full User Flow)
+    ├── 📦 data/mock-data.js
+    └── 🎨 styles.css`,
+        prompts: [
+          {
+            label: "Core Feature Completion Prompt (Antigravity)",
+            text: `Complete the primary core user flow from PROJECT.md all the way through the results view.
+Handle default, loading, empty, success, and error states according to the acceptance criteria.
+If external APIs are required, use realistic educational mock data and document it clearly.`
+          }
+        ],
+        checklist: [
+          "Is an animated loading state visible after submitting form data?",
+          "Are generated output cards rendered accurately in the results view?",
+          "Does the application reset smoothly upon reload or retry?"
+        ],
+        troubleshoot: "💡 Include robust fallback mock responses to ensure uninterrupted testing even when external services fail."
+      },
+      4: {
+        id: 4,
+        type: "core",
+        badge: "Task 04 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "40 Mins",
+        title: "Drafting VALIDATION_DAY3.md with Codex",
+        goal: "Cross-audit implementation code against PROJECT.md Acceptance Criteria and produce a comprehensive QA test report.",
+        steps: [
+          {
+            title: "Request Cross-Audit in Codex",
+            desc: "Instruct Codex not to modify code, but to classify each criterion as Pass, Fail, Manual Check, or Not Implemented."
+          },
+          {
+            title: "Generate VALIDATION_DAY3.md Report",
+            desc: "Document feature status, reproduction steps for failures, and prioritized Day 4 improvement backlog."
+          },
+          {
+            title: "Prioritize Outstanding Defects",
+            desc: "Identify the Top 3 items requiring immediate refinement on Day 4."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md
+├── 📄 VALIDATION_DAY3.md     (👈 Generated in this step)
+└── src/ (MVP v0.1)`,
+        prompts: [
+          {
+            label: "Implementation Audit Prompt (Codex)",
+            text: `Compare the current implementation against PROJECT.md Acceptance Criteria.
+Do not modify code. Classify each item as Pass, Fail, Manual Check, or Not Implemented,
+and provide an evidence table with browser verification steps.`
+          },
+          {
+            label: "VALIDATION_DAY3.md Generation Prompt (Codex)",
+            text: `Compare PROJECT.md with the current MVP v0.1 and generate VALIDATION_DAY3.md.
+Include status matrix for each Must-Have feature, evidence, reproduction steps for issues,
+and prioritized Day 4 action items. Perform the audit first without editing source code.`
+          }
+        ],
+        checklist: [
+          "Are all Must-Have features classified into one of the 4 validation states?",
+          "Are exact reproduction steps documented for any failed items?",
+          "Is a prioritized improvement backlog ready for Day 4?"
+        ],
+        troubleshoot: "💡 Resist fixing code during the audit. Document findings thoroughly in the report first to plan systematic fixes."
+      },
+      5: {
+        id: 5,
+        type: "challenge",
+        badge: "Bonus Track A · CRUD App",
+        tools: ["Antigravity"],
+        time: "60~80 Mins",
+        title: "Simple CRUD Notes Web App MVP v0.1",
+        goal: "Build a lightweight note-taking web app to create, view, list, and delete text notes with localStorage persistence.",
+        steps: [
+          {
+            title: "Note Creation & Storage UI",
+            desc: "Build title/body input form with save action persisting notes as JSON array in localStorage."
+          },
+          {
+            title: "Notes List View Rendering",
+            desc: "Render saved notes in an interactive card grid with creation timestamps."
+          },
+          {
+            title: "Note Deletion & Empty State Handling",
+            desc: "Handle item deletion and display friendly empty placeholder when zero notes exist."
+          }
+        ],
+        fileTree: `my-project/
+└── note-app/
+    ├── 🌐 index.html
+    └── ⚙️ app.js`,
+        prompts: [
+          {
+            label: "CRUD Notes App Prompt (Antigravity)",
+            text: `Build a simple Notes MVP web application.
+Must-Have Features:
+1. Text note input form with Save button (using localStorage)
+2. Saved notes card grid view with timestamps
+3. Individual note delete button
+
+State Handling: Empty input warning, friendly placeholder when no notes exist
+Out of Scope: Authentication, server databases, rich text editing
+Acceptance Criteria: Create ➔ View ➔ Delete loop persists across browser reloads.`
+          }
+        ],
+        checklist: [
+          "Do saved notes persist after refreshing the browser?",
+          "Does clicking delete remove the note cleanly from storage and UI?",
+          "Is a friendly empty state message displayed when the notes list is empty?"
+        ],
+        troubleshoot: "💡 When storing objects in localStorage, always serialize with JSON.stringify() and deserialize with JSON.parse()."
+      },
+      6: {
+        id: 6,
+        type: "challenge",
+        badge: "Bonus Track B · Tool App",
+        tools: ["Antigravity"],
+        time: "60~80 Mins",
+        title: "Calculator or Unit Converter Web Tool",
+        goal: "Build a single-page utility tool (e.g., BMI calculator or currency converter) with input validation and visual result gauges.",
+        steps: [
+          {
+            title: "Numeric Input Interface",
+            desc: "Layout intuitive numeric input fields with unit labels (e.g., height cm, weight kg)."
+          },
+          {
+            title: "Instant Calculation & Visual Gauge",
+            desc: "Compute formulas on button click and display color-coded category badges (e.g., normal, overweight)."
+          },
+          {
+            title: "Defensive Input Guardrails",
+            desc: "Block non-numeric or negative values with real-time feedback."
+          }
+        ],
+        fileTree: `my-project/
+└── bmi-calc/
+    ├── 🌐 index.html
+    └── 🎨 style.css`,
+        prompts: [
+          {
+            label: "BMI Calculator Tool Prompt (Antigravity)",
+            text: `Build a modern BMI Calculator single-page web app.
+Must-Have Features:
+1. Height (cm) and Weight (kg) numeric inputs
+2. Instant BMI calculation with visual health category gauge
+3. Form Reset button
+
+State Handling: Block non-numeric characters, warning on values <= 0
+Acceptance Criteria: Valid inputs display calculated BMI number and color-coded status badge.`
+          }
+        ],
+        checklist: [
+          "Is the calculation formula (weight / (height/100)^2) accurate?",
+          "Do result badge colors adapt dynamically based on BMI range?",
+          "Does clicking Reset clear inputs and output states cleanly?"
+        ],
+        troubleshoot: "💡 Remember to convert height from centimeters to meters (divide by 100) before squaring in the formula."
+      }
+    }
+  },
+  {
+    day: 4,
+    title: "Day 4. Feature Expansion & Polish",
+    badgeTitle: "Feature Expansion & Polish (Interactive Lab Module)",
+    goals: ["<strong>🎯 Objective 1. Specifying Changes</strong>Establish change requests and non-negotiable regression guardrails in CHANGE_REQUEST_DAY4.md first", "<strong>🎯 Objective 2. Track Extensions</strong>Implement specialized features across Commerce, Platform, Productivity, or AI service tracks", "<strong>🎯 Objective 3. Defensive UX</strong>Handle empty states, loading spinners, and error toasts to ensure seamless recovery", "<strong>🎯 Objective 4. Zero-Regression QA</strong>Validate both legacy Day 3 flows and new Day 4 features using VALIDATION_DAY4.md"],
+    classroomUrl: 'day4/day4-ai-classroom.html',
+    textbookUrl: 'day4/day4-textbook.html',
+    opsUrl: 'day4/day4-operations.html',
+    slides: [
+      {
+        tag: "Slide 01 · Opening",
+        title: "Day 4. Feature Expansion & Polish",
+        body: `<p style="color:#fde68a;font-size:1.05rem;margin-bottom:16px;">Polishing MVP v0.1 into a production-grade MVP v1.0.</p>
+               <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);padding:14px;border-radius:10px;font-family:monospace;font-size:0.9rem;text-align:left;">
+                 💡 Today's Principle:<br>
+                 Finalize change specs in Codex ➔ Scaffold extensions in Antigravity ➔ Regression audit in Codex
+               </div>`,
+        notes: "The objective is delivering a stable, production-ready MVP v1.0 for tomorrow's Day 5 demo day."
+      },
+      {
+        tag: "Slide 02 · Objectives",
+        title: "🎯 Day 4 Core Learning Objectives",
+        body: `<ul style="list-style:none;line-height:1.9;">
+                 <li>✅ Finalize change specifications in markdown before modifying code</li>
+                 <li>✅ Implement specialized track features while preserving legacy flows</li>
+                 <li>✅ Handle error, empty, duplicate, and zero-data states with recovery UX</li>
+                 <li>✅ Perform comprehensive regression audits using VALIDATION_DAY4.md</li>
+               </ul>`,
+        notes: "Never break working Day 3 features while adding new extensions."
+      },
+      {
+        tag: "Slide 03 · 4 Tracks",
+        title: "🗂️ 4 Specialized Business Tracks",
+        body: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.84rem;">
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#fbbf24;">1. Commerce</strong><br>Item catalog, mock checkout modal, order confirmation
+                 </div>
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#67e8f9;">2. Platform</strong><br>Category filter, multi-status tags, search bar
+                 </div>
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#a7f3d0;">3. Productivity</strong><br>Inline editing, CSV export, stats summary
+                 </div>
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#f472b6;">4. AI Service</strong><br>Prompt tuning, simulated streaming, history retention
+                 </div>
+               </div>`,
+        notes: "Choose the single track that most strongly amplifies your core value proposition."
+      },
+      {
+        tag: "Slide 04 · Change Spec",
+        title: "📝 CHANGE_REQUEST_DAY4.md Structure",
+        body: `<div style="font-family:monospace;font-size:0.85rem;background:rgba(6,10,18,0.8);padding:14px;border-radius:10px;text-align:left;color:#e2e8f0;line-height:1.7;">
+CHANGE_REQUEST_DAY4.md<br>
+├── Change Objective        → Purpose & business context<br>
+├── Impact Radius           → Affected screens and data models<br>
+├── Preservation Guardrails → Legacy flows that must NOT break<br>
+├── New Acceptance Criteria → Definition of Done for additions<br>
+└── Regression Test Plan    → Verification matrix
+               </div>`,
+        notes: "Articulating preservation guardrails upfront prevents code regressions."
+      },
+      {
+        tag: "Slide 05 · Defensive UX",
+        title: "🛡️ 5 Essential Defensive UX Scenarios",
+        body: `<ul style="list-style:none;line-height:1.8;font-size:0.88rem;">
+                 <li>• <strong>Empty Input:</strong> Inline helper text highlighting missing fields</li>
+                 <li>• <strong>Duplicate Entry:</strong> Warning banner with a link to existing record</li>
+                 <li>• <strong>Processing Failure:</strong> Friendly explanation with an instant Retry button</li>
+                 <li>• <strong>Unauthorized:</strong> Access requirement banner with a Return Home button</li>
+                 <li>• <strong>Zero Data:</strong> Engaging placeholder with a Create First Item CTA</li>
+               </ul>`,
+        notes: "Defensive UX ensures users never encounter confusing dead ends."
+      },
+      {
+        tag: "Slide 06 · Regression Audit",
+        title: "🧪 Distinguishing Legacy vs New Must-Haves",
+        body: `<table style="width:100%;border-collapse:collapse;font-size:0.82rem;text-align:left;">
+                 <thead><tr style="background:rgba(255,255,255,0.05);"><th style="padding:6px;border:1px solid var(--line);">Category</th><th style="padding:6px;border:1px solid var(--line);">Scope</th><th style="padding:6px;border:1px solid var(--line);">Status Criteria</th></tr></thead>
+                 <tbody>
+                   <tr><td style="padding:6px;border:1px solid var(--line);color:#93c5fd;">Legacy Must (Day 3)</td><td style="padding:6px;border:1px solid var(--line);">Home ➔ Input ➔ Result</td><td style="padding:6px;border:1px solid var(--line);">100% Pass (Zero Regressions)</td></tr>
+                   <tr><td style="padding:6px;border:1px solid var(--line);color:#fbbf24;">New Must (Day 4)</td><td style="padding:6px;border:1px solid var(--line);">Track Extension</td><td style="padding:6px;border:1px solid var(--line);">Pass against new criteria</td></tr>
+                 </tbody>
+               </table>`,
+        notes: "Regression testing guarantees that expanding features does not compromise core stability."
+      },
+      {
+        tag: "Slide 07 · Expansion Loop",
+        title: "🔄 The Day 4 Expansion & Polish Cycle",
+        body: `<div style="text-align:center;padding:10px;">
+                 <div style="display:flex;justify-content:center;align-items:center;gap:8px;font-size:0.95rem;flex-wrap:wrap;">
+                   <span style="background:rgba(245,158,11,0.2);padding:8px 14px;border-radius:8px;">Codex Spec</span>
+                   <span style="color:var(--secondary);">→</span>
+                   <span style="background:rgba(59,130,246,0.2);padding:8px 14px;border-radius:8px;">Antigravity Code</span>
+                   <span style="color:var(--secondary);">→</span>
+                   <span style="background:rgba(6,182,212,0.2);padding:8px 14px;border-radius:8px;">Browser Check</span>
+                   <span style="color:var(--secondary);">→</span>
+                   <span style="background:rgba(16,185,129,0.2);padding:8px 14px;border-radius:8px;">Codex Regression QA</span>
+                 </div>
+               </div>`,
+        notes: "Follow this disciplined loop to avoid breaking functional code."
+      },
+      {
+        tag: "Slide 08 · Lab 1",
+        title: "💻 [Lab 1] Change Specs & Guardrails",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Draft CHANGE_REQUEST_DAY4.md in Codex with explicit preservation rules.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Draft CHANGE_REQUEST_DAY4.md for [Selected Track]. Detail impact radius and preservation guardrails.
+               </div>`,
+        notes: "Lock in change specifications before prompting Antigravity for code."
+      },
+      {
+        tag: "Slide 09 · Lab 2",
+        title: "💻 [Lab 2] Selected Track Feature Implementation",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Implement chosen business track extensions in Antigravity.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Antigravity: Implement track extensions based on CHANGE_REQUEST_DAY4.md without altering legacy flows.
+               </div>`,
+        notes: "Verify that legacy Home ➔ Input ➔ Result flows remain intact."
+      },
+      {
+        tag: "Slide 10 · Lab 3",
+        title: "💻 [Lab 3] Defensive UX & Error Recovery",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Handle all 5 defensive exception states with friendly user recovery actions.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Antigravity: Add empty states, inline helper feedback, and retry buttons across all screens (MVP v1.0).
+               </div>`,
+        notes: "Conduct a 5-minute zero-explanation peer test to identify remaining UX friction."
+      },
+      {
+        tag: "Slide 11 · QA Lab",
+        title: "🔍 Regression QA: Generating VALIDATION_DAY4.md",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Perform comprehensive regression testing using Codex.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Compare codebase against PROJECT.md & CHANGE_REQUEST_DAY4.md. Evaluate legacy and new Must-Haves in VALIDATION_DAY4.md.
+               </div>`,
+        notes: "Ensure MVP v1.0 is certified with zero critical regressions."
+      },
+      {
+        tag: "Slide 12 · Wrap-up",
+        title: "🎉 Day 4 Retrospective & Day 5 Preview",
+        body: `<div style="text-align:center;padding:20px;">
+                 <h3 style="color:#fbbf24;margin-bottom:10px;">Day 5 Preview: Live Launch, 5-Min Pitch & Demo Day</h3>
+                 <p style="color:var(--muted);">Tomorrow we deploy MVP v1.0 to a public HTTPS URL and present live demonstrations!</p>
+               </div>`,
+        notes: "Verify your completed MVP v1.0 and VALIDATION_DAY4.md report before Day 5."
+      }
+    ],
+    tasks: {
+      1: {
+        id: 1,
+        type: "core",
+        badge: "Task 01 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "50 Mins",
+        title: "Change Specifications & Regression Guardrails",
+        goal: "Based on Day 3 audit results, finalize new feature additions and preservation rules in CHANGE_REQUEST_DAY4.md before editing code.",
+        steps: [
+          {
+            title: "Review Day 3 Results & Candidate Extensions",
+            desc: "Inspect VALIDATION_DAY3.md items and select 1–2 track extensions tailored to your business model."
+          },
+          {
+            title: "Draft CHANGE_REQUEST_DAY4.md in Codex",
+            desc: "Detail change purpose, affected screens/data, legacy guardrails, new acceptance criteria, and regression test checklists."
+          },
+          {
+            title: "Update PROJECT.md Baseline",
+            desc: "Synchronize approved change requirements into PROJECT.md Features and Acceptance Criteria sections."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md            (👈 Synchronized with changes)
+├── 📄 VALIDATION_DAY3.md
+└── 📄 CHANGE_REQUEST_DAY4.md (👈 Generated in this step)`,
+        prompts: [
+          {
+            label: "Change Request Drafting Prompt (Codex)",
+            text: `Read PROJECT.md and VALIDATION_DAY3.md and draft CHANGE_REQUEST_DAY4.md.
+Selected track: [Track Name], Additional Must-Have: [Feature].
+Detail change objectives, impact radius on screens/data, legacy preservation guardrails,
+new acceptance criteria, error/exception handling, Out of Scope, and regression checklist.
+Do not modify code or PROJECT.md yet.`
+          }
+        ],
+        checklist: [
+          "Are legacy core flows explicitly listed as non-negotiable preservation guardrails?",
+          "Are new Must-Have features strictly limited to a maximum of 2 additions?",
+          "Are Out-of-Scope boundaries clearly updated for the new features?"
+        ],
+        troubleshoot: "💡 Spec modifications must always precede code modifications. Never build without CHANGE_REQUEST_DAY4.md."
+      },
+      2: {
+        id: 2,
+        type: "core",
+        badge: "Task 02 · Core Lab",
+        tools: ["Antigravity"],
+        time: "50 Mins",
+        title: "Implementing Selected Track Extensions",
+        goal: "Implement approved track feature extensions in Antigravity while strictly honoring all preservation guardrails.",
+        steps: [
+          {
+            title: "Pre-Implementation Impact Report Request",
+            desc: "Instruct Antigravity to report the list of files to be modified/created and its strategy to protect existing flows."
+          },
+          {
+            title: "Implement Track-Specific Feature Logic",
+            desc: "Develop selected track features (Commerce mock checkout, Platform search/status, Productivity filters, AI prompt flows)."
+          },
+          {
+            title: "Integration Testing & Impact Audit",
+            desc: "Verify in the browser that new features integrate cleanly with legacy home and input workflows."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md
+├── 📄 CHANGE_REQUEST_DAY4.md
+└── src/
+    ├── 🌐 index.html
+    ├── 🌐 track-action.html (New Feature View)
+    └── ⚙️ service-logic.js`,
+        prompts: [
+          {
+            label: "Track Feature Implementation Prompt (Antigravity)",
+            text: `Implement the selected track features based on updated PROJECT.md and CHANGE_REQUEST_DAY4.md.
+Do not modify legacy user flows defined in the preservation guardrails.
+Report affected files before writing code, and summarize modified files, new features, and legacy verification steps upon completion.`
+          }
+        ],
+        checklist: [
+          "Did you review the impact report before Antigravity scaffolded code?",
+          "Do newly added track extensions function as specified in acceptance criteria?",
+          "Are all legacy Day 3 workflows still functioning without regression?"
+        ],
+        troubleshoot: "⚠️ Do not connect real payment APIs or real private credentials. Use realistic educational mock responses."
+      },
+      3: {
+        id: 3,
+        type: "core",
+        badge: "Task 03 · Core Lab",
+        tools: ["Antigravity"],
+        time: "70 Mins",
+        title: "UX, Error Handling & Recovery (MVP v1.0)",
+        goal: "Gracefully handle empty, duplicate, failed, unauthorized, and zero-data states to deliver a polished MVP v1.0 ready for peer testing.",
+        steps: [
+          {
+            title: "Implement 5 Defensive Exception States",
+            desc: "Replace raw technical errors with friendly user explanations and clear recovery actions (e.g., Retry buttons)."
+          },
+          {
+            title: "Form Input Retention & Mobile Viewport Polish",
+            desc: "Preserve user input upon validation errors and verify responsive layouts across mobile viewports."
+          },
+          {
+            title: "5-Minute Zero-Explanation Peer Usability Test",
+            desc: "Have a peer test the application without verbal instructions and polish friction points."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md
+└── src/
+    ├── 🌐 index.html (MVP v1.0 Complete)
+    ├── 🎨 styles.css (Responsive & Error States)
+    └── ⚙️ error-handler.js`,
+        prompts: [
+          {
+            label: "Defensive UX Hardening Prompt (Antigravity)",
+            text: `Elevate MVP v1.0 to production polish.
+Handle all 5 defensive exception states gracefully:
+- Empty Input: Highlight required fields with clear helper instructions
+- Duplicate Entry: Display duplicate notice with a link to view the existing item
+- Processing Failure: User-friendly explanation with an instant Retry button
+- Unauthorized: Access requirements notice with a Return Home button
+- Zero Data: Engaging empty placeholder with a primary Create First Item CTA
+
+Principles:
+- Never expose raw system stack traces to users
+- Always retain entered form data on validation failures
+- Every error message must include a clear next action button`
+          }
+        ],
+        checklist: [
+          "Do all error screens include a 'Retry' or clear next action button?",
+          "When search results or data lists are empty, does an engaging placeholder CTA appear?",
+          "Are buttons and typography perfectly aligned on mobile screen viewports?"
+        ],
+        troubleshoot: "💡 Error screens are part of the user experience. Empower users to recover seamlessly without pressing browser back."
+      },
+      4: {
+        id: 4,
+        type: "core",
+        badge: "Task 04 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "40 Mins",
+        title: "Codex Regression Testing (VALIDATION_DAY4.md)",
+        goal: "Rigorously audit both legacy Must-Haves (Day 3) and new Must-Haves (Day 4) to produce a certified regression report.",
+        steps: [
+          {
+            title: "Instruct Regression Audit in Codex",
+            desc: "Direct Codex to evaluate legacy and new features separately using Pass/Fail/Manual Check classifications."
+          },
+          {
+            title: "Generate VALIDATION_DAY4.md Report",
+            desc: "Document detailed reproduction steps, expected vs actual outcomes, and remaining risks for any failed items."
+          },
+          {
+            title: "Finalize Pre-Deployment Patch List",
+            desc: "Identify any critical blockers and perform rapid final patches for Day 5 live demonstration."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md
+├── 📄 CHANGE_REQUEST_DAY4.md
+├── 📄 VALIDATION_DAY3.md
+└── 📄 VALIDATION_DAY4.md     (👈 Generated in this step)`,
+        prompts: [
+          {
+            label: "Regression Audit Prompt (Codex)",
+            text: `Perform a comprehensive regression audit comparing PROJECT.md, CHANGE_REQUEST_DAY4.md, VALIDATION_DAY3.md, and the current codebase.
+Distinguish legacy Must-Haves from new Must-Haves and classify each item as Pass/Fail/Manual Check in VALIDATION_DAY4.md.
+For any Fail items, include exact reproduction steps, expected results, and actual observed behavior.`
+          }
+        ],
+        checklist: [
+          "Are all legacy Must-Have features still passing after adding new extensions?",
+          "Have all new Must-Have acceptance criteria been satisfied?",
+          "Is a finalized live demo script prepared for Day 5?"
+        ],
+        troubleshoot: "💡 Even if new features work, if legacy Home ➔ Input ➔ Result flows broke, patch them immediately before deployment."
+      },
+      5: {
+        id: 5,
+        type: "challenge",
+        badge: "Bonus Track A · Search/Filter",
+        tools: ["Antigravity"],
+        time: "60~80 Mins",
+        title: "Real-Time Search & Multi-Tag Filtering",
+        goal: "Add instant keyword search and sorting toggles (newest/oldest) while preserving item creation and deletion workflows.",
+        steps: [
+          {
+            title: "Search Bar & Sort Dropdown Placement",
+            desc: "Position search input and sorting controls at the top of the item list view."
+          },
+          {
+            title: "Client-Side Live Filtering Logic",
+            desc: "Filter items dynamically as characters are typed into the search bar without requiring enter key presses."
+          },
+          {
+            title: "Zero-Match Exception Handling",
+            desc: "Display a friendly 'No matching items found' banner when search queries return zero results."
+          }
+        ],
+        fileTree: `my-project/
+└── search-filter-feature/
+    ├── 🌐 index.html
+    └── ⚙️ search-filter.js`,
+        prompts: [
+          {
+            label: "Filter & Search Prompt (Antigravity)",
+            text: `Add real-time filter and search capabilities to the item list view.
+Features:
+1. Keyword Search: Real-time filtering by title and content
+2. Sorting: Toggle between Newest and Oldest
+
+Preservation Guardrails: Do not modify existing item creation, display, or deletion workflows.
+Edge Cases: Display 'No matching items found' when search returns zero results.
+Acceptance Criteria: Typing in the search bar immediately filters the visible card grid.`
+          }
+        ],
+        checklist: [
+          "Does the list filter in real time without requiring enter key presses?",
+          "Does clearing the search input immediately restore the full list?",
+          "Does changing sort order correctly reorder filtered search results?"
+        ],
+        troubleshoot: "💡 Use .toLowerCase().includes() when comparing search strings to ensure case-insensitive matching."
+      },
+      6: {
+        id: 6,
+        type: "challenge",
+        badge: "Bonus Track B · Error UX",
+        tools: ["Antigravity"],
+        time: "60~80 Mins",
+        title: "Comprehensive Error States & Empty UX Refactor",
+        goal: "Refactor all application error screens with friendly explanations and instant recovery CTA triggers.",
+        steps: [
+          {
+            title: "Real-Time Field Helper Text",
+            desc: "Display real-time inline validation feedback below inputs upon missing or invalid formatting."
+          },
+          {
+            title: "Data Retention on Failed Submissions",
+            desc: "Ensure user inputs are not wiped when submission errors occur."
+          },
+          {
+            title: "Engaging Empty State Placeholders",
+            desc: "Present engaging illustrations and prominent 'Create First Item' buttons when data lists are empty."
+          }
+        ],
+        fileTree: `my-project/
+└── ux-refactor/
+    ├── 🌐 index.html
+    └── 🎨 error-states.css`,
+        prompts: [
+          {
+            label: "Error UX Refactoring Prompt (Antigravity)",
+            text: `Refactor all error states across the application for maximum user friendliness.
+Scenarios to handle:
+1. Missing Required Input: Inline helper text below the field
+2. Processing Failure: Friendly explanation + Retry button
+3. Zero Data: Engaging empty placeholder with a Create Item button
+4. Duplicate Entry: Warning banner with a link to view existing item
+
+Principles:
+- Always include an actionable next button on every error screen
+- Retain user inputs upon failure`
+          }
+        ],
+        checklist: [
+          "Does every error screen feature an actionable next step button?",
+          "Are raw system errors (500, TypeError) completely masked from the UI?",
+          "Does the application remain stable without crashing during network or validation errors?"
+        ],
+        troubleshoot: "💡 Handle promise rejections with .catch() blocks and display user-friendly error banners."
+      }
+    }
+  },
+  {
+    day: 5,
+    title: "Day 5. Final Validation, Deployment, Demo Pitch &amp; Retrospective",
+    badgeTitle: "Final Validation, Deployment, Demo Pitch & Retrospective (Interactive Lab Module)",
+    goals: ["<strong>🎯 Objective 1. Final Validation</strong>Audit secrets, build integrity, and generate FINAL_VALIDATION.md", "<strong>🎯 Objective 2. Safe Deployment</strong>Generate public demo URL and verify end-to-end user loop on mobile &amp; incognito", "<strong>🎯 Objective 3. 5-Min Demo Pitch</strong>Prepare problem ➔ solution ➔ live demo ➔ learnings pitch structure", "<strong>🎯 Objective 4. Retrospective &amp; Roadmap</strong>Collect peer feedback and draft NEXT_STEPS.md 2-week execution roadmap"],
+    classroomUrl: 'day5/day5-ai-classroom.html',
+    textbookUrl: 'day5/day5-textbook.html',
+    opsUrl: 'day5/day5-operations.html',
+    slides: [
+      {
+        tag: "Slide 01 · Opening",
+        title: "Day 5. Final Validation, Deployment, Demo Pitch & Retrospective",
+        body: `<p style="color:#ddd6fe;font-size:1.05rem;margin-bottom:16px;">The culmination of your 5-day AI startup MVP journey.</p>
+               <div style="background:rgba(255,255,255,0.03);border:1px solid var(--line);padding:14px;border-radius:10px;font-family:monospace;font-size:0.9rem;text-align:left;">
+                 💡 Final Principle:<br>
+                 Localhost ≠ Production environment.<br>
+                 AI "Done" summary ≠ User value loop verified.
+               </div>`,
+        notes: "Today we transition from building software to launching a real venture prototype to external users."
+      },
+      {
+        tag: "Slide 02 · Objectives",
+        title: "🎯 Day 5 Core Learning Objectives",
+        body: `<ul style="list-style:none;line-height:1.9;">
+                 <li>✅ Execute final automated &amp; security validation (FINAL_VALIDATION.md)</li>
+                 <li>✅ Deploy to cloud hosting and verify multi-device mobile access</li>
+                 <li>✅ Deliver a 5-minute pitch deck (Problem ➔ Solution ➔ Demo ➔ Learnings)</li>
+                 <li>✅ Collect peer review feedback and establish NEXT_STEPS.md roadmap</li>
+               </ul>`,
+        notes: "Demonstrating a live working product builds undeniable entrepreneurial credibility."
+      },
+      {
+        tag: "Slide 03 · Pre-Deploy Audit",
+        title: "🔒 3 Essential Pre-Deployment Security Checks",
+        body: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.84rem;">
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#f87171;">1. Secrets Leak</strong><br>Check .gitignore for OpenAI keys, JWT tokens, and private credentials
+                 </div>
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#fbbf24;">2. Build Integrity</strong><br>Verify zero console errors and clean bundle compilation
+                 </div>
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#6ee7b7;">3. Demo Data Safety</strong><br>Clearly mark payment actions as simulated mock transactions
+                 </div>
+                 <div style="border:1px solid var(--line);padding:10px;border-radius:8px;">
+                   <strong style="color:#c084fc;">4. Asset Paths</strong><br>Ensure all image and icon paths resolve correctly in production
+                 </div>
+               </div>`,
+        notes: "Never push unencrypted API keys or production secrets to public hosting repositories."
+      },
+      {
+        tag: "Slide 04 · Deployment",
+        title: "🌐 Safe Cloud Deployment Standard",
+        body: `<div style="font-family:monospace;font-size:0.85rem;background:rgba(6,10,18,0.8);padding:14px;border-radius:10px;text-align:left;color:#e2e8f0;line-height:1.7;">
+Deployment Workflow<br>
+├── Clean Build Verification → Run local production preview<br>
+├── Push to GitHub Repo      → Exclude sensitive .env files<br>
+├── Connect Hosting Provider → Auto-deploy via Vercel/Netlify<br>
+├── External Mobile Check    → Test on 5G/LTE smartphone<br>
+└── Document in README.md    → Record live demo URL & limits
+               </div>`,
+        notes: "Always test the live URL in an incognito window without local browser cache."
+      },
+      {
+        tag: "Slide 05 · Pitch Arc",
+        title: "📊 5-Minute Story Arc for Demo Day",
+        body: `<div style="display:grid;grid-template-columns:repeat(5, 1fr);gap:6px;font-size:0.78rem;text-align:center;">
+                 <div style="background:rgba(239,68,68,0.15);padding:8px;border-radius:6px;"><strong>Problem</strong><br>40s</div>
+                 <div style="background:rgba(245,158,11,0.15);padding:8px;border-radius:6px;"><strong>Solution</strong><br>40s</div>
+                 <div style="background:rgba(16,185,129,0.25);padding:8px;border-radius:6px;border:1px solid #10b981;"><strong>Live Demo</strong><br>120s</div>
+                 <div style="background:rgba(59,130,246,0.15);padding:8px;border-radius:6px;"><strong>Journey</strong><br>50s</div>
+                 <div style="background:rgba(139,92,246,0.15);padding:8px;border-radius:6px;"><strong>Roadmap</strong><br>30s</div>
+               </div>`,
+        notes: "The live demo is the centerpiece. Keep slides crisp and move quickly into the product walkthrough."
+      },
+      {
+        tag: "Slide 06 · Failover Demo",
+        title: "🛡️ Live Demo Failover Strategy",
+        body: `<ul style="list-style:none;line-height:1.8;font-size:0.88rem;">
+                 <li>• <strong>5-Step Scenario:</strong> Restrict demo actions to 5 pre-rehearsed steps</li>
+                 <li>• <strong>Demo Mode Toggle:</strong> Enable one-click mock data fallback if API fails</li>
+                 <li>• <strong>Backup Screenshots:</strong> Include output slide captures for Wi-Fi drops</li>
+                 <li>• <strong>Preloaded Tab:</strong> Keep a pre-authenticated session ready in reserve</li>
+               </ul>`,
+        notes: "Every veteran founder prepares a failover backup for live demonstration presentations."
+      },
+      {
+        tag: "Slide 07 · Peer Review",
+        title: "👥 Structured Peer Usability Testing",
+        body: `<div style="font-family:monospace;font-size:0.85rem;background:rgba(6,10,18,0.8);padding:14px;border-radius:10px;text-align:left;color:#e2e8f0;line-height:1.7;">
+Feedback Schema<br>
+├── [Observation] → Where did the user click first?<br>
+├── [Friction]    → Where did the user hesitate or get confused?<br>
+├── [Evidence]    → What was the exact screen/action taken?<br>
+└── [Suggestion]  → How can copy or layout be clarified?
+               </div>`,
+        notes: "Do not explain how to use your app. Silently observe where peers experience friction."
+      },
+      {
+        tag: "Slide 08 · Lab 1",
+        title: "💻 [Lab 1] Final Validation & Security Check",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Run build tests, scan for leaked API keys, and certify FINAL_VALIDATION.md in Codex.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Perform pre-deploy security scan & static checks. Certify findings in FINAL_VALIDATION.md.
+               </div>`,
+        notes: "Verify that zero sensitive secrets exist in your codebase."
+      },
+      {
+        tag: "Slide 09 · Lab 2",
+        title: "💻 [Lab 2] Live Cloud Deployment & URL Test",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Deploy to hosting platform and verify on external mobile devices.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Deploy: Publish to cloud hosting, test on smartphone LTE, and update README.md with live URL.
+               </div>`,
+        notes: "Ensure the live link opens flawlessly across different screen sizes."
+      },
+      {
+        tag: "Slide 10 · Lab 3",
+        title: "💻 [Lab 3] 5-Minute Pitch Deck & Demo Script",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Draft 5-slide presentation arc and 5-step demo script in Codex.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Codex: Generate 5-min pitch deck script based on PROJECT.md and FINAL_VALIDATION.md with backup screenshots.
+               </div>`,
+        notes: "Rehearse with a timer to ensure your presentation stays under 5 minutes."
+      },
+      {
+        tag: "Slide 11 · Peer & Polish",
+        title: "💻 [Lab 4 & 5] Peer Review & Emergency Hotfix",
+        body: `<p style="color:var(--muted);margin-bottom:10px;">Collect blind testing feedback, patch minor copy bugs, and draft NEXT_STEPS.md.</p>
+               <div style="background:rgba(6,10,18,0.8);padding:12px;border-radius:8px;font-family:monospace;font-size:0.85rem;text-align:left;">
+                 📌 Antigravity: Apply minimal urgent copy hotfixes. Codex: Draft NEXT_STEPS.md 2-week roadmap.
+               </div>`,
+        notes: "Never execute risky structural refactors right before taking the stage."
+      },
+      {
+        tag: "Slide 12 · Graduation",
+        title: "🎉 Demo Day & Venture Graduation",
+        body: `<div style="text-align:center;padding:20px;">
+                 <h3 style="color:#c084fc;margin-bottom:10px;">Congratulations on Completing the 5-Day Bootcamp!</h3>
+                 <p style="color:var(--muted);">You have transformed an abstract idea into a validated, deployed, and presentation-ready AI MVP web application.</p>
+               </div>`,
+        notes: "Keep iterating on your NEXT_STEPS.md roadmap to launch your real-world startup venture!"
+      }
+    ],
+    tasks: {
+      1: {
+        id: 1,
+        type: "core",
+        badge: "Task 01 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "40 Mins",
+        title: "Final Validation & Security Audit",
+        goal: "Execute automated test, build, and static checks, inspect API key leaks, and certify FINAL_VALIDATION.md.",
+        steps: [
+          {
+            title: "Sensitive Secrets & API Key Leak Audit",
+            desc: "Scan source code and markdown documents for hardcoded OpenAI, Anthropic, or database credentials."
+          },
+          {
+            title: "Static Analysis & Build Integrity Check",
+            desc: "Run build commands in Codex and list manual verification checkpoints for browser validation."
+          },
+          {
+            title: "Certify FINAL_VALIDATION.md Report",
+            desc: "Document final verification results with concrete evidence and summarize remaining low-risk items."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PROJECT.md
+├── 📄 FINAL_VALIDATION.md   (👈 Generated in this step)
+└── src/ (MVP v1.0)`,
+        prompts: [
+          {
+            label: "Final Validation & Security Audit Prompt (Codex)",
+            text: `Establish a final validation plan comparing PROJECT.md, VALIDATION_DAY4.md, and the current codebase.
+Execute test, build, and static checks along with sensitive API key pattern scans.
+Mark browser verification items as Manual Check and record the findings in FINAL_VALIDATION.md.
+Do not modify source code before performing the audit.`
+          }
+        ],
+        checklist: [
+          "Are passwords, API keys, and private tokens completely absent from source code and docs?",
+          "Are environment config files (.env) excluded from public git repositories?",
+          "Are payment actions clearly labeled as simulated mock transactions in the UI?"
+        ],
+        troubleshoot: "💡 Inspect .gitignore thoroughly to ensure no sensitive credential files are pushed to public repositories."
+      },
+      2: {
+        id: 2,
+        type: "core",
+        badge: "Task 02 · Core Lab",
+        tools: ["Deploy", "Codex", "Web ChatGPT"],
+        time: "40 Mins",
+        title: "Live Deployment & Multi-Device Verification",
+        goal: "Deploy project to cloud hosting (Vercel, Netlify, Cloudflare) and verify that the core flow reproduces flawlessly on external devices.",
+        steps: [
+          {
+            title: "Execute Cloud Platform Deployment",
+            desc: "Deploy the application to your chosen hosting service and generate a live public HTTPS demo URL."
+          },
+          {
+            title: "Incognito & Smartphone Multi-Device Testing",
+            desc: "Access the live URL via mobile 5G/LTE and incognito windows to test input, processing, and output flows."
+          },
+          {
+            title: "Update README.md with Live Demo Link",
+            desc: "Add the public URL, verified feature checklist, demo data reset steps, and known limitations to README.md."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 README.md              (👈 Live Demo link & limitations documented)
+└── 🌐 https://my-startup-mvp.vercel.app`,
+        prompts: [
+          {
+            label: "README.md Post-Deployment Update Prompt (Codex)",
+            text: `Update README.md with the live deployment verification results.
+Include:
+- Live Demo URL
+- Verified Features Checklist (checkbox format)
+- Known Limitations
+- Demo Data Reset Instructions
+Update only markdown documentation without altering source code.`
+          }
+        ],
+        checklist: [
+          "Does the public demo URL load smoothly on mobile LTE/5G networks?",
+          "Does refreshing the page load correctly without throwing 404 errors?",
+          "Does README.md clearly document the demo link and known limitations?"
+        ],
+        troubleshoot: "⚠️ Relative vs absolute asset paths can cause broken images in production. Verify all asset paths carefully."
+      },
+      3: {
+        id: 3,
+        type: "core",
+        badge: "Task 03 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "40 Mins",
+        title: "5-Minute Pitch Deck & Demo Script Preparation",
+        goal: "Structure a compelling 5-slide pitch (Problem ➔ Solution ➔ Live Demo ➔ Learnings ➔ Next Steps) with failover screenshots.",
+        steps: [
+          {
+            title: "Structure 5-Minute Story Arc",
+            desc: "Problem (40s) ➔ Solution & Value (40s) ➔ Live Demo (2m) ➔ Technical Journey (50s) ➔ Next Steps (30s)."
+          },
+          {
+            title: "Condense 5-Step Demo Script",
+            desc: "Limit user actions during the live demo to 5 crisp steps and rehearse timing with a stopwatch."
+          },
+          {
+            title: "Prepare Failover Backup Screenshots",
+            desc: "Capture high-resolution screenshots of successful result screens to present in case of Wi-Fi issues."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 PRESENTATION_SCRIPT.md
+└── 🖼️ demo-backup-screenshot.png`,
+        prompts: [
+          {
+            label: "5-Minute Pitch Deck Generation Prompt (Codex)",
+            text: `Generate a 5-minute pitch deck script based on PROJECT.md and FINAL_VALIDATION.md.
+Structure: Problem ➔ Core Value ➔ 5-Step Demo Scenario ➔ Development Journey ➔ Learnings ➔ Next Steps.
+Limit the live demo to a maximum of 5 steps and include backup screenshot walkthrough explanations.`
+          }
+        ],
+        checklist: [
+          "Does the rehearsed pitch finish precisely within the 5-minute limit?",
+          "Does the presentation emphasize the user's problem and transformation rather than code syntax?",
+          "Are backup screenshots ready to present if the live demo encounters network issues?"
+        ],
+        troubleshoot: "💡 The star of the pitch is 'solving the user problem'. Keep the live demo under 2 minutes."
+      },
+      4: {
+        id: 4,
+        type: "core",
+        badge: "Task 04 · Core Lab",
+        tools: ["Antigravity", "Codex"],
+        time: "50 Mins",
+        title: "Peer Review & Pre-Pitch Emergency Hotfix",
+        goal: "Gather structured feedback from zero-explanation peer tests and apply minimal emergency hotfixes before demo time.",
+        steps: [
+          {
+            title: "Conduct Zero-Explanation Blind Peer Testing",
+            desc: "Hand the live URL to a peer with zero verbal guidance and observe their first click and friction points."
+          },
+          {
+            title: "Record Structured Feedback Notes",
+            desc: "Log feedback in [Observation], [Friction], [Evidence], [Suggestion] format and classify into 'Pre-Pitch Urgent' vs 'Post-Pitch Backlog'."
+          },
+          {
+            title: "Apply Minimal Emergency Hotfix",
+            desc: "Patch only 1–2 critical typos or button labels categorized as Pre-Pitch Urgent, then redeploy."
+          }
+        ],
+        fileTree: `my-project/
+├── 📄 FEEDBACK_NOTES.md
+└── src/ (Final Deploy Version)`,
+        prompts: [
+          {
+            label: "Feedback Classification & Spec Update Prompt (Codex)",
+            text: `Organize peer feedback notes into final markdown specifications.
+Feedback: [Paste received peer feedback here]
+Classify items into 'Pre-Pitch Urgent' and 'Post-Pitch Backlog'.
+Keep Pre-Pitch Urgent fixes to an absolute minimum and move structural changes to the post-pitch roadmap.`
+          }
+        ],
+        checklist: [
+          "Were the exact points of peer confusion identified and logged?",
+          "Were high-risk structural refactors properly deferred until after demo day?",
+          "Was the live demo URL re-verified after deploying the emergency patch?"
+        ],
+        troubleshoot: "⚠️ Never undertake major architectural rewrites right before presentation time. Stick to copy or styling polish."
+      },
+      5: {
+        id: 5,
+        type: "core",
+        badge: "Task 05 · Core Lab",
+        tools: ["Codex", "Web ChatGPT"],
+        time: "20 Mins",
+        title: "2-Week Improvement Roadmap (NEXT_STEPS.md)",
+        goal: "Synthesize 5-day hypothesis validation findings and formulate an actionable 2-week execution backlog.",
+        steps: [
+          {
+            title: "Synthesize Hypothesis Validation Findings",
+            desc: "Evaluate how well initial customer hypotheses from Days 1–2 held up against Day 5 real-user feedback."
+          },
+          {
+            title: "Derive Prioritized Improvement Backlog",
+            desc: "Rank and prioritize feature enhancements that could not be implemented during the 5-day bootcamp."
+          },
+          {
+            title: "Finalize NEXT_STEPS.md Roadmap",
+            desc: "Document milestone objectives for Week 1 and Week 2 to continue evolving your venture."
+          }
+        ],
+        fileTree: `my-project/
+└── 📄 NEXT_STEPS.md        (👈 5-Day Venture Graduation Roadmap)`,
+        prompts: [
+          {
+            label: "NEXT_STEPS.md Roadmap Drafting Prompt (Codex)",
+            text: `Draft NEXT_STEPS.md based on the 5-day project (PROJECT.md, FINAL_VALIDATION.md, FEEDBACK_NOTES.md).
+Include:
+1. Validated core hypotheses and real user feedback observations
+2. Technical debt and prioritized backlog
+3. 2-week execution roadmap (Week 1 & Week 2 milestones)
+4. Key entrepreneurial action items for venture launch`
+          }
+        ],
+        checklist: [
+          "Are validated facts clearly distinguished from unverified assumptions?",
+          "Are core execution goals for the next 2 weeks actionable and clear?",
+          "Are key learnings from the 5-day AI venture bootcamp well summarized?"
+        ],
+        troubleshoot: "🎉 Congratulations on completing the 5-day bootcamp! Use this roadmap to grow your prototype into a real business."
+      },
+      6: {
+        id: 6,
+        type: "challenge",
+        badge: "Bonus Track A · Reliability",
+        tools: ["Antigravity"],
+        time: "40~60 Mins",
+        title: "Demo Fallback Mode (One-Click Mock Toggle)",
+        goal: "Implement a hidden demo switch that instantly serves realistic mock data during Wi-Fi disconnects or API downtime.",
+        steps: [
+          {
+            title: "Position Hidden Developer Toggle",
+            desc: "Place an unobtrusive 'Demo Mode' toggle button accessible only to the presenter."
+          },
+          {
+            title: "Instant Mock Response Routing",
+            desc: "When enabled, intercept external network requests and return high-fidelity JSON data after a 0.5s simulated delay."
+          },
+          {
+            title: "Simulate Offline Network Environment",
+            desc: "Set DevTools to Network: Offline and verify that the demo runs seamlessly with demo mode enabled."
+          }
+        ],
+        fileTree: `my-project/
+└── src/
+    ├── 🌐 index.html
+    └── ⚙️ demo-mode-fallback.js`,
+        prompts: [
+          {
+            label: "Demo Fallback Mode Implementation Prompt (Antigravity)",
+            text: `Implement a Demo Fallback Mode for presentation reliability.
+Requirements:
+1. Subtle 'Demo Mode' toggle switch in the corner (Default: OFF)
+2. When toggled ON, intercept all external API calls and return predefined high-quality mock data
+3. Ensure the UI renders a flawless success state even when the network is completely offline.`
+          }
+        ],
+        checklist: [
+          "Does the full user loop execute seamlessly even when disconnecting from the internet?",
+          "Does toggling Demo Mode ON successfully block real API requests?",
+          "Does the results screen display realistic and polished mock data?"
+        ],
+        troubleshoot: "💡 This serves as the ultimate insurance policy during live demo presentations."
+      },
+      7: {
+        id: 7,
+        type: "challenge",
+        badge: "Bonus Track B · Viral/Social",
+        tools: ["Antigravity"],
+        time: "30~40 Mins",
+        title: "Open Graph (OG) & Social Card Optimization",
+        goal: "Configure rich social card preview metadata, custom favicon, and OG banner image when sharing demo links on Slack and messaging apps.",
+        steps: [
+          {
+            title: "Embed OG Meta Tags in HTML Head",
+            desc: "Add og:title, og:description, og:image, og:url, and twitter:card tags inside index.html <head>."
+          },
+          {
+            title: "Link Custom Favicon & High-Res Banner",
+            desc: "Connect browser tab favicon and a 1200x630 resolution hero banner image."
+          },
+          {
+            title: "Verify with Social Card Debuggers",
+            desc: "Test social card preview rendering using messaging apps or Open Graph debugger tools."
+          }
+        ],
+        fileTree: `my-project/
+├── 🌐 index.html (OG meta tags configured)
+├── 🖼️ og-thumbnail.png (1200x630)
+└── 🖼️ favicon.ico`,
+        prompts: [
+          {
+            label: "Open Graph Optimization Prompt (Antigravity)",
+            text: `Add comprehensive Open Graph and Twitter Card meta tags to the <head> of index.html.
+Include:
+- og:type, og:title, og:description, og:image, og:url, og:site_name
+- twitter:card, twitter:title, twitter:description, twitter:image
+- favicon icon link
+
+Ensure the description reflects the core value proposition from PROJECT.md.`
+          }
+        ],
+        checklist: [
+          "Does a beautiful thumbnail preview appear when sharing the link on Slack or messaging apps?",
+          "Does the browser tab display a custom favicon icon?",
+          "Are preview titles and descriptions concise and compelling?"
+        ],
+        troubleshoot: "💡 Social card crawlers require absolute HTTPS image URLs to display preview cards."
+      }
+    }
+  },
+];
+
+    // State
+    let currentDayFilter = 'all';
+    let currentTypeFilter = 'all';
+    const activeSlideIndexes = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderAllDays();
+    });
+
+    function renderAllDays() {
+      const container = document.getElementById('daysContainer');
+      container.innerHTML = '';
+
+      courseData.forEach(d => {
+        if (currentDayFilter !== 'all' && currentDayFilter !== d.day) return;
+
+        const dayBlock = document.createElement('section');
+        dayBlock.className = 'day-block';
+        dayBlock.id = `dayBlock-${d.day}`;
+
+        const tasksObj = d.tasks || {};
+        const coreTasks = [];
+        const challengeTasks = [];
+
+        Object.values(tasksObj).forEach(t => {
+          if (t.type === 'core') coreTasks.push(t);
+          else challengeTasks.push(t);
+        });
+
+        // Header
+        const headerHtml = `
+          <div class="day-header">
+            <div class="day-header-left">
+              <div class="day-badge-row">
+                <span class="badge-day-number">Day ${d.day}</span>
+                <span class="day-time-tag">⏱️ 6 Hours / 360 Min</span>
+                <span style="font-size:0.8rem; color:var(--dim);">| ${d.badgeTitle}</span>
+              </div>
+              <h2 class="day-title">${d.title}</h2>
+              <div class="day-goals-list">
+                ${d.goals.map(g => `<div class="day-goal-pill">${g}</div>`).join('')}
+              </div>
+            </div>
+            <div class="day-header-actions">
+              <a href="${d.classroomUrl}" class="btn-nav highlight">
+                <span>🏫 Day ${d.day} Lab</span>
+                <span>↗</span>
+              </a>
+              <a href="${d.textbookUrl}" class="btn-nav">
+                <span>📖 Textbook</span>
+              </a>
+            </div>
+          </div>
+        `;
+
+        // Section 1: Lecture Slides
+        let slidesHtml = '';
+        if (currentTypeFilter === 'all' || currentTypeFilter === 'slides') {
+          const curIdx = activeSlideIndexes[d.day] || 0;
+          const slidesArr = d.slides || [];
+          const curSlide = slidesArr[curIdx] || { tag: 'Slide', title: 'Loading...', body: '', notes: '' };
+
+          slidesHtml = `
+            <div class="content-subsection" id="sub-slides-${d.day}">
+              <div class="sub-title-bar">
+                <h3>🖥️ Lecture Slides</h3>
+                <span class="sub-count-tag">${slidesArr.length} Slides</span>
+              </div>
+              <div class="slides-overview-card">
+                <div class="slide-viewer-top">
+                  <span class="slide-tag" id="slide-tag-${d.day}">${curSlide.tag}</span>
+                  <span class="slide-counter" id="slide-count-${d.day}">${curIdx + 1} / ${slidesArr.length}</span>
+                </div>
+                <div class="slide-body-box" id="slide-body-${d.day}">
+                  <h4>${curSlide.title}</h4>
+                  <div class="body-content">${curSlide.body}</div>
+                </div>
+                ${curSlide.notes ? `
+                  <div class="slide-notes-card" id="slide-notes-${d.day}">
+                    <strong>💡 Study & Pitch Tip:</strong>
+                    <span id="slide-notes-text-${d.day}">${curSlide.notes}</span>
+                  </div>
+                ` : `<div class="slide-notes-card" id="slide-notes-${d.day}" style="display:none;"></div>`}
+                <div class="slide-ctrl-row">
+                  <button class="slide-btn" onclick="prevSlide(${d.day})">◀ Prev</button>
+                  <div class="slide-quick-pills">
+                    ${slidesArr.map((_, i) => `<span class="slide-dot ${i === curIdx ? 'active' : ''}" onclick="goToSlide(${d.day}, ${i})" title="Slide ${i+1}"></span>`).join('')}
+                  </div>
+                  <button class="slide-btn" onclick="nextSlide(${d.day})">Next ▶</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // Section 2: Core Practice Tasks
+        let tasksHtml = '';
+        if (currentTypeFilter === 'all' || currentTypeFilter === 'tasks') {
+          tasksHtml = `
+            <div class="content-subsection" id="sub-tasks-${d.day}">
+              <div class="sub-title-bar">
+                <h3>💻 Core Practice Task Board</h3>
+                <span class="sub-count-tag">${coreTasks.length} Tasks</span>
+              </div>
+              <div class="task-cards-grid">
+                ${coreTasks.map(t => `
+                  <article class="task-card" id="task-card-${d.day}-${t.id}">
+                    <div>
+                      <div class="task-card-top">
+                        <div class="task-badge-group">
+                          <span class="badge-task-id">${t.badge || `Task 0${t.id}`}</span>
+                          ${(t.tools || []).map(tool => `<span class="badge-tool ${tool.toLowerCase().includes('chatgpt') ? 'chatgpt' : (tool === 'Codex' ? 'codex' : (tool === 'Deploy' ? 'deploy' : 'agy'))}">${tool}</span>`).join('')}
+                        </div>
+                        <span class="task-time">⏱️ ${t.time || '50분'}</span>
+                      </div>
+                      <h4 class="task-title">${t.title}</h4>
+                      <p class="task-goal">${t.goal || ''}</p>
+                    </div>
+
+                    <div class="task-footer-info">
+                      <span style="font-size:0.75rem; color:var(--dim);">📁 ${t.fileTree ? t.fileTree.split('\n')[0] : 'Workspace'}</span>
+                      <button type="button" class="btn-expand-task" onclick="toggleTaskDetail(${d.day}, ${t.id})">
+                        <span>Detailed Guide & Prompt</span>
+                        <span id="arrow-${d.day}-${t.id}">▼</span>
+                      </button>
+                    </div>
+
+                    <!-- Accordion Inline Details -->
+                    <div class="task-inline-detail" id="detail-${d.day}-${t.id}">
+                      <div style="margin-bottom:12px;">
+                        <span style="font-size:0.78rem; font-weight:800; color:#38bdf8;">📌 Step-by-Step Guide</span>
+                      </div>
+                      ${(t.steps || []).map((st, sidx) => `
+                        <div class="detail-step-item">
+                          <strong>Step ${sidx + 1}. ${st.title}</strong>
+                          <span>${st.desc}</span>
+                        </div>
+                      `).join('')}
+
+                      ${t.prompts && t.prompts.length > 0 ? `
+                        <div class="prompt-box-area">
+                          <div class="prompt-top-bar">
+                            <span>💬 ${t.prompts[0].label || 'Prompt'}</span>
+                            <button type="button" class="btn-copy" onclick="copyPrompt('prompt-${d.day}-${t.id}')">Copy</button>
+                          </div>
+                          <pre class="prompt-content-code" id="prompt-${d.day}-${t.id}">${escapeHtml(t.prompts[0].body)}</pre>
+                        </div>
+                      ` : ''}
+
+                      ${t.checklist && t.checklist.length > 0 ? `
+                        <div style="margin-top:12px; background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.2); border-radius:6px; padding:10px;">
+                          <span style="font-size:0.76rem; font-weight:800; color:#6ee7b7; display:block; margin-bottom:4px;">✅ Self-Checklist</span>
+                          <ul style="list-style:none; font-size:0.8rem; color:#cbd5e1; line-height:1.5;">
+                            ${t.checklist.map(c => `<li>• ${c}</li>`).join('')}
+                          </ul>
+                        </div>
+                      ` : ''}
+                    </div>
+                  </article>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        // Section 3: Autonomous Challenge Projects
+        let chalHtml = '';
+        if ((currentTypeFilter === 'all' || currentTypeFilter === 'challenges') && challengeTasks.length > 0) {
+          chalHtml = `
+            <div class="content-subsection" id="sub-chal-${d.day}">
+              <div class="sub-title-bar">
+                <h3>🚀 Autonomous Challenge Projects</h3>
+                <span class="sub-count-tag">${challengeTasks.length} Topics</span>
+              </div>
+              <div class="challenge-cards-grid">
+                ${challengeTasks.map(c => `
+                  <article class="challenge-card">
+                    <div class="challenge-top">
+                      <span class="challenge-badge">${c.badge || '자율 도전 과제'}</span>
+                      <span class="task-time">⏱️ ${c.time || '60~80분'}</span>
+                    </div>
+                    <h4 class="challenge-title">${c.title}</h4>
+                    <p class="challenge-desc">${c.goal || ''}</p>
+
+                    ${c.prompts && c.prompts.length > 0 ? `
+                      <div class="prompt-box-area">
+                        <div class="prompt-top-bar">
+                          <span>📌 ${c.prompts[0].label || 'Prompt'}</span>
+                          <button type="button" class="btn-copy" onclick="copyPrompt('chal-prompt-${d.day}-${c.id}')">Copy</button>
+                        </div>
+                        <pre class="prompt-content-code" id="chal-prompt-${d.day}-${c.id}">${escapeHtml(c.prompts[0].body)}</pre>
+                      </div>
+                    ` : ''}
+                  </article>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        dayBlock.innerHTML = headerHtml + slidesHtml + tasksHtml + chalHtml;
+        container.appendChild(dayBlock);
+      });
+    }
+
+    function selectDay(day) {
+      currentDayFilter = day;
+      document.querySelectorAll('.day-tab-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-day') === String(day));
+      });
+      renderAllDays();
+      if (day !== 'all') {
+        const el = document.getElementById(`dayBlock-${day}`);
+        if (el) {
+          const y = el.getBoundingClientRect().top + window.pageYOffset - 120;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }
+    }
+
+    function filterType(type) {
+      currentTypeFilter = type;
+      document.querySelectorAll('.type-filter-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-type') === type);
+      });
+      renderAllDays();
+    }
+
+    function nextSlide(day) {
+      const dData = courseData.find(d => d.day === day);
+      if (!dData || !dData.slides) return;
+      activeSlideIndexes[day] = (activeSlideIndexes[day] + 1) % dData.slides.length;
+      updateSlideView(day);
+    }
+
+    function prevSlide(day) {
+      const dData = courseData.find(d => d.day === day);
+      if (!dData || !dData.slides) return;
+      activeSlideIndexes[day] = (activeSlideIndexes[day] - 1 + dData.slides.length) % dData.slides.length;
+      updateSlideView(day);
+    }
+
+    function goToSlide(day, idx) {
+      activeSlideIndexes[day] = idx;
+      updateSlideView(day);
+    }
+
+    function updateSlideView(day) {
+      const dData = courseData.find(d => d.day === day);
+      if (!dData || !dData.slides) return;
+      const idx = activeSlideIndexes[day];
+      const curSlide = dData.slides[idx];
+
+      const tagEl = document.getElementById(`slide-tag-${day}`);
+      const countEl = document.getElementById(`slide-count-${day}`);
+      const bodyEl = document.getElementById(`slide-body-${day}`);
+      const notesEl = document.getElementById(`slide-notes-${day}`);
+      const notesTextEl = document.getElementById(`slide-notes-text-${day}`);
+
+      if (tagEl) tagEl.textContent = curSlide.tag;
+      if (countEl) countEl.textContent = `${idx + 1} / ${dData.slides.length}`;
+      if (bodyEl) {
+        bodyEl.innerHTML = `<h4>${curSlide.title}</h4><div class="body-content">${curSlide.body}</div>`;
+      }
+      if (notesEl && notesTextEl) {
+        if (curSlide.notes) {
+          notesEl.style.display = 'flex';
+          notesTextEl.textContent = curSlide.notes;
+        } else {
+          notesEl.style.display = 'none';
+        }
+      }
+
+      const sub = document.getElementById(`sub-slides-${day}`);
+      if (sub) {
+        const dots = sub.querySelectorAll('.slide-dot');
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === idx);
+        });
+      }
+    }
+
+    function toggleTaskDetail(day, taskId) {
+      const detailEl = document.getElementById(`detail-${day}-${taskId}`);
+      const arrowEl = document.getElementById(`arrow-${day}-${taskId}`);
+      if (!detailEl) return;
+      const isHidden = detailEl.style.display === 'none' || !detailEl.style.display;
+      detailEl.style.display = isHidden ? 'block' : 'none';
+      if (arrowEl) arrowEl.textContent = isHidden ? '▲' : '▼';
+    }
+
+    function copyPrompt(elId) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('Prompt copied to clipboard!');
+        }).catch(() => { fallbackCopy(text); });
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-999999px';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showToast('Prompt copied to clipboard!');
+      } catch (e) {
+        alert(text);
+      }
+      document.body.removeChild(ta);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      const tm = document.getElementById('toastMsg');
+      if (tm) tm.textContent = msg;
+      if (t) {
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2400);
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+  </script>
+</body>
+</html>

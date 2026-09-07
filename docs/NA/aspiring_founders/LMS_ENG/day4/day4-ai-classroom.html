@@ -1,6 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      if (!loggedInUser) {
+        window.location.href = '../login/login.html';
+      }
+    })();
+
+    function logout() {
+      document.cookie = "currentUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      localStorage.removeItem('currentUserSession');
+      window.location.href = '../login/login.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        var user = null;
+        if (sessionStr) {
+          var s = JSON.parse(sessionStr);
+          user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
+        }
+        if (user) {
+          var userBadge = document.getElementById('userProfileBadge');
+          var userAvatar = document.getElementById('userAvatar');
+          var userName = document.getElementById('userName');
+          if (userBadge) userBadge.style.display = 'inline-flex';
+          if (userAvatar && user.avatar) userAvatar.textContent = user.avatar;
+          if (userName && user.name) userName.textContent = user.name;
+        
+          // 멘토/퍼실리테이터 전용: 전체과정한눈에보기 버튼 노출
+          var isMentor = user.role === 'mentor' || user.role === 'facilitator' || user.id === 'mentor-staff' || (user.name && (user.name.includes('멘토') || user.name.includes('Facilitator') || user.name.includes('Mentor')));
+          if (isMentor) {
+            document.querySelectorAll('.btn-course-overview').forEach(function(btn) {
+              btn.style.display = 'inline-flex';
+            });
+          }
+        }
+      } catch(e) {
+        console.error(e);
+      }
+    });
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Day 4 AI Classroom Lab | Aspiring Founders AI Web App MVP Bootcamp</title>
@@ -529,6 +599,7 @@
     <div class="topbar-actions">
       <a href="../index.html" class="btn-nav">🏠 LMS Home</a>
       <a href="../../LECTURE_ENG/docs/index.html#day-4" target="_blank" class="btn-nav">🖥️ Open Presentation Slides</a>
+      <a href="../course-overview.html" class="btn-course-overview btn-nav" style="display: none; background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2)); border: 1px solid rgba(168, 85, 247, 0.45); color: #e9d5ff; font-weight: 800;">🌟 Course Overview</a>
       <a href="day4-textbook.html" class="btn-nav btn-textbook">📖 View Textbook</a>
     </div>
   </header>
