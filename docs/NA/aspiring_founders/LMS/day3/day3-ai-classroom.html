@@ -1599,36 +1599,6 @@ Must 기능:
 
       <!-- Modal Body -->
       <div style="padding: 24px 28px; display: flex; flex-direction: column; gap: 20px;">
-        
-        <!-- Account Card 1: Antigravity -->
-        <div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 14px; padding: 18px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 1.2rem;">🌐</span>
-              <strong style="color: #93c5fd; font-size: 0.95rem;">안티그래비티 (Google AGY)</strong>
-            </div>
-            <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3);">개발 도구</span>
-          </div>
-
-          <!-- AGY ID -->
-          <div style="margin-bottom: 10px;">
-            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Google)</div>
-            <div style="display: flex; gap: 6px;">
-              <input type="text" id="agyIdVal" readonly value="agy.pilot.team@gmail.com" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
-              <button type="button" onclick="copyAccountVal('agyIdVal', '안티그래비티 ID가 복사되었습니다!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">복사</button>
-            </div>
-          </div>
-
-          <!-- AGY Password -->
-          <div>
-            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">비밀번호 (Password)</div>
-            <div style="display: flex; gap: 6px;">
-              <input type="password" id="agyPwVal" readonly value="AcePilot2026!agy" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
-              <button type="button" onclick="togglePwVisibility('agyPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title="비밀번호 보기/숨기기">👁️</button>
-              <button type="button" onclick="copyAccountVal('agyPwVal', '안티그래비티 비밀번호가 복사되었습니다!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">복사</button>
-            </div>
-          </div>
-        </div>
 
         <!-- Account Card 2: Codex -->
         <div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px; padding: 18px;">
@@ -1637,7 +1607,7 @@ Must 기능:
               <span style="font-size: 1.2rem;">🤖</span>
               <strong style="color: #6ee7b7; font-size: 0.95rem;">코덱스 (OpenAI Codex)</strong>
             </div>
-            <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">기획·검증 도구</span>
+            <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">기획.검증.개발 도구</span>
           </div>
 
           <!-- Codex ID -->
@@ -1684,18 +1654,14 @@ Must 기능:
           const user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
           if (user) {
             const badge = document.getElementById('modalTeamBadge');
-            const agyId = document.getElementById('agyIdVal');
             const codexId = document.getElementById('codexIdVal');
-            const agyPw = document.getElementById('agyPwVal');
             const codexPw = document.getElementById('codexPwVal');
             
             const cohortPrefix = user.cohort ? 'c' + user.cohort : 'c1';
             const teamNum = user.teamNum || 1;
 
             if (badge) badge.textContent = user.name + ' 전용 AI 도구 계정';
-            if (agyId) agyId.value = 'agy.' + cohortPrefix + '.team' + teamNum + '@gmail.com';
             if (codexId) codexId.value = 'codex.' + cohortPrefix + '.team' + teamNum + '@openai.com';
-            if (agyPw) agyPw.value = 'AgyPilot' + teamNum + '!2026';
             if (codexPw) codexPw.value = 'CodexPilot' + teamNum + '!2026';
           }
         }

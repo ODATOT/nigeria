@@ -1007,7 +1007,7 @@
           <div id="userProfileBadge" style="display: none; align-items: center; gap: 10px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 5px 14px; border-radius: 999px;">
             <span id="userAvatar" style="font-size: 1.1rem;">🚀</span>
             <span id="userName" style="font-size: 0.88rem; font-weight: 800; color: #93c5fd;">Team Name</span>
-            <button type="button" onclick="openAiAccountModal()" class="btn-account-header" title="Check Antigravity and Codex practice accounts">🔑 AI Accounts</button>
+            
             <button type="button" onclick="logout()" class="btn-logout-header">Logout</button>
           </div>
         </div>
@@ -1405,38 +1405,85 @@
 
     <!-- Facilitator Modal Layer -->
     <div id="facilTeamModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;">
-      <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 100%; max-width: 580px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(6, 182, 212, 0.2); overflow: hidden; transform: translateY(20px); transition: transform 0.25s ease;" id="facilModalCard">
-        
+      <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 100%; max-width: 600px; max-height: 90vh; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(6, 182, 212, 0.2); transform: translateY(20px); transition: transform 0.25s ease; display: flex; flex-direction: column;" id="facilModalCard">
+
         <!-- Modal Header -->
-        <div style="padding: 24px 28px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+        <div style="padding: 22px 28px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
           <div style="display: flex; align-items: center; gap: 14px;">
             <div id="modalFacilAvatar" style="width: 48px; height: 48px; border-radius: 12px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; font-size: 1.8rem;">👨🏾‍🏫</div>
             <div>
               <div style="display: flex; align-items: center; gap: 8px;">
-                <h3 id="modalFacilName" style="font-size: 1.25rem; font-weight: 800; color: #fff; margin: 0;">Facilitator Name</h3>
+                <h3 id="modalFacilName" style="font-size: 1.2rem; font-weight: 800; color: #fff; margin: 0;">Facilitator Name</h3>
                 <span id="modalFacilGroupBadge" style="font-size: 0.74rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3);">Work A</span>
               </div>
               <span id="modalFacilEmail" style="font-size: 0.8rem; color: #94a3b8; margin-top: 3px; display: block; font-family: monospace;">email@bootcamp.ai</span>
             </div>
           </div>
-          <button type="button" onclick="closeFacilModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">✕</button>
+          <button type="button" onclick="closeFacilModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;">✕</button>
         </div>
 
-        <!-- Modal Body -->
-        <div style="padding: 24px 28px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-            <strong style="color: #fff; font-size: 0.95rem;">🎯 <span id="modalCohortLabel">Cohort 1</span> Assigned Mentoring Teams (<span id="modalTeamCount">4</span> Teams)</strong>
-            <span style="font-size: 0.78rem; color: #64748b;" id="modalCohortSub">Cohort 1 Founder Teams</span>
+        <!-- Tab Buttons -->
+        <div style="display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;">
+          <button id="facilTabTeams" type="button" onclick="switchFacilTab('teams')" style="flex: 1; padding: 12px 0; background: rgba(6,182,212,0.12); color: #22d3ee; font-size: 0.88rem; font-weight: 800; border: none; border-bottom: 2px solid #22d3ee; cursor: pointer; transition: all 0.2s;">👥 Assigned Teams</button>
+          <button id="facilTabAI" type="button" onclick="switchFacilTab('ai')" style="flex: 1; padding: 12px 0; background: transparent; color: #64748b; font-size: 0.88rem; font-weight: 700; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.2s;">🔑 AI Account Info</button>
+        </div>
+
+        <!-- Scrollable Body -->
+        <div style="overflow-y: auto; flex: 1;">
+
+          <!-- Tab: Team List -->
+          <div id="facilPanelTeams" style="padding: 22px 28px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <strong style="color: #fff; font-size: 0.95rem;">🎯 <span id="modalCohortLabel">Cohort 1</span> Assigned Mentoring Teams (<span id="modalTeamCount">4</span> Teams)</strong>
+              <span style="font-size: 0.78rem; color: #64748b;" id="modalCohortSub">Cohort 1 Founder Teams</span>
+            </div>
+            <div id="modalTeamList" style="display: flex; flex-direction: column; gap: 10px; padding-right: 4px;">
+              <!-- Rendered dynamically -->
+            </div>
           </div>
 
-          <!-- Team List Container -->
-          <div id="modalTeamList" style="display: flex; flex-direction: column; gap: 10px; max-height: 260px; overflow-y: auto; padding-right: 4px;">
-            <!-- Rendered dynamically -->
-          </div>
+          <!-- Tab: AI Account -->
+          <div id="facilPanelAI" style="padding: 22px 28px; display: none; flex-direction: column; gap: 18px;">
+
+            <!-- Codex Card -->
+            <div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px; padding: 18px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 1.2rem;">🤖</span>
+                  <strong style="color: #6ee7b7; font-size: 0.95rem;">Codex (OpenAI Codex)</strong>
+                </div>
+                <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">Planning · Verification · Dev Tool</span>
+              </div>
+              <div style="margin-bottom: 12px;">
+                <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Codex)</div>
+                <div style="display: flex; gap: 6px;">
+                  <input type="text" id="facilCodexIdVal" readonly value="" style="flex: 1; background: #09090b; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
+                  <button type="button" onclick="copyAccountVal('facilCodexIdVal', 'Codex ID copied!')" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Copy</button>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px;">Password</div>
+                <div style="display: flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; padding: 10px 14px;">
+                  <span style="font-size: 1rem;">📧</span>
+                  <div>
+                    <div style="font-size: 0.83rem; font-weight: 700; color: #6ee7b7;">Email Verification</div>
+                    <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 2px;">Sign in via email link verification</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /facilPanelAI -->
+
+        </div><!-- /scrollable body -->
+
+        <!-- Modal Footer -->
+        <div style="padding: 14px 28px 18px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: flex-end; flex-shrink: 0;">
+          <button type="button" onclick="closeFacilModal()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 9px 20px; color: #fff; font-size: 0.88rem; font-weight: 700; cursor: pointer;">Close</button>
         </div>
 
-        </div>
-
+      </div>
+    </div>
       </div>
     </div>
 
@@ -1485,214 +1532,7 @@
   </footer>
 
 
-  <!-- AI Account Modal -->
-  <div id="aiAccountModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;">
-    <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 100%; max-width: 520px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.2); overflow: hidden; transform: translateY(20px); transition: transform 0.25s ease;" id="aiModalCard">
-      
-      <!-- Modal Header -->
-      <div style="padding: 24px 28px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #3b82f6, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🔑</div>
-          <div>
-            <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">AI Practice Account Credentials</h3>
-            <span id="modalTeamBadge" style="font-size: 0.76rem; color: #94a3b8;">Assigned Practice Tool Accounts</span>
-          </div>
-        </div>
-        <button type="button" onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">✕</button>
-      </div>
-
-      <!-- Modal Body -->
-      <div style="padding: 24px 28px; display: flex; flex-direction: column; gap: 20px;">
-        
-        <!-- Account Card 1: Antigravity -->
-        <div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 14px; padding: 18px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 1.2rem;">🌐</span>
-              <strong style="color: #93c5fd; font-size: 0.95rem;">Antigravity (Google AGY)</strong>
-            </div>
-            <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3);">Dev Tool</span>
-          </div>
-
-          <!-- AGY ID -->
-          <div style="margin-bottom: 10px;">
-            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Google)</div>
-            <div style="display: flex; gap: 6px;">
-              <input type="text" id="agyIdVal" readonly value="agy.pilot.team@gmail.com" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
-              <button type="button" onclick="copyAccountVal('agyIdVal', 'Antigravity ID copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Copy</button>
-            </div>
-          </div>
-
-          <!-- AGY Password -->
-          <div>
-            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Password</div>
-            <div style="display: flex; gap: 6px;">
-              <input type="password" id="agyPwVal" readonly value="AcePilot2026!agy" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
-              <button type="button" onclick="togglePwVisibility('agyPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title="Show/Hide Password">👁️</button>
-              <button type="button" onclick="copyAccountVal('agyPwVal', 'Antigravity Password copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Copy</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Account Card 2: Codex -->
-        <div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px; padding: 18px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 1.2rem;">🤖</span>
-              <strong style="color: #6ee7b7; font-size: 0.95rem;">Codex (OpenAI Codex)</strong>
-            </div>
-            <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">Planning &amp; QA Tool</span>
-          </div>
-
-          <!-- Codex ID -->
-          <div style="margin-bottom: 10px;">
-            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Codex)</div>
-            <div style="display: flex; gap: 6px;">
-              <input type="text" id="codexIdVal" readonly value="codex.pilot.team@openai.com" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
-              <button type="button" onclick="copyAccountVal('codexIdVal', 'Codex ID copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Copy</button>
-            </div>
-          </div>
-
-          <!-- Codex Password -->
-          <div>
-            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Password</div>
-            <div style="display: flex; gap: 6px;">
-              <input type="password" id="codexPwVal" readonly value="AcePilot2026!codex" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" />
-              <button type="button" onclick="togglePwVisibility('codexPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title="Show/Hide Password">👁️</button>
-              <button type="button" onclick="copyAccountVal('codexPwVal', 'Codex Password copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Copy</button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Modal Footer -->
-      <div style="padding: 16px 28px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: flex-end;">
-        <button type="button" onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 9px 20px; color: #fff; font-size: 0.88rem; font-weight: 700; cursor: pointer;">Close</button>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    function openAiAccountModal() {
-      const modal = document.getElementById('aiAccountModal');
-      const card = document.getElementById('aiModalCard');
-      if (!modal) return;
-      
-      // Update team info dynamically
-      try {
-        const sessionStr = localStorage.getItem('currentUserSession');
-        if (sessionStr) {
-          const s = JSON.parse(sessionStr);
-          const user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
-          if (user) {
-            const badge = document.getElementById('modalTeamBadge');
-            const agyId = document.getElementById('agyIdVal');
-            const codexId = document.getElementById('codexIdVal');
-            const agyPw = document.getElementById('agyPwVal');
-            const codexPw = document.getElementById('codexPwVal');
-            
-            const cohortPrefix = user.cohort ? 'c' + user.cohort : 'c1';
-            const teamNum = user.teamNum || 1;
-
-            if (badge) badge.textContent = user.name + ' Dedicated AI Tools Account';
-            if (agyId) agyId.value = 'agy.' + cohortPrefix + '.team' + teamNum + '@gmail.com';
-            if (codexId) codexId.value = 'codex.' + cohortPrefix + '.team' + teamNum + '@openai.com';
-            if (agyPw) agyPw.value = 'AgyPilot' + teamNum + '!2026';
-            if (codexPw) codexPw.value = 'CodexPilot' + teamNum + '!2026';
-          }
-        }
-      } catch(e) {
-        console.error(e);
-      }
-
-      modal.style.display = 'flex';
-      setTimeout(() => {
-        modal.style.opacity = '1';
-        if (card) card.style.transform = 'translateY(0)';
-      }, 10);
-    }
-
-    function closeAiAccountModal() {
-      const modal = document.getElementById('aiAccountModal');
-      const card = document.getElementById('aiModalCard');
-      if (!modal) return;
-      modal.style.opacity = '0';
-      if (card) card.style.transform = 'translateY(20px)';
-      setTimeout(() => {
-        modal.style.display = 'none';
-      }, 250);
-    }
-
-    function togglePwVisibility(inputId, btn) {
-      const input = document.getElementById(inputId);
-      if (!input) return;
-      if (input.type === 'password') {
-        input.type = 'text';
-        btn.textContent = '🔒';
-      } else {
-        input.type = 'password';
-        btn.textContent = '👁️';
-      }
-    }
-
-    function copyAccountVal(inputId, successMsg) {
-      const input = document.getElementById(inputId);
-      if (!input) return;
-      const val = input.value;
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(val).then(() => {
-          if (typeof showToast === 'function') {
-            showToast(successMsg);
-          } else {
-            alert(successMsg);
-          }
-        }).catch(() => {
-          fallbackCopyVal(val, successMsg);
-        });
-      } else {
-        fallbackCopyVal(val, successMsg);
-      }
-    }
-
-    function fallbackCopyVal(val, successMsg) {
-      const textArea = document.createElement('textarea');
-      textArea.value = val;
-      textArea.style.position = 'fixed';
-      textArea.style.left = '-999999px';
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        if (typeof showToast === 'function') {
-          showToast(successMsg);
-        } else {
-          alert(successMsg);
-        }
-      } catch (err) {
-        alert('Value to copy:  ' + val);
-      }
-      document.body.removeChild(textArea);
-    }
-
-    // Close on click outside modal card
-    document.addEventListener('click', function(e) {
-      const modal = document.getElementById('aiAccountModal');
-      if (modal && e.target === modal) {
-        closeAiAccountModal();
-      }
-    });
-
-    // Close on ESC key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closeAiAccountModal();
-      }
-    });
-  </script>
-
+  <!-- AI Account Modal functionality moved into Facilitator modal tab -->
 
   <script>
     const facilitatorData = [
@@ -1704,6 +1544,7 @@
     "targetCohort": 1,
     "avatar": "👩🏾‍🏫",
     "email": "bisola.b@bootcamp.ai",
+    "codexId": "ace-ai-tot-01@edunlab.kr",
     "intro": "“Together, we forge the clearest path from raw ideas to running AI web services.”",
     "teams": [
       {
@@ -1748,6 +1589,7 @@
     "targetCohort": 1,
     "avatar": "👨🏾‍🏫",
     "email": "teddy.a@bootcamp.ai",
+    "codexId": "ace-ai-tot-02@edunlab.kr",
     "intro": "“Teams that master user data flow lead the market in the AI era.”",
     "teams": [
       {
@@ -1792,6 +1634,7 @@
     "targetCohort": 1,
     "avatar": "👨🏾‍💻",
     "email": "clement.m@bootcamp.ai",
+    "codexId": "ace-ai-tot-03@edunlab.kr",
     "intro": "“A single line of crisp specification meets AI to become innovative web interfaces.”",
     "teams": [
       {
@@ -1828,6 +1671,7 @@
     "targetCohort": 1,
     "avatar": "👨🏾‍🏫",
     "email": "emmanuel.b@bootcamp.ai",
+    "codexId": "ace-ai-tot-04@edunlab.kr",
     "intro": "“Depth in planning determines the resilience and viability of your MVP.”",
     "teams": [
       {
@@ -1864,6 +1708,7 @@
     "targetCohort": 1,
     "avatar": "👨🏾‍💻",
     "email": "mustapha.a@bootcamp.ai",
+    "codexId": "ace-ai-tot-05@edunlab.kr",
     "intro": "“Crafting polished, responsive web experiences that delight end-users.”",
     "teams": [
       {
@@ -1900,6 +1745,7 @@
     "targetCohort": 1,
     "avatar": "👨🏾‍🏫",
     "email": "ahmad.m@bootcamp.ai",
+    "codexId": "ace-ai-tot-06@edunlab.kr",
     "intro": "“Maximizing product value through friction-free user flows and verified logic.”",
     "teams": [
       {
@@ -1936,6 +1782,7 @@
     "targetCohort": 1,
     "avatar": "👨🏾‍💻",
     "email": "aina.s@bootcamp.ai",
+    "codexId": "ace-ai-tot-07@edunlab.kr",
     "intro": "“Guiding you to deploy your MVP live and pitch with confidence.”",
     "teams": [
       {
@@ -2337,11 +2184,97 @@
         teamList.appendChild(item);
       });
 
+      // Update AI Account credentials (facilitator-specific fixed assignment)
+      try {
+        const codexId = document.getElementById('facilCodexIdVal');
+        // Codex: fixed per-facilitator account
+        if (codexId) codexId.value = facil.codexId || 'Not assigned';
+      } catch(e) { console.error(e); }
+
+      // Always reset to 'Teams' tab on open
+      switchFacilTab('teams');
+
       modal.style.display = 'flex';
       setTimeout(() => {
         modal.style.opacity = '1';
         if (card) card.style.transform = 'translateY(0)';
       }, 10);
+    }
+
+    function switchFacilTab(tab) {
+      const tabTeams = document.getElementById('facilTabTeams');
+      const tabAI = document.getElementById('facilTabAI');
+      const panelTeams = document.getElementById('facilPanelTeams');
+      const panelAI = document.getElementById('facilPanelAI');
+      if (!tabTeams || !tabAI || !panelTeams || !panelAI) return;
+
+      if (tab === 'teams') {
+        tabTeams.style.background = 'rgba(6,182,212,0.12)';
+        tabTeams.style.color = '#22d3ee';
+        tabTeams.style.borderBottom = '2px solid #22d3ee';
+        tabTeams.style.fontWeight = '800';
+        tabAI.style.background = 'transparent';
+        tabAI.style.color = '#64748b';
+        tabAI.style.borderBottom = '2px solid transparent';
+        tabAI.style.fontWeight = '700';
+        panelTeams.style.display = 'block';
+        panelAI.style.display = 'none';
+      } else {
+        tabAI.style.background = 'rgba(59,130,246,0.12)';
+        tabAI.style.color = '#93c5fd';
+        tabAI.style.borderBottom = '2px solid #93c5fd';
+        tabAI.style.fontWeight = '800';
+        tabTeams.style.background = 'transparent';
+        tabTeams.style.color = '#64748b';
+        tabTeams.style.borderBottom = '2px solid transparent';
+        tabTeams.style.fontWeight = '700';
+        panelTeams.style.display = 'none';
+        panelAI.style.display = 'flex';
+      }
+    }
+
+    function copyAccountVal(inputId, successMsg) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      const val = input.value;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(val).then(() => {
+          if (typeof showToast === 'function') showToast(successMsg);
+          else alert(successMsg);
+        }).catch(() => { fallbackCopyVal(val, successMsg); });
+      } else {
+        fallbackCopyVal(val, successMsg);
+      }
+    }
+
+    function fallbackCopyVal(val, successMsg) {
+      const textArea = document.createElement('textarea');
+      textArea.value = val;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        if (typeof showToast === 'function') showToast(successMsg);
+        else alert(successMsg);
+      } catch (err) {
+        alert('Value to copy: ' + val);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function togglePwVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🔒';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
     }
 
     function closeFacilModal() {
