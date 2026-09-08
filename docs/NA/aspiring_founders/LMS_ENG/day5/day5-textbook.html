@@ -1,47 +1,265 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head> <script id="auth-guard"> (function() { function getCookie(name) { var nameEQ = name + "="; var ca = document.cookie.split(';'); for(var i=0; i < ca.length; i++) { var c = ca[i]; while (c.charAt(0)==' ') c = c.substring(1,c.length); if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length)); } return null; } var loggedInUser = getCookie('currentUser'); if (!loggedInUser) { var sessionStr = localStorage.getItem('currentUserSession'); if (sessionStr) { try { var session = JSON.parse(sessionStr); if (Date.now() < session.expiresAt) { loggedInUser = session.value; } else { localStorage.removeItem('currentUserSession'); } } catch (e) { console.error(e); } } } if (!loggedInUser) { window.location.href = '../login/login.html'; } })(); function logout() { document.cookie = "currentUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; localStorage.removeItem('currentUserSession'); window.location.href = '../login/login.html'; } document.addEventListener('DOMContentLoaded', function() { try { var sessionStr = localStorage.getItem('currentUserSession'); var user = null; if (sessionStr) { var s = JSON.parse(sessionStr); user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value; } if (user) { var userBadge = document.getElementById('userProfileBadge'); var userAvatar = document.getElementById('userAvatar'); var userName = document.getElementById('userName'); if (userBadge) userBadge.style.display = 'inline-flex'; if (userAvatar && user.avatar) userAvatar.textContent = user.avatar; if (userName && user.name) userName.textContent = user.name; } } catch(e) { console.error(e); } }); </script> <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>Day 5 Self-Study Textbook | Aspiring Founders AI Web App MVP Bootcamp</title> <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" /> <style> :root { --primary:#7c3aed; --secondary:#0891b2; --text-dark:#0f172a; --muted:#475569; --border:#e2e8f0; } * { margin:0; padding:0; box-sizing:border-box; } body { font-family:'Pretendard',-apple-system,sans-serif; background:#0f172a; color:var(--text-dark); line-height:1.65; } .no-print-bar { position:sticky; top:0; z-index:1000; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.1); padding:12px 24px; display:flex; justify-content:space-between; align-items:center; } .no-print-bar .title-group { display:flex; align-items:center; gap:12px; color:#fff; } .badge { background:linear-gradient(135deg,#a855f7,#ec4899); color:#fff; font-size:0.75rem; font-weight:700; padding:4px 10px; border-radius:999px; } .btn-action { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; font-size:0.88rem; font-weight:600; border-radius:8px; border:none; cursor:pointer; text-decoration:none; } .btn-print { background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; } .btn-back { background:rgba(255,255,255,0.1); color:#e2e8f0; border:1px solid rgba(255,255,255,0.15); } .paper-container { max-width:900px; margin:30px auto; background:#fff; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.5); padding:48px 56px; } .doc-header { border-bottom:3px solid var(--primary); padding-bottom:20px; margin-bottom:32px; } .doc-category { color:var(--secondary); font-size:0.9rem; font-weight:800; text-transform:uppercase; margin-bottom:6px; } .doc-title { font-size:2.2rem; font-weight:900; color:var(--text-dark); letter-spacing:-0.02em; } h2 { font-size:1.45rem; font-weight:800; color:var(--text-dark); margin:36px 0 16px; padding-bottom:8px; border-bottom:1px solid var(--border); } h3 { font-size:1.15rem; font-weight:700; color:var(--primary); margin:24px 0 12px; } p { margin-bottom:14px; color:#334155; } ul,ol { margin:0 0 16px 20px; color:#334155; } li { margin-bottom:6px; } .callout-box { background:#fdf4ff; border-left:4px solid var(--primary); padding:16px 20px; border-radius:0 8px 8px 0; margin:20px 0; } .callout-box.warning { background:#fffbe6; border-left-color:#b45309; } .prompt-block { background:#1e293b; border:1px solid #334155; border-radius:10px; padding:18px; margin:16px 0; font-family:monospace; font-size:0.88rem; color:#f8fafc; white-space:pre-wrap; text-align:left; } table.data-table { width:100%; border-collapse:collapse; margin:20px 0; font-size:0.92rem; } table.data-table th, table.data-table td { border:1px solid var(--border); padding:10px 14px; text-align:left; } table.data-table th { background:#f1f5f9; }     /* A4 Size & Print Styles */
-    @page {
-      size: A4 portrait;
-      margin: 12mm 14mm 12mm 14mm;
+<head>
+<script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+
+      if (!loggedInUser) {
+        window.location.href = '../login/login.html';
+      }
+    })();
+
+    function logout() {
+      document.cookie = "currentUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      localStorage.removeItem('currentUserSession');
+      window.location.href = '../login/login.html';
     }
 
-    @media print {
-      html, body {
-        width: 100% !important;
-        background: #ffffff !important;
-        color: #000000 !important;
-        font-size: 12.5px !important;
-        line-height: 1.5 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        var user = null;
+        if (sessionStr) {
+          var s = JSON.parse(sessionStr);
+          user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
+        }
+        if (user) {
+          var userBadge = document.getElementById('userProfileBadge');
+          var userAvatar = document.getElementById('userAvatar');
+          var userName = document.getElementById('userName');
+          if (userBadge) userBadge.style.display = 'inline-flex';
+          if (userAvatar && user.avatar) userAvatar.textContent = user.avatar;
+          if (userName && user.name) userName.textContent = user.name;
+        }
+      } catch(e) {
+        console.error(e);
       }
-      .no-print-bar, .navbar-2tier { display: none !important; }
-      .paper-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-shadow: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border-radius: 0 !important;
-      }
-      .page-break {
-        page-break-after: always !important;
-        break-after: page !important;
-      }
-      .paper-page {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        margin-bottom: 20px !important;
-      }
-      table.data-table, .prompt-block, .callout-box {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-      }
-    } } /* Modern 2-Tier Header Styles */ .navbar-2tier { position: sticky; top: 0; z-index: 1000; background: rgba(9, 9, 11, 0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-line); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5); } .nav-row-top { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); gap: 16px; flex-wrap: wrap; } .brand-wrap { display: flex; align-items: center; } .brand-logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; } .brand-tag { background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 4px 10px; border-radius: 6px; font-size: 0.76rem; font-weight: 800; color: #fff; white-space: nowrap; } .brand-tag.survey { background: linear-gradient(135deg, #10b981, #06b6d4); } .brand-tag.day { background: linear-gradient(135deg, #3b82f6, #8b5cf6); } .brand-name { font-size: 1.08rem; font-weight: 800; letter-spacing: -0.01em; color: #ffffff; white-space: nowrap; } .user-session-wrap { display: flex; align-items: center; } .btn-account-header { background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2)); border: 1px solid rgba(6, 182, 212, 0.45); color: #67e8f9; font-size: 0.8rem; font-weight: 800; border-radius: 6px; padding: 3px 10px; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; } .btn-account-header:hover { background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(59, 130, 246, 0.35)); border-color: #38bdf8; color: #fff; transform: translateY(-1px); } .btn-logout-header { background: transparent; border: none; color: #f87171; font-size: 0.78rem; font-weight: 700; cursor: pointer; padding-left: 8px; border-left: 1px solid rgba(255, 255, 255, 0.15); transition: color 0.2s; white-space: nowrap; } .btn-logout-header:hover { color: #fca5a5; } .nav-row-bottom { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; gap: 12px; overflow-x: auto; scrollbar-width: none; } .nav-row-bottom::-webkit-scrollbar { display: none; } .nav-sub-left, .nav-sub-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; } .nav-sub-btn { color: var(--text-muted); text-decoration: none; font-size: 0.86rem; font-weight: 600; padding: 6px 12px; border-radius: 8px; border: 1px solid transparent; background: transparent; transition: all 0.2s ease; white-space: nowrap; } .nav-sub-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.1); } .nav-sub-btn.active { color: #fff; background: rgba(59, 130, 246, 0.18); border-color: rgba(59, 130, 246, 0.4); } .nav-sub-btn.ops { color: #6ee7b7; background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25); } .nav-sub-btn.ops:hover, .nav-sub-btn.ops.active { color: #fff; background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.45); } .nav-sub-btn.portal { color: #93c5fd; border-color: rgba(59, 130, 246, 0.25); } .nav-sub-btn.highlight { background: linear-gradient(135deg, #2563eb, #0891b2); color: #fff; border: none; font-weight: 700; box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3); } .nav-sub-btn.highlight:hover { background: linear-gradient(135deg, #3b82f6, #06b6d4); transform: translateY(-1px); } 
-    /* Standard A4 Screen & Print Styling */
+    });
+  </script>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Day 5 Self-Study Textbook | Final Validation, Deployment, Presentation, and Improvement</title>
+<link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet"/>
+<style>
+    :root { --primary:#7c3aed; --secondary:#0891b2; --text-dark:#0f172a; --muted:#475569; --border:#e2e8f0; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Pretendard',-apple-system,sans-serif; background:#0f172a; color:var(--text-dark); line-height:1.65; }
+    .no-print-bar { position:sticky; top:0; z-index:1000; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.1); padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+    .no-print-bar .title-group { display:flex; align-items:center; gap:12px; color:#fff; }
+    .badge { background:linear-gradient(135deg,#a855f7,#ec4899); color:#fff; font-size:0.75rem; font-weight:700; padding:4px 10px; border-radius:999px; }
+    .btn-action { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; font-size:0.88rem; font-weight:600; border-radius:8px; border:none; cursor:pointer; text-decoration:none; }
+    .btn-print { background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; }
+    .btn-back { background:rgba(255,255,255,0.1); color:#e2e8f0; border:1px solid rgba(255,255,255,0.15); }
+
+    .doc-header { border-bottom:3px solid var(--primary); padding-bottom:20px; margin-bottom:32px; }
+    .doc-category { color:var(--secondary); font-size:0.9rem; font-weight:800; text-transform:uppercase; margin-bottom:6px; }
+    .doc-title { font-size:2.2rem; font-weight:900; color:var(--text-dark); letter-spacing:-0.02em; }
+    h2 { font-size:1.45rem; font-weight:800; color:var(--text-dark); margin:36px 0 16px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+    h3 { font-size:1.15rem; font-weight:700; color:var(--primary); margin:24px 0 12px; }
+    p { margin-bottom:14px; color:#334155; }
+    ul,ol { margin:0 0 16px 20px; color:#334155; }
+    li { margin-bottom:6px; }
+    .callout-box { background:#fdf4ff; border-left:4px solid var(--primary); padding:16px 20px; border-radius:0 8px 8px 0; margin:20px 0; }
+    .callout-box.warning { background:#fffbe6; border-left-color:#b45309; }
+    .prompt-block { background:#1e293b; border:1px solid #334155; border-radius:10px; padding:18px; margin:16px 0; font-family:monospace; font-size:0.88rem; color:#f8fafc; white-space:pre-wrap; text-align:left; }
+    table.data-table { width:100%; border-collapse:collapse; margin:20px 0; font-size:0.92rem; }
+    table.data-table th, table.data-table td { border:1px solid var(--border); padding:10px 14px; text-align:left; }
+    table.data-table th { background:#f1f5f9; }
+
+    /* Modern 2-Tier Header Styles */
+    .navbar-2tier {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(9, 9, 11, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-line);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+    .nav-row-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+    }
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand-tag {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .brand-tag.survey {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+    }
+    .brand-tag.day {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    }
+    .brand-name {
+      font-size: 1.08rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .user-session-wrap {
+      display: flex;
+      align-items: center;
+    }
+    .btn-account-header {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
+      border: 1px solid rgba(6, 182, 212, 0.45);
+      color: #67e8f9;
+      font-size: 0.8rem;
+      font-weight: 800;
+      border-radius: 6px;
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-account-header:hover {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(59, 130, 246, 0.35));
+      border-color: #38bdf8;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .btn-logout-header {
+      background: transparent;
+      border: none;
+      color: #f87171;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding-left: 8px;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .btn-logout-header:hover {
+      color: #fca5a5;
+    }
+
+    .nav-row-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-row-bottom::-webkit-scrollbar {
+      display: none;
+    }
+    .nav-sub-left, .nav-sub-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .nav-sub-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .nav-sub-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .nav-sub-btn.active {
+      color: #fff;
+      background: rgba(59, 130, 246, 0.18);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+    .nav-sub-btn.ops {
+      color: #6ee7b7;
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+    .nav-sub-btn.ops:hover, .nav-sub-btn.ops.active {
+      color: #fff;
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.45);
+    }
+    .nav-sub-btn.portal {
+      color: #93c5fd;
+      border-color: rgba(59, 130, 246, 0.25);
+    }
+    .nav-sub-btn.highlight {
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
+    }
+    .nav-sub-btn.highlight:hover {
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      transform: translateY(-1px);
+    }
+
+
+    /* ==========================================================================
+       Standard A4 Portrait Screen & Print Engine
+       ========================================================================== */
     body {
       background: #cbd5e1 !important;
+      color: var(--text-dark);
+      margin: 0;
+      padding: 0;
     }
 
     .paper-container {
@@ -51,9 +269,11 @@
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      gap: 36px !important;
+      gap: 32px !important;
       box-shadow: none !important;
       border-radius: 0 !important;
+      background: transparent !important;
+      padding: 0 !important;
     }
 
     .paper-page {
@@ -61,14 +281,85 @@
       min-height: 297mm !important;
       box-sizing: border-box !important;
       background: #ffffff !important;
-      border-radius: 3px !important;
+      border-radius: 4px !important;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12) !important;
       padding: 18mm 18mm 16mm 18mm !important;
       page-break-after: always !important;
       break-after: page !important;
-      page-break-inside: avoid !important;
-      break-inside: avoid !important;
+      page-break-inside: auto !important;
+      break-inside: auto !important;
       position: relative !important;
+      overflow: visible !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+    }
+
+    .cover-page {
+      padding: 0 !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      border-radius: 4px !important;
+      overflow: hidden !important;
+      justify-content: stretch !important;
+    }
+    .cover-page > div {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .page-content-body {
+      flex: 1 0 auto;
+    }
+
+    .book-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    .book-footer-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
+      margin-top: 24px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    /* Prevent cut-off / splitting at page boundaries */
+    .compare-grid, .compare-bad, .compare-good,
+    .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+    .info-cards, .info-card, .checklist, .checklist li, .example-result,
+    .story-box, .script-box, .qa-item, .screen-state-card,
+    .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+    .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+    .data-table, h1, h2, h3, h4, pre, blockquote {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    h1, h2, h3, h4 {
+      break-after: avoid !important;
+      page-break-after: avoid !important;
+    }
+
+    p, li {
+      orphans: 3;
+      widows: 3;
     }
 
     @media screen and (max-width: 820px) {
@@ -83,7 +374,6 @@
         min-width: 0;
         font-size: 0.82rem;
         line-height: 1.4;
-        overflow-wrap: anywhere;
       }
       .no-print-bar > div:last-child {
         display: grid !important;
@@ -103,27 +393,8 @@
         white-space: normal;
       }
       .no-print-bar .btn-back { grid-column: 1 / -1; }
-      .paper-container {
-        width: 100% !important;
-        overflow-x: hidden;
-      }
-      .data-table {
-        width: 100%;
-        max-width: 100%;
-        table-layout: fixed;
-      }
-      .data-table th,
-      .data-table td {
-        padding: 8px 6px;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-      }
-      .prompt-block {
-        max-width: 100%;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-      }
-      .paper-page { width: 95vw !important; min-height: auto !important; padding: 22px 18px !important; }
+      .paper-container { width: 100% !important; margin: 16px auto !important; }
+      .paper-page { width: 95vw !important; min-height: auto !important; padding: 20px 16px !important; }
     }
 
     .btn-download {
@@ -156,6 +427,8 @@
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -166,14 +439,14 @@
         margin: 0 !important;
         padding: 0 !important;
         gap: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
       }
       .paper-page {
         width: 210mm !important;
         min-height: 297mm !important;
-        height: 297mm !important;
-        max-height: 297mm !important;
         margin: 0 !important;
-        padding: 16mm 16mm 14mm 16mm !important;
+        padding: 15mm 15mm 13mm 15mm !important;
         box-shadow: none !important;
         border-radius: 0 !important;
         border: none !important;
@@ -181,106 +454,840 @@
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-        overflow: hidden !important;
+        overflow: visible !important;
+        background: #ffffff !important;
+      }
+      .cover-page {
+        padding: 0 !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        border-radius: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+      .compare-grid, .compare-bad, .compare-good,
+      .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+      .info-cards, .info-card, .checklist, .checklist li, .example-result,
+      .story-box, .script-box, .qa-item, .screen-state-card,
+      .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+      .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+      .data-table, h1, h2, h3, h4, pre, blockquote {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
       }
     }
 
-  </style>
-</head>
-<body> <div class="no-print-bar"> <div class="title-group"><span class="badge">Day 5 Textbook</span><strong>Deployment, Pitch & Next Steps — Final Deployment from Pitch Presentation until Guide</strong></div> <div style="display:flex;gap:8px;"> <a href="day5-ai-classroom.html" class="btn-action btn-back">🏫 AI Classroom</a> <button id="btn-download-pdf" onclick="downloadPDF()" class="btn-action btn-download">📥 Download A4 PDF</button>
-      <button onclick="downloadPDF()" class="btn-action btn-download">🖨️ Print / Save as PDF</button> </div> </div> <div class="paper-container"> <header class="doc-header"> <div class="doc-category">ACE AI Startup Bootcamp · Day 5 Self-Study Textbook</div> <h1 class="doc-title">Deployment, Pitch & Next Steps</h1> </header> <h2>1. Overview &amp; Core Principles</h2> <div class="callout-box"> <strong>💡 Day 5 Core :</strong><br> Local from ≠ Deployment from <br> AI Completed ≠ User Core Flow Completed<br> Pitch Presentation ≠ Validation & QA </div> <h2>2. Final Validation & QA 3Step </h2> <div class="prompt-block"> : , Testing, , Check / Confirm
-Can : Core Flow, , Error State, Deployment URL
-User : Explanation None First Action and Core Result and Completed </div> <h2>3. BeforeOne Deployment Checklist</h2> <ul> <li>☐ Password, API , Code MD in Include ?</li> <li>☐ .env File Items from ?</li> <li>☐ Real Items Demo Data ?</li> <li>☐ Real Payment Mock Payment Screen / Viewport in When?</li> <li>☐ External API Failure When Demo Before ?</li> </ul> <h2>4. 5Mins Pitch Presentation Cohort Structure</h2> <table class="data-table"> <thead><tr><th>Time</th><th>Pitch Presentation Content</th><th> </th></tr></thead> <tbody> <tr><td>40</td><td>User and Problem</td><td>Problem One </td></tr> <tr><td>40</td><td> and Core </td><td>Before/After</td></tr> <tr><td>2Mins</td><td>Core User Flow</td><td>Real Demo URL</td></tr> <tr><td>50</td><td>Implementation·Validation & QA Bootcamp</td><td>Codex→Antigravity→Codex Flow</td></tr> <tr><td>30</td><td> and Next Step</td><td>Improvement / Polish Roadmap</td></tr> <tr><td>20</td><td> Time</td><td>Demo </td></tr> </tbody> </table> <h2>5. Lab Prompt Guide</h2> <h3>Lab 1. Final ·Validation & QA (Codex)</h3> <div class="prompt-block">📌 Codex:
-PROJECT.md, VALIDATION_DAY4.md and Implementation CohortGiven with Final Validation & QA . Before Runnable / Executable Testing·· and CanAnd, from Check / ConfirmTo Item Manual Check with .
-Result and FINAL_VALIDATION.md in and CohortDo .
-Validation & QA Before in Code Modification / EditNot .</div> <h3>Lab 2. Deployment After One Cohort (Codex)</h3> <div class="prompt-block">📌 Codex:
-Deployment URL from Check / ConfirmOne Result and README.md in Addition / Add.
-IncludeTo Item:
-- Demo URL
-- Check / Confirm CohortFeature List / Catalog 
-- Known Limitations ( One)
-- Demo Data Reset Method / Approach
-Code Modification / EditNot Document / Spec only .</div> <h3>Lab 3. 5Mins Pitch Presentation Generation / Creation (Codex)</h3> <div class="prompt-block">📌 Codex:
-PROJECT.md and FINAL_VALIDATION.md CohortClass with 5Mins Pitch Presentation Drafting / Authoring.
-Structure: Problem → Core → Demo When → Development Bootcamp → → Next Step
-Demo When 5Step with OneAnd,
-Failure When and Explanation also Include.</div> <h3>Final Improvement / Polish (Codex + Antigravity)</h3> <div class="prompt-block">📌 Codex:
-Peer Feedback Content CohortClass with Final Change / Update Requirements MD with .
-Feedback: [ Feedback Content Cohort]
-'Pitch Presentation Before Core / Mandatory' 'Pitch Presentation After Improvement / Polish' with MinsAnd, Structure Change / Update CohortFeature 'Pitch Presentation After Roadmap' with .</div> <h2>6. Feedback </h2> <div class="prompt-block">[] User Real with One Action
-[Problem] Goal Given [] Screen / Viewport, When Step
-[] One [] Pitch Presentation Before Core / Mandatory / Pitch Presentation After Improvement / Polish</div> <h2>7. Pitch Presentation After Retrospective Questions (NEXT_STEPS.md)</h2> <ol> <li>5 Validation & QAOne One ?</li> <li>User Class with ?</li> <li> CohortFeature ?</li> <li>Next in TestingTo User ?</li> <li>2 in Improvement / PolishTo CohortFeature·Document / Spec·Validation & QA Item ?</li> </ol> <div class="callout-box warning"> <strong>⚠️ Pitch Presentation Before :</strong><br> Structure Change / Update, CohortFeature Addition / Add, Validation & QA Code Deployment Not .<br> Normal Demo Feature Change / Update Pitch Presentation After Roadmap with is completed. </div> <h2>8. Day 5 Final Checklist</h2> <ul> <li>[ ] Codex with FINAL_VALIDATION.md Drafting / Authoring.</li> <li>[ ] and Real Items Items .</li> <li>[ ] External Demo URL from Core Flow Completed.</li> <li>[ ] CohortCohort and Screen / Viewport from .</li> <li>[ ] 5Mins Pitch Presentation and Demo Given.</li> <li>[ ] Peer Feedback ·· with Cohort.</li> <li>[ ] Final Modification / Edit After When Validation & QA.</li> <li>[ ] NEXT_STEPS.md (2 Improvement / Polish Roadmap) Save / Persist.</li> </ul> </div> <!-- AI Account Modal --> <div id="aiAccountModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;"> <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 100%; max-width: 520px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.2); overflow: hidden; transform: translateY(20px); transition: transform 0.25s ease;" id="aiModalCard"> <!-- Modal Header --> <div style="padding: 24px 28px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;"> <div style="display: flex; align-items: center; gap: 10px;"> <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #3b82f6, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🔑</div> <div> <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">AI Practice Account Credentials</h3> <span id="modalTeamBadge" style="font-size: 0.76rem; color: #94a3b8;">Assigned Practice Tool Accounts</span> </div> </div> <button type="button" onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">✕</button> </div> <!-- Modal Body --> <div style="padding: 24px 28px; display: flex; flex-direction: column; gap: 20px;">
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+    .compare-bad { background:#fff1f2; border:2px solid #fca5a5; border-radius:10px; padding:16px; }
+    .compare-good { background:#f0fdf4; border:2px solid #86efac; border-radius:10px; padding:16px; }
+    .compare-label { font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; }
+    .compare-bad .compare-label { color:#dc2626; }
+    .compare-good .compare-label { color:#16a34a; }
+    .compare-text { font-size:0.92rem; color:#334155; line-height:1.6; }
+    .step-guide { margin:20px 0; display:flex; flex-direction:column; gap:12px; }
+    .step-item { display:flex; gap:16px; align-items:flex-start; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 18px; }
+    .step-num { min-width:32px; height:32px; background:linear-gradient(135deg,#2563eb,#0891b2); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; }
+    .step-content { flex:1; }
+    .step-title { font-weight:700; color:#0f172a; margin-bottom:4px; }
+    .step-desc { font-size:0.9rem; color:#475569; }
+    .tip-box { background:linear-gradient(135deg,#fefce8,#fef9c3); border:1.5px solid #fde047; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .tip-box strong { color:#92400e; }
+    .danger-box { background:#fff1f2; border:1.5px solid #f87171; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .danger-box strong { color:#b91c1c; }
+    .success-box { background:#f0fdf4; border:1.5px solid #4ade80; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .success-box strong { color:#15803d; }
+    .info-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin:20px 0; }
+    .info-card { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px; }
+    .info-card-icon { font-size:1.8rem; margin-bottom:8px; }
+    .info-card-title { font-weight:800; color:#0f172a; margin-bottom:6px; }
+    .info-card-desc { font-size:0.88rem; color:#475569; line-height:1.55; }
+    .checklist { list-style:none; margin:16px 0; padding:0; }
+    .checklist li { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed #e2e8f0; font-size:0.92rem; color:#334155; }
+    .checklist li:last-child { border-bottom:none; }
+    .checklist li::before { content:'☐'; color:#2563eb; font-size:1.1rem; flex-shrink:0; margin-top:1px; }
+    .example-result { background:linear-gradient(135deg,#0f172a,#1e293b); border:1px solid #334155; border-radius:12px; padding:20px; margin:16px 0; }
+    .example-result-label { color:#38bdf8; font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; }
+    .example-result code { color:#86efac; font-size:0.88rem; line-height:1.8; }
+    .story-box { background:linear-gradient(135deg,#ede9fe,#ddd6fe); border-left:4px solid #7c3aed; border-radius:0 10px 10px 0; padding:18px 20px; margin:20px 0; font-size:0.95rem; color:#3b0764; line-height:1.7; }
+    .story-box .story-name { font-weight:800; color:#6d28d9; margin-bottom:8px; }
+    .script-box { background:#f0fdf4; border:1.5px solid #4ade80; border-radius:10px; padding:16px 20px; margin:10px 0; }
+    .script-time { font-size:0.75rem; font-weight:800; color:#15803d; margin-bottom:6px; }
+    .script-text { font-size:0.9rem; color:#1a2e1a; line-height:1.65; }
+    .qa-item { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 18px; margin:10px 0; }
+    .qa-q { font-weight:700; color:#0f172a; margin-bottom:6px; }
+    .qa-a { font-size:0.9rem; color:#475569; }
+    @media (max-width:640px) { .compare-grid { grid-template-columns:1fr; } .info-cards { grid-template-columns:1fr; } }
 
-        <!-- Account Card 2: Codex --> <div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px; padding: 18px;"> <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;"> <div style="display: flex; align-items: center; gap: 8px;"> <span style="font-size: 1.2rem;">🤖</span> <strong style="color: #6ee7b7; font-size: 0.95rem;">Codex (OpenAI Codex)</strong> </div> <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">Planning · Verification · Dev Tool</span> </div> <!-- Codex ID --> <div style="margin-bottom: 10px;"> <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Codex)</div> <div style="display: flex; gap: 6px;"> <input type="text" id="codexIdVal" readonly value="codex.pilot.team@openai.com" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" /> <button type="button" onclick="copyAccountVal('codexIdVal', 'Codex ID copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Copy</button> </div> </div> <!-- Codex Password --> <div> <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Password</div> <div style="display: flex; gap: 6px;"> <input type="password" id="codexPwVal" readonly value="AcePilot2026!codex" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" /> <button type="button" onclick="togglePwVisibility('codexPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title="Show/Hide Password">👁️</button> <button type="button" onclick="copyAccountVal('codexPwVal', 'Codex Password copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Copy</button> </div> </div> </div> </div> <!-- Modal Footer --> <div style="padding: 16px 28px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: flex-end;"> <button type="button" onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 9px 20px; color: #fff; font-size: 0.88rem; font-weight: 700; cursor: pointer;">Close</button> </div> </div> </div> <script> function openAiAccountModal() { const modal = document.getElementById('aiAccountModal'); const card = document.getElementById('aiModalCard'); if (!modal) return; // Update team info dynamically try { const sessionStr = localStorage.getItem('currentUserSession'); if (sessionStr) { const s = JSON.parse(sessionStr); const user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value; if (user) { const badge = document.getElementById('modalTeamBadge');    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script>
+  </style>
+<style id="english-layout-safeguards">
+/* English layout safeguards: preserve the A4 design and prevent long words from overflowing. */
+html[lang="en"] body {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+@media screen and (max-width: 820px) {
+  .no-print-bar {
+    position: relative;
+    display: block;
+    padding: 10px 12px;
+  }
+  .no-print-bar .title-group { min-width: 0; gap: 8px; }
+  .no-print-bar .title-group .badge { flex-shrink: 0; }
+  .no-print-bar .title-group strong {
+    min-width: 0;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .no-print-bar > div:last-child {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px !important;
+    width: 100%;
+    margin-top: 10px;
+  }
+  .no-print-bar .btn-action {
+    min-width: 0;
+    min-height: 40px;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    text-align: center;
+    white-space: normal;
+  }
+  .no-print-bar .btn-back { grid-column: 1 / -1; }
+  .data-table {
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+  }
+  .data-table th,
+  .data-table td {
+    padding: 8px 6px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .prompt-block,
+  .screen-state-code {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
+</style></head>
+<body>
+<div class="no-print-bar">
+<div class="title-group"><span class="badge">Day 5 Textbook</span><strong>Final Validation, Deployment, Presentation, and Improvement — Complete Guide from Deployment to Demo Day</strong></div>
+<div style="display:flex;gap:8px;">
+<a class="btn-action btn-back" href="day5-ai-classroom.html">🏫 AI Self-Study Classroom</a>
+<button class="btn-action btn-download" id="btn-download-pdf" onclick="downloadPDF()">📥 Download A4 PDF</button>
+<button class="btn-action btn-download" onclick="downloadPDF()">🖨️ Print / Save as PDF</button>
+</div>
+</div>
+<div class="paper-container">
+<!-- ===== COVER PAGE ===== -->
+<section class="paper-page cover-page" data-page="cover" style="padding:0 !important; overflow:hidden !important; justify-content:stretch !important;">
+<div style="
+        width:100%; height:100%;
+        background: linear-gradient(160deg, #0f172a 0%, #3b1d11 40%, #c2410c 75%, #f97316 100%);
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        padding: 20mm 18mm;
+        position:relative;
+        box-sizing:border-box;
+      ">
+<div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(234,88,12,0.25);"></div>
+<div style="position:absolute;bottom:-80px;left:-80px;width:360px;height:360px;border-radius:50%;background:rgba(245,158,11,0.2);"></div>
+<div style="position:absolute;top:40%;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(225,29,72,0.18);"></div>
+<div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:50px;padding:8px 24px;color:#fed7aa;font-size:0.82rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:32px;position:relative;">ACE AI Startup Bootcamp · Self-Study Textbook</div>
+<div style="width:100px;height:100px;background:linear-gradient(135deg,#f97316,#e11d48);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:900;color:#fff;margin-bottom:28px;position:relative;box-shadow:0 12px 40px rgba(234,88,12,0.5);">D5</div>
+<h1 style="font-size:2.6rem;font-weight:900;color:#ffffff;text-align:center;line-height:1.25;letter-spacing:-0.03em;margin-bottom:14px;position:relative;">Final Validation, Deployment,<br/>Presentation, and Improvement</h1>
+<p style="font-size:1.05rem;color:#fed7aa;font-weight:500;text-align:center;margin-bottom:44px;position:relative;">Complete the five-day journey and share your finished service with the world</p>
+<div style="width:60px;height:3px;background:linear-gradient(90deg,#f97316,#e11d48);border-radius:4px;margin-bottom:44px;position:relative;"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:440px;position:relative;margin-bottom:48px;">
+<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+<span style="font-size:1.3rem;">🔍</span>
+<div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 1</div><div style="color:#fed7aa;font-size:0.82rem;">Three-Step Final Validation</div></div>
+</div>
+<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+<span style="font-size:1.3rem;">🚀</span>
+<div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 2</div><div style="color:#fed7aa;font-size:0.82rem;">GitHub Pages Deployment</div></div>
+</div>
+<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+<span style="font-size:1.3rem;">🎤</span>
+<div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 3</div><div style="color:#fed7aa;font-size:0.82rem;">Preparing a Five-Minute Presentation</div></div>
+</div>
+<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+<span style="font-size:1.3rem;">🏆</span>
+<div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 4</div><div style="color:#fed7aa;font-size:0.82rem;">Final Check &amp; Completion</div></div>
+</div>
+</div>
+<div style="position:relative;display:flex;align-items:center;gap:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.15);width:100%;">
+<div style="flex:1;color:#64748b;font-size:0.8rem;">
+<div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">Training Provider</div>
+<div style="color:#cbd5e1;">ODA AI SW · ACE Program</div>
+</div>
+<div style="color:#64748b;font-size:0.8rem;text-align:right;">
+<div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">Course</div>
+<div style="color:#cbd5e1;">AI Web Development for Aspiring Founders</div>
+</div>
+</div>
+</div>
+</section>
+<section class="paper-page" data-page="1">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 5</span>
+<span>Introduction and Three-Step Final Validation</span>
+</div>
+<div class="page-content-body">
+<header class="doc-header">
+<div class="doc-category">ACE AI Startup Bootcamp · Day 5 Self-Study Textbook</div>
+<h1 class="doc-title">Final Validation, Deployment, Presentation, and Improvement</h1>
+<p style="color:#475569; margin-top:10px; font-size:0.95rem;">
+        📚 Today, you will complete your five-day journey by <strong>validating the finished service, deploying it online, and preparing a five-minute presentation</strong>.
+      </p>
+</header>
+<!-- 1. 오늘의 목표 -->
+<h2>1. What Are We Doing Today?</h2>
+<div class="info-cards">
+<div class="info-card">
+<div class="info-card-icon">🔍</div>
+<div class="info-card-title">Final validation</div>
+<div class="info-card-desc">Check the checklist to see if all the Must features are working by PROJECT.md.</div>
+</div>
+<div class="info-card">
+<div class="info-card-icon">🌐</div>
+<div class="info-card-title">Online deployment</div>
+<div class="info-card-desc">We can use GitHub Pages to get to the URL of the deployment.</div>
+</div>
+<div class="info-card">
+<div class="info-card-icon">🎤</div>
+<div class="info-card-title">Preparing a Five-Minute Presentation</div>
+<div class="info-card-desc">Prepare a presentation explaining the next plan</div>
+</div>
+<div class="info-card">
+<div class="info-card-icon">🔄</div>
+<div class="info-card-title">Reflection and Improvement Plan</div>
+<div class="info-card-desc">Write an NEXT_STEPS.md to organize what you've learned, what you've missed, what you're going to make next.</div>
+</div>
+</div>
+<!-- 2. 최종 검증 3단계 -->
+<h2>2. The Three-Level Final Validation Pyramid</h2>
+<p>Before deployment, check that the service is working properly in a three-step sequence below.</p>
+<div class="step-guide">
+<div class="step-item">
+<div class="step-num">1</div>
+<div class="step-content">
+<div class="step-title">Does the feature validation Must feature all work?</div>
+<div class="step-desc">PROJECT.md ##7. Check the Must feature of Features one by one.<br/>
+          Record each item as Pass or Fail in VALIDATION.md.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">2</div>
+<div class="step-content">
+<div class="step-title">Do you have a continuous core flow?</div>
+<div class="step-desc">PROJECT.md ##14. Follow the demo scenario.<br/>
+          If you run from start to finish without any obstacles, pass.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">3</div>
+<div class="step-content">
+<div class="step-title">Exception validation empty value, does the error message come from the wrong input?</div>
+<div class="step-desc">Open the required input, submit, and check that the service doesn't stop even if you enter a strange value.</div>
+</div>
+</div>
+</div>
+<h3>📋 Codex Prompt for Final Validation</h3>
+<div class="prompt-block">Codex request:
+
+I need you to update VALIDATION.md.
+Validation criteria: PROJECT.md ## 7. Features must feature full
+
+Write it in the form of a table:
+Feature, validation method, results of pain and/or pain.
+
+Add the following common exceptions to the validation item:
+- Required input blank spaces when submitting an error message or not
+- The list of Empty State message displays
+- Whether or not to retain data after the browser is rebooted (localStorage)</div>
+<!-- 3. GitHub Pages 배포 -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 1 of 6</span>
+</div>
+</section>
+<section class="paper-page" data-page="2">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 5</span>
+<span>GitHub Pages Deployment Guide</span>
+</div>
+<div class="page-content-body">
+<h2>3. Deploy Online with GitHub Pages</h2>
+<div class="callout-box">
+<strong>🌐 What Is Deployment?</strong> Deployment makes a service that was available only on your computer <strong>available on the internet so anyone can access it through a URL</strong>.<br/>
+      GitHub Pages is a free online deployment of HTML files.
+    </div>
+<h3>📌 Step-by-Step GitHub Pages Deployment Guide</h3>
+<div class="step-guide">
+<div class="step-item">
+<div class="step-num">1</div>
+<div class="step-content">
+<div class="step-title">Create a GitHub account (if you don't have one)</div>
+<div class="step-desc"><a href="https://github.com" target="_blank">github.com</a> Log in → Sign up → Email authentication completed</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">2</div>
+<div class="step-content">
+<div class="step-title">Creating a new repository.</div>
+<div class="step-desc">Upper right + button → New repository<br/>
+          Name: <code>my-project</code> (or service name)<br/>
+          Select public → Create repository click</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">3</div>
+<div class="step-content">
+<div class="step-title">Upload the file.</div>
+<div class="step-desc">Click "uploading an existing file" in the my-project folder. <strong>index.html</strong>Drag and drop<br/>
+          Commit message: "Day 5: Final MVP upload" → Commit changes click</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">4</div>
+<div class="step-content">
+<div class="step-title">Set to GitHub Pages</div>
+<div class="step-desc">Repository → Settings → Pages (menu on the left)<br/>
+          Source: "Deploy from a branch" → Branch: main → / (root) → Save</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">5</div>
+<div class="step-content">
+<div class="step-title">Check the deployment URL</div>
+<div class="step-desc">One to three minutes later, the URL will appear at the top of the Pages setting screen:<br/>
+          The format: <code>https://[GitHub ID].github.io/my-project</code><br/>
+          Share this URL with your team members, your mentors!</div>
+</div>
+</div>
+</div>
+<div class="tip-box">
+<strong>Do you want to fix it after deployment?</strong><br/>
+      index.html edit → GitHub Repository access → index.html file click → ️ edit button → Commit after edit<br/>
+      It automatically updates the site.
+    </div>
+<!-- 4. 5분 발표 준비 -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 2 of 6</span>
+</div>
+</section>
+<section class="paper-page" data-page="3">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 5</span>
+<span>Designing a Five-Minute Presentation Story</span>
+</div>
+<div class="page-content-body">
+<h2>4. Build a Story Structure for a Five-Minute Presentation</h2>
+<p>A great five-minute presentation is not a technical explanation; it is a <strong>story</strong>. Use the structure below to keep your audience engaged.</p>
+<table class="data-table">
+<thead>
+<tr><th>Part</th><th>Time</th><th>Content</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① Hook</strong></td>
+<td>Thirty seconds.</td>
+<td>A problematic phrase that the audience can sympathize with</td>
+</tr>
+<tr>
+<td><strong>② Problem</strong></td>
+<td>Forty-five seconds.</td>
+<td>Who, under what circumstances, is uncomfortable?</td>
+</tr>
+<tr>
+<td><strong>③ Solution</strong></td>
+<td>Thirty seconds.</td>
+<td>How does my service solve this problem?</td>
+</tr>
+<tr>
+<td><strong>④ Live Demo</strong></td>
+<td>Two minutes.</td>
+<td>Core flow demonstration to the actual service screen</td>
+</tr>
+<tr>
+<td><strong>⑤ Results and Lessons Learned</strong></td>
+<td>Forty-five seconds.</td>
+<td>What I've learned over the course of five days, I'll add next.</td>
+</tr>
+<tr>
+<td><strong>⑥ Closing</strong></td>
+<td>Thirty seconds.</td>
+<td>One-line summary + deployment URL sharing</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 3 of 6</span>
+</div>
+</section>
+<section class="paper-page" data-page="4">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 5</span>
+<span>Presentation Script Example &amp; Codex Prompt</span>
+</div>
+<div class="page-content-body">
+<h3>📝 Presentation Script Example (Pet Walking Match Service)</h3>
+<div class="script-box">
+<div class="script-time">1 (30 seconds)</div>
+<div class="script-text">
+        "Have you ever been so tired that when you come home from work, you can't walk because you know your dog hasn't been out all day?<br/>
+        I hated that feeling of guilt so much that I created this service".
+      </div>
+</div>
+<div class="script-box">
+<div class="script-time">② Problem (45 seconds)</div>
+<div class="script-text">
+        "It's estimated that 73 percent of domestic workers walk their pet less than three times a week.<br/>
+        It's not uncommon to ask a friend, and it's hard to believe that existing apps are the latter.<br/>
+        Eventually, both the pet and the guardian are stressed".
+      </div>
+</div>
+<div class="script-box">
+<div class="script-time">③ Solution (30 seconds)</div>
+<div class="script-text">
+        "I've created a three-step, simple, reliable walking helper booking service.<br/>
+        Condition input → helper list → booking completed. It takes less than five minutes".
+      </div>
+</div>
+<div class="script-box">
+<div class="script-time">Four live demo two minutes.</div>
+<div class="script-text">
+        "I'll show you right now. You can go to this URL.<br/>
+        [screen sharing] Select the date and... select the flashback helper... complete the reservation!<br/>
+        [Enjoyment] You can save your favorite helper like this".
+      </div>
+</div>
+<div class="script-box">
+<div class="script-time">⑤ Results and Lessons Learned (45 seconds)</div>
+<div class="script-text">
+        In just five days, I built a working web service on my own for the first time.<br/>
+        I've learned that if you ask for AI tools, you don't get the desired results.<br/>
+        Next, I'd like to add a real-time payment feature and real-time location sharing".
+      </div>
+</div>
+<div class="script-box">
+<div class="script-time">⑥ Closing (30 seconds)</div>
+<div class="script-text">
+        "It's a 10-minute booking service that addresses stray worker's dog walking concerns".<br/>
+        You can use it right now at this URL: https://username.github.io/my-project.<br/>
+        Thank you!"
+      </div>
+</div>
+<h3>📌 Generate a Presentation Script with Codex</h3>
+<div class="prompt-block">Codex request:
+
+Write a five-minute presentation script based on PROJECT.md.
+
+Rescue team:
+1 - 30 seconds: A problematic sentence that the audience can sympathize with
+2. Problem Description (45 seconds): The discomfort of the Target User and the limitations of the current alternatives
+Introduction to the Solution (30 seconds): Key Value Proposals
+4th Demo Scenario 2 minutes: ##14 Demo Scenario based step by step description
+Performance (45 seconds): What you learned from creating, what you'll add next.
+Six. Finish (30 seconds): One-line summary plus URL
+
+File name: Save it to PRESENTATION_SCRIPT.md.</div>
+<!-- 5. 예상 Q&A -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 4 of 6</span>
+</div>
+</section>
+<section class="paper-page" data-page="5">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 5</span>
+<span>Ten Questions to Expect After the Presentation</span>
+</div>
+<div class="page-content-body">
+<h2>5. Ten Questions to Expect After Your Presentation</h2>
+<div class="qa-item">
+<div class="qa-q">Q1. Why did you choose this problem?</div>
+<div class="qa-a">A: I've chosen a problem that I'm experiencing personally or that I see around me often.</div>
+</div>
+<div class="qa-item">
+<div class="qa-q">Q2. What's different about the existing app?</div>
+<div class="qa-a">A: PROJECT.md ##4. Explain the limitations of existing alternatives to Current Alternatives and the difference in my services.</div>
+</div>
+<div class="qa-item">
+<div class="qa-q">Q3. Do you really have a user?</div>
+<div class="qa-a">A: It's still MVP, and the next step is to have five people write it directly and get feedback.</div>
+</div>
+<div class="qa-item">
+<div class="qa-q">Q4. How do you make money?</div>
+<div class="qa-a">A: Right now, the goal is to validate the feasibility of the service, and we're reviewing the future fee model.</div>
+</div>
+<div class="qa-item">
+<div class="qa-q">Q5. Where is the data stored?</div>
+<div class="qa-a">A: MVP is stored in the localStorage browser, and in the actual service, we plan to convert the server to DB.</div>
+</div>
+<div class="qa-item">
+<div class="qa-q">Q6. Did you make it alone in five days?</div>
+<div class="qa-a">A: I used Codex and Antigravity, and the AI generated the code, and I decided on the requirements document and the direction.</div>
+</div>
+<div class="qa-item">
+<div class="qa-q">Q7. What was the hardest part?</div>
+<div class="qa-a">A: The hardest thing was learning how to make a clear request to AI, and the key was to use specific acceptance criteria.</div>
+</div>
+<div class="qa-item">
+<div class="qa-q">Q8. What are you going to add next?</div>
+<div class="qa-a">A: It's fine with NEXT_STEPS.md.</div>
+</div>
+<div class="qa-item">
+<div class="qa-q">Q9. Can you do it on your mobile?</div>
+<div class="qa-a">A: Yes, it's designed to be responsive, and you can use it on your smartphones, so check it directly with the QR code.</div>
+</div>
+<div class="qa-item">
+<div class="qa-q">Q10. Do you actually plan to start this service?</div>
+<div class="qa-a">A: In this five-day course, I've learned how to put ideas into practice, and I'm going to look at the user response and decide.</div>
+</div>
+<!-- 6. 상호 리뷰 -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 5 of 6</span>
+</div>
+</section>
+<section class="paper-page" data-page="6">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 5</span>
+<span>Peer Review &amp; Deployment Safety Checklist</span>
+</div>
+<div class="page-content-body">
+<h2>6. Team-to-Team Review Feedback Form</h2>
+<div class="example-result">
+<div class="example-result-label">PEER_REVIEW.md write form</div>
+<code>
+# Mutual reviews Feedback<br/>
+<br/>
+## Reviewed service: [Service name]<br/>
+## Reviewer: [name]<br/>
+<br/>
+### ✅ Good points (more than two)<br/>
+1. <br/>
+2. <br/>
+<br/>
+### Proposals for improvement<br/>
+1. <br/>
+2. <br/>
+<br/>
+The core flow is complete.<br/>
+- Did it run without interruption until the start → finish? - Yes / No<br/>
+- If not, at what stage?<br/>
+<br/>
+### ⭐ Full completion (only 5 points): /5 points<br/>
+### 📌 One-Line Overall Comment:
+      </code>
+</div>
+<h3>📌 Write NEXT_STEPS.md with Codex</h3>
+<div class="prompt-block">Codex request:
+
+I need you to create an NEXT_STEPS.md file.
+The reference document: PROJECT.md, VALIDATION.md
+
+Content:
+##1. What I've learned in this process
+- Three things I learned technically.
+- Two things I learned from planning.
+
+## 2. Areas for Improvement
+- List of unfinished Should/Could features
+
+##3. Next improvement plan (priority ranking)
+1. [feature name]: Reasons and anticipated implementation
+2.
+3.
+
+## 4. user validation plan
+- I'll use it next week for the O.O. to gather feedback.
+- Three questions to confirm.</div>
+<!-- 7. 배포 체크리스트 -->
+<h2>7. Final Pre-Deployment Safety Checklist</h2>
+<div class="danger-box">
+<strong>Check before deployment!</strong><br/>
+      • Check that the code does not contain a password, API key<br/>
+      • Verify that someone else's personal information (phone number, email, etc.) is not in the dirty data<br/>
+      • Check for additional files other than index.html (when separating CSS, JS files)
+    </div>
+<div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:20px; margin:16px 0;">
+<ul class="checklist">
+<li>VALIDATION.md final update completed</li>
+<li>PROJECT.md ## 14. Demo Scenario flow running from start to finish.</li>
+<li>An error message is displayed when a blank input is submitted.</li>
+<li>I've got a GitHub account and I've built a repository.</li>
+<li>I uploaded index.html to GitHub.</li>
+<li>GitHub Pages is activated and the URL is generated.</li>
+<li>The deployment URL of the service is working normally.</li>
+<li>The screen won't break on your mobile.</li>
+<li>Complete writing of the PRESENTATION_SCRIPT.md announcement script</li>
+<li>NEXT_STEPS.md reflection document completed</li>
+</ul>
+</div>
+<!-- 8. 마무리 -->
+<h2>8. Completing the Five-Day Course</h2>
+<div class="story-box">
+<div class="story-name">Congratulations to you!</div>
+      If you didn't know how to use a development tool five days ago, now you're saying:<br/>
+      You can define the user problem and systematize it to PROJECT.md.<br/>
+      We can use AI tools to create real-world web services.<br/>
+      • We deployed our services online and made them accessible to everyone.<br/>
+      • A five-minute presentation to describe the service.<br/><br/>
+<strong>Now you can create a second service yourself. Keep making it!</strong>
+</div>
+<div class="success-box">
+<strong>✅ Day 5 completed = complete process!</strong><br/>
+      Share the deployment URL with the mentor and prepare the presentation.
+    </div>
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 6 of 6</span>
+</div>
+</section>
+</div>
+<!-- AI Account Modal -->
+<div id="aiAccountModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;">
+<div id="aiModalCard" style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 100%; max-width: 520px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.2); overflow: hidden; transform: translateY(20px); transition: transform 0.25s ease;">
+<!-- Modal Header -->
+<div style="padding: 24px 28px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #3b82f6, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🔑</div>
+<div>
+<h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">AI Practice Account Information</h3>
+<span id="modalTeamBadge" style="font-size: 0.76rem; color: #94a3b8;">Assigned Practice Tool Accounts</span>
+</div>
+</div>
+<button onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" type="button">✕</button>
+</div>
+<!-- Modal Body -->
+<div style="padding: 24px 28px; display: flex; flex-direction: column; gap: 20px;">
+<!-- Account Card 2: Codex -->
+<div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px; padding: 18px;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="font-size: 1.2rem;">🤖</span>
+<strong style="color: #6ee7b7; font-size: 0.95rem;">The codex (OpenAI Codex)</strong>
+</div>
+<span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">Planning. Validation. Developing tools</span>
+</div>
+<!-- Codex ID -->
+<div style="margin-bottom: 10px;">
+<div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Codex)</div>
+<div style="display: flex; gap: 6px;">
+<input id="codexIdVal" readonly="" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" type="text" value="codex.pilot.team@openai.com"/>
+<button onclick="copyAccountVal('codexIdVal', 'Codex ID copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;" type="button">Copy</button>
+</div>
+</div>
+<!-- Codex Password -->
+<div>
+<div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Password</div>
+<div style="display: flex; gap: 6px;">
+<input id="codexPwVal" readonly="" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" type="password" value="AcePilot2026!codex"/>
+<button onclick="togglePwVisibility('codexPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title="See/Hide the Password" type="button">👁️</button>
+<button onclick="copyAccountVal('codexPwVal', 'Codex password copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;" type="button">Copy</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div style="padding: 16px 28px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: flex-end;">
+<button onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 9px 20px; color: #fff; font-size: 0.88rem; font-weight: 700; cursor: pointer;" type="button">Close</button>
+</div>
+</div>
+</div>
+<script>
+    function openAiAccountModal() {
+      const modal = document.getElementById('aiAccountModal');
+      const card = document.getElementById('aiModalCard');
+      if (!modal) return;
+
+      // Update team info dynamically
+      try {
+        const sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          const s = JSON.parse(sessionStr);
+          const user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
+          if (user) {
+            const badge = document.getElementById('modalTeamBadge');
+            const codexId = document.getElementById('codexIdVal');
+            const codexPw = document.getElementById('codexPwVal');
+
+            const cohortPrefix = user.cohort ? 'c' + user.cohort : 'c1';
+            const teamNum = user.teamNum || 1;
+
+            if (badge) badge.textContent = user.name + ' — Dedicated AI Tool Accounts';
+            if (codexId) codexId.value = 'codex.' + cohortPrefix + '.team' + teamNum + '@openai.com';
+            if (codexPw) codexPw.value = 'CodexPilot' + teamNum + '!2026';
+          }
+        }
+      } catch(e) {
+        console.error(e);
+      }
+
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.style.opacity = '1';
+        if (card) card.style.transform = 'translateY(0)';
+      }, 10);
+    }
+
+    function closeAiAccountModal() {
+      const modal = document.getElementById('aiAccountModal');
+      const card = document.getElementById('aiModalCard');
+      if (!modal) return;
+      modal.style.opacity = '0';
+      if (card) card.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 250);
+    }
+
+    function togglePwVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🔒';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+    }
+
+    function copyAccountVal(inputId, successMsg) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      const val = input.value;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(val).then(() => {
+          if (typeof showToast === 'function') {
+            showToast(successMsg);
+          } else {
+            alert(successMsg);
+          }
+        }).catch(() => {
+          fallbackCopyVal(val, successMsg);
+        });
+      } else {
+        fallbackCopyVal(val, successMsg);
+      }
+    }
+
+    function fallbackCopyVal(val, successMsg) {
+      const textArea = document.createElement('textarea');
+      textArea.value = val;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        if (typeof showToast === 'function') {
+          showToast(successMsg);
+        } else {
+          alert(successMsg);
+        }
+      } catch (err) {
+        alert('Value to copy: ' + val);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // Close on click outside modal card
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('aiAccountModal');
+      if (modal && e.target === modal) {
+        closeAiAccountModal();
+      }
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeAiAccountModal();
+      }
+    });
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
     async function downloadPDF() {
       const btn = document.getElementById('btn-download-pdf');
       const originalText = btn ? btn.innerHTML : '';
       if (btn) {
-        btn.innerHTML = '⏳ Generating PDF...';
+        btn.innerHTML = '⏳ Preparing A4 PDF...';
         btn.disabled = true;
       }
 
       try {
+        if (!window.jspdf || !window.html2canvas) {
+          throw new Error('The PDF generation libraries could not be loaded.');
+        }
+
+        const pages = document.querySelectorAll('.paper-page');
+        const total = pages.length;
+        if (!total) throw new Error('No textbook pages were found.');
+
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({
+        const pdf = new jsPDF({
+          orientation: 'portrait',
           unit: 'mm',
           format: 'a4',
-          orientation: 'portrait'
+          compress: true
         });
 
-        // paper-page structure (aspiring_founders style)
-        const pages = document.querySelectorAll('.paper-page');
-        if (!pages.length) throw new Error('No .paper-page elements found.');
-
-        const A4_WIDTH_MM = 210;
-        const A4_HEIGHT_MM = 297;
-
-        const navBar = document.querySelector('.no-print-bar');
-        if (navBar) navBar.style.display = 'none';
-
-        for (let i = 0; i < pages.length; i++) {
-          if (btn) btn.innerHTML = `⏳ Generating PDF (${i + 1}/${pages.length})...`;
+        for (let i = 0; i < total; i++) {
+          if (btn) btn.innerHTML = `⏳ Creating A4 PDF (${i + 1}/${total})...`;
           const page = pages[i];
-
           const canvas = await html2canvas(page, {
             scale: 2,
             useCORS: true,
-            allowTaint: true,
             logging: false,
             backgroundColor: '#ffffff',
+            windowWidth: 1200,
             onclone: function(clonedDoc) {
-              const cloneNav = clonedDoc.querySelector('.no-print-bar');
-              if (cloneNav) cloneNav.style.display = 'none';
-              // Fix gradient text on any cover titles
-              const coverTitles = clonedDoc.querySelectorAll('.cover-title, .doc-title');
+              // Fix: html2canvas cannot render -webkit-background-clip:text
+              const coverTitles = clonedDoc.querySelectorAll('.cover-title');
               coverTitles.forEach(function(el) {
                 el.style.webkitBackgroundClip = 'unset';
                 el.style.backgroundClip = 'unset';
-                el.style.webkitTextFillColor = 'currentColor';
+                el.style.webkitTextFillColor = '#ffffff';
+                el.style.color = '#ffffff';
                 el.style.background = 'none';
               });
+              // Remove nav bar
+              const cloneNav = clonedDoc.querySelector('.no-print-bar');
+              if (cloneNav) cloneNav.style.display = 'none';
             }
           });
-
-          if (i > 0) doc.addPage();
-
-          const imgData = canvas.toDataURL('image/jpeg', 0.98);
-          const canvasRatio = canvas.height / canvas.width;
-          const imgHeightMM = A4_WIDTH_MM * canvasRatio;
-
-          doc.addImage(imgData, 'JPEG', 0, 0, A4_WIDTH_MM, Math.min(imgHeightMM, A4_HEIGHT_MM));
+          const imgData = canvas.toDataURL('image/jpeg', 0.95);
+          if (i > 0) pdf.addPage('a4', 'portrait');
+          pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
         }
 
-        if (navBar) navBar.style.display = '';
-        doc.save('Aspiring_Day5_Textbook_A4.pdf');
-
+        pdf.save('Founders_Day5_Textbook_A4.pdf');
       } catch (err) {
-        console.error('PDF generation error:', err);
-        const navBar = document.querySelector('.no-print-bar');
-        if (navBar) navBar.style.display = '';
-        alert('PDF generation failed. Please use browser print (Ctrl+P) and select "Save as PDF".');
+        console.error('PDF generation failed:', err);
+        alert('An error occurred while creating the PDF. The browser print dialog will open instead.\nChoose [Destination > Save as PDF] to save a clean copy.');
+        window.print();
       } finally {
         if (btn) {
           btn.innerHTML = originalText;

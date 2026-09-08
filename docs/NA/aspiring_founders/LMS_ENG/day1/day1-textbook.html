@@ -1,47 +1,392 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head> <script id="auth-guard"> (function() { function getCookie(name) { var nameEQ = name + "="; var ca = document.cookie.split(';'); for(var i=0; i < ca.length; i++) { var c = ca[i]; while (c.charAt(0)==' ') c = c.substring(1,c.length); if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length)); } return null; } var loggedInUser = getCookie('currentUser'); if (!loggedInUser) { var sessionStr = localStorage.getItem('currentUserSession'); if (sessionStr) { try { var session = JSON.parse(sessionStr); if (Date.now() < session.expiresAt) { loggedInUser = session.value; } else { localStorage.removeItem('currentUserSession'); } } catch (e) { console.error(e); } } } if (!loggedInUser) { window.location.href = '../login/login.html'; } })(); function logout() { document.cookie = "currentUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; localStorage.removeItem('currentUserSession'); window.location.href = '../login/login.html'; } document.addEventListener('DOMContentLoaded', function() { try { var sessionStr = localStorage.getItem('currentUserSession'); var user = null; if (sessionStr) { var s = JSON.parse(sessionStr); user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value; } if (user) { var userBadge = document.getElementById('userProfileBadge'); var userAvatar = document.getElementById('userAvatar'); var userName = document.getElementById('userName'); if (userBadge) userBadge.style.display = 'inline-flex'; if (userAvatar && user.avatar) userAvatar.textContent = user.avatar; if (userName && user.name) userName.textContent = user.name; } } catch(e) { console.error(e); } }); </script> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>Day 1 Self-Study Textbook | Aspiring Founders AI Web App MVP Bootcamp</title> <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" /> <style> :root { --primary: #2563eb; --primary-dark: #1d4ed8; --secondary: #0891b2; --accent: #7c3aed; --text-dark: #0f172a; --text-muted: #475569; --card-bg: #ffffff; --border-color: #e2e8f0; --code-bg: #1e293b; --code-text: #f8fafc; --warning: #b45309; } * { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; background: #0f172a; color: var(--text-dark); line-height: 1.65; word-break: keep-all; } .no-print-bar { position: sticky; top: 0; z-index: 1000; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; } .no-print-bar .title-group { display: flex; align-items: center; gap: 12px; color: #ffffff; } .no-print-bar .badge { background: linear-gradient(135deg, #3b82f6, #06b6d4); color: #ffffff; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; } .btn-action { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 0.88rem; font-weight: 600; border-radius: 8px; border: none; cursor: pointer; text-decoration: none; } .btn-print { background: linear-gradient(135deg, #2563eb, #0891b2); color: #ffffff; } .btn-back { background: rgba(255, 255, 255, 0.1); color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.15); } .paper-container { max-width: 900px; margin: 30px auto; background: var(--card-bg); border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); padding: 48px 56px; } .doc-header { border-bottom: 3px solid var(--primary); padding-bottom: 20px; margin-bottom: 32px; } .doc-category { color: var(--secondary); font-size: 0.9rem; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; } .doc-title { font-size: 2.2rem; font-weight: 900; color: var(--text-dark); letter-spacing: -0.02em; } h2 { font-size: 1.45rem; font-weight: 800; color: var(--text-dark); margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); } h3 { font-size: 1.15rem; font-weight: 700; color: var(--primary-dark); margin: 24px 0 12px; } p { margin-bottom: 14px; color: #334155; } ul, ol { margin: 0 0 16px 20px; color: #334155; } li { margin-bottom: 6px; } .callout-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 20px 0; } .callout-box.warning { background: #fffbe6; border-left-color: var(--warning); } .prompt-block { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 18px; margin: 16px 0; font-family: monospace; font-size: 0.9rem; color: #f8fafc; white-space: pre-wrap; text-align: left; } table.data-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.92rem; } table.data-table th, table.data-table td { border: 1px solid var(--border-color); padding: 10px 14px; text-align: left; } table.data-table th { background: #f1f5f9; }     /* A4 Size & Print Styles */
-    @page {
-      size: A4 portrait;
-      margin: 12mm 14mm 12mm 14mm;
+<head>
+<script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+
+      if (!loggedInUser) {
+        window.location.href = '../login/login.html';
+      }
+    })();
+
+    function logout() {
+      document.cookie = "currentUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      localStorage.removeItem('currentUserSession');
+      window.location.href = '../login/login.html';
     }
 
-    @media print {
-      html, body {
-        width: 100% !important;
-        background: #ffffff !important;
-        color: #000000 !important;
-        font-size: 12.5px !important;
-        line-height: 1.5 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        var user = null;
+        if (sessionStr) {
+          var s = JSON.parse(sessionStr);
+          user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
+        }
+        if (user) {
+          var userBadge = document.getElementById('userProfileBadge');
+          var userAvatar = document.getElementById('userAvatar');
+          var userName = document.getElementById('userName');
+          if (userBadge) userBadge.style.display = 'inline-flex';
+          if (userAvatar && user.avatar) userAvatar.textContent = user.avatar;
+          if (userName && user.name) userName.textContent = user.name;
+        }
+      } catch(e) {
+        console.error(e);
       }
-      .no-print-bar, .navbar-2tier { display: none !important; }
-      .paper-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-shadow: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border-radius: 0 !important;
-      }
-      .page-break {
-        page-break-after: always !important;
-        break-after: page !important;
-      }
-      .paper-page {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        margin-bottom: 20px !important;
-      }
-      table.data-table, .prompt-block, .callout-box {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-      }
-    } } /* Modern 2-Tier Header Styles */ .navbar-2tier { position: sticky; top: 0; z-index: 1000; background: rgba(9, 9, 11, 0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-line); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5); } .nav-row-top { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); gap: 16px; flex-wrap: wrap; } .brand-wrap { display: flex; align-items: center; } .brand-logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; } .brand-tag { background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 4px 10px; border-radius: 6px; font-size: 0.76rem; font-weight: 800; color: #fff; white-space: nowrap; } .brand-tag.survey { background: linear-gradient(135deg, #10b981, #06b6d4); } .brand-tag.day { background: linear-gradient(135deg, #3b82f6, #8b5cf6); } .brand-name { font-size: 1.08rem; font-weight: 800; letter-spacing: -0.01em; color: #ffffff; white-space: nowrap; } .user-session-wrap { display: flex; align-items: center; } .btn-account-header { background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2)); border: 1px solid rgba(6, 182, 212, 0.45); color: #67e8f9; font-size: 0.8rem; font-weight: 800; border-radius: 6px; padding: 3px 10px; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; } .btn-account-header:hover { background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(59, 130, 246, 0.35)); border-color: #38bdf8; color: #fff; transform: translateY(-1px); } .btn-logout-header { background: transparent; border: none; color: #f87171; font-size: 0.78rem; font-weight: 700; cursor: pointer; padding-left: 8px; border-left: 1px solid rgba(255, 255, 255, 0.15); transition: color 0.2s; white-space: nowrap; } .btn-logout-header:hover { color: #fca5a5; } .nav-row-bottom { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; gap: 12px; overflow-x: auto; scrollbar-width: none; } .nav-row-bottom::-webkit-scrollbar { display: none; } .nav-sub-left, .nav-sub-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; } .nav-sub-btn { color: var(--text-muted); text-decoration: none; font-size: 0.86rem; font-weight: 600; padding: 6px 12px; border-radius: 8px; border: 1px solid transparent; background: transparent; transition: all 0.2s ease; white-space: nowrap; } .nav-sub-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.1); } .nav-sub-btn.active { color: #fff; background: rgba(59, 130, 246, 0.18); border-color: rgba(59, 130, 246, 0.4); } .nav-sub-btn.ops { color: #6ee7b7; background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25); } .nav-sub-btn.ops:hover, .nav-sub-btn.ops.active { color: #fff; background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.45); } .nav-sub-btn.portal { color: #93c5fd; border-color: rgba(59, 130, 246, 0.25); } .nav-sub-btn.highlight { background: linear-gradient(135deg, #2563eb, #0891b2); color: #fff; border: none; font-weight: 700; box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3); } .nav-sub-btn.highlight:hover { background: linear-gradient(135deg, #3b82f6, #06b6d4); transform: translateY(-1px); } 
-    /* Standard A4 Screen & Print Styling */
+    });
+  </script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Day 1 Self-Study Textbook | AI Development Tools and Workflows</title>
+<link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet"/>
+<style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #0891b2;
+      --accent: #7c3aed;
+      --text-dark: #0f172a;
+      --text-muted: #475569;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --code-bg: #1e293b;
+      --code-text: #f8fafc;
+      --warning: #b45309;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0f172a;
+      color: var(--text-dark);
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+
+    .no-print-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .no-print-bar .title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #ffffff;
+    }
+    .no-print-bar .badge {
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-print {
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #ffffff;
+    }
+    .btn-back {
+      background: rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+
+
+    .doc-header {
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 20px;
+      margin-bottom: 32px;
+    }
+    .doc-category {
+      color: var(--secondary);
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .doc-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--text-dark);
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin: 36px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 24px 0 12px;
+    }
+    p { margin-bottom: 14px; color: #334155; }
+    ul, ol { margin: 0 0 16px 20px; color: #334155; }
+    li { margin-bottom: 6px; }
+
+    .callout-box {
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+    .callout-box.warning {
+      background: #fffbe6;
+      border-left-color: var(--warning);
+    }
+
+    .prompt-block {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 18px;
+      margin: 16px 0;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: #f8fafc;
+      white-space: pre-wrap;
+      text-align: left;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.92rem;
+    }
+    table.data-table th, table.data-table td {
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    table.data-table th { background: #f1f5f9; }
+
+
+    }
+
+    /* Modern 2-Tier Header Styles */
+    .navbar-2tier {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(9, 9, 11, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-line);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+    .nav-row-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+    }
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand-tag {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .brand-tag.survey {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+    }
+    .brand-tag.day {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    }
+    .brand-name {
+      font-size: 1.08rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .user-session-wrap {
+      display: flex;
+      align-items: center;
+    }
+    .btn-account-header {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
+      border: 1px solid rgba(6, 182, 212, 0.45);
+      color: #67e8f9;
+      font-size: 0.8rem;
+      font-weight: 800;
+      border-radius: 6px;
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-account-header:hover {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(59, 130, 246, 0.35));
+      border-color: #38bdf8;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .btn-logout-header {
+      background: transparent;
+      border: none;
+      color: #f87171;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding-left: 8px;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .btn-logout-header:hover {
+      color: #fca5a5;
+    }
+
+    .nav-row-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-row-bottom::-webkit-scrollbar {
+      display: none;
+    }
+    .nav-sub-left, .nav-sub-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .nav-sub-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .nav-sub-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .nav-sub-btn.active {
+      color: #fff;
+      background: rgba(59, 130, 246, 0.18);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+    .nav-sub-btn.ops {
+      color: #6ee7b7;
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+    .nav-sub-btn.ops:hover, .nav-sub-btn.ops.active {
+      color: #fff;
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.45);
+    }
+    .nav-sub-btn.portal {
+      color: #93c5fd;
+      border-color: rgba(59, 130, 246, 0.25);
+    }
+    .nav-sub-btn.highlight {
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
+    }
+    .nav-sub-btn.highlight:hover {
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      transform: translateY(-1px);
+    }
+
+
+    /* ==========================================================================
+       Standard A4 Portrait Screen & Print Engine
+       ========================================================================== */
     body {
       background: #cbd5e1 !important;
+      color: var(--text-dark);
+      margin: 0;
+      padding: 0;
     }
 
     .paper-container {
@@ -51,9 +396,11 @@
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      gap: 36px !important;
+      gap: 32px !important;
       box-shadow: none !important;
       border-radius: 0 !important;
+      background: transparent !important;
+      padding: 0 !important;
     }
 
     .paper-page {
@@ -61,69 +408,90 @@
       min-height: 297mm !important;
       box-sizing: border-box !important;
       background: #ffffff !important;
-      border-radius: 3px !important;
+      border-radius: 4px !important;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12) !important;
       padding: 18mm 18mm 16mm 18mm !important;
       page-break-after: always !important;
       break-after: page !important;
-      page-break-inside: avoid !important;
-      break-inside: avoid !important;
+      page-break-inside: auto !important;
+      break-inside: auto !important;
       position: relative !important;
+      overflow: visible !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+    }
+
+    .cover-page {
+      padding: 0 !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      border-radius: 4px !important;
+      overflow: hidden !important;
+      justify-content: stretch !important;
+    }
+    .cover-page > div {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .page-content-body {
+      flex: 1 0 auto;
+    }
+
+    .book-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    .book-footer-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
+      margin-top: 24px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    /* Prevent cut-off / splitting at page boundaries */
+    .compare-grid, .compare-bad, .compare-good,
+    .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+    .info-cards, .info-card, .checklist, .checklist li, .example-result,
+    .story-box, .script-box, .qa-item, .screen-state-card,
+    .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+    .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+    .data-table, h1, h2, h3, h4, pre, blockquote {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    h1, h2, h3, h4 {
+      break-after: avoid !important;
+      page-break-after: avoid !important;
+    }
+
+    p, li {
+      orphans: 3;
+      widows: 3;
     }
 
     @media screen and (max-width: 820px) {
-      .no-print-bar {
-        position: relative;
-        display: block;
-        padding: 10px 12px;
-      }
-      .no-print-bar .title-group { min-width: 0; gap: 8px; }
-      .no-print-bar .title-group .badge { flex-shrink: 0; }
-      .no-print-bar .title-group strong {
-        min-width: 0;
-        font-size: 0.82rem;
-        line-height: 1.4;
-        overflow-wrap: anywhere;
-      }
-      .no-print-bar > div:last-child {
-        display: grid !important;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px !important;
-        width: 100%;
-        margin-top: 10px;
-      }
-      .no-print-bar .btn-action {
-        min-width: 0;
-        min-height: 40px;
-        justify-content: center;
-        padding: 8px 10px;
-        font-size: 0.78rem;
-        line-height: 1.3;
-        text-align: center;
-        white-space: normal;
-      }
-      .no-print-bar .btn-back { grid-column: 1 / -1; }
-      .paper-container {
-        width: 100% !important;
-        overflow-x: hidden;
-      }
-      .data-table {
-        width: 100%;
-        max-width: 100%;
-        table-layout: fixed;
-      }
-      .data-table th,
-      .data-table td {
-        padding: 8px 6px;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-      }
-      .prompt-block {
-        max-width: 100%;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-      }
-      .paper-page { width: 95vw !important; min-height: auto !important; padding: 22px 18px !important; }
+      .paper-container { width: 100% !important; margin: 16px auto !important; }
+      .paper-page { width: 95vw !important; min-height: auto !important; padding: 20px 16px !important; }
     }
 
     .btn-download {
@@ -156,6 +524,8 @@
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -166,14 +536,14 @@
         margin: 0 !important;
         padding: 0 !important;
         gap: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
       }
       .paper-page {
         width: 210mm !important;
         min-height: 297mm !important;
-        height: 297mm !important;
-        max-height: 297mm !important;
         margin: 0 !important;
-        padding: 16mm 16mm 14mm 16mm !important;
+        padding: 15mm 15mm 13mm 15mm !important;
         box-shadow: none !important;
         border-radius: 0 !important;
         border: none !important;
@@ -181,116 +551,1319 @@
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-        overflow: hidden !important;
+        overflow: visible !important;
+        background: #ffffff !important;
+      }
+      .cover-page {
+        padding: 0 !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        border-radius: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+      .compare-grid, .compare-bad, .compare-good,
+      .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+      .info-cards, .info-card, .checklist, .checklist li, .example-result,
+      .story-box, .script-box, .qa-item, .screen-state-card,
+      .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+      .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+      .data-table, h1, h2, h3, h4, pre, blockquote {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
       }
     }
 
-  </style>
-</head>
-<body> <div class="no-print-bar"> <div class="title-group"> <span class="badge">Day 1 Textbook</span> <strong>Getting Started with Codex &amp; Antigravity Self-Study Guide</strong> </div> <div class="action-btns"> <a href="day1-ai-classroom.html" class="btn-action btn-back">🏫 Return to AI Classroom</a> <button id="btn-download-pdf" onclick="downloadPDF()" class="btn-action btn-download">📥 Download A4 PDF</button>
-      <button onclick="downloadPDF()" class="btn-action btn-download">🖨️ Print / Save as PDF</button> </div> </div> <div class="paper-container"> <header class="doc-header"> <div class="doc-category">ACE AI Startup Bootcamp · Day 1 Self-Study Textbook</div> <h1 class="doc-title">Mastering AI Dev Tools &amp; Development Workflows</h1> </header> <h2>1. Overview &amp; Core Learning Objectives</h2> <p> This self-study textbook is the standard guide for aspiring founders to structure their ideas into unambiguous specifications using <strong>Codex</strong> and build running Web App MVPs using <strong>Antigravity</strong>. </p> <div class="callout-box"> <strong>🔄 AI-Driven Development Pipeline</strong><br> <code>Codex (Spec Drafting) ➔ Antigravity (Code Scaffolding) ➔ Codex (QA Testing) ➔ Codex (Spec Refinement) ➔ Antigravity (Code Iteration)</code> </div> <h2>2. Folders, Files, and Shared Workspace Absolute Paths</h2> <p> The golden rule of AI-assisted engineering is that <strong>both AI tools must operate within the exact same shared local workspace directory</strong>. </p> <!-- Structured File Tree Component --> <div style="background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 12px; margin: 20px 0;"> <div style="font-weight: 800; color: #38bdf8; margin-bottom: 12px; font-size: 0.95rem;">📁 my-project/</div> <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;"> <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 6px;"> <span style="font-family: monospace; color: #f8fafc;">├── 📄 README.md</span> <span style="color: #94a3b8; font-size: 0.82rem;">Project Overview &amp; Setup</span> </div> <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 6px;"> <span style="font-family: monospace; color: #f8fafc;">├── 📄 PAGE_REQUIREMENTS.md</span> <span style="color: #38bdf8; font-size: 0.82rem; font-weight: 700;">Screen UI &amp; Acceptance Spec (Codex)</span> </div> <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 6px;"> <span style="font-family: monospace; color: #f8fafc;">├── 📄 VALIDATION.md</span> <span style="color: #fde047; font-size: 0.82rem; font-weight: 700;">Automated QA Checklist (Codex)</span> </div> <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 6px;"> <span style="font-family: monospace; color: #f8fafc;">└── 🌐 index.html</span> <span style="color: #4ade80; font-size: 0.82rem; font-weight: 700;">Deployed Web Application (Antigravity)</span> </div> </div> </div> <h2>3. Tool Roles &amp; Responsibilities</h2> <table class="data-table"> <thead> <tr> <th>Tool</th> <th>Primary Role</th> <th>Core Output</th> </tr> </thead> <tbody> <tr> <td><strong>Codex</strong></td> <td>Structure thoughts into markdown specs, generate QA audit checklists</td> <td><code>PAGE_REQUIREMENTS.md</code>, <code>VALIDATION.md</code></td> </tr> <tr> <td><strong>Antigravity</strong></td> <td>Analyze specifications to generate complete project structure & UI code</td> <td><code>index.html</code> and running interactive web code</td> </tr> <tr> <td><strong>Web Browser</strong></td> <td>Inspect interactive UI rendering, touch targets, and button triggers</td> <td>Live Browser Viewport</td> </tr> </tbody> </table> <h2>4. The 3 Essential Elements of Prompt Engineering</h2> <p>Three pillars that determine prompt clarity and generation quality:</p> <ol> <li><strong>Goal:</strong> Explicitly name the target file, component, or screen to generate.</li> <li><strong>Constraints:</strong> Specify design themes (dark mode), fonts, layout grids, and restrictions.</li> <li><strong>Acceptance Criteria:</strong> Measurable verification criteria visible in the live browser.</li> </ol> <h2>5. Step-by-Step Lab Prompt Guide</h2> <h3>Lab 1. Environment Setup Prompt (Codex)</h3> <div class="prompt-block">📌 Codex:
-Define the core purpose of this workspace folder (my-project).
-Project Goal: "Foundational AI Web App Development Practice for Aspiring Founders".
-Create a clear `README.md` file detailing the workspace purpose and tech stack.</div> <h3>Lab 2. Specification Generation Prompt (Codex)</h3> <div class="prompt-block">📌 Codex:
-Create `PAGE_REQUIREMENTS.md` with the following specifications:
-Context: "Founder Profile & Startup Service Landing Page"
-1. Header: Founder Name, One-line Tagline, Domain Tags
-2. Body: Problem Statement, 2 Solution Cards with Icons
-3. Footer: Interactive Contact / Pitch Deck Button
-4. Constraints: Modern Dark Theme, Pretendard / Sans-serif Font
-5. Acceptance Criteria: Renders cleanly across mobile and desktop.</div> <h3>Lab 3. Autonomous Code Generation Prompt (Antigravity)</h3> <div class="prompt-block">📌 Antigravity:
-Read `PAGE_REQUIREMENTS.md` and generate a complete, responsive `index.html` file meeting all specs.
-1. Design: Modern dark theme with subtle glassmorphism and modern typography.
-2. Styling: Inline clean CSS supporting mobile & desktop viewports.
-3. Components: Profile header (avatar, name, bio, tags), problem/solution cards, and interactive modal/contact button.
-4. Acceptance Criteria: Single index.html that runs immediately in any browser.</div> <h3>Lab 4. Automated QA Audit Prompt (Codex)</h3> <div class="prompt-block">📌 Codex:
-Review `index.html` and compare against `PAGE_REQUIREMENTS.md` acceptance criteria.
-1. Check for missing elements, unclosed tags, or unresponsive layouts.
-2. Create `VALIDATION.md` containing an automated PASS/FAIL test checklist.
-3. If any requirement is missing, append explicit change requests to `PAGE_REQUIREMENTS.md`.</div> <h2>5.5 Day 1 Bonus Practice Challenges (2 Tracks)</h2> <p>Elective hands-on tracks for founders who want to build a real prototype from scratch:</p> <h3>[Track A] AI-Powered Founder Portfolio &amp; Pitch Page</h3> <ul> <li><strong>Spec File:</strong> <code>PORTFOLIO_REQUIREMENTS.md</code></li> <li><strong>Core Components:</strong> Profile Header, 5 Skill Tags, 3 Project Showcase Cards, Email Inquiry & Social Links</li> </ul> <div class="prompt-block">📌 Codex Track A Prompt:
-Create `PORTFOLIO_REQUIREMENTS.md`:
-Scope: "One-page Founder Portfolio & Project Showcase"
-1. Header: Name, Avatar placeholder, One-line Value Proposition
-2. Skills: 5 Tech & Domain Badges
-3. Projects: 3 Interactive Project Cards (Title, Description, Tech Stack, Demo Link)
-4. Contact: Email modal and social links</div> <h3>[Track B] Pre-Launch Landing Page &amp; Early Access Waitlist</h3> <ul> <li><strong>Spec File:</strong> <code>LAUNCH_REQUIREMENTS.md</code></li> <li><strong>Core Components:</strong> Catchy Headline, 3 Value Proposition Cards, Waitlist Email Form, Instant Confirmation Toast</li> </ul> <div class="prompt-block">📌 Codex Track B Prompt:
-Create `LAUNCH_REQUIREMENTS.md`:
-Scope: "Startup Pre-Launch Early Access Waitlist"
-1. Hero: Logo, High-impact Value Statement, 3 Benefit Cards
-2. Signup Form: Name, Email Input, "Get Early Access" Button
-3. FAQ: 3 Accordion Q&A items
-4. Confirmation: Displays a celebration toast upon submission.</div> <h2>6. Security Principles &amp; FAQ</h2> <div class="callout-box warning"> <strong>⚠️ Security &amp; Safety Guidelines</strong><br> - Never paste raw API keys, secrets, or private passwords into prompts.<br> - Always review file diffs before and after AI execution.<br> - Keep backups of stable versions for effortless rollback. </div> </div> <!-- AI Account Modal --> <div id="aiAccountModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;"> <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 100%; max-width: 520px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.2); overflow: hidden; transform: translateY(20px); transition: transform 0.25s ease;" id="aiModalCard"> <!-- Modal Header --> <div style="padding: 24px 28px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;"> <div style="display: flex; align-items: center; gap: 10px;"> <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #3b82f6, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🔑</div> <div> <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">AI Practice Account Credentials</h3> <span id="modalTeamBadge" style="font-size: 0.76rem; color: #94a3b8;">Assigned Practice Tool Accounts</span> </div> </div> <button type="button" onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">✕</button> </div> <!-- Modal Body --> <div style="padding: 24px 28px; display: flex; flex-direction: column; gap: 20px;">
 
-        <!-- Account Card 2: Codex --> <div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px; padding: 18px;"> <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;"> <div style="display: flex; align-items: center; gap: 8px;"> <span style="font-size: 1.2rem;">🤖</span> <strong style="color: #6ee7b7; font-size: 0.95rem;">Codex (OpenAI Codex)</strong> </div> <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">Planning · Verification · Dev Tool</span> </div> <!-- Codex ID --> <div style="margin-bottom: 10px;"> <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Codex)</div> <div style="display: flex; gap: 6px;"> <input type="text" id="codexIdVal" readonly value="codex.pilot.team@openai.com" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" /> <button type="button" onclick="copyAccountVal('codexIdVal', 'Codex ID copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Copy</button> </div> </div> <!-- Codex Password --> <div> <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Password</div> <div style="display: flex; gap: 6px;"> <input type="password" id="codexPwVal" readonly value="AcePilot2026!codex" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" /> <button type="button" onclick="togglePwVisibility('codexPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title="Show/Hide Password">👁️</button> <button type="button" onclick="copyAccountVal('codexPwVal', 'Codex Password copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Copy</button> </div> </div> </div> </div> <!-- Modal Footer --> <div style="padding: 16px 28px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: flex-end;"> <button type="button" onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 9px 20px; color: #fff; font-size: 0.88rem; font-weight: 700; cursor: pointer;">Close</button> </div> </div> </div> <script> function openAiAccountModal() { const modal = document.getElementById('aiAccountModal'); const card = document.getElementById('aiModalCard'); if (!modal) return; // Update team info dynamically try { const sessionStr = localStorage.getItem('currentUserSession'); if (sessionStr) { const s = JSON.parse(sessionStr); const user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value; if (user) { const badge = document.getElementById('modalTeamBadge');    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script>
+
+    /* ===== Self-Study Enrichment Styles ===== */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .compare-bad {
+      background: #fff1f2;
+      border: 2px solid #fca5a5;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .compare-good {
+      background: #f0fdf4;
+      border: 2px solid #86efac;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .compare-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .compare-bad .compare-label { color: #dc2626; }
+    .compare-good .compare-label { color: #16a34a; }
+    .compare-text { font-size: 0.92rem; color: #334155; line-height: 1.6; }
+
+    .step-guide {
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .step-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+    .step-num {
+      min-width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .step-content { flex: 1; }
+    .step-title { font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+    .step-desc { font-size: 0.9rem; color: #475569; }
+
+    .tip-box {
+      background: linear-gradient(135deg, #fefce8, #fef9c3);
+      border: 1.5px solid #fde047;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 16px 0;
+    }
+    .tip-box strong { color: #92400e; }
+
+    .danger-box {
+      background: #fff1f2;
+      border: 1.5px solid #f87171;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 16px 0;
+    }
+    .danger-box strong { color: #b91c1c; }
+
+    .success-box {
+      background: #f0fdf4;
+      border: 1.5px solid #4ade80;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 16px 0;
+    }
+    .success-box strong { color: #15803d; }
+
+    .info-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .info-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px;
+    }
+    .info-card-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .info-card-title { font-weight: 800; color: #0f172a; margin-bottom: 6px; }
+    .info-card-desc { font-size: 0.88rem; color: #475569; line-height: 1.55; }
+
+    .checklist {
+      list-style: none;
+      margin: 16px 0;
+      padding: 0;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px dashed #e2e8f0;
+      font-size: 0.92rem;
+      color: #334155;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before {
+      content: '☐';
+      color: #2563eb;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .example-result {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 16px 0;
+    }
+    .example-result-label {
+      color: #38bdf8;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+    .example-result code {
+      color: #86efac;
+      font-size: 0.88rem;
+      line-height: 1.8;
+    }
+
+    .story-box {
+      background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+      border-left: 4px solid #7c3aed;
+      border-radius: 0 10px 10px 0;
+      padding: 18px 20px;
+      margin: 20px 0;
+      font-size: 0.95rem;
+      color: #3b0764;
+      line-height: 1.7;
+    }
+    .story-box .story-name {
+      font-weight: 800;
+      color: #6d28d9;
+      margin-bottom: 8px;
+    }
+
+    .term-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .term-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+    }
+    .term-word {
+      min-width: 130px;
+      font-weight: 800;
+      color: #1d4ed8;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    .term-def {
+      flex: 1;
+      font-size: 0.9rem;
+      color: #334155;
+    }
+
+    .flow-steps {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+    .flow-step {
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    .flow-arrow {
+      color: #94a3b8;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    @media (max-width: 640px) {
+      .compare-grid { grid-template-columns: 1fr; }
+      .info-cards { grid-template-columns: 1fr; }
+    }
+
+  </style>
+<style id="english-layout-safeguards">
+/* English layout safeguards: preserve the A4 design and prevent long words from overflowing. */
+html[lang="en"] body {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+@media screen and (max-width: 820px) {
+  .no-print-bar {
+    position: relative;
+    display: block;
+    padding: 10px 12px;
+  }
+  .no-print-bar .title-group { min-width: 0; gap: 8px; }
+  .no-print-bar .title-group .badge { flex-shrink: 0; }
+  .no-print-bar .title-group strong {
+    min-width: 0;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .no-print-bar > div:last-child {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px !important;
+    width: 100%;
+    margin-top: 10px;
+  }
+  .no-print-bar .btn-action {
+    min-width: 0;
+    min-height: 40px;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    text-align: center;
+    white-space: normal;
+  }
+  .no-print-bar .btn-back { grid-column: 1 / -1; }
+  .data-table {
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+  }
+  .data-table th,
+  .data-table td {
+    padding: 8px 6px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .prompt-block,
+  .screen-state-code {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
+</style></head>
+<body>
+<div class="no-print-bar">
+<div class="title-group">
+<span class="badge">Day 1 Textbook</span>
+<strong>Getting Started with Codex &amp; Antigravity — Self-Study Guide</strong>
+</div>
+<div class="action-btns">
+<a class="btn-action btn-back" href="day1-ai-classroom.html">🏫 Return to AI Self-Study Classroom</a>
+<button class="btn-action btn-download" id="btn-download-pdf" onclick="downloadPDF()">📥 Download A4 PDF</button>
+<button class="btn-action btn-download" onclick="downloadPDF()">🖨️ Print Textbook / Save as PDF</button>
+</div>
+</div>
+<div class="paper-container">
+<!-- ===== COVER PAGE ===== -->
+<section class="paper-page cover-page" data-page="cover" style="padding:0 !important; overflow:hidden !important; justify-content:stretch !important;">
+<div style="
+        width:100%; height:100%;
+        background: linear-gradient(160deg, #0f172a 0%, #1e3a5f 40%, #1d4ed8 75%, #2563eb 100%);
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        padding: 20mm 18mm;
+        position:relative;
+        box-sizing:border-box;
+      ">
+<!-- Decorative background circles -->
+<div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(37,99,235,0.25);"></div>
+<div style="position:absolute;bottom:-80px;left:-80px;width:360px;height:360px;border-radius:50%;background:rgba(124,58,237,0.2);"></div>
+<div style="position:absolute;top:40%;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(8,145,178,0.18);"></div>
+<!-- Program badge -->
+<div style="
+          background:rgba(255,255,255,0.12);
+          border:1px solid rgba(255,255,255,0.25);
+          border-radius:50px;
+          padding:8px 24px;
+          color:#93c5fd;
+          font-size:0.82rem;
+          font-weight:700;
+          letter-spacing:1.5px;
+          text-transform:uppercase;
+          margin-bottom:32px;
+          position:relative;
+        ">ACE AI Startup Bootcamp · Self-Study Textbook</div>
+<!-- Day badge -->
+<div style="
+          width:100px; height:100px;
+          background:linear-gradient(135deg,#3b82f6,#7c3aed);
+          border-radius:24px;
+          display:flex; align-items:center; justify-content:center;
+          font-size:2rem; font-weight:900; color:#fff;
+          margin-bottom:28px;
+          position:relative;
+          box-shadow:0 12px 40px rgba(37,99,235,0.5);
+        ">D1</div>
+<!-- Title -->
+<h1 style="
+          font-size:2.6rem; font-weight:900; color:#ffffff;
+          text-align:center; line-height:1.25; letter-spacing:-0.03em;
+          margin-bottom:14px; position:relative;
+        ">AI Development Tools and<br/>Workflows</h1>
+<!-- Subtitle -->
+<p style="
+          font-size:1.05rem; color:#93c5fd; font-weight:500;
+          text-align:center; margin-bottom:44px; position:relative;
+        ">Your first step toward turning an idea into a working service with AI tools</p>
+<!-- Divider -->
+<div style="width:60px;height:3px;background:linear-gradient(90deg,#3b82f6,#7c3aed);border-radius:4px;margin-bottom:44px;position:relative;"></div>
+<!-- Topics -->
+<div style="
+          display:grid; grid-template-columns:1fr 1fr;
+          gap:12px; width:100%; max-width:440px;
+          position:relative; margin-bottom:48px;
+        ">
+<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+<span style="font-size:1.3rem;">🤖</span>
+<div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 1</div><div style="color:#93c5fd;font-size:0.82rem;">Introduction to AI Development Tools</div></div>
+</div>
+<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+<span style="font-size:1.3rem;">⚙️</span>
+<div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 2</div><div style="color:#93c5fd;font-size:0.82rem;">Codex vs Antigravity</div></div>
+</div>
+<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+<span style="font-size:1.3rem;">📝</span>
+<div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 3</div><div style="color:#93c5fd;font-size:0.82rem;">Setting Up the Development Environment</div></div>
+</div>
+<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+<span style="font-size:1.3rem;">🚀</span>
+<div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 4</div><div style="color:#93c5fd;font-size:0.82rem;">Your First AI Practice</div></div>
+</div>
+</div>
+<!-- Footer info -->
+<div style="
+          position:relative;
+          display:flex; align-items:center; gap:24px;
+          padding-top:24px;
+          border-top:1px solid rgba(255,255,255,0.15);
+          width:100%;
+        ">
+<div style="flex:1; color:#64748b; font-size:0.8rem;">
+<div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">Training Provider</div>
+<div style="color:#cbd5e1;">ODA AI SW · ACE Program</div>
+</div>
+<div style="color:#64748b; font-size:0.8rem; text-align:right;">
+<div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">Course</div>
+<div style="color:#cbd5e1;">AI Web Development for Aspiring Founders</div>
+</div>
+</div>
+</div>
+</section>
+<section class="paper-page" data-page="1">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 1</span>
+<span>Introduction and Learning Guide</span>
+</div>
+<div class="page-content-body">
+<header class="doc-header">
+<div class="doc-category">ACE AI Startup Bootcamp · Day 1 Self-Study Textbook</div>
+<h1 class="doc-title">AI Development Tools and Workflows</h1>
+<p style="color:#475569; margin-top:10px; font-size:0.95rem;">
+        📚 This textbook is designed so that you can <strong>read, fully understand, and follow it independently</strong>.<br/>
+        It follows a clear sequence: concept explanation → real example → step-by-step practice → self-check.
+      </p>
+</header>
+<!-- ===== 1. 도입 이야기 ===== -->
+<h2>1. Why Use AI Development Tools?</h2>
+<div class="story-box">
+<div class="story-name">💬 A Founder's Real-World Story</div>
+      Mr. Kim wanted to build a dog-walking match app, so he outsourced the development.
+      Three months later, the app had a Walk Request button, but clicking it did nothing.
+      It was not what he wanted, and the developer requested an additional ₩5 million to revise it.<br/><br/>
+<strong>The root cause: Mr. Kim could not express his idea in a precise specification.</strong><br/>
+      Using AI development tools, founders can write a document themselves about what to do and how to do it.
+      AI reads the document and creates a web service that actually works.
+    </div>
+<p><strong>The core values we learn in this process are:</strong></p>
+<div class="info-cards">
+<div class="info-card">
+<div class="info-card-icon">✍️</div>
+<div class="info-card-title">Turn ideas into documents</div>
+<div class="info-card-desc">It transforms the ideas in your mind into clear requirements documents that AI can understand.</div>
+</div>
+<div class="info-card">
+<div class="info-card-icon">🤖</div>
+<div class="info-card-title">Turn documents into code</div>
+<div class="info-card-desc">The AI reads the document and automatically generates the code for a web service that actually works.</div>
+</div>
+<div class="info-card">
+<div class="info-card-icon">🔄</div>
+<div class="info-card-title">Rapid repeat improvement</div>
+<div class="info-card-desc">If you don't like it, you edit the document and quickly improve the way you request it again.</div>
+</div>
+</div>
+<!-- ===== 2. 두 가지 AI 도구의 역할 ===== -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 1 of 10</span>
+</div>
+</section>
+<section class="paper-page" data-page="2">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 1</span>
+<span>Comparing Codex and Antigravity</span>
+</div>
+<div class="page-content-body">
+<h2>2. Codex and Antigravity — What Is the Difference?</h2>
+<div class="callout-box">
+<strong>️ Understanding architectural metaphors</strong><br/>
+      Imagine you're building a house.<br/>
+<strong>Codex = the architect</strong> The person who draws plans that specify three bedrooms, one living room, and two bathrooms.<br/>
+<strong>Antigravity = the builder</strong> The team that reads the plans and builds the actual house.<br/>
+      If you ask a timekeeper to build a house without a drawing, you don't get the house you want.
+    </div>
+<table class="data-table">
+<thead>
+<tr>
+<th>Category</th>
+<th>🤖 Codex (OpenAI)</th>
+<th>🌐 Antigravity (Google AGY)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Key roles</strong></td>
+<td>Organize your thoughts, write your papers, review them.</td>
+<td>Read the document and generate code that actually works.</td>
+</tr>
+<tr>
+<td><strong>When to Use It</strong></td>
+<td>When you're writing requirements, reviewing content, supplementing documents.</td>
+<td>When you implement a web screen, modify a code, add a feature,</td>
+</tr>
+<tr>
+<td><strong>The main output</strong></td>
+<td><code>PAGE_REQUIREMENTS.md</code>, <code>VALIDATION.md</code></td>
+<td><code>index.html</code>CSS, JavaScript files.</td>
+</tr>
+<tr>
+<td><strong>Analogy</strong></td>
+<td>Designer.</td>
+<td>Construction is real.</td>
+</tr>
+</tbody>
+</table>
+<h3>📌 The Complete Development Pipeline</h3>
+<div class="flow-steps">
+<span class="flow-step">1. Codex<br/>Write requirements</span>
+<span class="flow-arrow">→</span>
+<span class="flow-step">2. Antigravity<br/>Implementation of the Service</span>
+<span class="flow-arrow">→</span>
+<span class="flow-step">3. Browser<br/>Confirm the results.</span>
+<span class="flow-arrow">→</span>
+<span class="flow-step">4. Codex<br/>Quality validation</span>
+<span class="flow-arrow">→</span>
+<span class="flow-step">5. As Needed<br/>Repeat.</span>
+</div>
+<div class="tip-box">
+<strong>Key principles:</strong> Codex and Antigravity are always <strong>The same project folder</strong>We have to look at it.
+      If two tools look at different folders, they can't read the documents they've created on one side.
+    </div>
+<!-- ===== 3. 폴더, 파일, 절대경로 ===== -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 2 of 10</span>
+</div>
+</section>
+<section class="paper-page" data-page="3">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 1</span>
+<span>Understanding Folders and Absolute Paths</span>
+</div>
+<div class="page-content-body">
+<h2>3. Understanding Folders, Files, and Absolute Paths</h2>
+<p>When you tell an AI tool, "Edit this file," it needs an <strong>exact location</strong>to find it. This address is called an <strong>absolute path</strong>.</p>
+<div class="compare-grid">
+<div class="compare-bad">
+<div class="compare-label">You can't do that.</div>
+<div class="compare-text">
+          "Edit the requirements file in the Project folder".<br/><br/>
+<strong>The problem is:</strong> AI doesn't know where the project folder is, what the requirements file is.
+        </div>
+</div>
+<div class="compare-good">
+<div class="compare-label">This is what we have to do.</div>
+<div class="compare-text">
+          "C:\Users\kim\Desktop\my-project\PAGE_REQUIREMENTS.md file can be modified".<br/><br/>
+<strong>The reason:</strong> If you give me the exact address where the computer is, the AI will find it right away.
+        </div>
+</div>
+</div>
+<h3>📂 How to Find an Absolute Path</h3>
+<div class="step-guide">
+<div class="step-item">
+<div class="step-num">A</div>
+<div class="step-content">
+<div class="step-title">Windows (windows)</div>
+<div class="step-desc">If you open the folder and click on the → address window, you'll see the entire path.<br/>
+          Example: <code>C:\Users\your-name\Desktop\my-project</code></div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">B</div>
+<div class="step-content">
+<div class="step-title">Mac (Macbook)</div>
+<div class="step-desc">Click the folder in the Finder → "Import information" → "High" to see the item<br/>
+          Example: <code>/Users/your-name/Desktop/my-project</code></div>
+</div>
+</div>
+</div>
+<h3>📁 Recommended Project Folder Structure</h3>
+<p>If you create a folder with the structure below, it's easy for Codex and Antigravity to find each other's files.</p>
+<div style="background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 12px; margin: 20px 0;">
+<div style="font-weight: 800; color: #38bdf8; margin-bottom: 12px; font-size: 0.95rem;">📁 my-project/</div>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;">
+<div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 6px;">
+<span style="font-family: monospace; color: #f8fafc;">├── 📄 README.md</span>
+<span style="color: #94a3b8; font-size: 0.82rem;">Purpose and Summary of Projects</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; background: rgba(59,130,246,0.15); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(59,130,246,0.3);">
+<span style="font-family: monospace; color: #93c5fd;">├── 📄 PAGE_REQUIREMENTS.md</span>
+<span style="color: #38bdf8; font-size: 0.82rem; font-weight: 700;">★ Written by Codex, read by Antigravity</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 6px;">
+<span style="font-family: monospace; color: #f8fafc;">├── 📄 VALIDATION.md</span>
+<span style="color: #fde047; font-size: 0.82rem; font-weight: 700;">Codex validation checklist</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; background: rgba(16,185,129,0.15); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(16,185,129,0.3);">
+<span style="font-family: monospace; color: #6ee7b7;">└── 🌐 index.html</span>
+<span style="color: #4ade80; font-size: 0.82rem; font-weight: 700;">★ Web services created by Antigravity</span>
+</div>
+</div>
+</div>
+<div class="danger-box">
+<strong>️ Frequent mistakes:</strong> In the name of the folder or the name of the file. <strong>Korean characters, spaces, or special characters</strong>If you use it, you'll get an error when you read the path.<br/>
+      Recommended: <code>my-project</code>    ❌ Not recommended: <code>My project (1)</code>
+</div>
+<!-- ===== 4. 프롬프트 3요소 ===== -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 3 of 10</span>
+</div>
+</section>
+<section class="paper-page" data-page="4">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 1</span>
+<span>Three Elements of Prompt Writing</span>
+</div>
+<div class="page-content-body">
+<h2>4. Three Elements of a Good Prompt — How to Communicate Clearly with AI</h2>
+<p>When instructing AI, the most important factor that determines response quality is <strong>the specificity of the prompt</strong>. A vague request produces a vague result.</p>
+<div class="info-cards">
+<div class="info-card">
+<div class="info-card-icon">🎯</div>
+<div class="info-card-title">① Goal</div>
+<div class="info-card-desc">Specifically specify which output file or screen to create.<br/>
+<br/><strong>Example:</strong> "Please create an PAGE_REQUIREMENTS.md file".</div>
+</div>
+<div class="info-card">
+<div class="info-card-icon">📋</div>
+<div class="info-card-title">② Constraints</div>
+<div class="info-card-desc">Design style, what to include, what not to do<br/>
+<br/><strong>Example:</strong> "Dark mode, use the Pretendard font".</div>
+</div>
+<div class="info-card">
+<div class="info-card-icon">✅</div>
+<div class="info-card-title">③ Acceptance Criteria</div>
+<div class="info-card-desc">It's a set of criteria that can be used to determine what's successful when you see it in your browser.<br/>
+<br/><strong>Example:</strong> "Once you click the button, pop-up is done".</div>
+</div>
+</div>
+<h3>📝 Comparing a Weak Prompt with a Strong Prompt</h3>
+<div class="compare-grid">
+<div class="compare-bad">
+<div class="compare-label">❌ Weak Prompt Example</div>
+<div class="compare-text">
+          "Build a website. It's beautiful".<br/><br/>
+<strong>The problem is:</strong><br/>
+          • Uncertainty about the content of the website<br/>
+          • "Pretty" is a subjective criterion<br/>
+          • File name, folder location undefined<br/>
+          • No measure of success
+        </div>
+</div>
+<div class="compare-good">
+<div class="compare-label">✅ Strong Prompt Example</div>
+<div class="compare-text">
+          "Please create an PAGE_REQUIREMENTS.md file.<br/>
+          Content: an aspiring founder profile page<br/>
+          Configuration: name/submission/tags, issue/resolution cards, two middle ones, contact button, below<br/>
+          Style: dark mode, pretendard font<br/>
+          Acceptance criteria: the card will appear responsive in the browser.<br/><br/>
+<strong>A good reason:</strong><br/>
+          • Clear file name to generate<br/>
+          • Concrete components<br/>
+          • Specify style conditions<br/>
+          • validation acceptability criteria
+        </div>
+</div>
+</div>
+<div class="tip-box">
+<strong>Let's write a quick tip:</strong> If the AI came up with something weird after the request,<br/>
+      "Please correct the [structural issue] in the file that you've created and let me know what you're going to change before you do it".<br/>
+      If you ask for it, you can reduce the error.
+    </div>
+<!-- ===== 5. 단계별 실습 가이드 ===== -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 4 of 10</span>
+</div>
+</section>
+<section class="paper-page" data-page="5">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 1</span>
+<span>Practice: Folders and Requirements Documents</span>
+</div>
+<div class="page-content-body">
+<h2>5. Today's Practice — Step by Step</h2>
+<div class="callout-box">
+<strong>Today's goal:</strong> We use Codex and Antigravity to create a pre-creator introduction webpage from start to finish.
+    </div>
+<!-- 실습 준비 -->
+<h3>🔧 Before You Begin</h3>
+<div class="step-guide">
+<div class="step-item">
+<div class="step-num">1</div>
+<div class="step-content">
+<div class="step-title">Creating a project folder</div>
+<div class="step-desc">It's on the desktop. <code>my-project</code> It creates a folder.<br/>
+          Example path: <code>C:\Users\name\Desktop\my-project</code></div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">2</div>
+<div class="step-content">
+<div class="step-title">Open the Codex.</div>
+<div class="step-desc">Run the Codex app and set the my-project folder above to a project.<br/>
+          Codex → Upper folder icon → Select the folder</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">3</div>
+<div class="step-content">
+<div class="step-title">Open the Antigravity.</div>
+<div class="step-desc">You run Antigravity, Antigravity, and you set the same my-project folder as the work path.</div>
+</div>
+</div>
+</div>
+<!-- 실습 1 -->
+<h3>📝 Practice 1 — Create an Environment Setup Document with Codex</h3>
+<p>First, use Codex to create <code>README.md</code>, the project's basic description file.</p>
+<div class="prompt-block">In Codex, type the following prompt:
+
+Please define the basic roles of this project folder.
+The goal of the project is to "practice basic web services using AI development tools".
+Create the default README.md file and write it down as follows:
+- Project name.
+- Purpose.
+- Use tools (Codex, Antigravity)
+- The folder structure description.
+- How to use it.</div>
+<div class="success-box">
+<strong>This is what success looks like:</strong><br/>
+      In the my-project folder, <code>README.md</code> the file is created.<br/>
+      On the Codex screen, you can see that it's written in the same structure as above.
+    </div>
+<!-- 실습 2 -->
+<h3>📝 Practice 2 — Write a Requirements Specification with Codex</h3>
+<p>Next, create the key document <code>PAGE_REQUIREMENTS.md</code>. Antigravity will use this document as the basis for building the web page.</p>
+<div class="prompt-block">In Codex, type the following prompt:
+
+I need you to create an PAGE_REQUIREMENTS.md file.
+Content: "Profile of entrepreneurs and service introduction page"
+
+## Page configuration
+Title: My Startup Pitch
+2. Upper section: Founder name, one-line introduction, two to three key field tags
+Section 3: Breakdown: Explanation of the problem I'm trying to solve, two solution cards
+Subsection 4: Contact button (click and indicate email address)
+
+## Design conditions
+- It's in the dark mode.
+- Use the Pretendard font.
+- A responsive layout that looks good on both mobile and PC.
+
+## acceptance criteria
+- When you open the browser, all sections will be displayed correctly.
+- When you click the contact button, the email address will appear.</div>
+<div class="tip-box">
+<strong>The key to this step is:</strong> Codex is going to write this document. <strong>Save it as a file.</strong>.
+      On the Codex screen, press the "Save files" or "Create files" button to save.
+      Save it and see if there's an PAGE_REQUIREMENTS.md file in the my-project folder.
+    </div>
+<!-- 실습 3 -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 5 of 10</span>
+</div>
+</section>
+<section class="paper-page" data-page="6">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 1</span>
+<span>Practice: Web Page Implementation and Validation</span>
+</div>
+<div class="page-content-body">
+<h3>⚙️ Practice 3 — Build a Web Page with Antigravity</h3>
+<p>Codex reads the document, and Antigravity creates a web page that actually works.</p>
+<div class="prompt-block">In Antigravity, type the following prompt:
+
+Read the PAGE_REQUIREMENTS.md file, and perfectly satisfy the specified requirements.
+I want you to create an index.html webpage.
+
+Conditions:
+1. Design: Pretendard fonts and applying modern dark glass graphics UI
+2. CSS: Write all in the &lt;style&gt; tag (no external CSS files used)
+3. JavaScript: Write it in the &lt;script&gt; tag.
+Configuration: upper profile, two stop cards, and the door button below.
+5. Acceptance criteria: Complete a single index.html file that can be opened directly from the browser
+
+Tell me a list of files you've created/corrected after work.</div>
+<div class="step-guide">
+<div class="step-item">
+<div class="step-num">1</div>
+<div class="step-content">
+<div class="step-title">Check the Antigravity run</div>
+<div class="step-desc">Antigravity waits for a while to generate the file.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">2</div>
+<div class="step-content">
+<div class="step-title">Verify the generated file</div>
+<div class="step-desc">In the my-project folder, <code>index.html</code> Check if the file was generated.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">3</div>
+<div class="step-content">
+<div class="step-title">Open it in your browser.</div>
+<div class="step-desc"><code>index.html</code> You can double-click the file or drag the file to the Chrome browser and open it.</div>
+</div>
+</div>
+</div>
+<div class="success-box">
+<strong>This is what success looks like:</strong><br/>
+      • A dark background introductory page opens in the browser<br/>
+      • Founder's name, introductory phrase, tag displayed at the top<br/>
+      • Two problem/resolution cards for suspension<br/>
+      • The "Down" button is at the bottom, and if you click on it, the email address will appear.
+    </div>
+<!-- 실습 4 -->
+<h3>🔍 Practice 4 — Validate Quality with Codex</h3>
+<p>The result Antigravity created validates with Codex whether the requirements were implemented correctly.</p>
+<div class="prompt-block">In Codex, type the following prompt:
+
+Check the index.html code and compare it to the PAGE_REQUIREMENTS.md content.
+
+1. Check for missing requirements or incorrectly implemented parts.
+2. Create a new VALIDATION.md file and fill out the checklist in the following format:
+   - Requirements or Implementation.
+If there's anything missing, add it to PAGE_REQUIREMENTS.md as a correction request.</div>
+<div class="example-result">
+<div class="example-result-label">VALIDATION.md sample results</div>
+<code>
+# Quality validation checklist<br/>
+Date of writing: 2026-09-05<br/>
+<br/>
+## Requirements validation results<br/>
+| Requirement | Status | Notes |<br/>
+|---------|--------|------|<br/>
+| Founder name displayed | ✅ Pass | Displayed correctly at the top |<br/>
+| Core-field tags displayed | ✅ Pass | Two tags displayed |<br/>
+| Two solution cards | ✅ Pass | Responsive grid |<br/>
+| Contact button | ✅ Pass | Displays email when clicked |<br/>
+| Responsive layout | ⚠️ Fail | Cards overlap on mobile |<br/>
+<br/>
+## Needs to be corrected<br/>
+I need to modify the card layout.
+      </code>
+</div>
+<!-- ===== 6. 자율형 실습 ===== -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 6 of 10</span>
+</div>
+</section>
+<section class="paper-page" data-page="7">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 1</span>
+<span>Challenge: Two Independent Practice Projects</span>
+</div>
+<div class="page-content-body">
+<h2>6. Challenge: Two Independent Practice Projects</h2>
+<p>If you've done the basic exercises, choose one of the topics below and create it yourself from scratch.</p>
+<h3>🏆 [Independent Project A] Personal Portfolio Website</h3>
+<div class="callout-box">
+<strong>I'm going to make:</strong> A one-page website that introduces me to my portfolio.<br/>
+<strong>Key composition:</strong> Profile headers, five technical/capacity tags, three main project/experience cards, contact information.
+    </div>
+<div class="prompt-block">Codex start prompt example:
+
+I need you to create an PORTFOLIO_REQUIREMENTS.md file.
+Content: "Developer/developer personal portfolio homepage"
+
+## Page configuration
+Title: My Professional Portfolio
+2. Top: name, profile image area (initial round without image), core capability one-line summary
+Stop: 5 capacities/technical tags, 3 main experience cards (topic, description, duration)
+Bottom four: Email contact button
+
+## acceptance criteria
+- Three experience cards will be sorted from PC to flat, from mobile to zero.
+- Apply the dark mode style.</div>
+<h3>🚀 [Independent Project B] Service Waitlist Landing Page</h3>
+<div class="callout-box">
+<strong>I'm going to make:</strong> I create a landing page that introduces services and gathers interested people.<br/>
+<strong>Key composition:</strong> Headline, three benefit cards, a pre-application email form, a completed application message.
+    </div>
+<div class="prompt-block">Codex start prompt example:
+
+I need you to create an LAUNCH_REQUIREMENTS.md file.
+Content: "New service pre-application landing page"
+
+## Page configuration
+Title: [name of my service] - Pre-launch
+Top two: logo area, intense headline, benefit three cards.
+Stop: Pre-application form (name, email, application button)
+Fourth: Frequently Asked Questions Three Acordians
+
+## acceptance criteria
+- After entering the email, when you click the button, the message "Completed!" will appear on the screen.</div>
+<!-- ===== 7. 막혔을 때 해결법 ===== -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 7 of 10</span>
+</div>
+</section>
+<section class="paper-page" data-page="8">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 1</span>
+<span>Troubleshooting Guide</span>
+</div>
+<div class="page-content-body">
+<h2>7. Troubleshooting Guide</h2>
+<p>If there's a problem during practice, check the checklist below in order.</p>
+<h3>🔴 When the AI Produces the Wrong Result</h3>
+<div class="step-guide">
+<div class="step-item">
+<div class="step-num">1</div>
+<div class="step-content">
+<div class="step-title">Did you specify the file name in the prompt?</div>
+<div class="step-desc">"Create a file" → "Create an PAGE_REQUIREMENTS.md file"</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">2</div>
+<div class="step-content">
+<div class="step-title">Do you have any acceptance criteria for Prompt?</div>
+<div class="step-desc">Add validation criteria such as "acceptance criteria: popup will appear when you click the button"</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">3</div>
+<div class="step-content">
+<div class="step-title">Explain exactly what's wrong with the correction request.</div>
+<div class="step-desc">"Wonderful" → "The button is not clicked. The click event doesn't appear to be connected. Please edit".</div>
+</div>
+</div>
+</div>
+<h3>🔴 When a File Does Not Appear in the Folder</h3>
+<div class="step-guide">
+<div class="step-item">
+<div class="step-num">1</div>
+<div class="step-content">
+<div class="step-title">Is Codex/Antigravity seeing the right folder?</div>
+<div class="step-desc">Check if the current work path in each tool is my-project folder</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">2</div>
+<div class="step-content">
+<div class="step-title">Did you press the file save button?</div>
+<div class="step-desc">After you create a file in Codex, you need to click on the "Connect" or "Create" button.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">3</div>
+<div class="step-content">
+<div class="step-title">The folder is re-opened.</div>
+<div class="step-desc">Close the F5 or folder in the browser/finder and reopen it.</div>
+</div>
+</div>
+</div>
+<h3>🔴 When the Page Does Not Open in the Browser</h3>
+<div class="step-guide">
+<div class="step-item">
+<div class="step-num">1</div>
+<div class="step-content">
+<div class="step-title">Check if the file name is index.html.</div>
+<div class="step-desc">Watch out for index.HTML, index.html, and so forth.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">2</div>
+<div class="step-content">
+<div class="step-title">Open it in the Chrome browser.</div>
+<div class="step-desc">Just drag and drop the file directly into the Chrome browser window.</div>
+</div>
+</div>
+</div>
+<!-- ===== 8. 핵심 용어 사전 ===== -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 8 of 10</span>
+</div>
+</section>
+<section class="paper-page" data-page="9">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 1</span>
+<span>Key Terms Glossary</span>
+</div>
+<div class="page-content-body">
+<h2>8. Key Terms Glossary</h2>
+<div class="term-grid">
+<div class="term-item">
+<div class="term-word">Codex</div>
+<div class="term-def">OpenAI's AI coding assistant, which is used in this process to write requirements documents and validate them.</div>
+</div>
+<div class="term-item">
+<div class="term-word">Antigravity</div>
+<div class="term-def">Google's AI development tool, AGY, reads the written document and generates the actual web code.</div>
+</div>
+<div class="term-item">
+<div class="term-word">.md (Markdown)</div>
+<div class="term-def">It's a text format that allows you to write titles, lists, tables in simple phrases. AI likes to read.</div>
+</div>
+<div class="term-item">
+<div class="term-word">absolute path</div>
+<div class="term-def">The exact location of the file. Example: C:\Users\kim\Desktop\my-project</div>
+</div>
+<div class="term-item">
+<div class="term-word">MVP</div>
+<div class="term-def">Minimum Viable Product. Minimum version of a product with only the core features. It's a strategy to quickly create and verify user reactions.</div>
+</div>
+<div class="term-item">
+<div class="term-word">Requirements</div>
+<div class="term-def">It's a document that clearly describes what a service should do and how it should be displayed.</div>
+</div>
+<div class="term-item">
+<div class="term-word">Reactive layout</div>
+<div class="term-def">It's a design that automatically adjusts layouts to PC, tablet, and smartphone screen sizes.</div>
+</div>
+<div class="term-item">
+<div class="term-word">Prompt, please.</div>
+<div class="term-def">Input text that directs the AI to do the work. The more specific and clear it is, the better the results.</div>
+</div>
+</div>
+<!-- ===== 9. 오늘의 셀프 체크리스트 ===== -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 9 of 10</span>
+</div>
+</section>
+<section class="paper-page" data-page="10">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 1</span>
+<span>Checklist and Safety Principles</span>
+</div>
+<div class="page-content-body">
+<h2>9. Day 1 Completion Checklist</h2>
+<p>Check the items below in order. Once all checked, Day 1 is complete!</p>
+<div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:20px; margin:16px 0;">
+<ul class="checklist">
+<li>I created the my-project folder on the desktop.</li>
+<li>Open Codex and set the my-project folder to work folder.</li>
+<li>Open Antigravity and set the same my-project folder as the work path.</li>
+<li>I created an README.md file with Codex.</li>
+<li>I created and saved the PAGE_REQUIREMENTS.md file with Codex.</li>
+<li>I created an index.html webpage with Antigravity.</li>
+<li>I opened index.html in the browser and confirmed normal operation.</li>
+<li>I've compiled an VALIDATION.md quality validation checklist for Codex.</li>
+<li>I understood the three elements of Prompt: goals, conditions, acceptance criteria.</li>
+<li>(Voice) I've tried Autonomy subjects A or B myself.</li>
+</ul>
+</div>
+<!-- ===== 10. 안전 원칙 ===== -->
+<h2>10. Safety Principles and Precautions</h2>
+<div class="danger-box">
+<strong>Security principles that must be followed.</strong><br/><br/>
+      • <strong>API key, personal password.</strong>Never type in the prompt.<br/>
+      • <strong>Personal data of others.</strong>Don't use (name, phone number, email etc.) in practice.<br/>
+      • Pre-check before running the AI-corrected file list.<br/>
+      • Make copies of important files before asking AI to edit them.
+    </div>
+<div class="callout-box">
+<strong>Day 2: Design a project that can be developed with AI.</strong><br/>
+      Day 2 teaches me how to make a service idea that I create into a systematic project specification that AI can understand.
+      The Codex we learned today will be the foundation of Day 2!
+    </div>
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 10 of 10</span>
+</div>
+</section>
+</div>
+<!-- AI Account Modal -->
+<div id="aiAccountModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;">
+<div id="aiModalCard" style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 100%; max-width: 520px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.2); overflow: hidden; transform: translateY(20px); transition: transform 0.25s ease;">
+<!-- Modal Header -->
+<div style="padding: 24px 28px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #3b82f6, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🔑</div>
+<div>
+<h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">AI Practice Account Information</h3>
+<span id="modalTeamBadge" style="font-size: 0.76rem; color: #94a3b8;">Assigned Practice Tool Accounts</span>
+</div>
+</div>
+<button onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" type="button">✕</button>
+</div>
+<!-- Modal Body -->
+<div style="padding: 24px 28px; display: flex; flex-direction: column; gap: 20px;">
+<!-- Account Card 2: Codex -->
+<div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px; padding: 18px;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="font-size: 1.2rem;">🤖</span>
+<strong style="color: #6ee7b7; font-size: 0.95rem;">The codex (OpenAI Codex)</strong>
+</div>
+<span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">Planning. Validation. Developing tools</span>
+</div>
+<!-- Codex ID -->
+<div style="margin-bottom: 10px;">
+<div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Codex)</div>
+<div style="display: flex; gap: 6px;">
+<input id="codexIdVal" readonly="" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" type="text" value="codex.pilot.team@openai.com"/>
+<button onclick="copyAccountVal('codexIdVal', 'Codex ID copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;" type="button">Copy</button>
+</div>
+</div>
+<!-- Codex Password -->
+<div>
+<div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Password</div>
+<div style="display: flex; gap: 6px;">
+<input id="codexPwVal" readonly="" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" type="password" value="AcePilot2026!codex"/>
+<button onclick="togglePwVisibility('codexPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title="See/Hide the Password" type="button">👁️</button>
+<button onclick="copyAccountVal('codexPwVal', 'Codex password copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;" type="button">Copy</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div style="padding: 16px 28px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: flex-end;">
+<button onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 9px 20px; color: #fff; font-size: 0.88rem; font-weight: 700; cursor: pointer;" type="button">Close</button>
+</div>
+</div>
+</div>
+<script>
+    function openAiAccountModal() {
+      const modal = document.getElementById('aiAccountModal');
+      const card = document.getElementById('aiModalCard');
+      if (!modal) return;
+
+      // Update team info dynamically
+      try {
+        const sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          const s = JSON.parse(sessionStr);
+          const user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
+          if (user) {
+            const badge = document.getElementById('modalTeamBadge');
+            const codexId = document.getElementById('codexIdVal');
+            const codexPw = document.getElementById('codexPwVal');
+
+            const cohortPrefix = user.cohort ? 'c' + user.cohort : 'c1';
+            const teamNum = user.teamNum || 1;
+
+            if (badge) badge.textContent = user.name + ' — Dedicated AI Tool Accounts';
+            if (codexId) codexId.value = 'codex.' + cohortPrefix + '.team' + teamNum + '@openai.com';
+            if (codexPw) codexPw.value = 'CodexPilot' + teamNum + '!2026';
+          }
+        }
+      } catch(e) {
+        console.error(e);
+      }
+
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.style.opacity = '1';
+        if (card) card.style.transform = 'translateY(0)';
+      }, 10);
+    }
+
+    function closeAiAccountModal() {
+      const modal = document.getElementById('aiAccountModal');
+      const card = document.getElementById('aiModalCard');
+      if (!modal) return;
+      modal.style.opacity = '0';
+      if (card) card.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 250);
+    }
+
+    function togglePwVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🔒';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+    }
+
+    function copyAccountVal(inputId, successMsg) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      const val = input.value;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(val).then(() => {
+          if (typeof showToast === 'function') {
+            showToast(successMsg);
+          } else {
+            alert(successMsg);
+          }
+        }).catch(() => {
+          fallbackCopyVal(val, successMsg);
+        });
+      } else {
+        fallbackCopyVal(val, successMsg);
+      }
+    }
+
+    function fallbackCopyVal(val, successMsg) {
+      const textArea = document.createElement('textarea');
+      textArea.value = val;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        if (typeof showToast === 'function') {
+          showToast(successMsg);
+        } else {
+          alert(successMsg);
+        }
+      } catch (err) {
+        alert('Value to copy: ' + val);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // Close on click outside modal card
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('aiAccountModal');
+      if (modal && e.target === modal) {
+        closeAiAccountModal();
+      }
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeAiAccountModal();
+      }
+    });
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
     async function downloadPDF() {
       const btn = document.getElementById('btn-download-pdf');
       const originalText = btn ? btn.innerHTML : '';
       if (btn) {
-        btn.innerHTML = '⏳ Generating PDF...';
+        btn.innerHTML = '⏳ Preparing A4 PDF...';
         btn.disabled = true;
       }
 
       try {
+        if (!window.jspdf || !window.html2canvas) {
+          throw new Error('The PDF generation libraries could not be loaded.');
+        }
+
+        const pages = document.querySelectorAll('.paper-page');
+        const total = pages.length;
+        if (!total) throw new Error('No textbook pages were found.');
+
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({
+        const pdf = new jsPDF({
+          orientation: 'portrait',
           unit: 'mm',
           format: 'a4',
-          orientation: 'portrait'
+          compress: true
         });
 
-        // paper-page structure (aspiring_founders style)
-        const pages = document.querySelectorAll('.paper-page');
-        if (!pages.length) throw new Error('No .paper-page elements found.');
-
-        const A4_WIDTH_MM = 210;
-        const A4_HEIGHT_MM = 297;
-
-        const navBar = document.querySelector('.no-print-bar');
-        if (navBar) navBar.style.display = 'none';
-
-        for (let i = 0; i < pages.length; i++) {
-          if (btn) btn.innerHTML = `⏳ Generating PDF (${i + 1}/${pages.length})...`;
+        for (let i = 0; i < total; i++) {
+          if (btn) btn.innerHTML = `⏳ Creating A4 PDF (${i + 1}/${total})...`;
           const page = pages[i];
-
           const canvas = await html2canvas(page, {
             scale: 2,
             useCORS: true,
-            allowTaint: true,
             logging: false,
             backgroundColor: '#ffffff',
+            windowWidth: 1200,
             onclone: function(clonedDoc) {
-              const cloneNav = clonedDoc.querySelector('.no-print-bar');
-              if (cloneNav) cloneNav.style.display = 'none';
-              // Fix gradient text on any cover titles
-              const coverTitles = clonedDoc.querySelectorAll('.cover-title, .doc-title');
+              // Fix: html2canvas cannot render -webkit-background-clip:text
+              const coverTitles = clonedDoc.querySelectorAll('.cover-title');
               coverTitles.forEach(function(el) {
                 el.style.webkitBackgroundClip = 'unset';
                 el.style.backgroundClip = 'unset';
-                el.style.webkitTextFillColor = 'currentColor';
+                el.style.webkitTextFillColor = '#ffffff';
+                el.style.color = '#ffffff';
                 el.style.background = 'none';
               });
+              // Remove nav bar
+              const cloneNav = clonedDoc.querySelector('.no-print-bar');
+              if (cloneNav) cloneNav.style.display = 'none';
             }
           });
-
-          if (i > 0) doc.addPage();
-
-          const imgData = canvas.toDataURL('image/jpeg', 0.98);
-          const canvasRatio = canvas.height / canvas.width;
-          const imgHeightMM = A4_WIDTH_MM * canvasRatio;
-
-          doc.addImage(imgData, 'JPEG', 0, 0, A4_WIDTH_MM, Math.min(imgHeightMM, A4_HEIGHT_MM));
+          const imgData = canvas.toDataURL('image/jpeg', 0.95);
+          if (i > 0) pdf.addPage('a4', 'portrait');
+          pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
         }
 
-        if (navBar) navBar.style.display = '';
-        doc.save('Aspiring_Day1_Textbook_A4.pdf');
-
+        pdf.save('Founders_Day1_Textbook_A4.pdf');
       } catch (err) {
-        console.error('PDF generation error:', err);
-        const navBar = document.querySelector('.no-print-bar');
-        if (navBar) navBar.style.display = '';
-        alert('PDF generation failed. Please use browser print (Ctrl+P) and select "Save as PDF".');
+        console.error('PDF generation failed:', err);
+        alert('An error occurred while creating the PDF. The browser print dialog will open instead.\nChoose [Destination > Save as PDF] to save a clean copy.');
+        window.print();
       } finally {
         if (btn) {
           btn.innerHTML = originalText;

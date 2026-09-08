@@ -1,47 +1,264 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head> <script id="auth-guard"> (function() { function getCookie(name) { var nameEQ = name + "="; var ca = document.cookie.split(';'); for(var i=0; i < ca.length; i++) { var c = ca[i]; while (c.charAt(0)==' ') c = c.substring(1,c.length); if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length)); } return null; } var loggedInUser = getCookie('currentUser'); if (!loggedInUser) { var sessionStr = localStorage.getItem('currentUserSession'); if (sessionStr) { try { var session = JSON.parse(sessionStr); if (Date.now() < session.expiresAt) { loggedInUser = session.value; } else { localStorage.removeItem('currentUserSession'); } } catch (e) { console.error(e); } } } if (!loggedInUser) { window.location.href = '../login/login.html'; } })(); function logout() { document.cookie = "currentUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; localStorage.removeItem('currentUserSession'); window.location.href = '../login/login.html'; } document.addEventListener('DOMContentLoaded', function() { try { var sessionStr = localStorage.getItem('currentUserSession'); var user = null; if (sessionStr) { var s = JSON.parse(sessionStr); user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value; } if (user) { var userBadge = document.getElementById('userProfileBadge'); var userAvatar = document.getElementById('userAvatar'); var userName = document.getElementById('userName'); if (userBadge) userBadge.style.display = 'inline-flex'; if (userAvatar && user.avatar) userAvatar.textContent = user.avatar; if (userName && user.name) userName.textContent = user.name; } } catch(e) { console.error(e); } }); </script> <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>Day 3 Self-Study Textbook | Aspiring Founders AI Web App MVP Bootcamp</title> <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" /> <style> :root { --primary:#059669; --secondary:#0891b2; --text-dark:#0f172a; --muted:#475569; --border:#e2e8f0; } * { margin:0; padding:0; box-sizing:border-box; } body { font-family:'Pretendard',-apple-system,sans-serif; background:#0f172a; color:var(--text-dark); line-height:1.65; } .no-print-bar { position:sticky; top:0; z-index:1000; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.1); padding:12px 24px; display:flex; justify-content:space-between; align-items:center; } .no-print-bar .title-group { display:flex; align-items:center; gap:12px; color:#fff; } .badge { background:linear-gradient(135deg,#059669,#06b6d4); color:#fff; font-size:0.75rem; font-weight:700; padding:4px 10px; border-radius:999px; } .btn-action { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; font-size:0.88rem; font-weight:600; border-radius:8px; border:none; cursor:pointer; text-decoration:none; } .btn-print { background:linear-gradient(135deg,#059669,#0891b2); color:#fff; } .btn-back { background:rgba(255,255,255,0.1); color:#e2e8f0; border:1px solid rgba(255,255,255,0.15); } .paper-container { max-width:900px; margin:30px auto; background:#fff; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.5); padding:48px 56px; } .doc-header { border-bottom:3px solid var(--primary); padding-bottom:20px; margin-bottom:32px; } .doc-category { color:var(--secondary); font-size:0.9rem; font-weight:800; text-transform:uppercase; margin-bottom:6px; } .doc-title { font-size:2.2rem; font-weight:900; color:var(--text-dark); letter-spacing:-0.02em; } h2 { font-size:1.45rem; font-weight:800; color:var(--text-dark); margin:36px 0 16px; padding-bottom:8px; border-bottom:1px solid var(--border); } h3 { font-size:1.15rem; font-weight:700; color:var(--primary); margin:24px 0 12px; } p { margin-bottom:14px; color:#334155; } ul,ol { margin:0 0 16px 20px; color:#334155; } li { margin-bottom:6px; } .callout-box { background:#f0fdf4; border-left:4px solid var(--primary); padding:16px 20px; border-radius:0 8px 8px 0; margin:20px 0; } .prompt-block { background:#1e293b; border:1px solid #334155; border-radius:10px; padding:18px; margin:16px 0; font-family:monospace; font-size:0.88rem; color:#f8fafc; white-space:pre-wrap; text-align:left; } table.data-table { width:100%; border-collapse:collapse; margin:20px 0; font-size:0.92rem; } table.data-table th, table.data-table td { border:1px solid var(--border); padding:10px 14px; text-align:left; } table.data-table th { background:#f1f5f9; }     /* A4 Size & Print Styles */
-    @page {
-      size: A4 portrait;
-      margin: 12mm 14mm 12mm 14mm;
+<head>
+<script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+
+      if (!loggedInUser) {
+        window.location.href = '../login/login.html';
+      }
+    })();
+
+    function logout() {
+      document.cookie = "currentUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      localStorage.removeItem('currentUserSession');
+      window.location.href = '../login/login.html';
     }
 
-    @media print {
-      html, body {
-        width: 100% !important;
-        background: #ffffff !important;
-        color: #000000 !important;
-        font-size: 12.5px !important;
-        line-height: 1.5 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        var user = null;
+        if (sessionStr) {
+          var s = JSON.parse(sessionStr);
+          user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
+        }
+        if (user) {
+          var userBadge = document.getElementById('userProfileBadge');
+          var userAvatar = document.getElementById('userAvatar');
+          var userName = document.getElementById('userName');
+          if (userBadge) userBadge.style.display = 'inline-flex';
+          if (userAvatar && user.avatar) userAvatar.textContent = user.avatar;
+          if (userName && user.name) userName.textContent = user.name;
+        }
+      } catch(e) {
+        console.error(e);
       }
-      .no-print-bar, .navbar-2tier { display: none !important; }
-      .paper-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-shadow: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border-radius: 0 !important;
-      }
-      .page-break {
-        page-break-after: always !important;
-        break-after: page !important;
-      }
-      .paper-page {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        margin-bottom: 20px !important;
-      }
-      table.data-table, .prompt-block, .callout-box {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-      }
-    } } /* Modern 2-Tier Header Styles */ .navbar-2tier { position: sticky; top: 0; z-index: 1000; background: rgba(9, 9, 11, 0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-line); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5); } .nav-row-top { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); gap: 16px; flex-wrap: wrap; } .brand-wrap { display: flex; align-items: center; } .brand-logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; } .brand-tag { background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 4px 10px; border-radius: 6px; font-size: 0.76rem; font-weight: 800; color: #fff; white-space: nowrap; } .brand-tag.survey { background: linear-gradient(135deg, #10b981, #06b6d4); } .brand-tag.day { background: linear-gradient(135deg, #3b82f6, #8b5cf6); } .brand-name { font-size: 1.08rem; font-weight: 800; letter-spacing: -0.01em; color: #ffffff; white-space: nowrap; } .user-session-wrap { display: flex; align-items: center; } .btn-account-header { background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2)); border: 1px solid rgba(6, 182, 212, 0.45); color: #67e8f9; font-size: 0.8rem; font-weight: 800; border-radius: 6px; padding: 3px 10px; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; } .btn-account-header:hover { background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(59, 130, 246, 0.35)); border-color: #38bdf8; color: #fff; transform: translateY(-1px); } .btn-logout-header { background: transparent; border: none; color: #f87171; font-size: 0.78rem; font-weight: 700; cursor: pointer; padding-left: 8px; border-left: 1px solid rgba(255, 255, 255, 0.15); transition: color 0.2s; white-space: nowrap; } .btn-logout-header:hover { color: #fca5a5; } .nav-row-bottom { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; gap: 12px; overflow-x: auto; scrollbar-width: none; } .nav-row-bottom::-webkit-scrollbar { display: none; } .nav-sub-left, .nav-sub-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; } .nav-sub-btn { color: var(--text-muted); text-decoration: none; font-size: 0.86rem; font-weight: 600; padding: 6px 12px; border-radius: 8px; border: 1px solid transparent; background: transparent; transition: all 0.2s ease; white-space: nowrap; } .nav-sub-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.1); } .nav-sub-btn.active { color: #fff; background: rgba(59, 130, 246, 0.18); border-color: rgba(59, 130, 246, 0.4); } .nav-sub-btn.ops { color: #6ee7b7; background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25); } .nav-sub-btn.ops:hover, .nav-sub-btn.ops.active { color: #fff; background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.45); } .nav-sub-btn.portal { color: #93c5fd; border-color: rgba(59, 130, 246, 0.25); } .nav-sub-btn.highlight { background: linear-gradient(135deg, #2563eb, #0891b2); color: #fff; border: none; font-weight: 700; box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3); } .nav-sub-btn.highlight:hover { background: linear-gradient(135deg, #3b82f6, #06b6d4); transform: translateY(-1px); } 
-    /* Standard A4 Screen & Print Styling */
+    });
+  </script>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Day 3 Self-Study Textbook | Building an MVP from PROJECT.md</title>
+<link as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet"/>
+<style>
+    :root { --primary:#059669; --secondary:#0891b2; --text-dark:#0f172a; --muted:#475569; --border:#e2e8f0; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Pretendard',-apple-system,sans-serif; background:#0f172a; color:var(--text-dark); line-height:1.65; }
+    .no-print-bar { position:sticky; top:0; z-index:1000; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.1); padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+    .no-print-bar .title-group { display:flex; align-items:center; gap:12px; color:#fff; }
+    .badge { background:linear-gradient(135deg,#059669,#06b6d4); color:#fff; font-size:0.75rem; font-weight:700; padding:4px 10px; border-radius:999px; }
+    .btn-action { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; font-size:0.88rem; font-weight:600; border-radius:8px; border:none; cursor:pointer; text-decoration:none; }
+    .btn-print { background:linear-gradient(135deg,#059669,#0891b2); color:#fff; }
+    .btn-back { background:rgba(255,255,255,0.1); color:#e2e8f0; border:1px solid rgba(255,255,255,0.15); }
+
+    .doc-header { border-bottom:3px solid var(--primary); padding-bottom:20px; margin-bottom:32px; }
+    .doc-category { color:var(--secondary); font-size:0.9rem; font-weight:800; text-transform:uppercase; margin-bottom:6px; }
+    .doc-title { font-size:2.2rem; font-weight:900; color:var(--text-dark); letter-spacing:-0.02em; }
+    h2 { font-size:1.45rem; font-weight:800; color:var(--text-dark); margin:36px 0 16px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+    h3 { font-size:1.15rem; font-weight:700; color:var(--primary); margin:24px 0 12px; }
+    p { margin-bottom:14px; color:#334155; }
+    ul,ol { margin:0 0 16px 20px; color:#334155; }
+    li { margin-bottom:6px; }
+    .callout-box { background:#f0fdf4; border-left:4px solid var(--primary); padding:16px 20px; border-radius:0 8px 8px 0; margin:20px 0; }
+    .prompt-block { background:#1e293b; border:1px solid #334155; border-radius:10px; padding:18px; margin:16px 0; font-family:monospace; font-size:0.88rem; color:#f8fafc; white-space:pre-wrap; text-align:left; }
+    table.data-table { width:100%; border-collapse:collapse; margin:20px 0; font-size:0.92rem; }
+    table.data-table th, table.data-table td { border:1px solid var(--border); padding:10px 14px; text-align:left; }
+    table.data-table th { background:#f1f5f9; }
+
+    /* Modern 2-Tier Header Styles */
+    .navbar-2tier {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(9, 9, 11, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-line);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+    .nav-row-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+    }
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand-tag {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .brand-tag.survey {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+    }
+    .brand-tag.day {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    }
+    .brand-name {
+      font-size: 1.08rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .user-session-wrap {
+      display: flex;
+      align-items: center;
+    }
+    .btn-account-header {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
+      border: 1px solid rgba(6, 182, 212, 0.45);
+      color: #67e8f9;
+      font-size: 0.8rem;
+      font-weight: 800;
+      border-radius: 6px;
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-account-header:hover {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(59, 130, 246, 0.35));
+      border-color: #38bdf8;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .btn-logout-header {
+      background: transparent;
+      border: none;
+      color: #f87171;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding-left: 8px;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .btn-logout-header:hover {
+      color: #fca5a5;
+    }
+
+    .nav-row-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-row-bottom::-webkit-scrollbar {
+      display: none;
+    }
+    .nav-sub-left, .nav-sub-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .nav-sub-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .nav-sub-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .nav-sub-btn.active {
+      color: #fff;
+      background: rgba(59, 130, 246, 0.18);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+    .nav-sub-btn.ops {
+      color: #6ee7b7;
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+    .nav-sub-btn.ops:hover, .nav-sub-btn.ops.active {
+      color: #fff;
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.45);
+    }
+    .nav-sub-btn.portal {
+      color: #93c5fd;
+      border-color: rgba(59, 130, 246, 0.25);
+    }
+    .nav-sub-btn.highlight {
+      background: linear-gradient(135deg, #2563eb, #0891b2);
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
+    }
+    .nav-sub-btn.highlight:hover {
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      transform: translateY(-1px);
+    }
+
+
+    /* ==========================================================================
+       Standard A4 Portrait Screen & Print Engine
+       ========================================================================== */
     body {
       background: #cbd5e1 !important;
+      color: var(--text-dark);
+      margin: 0;
+      padding: 0;
     }
 
     .paper-container {
@@ -51,9 +268,11 @@
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      gap: 36px !important;
+      gap: 32px !important;
       box-shadow: none !important;
       border-radius: 0 !important;
+      background: transparent !important;
+      padding: 0 !important;
     }
 
     .paper-page {
@@ -61,14 +280,85 @@
       min-height: 297mm !important;
       box-sizing: border-box !important;
       background: #ffffff !important;
-      border-radius: 3px !important;
+      border-radius: 4px !important;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12) !important;
       padding: 18mm 18mm 16mm 18mm !important;
       page-break-after: always !important;
       break-after: page !important;
-      page-break-inside: avoid !important;
-      break-inside: avoid !important;
+      page-break-inside: auto !important;
+      break-inside: auto !important;
       position: relative !important;
+      overflow: visible !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+    }
+
+    .cover-page {
+      padding: 0 !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      border-radius: 4px !important;
+      overflow: hidden !important;
+      justify-content: stretch !important;
+    }
+    .cover-page > div {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .page-content-body {
+      flex: 1 0 auto;
+    }
+
+    .book-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    .book-footer-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
+      margin-top: 24px;
+      flex-shrink: 0;
+      letter-spacing: 0.3px;
+    }
+
+    /* Prevent cut-off / splitting at page boundaries */
+    .compare-grid, .compare-bad, .compare-good,
+    .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+    .info-cards, .info-card, .checklist, .checklist li, .example-result,
+    .story-box, .script-box, .qa-item, .screen-state-card,
+    .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+    .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+    .data-table, h1, h2, h3, h4, pre, blockquote {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    h1, h2, h3, h4 {
+      break-after: avoid !important;
+      page-break-after: avoid !important;
+    }
+
+    p, li {
+      orphans: 3;
+      widows: 3;
     }
 
     @media screen and (max-width: 820px) {
@@ -77,13 +367,17 @@
         display: block;
         padding: 10px 12px;
       }
-      .no-print-bar .title-group { min-width: 0; gap: 8px; }
-      .no-print-bar .title-group .badge { flex-shrink: 0; }
+      .no-print-bar .title-group {
+        min-width: 0;
+        gap: 8px;
+      }
+      .no-print-bar .title-group .badge {
+        flex-shrink: 0;
+      }
       .no-print-bar .title-group strong {
         min-width: 0;
         font-size: 0.82rem;
         line-height: 1.4;
-        overflow-wrap: anywhere;
       }
       .no-print-bar > div:last-child {
         display: grid !important;
@@ -102,28 +396,11 @@
         text-align: center;
         white-space: normal;
       }
-      .no-print-bar .btn-back { grid-column: 1 / -1; }
-      .paper-container {
-        width: 100% !important;
-        overflow-x: hidden;
+      .no-print-bar .btn-back {
+        grid-column: 1 / -1;
       }
-      .data-table {
-        width: 100%;
-        max-width: 100%;
-        table-layout: fixed;
-      }
-      .data-table th,
-      .data-table td {
-        padding: 8px 6px;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-      }
-      .prompt-block {
-        max-width: 100%;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-      }
-      .paper-page { width: 95vw !important; min-height: auto !important; padding: 22px 18px !important; }
+      .paper-container { width: 100% !important; margin: 16px auto !important; }
+      .paper-page { width: 95vw !important; min-height: auto !important; padding: 20px 16px !important; }
     }
 
     .btn-download {
@@ -156,6 +433,8 @@
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -166,14 +445,14 @@
         margin: 0 !important;
         padding: 0 !important;
         gap: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
       }
       .paper-page {
         width: 210mm !important;
         min-height: 297mm !important;
-        height: 297mm !important;
-        max-height: 297mm !important;
         margin: 0 !important;
-        padding: 16mm 16mm 14mm 16mm !important;
+        padding: 15mm 15mm 13mm 15mm !important;
         box-shadow: none !important;
         border-radius: 0 !important;
         border: none !important;
@@ -181,112 +460,795 @@
         break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-        overflow: hidden !important;
+        overflow: visible !important;
+        background: #ffffff !important;
+      }
+      .cover-page {
+        padding: 0 !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        border-radius: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+      .compare-grid, .compare-bad, .compare-good,
+      .step-guide, .step-item, .tip-box, .danger-box, .success-box,
+      .info-cards, .info-card, .checklist, .checklist li, .example-result,
+      .story-box, .script-box, .qa-item, .screen-state-card,
+      .md-section, .track-card, .terminal-card, .arch-box, .trouble-card,
+      .doc-header, .callout-box, .prompt-block, table, tr, td, th,
+      .data-table, h1, h2, h3, h4, pre, blockquote {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
       }
     }
 
-  </style>
-</head>
-<body> <div class="no-print-bar"> <div class="title-group"><span class="badge">Day 3 Textbook</span><strong>PROJECT.md from MVP Cohort — Antigravity Implementation + Codex Validation & QA Guide</strong></div> <div style="display:flex;gap:8px;"> <a href="day3-ai-classroom.html" class="btn-action btn-back">🏫 AI Classroom</a> <button id="btn-download-pdf" onclick="downloadPDF()" class="btn-action btn-download">📥 Download A4 PDF</button>
-      <button onclick="downloadPDF()" class="btn-action btn-download">🖨️ Print / Save as PDF</button> </div> </div> <div class="paper-container"> <header class="doc-header"> <div class="doc-category">ACE AI Startup Bootcamp · Day 3 Self-Study Textbook</div> <h1 class="doc-title">PROJECT.md from MVP Cohort</h1> </header> <h2>1. Overview &amp; Core Principles</h2> <div class="callout-box"> <strong>💡 Day 3 Core :</strong><br> Antigravity from Implementation → from with Check / Confirm → Codex from Document / Spec Validation & QA → MD Modification / Edit → Class<br><br> <strong> Goal:</strong> Screen / Viewport Thing Core User Flow Start and Result MVP v0.1 CompletionOne. </div> <h2>2. Implementation Mins </h2> <p>Antigravity in All Service One in Not . PROJECT.md from Task in One Scope only Check / ConfirmAnd Implementation .</p> <table class="data-table"> <thead><tr><th> </th><th> </th></tr></thead> <tbody><tr><td>"PROJECT.md Service Before CompletionDo ."</td><td>"CohortThis Structure and Home Screen / Viewport only ImplementationDo . Run Method / Approach and Change / Update File Do ."</td></tr></tbody> </table> <h2>3. Screen / Viewport State 5</h2> <table class="data-table"> <thead><tr><th>State</th><th>User Content</th><th>Check / Confirm Questions</th></tr></thead> <tbody> <tr><td>CohortThis</td><td>Input Start Guide / Notice</td><td>Next Action MinsOne?</td></tr> <tr><td></td><td>Processing When</td><td> ?</td></tr> <tr><td>Empty Value</td><td>One Input Guide / Notice</td><td> InputDo ?</td></tr> <tr><td>Success</td><td>Core Result and Next Action</td><td>Goal Completed?</td></tr> <tr><td>Error</td><td> and When When also Method / Approach</td><td>User To Can ?</td></tr> </tbody> </table> <h2>4. Lab / Hands-on Prompt Guide</h2> <h3>Lab 1A. Implementation Before Summary (Antigravity)</h3> <div class="prompt-block">📌 Antigravity:
-PROJECT.md and HANDOFF_PROMPT.md Task Scope SummaryDo . ImplementationNot To Project Structure, Generation / CreationTo Screen / Viewport, Acceptance Criteria,
-Questions One Item Do .</div> <h3>Lab 1B. First Screen / Viewport Implementation (Antigravity)</h3> <div class="prompt-block">📌 Antigravity:
-PROJECT.md CohortGiven with Template in Project CohortThis Structure and Home Screen / Viewport
-ImplementationDo . in Home Screen / Viewport and First CTA until only Taskis completed.
-Out of Scope ImplementationNot , Completed After Run Method / Approach·Change / Update File·Implementation Must
-Do .</div> <h3>Lab 2. Screen / Viewport Result and Core Input Implementation (Antigravity)</h3> <div class="prompt-block">📌 Antigravity:
-PROJECT.md Core User Flow Home→Input Step only ImplementationDo . Input and Completed Constraints with And Empty Value Guide / Notice Includeis completed. Must CohortFeature ImplementationNot .</div> <h3>Lab 3. Core CohortFeature and Result and Screen / Viewport Completion (Antigravity)</h3> <div class="prompt-block">📌 Antigravity:
-PROJECT.md First Core User Flow Result and Screen / Viewport until CompletionDo .
-CohortThis, , Empty Value, Success, Error State Document / Spec Acceptance Criteria in Processingis completed.
-Real External Service Mock Data And Whenis completed.</div> <h3>Validation & QA. Implementation (Codex)</h3> <div class="prompt-block">📌 Codex:
-PROJECT.md Acceptance Criteria and Implementation Do .
-Code Modification / EditNot Pass, Fail, Manual Check, Not Implemented with MinsAnd File and Check / Confirm Method / Approach with Drafting / AuthoringDo .</div> <h3>Validation & QA. VALIDATION_DAY3.md Generation / Creation (Codex)</h3> <div class="prompt-block">📌 Codex:
-PROJECT.md and MVP Do VALIDATION_DAY3.md Drafting / AuthoringDo .
-Must Pass/Fail/Manual Check/Not Implemented State, , Step
-Day 4 Modification / Edit Includeis completed. Validation & QAAnd Code Modification / EditNot .</div> <h2>5. Day 3 Lab / Hands-on 2</h2> <h3>[ A] CRUD Note MVP v0.1 Implementation</h3> <div class="prompt-block">📌 Antigravity A: Note MVP ImplementationDo .
-Must CohortFeature:
-1. Note Drafting / Authoring After Save / Persist Button (localStorage )
-2. Save / Persist Note List / Catalog Search / View
-3. Note Deletion / Remove Button
-State Processing: Input EmptyValue Guide / Notice, Note None Empty State When
-Acceptance Criteria: Note Generation / Creation→Search / View→Deletion / Remove Flow After also Thing.</div> <h3>[ B] Cohort Cohort Tool</h3> <div class="prompt-block">📌 Antigravity B:
-BMI Cohort Implementation.
-Must CohortFeature:
-1. (cm) (kg) Input Form
-2. BMI Can and Result and When (/Normal// only )
-3. Input Button
-Acceptance Criteria: Input When BMI Can and Screen / Viewport in When Thing.</div> <h2>6. Day 3 Completed Checklist</h2> <ul> <li>[ ] PROJECT.md CohortGiven with Antigravity from Implementation.</li> <li>[ ] Project Local from Run.</li> <li>[ ] Core User Flow Start and Result.</li> <li>[ ] ·Empty Value·Error State Check / Confirm.</li> <li>[ ] Codex with VALIDATION_DAY3.md Drafting / Authoring.</li> <li>[ ] Day 4 Improvement / Polish .</li> </ul> </div> <!-- AI Account Modal --> <div id="aiAccountModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;"> <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 100%; max-width: 520px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.2); overflow: hidden; transform: translateY(20px); transition: transform 0.25s ease;" id="aiModalCard"> <!-- Modal Header --> <div style="padding: 24px 28px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;"> <div style="display: flex; align-items: center; gap: 10px;"> <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #3b82f6, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🔑</div> <div> <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">AI Practice Account Credentials</h3> <span id="modalTeamBadge" style="font-size: 0.76rem; color: #94a3b8;">Assigned Practice Tool Accounts</span> </div> </div> <button type="button" onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">✕</button> </div> <!-- Modal Body --> <div style="padding: 24px 28px; display: flex; flex-direction: column; gap: 20px;">
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+    .compare-bad { background:#fff1f2; border:2px solid #fca5a5; border-radius:10px; padding:16px; }
+    .compare-good { background:#f0fdf4; border:2px solid #86efac; border-radius:10px; padding:16px; }
+    .compare-label { font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; }
+    .compare-bad .compare-label { color:#dc2626; }
+    .compare-good .compare-label { color:#16a34a; }
+    .compare-text { font-size:0.92rem; color:#334155; line-height:1.6; }
+    .step-guide { margin:20px 0; display:flex; flex-direction:column; gap:12px; }
+    .step-item { display:flex; gap:16px; align-items:flex-start; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 18px; }
+    .step-num { min-width:32px; height:32px; background:linear-gradient(135deg,#2563eb,#0891b2); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; }
+    .step-content { flex:1; }
+    .step-title { font-weight:700; color:#0f172a; margin-bottom:4px; }
+    .step-desc { font-size:0.9rem; color:#475569; }
+    .tip-box { background:linear-gradient(135deg,#fefce8,#fef9c3); border:1.5px solid #fde047; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .tip-box strong { color:#92400e; }
+    .danger-box { background:#fff1f2; border:1.5px solid #f87171; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .danger-box strong { color:#b91c1c; }
+    .success-box { background:#f0fdf4; border:1.5px solid #4ade80; border-radius:10px; padding:14px 18px; margin:16px 0; }
+    .success-box strong { color:#15803d; }
+    .info-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin:20px 0; }
+    .info-card { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px; }
+    .info-card-icon { font-size:1.8rem; margin-bottom:8px; }
+    .info-card-title { font-weight:800; color:#0f172a; margin-bottom:6px; }
+    .info-card-desc { font-size:0.88rem; color:#475569; line-height:1.55; }
+    .checklist { list-style:none; margin:16px 0; padding:0; }
+    .checklist li { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed #e2e8f0; font-size:0.92rem; color:#334155; }
+    .checklist li:last-child { border-bottom:none; }
+    .checklist li::before { content:'☐'; color:#2563eb; font-size:1.1rem; flex-shrink:0; margin-top:1px; }
+    .example-result { background:linear-gradient(135deg,#0f172a,#1e293b); border:1px solid #334155; border-radius:12px; padding:20px; margin:16px 0; }
+    .example-result-label { color:#38bdf8; font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; }
+    .example-result code { color:#86efac; font-size:0.88rem; line-height:1.8; }
+    .story-box { background:linear-gradient(135deg,#ede9fe,#ddd6fe); border-left:4px solid #7c3aed; border-radius:0 10px 10px 0; padding:18px 20px; margin:20px 0; font-size:0.95rem; color:#3b0764; line-height:1.7; }
+    .story-box .story-name { font-weight:800; color:#6d28d9; margin-bottom:8px; }
+    .screen-state-card { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:16px; margin:10px 0; }
+    .screen-state-title { font-weight:800; color:#0f172a; margin-bottom:6px; font-size:1rem; }
+    .screen-state-desc { font-size:0.9rem; color:#475569; margin-bottom:10px; }
+    .screen-state-code { background:#1e293b; border-radius:8px; padding:12px; font-family:monospace; font-size:0.82rem; color:#86efac; white-space:pre; overflow-x:auto; }
+    @media (max-width:640px) { .compare-grid { grid-template-columns:1fr; } .info-cards { grid-template-columns:1fr; } }
 
-        <!-- Account Card 2: Codex --> <div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px; padding: 18px;"> <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;"> <div style="display: flex; align-items: center; gap: 8px;"> <span style="font-size: 1.2rem;">🤖</span> <strong style="color: #6ee7b7; font-size: 0.95rem;">Codex (OpenAI Codex)</strong> </div> <span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">Planning · Verification · Dev Tool</span> </div> <!-- Codex ID --> <div style="margin-bottom: 10px;"> <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Codex)</div> <div style="display: flex; gap: 6px;"> <input type="text" id="codexIdVal" readonly value="codex.pilot.team@openai.com" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" /> <button type="button" onclick="copyAccountVal('codexIdVal', 'Codex ID copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Copy</button> </div> </div> <!-- Codex Password --> <div> <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Password</div> <div style="display: flex; gap: 6px;"> <input type="password" id="codexPwVal" readonly value="AcePilot2026!codex" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" /> <button type="button" onclick="togglePwVisibility('codexPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title="Show/Hide Password">👁️</button> <button type="button" onclick="copyAccountVal('codexPwVal', 'Codex Password copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Copy</button> </div> </div> </div> </div> <!-- Modal Footer --> <div style="padding: 16px 28px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: flex-end;"> <button type="button" onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 9px 20px; color: #fff; font-size: 0.88rem; font-weight: 700; cursor: pointer;">Close</button> </div> </div> </div> <script> function openAiAccountModal() { const modal = document.getElementById('aiAccountModal'); const card = document.getElementById('aiModalCard'); if (!modal) return; // Update team info dynamically try { const sessionStr = localStorage.getItem('currentUserSession'); if (sessionStr) { const s = JSON.parse(sessionStr); const user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value; if (user) { const badge = document.getElementById('modalTeamBadge');    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script>
+  </style>
+<style id="english-layout-safeguards">
+/* English layout safeguards: preserve the A4 design and prevent long words from overflowing. */
+html[lang="en"] body {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+@media screen and (max-width: 820px) {
+  .no-print-bar {
+    position: relative;
+    display: block;
+    padding: 10px 12px;
+  }
+  .no-print-bar .title-group { min-width: 0; gap: 8px; }
+  .no-print-bar .title-group .badge { flex-shrink: 0; }
+  .no-print-bar .title-group strong {
+    min-width: 0;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .no-print-bar > div:last-child {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px !important;
+    width: 100%;
+    margin-top: 10px;
+  }
+  .no-print-bar .btn-action {
+    min-width: 0;
+    min-height: 40px;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    text-align: center;
+    white-space: normal;
+  }
+  .no-print-bar .btn-back { grid-column: 1 / -1; }
+  .data-table {
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+  }
+  .data-table th,
+  .data-table td {
+    padding: 8px 6px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .prompt-block,
+  .screen-state-code {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
+</style></head>
+<body>
+<div class="no-print-bar">
+<div class="title-group"><span class="badge">Day 3 Textbook</span><strong>Building a Working MVP from PROJECT.md — Antigravity Implementation + Codex Validation Guide</strong></div>
+<div style="display:flex;gap:8px;">
+<a class="btn-action btn-back" href="day3-ai-classroom.html">🏫 AI Self-Study Classroom</a>
+<button class="btn-action btn-download" id="btn-download-pdf" onclick="downloadPDF()">📥 Download A4 PDF</button>
+<button class="btn-action btn-download" onclick="downloadPDF()">🖨️ Print / Save as PDF</button>
+</div>
+</div>
+<div class="paper-container">
+<!-- ===== COVER PAGE ===== -->
+<section class="paper-page cover-page" data-page="cover" style="padding:0 !important; overflow:hidden !important; justify-content:stretch !important;">
+<div style="
+        width:100%; height:100%;
+        background: linear-gradient(160deg, #0f172a 0%, #2d1b5e 40%, #7c3aed 75%, #8b5cf6 100%);
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        padding: 20mm 18mm;
+        position:relative;
+        box-sizing:border-box;
+      ">
+<div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(124,58,237,0.25);"></div>
+<div style="position:absolute;bottom:-80px;left:-80px;width:360px;height:360px;border-radius:50%;background:rgba(37,99,235,0.2);"></div>
+<div style="position:absolute;top:40%;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(139,92,246,0.18);"></div>
+<div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:50px;padding:8px 24px;color:#c4b5fd;font-size:0.82rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:32px;position:relative;">ACE AI Startup Bootcamp · Self-Study Textbook</div>
+<div style="width:100px;height:100px;background:linear-gradient(135deg,#7c3aed,#2563eb);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:900;color:#fff;margin-bottom:28px;position:relative;box-shadow:0 12px 40px rgba(124,58,237,0.5);">D3</div>
+<h1 style="font-size:2.6rem;font-weight:900;color:#ffffff;text-align:center;line-height:1.25;letter-spacing:-0.03em;margin-bottom:14px;position:relative;">From PROJECT.md to a<br/>Working MVP</h1>
+<p style="font-size:1.05rem;color:#c4b5fd;font-weight:500;text-align:center;margin-bottom:44px;position:relative;">Turn a project specification into a working service with AI</p>
+<div style="width:60px;height:3px;background:linear-gradient(90deg,#7c3aed,#2563eb);border-radius:4px;margin-bottom:44px;position:relative;"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:440px;position:relative;margin-bottom:48px;">
+<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+<span style="font-size:1.3rem;">🏗️</span>
+<div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 1</div><div style="color:#c4b5fd;font-size:0.82rem;">Incremental Development Principles</div></div>
+</div>
+<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+<span style="font-size:1.3rem;">⚡</span>
+<div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 2</div><div style="color:#c4b5fd;font-size:0.82rem;">Build an MVP with Antigravity</div></div>
+</div>
+<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+<span style="font-size:1.3rem;">🔧</span>
+<div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 3</div><div style="color:#c4b5fd;font-size:0.82rem;">Error Fixing &amp; Debugging</div></div>
+</div>
+<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+<span style="font-size:1.3rem;">🌐</span>
+<div><div style="color:#e2e8f0;font-size:0.78rem;font-weight:700;">Chapter 4</div><div style="color:#c4b5fd;font-size:0.82rem;">Running a Local Server</div></div>
+</div>
+</div>
+<div style="position:relative;display:flex;align-items:center;gap:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.15);width:100%;">
+<div style="flex:1;color:#64748b;font-size:0.8rem;">
+<div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">Training Provider</div>
+<div style="color:#cbd5e1;">ODA AI SW · ACE Program</div>
+</div>
+<div style="color:#64748b;font-size:0.8rem;text-align:right;">
+<div style="color:#94a3b8;font-weight:600;margin-bottom:2px;">Course</div>
+<div style="color:#cbd5e1;">AI Web Development for Aspiring Founders</div>
+</div>
+</div>
+</div>
+</section>
+<section class="paper-page" data-page="1">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 3</span>
+<span>Introduction and Incremental Development Principles</span>
+</div>
+<div class="page-content-body">
+<header class="doc-header">
+<div class="doc-category">ACE AI Startup Bootcamp · Day 3 Self-Study Textbook</div>
+<h1 class="doc-title">Building a Working MVP from PROJECT.md</h1>
+<p style="color:#475569; margin-top:10px; font-size:0.95rem;">
+        📚 Today, you will use the PROJECT.md completed on Day 2 to build a <strong>web service that runs in a real browser</strong>.<br/>
+        Antigravity (Google AGY) is the primary development tool for today's work.
+      </p>
+</header>
+<!-- 1. 오늘의 목표 -->
+<h2>1. What Are We Building Today?</h2>
+<div class="callout-box">
+<strong>Day 3 key goal:</strong><br/>
+      You're going to transfer HANDOFF_PROMPT.md to Antigravity, and the browser is going to run the core flow. <strong>MVP web service</strong>I'm going to finish it.<br/><br/>
+<strong>Acceptance criteria:</strong> When you open index.html in your browser, you should be able to actually check the core flow defined in PROJECT.md.
+    </div>
+<div class="info-cards">
+<div class="info-card">
+<div class="info-card-icon">📄</div>
+<div class="info-card-title">Ready to go.</div>
+<div class="info-card-desc">The PROJECT.md and HANDOFF_PROMPT.md files created in Day 2 should be in the my-project folder.</div>
+</div>
+<div class="info-card">
+<div class="info-card-icon">⚙️</div>
+<div class="info-card-title">The main tool</div>
+<div class="info-card-desc">Antigravity (Antigravity) generates the hash code<br/>Codex Error correction request, validation</div>
+</div>
+<div class="info-card">
+<div class="info-card-icon">🌐</div>
+<div class="info-card-title">The final result.</div>
+<div class="info-card-desc">It's a web service that runs as index.html. If you open it in your browser, you can check the core flow.</div>
+</div>
+</div>
+<!-- 2. 구현 단위 분리 원칙 -->
+<h2>2. Why You Should Not Request Everything at Once</h2>
+<div class="story-box">
+<div class="story-name">What are some common mistakes?</div>
+      "Make all kinds of pet walk matching services, including membership, list of helpers, reservations, payments, chats".<br/><br/>
+      When you try to handle too much of Antigravity at once, you miss an important feature, or you have a screen that doesn't work.<br/>
+      → It's hard to find where I got the error.
+    </div>
+<div class="compare-grid">
+<div class="compare-bad">
+<div class="compare-label">You're asking for it all at once.</div>
+<div class="compare-text">
+          "Complete all the features".<br/><br/>
+          Problem: You don't know what's wrong.<br/>
+          When you fail, you have to do it all over again.<br/>
+          AI is more likely to add features at will.
+        </div>
+</div>
+<div class="compare-good">
+<div class="compare-label">Step by step request.</div>
+<div class="compare-text">
+          Step one: Just the basic structure and the home screen.<br/>
+          Step 2: Add the helper list screen<br/>
+          Step three: detail view + booking form<br/><br/>
+          Check each step in the browser and then proceed to the next step.
+        </div>
+</div>
+</div>
+<div class="tip-box">
+<strong>Implementation of priority decision principles:</strong><br/>
+      It's implemented in the core flow sequence of PROJECT.md.<br/>
+      Example: Home → Conditions input screen → List screen → Detailed screen → Finished screen
+    </div>
+<!-- 3. 화면 상태 5가지 -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 1 of 6</span>
+</div>
+</section>
+<section class="paper-page" data-page="2">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 3</span>
+<span>Five Screen-State UX Principles</span>
+</div>
+<div class="page-content-body">
+<h2>3. Five Screen States — Essential UX Principles</h2>
+<p>Every screen has five states, and when you ask Antigravity to implement, you specify these five states to create a high-performance service.</p>
+<div class="screen-state-card">
+<div class="screen-state-title">1 Empty State empty state</div>
+<div class="screen-state-desc">It's a screen that shows when there's no data. It's supposed to tell the user what to do next.</div>
+<div class="screen-state-code"><!-- 예시 -->
+&lt;div class="empty-state"&gt;
+  There's no registered helper yet.
+  Change the &lt;p&gt; condition or choose a different date.
+&lt;/div&gt;</div>
+</div>
+<div class="screen-state-card">
+<div class="screen-state-title">2 Loading State loading state</div>
+<div class="screen-state-desc">When the data is being collected, the user needs to know, "You have to wait".</div>
+<div class="screen-state-code"><!-- 예시 -->
+I'm looking for the &lt;div class="loading"&gt; helper... &lt;/div&gt;.</div>
+</div>
+<div class="screen-state-card">
+<div class="screen-state-title">3 Success State success state</div>
+<div class="screen-state-desc">It's a screen that shows you when you have normal data. It's a clear display of key information.</div>
+<div class="screen-state-code"><!-- 예시: 도우미 카드 목록 -->
+&lt;div class="helper-list"&gt;
+  It's an hourly rate of 15,000 &lt;/div&gt;.
+  &lt;div class="helper-card"&gt; is watching ⭐4.7 ⭐ 12,000 won per hour &lt;/div&gt;
+&lt;/div&gt;</div>
+</div>
+<div class="screen-state-card">
+<div class="screen-state-title">4 Error State error state</div>
+<div class="screen-state-desc">When a problem arises, you have to let the user know what they can do.</div>
+<div class="screen-state-code"><!-- 예시 -->
+&lt;div class="error-state"&gt;
+  &lt;p&gt;️ There was an error in the search. &lt;/p&gt;
+  &lt;button onclick="retry()"&gt; try again &lt;/button&gt;
+&lt;/div&gt;</div>
+</div>
+<div class="screen-state-card">
+<div class="screen-state-title">5 Partial State partial state</div>
+<div class="screen-state-desc">There's only some data, like, when there's only one helper, if it's only possible today.</div>
+<div class="screen-state-code"><!-- 예시 -->
+&lt;div class="partial-result"&gt;
+  &lt;p&gt; is one of the possible helpers on a selected date. &lt;/p&gt;.
+  If you change the &lt;p&gt; date, you can find more helpers.
+&lt;/div&gt;</div>
+</div>
+<!-- 4. 단계별 실습 -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 2 of 6</span>
+</div>
+</section>
+<section class="paper-page" data-page="3">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 3</span>
+<span>Practice: MVP Structure and Basic Screens</span>
+</div>
+<div class="page-content-body">
+<h2>4. Today's Practice — Build an MVP with Antigravity</h2>
+<h3>🔧 Pre-Practice Check — Confirm Your Day 2 Files</h3>
+<div class="step-guide">
+<div class="step-item">
+<div class="step-num">1</div>
+<div class="step-content">
+<div class="step-title">Check if there's a file in my-project folder.</div>
+<div class="step-desc"><code>PROJECT.md</code> and  <code>HANDOFF_PROMPT.md</code> must both be present.<br/>
+          If not, go back to Day 2 and finish it first.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">2</div>
+<div class="step-content">
+<div class="step-title">Check the Antigravity folder path</div>
+<div class="step-desc">Confirm that Antigravity's working folder is set to <code>my-project</code>.</div>
+</div>
+</div>
+</div>
+<h3>⚙️ Practice 1 — First Request: Create the Basic Structure</h3>
+<p>Instead of asking for everything at once, start with the basic structure.</p>
+<div class="prompt-block">Antigravity first request:
+
+Read HANDOFF_PROMPT.md and PROJECT.md and implement the range below.
+
+[This is the implementation range]
+1. Basic HTML structure (head, body, basic style)
+2. Upper navigation bar (service name, background dark navy)
+3. home screen (service introduction phrase, start button)
+
+[Conditions]
+- Implemented as a single index.html file.
+- Pretendard font use (CDN)
+- The basic style of the dark mode.
+- Don't implement the Out of Scope item in PROJECT.md.
+
+[acceptance criteria]
+When you open it in your browser, you see the service name and the "Start" button.</div>
+<div class="step-guide">
+<div class="step-item">
+<div class="step-num">✓</div>
+<div class="step-content">
+<div class="step-title">Check it out.</div>
+<div class="step-desc">When you create an index.html file, you open it in your Chrome browser and verify it.<br/>
+          If you see the service name and start button, move on to the next step!</div>
+</div>
+</div>
+</div>
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 3 of 6</span>
+</div>
+</section>
+<section class="paper-page" data-page="4">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 3</span>
+<span>Practice: Detail and Completion Flow</span>
+</div>
+<div class="page-content-body">
+<h3>⚙️ Practice 2 — Second Request: Add the Core Screens</h3>
+<div class="prompt-block">Antigravity second request:
+
+Add the bottom screens to the existing index.html.
+Reference document: PROJECT.md ##8.
+
+[Further screen]
+1. Conditional input screen: input fields specified in PROJECT.md
+[Service key] List screen: Display card form with three dummy data
+   (On the card is PROJECT.md ##9. Data Model reference field)
+
+[screen switching]
+- Home "Start" button click → condition input screen
+- Enter the "Search/Find" button → list screen
+
+[Empty State]
+- When the list is empty, "No result" message is displayed.
+
+[acceptance criteria]
+If you click on the button, the screen switches, and you see three dusty data cards, you're done.</div>
+<h3>⚙️ Practice 3 — Third Request: Detail View + Completion Flow</h3>
+<div class="prompt-block">Antigravity third request:
+
+Add the following feature to index.html.
+
+[Additional screen/feature]
+1. detail view screen: Click on the card from the list to show details
+2. Reservation/Request Form: Date, time, etc. Input field specified in PROJECT.md
+Completed screen: When you click the Apply button, "Application completed!" message
+
+[Save the data]
+Save the request information to localStorage (Key: 'reservations')
+
+[acceptance criteria]
+Click the card → detail view → apply button click → complete the message
+If the entire core flow runs on one index.html, complete.</div>
+<div class="success-box">
+<strong>✅ core flow completion criteria check:</strong><br/>
+      When you're done with the above three steps, the following flow should be running in your browser:<br/>
+      Home screen → [Click to Start] → Conditions input → [Click to Browse] → List(3 cards) → [Click to Card] → Detail view → [Click to Start] → Complete message
+    </div>
+<!-- 5. 오류 발생 시 대처법 -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 4 of 6</span>
+</div>
+</section>
+<section class="paper-page" data-page="5">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 3</span>
+<span>Three-Step Error Response &amp; Copyable Prompt</span>
+</div>
+<div class="page-content-body">
+<h2>5. What Should You Do When an Error Occurs?</h2>
+<p>Errors in code created by Antigravity are normal. What matters is learning how to read the error and make a <strong>specific correction request</strong>.</p>
+<h3>🔴 Check Errors in the Browser Console</h3>
+<div class="step-guide">
+<div class="step-item">
+<div class="step-num">1</div>
+<div class="step-content">
+<div class="step-title">Open the Chrome developer tool</div>
+<div class="step-desc">Windows: <code>F12</code> Or <code>Ctrl + Shift + J</code><br/>
+          Mac: <code>Cmd + Option + J</code></div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">2</div>
+<div class="step-content">
+<div class="step-title">Click on the Console tab.</div>
+<div class="step-desc">You'll see an error message in red. Copy this message.</div>
+</div>
+</div>
+<div class="step-item">
+<div class="step-num">3</div>
+<div class="step-content">
+<div class="step-title">Send an error message to Codex</div>
+<div class="step-desc">If you insert an error message and describe the situation, Codex analyzes the cause.</div>
+</div>
+</div>
+</div>
+<h3>📋 How to Handle Each Type of Error</h3>
+<table class="data-table">
+<thead><tr><th>Error message pattern</th><th>Meaning</th><th>How to Solve It</th></tr></thead>
+<tbody>
+<tr>
+<td><code>is not defined</code></td>
+<td>Using a function or a variable that doesn't exist</td>
+<td>Insert an error message into Codex and request "fix undefined error".</td>
+</tr>
+<tr>
+<td><code>null</code> Related</td>
+<td>There's no HTML element, and JS is trying to find it.</td>
+<td>Request to verify that HTML and JS ID match and modify.</td>
+</tr>
+<tr>
+<td>It's a white screen.</td>
+<td>JS error rendering failure</td>
+<td>Request for correction to the corresponding error message after verifying the console error.</td>
+</tr>
+<tr>
+<td>Button clicks not responding</td>
+<td>The event is the Lisner Unity.</td>
+<td>Request: "Click the event button does not work. Please confirm the event link".</td>
+</tr>
+</tbody>
+</table>
+<h3>🔧 Example Prompt for Requesting an Error Fix from Antigravity</h3>
+<div class="prompt-block">How to request error correction:
+
+There's been a problem down at index.html.
+
+[Problem situation]
+If you click on the helper card, you don't go to the detail view screen.
+
+[Browser console error]
+Uncaught TypeError: Cannot read properties of undefined (reading 'id')
+at showDetail (index.html:124)
+
+[Repair request]
+Fix the above error, and let the detail view function normally when you click the card.
+First, explain to me what part of the problem is before you fix it.</div>
+<!-- 6. 자율 실습 -->
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 5 of 6</span>
+</div>
+</section>
+<section class="paper-page" data-page="6">
+<div class="book-header-line">
+<span>ACE AI Startup Bootcamp · Day 3</span>
+<span>Independent Practice and Checklist</span>
+</div>
+<div class="page-content-body">
+<h2>6. Challenge: Two Independent Practice Projects</h2>
+<h3>🏆 [Independent Project A] Reading Log &amp; Summary Service MVP</h3>
+<div class="callout-box">
+      It's a service you can manage as a list by entering a book title, author, date of reading, review note.<br/>
+      Core flow: book add → check the list → see details
+    </div>
+<div class="prompt-block">Antigravity request:
+
+Read the BOOK_REQUIREMENTS.md and make a record of the MVP.
+
+Must feature:
+1. Book Additional Form (subject, author, date read, highlights, notes)
+2. book list screen (card form, localStorage storage)
+3. book detail view
+
+Empty State: "There's no book written yet, add the first book!"
+Techniques: single index.html, localStorage</div>
+<h3>🚀 [Independent Project B] Improve Your MVP</h3>
+<div class="callout-box">
+      After you've done the basic MVP, just add one of the following:<br/>
+      • Search feature added (filtering by name/subject in list)<br/>
+      • Delete feature added (delete button on card)<br/>
+      • empty state/loading state message added
+    </div>
+<!-- 7. 체크리스트 -->
+<h2>7. Day 3 Completion Checklist</h2>
+<div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:20px; margin:16px 0;">
+<ul class="checklist">
+<li>Antigravity recognizes the my-project folder as a work path.</li>
+<li>Completed the first request and verified in the browser.</li>
+<li>Finish the second request and you'll see three deck cards.</li>
+<li>The third request has been completed.</li>
+<li>Home → Enter → List → Details → Complete the entire flow is running</li>
+<li>There's an empty state message.</li>
+<li>If there's been an error, check the console and ask for correction.</li>
+<li>The request information is stored in localStorage.</li>
+</ul>
+</div>
+<div class="callout-box">
+<strong>Day 4: Service feature expansion and improvement</strong><br/>
+      Based on today's MVP, we're adding features that enhance the user experience like search, filters, error handling.
+    </div>
+</div>
+<div class="book-footer-line">
+<span>Self-Study AI Web Development Textbook for Founders</span>
+<span>Page 6 of 6</span>
+</div>
+</section>
+</div>
+<!-- AI Account Modal -->
+<div id="aiAccountModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;">
+<div id="aiModalCard" style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 100%; max-width: 520px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.2); overflow: hidden; transform: translateY(20px); transition: transform 0.25s ease;">
+<!-- Modal Header -->
+<div style="padding: 24px 28px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #3b82f6, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🔑</div>
+<div>
+<h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">AI Practice Account Information</h3>
+<span id="modalTeamBadge" style="font-size: 0.76rem; color: #94a3b8;">Assigned Practice Tool Accounts</span>
+</div>
+</div>
+<button onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; width: 32px; height: 32px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" type="button">✕</button>
+</div>
+<!-- Modal Body -->
+<div style="padding: 24px 28px; display: flex; flex-direction: column; gap: 20px;">
+<!-- Account Card 2: Codex -->
+<div style="background: rgba(26, 29, 36, 0.9); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px; padding: 18px;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="font-size: 1.2rem;">🤖</span>
+<strong style="color: #6ee7b7; font-size: 0.95rem;">The codex (OpenAI Codex)</strong>
+</div>
+<span style="font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">Planning. Validation. Developing tools</span>
+</div>
+<!-- Codex ID -->
+<div style="margin-bottom: 10px;">
+<div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Account ID (Codex)</div>
+<div style="display: flex; gap: 6px;">
+<input id="codexIdVal" readonly="" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" type="text" value="codex.pilot.team@openai.com"/>
+<button onclick="copyAccountVal('codexIdVal', 'Codex ID copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;" type="button">Copy</button>
+</div>
+</div>
+<!-- Codex Password -->
+<div>
+<div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Password</div>
+<div style="display: flex; gap: 6px;">
+<input id="codexPwVal" readonly="" style="flex: 1; background: #09090b; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: #fff; font-family: monospace; outline: none;" type="password" value="AcePilot2026!codex"/>
+<button onclick="togglePwVisibility('codexPwVal', this)" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 10px; color: #cbd5e1; font-size: 0.85rem; cursor: pointer;" title="See/Hide the Password" type="button">👁️</button>
+<button onclick="copyAccountVal('codexPwVal', 'Codex password copied!')" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0 12px; color: #cbd5e1; font-size: 0.78rem; font-weight: 700; cursor: pointer;" type="button">Copy</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div style="padding: 16px 28px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: flex-end;">
+<button onclick="closeAiAccountModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 9px 20px; color: #fff; font-size: 0.88rem; font-weight: 700; cursor: pointer;" type="button">Close</button>
+</div>
+</div>
+</div>
+<script>
+    function openAiAccountModal() {
+      const modal = document.getElementById('aiAccountModal');
+      const card = document.getElementById('aiModalCard');
+      if (!modal) return;
+
+      // Update team info dynamically
+      try {
+        const sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          const s = JSON.parse(sessionStr);
+          const user = typeof s.value === 'string' ? JSON.parse(s.value) : s.value;
+          if (user) {
+            const badge = document.getElementById('modalTeamBadge');
+            const codexId = document.getElementById('codexIdVal');
+            const codexPw = document.getElementById('codexPwVal');
+
+            const cohortPrefix = user.cohort ? 'c' + user.cohort : 'c1';
+            const teamNum = user.teamNum || 1;
+
+            if (badge) badge.textContent = user.name + ' — Dedicated AI Tool Accounts';
+            if (codexId) codexId.value = 'codex.' + cohortPrefix + '.team' + teamNum + '@openai.com';
+            if (codexPw) codexPw.value = 'CodexPilot' + teamNum + '!2026';
+          }
+        }
+      } catch(e) {
+        console.error(e);
+      }
+
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.style.opacity = '1';
+        if (card) card.style.transform = 'translateY(0)';
+      }, 10);
+    }
+
+    function closeAiAccountModal() {
+      const modal = document.getElementById('aiAccountModal');
+      const card = document.getElementById('aiModalCard');
+      if (!modal) return;
+      modal.style.opacity = '0';
+      if (card) card.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 250);
+    }
+
+    function togglePwVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🔒';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+    }
+
+    function copyAccountVal(inputId, successMsg) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      const val = input.value;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(val).then(() => {
+          if (typeof showToast === 'function') {
+            showToast(successMsg);
+          } else {
+            alert(successMsg);
+          }
+        }).catch(() => {
+          fallbackCopyVal(val, successMsg);
+        });
+      } else {
+        fallbackCopyVal(val, successMsg);
+      }
+    }
+
+    function fallbackCopyVal(val, successMsg) {
+      const textArea = document.createElement('textarea');
+      textArea.value = val;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        if (typeof showToast === 'function') {
+          showToast(successMsg);
+        } else {
+          alert(successMsg);
+        }
+      } catch (err) {
+        alert('Value to copy: ' + val);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // Close on click outside modal card
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('aiAccountModal');
+      if (modal && e.target === modal) {
+        closeAiAccountModal();
+      }
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeAiAccountModal();
+      }
+    });
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
     async function downloadPDF() {
       const btn = document.getElementById('btn-download-pdf');
       const originalText = btn ? btn.innerHTML : '';
       if (btn) {
-        btn.innerHTML = '⏳ Generating PDF...';
+        btn.innerHTML = '⏳ Preparing A4 PDF...';
         btn.disabled = true;
       }
 
       try {
+        if (!window.jspdf || !window.html2canvas) {
+          throw new Error('The PDF generation libraries could not be loaded.');
+        }
+
+        const pages = document.querySelectorAll('.paper-page');
+        const total = pages.length;
+        if (!total) throw new Error('No textbook pages were found.');
+
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({
+        const pdf = new jsPDF({
+          orientation: 'portrait',
           unit: 'mm',
           format: 'a4',
-          orientation: 'portrait'
+          compress: true
         });
 
-        // paper-page structure (aspiring_founders style)
-        const pages = document.querySelectorAll('.paper-page');
-        if (!pages.length) throw new Error('No .paper-page elements found.');
-
-        const A4_WIDTH_MM = 210;
-        const A4_HEIGHT_MM = 297;
-
-        const navBar = document.querySelector('.no-print-bar');
-        if (navBar) navBar.style.display = 'none';
-
-        for (let i = 0; i < pages.length; i++) {
-          if (btn) btn.innerHTML = `⏳ Generating PDF (${i + 1}/${pages.length})...`;
+        for (let i = 0; i < total; i++) {
+          if (btn) btn.innerHTML = `⏳ Creating A4 PDF (${i + 1}/${total})...`;
           const page = pages[i];
-
           const canvas = await html2canvas(page, {
             scale: 2,
             useCORS: true,
-            allowTaint: true,
             logging: false,
             backgroundColor: '#ffffff',
+            windowWidth: 1200,
             onclone: function(clonedDoc) {
-              const cloneNav = clonedDoc.querySelector('.no-print-bar');
-              if (cloneNav) cloneNav.style.display = 'none';
-              // Fix gradient text on any cover titles
-              const coverTitles = clonedDoc.querySelectorAll('.cover-title, .doc-title');
+              // Fix: html2canvas cannot render -webkit-background-clip:text
+              const coverTitles = clonedDoc.querySelectorAll('.cover-title');
               coverTitles.forEach(function(el) {
                 el.style.webkitBackgroundClip = 'unset';
                 el.style.backgroundClip = 'unset';
-                el.style.webkitTextFillColor = 'currentColor';
+                el.style.webkitTextFillColor = '#ffffff';
+                el.style.color = '#ffffff';
                 el.style.background = 'none';
               });
+              // Remove nav bar
+              const cloneNav = clonedDoc.querySelector('.no-print-bar');
+              if (cloneNav) cloneNav.style.display = 'none';
             }
           });
-
-          if (i > 0) doc.addPage();
-
-          const imgData = canvas.toDataURL('image/jpeg', 0.98);
-          const canvasRatio = canvas.height / canvas.width;
-          const imgHeightMM = A4_WIDTH_MM * canvasRatio;
-
-          doc.addImage(imgData, 'JPEG', 0, 0, A4_WIDTH_MM, Math.min(imgHeightMM, A4_HEIGHT_MM));
+          const imgData = canvas.toDataURL('image/jpeg', 0.95);
+          if (i > 0) pdf.addPage('a4', 'portrait');
+          pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
         }
 
-        if (navBar) navBar.style.display = '';
-        doc.save('Aspiring_Day3_Textbook_A4.pdf');
-
+        pdf.save('Founders_Day3_Textbook_A4.pdf');
       } catch (err) {
-        console.error('PDF generation error:', err);
-        const navBar = document.querySelector('.no-print-bar');
-        if (navBar) navBar.style.display = '';
-        alert('PDF generation failed. Please use browser print (Ctrl+P) and select "Save as PDF".');
+        console.error('PDF generation failed:', err);
+        alert('An error occurred while creating the PDF. The browser print dialog will open instead.\nChoose [Destination > Save as PDF] to save a clean copy.');
+        window.print();
       } finally {
         if (btn) {
           btn.innerHTML = originalText;
