@@ -1032,6 +1032,7 @@
         <a href="#pipeline" class="nav-sub-btn">💡 AI 파이프라인</a>
       </div>
       <div class="nav-sub-right">
+        <button type="button" onclick="openAnnouncementModal()" class="nav-sub-btn notice" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.25)); border: 1px solid rgba(245, 158, 11, 0.5); color: #fef08a; font-weight: 800; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; transition: all 0.2s;">📢 공지사항</button>
         <a href="../LECTURE/docs/index.html" target="_blank" class="nav-sub-btn highlight">🖥️ 발표 슬라이드</a>
         <a href="course-overview.html" class="btn-course-overview nav-sub-btn highlight" style="display: none; background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2)); border-color: rgba(168, 85, 247, 0.45); color: #e9d5ff; font-weight: 800;">🌟 전체과정한눈에보기</a>
       </div>
@@ -1490,6 +1491,41 @@
         <!-- Modal Footer -->
         <div style="padding: 14px 28px 18px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: flex-end; flex-shrink: 0;">
           <button type="button" onclick="closeFacilModal()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 9px 20px; color: #fff; font-size: 0.88rem; font-weight: 700; cursor: pointer;">닫기</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Announcement Modal Layer -->
+    <div id="announcementModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;">
+      <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 95%; max-width: 1150px; height: 88vh; overflow: hidden; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(245, 158, 11, 0.2); transform: translateY(20px); transition: transform 0.25s ease; display: flex; flex-direction: column;" id="announcementModalCard">
+
+        <!-- Modal Header -->
+        <div style="padding: 16px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; background: #161d2f; gap: 16px; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.4rem;">📢</span>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">공지사항</h3>
+            </div>
+            
+            <!-- Document Select Dropdown -->
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <label for="announcementFileSelect" style="font-size: 0.82rem; color: #94a3b8; font-weight: 700;">공지 목록:</label>
+              <select id="announcementFileSelect" onchange="loadAnnouncementFile(this.value)" style="background: #1a2234; color: #f3f4f6; border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 8px; padding: 6px 12px; font-size: 0.88rem; font-weight: 700; outline: none; cursor: pointer; max-width: 480px;">
+                <option value="../../LMS/docs/announcement/260908_2day.html">📌 [2026.09.08] 2일차 팀별 AI Tool 지원금 안내 (USD 40)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <a id="announcementNewTabBtn" href="../../LMS/docs/announcement/260908_2day.html" target="_blank" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 6px 12px; color: #cbd5e1; font-size: 0.82rem; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s;">🔗 새 창으로 보기</a>
+            <button type="button" onclick="closeAnnouncementModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; width: 34px; height: 34px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;">✕</button>
+          </div>
+        </div>
+
+        <!-- Modal Body (Iframe container) -->
+        <div style="flex: 1; width: 100%; height: 100%; background: #ffffff; position: relative;">
+          <iframe id="announcementIframe" src="../../LMS/docs/announcement/260908_2day.html" style="width: 100%; height: 100%; border: none; display: block;" title="공지사항 문서"></iframe>
         </div>
 
       </div>
@@ -2309,6 +2345,55 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         closeFacilModal();
+        closeAnnouncementModal();
+      }
+    });
+
+    // Announcement Modal Functions
+    function openAnnouncementModal(filePath) {
+      const modal = document.getElementById('announcementModal');
+      const iframe = document.getElementById('announcementIframe');
+      const select = document.getElementById('announcementFileSelect');
+      const newTabBtn = document.getElementById('announcementNewTabBtn');
+      
+      if (!modal) return;
+      
+      const targetPath = filePath || (select ? select.value : '../../LMS/docs/announcement/260908_2day.html');
+      if (select && filePath) select.value = filePath;
+      if (iframe) iframe.src = targetPath;
+      if (newTabBtn) newTabBtn.href = targetPath;
+
+      modal.style.display = 'flex';
+      requestAnimationFrame(() => {
+        modal.style.opacity = '1';
+        const card = document.getElementById('announcementModalCard');
+        if (card) card.style.transform = 'translateY(0)';
+      });
+    }
+
+    function loadAnnouncementFile(filePath) {
+      const iframe = document.getElementById('announcementIframe');
+      const newTabBtn = document.getElementById('announcementNewTabBtn');
+      if (iframe) iframe.src = filePath;
+      if (newTabBtn) newTabBtn.href = filePath;
+    }
+
+    function closeAnnouncementModal() {
+      const modal = document.getElementById('announcementModal');
+      const card = document.getElementById('announcementModalCard');
+      if (!modal) return;
+      modal.style.opacity = '0';
+      if (card) card.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 250);
+    }
+
+    // Modal dismiss on backdrop click for announcementModal
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('announcementModal');
+      if (modal && e.target === modal) {
+        closeAnnouncementModal();
       }
     });
 
