@@ -75,6 +75,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI 기반 Web App MVP 개발 과정 | LMS 학습 관리 센터</title>
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <style>
     :root {
       --primary: #3b82f6;
@@ -1496,36 +1498,53 @@
       </div>
     </div>
 
-    <!-- Announcement Modal Layer -->
+    <!-- Announcement Modal Layer (Swiper Multi-Slide) -->
     <div id="announcementModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;">
-      <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 95%; max-width: 1150px; height: 88vh; overflow: hidden; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(245, 158, 11, 0.2); transform: translateY(20px); transition: transform 0.25s ease; display: flex; flex-direction: column;" id="announcementModalCard">
+      <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 95%; max-width: 1180px; height: 90vh; overflow: hidden; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(245, 158, 11, 0.2); transform: translateY(20px); transition: transform 0.25s ease; display: flex; flex-direction: column;" id="announcementModalCard">
 
         <!-- Modal Header -->
-        <div style="padding: 16px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; background: #161d2f; gap: 16px; flex-wrap: wrap;">
+        <div style="padding: 14px 22px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; background: #161d2f; gap: 14px; flex-wrap: wrap;">
           <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="font-size: 1.4rem;">📢</span>
               <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">공지사항</h3>
+              <span id="announcementSlideBadge" style="font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: rgba(245, 158, 11, 0.2); color: #fde047; border: 1px solid rgba(245, 158, 11, 0.4);">1 / 2</span>
             </div>
             
-            <!-- Document Select Dropdown -->
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <label for="announcementFileSelect" style="font-size: 0.82rem; color: #94a3b8; font-weight: 700;">공지 목록:</label>
-              <select id="announcementFileSelect" onchange="loadAnnouncementFile(this.value)" style="background: #1a2234; color: #f3f4f6; border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 8px; padding: 6px 12px; font-size: 0.88rem; font-weight: 700; outline: none; cursor: pointer; max-width: 480px;">
-                <option value="../../LMS/docs/announcement/260908_2day.html">📌 [2026.09.08] 2일차 팀별 AI Tool 지원금 안내 (USD 40)</option>
-              </select>
+            <!-- Quick Slide Navigation Tabs -->
+            <div style="display: flex; align-items: center; gap: 6px;" id="announcementTabs">
+              <button type="button" onclick="goToAnnouncementSlide(0)" class="announcement-tab-btn" id="annTab0" style="padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800; cursor: pointer; border: 1px solid rgba(245, 158, 11, 0.5); background: rgba(245, 158, 11, 0.2); color: #fef08a; transition: all 0.2s;">📌 1일차: 출결 &amp; 파이널 라운드</button>
+              <button type="button" onclick="goToAnnouncementSlide(1)" class="announcement-tab-btn" id="annTab1" style="padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.04); color: #94a3b8; transition: all 0.2s;">📌 2일차: AI Tool 지원금 ($40)</button>
             </div>
           </div>
 
           <div style="display: flex; align-items: center; gap: 10px;">
-            <a id="announcementNewTabBtn" href="../../LMS/docs/announcement/260908_2day.html" target="_blank" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 6px 12px; color: #cbd5e1; font-size: 0.82rem; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s;">🔗 새 창으로 보기</a>
+            <a id="announcementNewTabBtn" href="../../LMS/docs/announcement/260908_1day.html" target="_blank" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 6px 12px; color: #cbd5e1; font-size: 0.82rem; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s;">🔗 새 창으로 보기</a>
             <button type="button" onclick="closeAnnouncementModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; width: 34px; height: 34px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;">✕</button>
           </div>
         </div>
 
-        <!-- Modal Body (Iframe container) -->
-        <div style="flex: 1; width: 100%; height: 100%; background: #ffffff; position: relative;">
-          <iframe id="announcementIframe" src="../../LMS/docs/announcement/260908_2day.html" style="width: 100%; height: 100%; border: none; display: block;" title="공지사항 문서"></iframe>
+        <!-- Modal Body (Swiper Container) -->
+        <div style="flex: 1; width: 100%; height: 100%; position: relative; overflow: hidden; background: #000;">
+          <div class="swiper announcementSwiper" style="width: 100%; height: 100%;">
+            <div class="swiper-wrapper">
+              <!-- Slide 1: 1일차 공지 -->
+              <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #07231A;">
+                <iframe src="../../LMS/docs/announcement/260908_1day.html" style="width: 100%; height: 100%; border: none;" title="1일차 공지사항"></iframe>
+              </div>
+              <!-- Slide 2: 2일차 공지 -->
+              <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #e8e6e0;">
+                <iframe src="../../LMS/docs/announcement/260908_2day.html" style="width: 100%; height: 100%; border: none;" title="2일차 공지사항"></iframe>
+              </div>
+            </div>
+
+            <!-- Swiper Navigation Buttons -->
+            <div class="swiper-button-prev announcement-swiper-button-prev" style="color: #fde047; background: rgba(17, 24, 39, 0.75); width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px); --swiper-navigation-size: 20px;"></div>
+            <div class="swiper-button-next announcement-swiper-button-next" style="color: #fde047; background: rgba(17, 24, 39, 0.75); width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px); --swiper-navigation-size: 20px;"></div>
+
+            <!-- Swiper Pagination -->
+            <div class="swiper-pagination announcement-swiper-pagination" style="bottom: 12px; --swiper-pagination-color: #eab308; --swiper-pagination-bullet-inactive-color: #ffffff; --swiper-pagination-bullet-inactive-opacity: 0.4;"></div>
+          </div>
         </div>
 
       </div>
@@ -2349,33 +2368,104 @@
       }
     });
 
-    // Announcement Modal Functions
-    function openAnnouncementModal(filePath) {
-      const modal = document.getElementById('announcementModal');
-      const iframe = document.getElementById('announcementIframe');
-      const select = document.getElementById('announcementFileSelect');
+    // Announcement Swiper & Modal Functions
+    const announcementUrls = [
+      '../../LMS/docs/announcement/260908_1day.html',
+      '../../LMS/docs/announcement/260908_2day.html'
+    ];
+    let announcementSwiperInstance = null;
+
+    function initAnnouncementSwiper() {
+      if (typeof Swiper === 'undefined') return;
+      if (!announcementSwiperInstance) {
+        announcementSwiperInstance = new Swiper('.announcementSwiper', {
+          slidesPerView: 1,
+          spaceBetween: 20,
+          speed: 400,
+          loop: false,
+          keyboard: {
+            enabled: true,
+          },
+          navigation: {
+            nextEl: '.announcement-swiper-button-next',
+            prevEl: '.announcement-swiper-button-prev',
+          },
+          pagination: {
+            el: '.announcement-swiper-pagination',
+            clickable: true,
+          },
+          on: {
+            slideChange: function () {
+              updateAnnouncementActiveTab(this.activeIndex);
+            }
+          }
+        });
+      } else {
+        announcementSwiperInstance.update();
+      }
+    }
+
+    function updateAnnouncementActiveTab(index) {
+      const badge = document.getElementById('announcementSlideBadge');
+      if (badge) badge.textContent = (index + 1) + ' / ' + announcementUrls.length;
+
+      const tab0 = document.getElementById('annTab0');
+      const tab1 = document.getElementById('annTab1');
+      if (tab0 && tab1) {
+        if (index === 0) {
+          tab0.style.background = 'rgba(245, 158, 11, 0.2)';
+          tab0.style.borderColor = 'rgba(245, 158, 11, 0.5)';
+          tab0.style.color = '#fef08a';
+          tab0.style.fontWeight = '800';
+
+          tab1.style.background = 'rgba(255, 255, 255, 0.04)';
+          tab1.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+          tab1.style.color = '#94a3b8';
+          tab1.style.fontWeight = '700';
+        } else {
+          tab1.style.background = 'rgba(245, 158, 11, 0.2)';
+          tab1.style.borderColor = 'rgba(245, 158, 11, 0.5)';
+          tab1.style.color = '#fef08a';
+          tab1.style.fontWeight = '800';
+
+          tab0.style.background = 'rgba(255, 255, 255, 0.04)';
+          tab0.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+          tab0.style.color = '#94a3b8';
+          tab0.style.fontWeight = '700';
+        }
+      }
+
       const newTabBtn = document.getElementById('announcementNewTabBtn');
-      
+      if (newTabBtn && announcementUrls[index]) {
+        newTabBtn.href = announcementUrls[index];
+      }
+    }
+
+    function goToAnnouncementSlide(index) {
+      if (announcementSwiperInstance) {
+        announcementSwiperInstance.slideTo(index);
+      }
+      updateAnnouncementActiveTab(index);
+    }
+
+    function openAnnouncementModal(slideIndex) {
+      const modal = document.getElementById('announcementModal');
       if (!modal) return;
-      
-      const targetPath = filePath || (select ? select.value : '../../LMS/docs/announcement/260908_2day.html');
-      if (select && filePath) select.value = filePath;
-      if (iframe) iframe.src = targetPath;
-      if (newTabBtn) newTabBtn.href = targetPath;
 
       modal.style.display = 'flex';
       requestAnimationFrame(() => {
         modal.style.opacity = '1';
         const card = document.getElementById('announcementModalCard');
         if (card) card.style.transform = 'translateY(0)';
+        
+        initAnnouncementSwiper();
+        if (typeof slideIndex === 'number' && announcementSwiperInstance) {
+          announcementSwiperInstance.slideTo(slideIndex, 0);
+          updateAnnouncementActiveTab(slideIndex);
+        } else if (announcementSwiperInstance) {
+          announcementSwiperInstance.update();
+        }
       });
-    }
-
-    function loadAnnouncementFile(filePath) {
-      const iframe = document.getElementById('announcementIframe');
-      const newTabBtn = document.getElementById('announcementNewTabBtn');
-      if (iframe) iframe.src = filePath;
-      if (newTabBtn) newTabBtn.href = filePath;
     }
 
     function closeAnnouncementModal() {
@@ -2405,78 +2495,14 @@
 
 
   <script>
-    // 요일별 일차 순차 오픈 제어기 (2026년 9월 5일 토요일부터 적용)
-    // 월: 1일차, 화: 1~2일차, 수: 1~3일차, 목: 1~4일차, 금~일: 1~5일차
+    // 5일차 전 과정 상시 전체 오픈 설정
     (function() {
       function applyDaySchedule() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const forceDay = urlParams.get('day'); // 테스트 및 미리보기용 ?day=all 또는 ?day=1~5
-
-        const effectiveStartDate = new Date(2026, 8, 5, 0, 0, 0); // 2026년 9월 5일 (0-indexed 월: 8 = 9월)
-        const now = new Date();
-        
-        let maxOpenDay = 5; // 2026년 9월 5일 이전에는 준비 및 검토를 위해 전체 오픈
-        
-        if (now >= effectiveStartDate) {
-          // 2026년 9월 5일 이후부터 요일별 제한 적용
-          const dayOfWeek = now.getDay(); // 0: 일, 1: 월, 2: 화, 3: 수, 4: 목, 5: 금, 6: 토
-          if (dayOfWeek === 1) maxOpenDay = 1;      // 월요일: 1일차
-          else if (dayOfWeek === 2) maxOpenDay = 2; // 화요일: 1~2일차
-          else if (dayOfWeek === 3) maxOpenDay = 3; // 수요일: 1~3일차
-          else if (dayOfWeek === 4) maxOpenDay = 4; // 목요일: 1~4일차
-          else if (dayOfWeek === 5) maxOpenDay = 5; // 금요일: 1~5일차 전체 오픈
-          else if (dayOfWeek === 6 || dayOfWeek === 0) maxOpenDay = 5; // 토요일 및 일요일(주말): 1~5일차 전체 오픈
-        }
-
-        if (forceDay === 'all') {
-          maxOpenDay = 5;
-        } else if (forceDay && !isNaN(parseInt(forceDay))) {
-          maxOpenDay = parseInt(forceDay);
-        }
-
-        const weekdayNames = {
-          1: '월요일',
-          2: '화요일',
-          3: '수요일',
-          4: '목요일',
-          5: '금요일'
-        };
-
         const cards = document.querySelectorAll('.day-card[data-day]');
         cards.forEach(card => {
-          const cardDay = parseInt(card.getAttribute('data-day'));
-          if (cardDay > maxOpenDay) {
-            card.classList.add('is-locked');
-            
-            // 중복 오버레이 방지
-            if (!card.querySelector('.locked-overlay')) {
-              const overlay = document.createElement('div');
-              overlay.className = 'locked-overlay';
-              const targetDayName = weekdayNames[cardDay] || '금요일';
-              
-              overlay.innerHTML = `
-                <div class="locked-badge-center">
-                  <span>🔒</span>
-                  <span>${targetDayName} 오픈 예정 (${cardDay}일차)</span>
-                </div>
-                <div class="locked-sub-text">
-                  해당 일차의 커리큘럼은 ${targetDayName}에 순차적으로 오픈됩니다.
-                </div>
-              `;
-              
-              overlay.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                alert(`🔒 ${cardDay}일차 강좌는 ${targetDayName}에 오픈됩니다.`);
-              });
-              
-              card.appendChild(overlay);
-            }
-          } else {
-            card.classList.remove('is-locked');
-            const existingOverlay = card.querySelector('.locked-overlay');
-            if (existingOverlay) existingOverlay.remove();
-          }
+          card.classList.remove('is-locked');
+          const existingOverlay = card.querySelector('.locked-overlay');
+          if (existingOverlay) existingOverlay.remove();
         });
       }
 
