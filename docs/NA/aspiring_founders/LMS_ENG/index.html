@@ -1548,9 +1548,10 @@
             </div>
             
             <!-- Quick Slide Navigation Tabs -->
-            <div style="display: flex; align-items: center; gap: 6px;" id="announcementTabs">
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;" id="announcementTabs">
               <button type="button" onclick="goToAnnouncementSlide(0)" class="announcement-tab-btn" id="annTab0" style="padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800; cursor: pointer; border: 1px solid rgba(245, 158, 11, 0.5); background: rgba(245, 158, 11, 0.2); color: #fef08a; transition: all 0.2s;">📌 Day 1: Attendance &amp; Finals</button>
               <button type="button" onclick="goToAnnouncementSlide(1)" class="announcement-tab-btn" id="annTab1" style="padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.04); color: #94a3b8; transition: all 0.2s;">📌 Day 2: AI Tool Support ($40)</button>
+              <button type="button" onclick="goToAnnouncementSlide(2)" class="announcement-tab-btn" id="annTab2" style="padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.04); color: #94a3b8; transition: all 0.2s;">📌 Day 3: Team A Schedule &amp; Deliverables</button>
             </div>
           </div>
 
@@ -1571,6 +1572,10 @@
               <!-- Slide 2: Day 2 Announcement -->
               <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #e8e6e0;">
                 <iframe src="../../LMS_ENG/docs/announcement/260908_2day.html" style="width: 100%; height: 100%; border: none;" title="Day 2 Announcement"></iframe>
+              </div>
+              <!-- Slide 3: Day 3 Announcement -->
+              <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #0b1220;">
+                <iframe src="../../LMS_ENG/docs/announcement/260909_3day.html" style="width: 100%; height: 100%; border: none;" title="Day 3 Announcement"></iframe>
               </div>
             </div>
 
@@ -2406,7 +2411,8 @@
     // Announcement Swiper & Modal Functions
     const announcementUrls = [
       '../../LMS_ENG/docs/announcement/260908_1day.html',
-      '../../LMS_ENG/docs/announcement/260908_2day.html'
+      '../../LMS_ENG/docs/announcement/260908_2day.html',
+      '../../LMS_ENG/docs/announcement/260909_3day.html'
     ];
     let announcementSwiperInstance = null;
 
@@ -2444,31 +2450,20 @@
       const badge = document.getElementById('announcementSlideBadge');
       if (badge) badge.textContent = (index + 1) + ' / ' + announcementUrls.length;
 
-      const tab0 = document.getElementById('annTab0');
-      const tab1 = document.getElementById('annTab1');
-      if (tab0 && tab1) {
-        if (index === 0) {
-          tab0.style.background = 'rgba(245, 158, 11, 0.2)';
-          tab0.style.borderColor = 'rgba(245, 158, 11, 0.5)';
-          tab0.style.color = '#fef08a';
-          tab0.style.fontWeight = '800';
-
-          tab1.style.background = 'rgba(255, 255, 255, 0.04)';
-          tab1.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-          tab1.style.color = '#94a3b8';
-          tab1.style.fontWeight = '700';
+      const tabs = document.querySelectorAll('.announcement-tab-btn');
+      tabs.forEach((tab, i) => {
+        if (i === index) {
+          tab.style.background = 'rgba(245, 158, 11, 0.2)';
+          tab.style.borderColor = 'rgba(245, 158, 11, 0.5)';
+          tab.style.color = '#fef08a';
+          tab.style.fontWeight = '800';
         } else {
-          tab1.style.background = 'rgba(245, 158, 11, 0.2)';
-          tab1.style.borderColor = 'rgba(245, 158, 11, 0.5)';
-          tab1.style.color = '#fef08a';
-          tab1.style.fontWeight = '800';
-
-          tab0.style.background = 'rgba(255, 255, 255, 0.04)';
-          tab0.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-          tab0.style.color = '#94a3b8';
-          tab0.style.fontWeight = '700';
+          tab.style.background = 'rgba(255, 255, 255, 0.04)';
+          tab.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+          tab.style.color = '#94a3b8';
+          tab.style.fontWeight = '700';
         }
-      }
+      });
 
       const newTabBtn = document.getElementById('announcementNewTabBtn');
       if (newTabBtn && announcementUrls[index]) {
