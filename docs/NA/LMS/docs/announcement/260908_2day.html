@@ -24,10 +24,10 @@
   .slide{
     width:100%;height:100%;
     background:var(--paper);
-    padding:4.2cqw 4.6cqw;
+    padding:3.4cqw 4.6cqw 3cqw;
     display:grid;
     grid-template-rows:auto auto 1fr auto;
-    row-gap:2.4cqw;
+    row-gap:1.8cqw;
   }
   .sans{font-family:ui-sans-serif,system-ui,"Helvetica Neue",Arial,sans-serif}
 
@@ -66,8 +66,8 @@
   ol li{
     counter-increment:s;
     display:grid;grid-template-columns:2.6cqw 1fr;column-gap:1.1cqw;
-    padding:1.15cqw 0;border-top:1px solid var(--rule);
-    font-size:1.55cqw;line-height:1.45;
+    padding:.95cqw 0;border-top:1px solid var(--rule);
+    font-size:1.5cqw;line-height:1.4;
   }
   ol li:last-child{border-bottom:1px solid var(--rule)}
   ol li::before{
@@ -77,9 +77,19 @@
     padding-top:.25cqw;
   }
   ol li b{font-weight:650}
-  .alert{
-    margin-top:1.8cqw;padding:1.3cqw 1.5cqw;border:1.5px solid var(--mark);
+  ol li b.red{color:#c1121f;font-weight:700}
+  .hard{
+    margin-top:1.5cqw;padding:1.2cqw 1.5cqw;
+    background:var(--ink);color:#f4f2ec;
     font-size:1.45cqw;line-height:1.5;
+  }
+  .hard strong{display:block;font-size:1.15cqw;letter-spacing:.14em;
+    text-transform:uppercase;color:#e9c46a;margin-bottom:.5cqw;
+    font-family:ui-sans-serif,system-ui,"Helvetica Neue",Arial,sans-serif;font-weight:700}
+  .hard b{color:#e9c46a}
+  .alert{
+    margin-top:1.1cqw;padding:1cqw 1.5cqw;border:1.5px solid var(--mark);
+    font-size:1.3cqw;line-height:1.5;
   }
   .alert b{color:var(--mark)}
 
@@ -115,12 +125,17 @@
       <div>
         <ol>
           <li><span>Pick <b>Codex or Antigravity</b> and pay with your own card.</span></li>
-          <li><span>Keep the receipt: <b>date, time, amount, tool name</b>.</span></li>
-          <li><span>Bring it before Friday &mdash; collect <b>USD 40 in naira</b>.</span></li>
+          <li><span>Get the receipt (<b>date, time, amount, tool name</b>) and <b class="red">print it on paper.</b></span></li>
+          <li><span><b class="red">Hand in the printed receipt on Friday</b> &mdash; collect <b>USD 40 in naira</b>.</span></li>
         </ol>
 
+        <div class="hard">
+          <strong>Printed receipt only &mdash; no exceptions</strong>
+          A receipt shown on a <b>phone screen will NOT be accepted</b>. No paper printout, no reimbursement.
+        </div>
+
         <div class="alert">
-          <b>Pay after 3:00 PM today (Mon, Sep 7).</b> Earlier charges cannot be reimbursed. Over USD 40, the team covers the difference.
+          <b>Pay after 3:00 PM on Mon, Sep 7.</b> Earlier charges cannot be reimbursed. Over USD 40, the team covers the difference.
         </div>
       </div>
     </div>
