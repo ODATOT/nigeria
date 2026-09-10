@@ -1552,7 +1552,7 @@
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="font-size: 1.4rem;">📢</span>
               <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">Announcements</h3>
-              <span id="announcementSlideBadge" style="font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: rgba(245, 158, 11, 0.2); color: #fde047; border: 1px solid rgba(245, 158, 11, 0.4);">1 / 2</span>
+              <span id="announcementSlideBadge" style="font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: rgba(245, 158, 11, 0.2); color: #fde047; border: 1px solid rgba(245, 158, 11, 0.4);">1 / 4</span>
             </div>
             
             <!-- Quick Slide Navigation Tabs -->
@@ -1560,6 +1560,7 @@
               <button type="button" onclick="goToAnnouncementSlide(0)" class="announcement-tab-btn" id="annTab0" style="padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800; cursor: pointer; border: 1px solid rgba(245, 158, 11, 0.5); background: rgba(245, 158, 11, 0.2); color: #fef08a; transition: all 0.2s;">📌 Day 1: Attendance &amp; Finals</button>
               <button type="button" onclick="goToAnnouncementSlide(1)" class="announcement-tab-btn" id="annTab1" style="padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.04); color: #94a3b8; transition: all 0.2s;">📌 Day 2: AI Tool Support ($40)</button>
               <button type="button" onclick="goToAnnouncementSlide(2)" class="announcement-tab-btn" id="annTab2" style="padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.04); color: #94a3b8; transition: all 0.2s;">📌 Day 3: Team A Schedule &amp; Deliverables</button>
+              <button type="button" onclick="goToAnnouncementSlide(3)" class="announcement-tab-btn" id="annTab3" style="padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.04); color: #94a3b8; transition: all 0.2s;">📌 Day 4: Today’s Plan &amp; Final Day</button>
             </div>
           </div>
 
@@ -1584,6 +1585,10 @@
               <!-- Slide 3: Day 3 Announcement -->
               <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #0b1220;">
                 <iframe src="../../LMS_ENG/docs/announcement/260909_3day.html" style="width: 100%; height: 100%; border: none;" title="Day 3 Announcement"></iframe>
+              </div>
+              <!-- Slide 4: Day 4 Announcement -->
+              <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #0f172a;">
+                <iframe src="../../LMS_ENG/docs/announcement/260910_4day.html" style="width: 100%; height: 100%; border: none;" title="Day 4 Announcement"></iframe>
               </div>
             </div>
 
@@ -2420,7 +2425,8 @@
     const announcementUrls = [
       '../../LMS_ENG/docs/announcement/260908_1day.html',
       '../../LMS_ENG/docs/announcement/260908_2day.html',
-      '../../LMS_ENG/docs/announcement/260909_3day.html'
+      '../../LMS_ENG/docs/announcement/260909_3day.html',
+      '../../LMS_ENG/docs/announcement/260910_4day.html'
     ];
     let announcementSwiperInstance = null;
 
