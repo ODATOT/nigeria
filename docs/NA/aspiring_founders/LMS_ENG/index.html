@@ -737,6 +737,12 @@
       border-color: rgba(245, 158, 11, 0.8) !important;
       transform: translateY(-1px);
     }
+    .nav-sub-btn.final-pitch:hover {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.45), rgba(168, 85, 247, 0.45)) !important;
+      border-color: rgba(168, 85, 247, 0.9) !important;
+      color: #ffffff !important;
+      transform: translateY(-1px);
+    }
   
   
     /* Facilitator Section Styles */
@@ -1018,8 +1024,9 @@
           </a>
         </div>
 
-        <div class="nav-top-right" style="display: flex; align-items: center; gap: 12px;">
+        <div class="nav-top-right" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
           <button type="button" onclick="openAnnouncementModal()" class="nav-sub-btn notice" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.25)); border: 1px solid rgba(245, 158, 11, 0.5); color: #fef08a; font-weight: 800; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; transition: all 0.2s;">📢 Announcements</button>
+          <button type="button" onclick="openFinalPitchModal()" class="nav-sub-btn final-pitch" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(168, 85, 247, 0.25)); border: 1px solid rgba(168, 85, 247, 0.55); color: #e9d5ff; font-weight: 800; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; transition: all 0.2s;">🎯 Final Pitch Slides</button>
           
           <div class="user-session-wrap">
             <div id="userProfileBadge" style="display: none; align-items: center; gap: 10px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 5px 14px; border-radius: 999px;">
@@ -1599,6 +1606,33 @@
             <!-- Swiper Pagination -->
             <div class="swiper-pagination announcement-swiper-pagination" style="bottom: 12px; --swiper-pagination-color: #eab308; --swiper-pagination-bullet-inactive-color: #ffffff; --swiper-pagination-bullet-inactive-opacity: 0.4;"></div>
           </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Final Pitch SlideShare Modal Layer -->
+    <div id="finalPitchModal" style="position: fixed; inset: 0; background: rgba(9, 9, 11, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease;">
+      <div style="background: #111827; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; width: 95%; max-width: 1240px; height: 90vh; overflow: hidden; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(99, 102, 241, 0.25); transform: translateY(20px); transition: transform 0.25s ease; display: flex; flex-direction: column;" id="finalPitchModalCard">
+
+        <!-- Modal Header -->
+        <div style="padding: 12px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; background: #161d2f; gap: 14px; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🎯</span>
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: #fff; margin: 0;">Final Pitch Presentation Guide (66 Slides)</h3>
+            <span style="font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: rgba(99, 102, 241, 0.2); color: #c7d2fe; border: 1px solid rgba(99, 102, 241, 0.4);">Prof. KB Park</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <a href="../../LMS_ENG/docs/announcement/final_pitch_slides.html" target="_blank" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 6px 12px; color: #cbd5e1; font-size: 0.82rem; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s;">🔗 Open in New Tab</a>
+            <a href="../../LMS_ENG/docs/announcement/260910_DAY%204_Reminder%20for%20Final%20Pitch_KB%20Park.pdf" download="260910_DAY 4_Reminder for Final Pitch_KB Park.pdf" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2)); border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 8px; padding: 6px 12px; color: #e9d5ff; font-size: 0.82rem; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s;">📥 Original PDF</a>
+            <button type="button" onclick="closeFinalPitchModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; width: 34px; height: 34px; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;">✕</button>
+          </div>
+        </div>
+
+        <!-- Modal Body (Iframe to standalone SlideShare viewer) -->
+        <div style="flex: 1; width: 100%; height: 100%; position: relative; overflow: hidden; background: #020617;">
+          <iframe id="finalPitchIframe" src="../../LMS_ENG/docs/announcement/final_pitch_slides.html" style="width: 100%; height: 100%; border: none;" title="Final Pitch Slides"></iframe>
         </div>
 
       </div>
@@ -2528,6 +2562,41 @@
       const modal = document.getElementById('announcementModal');
       if (modal && e.target === modal) {
         closeAnnouncementModal();
+      }
+    });
+
+    // Final Pitch SlideShare Modal Functions
+    function openFinalPitchModal() {
+      const modal = document.getElementById('finalPitchModal');
+      if (!modal) return;
+      const iframe = document.getElementById('finalPitchIframe');
+      if (iframe && !iframe.src) {
+        iframe.src = iframe.getAttribute('data-src');
+      }
+      modal.style.display = 'flex';
+      requestAnimationFrame(() => {
+        modal.style.opacity = '1';
+        const card = document.getElementById('finalPitchModalCard');
+        if (card) card.style.transform = 'translateY(0)';
+      });
+    }
+
+    function closeFinalPitchModal() {
+      const modal = document.getElementById('finalPitchModal');
+      const card = document.getElementById('finalPitchModalCard');
+      if (!modal) return;
+      modal.style.opacity = '0';
+      if (card) card.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 250);
+    }
+
+    // Modal dismiss on backdrop click for finalPitchModal
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('finalPitchModal');
+      if (modal && e.target === modal) {
+        closeFinalPitchModal();
       }
     });
 
