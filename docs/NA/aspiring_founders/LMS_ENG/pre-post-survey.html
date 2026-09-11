@@ -317,11 +317,11 @@
     }
     .survey-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 32px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
       margin-bottom: 50px;
     }
-    @media (max-width: 860px) {
+    @media (max-width: 1024px) {
       .survey-grid { grid-template-columns: 1fr; }
     }
 
@@ -346,6 +346,8 @@
     .survey-card.pre:hover { border-color: rgba(6, 182, 212, 0.45); }
     .survey-card.post { border-top: 4px solid var(--accent); }
     .survey-card.post:hover { border-color: rgba(16, 185, 129, 0.45); }
+    .survey-card.sat { border-top: 4px solid var(--amber); }
+    .survey-card.sat:hover { border-color: rgba(245, 158, 11, 0.45); }
 
     .card-head { display: flex; flex-direction: column; gap: 12px; }
     .card-top-row { display: flex; justify-content: space-between; align-items: center; }
@@ -368,6 +370,11 @@
       color: #6ee7b7;
       border: 1px solid rgba(16, 185, 129, 0.3);
     }
+    .card-badge.sat {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
     .card-title { font-size: 1.5rem; font-weight: 900; color: #fff; }
     .card-desc { font-size: 0.94rem; color: var(--text-muted); line-height: 1.6; word-break: keep-all; }
 
@@ -381,6 +388,7 @@
       margin-top: 4px;
     }
     .survey-card.post .timing-box { border-left-color: var(--accent); }
+    .survey-card.sat .timing-box { border-left-color: var(--amber); }
     .timing-box strong { color: #e2e8f0; }
 
     /* Cohort Selector Tabs */
@@ -419,6 +427,11 @@
       background: linear-gradient(135deg, #059669, #10b981);
       color: #fff;
       box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4);
+    }
+    .survey-card.sat .cohort-tab-btn.active {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
     }
 
     .cohort-panel { display: none; flex-direction: column; }
@@ -473,6 +486,15 @@
       background: linear-gradient(135deg, #10b981, #34d399);
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    }
+    .survey-card.sat .btn-action-primary {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    }
+    .survey-card.sat .btn-action-primary:hover {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
     }
     .btn-copy-link {
       display: inline-flex;
@@ -746,6 +768,72 @@
         </div>
       </article>
 
+      <!-- Card 3: Satisfaction Survey (Program Evaluation) -->
+      <article class="survey-card sat">
+        <div class="card-head">
+          <div class="card-top-row">
+            <span class="card-icon">⭐</span>
+            <span class="card-badge sat">Program Evaluation</span>
+          </div>
+          <h3 class="card-title">AI Week — 5-Day Programme Survey</h3>
+          <p class="card-desc">
+            This survey collects your feedback on the AI Founder Training, including sessions, instructors, mentoring, learning materials, AI tools, LMS, technical environment, programme operations, and next stage support.
+          </p>
+          <div class="timing-box">
+            <strong>Target Timing:</strong> Day 5 (Post-Training Evaluation)
+          </div>
+          <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 10px; padding: 10px 12px; font-size: 0.78rem; color: #fef08a; margin-top: 4px; line-height: 1.5; word-break: keep-all;">
+            💡 <strong>Notice:</strong> Anonymous (only Cohort &amp; Team Name requested). Answers do not affect certificates, allowances, competition selection, or tool credits. Used for KOICA reporting and program improvement. (~8–10 mins, 1–5 scale)
+          </div>
+
+          <!-- Cohort Selector Tabs (Sat) -->
+          <div class="cohort-tabs">
+            <button type="button" class="cohort-tab-btn active" id="tabSatC1" onclick="switchSatCohort(1)">
+              <span>🌱</span> Cohort 1
+            </button>
+            <button type="button" class="cohort-tab-btn" id="tabSatC2" onclick="switchSatCohort(2)">
+              <span>🌿</span> Cohort 2
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <!-- Sat Cohort 1 Panel -->
+          <div class="cohort-panel active" id="panelSatC1">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ%2Fviewform%3Fusp%3Dheader" alt="Cohort 1 Satisfaction Survey QR Code" class="qr-img" />
+              <span class="qr-guide" style="color:#d97706;">📱 Scan QR Code [Cohort 1]</span>
+            </div>
+
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ/viewform?usp=header" target="_blank" class="btn-action-primary">
+                <span>⭐ Take Cohort 1 Satisfaction Survey ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ/viewform?usp=header', 'Cohort 1 satisfaction survey link copied!')">
+                <span>📋 Copy Cohort 1 Link</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Sat Cohort 2 Panel -->
+          <div class="cohort-panel" id="panelSatC2">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSdQsqQaCJmEWBPL0-5sUa_-uS7ILmPPbsJ4dkXoh5hm5dyabA%2Fviewform%3Fusp%3Dheader" alt="Cohort 2 Satisfaction Survey QR Code" class="qr-img" />
+              <span class="qr-guide" style="color:#d97706;">📱 Scan QR Code [Cohort 2]</span>
+            </div>
+
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSdQsqQaCJmEWBPL0-5sUa_-uS7ILmPPbsJ4dkXoh5hm5dyabA/viewform?usp=header" target="_blank" class="btn-action-primary">
+                <span>⭐ Take Cohort 2 Satisfaction Survey ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSdQsqQaCJmEWBPL0-5sUa_-uS7ILmPPbsJ4dkXoh5hm5dyabA/viewform?usp=header', 'Cohort 2 satisfaction survey link copied!')">
+                <span>📋 Copy Cohort 2 Link</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+
     </div>
 
     <!-- Bottom Navigation Bar -->
@@ -798,6 +886,24 @@
       const btn2 = document.getElementById('tabPostC2');
       const p1 = document.getElementById('panelPostC1');
       const p2 = document.getElementById('panelPostC2');
+      if (cohort === 1) {
+        btn1.classList.add('active');
+        btn2.classList.remove('active');
+        p1.classList.add('active');
+        p2.classList.remove('active');
+      } else {
+        btn2.classList.add('active');
+        btn1.classList.remove('active');
+        p2.classList.add('active');
+        p1.classList.remove('active');
+      }
+    }
+
+    function switchSatCohort(cohort) {
+      const btn1 = document.getElementById('tabSatC1');
+      const btn2 = document.getElementById('tabSatC2');
+      const p1 = document.getElementById('panelSatC1');
+      const p2 = document.getElementById('panelSatC2');
       if (cohort === 1) {
         btn1.classList.add('active');
         btn2.classList.remove('active');

@@ -247,12 +247,12 @@
 
     .survey-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 32px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
       margin-bottom: 50px;
     }
 
-    @media (max-width: 860px) {
+    @media (max-width: 1024px) {
       .survey-grid {
         grid-template-columns: 1fr;
       }
@@ -292,6 +292,14 @@
       border-color: rgba(16, 185, 129, 0.45);
     }
 
+    /* Satisfaction Survey Theme */
+    .survey-card.sat {
+      border-top: 4px solid var(--amber);
+    }
+    .survey-card.sat:hover {
+      border-color: rgba(245, 158, 11, 0.45);
+    }
+
     .card-head {
       display: flex;
       flex-direction: column;
@@ -323,6 +331,11 @@
       color: #6ee7b7;
       border: 1px solid rgba(16, 185, 129, 0.3);
     }
+    .card-badge.sat {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
 
     .card-title {
       font-size: 1.5rem;
@@ -348,6 +361,9 @@
     }
     .survey-card.post .timing-box {
       border-left-color: var(--accent);
+    }
+    .survey-card.sat .timing-box {
+      border-left-color: var(--amber);
     }
     .timing-box strong {
       color: #e2e8f0;
@@ -391,6 +407,11 @@
       background: linear-gradient(135deg, #059669, #10b981);
       color: #fff;
       box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4);
+    }
+    .survey-card.sat .cohort-tab-btn.active {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
     }
 
     .cohort-panel {
@@ -465,6 +486,16 @@
       background: linear-gradient(135deg, #10b981, #34d399);
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    }
+
+    .survey-card.sat .btn-action-primary {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    }
+    .survey-card.sat .btn-action-primary:hover {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
     }
 
     .btn-copy-link {
@@ -918,6 +949,72 @@
         </div>
       </article>
 
+      <!-- Card 3: 프로그램 만족도 조사 (Satisfaction Survey) -->
+      <article class="survey-card sat">
+        <div class="card-head">
+          <div class="card-top-row">
+            <span class="card-icon">⭐</span>
+            <span class="card-badge sat">Program Evaluation</span>
+          </div>
+          <h3 class="card-title">AI Week 5-Day 교육 과정 종합 만족도 조사</h3>
+          <p class="card-desc">
+            5일간 진행된 AI 창업 교육 과정(세션, 강사진, 멘토링, 학습 교재, AI 도구, LMS, 기술 환경, 운영 및 차기 단계 지원) 전반에 대한 수강생 피드백을 수집합니다.
+          </p>
+          <div class="timing-box">
+            <strong>실시 시기:</strong> 5일차 종료 시 (수료식 및 최종 평가)
+          </div>
+          <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 10px; padding: 10px 12px; font-size: 0.78rem; color: #fef08a; margin-top: 4px; line-height: 1.5; word-break: keep-all;">
+            💡 <strong>안내:</strong> 익명 진행 (기수/팀명만 작성). 본 응답은 수료증, 지원금, 경진대회 선발 등에 영향을 미치지 않으며 교육 개선 및 KOICA 보고용으로 활용됩니다. (소요 8~10분, 1~5점 척도)
+          </div>
+
+          <!-- Cohort Selector Tabs (Sat) -->
+          <div class="cohort-tabs">
+            <button type="button" class="cohort-tab-btn active" id="tabSatC1" onclick="switchSatCohort(1)">
+              <span>🌱</span> 1기 (Cohort 1)
+            </button>
+            <button type="button" class="cohort-tab-btn" id="tabSatC2" onclick="switchSatCohort(2)">
+              <span>🌿</span> 2기 (Cohort 2)
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <!-- Sat Cohort 1 Panel -->
+          <div class="cohort-panel active" id="panelSatC1">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ%2Fviewform%3Fusp%3Dheader" alt="1기 프로그램 만족도 조사 QR 코드" class="qr-img" />
+              <span class="qr-guide" style="color:#d97706;">📱 [1기 전용] 만족도 조사 스마트폰 QR</span>
+            </div>
+
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ/viewform?usp=header" target="_blank" class="btn-action-primary">
+                <span>⭐ 1기 만족도 조사 시작하기 (새 창) ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ/viewform?usp=header', '1기 만족도 조사 링크가 복사되었습니다!')">
+                <span>📋 1기 만족도 조사 링크 복사</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Sat Cohort 2 Panel -->
+          <div class="cohort-panel" id="panelSatC2">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSdQsqQaCJmEWBPL0-5sUa_-uS7ILmPPbsJ4dkXoh5hm5dyabA%2Fviewform%3Fusp%3Dheader" alt="2기 프로그램 만족도 조사 QR 코드" class="qr-img" />
+              <span class="qr-guide" style="color:#d97706;">📱 [2기 전용] 만족도 조사 스마트폰 QR</span>
+            </div>
+
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSdQsqQaCJmEWBPL0-5sUa_-uS7ILmPPbsJ4dkXoh5hm5dyabA/viewform?usp=header" target="_blank" class="btn-action-primary">
+                <span>⭐ 2기 만족도 조사 시작하기 (새 창) ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSdQsqQaCJmEWBPL0-5sUa_-uS7ILmPPbsJ4dkXoh5hm5dyabA/viewform?usp=header', '2기 만족도 조사 링크가 복사되었습니다!')">
+                <span>📋 2기 만족도 조사 링크 복사</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+
     </div>
 
     <!-- Bottom Navigation Bar -->
@@ -971,6 +1068,25 @@
       const btn2 = document.getElementById('tabPostC2');
       const p1 = document.getElementById('panelPostC1');
       const p2 = document.getElementById('panelPostC2');
+
+      if (cohort === 1) {
+        btn1.classList.add('active');
+        btn2.classList.remove('active');
+        p1.classList.add('active');
+        p2.classList.remove('active');
+      } else {
+        btn2.classList.add('active');
+        btn1.classList.remove('active');
+        p2.classList.add('active');
+        p1.classList.remove('active');
+      }
+    }
+
+    function switchSatCohort(cohort) {
+      const btn1 = document.getElementById('tabSatC1');
+      const btn2 = document.getElementById('tabSatC2');
+      const p1 = document.getElementById('panelSatC1');
+      const p2 = document.getElementById('panelSatC2');
 
       if (cohort === 1) {
         btn1.classList.add('active');
