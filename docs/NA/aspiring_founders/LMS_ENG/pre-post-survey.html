@@ -663,34 +663,18 @@
 
           <!-- Cohort Selector Tabs (Pre) -->
           <div class="cohort-tabs">
-            <button type="button" class="cohort-tab-btn active" id="tabPreC1" onclick="switchPreCohort(1)">
-              <span>🌱</span> Cohort 1
-            </button>
-            <button type="button" class="cohort-tab-btn" id="tabPreC2" onclick="switchPreCohort(2)">
+            <button type="button" class="cohort-tab-btn active" id="tabPreC2" onclick="switchPreCohort(2)">
               <span>🌿</span> Cohort 2
+            </button>
+            <button type="button" class="cohort-tab-btn" id="tabPreC1" onclick="switchPreCohort(1)">
+              <span>🌱</span> Cohort 1
             </button>
           </div>
         </div>
 
         <div>
-                    <!-- Pre Cohort 1 Panel -->
-          <div class="cohort-panel active" id="panelPreC1">
-            <div class="qr-container">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSeFyV42rbI_9iaw-imW1AfvN4CwdoZ6xDENEBrws7W3hG0rVA%2Fviewform%3Fusp%3Dheader" alt="Cohort 1 Pre-Survey QR Code" class="qr-img" />
-              <span class="qr-guide" style="color:#0284c7;">📱 Scan QR Code [Cohort 1]</span>
-            </div>
-            <div class="card-actions">
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSeFyV42rbI_9iaw-imW1AfvN4CwdoZ6xDENEBrws7W3hG0rVA/viewform?usp=header" target="_blank" class="btn-action-primary">
-                <span>📋 Take Cohort 1 Pre-Survey ↗</span>
-              </a>
-              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSeFyV42rbI_9iaw-imW1AfvN4CwdoZ6xDENEBrws7W3hG0rVA/viewform?usp=header', 'Cohort 1 survey link copied!')">
-                <span>📋 Copy Cohort 1 Link</span>
-              </button>
-            </div>
-          </div>
-
-                    <!-- Pre Cohort 2 Panel -->
-          <div class="cohort-panel" id="panelPreC2">
+          <!-- Pre Cohort 2 Panel -->
+          <div class="cohort-panel active" id="panelPreC2">
             <div class="qr-container">
               <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSe_V3BS81u-AjsYGLmb1_R0D2QyivO8n5hvGU8CXfBXnFIjjA%2Fviewform%3Fusp%3Dpublish-editor" alt="Cohort 2 Pre-Survey QR Code" class="qr-img" />
               <span class="qr-guide" style="color:#0284c7;">📱 Scan QR Code [Cohort 2]</span>
@@ -701,6 +685,22 @@
               </a>
               <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSe_V3BS81u-AjsYGLmb1_R0D2QyivO8n5hvGU8CXfBXnFIjjA/viewform?usp=publish-editor', 'Cohort 2 survey link copied!')">
                 <span>📋 Copy Cohort 2 Link</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Pre Cohort 1 Panel -->
+          <div class="cohort-panel" id="panelPreC1">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSeFyV42rbI_9iaw-imW1AfvN4CwdoZ6xDENEBrws7W3hG0rVA%2Fviewform%3Fusp%3Dheader" alt="Cohort 1 Pre-Survey QR Code" class="qr-img" />
+              <span class="qr-guide" style="color:#0284c7;">📱 Scan QR Code [Cohort 1]</span>
+            </div>
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSeFyV42rbI_9iaw-imW1AfvN4CwdoZ6xDENEBrws7W3hG0rVA/viewform?usp=header" target="_blank" class="btn-action-primary">
+                <span>📋 Take Cohort 1 Pre-Survey ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSeFyV42rbI_9iaw-imW1AfvN4CwdoZ6xDENEBrws7W3hG0rVA/viewform?usp=header', 'Cohort 1 survey link copied!')">
+                <span>📋 Copy Cohort 1 Link</span>
               </button>
             </div>
           </div>
@@ -724,34 +724,18 @@
 
           <!-- Cohort Selector Tabs (Post) -->
           <div class="cohort-tabs">
-            <button type="button" class="cohort-tab-btn active" id="tabPostC1" onclick="switchPostCohort(1)">
-              <span>🌱</span> Cohort 1
-            </button>
-            <button type="button" class="cohort-tab-btn" id="tabPostC2" onclick="switchPostCohort(2)">
+            <button type="button" class="cohort-tab-btn active" id="tabPostC2" onclick="switchPostCohort(2)">
               <span>🌿</span> Cohort 2
+            </button>
+            <button type="button" class="cohort-tab-btn" id="tabPostC1" onclick="switchPostCohort(1)">
+              <span>🌱</span> Cohort 1
             </button>
           </div>
         </div>
 
         <div>
-                    <!-- Post Cohort 1 Panel -->
-          <div class="cohort-panel active" id="panelPostC1">
-            <div class="qr-container">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfc9e5ThdH6j_nBBkcgu41U8iaWp6aOXU-Xy5Mvm_uFlSWhFQ%2Fviewform%3Fusp%3Dheader" alt="Cohort 1 Post-Survey QR Code" class="qr-img" />
-              <span class="qr-guide" style="color:#059669;">📱 Scan QR Code [Cohort 1]</span>
-            </div>
-            <div class="card-actions">
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc9e5ThdH6j_nBBkcgu41U8iaWp6aOXU-Xy5Mvm_uFlSWhFQ/viewform?usp=header" target="_blank" class="btn-action-primary">
-                <span>🏆 Take Cohort 1 Post-Survey ↗</span>
-              </a>
-              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSfc9e5ThdH6j_nBBkcgu41U8iaWp6aOXU-Xy5Mvm_uFlSWhFQ/viewform?usp=header', 'Cohort 1 post-survey link copied!')">
-                <span>📋 Copy Cohort 1 Link</span>
-              </button>
-            </div>
-          </div>
-
-                    <!-- Post Cohort 2 Panel -->
-          <div class="cohort-panel" id="panelPostC2">
+          <!-- Post Cohort 2 Panel -->
+          <div class="cohort-panel active" id="panelPostC2">
             <div class="qr-container">
               <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLScPeBG23EVbwdyfY2-LIVUv5YIOvotxMCSFXdOaV_dt8Zol4Q%2Fviewform%3Fusp%3Dpublish-editor" alt="Cohort 2 Post-Survey QR Code" class="qr-img" />
               <span class="qr-guide" style="color:#059669;">📱 Scan QR Code [Cohort 2]</span>
@@ -762,6 +746,22 @@
               </a>
               <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLScPeBG23EVbwdyfY2-LIVUv5YIOvotxMCSFXdOaV_dt8Zol4Q/viewform?usp=publish-editor', 'Cohort 2 post-survey link copied!')">
                 <span>📋 Copy Cohort 2 Link</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Post Cohort 1 Panel -->
+          <div class="cohort-panel" id="panelPostC1">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfc9e5ThdH6j_nBBkcgu41U8iaWp6aOXU-Xy5Mvm_uFlSWhFQ%2Fviewform%3Fusp%3Dheader" alt="Cohort 1 Post-Survey QR Code" class="qr-img" />
+              <span class="qr-guide" style="color:#059669;">📱 Scan QR Code [Cohort 1]</span>
+            </div>
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc9e5ThdH6j_nBBkcgu41U8iaWp6aOXU-Xy5Mvm_uFlSWhFQ/viewform?usp=header" target="_blank" class="btn-action-primary">
+                <span>🏆 Take Cohort 1 Post-Survey ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSfc9e5ThdH6j_nBBkcgu41U8iaWp6aOXU-Xy5Mvm_uFlSWhFQ/viewform?usp=header', 'Cohort 1 post-survey link copied!')">
+                <span>📋 Copy Cohort 1 Link</span>
               </button>
             </div>
           </div>
@@ -788,35 +788,18 @@
 
           <!-- Cohort Selector Tabs (Sat) -->
           <div class="cohort-tabs">
-            <button type="button" class="cohort-tab-btn active" id="tabSatC1" onclick="switchSatCohort(1)">
-              <span>🌱</span> Cohort 1
-            </button>
-            <button type="button" class="cohort-tab-btn" id="tabSatC2" onclick="switchSatCohort(2)">
+            <button type="button" class="cohort-tab-btn active" id="tabSatC2" onclick="switchSatCohort(2)">
               <span>🌿</span> Cohort 2
+            </button>
+            <button type="button" class="cohort-tab-btn" id="tabSatC1" onclick="switchSatCohort(1)">
+              <span>🌱</span> Cohort 1
             </button>
           </div>
         </div>
 
         <div>
-          <!-- Sat Cohort 1 Panel -->
-          <div class="cohort-panel active" id="panelSatC1">
-            <div class="qr-container">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ%2Fviewform%3Fusp%3Dheader" alt="Cohort 1 Satisfaction Survey QR Code" class="qr-img" />
-              <span class="qr-guide" style="color:#d97706;">📱 Scan QR Code [Cohort 1]</span>
-            </div>
-
-            <div class="card-actions">
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ/viewform?usp=header" target="_blank" class="btn-action-primary">
-                <span>⭐ Take Cohort 1 Satisfaction Survey ↗</span>
-              </a>
-              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ/viewform?usp=header', 'Cohort 1 satisfaction survey link copied!')">
-                <span>📋 Copy Cohort 1 Link</span>
-              </button>
-            </div>
-          </div>
-
           <!-- Sat Cohort 2 Panel -->
-          <div class="cohort-panel" id="panelSatC2">
+          <div class="cohort-panel active" id="panelSatC2">
             <div class="qr-container">
               <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSdQsqQaCJmEWBPL0-5sUa_-uS7ILmPPbsJ4dkXoh5hm5dyabA%2Fviewform%3Fusp%3Dheader" alt="Cohort 2 Satisfaction Survey QR Code" class="qr-img" />
               <span class="qr-guide" style="color:#d97706;">📱 Scan QR Code [Cohort 2]</span>
@@ -828,6 +811,23 @@
               </a>
               <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSdQsqQaCJmEWBPL0-5sUa_-uS7ILmPPbsJ4dkXoh5hm5dyabA/viewform?usp=header', 'Cohort 2 satisfaction survey link copied!')">
                 <span>📋 Copy Cohort 2 Link</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Sat Cohort 1 Panel -->
+          <div class="cohort-panel" id="panelSatC1">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ%2Fviewform%3Fusp%3Dheader" alt="Cohort 1 Satisfaction Survey QR Code" class="qr-img" />
+              <span class="qr-guide" style="color:#d97706;">📱 Scan QR Code [Cohort 1]</span>
+            </div>
+
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ/viewform?usp=header" target="_blank" class="btn-action-primary">
+                <span>⭐ Take Cohort 1 Satisfaction Survey ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ/viewform?usp=header', 'Cohort 1 satisfaction survey link copied!')">
+                <span>📋 Copy Cohort 1 Link</span>
               </button>
             </div>
           </div>

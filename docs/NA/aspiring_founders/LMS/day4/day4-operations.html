@@ -809,36 +809,18 @@
 
           <!-- Cohort Selector Tabs -->
           <div class="cohort-tabs">
-            <button type="button" class="cohort-tab-btn active" id="tabBtnC1" onclick="switchCohort(1)">
-              <span>🌱</span> 1기 학생 (Cohort 1)
-            </button>
-            <button type="button" class="cohort-tab-btn" id="tabBtnC2" onclick="switchCohort(2)">
+            <button type="button" class="cohort-tab-btn active" id="tabBtnC2" onclick="switchCohort(2)">
               <span>🌿</span> 2기 학생 (Cohort 2)
+            </button>
+            <button type="button" class="cohort-tab-btn" id="tabBtnC1" onclick="switchCohort(1)">
+              <span>🌱</span> 1기 학생 (Cohort 1)
             </button>
           </div>
         </div>
 
         <div>
-          <!-- Cohort 1 Panel -->
-          <div class="cohort-panel active" id="panelC1">
-            <div class="qr-container">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSdKG1pmNM3w8Ia9xOhQQ9cSLEMv2y2vKuq7XGLQhfTmOhYSEg%2Fviewform%3Fusp%3Dheader" alt="Day 4 1기 설문조사 QR 코드" class="qr-img" />
-              <span class="qr-guide" style="color:#059669; font-weight:800;">📱 [1기 전용] 스마트폰 설문 참여 QR</span>
-            </div>
-
-            <div class="card-actions">
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSdKG1pmNM3w8Ia9xOhQQ9cSLEMv2y2vKuq7XGLQhfTmOhYSEg/viewform?usp=header" target="_blank" class="btn-action-primary">
-                <span>📊 1기 설문조사 접속하기 (새 창)</span>
-                <span>↗</span>
-              </a>
-              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSdKG1pmNM3w8Ia9xOhQQ9cSLEMv2y2vKuq7XGLQhfTmOhYSEg/viewform?usp=header', '1기 설문조사 링크가 클립보드에 복사되었습니다!')">
-                <span>📋 1기 설문 링크 복사</span>
-              </button>
-            </div>
-          </div>
-
           <!-- Cohort 2 Panel -->
-          <div class="cohort-panel" id="panelC2">
+          <div class="cohort-panel active" id="panelC2">
             <div class="qr-container">
               <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSe9LcQPUJ6jQK5ImcROYH0gMMGRWoTnHoE1Vu4wakxqwhxHpg%2Fviewform%3Fusp%3Dheader" alt="Day 4 2기 설문조사 QR 코드" class="qr-img" />
               <span class="qr-guide" style="color:#0284c7; font-weight:800;">📱 [2기 전용] 스마트폰 설문 참여 QR</span>
@@ -851,6 +833,24 @@
               </a>
               <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSe9LcQPUJ6jQK5ImcROYH0gMMGRWoTnHoE1Vu4wakxqwhxHpg/viewform?usp=header', '2기 설문조사 링크가 클립보드에 복사되었습니다!')">
                 <span>📋 2기 설문 링크 복사</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Cohort 1 Panel -->
+          <div class="cohort-panel" id="panelC1">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSdKG1pmNM3w8Ia9xOhQQ9cSLEMv2y2vKuq7XGLQhfTmOhYSEg%2Fviewform%3Fusp%3Dheader" alt="Day 4 1기 설문조사 QR 코드" class="qr-img" />
+              <span class="qr-guide" style="color:#059669; font-weight:800;">📱 [1기 전용] 스마트폰 설문 참여 QR</span>
+            </div>
+
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSdKG1pmNM3w8Ia9xOhQQ9cSLEMv2y2vKuq7XGLQhfTmOhYSEg/viewform?usp=header" target="_blank" class="btn-action-primary">
+                <span>📊 1기 설문조사 접속하기 (새 창)</span>
+                <span>↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSdKG1pmNM3w8Ia9xOhQQ9cSLEMv2y2vKuq7XGLQhfTmOhYSEg/viewform?usp=header', '1기 설문조사 링크가 클립보드에 복사되었습니다!')">
+                <span>📋 1기 설문 링크 복사</span>
               </button>
             </div>
           </div>

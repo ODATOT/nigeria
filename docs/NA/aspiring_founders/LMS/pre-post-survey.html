@@ -840,35 +840,18 @@
 
           <!-- Cohort Selector Tabs (Pre) -->
           <div class="cohort-tabs">
-            <button type="button" class="cohort-tab-btn active" id="tabPreC1" onclick="switchPreCohort(1)">
-              <span>🌱</span> 1기 (Cohort 1)
-            </button>
-            <button type="button" class="cohort-tab-btn" id="tabPreC2" onclick="switchPreCohort(2)">
+            <button type="button" class="cohort-tab-btn active" id="tabPreC2" onclick="switchPreCohort(2)">
               <span>🌿</span> 2기 (Cohort 2)
+            </button>
+            <button type="button" class="cohort-tab-btn" id="tabPreC1" onclick="switchPreCohort(1)">
+              <span>🌱</span> 1기 (Cohort 1)
             </button>
           </div>
         </div>
 
         <div>
-                    <!-- Pre Cohort 1 Panel -->
-          <div class="cohort-panel active" id="panelPreC1">
-            <div class="qr-container">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSeFyV42rbI_9iaw-imW1AfvN4CwdoZ6xDENEBrws7W3hG0rVA%2Fviewform%3Fusp%3Dheader" alt="1기 사전 설문 QR 코드" class="qr-img" />
-              <span class="qr-guide" style="color:#0284c7;">📱 [1기 전용] 사전 설문 스마트폰 QR</span>
-            </div>
-
-            <div class="card-actions">
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSeFyV42rbI_9iaw-imW1AfvN4CwdoZ6xDENEBrws7W3hG0rVA/viewform?usp=header" target="_blank" class="btn-action-primary">
-                <span>📋 1기 사전 설문 시작하기 (새 창) ↗</span>
-              </a>
-              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSeFyV42rbI_9iaw-imW1AfvN4CwdoZ6xDENEBrws7W3hG0rVA/viewform?usp=header', '1기 사전 설문 링크가 복사되었습니다!')">
-                <span>📋 1기 사전 설문 링크 복사</span>
-              </button>
-            </div>
-          </div>
-
-                    <!-- Pre Cohort 2 Panel -->
-          <div class="cohort-panel" id="panelPreC2">
+          <!-- Pre Cohort 2 Panel -->
+          <div class="cohort-panel active" id="panelPreC2">
             <div class="qr-container">
               <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSe_V3BS81u-AjsYGLmb1_R0D2QyivO8n5hvGU8CXfBXnFIjjA%2Fviewform%3Fusp%3Dpublish-editor" alt="2기 사전 설문 QR 코드" class="qr-img" />
               <span class="qr-guide" style="color:#0284c7;">📱 [2기 전용] 사전 설문 스마트폰 QR</span>
@@ -880,6 +863,23 @@
               </a>
               <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSe_V3BS81u-AjsYGLmb1_R0D2QyivO8n5hvGU8CXfBXnFIjjA/viewform?usp=publish-editor', '2기 사전 설문 링크가 복사되었습니다!')">
                 <span>📋 2기 사전 설문 링크 복사</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Pre Cohort 1 Panel -->
+          <div class="cohort-panel" id="panelPreC1">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSeFyV42rbI_9iaw-imW1AfvN4CwdoZ6xDENEBrws7W3hG0rVA%2Fviewform%3Fusp%3Dheader" alt="1기 사전 설문 QR 코드" class="qr-img" />
+              <span class="qr-guide" style="color:#0284c7;">📱 [1기 전용] 사전 설문 스마트폰 QR</span>
+            </div>
+
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSeFyV42rbI_9iaw-imW1AfvN4CwdoZ6xDENEBrws7W3hG0rVA/viewform?usp=header" target="_blank" class="btn-action-primary">
+                <span>📋 1기 사전 설문 시작하기 (새 창) ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSeFyV42rbI_9iaw-imW1AfvN4CwdoZ6xDENEBrws7W3hG0rVA/viewform?usp=header', '1기 사전 설문 링크가 복사되었습니다!')">
+                <span>📋 1기 사전 설문 링크 복사</span>
               </button>
             </div>
           </div>
@@ -903,35 +903,18 @@
 
           <!-- Cohort Selector Tabs (Post) -->
           <div class="cohort-tabs">
-            <button type="button" class="cohort-tab-btn active" id="tabPostC1" onclick="switchPostCohort(1)">
-              <span>🌱</span> 1기 (Cohort 1)
-            </button>
-            <button type="button" class="cohort-tab-btn" id="tabPostC2" onclick="switchPostCohort(2)">
+            <button type="button" class="cohort-tab-btn active" id="tabPostC2" onclick="switchPostCohort(2)">
               <span>🌿</span> 2기 (Cohort 2)
+            </button>
+            <button type="button" class="cohort-tab-btn" id="tabPostC1" onclick="switchPostCohort(1)">
+              <span>🌱</span> 1기 (Cohort 1)
             </button>
           </div>
         </div>
 
         <div>
-                    <!-- Post Cohort 1 Panel -->
-          <div class="cohort-panel active" id="panelPostC1">
-            <div class="qr-container">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfc9e5ThdH6j_nBBkcgu41U8iaWp6aOXU-Xy5Mvm_uFlSWhFQ%2Fviewform%3Fusp%3Dheader" alt="1기 사후 설문 QR 코드" class="qr-img" />
-              <span class="qr-guide" style="color:#059669;">📱 [1기 전용] 사후 설문 스마트폰 QR</span>
-            </div>
-
-            <div class="card-actions">
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc9e5ThdH6j_nBBkcgu41U8iaWp6aOXU-Xy5Mvm_uFlSWhFQ/viewform?usp=header" target="_blank" class="btn-action-primary">
-                <span>🏆 1기 사후 설문 시작하기 (새 창) ↗</span>
-              </a>
-              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSfc9e5ThdH6j_nBBkcgu41U8iaWp6aOXU-Xy5Mvm_uFlSWhFQ/viewform?usp=header', '1기 사후 설문 링크가 복사되었습니다!')">
-                <span>📋 1기 사후 설문 링크 복사</span>
-              </button>
-            </div>
-          </div>
-
-                    <!-- Post Cohort 2 Panel -->
-          <div class="cohort-panel" id="panelPostC2">
+          <!-- Post Cohort 2 Panel -->
+          <div class="cohort-panel active" id="panelPostC2">
             <div class="qr-container">
               <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLScPeBG23EVbwdyfY2-LIVUv5YIOvotxMCSFXdOaV_dt8Zol4Q%2Fviewform%3Fusp%3Dpublish-editor" alt="2기 사후 설문 QR 코드" class="qr-img" />
               <span class="qr-guide" style="color:#059669;">📱 [2기 전용] 사후 설문 스마트폰 QR</span>
@@ -943,6 +926,23 @@
               </a>
               <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLScPeBG23EVbwdyfY2-LIVUv5YIOvotxMCSFXdOaV_dt8Zol4Q/viewform?usp=publish-editor', '2기 사후 설문 링크가 복사되었습니다!')">
                 <span>📋 2기 사후 설문 링크 복사</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Post Cohort 1 Panel -->
+          <div class="cohort-panel" id="panelPostC1">
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfc9e5ThdH6j_nBBkcgu41U8iaWp6aOXU-Xy5Mvm_uFlSWhFQ%2Fviewform%3Fusp%3Dheader" alt="1기 사후 설문 QR 코드" class="qr-img" />
+              <span class="qr-guide" style="color:#059669;">📱 [1기 전용] 사후 설문 스마트폰 QR</span>
+            </div>
+
+            <div class="card-actions">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc9e5ThdH6j_nBBkcgu41U8iaWp6aOXU-Xy5Mvm_uFlSWhFQ/viewform?usp=header" target="_blank" class="btn-action-primary">
+                <span>🏆 1기 사후 설문 시작하기 (새 창) ↗</span>
+              </a>
+              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSfc9e5ThdH6j_nBBkcgu41U8iaWp6aOXU-Xy5Mvm_uFlSWhFQ/viewform?usp=header', '1기 사후 설문 링크가 복사되었습니다!')">
+                <span>📋 1기 사후 설문 링크 복사</span>
               </button>
             </div>
           </div>
@@ -969,35 +969,18 @@
 
           <!-- Cohort Selector Tabs (Sat) -->
           <div class="cohort-tabs">
-            <button type="button" class="cohort-tab-btn active" id="tabSatC1" onclick="switchSatCohort(1)">
-              <span>🌱</span> 1기 (Cohort 1)
-            </button>
-            <button type="button" class="cohort-tab-btn" id="tabSatC2" onclick="switchSatCohort(2)">
+            <button type="button" class="cohort-tab-btn active" id="tabSatC2" onclick="switchSatCohort(2)">
               <span>🌿</span> 2기 (Cohort 2)
+            </button>
+            <button type="button" class="cohort-tab-btn" id="tabSatC1" onclick="switchSatCohort(1)">
+              <span>🌱</span> 1기 (Cohort 1)
             </button>
           </div>
         </div>
 
         <div>
-          <!-- Sat Cohort 1 Panel -->
-          <div class="cohort-panel active" id="panelSatC1">
-            <div class="qr-container">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ%2Fviewform%3Fusp%3Dheader" alt="1기 프로그램 만족도 조사 QR 코드" class="qr-img" />
-              <span class="qr-guide" style="color:#d97706;">📱 [1기 전용] 만족도 조사 스마트폰 QR</span>
-            </div>
-
-            <div class="card-actions">
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ/viewform?usp=header" target="_blank" class="btn-action-primary">
-                <span>⭐ 1기 만족도 조사 시작하기 (새 창) ↗</span>
-              </a>
-              <button type="button" class="btn-copy-link" onclick="copyLink('https://docs.google.com/forms/d/e/1FAIpQLSe6nwzqhwqBe8WQYClOfPTF6UkTyjzzmx6XBNfnbK3L_6U_jQ/viewform?usp=header', '1기 만족도 조사 링크가 복사되었습니다!')">
-                <span>📋 1기 만족도 조사 링크 복사</span>
-              </button>
-            </div>
-          </div>
-
           <!-- Sat Cohort 2 Panel -->
-          <div class="cohort-panel" id="panelSatC2">
+          <div class="cohort-panel active" id="panelSatC2">
             <div class="qr-container">
               <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSdQsqQaCJmEWBPL0-5sUa_-uS7ILmPPbsJ4dkXoh5hm5dyabA%2Fviewform%3Fusp%3Dheader" alt="2기 프로그램 만족도 조사 QR 코드" class="qr-img" />
               <span class="qr-guide" style="color:#d97706;">📱 [2기 전용] 만족도 조사 스마트폰 QR</span>
