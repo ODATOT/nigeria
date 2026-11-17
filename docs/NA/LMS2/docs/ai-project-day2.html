@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ACE AI SW Startup Training AI 실전 프로젝트 Day 2 · 그로스해킹으로 서비스 구조를 해체하고 AI로 역설계해 보는 학습 페이지" />
+  <title>Day 2 · 그로스해킹과 서비스 역설계 | ACE AI SW</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script>
+    (function () {
+      var savedTheme = localStorage.getItem("lmsStudentHomeTheme");
+      document.documentElement.dataset.theme = savedTheme === "dark" ? "dark" : "light";
+    })();
+  </script>
+  <style>
+    :root {
+      --ink:#edf5ff; --muted:#a6b6cc; --faint:#7c8ba0; --base:#070b14; --surface:#0d1523; --surface-2:#121d2e;
+      --line:rgba(148,163,184,.18); --blue:#46a6ff; --cyan:#25d4d4; --violet:#a78bfa; --amber:#f5b942; --green:#47d7a0; --red:#f87171;
+      --shadow:0 24px 75px rgba(0,0,0,.32);
+    }
+    html[data-theme="light"] {
+      --ink:#142238; --muted:#4b5e75; --faint:#64748b; --base:#f4f8fc; --surface:#fff; --surface-2:#edf4fb;
+      --line:rgba(25,52,84,.14); --blue:#0879d9; --cyan:#008f9c; --violet:#7252c7; --amber:#a96500; --green:#087f5b; --red:#c2410c;
+      --shadow:0 22px 65px rgba(38,65,96,.13); color-scheme:light;
+    }
+    html[data-theme="dark"] { color-scheme:dark; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:90px; }
+    body {
+      margin:0; color:var(--ink); font-family:"Pretendard","DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      font-size:16px; line-height:1.75; word-break:keep-all;
+      background:radial-gradient(circle at 8% 3%,rgba(70,166,255,.11),transparent 30rem),radial-gradient(circle at 90% 24%,rgba(167,139,250,.08),transparent 30rem),var(--base);
+    }
+    html[data-theme="light"] body { background:radial-gradient(circle at 8% 3%,rgba(8,121,217,.12),transparent 30rem),radial-gradient(circle at 90% 24%,rgba(114,82,199,.08),transparent 30rem),#f4f8fc; }
+    a { color:inherit; text-decoration:none; }
+    button,input { font:inherit; }
+    button,a { -webkit-tap-highlight-color:transparent; }
+    :focus-visible { outline:3px solid rgba(70,166,255,.72); outline-offset:4px; }
+    .shell { width:min(1200px,calc(100% - 48px)); margin:0 auto; }
+    .eyebrow { margin:0 0 12px; color:var(--blue); font-family:"Manrope",sans-serif; font-size:.86rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .section-title { margin:0; font-family:"Manrope",sans-serif; font-size:clamp(1.85rem,3.6vw,2.85rem); line-height:1.25; letter-spacing:-.03em; word-break:keep-all; }
+    .section-lead { max-width:740px; margin:14px 0 0; color:var(--muted); font-size:1.05rem; line-height:1.75; word-break:keep-all; }
+
+    .topbar { position:sticky; top:0; z-index:100; border-bottom:1px solid var(--line); background:rgba(7,11,20,.87); backdrop-filter:blur(20px); }
+    html[data-theme="light"] .topbar { background:rgba(255,255,255,.92); box-shadow:0 8px 30px rgba(38,65,96,.06); }
+    .topbar-inner { min-height:72px; display:flex; align-items:center; gap:18px; }
+    .brand { font-size:1.15rem; display:flex; align-items:center; gap:10px; font-family:"Manrope",sans-serif; font-weight:800; }
+    .brand-mark { width:38px; height:38px; display:grid; place-items:center; border-radius:11px; color:#04101d; background:linear-gradient(145deg,var(--blue),var(--cyan)); font-size:1.1rem; }
+    .breadcrumb { display:flex; align-items:center; gap:8px; margin-left:14px; color:var(--muted); font-size:.92rem; font-weight:600; }
+    .breadcrumb i { font-size:.68rem; color:var(--faint); }
+    .top-actions { display:flex; align-items:center; gap:10px; margin-left:auto; }
+    .icon-btn { width:42px; height:42px; display:grid; place-items:center; border:1px solid var(--line); border-radius:12px; color:var(--muted); background:var(--surface); cursor:pointer; font-size:.95rem; transition:150ms ease; }
+    .icon-btn:hover { color:var(--ink); border-color:var(--blue); }
+    .profile { display:flex; align-items:center; gap:10px; padding:6px 14px 6px 6px; border:1px solid var(--line); border-radius:999px; background:var(--surface); }
+    .profile-avatar { width:34px; height:34px; display:grid; place-items:center; border-radius:50%; background:var(--surface-2); font-size:1.1rem; }
+    .profile-copy { line-height:1.2; }
+    .profile-copy strong,.profile-copy span { display:block; }
+    .profile-copy strong { font-size:.88rem; font-weight:700; }
+    .profile-copy span { margin-top:2px; color:var(--faint); font-size:.72rem; }
+
+    .day-hero { padding:52px 0 36px; }
+    .hero-grid { display:grid; grid-template-columns:1.3fr .7fr; gap:28px; align-items:stretch; }
+    .hero-copy,.day-summary { padding:clamp(30px,4.5vw,52px); border:1px solid var(--line); border-radius:26px; background:var(--surface); box-shadow:var(--shadow); }
+    .hero-copy { position:relative; overflow:hidden; background:linear-gradient(135deg,rgba(70,166,255,.11),transparent 55%),var(--surface); }
+    .hero-copy::after { content:"02"; position:absolute; right:18px; bottom:-54px; color:rgba(70,166,255,.08); font-family:"Manrope",sans-serif; font-size:13rem; font-weight:800; line-height:1; pointer-events:none; }
+    .day-chip { display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border-radius:999px; color:var(--cyan); background:rgba(37,212,212,.12); border:1px solid rgba(37,212,212,.28); font-size:.82rem; font-weight:800; letter-spacing:.06em; }
+    .hero-copy h1 { position:relative; z-index:1; margin:22px 0 18px; font-family:"Manrope",sans-serif; font-size:clamp(2.4rem,4.8vw,4.2rem); line-height:1.18; letter-spacing:-.05em; word-break:keep-all; }
+    .hero-copy > p { position:relative; z-index:1; max-width:740px; margin:0; color:var(--muted); font-size:1.15rem; line-height:1.85; word-break:keep-all; }
+    .hero-quote { position:relative; z-index:1; margin-top:24px; padding:18px 22px; border-left:4px solid var(--amber); border-radius:0 14px 14px 0; background:rgba(245,185,66,.1); color:var(--ink); font-size:1.02rem; font-weight:600; line-height:1.75; word-break:keep-all; }
+    .hero-quote i { margin-right:6px; color:var(--amber); }
+    .hero-actions { position:relative; z-index:1; display:flex; flex-wrap:wrap; gap:12px; margin-top:24px; }
+    .btn { display:inline-flex; align-items:center; gap:9px; min-height:48px; padding:0 22px; border-radius:12px; font-size:.95rem; font-weight:800; letter-spacing:-.01em; transition:180ms ease; }
+    .btn-primary { color:#04101d; background:linear-gradient(135deg,var(--blue),var(--cyan)); box-shadow:0 4px 16px rgba(37,212,212,.25); }
+    .btn-primary:hover { filter:brightness(1.1); transform:translateY(-1px); }
+    .btn-ghost { border:1px solid var(--line); color:var(--ink); background:var(--surface); }
+    .btn-ghost:hover { border-color:var(--blue); color:var(--blue); }
+    .day-summary { display:flex; flex-direction:column; justify-content:center; }
+    .summary-label { color:var(--blue); font-size:.84rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .summary-list { display:grid; gap:14px; margin:20px 0 0; padding:0; list-style:none; }
+    .summary-list li { display:flex; gap:12px; color:var(--muted); font-size:.98rem; line-height:1.7; word-break:keep-all; }
+    .summary-list i { margin-top:5px; color:var(--green); font-size:1rem; flex-shrink:0; }
+    .deliverable { margin-top:22px; padding:16px 18px; border-left:4px solid var(--amber); border-radius:0 12px 12px 0; background:rgba(245,185,66,.08); }
+    .deliverable strong { font-size:.94rem; color:var(--ink); margin-bottom:4px; display:block; }
+    .deliverable span { color:var(--muted); font-size:.9rem; line-height:1.65; display:block; word-break:keep-all; }
+
+    .slides-section { padding:68px 0 76px; }
+    .section-head { display:flex; justify-content:space-between; gap:24px; align-items:end; margin-bottom:28px; }
+    .slide-deck { border:1px solid var(--line); border-radius:24px; overflow:hidden; background:#07101d; box-shadow:var(--shadow); }
+    .slide-deck:fullscreen { display:flex; flex-direction:column; border-radius:0; }
+    .slide-deck:fullscreen .slide-stage { flex:1; aspect-ratio:auto; }
+    .slide-deck:fullscreen .slide-notes { display:none; }
+    .slide-stage { position:relative; aspect-ratio:16/9; min-height:420px; overflow:hidden; }
+    .slide { position:absolute; inset:0; display:none; overflow-y:auto; padding:clamp(32px,5.5vw,70px); color:#edf5ff; background:linear-gradient(135deg,#09172a,#0b2136); }
+    .slide.active { display:flex; animation:slideIn 260ms ease; }
+    @keyframes slideIn { from { opacity:0; transform:translateX(18px); } to { opacity:1; transform:none; } }
+    .slide::before { content:""; position:absolute; inset:0; opacity:.4; background-image:linear-gradient(rgba(70,166,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(70,166,255,.07) 1px,transparent 1px); background-size:42px 42px; pointer-events:none; }
+    .slide.alert { background:linear-gradient(135deg,#1d1209,#2a1608); }
+    .slide-inner { position:relative; z-index:1; width:100%; margin:auto 0; display:flex; flex-direction:column; justify-content:center; }
+    .slide-kicker { color:#5ab6ff; font-size:.86rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .slide.alert .slide-kicker { color:#fbbf24; }
+    .slide h2 { max-width:960px; margin:18px 0; font-family:"Manrope",sans-serif; font-size:clamp(2.3rem,4.6vw,4.4rem); line-height:1.15; letter-spacing:-.05em; word-break:keep-all; }
+    .slide h2.sm { max-width:1040px; margin:16px 0 14px; font-size:clamp(1.9rem,3.4vw,3rem); line-height:1.25; letter-spacing:-.04em; word-break:keep-all; }
+    .slide h2 .hl { color:#67e8f9; }
+    .slide.alert h2 .hl { color:#fbbf24; }
+    .slide p { max-width:860px; margin:0; color:#cbd5e1; font-size:clamp(1.05rem,1.55vw,1.26rem); line-height:1.85; word-break:keep-all; }
+    .slide-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:26px; }
+    .slide-grid.cols-3 { grid-template-columns:repeat(3,1fr); }
+    .slide-grid.cols-5 { grid-template-columns:repeat(5,1fr); }
+    .slide-card { padding:18px 20px; border:1px solid rgba(255,255,255,.14); border-radius:16px; background:rgba(255,255,255,.05); }
+    .slide-card strong { display:block; color:#67e8f9; font-size:1.05rem; font-weight:700; }
+    .slide-card span { display:block; margin-top:8px; color:#cbd5e1; font-size:.92rem; line-height:1.65; word-break:keep-all; }
+    .slide-card em { display:block; margin-top:10px; color:#fbbf24; font-style:normal; font-size:.82rem; font-weight:700; }
+    .slide-card .big { display:block; color:#fff; font-family:"Manrope",sans-serif; font-size:2.2rem; font-weight:800; line-height:1.1; margin-bottom:4px; }
+    .slide-list { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; max-width:980px; margin:24px 0 0; padding:0; list-style:none; }
+    .slide-list li { padding:15px 18px; border:1px solid rgba(255,255,255,.13); border-radius:14px; background:rgba(255,255,255,.045); color:#cbd5e1; font-size:.96rem; line-height:1.65; word-break:keep-all; }
+    .slide-list i { margin-right:10px; font-size:1.05rem; color:#47d7a0; }
+    .slide-list.warn i { color:#fbbf24; }
+    .compare { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:24px; }
+    .compare-col { padding:20px 22px; border:1px solid rgba(255,255,255,.14); border-radius:16px; background:rgba(255,255,255,.045); }
+    .compare-col.bad { border-color:rgba(248,113,113,.38); background:rgba(248,113,113,.07); }
+    .compare-col.good { border-color:rgba(71,215,160,.38); background:rgba(71,215,160,.07); }
+    .compare-col h4 { margin:0 0 12px; font-family:"Manrope",sans-serif; font-size:1.15rem; font-weight:800; }
+    .compare-col.bad h4 { color:#fca5a5; }
+    .compare-col.good h4 { color:#6ee7b7; }
+    .compare-col ul { margin:0; padding-left:20px; color:#cbd5e1; font-size:.96rem; line-height:1.75; }
+    .compare-col li + li { margin-top:6px; }
+    .compare-col pre { margin:0; white-space:pre-wrap; color:#dbe7f5; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9rem; line-height:1.7; }
+    .funnel { display:grid; gap:9px; margin-top:22px; }
+    .funnel-row { display:grid; grid-template-columns:190px 1.2fr 1fr; gap:16px; align-items:center; padding:12px 18px; border-left:4px solid #25d4d4; border-radius:0 12px 12px 0; background:rgba(255,255,255,.05); font-size:.92rem; color:#cbd5e1; line-height:1.6; }
+    .funnel-row strong { color:#fff; font-family:"Manrope",sans-serif; font-size:1.02rem; }
+    .funnel-row strong small { display:block; color:#67e8f9; font-size:.8rem; letter-spacing:.06em; margin-top:2px; }
+    .funnel-row span:last-child { color:#fbbf24; font-size:.9rem; font-weight:600; }
+    .funnel-row:nth-child(1) { margin-right:0; } .funnel-row:nth-child(2) { margin-right:3%; } .funnel-row:nth-child(3) { margin-right:6%; } .funnel-row:nth-child(4) { margin-right:9%; } .funnel-row:nth-child(5) { margin-right:12%; }
+    .loop-flow { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:24px; }
+    .loop-flow span { padding:14px 20px; border:1px solid rgba(103,232,249,.35); border-radius:13px; background:rgba(37,212,212,.1); color:#e6f6ff; font-size:.96rem; font-weight:700; }
+    .loop-flow b { color:#5ab6ff; font-size:1.2rem; }
+    .loop-flow .back { border-style:dashed; color:#fbbf24; border-color:rgba(251,191,36,.45); background:rgba(251,191,36,.07); }
+    .quote-box { max-width:940px; margin-top:24px; padding:18px 24px; border-left:4px solid #f5b942; border-radius:0 14px 14px 0; background:rgba(245,185,66,.1); color:#fef3c7; font-size:clamp(1.05rem,1.55vw,1.25rem); line-height:1.8; word-break:keep-all; }
+    .quote-box small { display:block; margin-top:8px; color:#d4c5a9; font-size:.85rem; }
+    .iceberg { display:grid; gap:12px; margin-top:22px; }
+    .ice-top { padding:16px 20px; border:1px solid rgba(103,232,249,.38); border-radius:14px; background:rgba(37,212,212,.1); color:#e0f2fe; font-size:.96rem; line-height:1.7; word-break:keep-all; }
+    .ice-top b { color:#67e8f9; margin-right:8px; }
+    .ice-bottom { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .ice-bottom div { padding:15px 18px; border:1px solid rgba(148,163,184,.22); border-radius:14px; background:rgba(2,8,18,.6); font-size:.9rem; color:#cbd5e1; line-height:1.65; word-break:keep-all; }
+    .ice-bottom strong { display:block; margin-bottom:6px; color:#fbbf24; font-size:.98rem; font-weight:700; }
+    .slide-controls { min-height:72px; display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center; padding:0 22px; border-top:1px solid rgba(255,255,255,.1); background:#080f1b; color:#d8e3f2; }
+    .slide-nav-btn { width:44px; height:44px; border:1px solid rgba(255,255,255,.14); border-radius:12px; color:#d8e3f2; background:rgba(255,255,255,.05); cursor:pointer; font-size:.95rem; }
+    .slide-nav-btn:disabled { opacity:.35; cursor:not-allowed; }
+    .slide-nav-btn.on { color:#04101d; background:#25d4d4; }
+    .slide-progress-wrap { display:flex; align-items:center; gap:14px; }
+    .slide-counter { min-width:56px; color:#cbd5e1; font-size:.88rem; font-weight:800; }
+    .slide-progress { flex:1; height:6px; overflow:hidden; border-radius:20px; background:rgba(255,255,255,.09); }
+    .slide-progress span { display:block; width:5%; height:100%; background:linear-gradient(90deg,#46a6ff,#25d4d4); transition:width 220ms ease; }
+    .slide-tools { display:flex; gap:8px; }
+    .slide-notes { display:none; padding:18px 24px 22px; border-top:1px solid rgba(255,255,255,.1); background:#0a1424; color:#dbeafe; font-size:.96rem; line-height:1.8; word-break:keep-all; }
+    .slide-notes.open { display:block; }
+    .slide-notes strong { display:block; margin-bottom:6px; color:#fbbf24; font-size:.85rem; letter-spacing:.08em; }
+
+    .lab-section { padding:20px 0 76px; }
+    .lab-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:28px; }
+    .lab-step { position:relative; padding:24px; border:1px solid var(--line); border-radius:20px; background:var(--surface); }
+    .lab-step .num { color:var(--blue); font-family:"Manrope",sans-serif; font-size:.84rem; font-weight:800; letter-spacing:.1em; }
+    .lab-step h3 { margin:8px 0 10px; font-family:"Manrope",sans-serif; font-size:1.2rem; font-weight:800; word-break:keep-all; }
+    .lab-step p { margin:0; color:var(--muted); font-size:.96rem; line-height:1.7; word-break:keep-all; }
+    .lab-step code { display:inline-block; margin-top:14px; padding:5px 10px; border-radius:8px; color:var(--cyan); background:rgba(37,212,212,.12); font-size:.82rem; font-weight:700; }
+    .lab-step.key { border-color:rgba(245,185,66,.55); background:linear-gradient(135deg,rgba(245,185,66,.1),transparent 60%),var(--surface); }
+    .lab-step.key .num { color:var(--amber); }
+    .gap-box { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:22px; }
+    .gap-card { padding:24px; border:1px solid var(--line); border-radius:20px; background:var(--surface); }
+    .gap-card h3 { margin:0 0 10px; font-family:"Manrope",sans-serif; font-size:1.18rem; font-weight:800; }
+    .gap-card p { margin:0 0 12px; color:var(--muted); font-size:.94rem; line-height:1.7; }
+    .gap-card pre { margin:0; padding:18px; overflow-x:auto; border-radius:14px; color:var(--ink); background:var(--surface-2); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.86rem; line-height:1.7; white-space:pre-wrap; }
+    .copy-btn { float:right; margin-top:-4px; padding:5px 12px; border:1px solid var(--line); border-radius:9px; color:var(--blue); background:transparent; font-size:.8rem; font-weight:800; cursor:pointer; transition:150ms ease; }
+    .copy-btn:hover { background:var(--surface-2); border-color:var(--blue); }
+
+    .day-nav-section { padding:0 0 76px; }
+    .day-nav { display:grid; grid-template-columns:repeat(10,1fr); gap:10px; padding:16px; border:1px solid var(--line); border-radius:20px; background:var(--surface); }
+    .day-link { min-height:70px; display:flex; flex-direction:column; align-items:center; justify-content:center; border:1px solid transparent; border-radius:14px; color:var(--faint); background:transparent; font-size:.78rem; font-weight:800; cursor:pointer; transition:150ms ease; }
+    .day-link strong { font-size:1.02rem; color:inherit; }
+    .day-link span { margin-top:3px; font-size:.78rem; }
+    .day-link.active { color:white; background:linear-gradient(135deg,#0879d9,#008f9c); box-shadow:0 8px 20px rgba(8,121,217,.22); }
+    .day-link:not(.active):hover { color:var(--blue); border-color:var(--line); background:var(--surface-2); }
+    .day-notice { min-height:28px; margin:12px 0 0; color:var(--muted); text-align:center; font-size:.9rem; }
+
+    .learning-workspace { padding:76px 0 96px; border-top:1px solid var(--line); }
+    .workspace-grid { display:grid; grid-template-columns:1.45fr .75fr; gap:20px; align-items:start; margin-top:28px; }
+    .video-panel,.chat-panel { border:1px solid var(--line); border-radius:22px; background:var(--surface); overflow:hidden; box-shadow:0 10px 35px rgba(0,0,0,.05); }
+    .panel-head { min-height:66px; display:flex; align-items:center; justify-content:space-between; gap:14px; padding:0 22px; border-bottom:1px solid var(--line); }
+    .panel-head strong { font-family:"Manrope",sans-serif; font-size:1.05rem; font-weight:800; }
+    .panel-head span { color:var(--faint); font-size:.82rem; }
+    .player { position:relative; aspect-ratio:16/9; background:#050b13; }
+    .player iframe { width:100%; height:100%; border:0; }
+    .playlist-filter { display:flex; gap:8px; overflow-x:auto; padding:12px 18px; border-bottom:1px solid var(--line); }
+    .filter-btn { flex:0 0 auto; min-height:35px; padding:0 14px; border:1px solid var(--line); border-radius:999px; color:var(--muted); background:transparent; font-size:.82rem; font-weight:700; cursor:pointer; transition:150ms ease; }
+    .filter-btn.active { color:#04101d; border-color:transparent; background:linear-gradient(135deg,var(--blue),var(--cyan)); }
+    .playlist { max-height:580px; margin:0; padding:0; overflow-y:auto; list-style:none; }
+    .playlist-group { padding:12px 20px 8px; border-top:1px solid var(--line); color:var(--blue); background:var(--surface-2); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .playlist-group:first-child { border-top:0; }
+    .playlist-item { display:grid; grid-template-columns:44px 1fr auto; gap:14px; align-items:center; min-height:76px; padding:13px 20px; border-top:1px solid var(--line); cursor:pointer; transition:150ms ease; }
+    .playlist-item:hover { background:var(--surface-2); }
+    .playlist-item.active { background:rgba(70,166,255,.08); }
+    .playlist-item[hidden],.playlist-group[hidden] { display:none; }
+    .play-icon { width:40px; height:40px; display:grid; place-items:center; border-radius:12px; color:var(--blue); background:rgba(70,166,255,.1); font-size:1rem; }
+    .playlist-item.active .play-icon { color:#04101d; background:linear-gradient(135deg,var(--blue),var(--cyan)); }
+    .playlist-copy strong,.playlist-copy span { display:block; }
+    .playlist-copy strong { font-size:.95rem; font-weight:700; line-height:1.5; }
+    .playlist-copy span { margin-top:4px; color:var(--faint); font-size:.82rem; line-height:1.55; }
+    .lang { min-width:32px; padding:4px 8px; border-radius:7px; color:var(--cyan); background:rgba(37,212,212,.1); font-size:.74rem; font-weight:800; text-align:center; }
+    .lang.en { color:var(--violet); background:rgba(167,139,250,.12); }
+    .video-note { margin:0; padding:13px 20px; border-top:1px solid var(--line); color:var(--faint); font-size:.8rem; line-height:1.6; }
+
+    .chat-panel { position:sticky; top:90px; }
+    .chat-status { display:flex; align-items:center; gap:7px; color:var(--green)!important; font-size:.82rem; }
+    .chat-status::before { content:""; width:8px; height:8px; border-radius:50%; background:var(--green); }
+    .chat-messages { height:490px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; padding:20px; }
+    .message { max-width:88%; padding:13px 16px; border-radius:16px; font-size:.94rem; line-height:1.7; word-break:keep-all; }
+    .message.ai { align-self:flex-start; border:1px solid var(--line); border-radius:4px 16px 16px 16px; background:var(--surface-2); }
+    .message.user { align-self:flex-end; border-radius:16px 4px 16px 16px; color:white; background:linear-gradient(135deg,#0879d9,#008f9c); }
+    .quick-prompts { display:flex; gap:8px; overflow-x:auto; padding:0 18px 14px; }
+    .quick-prompt { flex:0 0 auto; min-height:36px; padding:0 14px; border:1px solid var(--line); border-radius:999px; color:var(--blue); background:transparent; font-size:.82rem; font-weight:700; cursor:pointer; transition:150ms ease; }
+    .quick-prompt:hover { background:rgba(70,166,255,.08); }
+    .chat-form { display:grid; grid-template-columns:1fr 46px; gap:10px; padding:14px 18px; border-top:1px solid var(--line); }
+    .chat-form input { min-width:0; height:46px; padding:0 16px; border:1px solid var(--line); border-radius:12px; color:var(--ink); background:var(--surface-2); font-size:.92rem; outline:none; }
+    .chat-form button { border:0; border-radius:12px; color:#04101d; background:linear-gradient(135deg,var(--blue),var(--cyan)); cursor:pointer; font-size:1.05rem; }
+    .chat-note { margin:0; padding:0 18px 14px; color:var(--faint); font-size:.78rem; text-align:center; line-height:1.6; }
+    footer { padding:32px 0 52px; border-top:1px solid var(--line); color:var(--faint); font-size:.88rem; line-height:1.65; }
+    .footer-inner { display:flex; justify-content:space-between; gap:20px; }
+
+    @media (max-width:980px) {
+      .hero-grid,.workspace-grid { grid-template-columns:1fr; }
+      .chat-panel { position:static; }
+      .day-nav { grid-template-columns:repeat(5,1fr); }
+      .slide-grid,.slide-grid.cols-5 { grid-template-columns:repeat(2,1fr); }
+      .lab-grid { grid-template-columns:repeat(2,1fr); }
+      .funnel-row { grid-template-columns:160px 1fr; }
+      .funnel-row span:last-child { grid-column:2; }
+    }
+    @media (max-width:650px) {
+      .shell { width:min(100% - 28px,1180px); }
+      .topbar-inner { min-height:64px; gap:8px; }
+      .brand span:last-child,.breadcrumb,.profile-copy { display:none; }
+      .profile { padding:0; border:0; background:transparent; }
+      .day-hero { padding-top:23px; }
+      .hero-copy,.day-summary { padding:26px 22px; }
+      .hero-copy h1 { font-size:clamp(2.2rem,11vw,3.4rem); }
+      .section-head { display:block; }
+      .section-head .section-lead { margin-top:11px; }
+      .slide-stage { min-height:560px; aspect-ratio:auto; }
+      .slide { padding:30px 22px; }
+      .slide h2 { font-size:2.3rem; }
+      .slide h2.sm { font-size:1.7rem; }
+      .slide-grid,.slide-grid.cols-3,.slide-grid.cols-5,.slide-list,.compare,.ice-bottom,.gap-box,.lab-grid { grid-template-columns:1fr; }
+      .funnel-row { grid-template-columns:1fr; margin-right:0!important; }
+      .funnel-row span:last-child { grid-column:auto; }
+      .slide-controls { grid-template-columns:auto 1fr auto; padding:0 12px; }
+      .slide-tools .fullscreen-btn { display:none; }
+      .day-nav { grid-template-columns:repeat(5,1fr); padding:10px; gap:6px; }
+      .day-link { min-height:58px; }
+      .chat-messages { height:420px; }
+      .footer-inner { display:block; }
+      .footer-inner span { display:block; margin-top:4px; }
+    }
+  </style>
+  <link rel="stylesheet" href="daily-feedback.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark">A</span><span>ACE AI SW</span></a>
+      <div class="breadcrumb"><a href="ai-project-10day.html">10일 과정</a><i class="fa-solid fa-chevron-right"></i><strong>Day 2</strong></div>
+      <div class="top-actions">
+        <a class="icon-btn" href="ai-project-10day.html" title="10일 과정 안내" aria-label="10일 과정 안내"><i class="fa-regular fa-map"></i></a>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="어두운 화면으로 변경" aria-pressed="false"><i class="fa-regular fa-moon"></i></button>
+        <div class="profile"><span class="profile-avatar" id="profileAvatar">👤</span><span class="profile-copy"><strong id="profileName">Participant</strong><span id="profileId">ACE AI SW</span></span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="day-hero">
+      <div class="shell hero-grid">
+        <div class="hero-copy">
+          <span class="day-chip">DAY 02 · TUESDAY · REAL PROJECT 1</span>
+          <h1>그로스해킹으로<br />서비스를 해체하고<br />AI로 다시 만든다</h1>
+          <p>잘 만들어진 서비스가 왜 성장하는지 그로스해킹 관점(PMF · 북극성 지표 · AARRR · 성장 루프)으로 구조를 파악하고, 그 구조를 AI로 역설계해 다시 만들어 봅니다. 그리고 <strong>내가 설계한 것과 AI가 만든 것이 왜 다르게 나오는지</strong> 직접 확인합니다.</p>
+          <div class="hero-quote"><i class="fa-solid fa-triangle-exclamation"></i> AI는 무엇이든 만들어 줄 것 같지만, 보이지 않는 성장 구조까지 만들어 주지는 못합니다. 그래서 그로스해킹 분석이 먼저입니다.</div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="real-benchmarking/index.html"><i class="fa-solid fa-flask"></i> 리얼 벤치마킹 PBL 워크스페이스</a>
+            <a class="btn btn-ghost" href="#slides"><i class="fa-solid fa-display"></i> 슬라이드 보기</a>
+          </div>
+        </div>
+        <aside class="day-summary"><span class="summary-label">Today’s goals</span><ul class="summary-list">
+          <li><i class="fa-solid fa-check"></i><span>그로스해킹의 정의와 핵심 도구(PMF, 북극성 지표, AARRR, 성장 루프, 실험) 이해</span></li>
+          <li><i class="fa-solid fa-check"></i><span>Jumia·YouTube·Jiji 중 1개 서비스의 성장 장치를 관찰 근거(OBS)로 기록</span></li>
+          <li><i class="fa-solid fa-check"></i><span>분석한 구조를 AI로 재구현하고, 내 설계와의 차이(GAP)를 기록·설명</span></li>
+          <li><i class="fa-solid fa-check"></i><span>“AI는 만능이 아니다” — 사람이 해야 할 판단이 어디인지 정리</span></li>
+        </ul><div class="deliverable"><strong>하루 산출물</strong><span>OBS 관찰 기록 · AARRR 성장 루프 맵 · AI 재구현 결과물 · 설계 vs AI 차이(GAP) 기록표</span></div></aside>
+      </div>
+    </section>
+
+    <section class="slides-section" id="slides">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">HTML Presentation</p><h2 class="section-title">Day 2 발표 슬라이드 · 그로스해킹</h2></div><p class="section-lead">화살표 버튼이나 키보드 방향키(←/→)로 이동합니다. <i class="fa-regular fa-comment-dots"></i> 버튼(또는 N 키)을 누르면 슬라이드별 강의 노트가 열립니다.</p></div>
+        <div class="slide-deck" id="slideDeck">
+          <div class="slide-stage" aria-live="polite">
+
+            <!-- 1 -->
+            <article class="slide active" data-note="오늘 하루의 큰 흐름: ① 그로스해킹을 배운다 ② 실제 서비스를 그로스해킹 관점으로 해체한다 ③ AI로 다시 만들어 본다 ④ 내 설계와 AI 결과가 다른 지점을 찾는다. 핵심 메시지는 마지막 줄 — AI는 빠른 손이지만 '무엇을 왜 만드는지'는 사람이 정한다."><div class="slide-inner">
+              <span class="slide-kicker">ACE AI SW Startup Training · Day 2</span>
+              <h2>Growth Hacking ×<br /><span class="hl">AI Reverse Engineering</span></h2>
+              <p>잘 만든 서비스의 성장 구조를 그로스해킹으로 해체하고, AI로 다시 만들어 보며 <strong>“왜 똑같이 나오지 않는가”</strong>를 경험합니다.</p>
+              <div class="slide-grid">
+                <div class="slide-card"><strong>01 · Learn</strong><span>그로스해킹 개념과 도구</span></div>
+                <div class="slide-card"><strong>02 · Observe</strong><span>실제 서비스 성장 장치 관찰</span></div>
+                <div class="slide-card"><strong>03 · Rebuild</strong><span>AI로 역설계·재구현</span></div>
+                <div class="slide-card"><strong>04 · Compare</strong><span>설계와 결과의 차이 증명</span></div>
+              </div>
+            </div></article>
+
+            <!-- 2 -->
+            <article class="slide alert" data-note="학생들에게 먼저 질문하세요: 'AI에게 Jumia 같은 앱을 만들어 달라고 하면 Jumia가 나올까?' 대부분 '비슷한 건 나온다'고 답합니다. 비슷한 '화면'은 나오지만, Jumia가 성장한 '이유'는 화면에 없다는 점을 오늘 하루 동안 증명해 볼 것이라고 예고합니다."><div class="slide-inner">
+              <span class="slide-kicker">Opening question</span>
+              <h2 class="sm">“AI야, <span class="hl">Jumia 같은 앱</span> 만들어 줘.”<br />그러면 Jumia가 나올까요?</h2>
+              <p>AI는 몇 분 만에 상품 목록, 장바구니, 리뷰 화면을 만들어 줍니다. 그런데 그 앱은 성장할까요?</p>
+              <div class="compare">
+                <div class="compare-col good"><h4><i class="fa-solid fa-check"></i> AI가 잘 만드는 것</h4><ul><li>보이는 화면 (UI 레이아웃, 버튼, 카드)</li><li>일반적인 기능 (검색, 장바구니, 로그인)</li><li>“평균적인” 쇼핑몰의 구조</li></ul></div>
+                <div class="compare-col bad"><h4><i class="fa-solid fa-xmark"></i> AI가 스스로 만들지 못하는 것</h4><ul><li>왜 그 순서로 정보를 보여 주는가 (의도)</li><li>무엇이 사용자를 다시 오게 하는가 (루프)</li><li>수년간의 실험으로 다듬어진 결정 (데이터)</li></ul></div>
+              </div>
+              <div class="quote-box">화면은 복사할 수 있어도, <b>성장의 이유</b>는 복사되지 않습니다. 그 이유를 찾는 기술이 그로스해킹입니다.</div>
+            </div></article>
+
+            <!-- 3 -->
+            <article class="slide" data-note="Growth hacking이라는 말은 2010년 Sean Ellis가 처음 사용했습니다(Dropbox, Eventbrite 초기 성장 담당). 핵심은 '성장'이라는 하나의 목표에 마케팅·제품·데이터·개발을 모두 동원하고, 빠른 실험으로 검증한다는 것. 해킹 = 불법 해킹이 아니라 '창의적이고 빠른 지름길'이라는 의미임을 강조하세요."><div class="slide-inner">
+              <span class="slide-kicker">What is growth hacking?</span>
+              <h2 class="sm">그로스해킹 = 성장을 위한<br /><span class="hl">데이터 기반 빠른 실험</span></h2>
+              <p>2010년 Sean Ellis가 처음 쓴 용어. 마케팅·제품·데이터·개발을 넘나들며 “무엇이 성장을 만드는가”를 가설과 실험으로 찾아내는 방법입니다.</p>
+              <div class="slide-grid">
+                <div class="slide-card"><strong><i class="fa-solid fa-bullseye"></i> 목표</strong><span>오직 하나, 지속 가능한 성장</span></div>
+                <div class="slide-card"><strong><i class="fa-solid fa-chart-line"></i> 근거</strong><span>느낌이 아니라 데이터와 사용자 행동</span></div>
+                <div class="slide-card"><strong><i class="fa-solid fa-flask"></i> 방법</strong><span>작고 빠른 실험을 반복</span></div>
+                <div class="slide-card"><strong><i class="fa-solid fa-code"></i> 수단</strong><span>광고뿐 아니라 제품 자체를 바꿈</span></div>
+              </div>
+              <div class="quote-box">“해킹”은 불법 침입이 아니라, 적은 자원으로 성장을 만드는 <b>창의적인 지름길</b>이라는 뜻입니다.</div>
+            </div></article>
+
+            <!-- 4 -->
+            <article class="slide" data-note="전통 마케팅은 '알리는 것'에, 그로스해킹은 '사용자의 전체 여정'에 집중합니다. 특히 오늘 수업에서 중요한 포인트: 그로스해킹은 제품 안에 성장 장치를 심는다 — 즉 성장 장치는 화면 곳곳에 숨어 있다. 그래서 관찰하면 찾을 수 있다."><div class="slide-inner">
+              <span class="slide-kicker">Traditional marketing vs Growth hacking</span>
+              <h2 class="sm">성장 장치는 <span class="hl">제품 안에</span> 숨어 있다</h2>
+              <div class="compare">
+                <div class="compare-col"><h4>전통적 마케팅</h4><ul><li>목표: 인지도, 노출, 유입</li><li>범위: 퍼널의 맨 앞 (Acquisition)</li><li>방식: 큰 예산 캠페인, 결과는 사후 확인</li><li>담당: 마케팅팀</li></ul></div>
+                <div class="compare-col good"><h4>그로스해킹</h4><ul><li>목표: 유입 → 활성화 → 유지 → 추천 → 수익 전체</li><li>범위: 사용자 여정 전체 (AARRR)</li><li>방식: 작은 실험을 빠르게, 지표로 판단</li><li>담당: 기획·개발·디자인·데이터가 함께</li></ul></div>
+              </div>
+              <ul class="slide-list">
+                <li><i class="fa-solid fa-magnifying-glass"></i>후기 수·평점 표시 → 구매 불안 감소 장치</li>
+                <li><i class="fa-solid fa-magnifying-glass"></i>“다음 동영상” 자동재생 → 체류·재시청 장치</li>
+                <li><i class="fa-solid fa-magnifying-glass"></i>판매자 인증 배지·피드백 → 거래 상대 신뢰 장치</li>
+                <li><i class="fa-solid fa-magnifying-glass"></i>친구 초대 보상 → 추천·유입 장치</li>
+              </ul>
+            </div></article>
+
+            <!-- 5 -->
+            <article class="slide" data-note="그로스해킹의 출발점은 PMF(Product-Market Fit). 사람들이 원하지 않는 제품을 성장시키려는 것은 '구멍 난 양동이에 물 붓기'. Sean Ellis 테스트: '이 제품을 더 이상 쓸 수 없다면 어떤 기분이겠습니까?'에 '매우 실망' 응답이 40% 이상이면 PMF의 신호로 봅니다. 질문: 여러분이 분석할 서비스는 왜 '매우 실망'이 많을까?"><div class="slide-inner">
+              <span class="slide-kicker">Step 0 · Product-Market Fit</span>
+              <h2 class="sm">성장 전에 먼저 확인할 것:<br /><span class="hl">사람들이 정말 원하는가?</span></h2>
+              <p>사람들이 원하지 않는 제품에 성장 전략을 쓰는 것은 구멍 난 양동이에 물을 붓는 것과 같습니다.</p>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><span class="big">Q.</span><span>“이 제품을 더 이상 쓸 수 없다면 어떤 기분이겠습니까?”</span><em>Sean Ellis PMF 설문</em></div>
+                <div class="slide-card"><span class="big">40%+</span><span>“매우 실망할 것”이라고 답한 사용자 비율이 40%를 넘으면 PMF 신호로 봅니다.</span><em>기준선</em></div>
+                <div class="slide-card"><span class="big">Why?</span><span>“매우 실망” 그룹이 말하는 핵심 가치 = 그 서비스의 진짜 성장 엔진</span><em>역설계의 출발점</em></div>
+              </div>
+              <div class="quote-box">역설계할 때 첫 질문: <b>“이 서비스가 사라지면 사용자는 무엇을 가장 아쉬워할까?”</b></div>
+            </div></article>
+
+            <!-- 6 -->
+            <article class="slide" data-note="북극성 지표(North Star Metric)는 '사용자가 받은 가치'와 '회사의 성장'을 동시에 나타내는 단 하나의 지표. 아래 예시는 외부에서 추정한 학습용 가설입니다(공식 지표 아님) — 학생들이 직접 '내 서비스의 북극성은?'을 가설로 세워 보게 하세요. 매출이나 가입자 수는 결과일 뿐 좋은 북극성이 아닌 경우가 많다는 점도 짚어 주세요."><div class="slide-inner">
+              <span class="slide-kicker">North Star Metric</span>
+              <h2 class="sm">모두가 바라보는 단 하나의 숫자,<br /><span class="hl">북극성 지표</span></h2>
+              <p>사용자가 얻는 가치와 회사의 성장을 동시에 보여 주는 지표입니다. 모든 기능과 실험은 이 숫자를 움직이기 위해 존재합니다.</p>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong>Jumia (가설)</strong><span>평점·공식 스토어 등 신뢰 정보를 확인한 뒤 완료된 주문 수</span><em>탐색 → 신뢰 → 구매</em></div>
+                <div class="slide-card"><strong>YouTube (가설)</strong><span>사용자가 만족하며 시청한 총 시간</span><em>발견 → 시청 → 다음 영상</em></div>
+                <div class="slide-card"><strong>Jiji (가설)</strong><span>구매자와 판매자 사이에 시작된 연락(채팅·전화) 수</span><em>지역 → 신뢰 → 연락</em></div>
+              </div>
+              <ul class="slide-list warn">
+                <li><i class="fa-solid fa-triangle-exclamation"></i>가입자 수, 다운로드 수 → 가치를 보여 주지 못하는 “허영 지표”</li>
+                <li><i class="fa-solid fa-triangle-exclamation"></i>위 예시는 공개 정보로 세운 학습용 가설 — 사실처럼 쓰지 않기</li>
+              </ul>
+            </div></article>
+
+            <!-- 7 -->
+            <article class="slide" data-note="AARRR(해적 지표)은 Dave McClure가 제안한 프레임워크. 각 단계마다 '질문'과 '측정 지표'를 함께 말해 주세요. 관찰 미션에서는 각 단계에 해당하는 화면 장치를 OBS로 찾고, 찾지 못하면 '미관찰'로 표시합니다. 단계 사이에서 사용자가 빠져나가는 곳(이탈)이 곧 개선 기회입니다."><div class="slide-inner">
+              <span class="slide-kicker">AARRR · Pirate Metrics (Dave McClure)</span>
+              <h2 class="sm">사용자 여정을 5단계로 쪼개 보기</h2>
+              <div class="funnel">
+                <div class="funnel-row"><strong><small>ACQUISITION</small>획득</strong><span>사용자는 어디서, 어떻게 들어오는가?</span><span>방문 수 · 유입 채널별 비율</span></div>
+                <div class="funnel-row"><strong><small>ACTIVATION</small>활성화</strong><span>처음 와서 “아하!” 가치를 느꼈는가?</span><span>첫 핵심 행동 완료율</span></div>
+                <div class="funnel-row"><strong><small>RETENTION</small>유지</strong><span>다시 돌아오는가? 무엇이 부르는가?</span><span>재방문율 · N일 리텐션</span></div>
+                <div class="funnel-row"><strong><small>REFERRAL</small>추천</strong><span>다른 사람에게 알리고 데려오는가?</span><span>공유 수 · 초대 전환율</span></div>
+                <div class="funnel-row"><strong><small>REVENUE</small>수익</strong><span>가치가 돈(또는 지속 가능성)으로 바뀌는가?</span><span>구매 전환율 · 객단가</span></div>
+              </div>
+              <p style="margin-top:16px;font-size:1.05rem;">단계 사이에서 사용자가 빠져나가는 지점 = <b style="color:#fbbf24">가장 큰 성장 기회</b></p>
+            </div></article>
+
+            <!-- 8 -->
+            <article class="slide" data-note="퍼널은 한 번 지나가면 끝이지만, 성공한 서비스는 '루프'를 가집니다. 사용자의 행동이 서비스의 가치를 키우고, 그 가치가 다른 사용자를 끌어오는 순환. YouTube: 시청 → 데이터 → 더 좋은 추천 → 더 많은 시청 / Jiji: 판매자 광고 등록 → 지역 매물 증가 → 더 많은 구매자 방문. 루프가 멈추는 조건(예: 매물이 없으면 방문 안 함)도 함께 써야 합니다."><div class="slide-inner">
+              <span class="slide-kicker">From funnel to growth loop</span>
+              <h2 class="sm">퍼널은 끝나지만, <span class="hl">루프는 스스로 돈다</span></h2>
+              <p>성공한 서비스는 사용자의 행동이 서비스의 가치를 키우고, 그 가치가 다시 새 사용자를 데려오는 순환 구조를 가집니다.</p>
+              <div class="loop-flow"><span>① 사용자 행동</span><b>→</b><span>② 서비스 가치 증가</span><b>→</b><span>③ 다른 사용자 반응</span><b>→</b><span>④ 유입 · 재방문</span><b>↺</b><span class="back">다시 ①로</span></div>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong>YouTube</strong><span>시청 → 취향 데이터 축적 → 더 정확한 추천 → 더 오래 시청</span></div>
+                <div class="slide-card"><strong>Jiji</strong><span>판매자가 광고 등록 → 지역 매물 증가 → 더 많은 구매자 방문 → 더 많은 판매자 등록</span></div>
+                <div class="slide-card"><strong>Jumia</strong><span>구매 후 평점·후기 작성 → 신뢰 정보 증가 → 새 구매자 불안 감소 → 구매·후기 증가</span></div>
+              </div>
+              <div class="quote-box">반드시 함께 쓸 것: <b>루프가 멈추는 조건</b> (예: 내 지역에 매물이 없으면 아무도 다시 오지 않는다)</div>
+            </div></article>
+
+            <!-- 9 -->
+            <article class="slide" data-note="유명한 그로스해킹 사례 3개. 공통점: 큰 광고비 없이 '제품 안의 작은 장치'로 성장. Dropbox – 친구 초대 시 양쪽 모두 추가 저장공간(제품 자체가 보상). Airbnb – 초기 등록 숙소를 Craigslist에도 올릴 수 있게 해 거대한 기존 사용자 풀을 활용. Hotmail – 모든 메일 하단에 'Get your free email at Hotmail' 문구 → 사용할수록 광고가 됨. 질문: 이 장치를 AI에게 시키지 않았다면 AI가 스스로 만들어 줬을까?"><div class="slide-inner">
+              <span class="slide-kicker">Classic growth hacks</span>
+              <h2 class="sm">작은 장치 하나가 <span class="hl">폭발적 성장</span>을 만든 사례</h2>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong><i class="fa-brands fa-dropbox"></i> Dropbox</strong><span>친구를 초대하면 초대한 사람과 받은 사람 모두 추가 저장공간 지급. 보상이 곧 제품의 핵심 가치.</span><em>REFERRAL 루프</em></div>
+                <div class="slide-card"><strong><i class="fa-brands fa-airbnb"></i> Airbnb</strong><span>초기에 숙소를 Craigslist에도 함께 올릴 수 있게 해, 이미 사람이 많은 곳에서 사용자를 데려옴.</span><em>ACQUISITION 지름길</em></div>
+                <div class="slide-card"><strong><i class="fa-regular fa-envelope"></i> Hotmail</strong><span>보내는 모든 메일 하단에 “무료 이메일 받기” 링크. 사용자가 쓸수록 광고가 됨.</span><em>바이럴 루프</em></div>
+              </div>
+              <div class="quote-box">공통점: 광고비가 아니라 <b>제품 안의 작은 설계</b>. 그리고 이 설계는 “만들어 줘”라는 요청만으로는 AI가 떠올리지 않습니다.</div>
+            </div></article>
+
+            <!-- 10 -->
+            <article class="slide" data-note="그로스해킹은 한 번의 아이디어가 아니라 반복 사이클. 아이디어를 많이 내고 → ICE 점수(영향 Impact, 확신 Confidence, 용이성 Ease 각각 1~10)로 우선순위 → 작은 실험 → 데이터 분석 → 학습을 다음 아이디어로. 우리가 보는 완성된 서비스 화면은 수백~수천 번 실험의 '살아남은 결과'라는 점이 핵심 — AI는 이 실험 기록을 모릅니다."><div class="slide-inner">
+              <span class="slide-kicker">The growth experiment cycle</span>
+              <h2 class="sm">성장은 아이디어가 아니라 <span class="hl">실험의 반복</span></h2>
+              <div class="slide-grid">
+                <div class="slide-card"><strong>01 · 분석</strong><span>지표와 사용자 행동에서 이탈·기회 지점 찾기</span></div>
+                <div class="slide-card"><strong>02 · 아이디어</strong><span>“~하면 ~가 오를 것이다” 가설을 많이</span></div>
+                <div class="slide-card"><strong>03 · 우선순위</strong><span>ICE 점수: Impact · Confidence · Ease</span></div>
+                <div class="slide-card"><strong>04 · 실험</strong><span>A/B 테스트 등 작게 빠르게, 결과로 학습</span></div>
+              </div>
+              <div class="compare" style="margin-top:16px">
+                <div class="compare-col"><h4>좋은 실험 가설</h4><pre>EXP-001
+가설: 상품 카드에 후기 수를 보여 주면
+      상세페이지 진입률이 오를 것이다
+지표: 카드 클릭률 (부작용: 이탈률)
+성공 기준: 클릭률 +10% 이상</pre></div>
+                <div class="compare-col good"><h4>오늘의 핵심 통찰</h4><ul><li>우리가 보는 완성된 화면 = 수많은 실험 중 <b>살아남은 결과</b></li><li>실패한 실험, 버려진 버전은 화면에 보이지 않음</li><li>AI는 이 실험 기록과 데이터를 모름 → 평균적인 답을 냄</li></ul></div>
+              </div>
+            </div></article>
+
+            <!-- 10b -->
+            <article class="slide" data-note="나이지리아 학생들에게 익숙한 3개 서비스로 진행합니다. Jumia(종합 이커머스), YouTube(영상 플랫폼), Jiji(지역 기반 중고·생활 거래 마켓플레이스). 학생들에게 '평소 어떤 서비스를 가장 많이 쓰는지' 물어보고, 1개를 선택하게 하세요. 관찰 포인트는 예시일 뿐이며, 화면에서 직접 확인한 것만 OBS로 기록합니다."><div class="slide-inner">
+              <span class="slide-kicker">Benchmark targets · Choose one</span>
+              <h2 class="sm">오늘 해체할 서비스: <span class="hl">Jumia · YouTube · Jiji</span></h2>
+              <p>서비스 하나, 대표 사용자 한 명, 대표 과업 하나만 선택합니다.</p>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong><i class="fa-solid fa-cart-shopping"></i> Jumia · jumia.com.ng</strong><span>종합 온라인 쇼핑몰</span><em>상품 발견 → 신뢰 확인 → 구매 → 배송</em><span>관찰 포인트: 플래시 세일, 공식 스토어, 평점·후기, 픽업 스테이션·배송 안내</span></div>
+                <div class="slide-card"><strong><i class="fa-brands fa-youtube"></i> YouTube · youtube.com</strong><span>영상 플랫폼</span><em>발견 → 시청 → 다음 영상 → 재방문</em><span>관찰 포인트: 추천 피드, 자동재생, 구독·알림, Shorts, 댓글</span></div>
+                <div class="slide-card"><strong><i class="fa-solid fa-tags"></i> Jiji · jiji.ng</strong><span>지역 기반 거래 마켓플레이스</span><em>지역 선택 → 매물 발견 → 신뢰 확인 → 판매자 연락</em><span>관찰 포인트: 지역·가격 필터, 판매자 피드백·인증, 안전 거래 팁, 유료 상단 노출</span></div>
+              </div>
+              <div class="quote-box">내부 알고리즘·매출·정책은 공식 출처가 없으면 <b>사실이 아니라 가설</b>로 씁니다.</div>
+            </div></article>
+
+            <!-- 11 -->
+            <article class="slide" data-note="관찰 실습 가이드. 3개 서비스 중 하나를 고르고, 대표 사용자 한 명과 대표 과업 하나로 범위를 고정합니다. 관찰한 '사실'과 나의 '해석'을 반드시 분리 — 예) 사실: 상품 카드에 후기 수가 보인다 / 해석: 상세 진입 전 불확실성을 줄이는 것으로 보인다. 내부 알고리즘·매출은 공식 출처 없으면 가설로만 씁니다."><div class="slide-inner">
+              <span class="slide-kicker">Mission 01 · Observe</span>
+              <h2 class="sm">관찰로 성장 장치를 찾아라: <span class="hl">사실 ≠ 해석</span></h2>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong>첫 방문 · 30분</strong><span>로그아웃 상태에서 5초 인상, 가치 제안, CTA 기록</span></div>
+                <div class="slide-card"><strong>대표 과업 · 45분</strong><span>클릭·스크롤·입력 수, 신뢰 요소, 이탈 요소 기록</span></div>
+                <div class="slide-card"><strong>재방문 장치 · 30분</strong><span>저장·구독·알림·후기·공유가 다음 방문으로 이어지는 지점</span></div>
+              </div>
+              <div class="compare">
+                <div class="compare-col good"><h4>관찰한 사실 (OBS)</h4><ul><li>“상품 카드에 평점과 후기 수가 표시된다.”</li><li>날짜 · URL · 기기 · 캡처를 함께 기록</li></ul></div>
+                <div class="compare-col"><h4>나의 해석 (가설)</h4><ul><li>“상세 진입 전 구매 불안을 줄이는 것으로 보인다.”</li><li>AARRR 중 어느 단계에 영향을 주는지 표시</li></ul></div>
+              </div>
+            </div></article>
+
+            <!-- 12 -->
+            <article class="slide" data-note="real-benchmarking 워크스페이스의 4개 미션 흐름과 같습니다. 오늘은 미션 1~2를 중심으로 하되, 핵심 경험을 위해 '작은 AI 재구현 + 비교'까지 한 번 돌려 봅니다. 추적 ID(OBS→PRD→BM→ADR→CMP)로 모든 결정이 근거에 연결되도록 합니다."><div class="slide-inner">
+              <span class="slide-kicker">Reverse engineering workflow</span>
+              <h2 class="sm">관찰 → 문서 → AI 구현 → 비교</h2>
+              <p>리얼 벤치마킹 PBL의 4단계 미션. 모든 결정은 ID로 근거에 연결됩니다.</p>
+              <div class="slide-grid">
+                <div class="slide-card"><strong>01 · 관찰</strong><span>OBS 10건+ · AARRR 맵 · 성장 루프 · EXP 가설</span><em>OBS-###</em></div>
+                <div class="slide-card"><strong>02 · 문서</strong><span>OPPORTUNITY · BUSINESS_MODEL · BASE_ARCHITECTURE</span><em>PRD · BM · ADR</em></div>
+                <div class="slide-card"><strong>03 · AI 구현</strong><span>문서를 계약으로 AI와 대표 흐름 1개 구현</span><em>AI-### 작업 기록</em></div>
+                <div class="slide-card"><strong>04 · 비교</strong><span>원본 vs 구현, 같은 과업·조건으로 차이 증명</span><em>CMP-###</em></div>
+              </div>
+              <div class="loop-flow"><span>OBS-001</span><b>→</b><span>PRD-001</span><b>→</b><span>BM-001</span><b>→</b><span>ADR-001</span><b>→</b><span>CMP-001</span></div>
+            </div></article>
+
+            <!-- 13 -->
+            <article class="slide alert" data-note="이 수업의 핵심 슬라이드. 빙산 비유: AI는 수면 위(보이는 화면)만 보고 만든다. 수면 아래 — 실험 데이터, 네트워크 효과, 운영 정책, 사용자 맥락, 비즈니스 제약 — 는 프롬프트에 없으면 존재하지 않는 것처럼 취급한다. 그래서 AI 결과는 '그럴듯한 평균'이 된다. 이 차이를 메우는 것이 그로스해킹 분석이다."><div class="slide-inner">
+              <span class="slide-kicker">Why AI can’t rebuild it the same way</span>
+              <h2 class="sm">AI는 <span class="hl">빙산의 윗부분</span>만 보고 만든다</h2>
+              <div class="iceberg">
+                <div class="ice-top"><b>보이는 것 (AI가 만드는 것)</b>화면 레이아웃 · 버튼 · 카드 · 일반적인 기능 · 흔한 패턴</div>
+                <div class="ice-bottom">
+                  <div><strong>실험의 역사</strong>수천 번의 A/B 테스트로 살아남은 순서·문구·배치</div>
+                  <div><strong>데이터 · 네트워크 효과</strong>후기, 매물, 시청 기록처럼 사용자가 쌓아 온 가치</div>
+                  <div><strong>운영과 신뢰 정책</strong>검수, 신고, 판매자 인증, 공식 스토어 보증 같은 보이지 않는 운영</div>
+                  <div><strong>사용자 맥락</strong>누가, 언제, 어떤 불안을 안고 들어오는가</div>
+                  <div><strong>비즈니스 제약</strong>수수료, 광고, 파트너, 법·규제가 만든 결정</div>
+                  <div><strong>의도 (Why)</strong>“왜 이 장치가 여기에 있는가”에 대한 설계 의도</div>
+                </div>
+              </div>
+              <div class="quote-box">프롬프트에 없는 것은, AI에게 <b>존재하지 않는 것</b>입니다. 그래서 결과는 “그럴듯한 평균”이 됩니다.</div>
+            </div></article>
+
+            <!-- 14 -->
+            <article class="slide" data-note="실습 시연: 왼쪽 프롬프트와 오른쪽 프롬프트를 실제로 AI에 넣고 결과를 나란히 보여 주세요. 왼쪽은 흔한 쇼핑몰이 나오고, 오른쪽은 분석한 성장 장치가 반영됩니다. 하지만 오른쪽도 여러분이 설계한 것과 100% 같지는 않을 것 — 그 차이를 기록하는 것이 오늘의 미션."><div class="slide-inner">
+              <span class="slide-kicker">Prompt = your analysis</span>
+              <h2 class="sm">프롬프트의 품질 = <span class="hl">그로스해킹 분석의 깊이</span></h2>
+              <div class="compare">
+                <div class="compare-col bad"><h4><i class="fa-solid fa-xmark"></i> 분석 없이 요청</h4><pre>Jumia 같은 쇼핑몰 만들어 줘.
+상품 목록이랑 장바구니 있게.</pre><ul style="margin-top:10px"><li>결과: 어디서나 본 듯한 평균적 쇼핑몰</li><li>성장 장치·신뢰 장치 없음</li></ul></div>
+                <div class="compare-col good"><h4><i class="fa-solid fa-check"></i> 분석을 넣은 요청</h4><pre>역할: Next.js 개발 파트너
+목표: 첫 방문자가 신뢰 정보를 보고 상세로 이동
+근거: OBS-003(카드 평점·후기 수), OBS-007(배송·반품 안내)
+지킬 문서: PRD-001 / BM-002 / ADR-001
+완료 기준: 빈 결과·오류 상태, 360px 모바일
+금지: 원본 로고·이미지·문구 복제, 새 기능 추가
+먼저 계획과 수정 파일을 제안해 줘.</pre></div>
+              </div>
+            </div></article>
+
+            <!-- 15 -->
+            <article class="slide" data-note="오늘의 핵심 경험 실습. ① AI에게 넘기기 전에 내 설계(대표 흐름, 성장 장치 3개)를 먼저 종이에 적는다 ② 같은 내용을 AI에게 요청 ③ 결과를 내 설계와 비교해 GAP을 기록 ④ 차이를 4가지로 분류하고 '왜 다르게 나왔는지' 원인을 쓴다. 원인은 대부분 '내가 프롬프트에 쓰지 않은 것' 혹은 'AI가 평균으로 채운 것'입니다."><div class="slide-inner">
+              <span class="slide-kicker">Core experience · GAP experiment</span>
+              <h2 class="sm">내 설계 vs AI 결과,<br /><span class="hl">어디가 다르게 나왔는가?</span></h2>
+              <div class="slide-grid">
+                <div class="slide-card"><strong>① 먼저 설계</strong><span>AI 사용 전, 대표 흐름과 성장 장치 3개를 직접 그린다</span></div>
+                <div class="slide-card"><strong>② AI 재구현</strong><span>같은 내용을 프롬프트로 요청해 결과물을 받는다</span></div>
+                <div class="slide-card"><strong>③ GAP 기록</strong><span>장치별로 “설계했던 것 / AI가 만든 것”을 나란히 적는다</span></div>
+                <div class="slide-card"><strong>④ 원인 분석</strong><span>왜 다른가? 프롬프트 누락? AI의 평균화? 내 설계 오류?</span></div>
+              </div>
+              <div class="slide-grid">
+                <div class="slide-card"><strong style="color:#6ee7b7">유지</strong><span>설계 의도가 그대로 구현됨</span></div>
+                <div class="slide-card"><strong style="color:#93c5fd">개선</strong><span>AI가 더 나은 대안을 제시함 (근거 확인 필수)</span></div>
+                <div class="slide-card"><strong style="color:#fca5a5">손실</strong><span>성장 장치가 빠지거나 흔한 패턴으로 대체됨</span></div>
+                <div class="slide-card"><strong style="color:#fbbf24">변형</strong><span>의도와 다른 형태로 바뀜 — 사람이 판단</span></div>
+              </div>
+            </div></article>
+
+            <!-- 16 -->
+            <article class="slide" data-note="오늘 제출할 산출물 정리. 최소 기준을 분명히 안내하세요. 자세한 템플릿과 체크리스트는 real-benchmarking 워크스페이스(페이지 상단 버튼)에서 받을 수 있습니다."><div class="slide-inner">
+              <span class="slide-kicker">Day 2 mission</span>
+              <h2 class="sm">오늘의 산출물</h2>
+              <div class="slide-grid">
+                <div class="slide-card"><strong>산출물 1 · OBS</strong><span>관찰 기록 10건 이상 (사실/해석 분리, 캡처·URL 포함)</span></div>
+                <div class="slide-card"><strong>산출물 2 · AARRR 맵</strong><span>5단계 장치 + 성장 루프 + 루프 정지 조건</span></div>
+                <div class="slide-card"><strong>산출물 3 · AI 재구현</strong><span>대표 흐름 1개, 프롬프트와 AI-### 작업 기록</span></div>
+                <div class="slide-card"><strong>산출물 4 · GAP 표</strong><span>설계 vs AI 차이 5건 이상 + 원인 + 다음 실험</span></div>
+              </div>
+              <ul class="slide-list">
+                <li><i class="fa-solid fa-check"></i>서비스 1개 · 사용자 1명 · 과업 1개로 범위 고정</li>
+                <li><i class="fa-solid fa-check"></i>원본 로고·이미지·문구·코드 복제 금지</li>
+                <li><i class="fa-solid fa-check"></i>공개 화면과 공식 자료만 사용</li>
+                <li><i class="fa-solid fa-check"></i>AI가 만든 주장은 사람이 검증하고 기록</li>
+              </ul>
+            </div></article>
+
+            <!-- 17 -->
+            <article class="slide" data-note="마무리. 오늘 경험한 '차이'가 곧 사람의 역할이라는 메시지로 끝냅니다. AI 시대에 더 중요해지는 역량은 코드 타이핑이 아니라 '무엇이 성장을 만드는지 보는 눈'과 그것을 명확한 문서·프롬프트로 전달하는 능력."><div class="slide-inner">
+              <span class="slide-kicker">Takeaway</span>
+              <h2>AI는 빠른 손,<br /><span class="hl">그로스해킹은 눈과 두뇌.</span></h2>
+              <p>AI가 만능처럼 보여도, 무엇을 왜 만들어야 하는지는 알려 주지 않습니다. 성장 구조를 정확히 보는 사람이 AI를 가장 잘 씁니다.</p>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong>보는 눈</strong><span>화면 뒤의 성장 장치와 루프를 찾는다</span></div>
+                <div class="slide-card"><strong>말하는 힘</strong><span>분석을 문서와 프롬프트로 정확히 전달한다</span></div>
+                <div class="slide-card"><strong>판단하는 책임</strong><span>AI 결과를 근거로 채택·수정·기각한다</span></div>
+              </div>
+            </div></article>
+
+          </div>
+          <div class="slide-controls">
+            <button class="slide-nav-btn" id="prevSlide" type="button" aria-label="이전 슬라이드"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="slide-progress-wrap"><span class="slide-counter" id="slideCounter">1 / 18</span><div class="slide-progress"><span id="slideProgress"></span></div></div>
+            <div class="slide-tools"><button class="slide-nav-btn" id="notesToggle" type="button" aria-label="강의 노트 보기" aria-pressed="false" title="강의 노트 (N)"><i class="fa-regular fa-comment-dots"></i></button><button class="slide-nav-btn fullscreen-btn" id="fullscreenSlide" type="button" aria-label="슬라이드 전체 화면"><i class="fa-solid fa-expand"></i></button><button class="slide-nav-btn" id="nextSlide" type="button" aria-label="다음 슬라이드"><i class="fa-solid fa-chevron-right"></i></button></div>
+          </div>
+          <div class="slide-notes" id="slideNotes"><strong>LECTURE NOTE</strong><span id="slideNoteText"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lab-section" id="lab">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">Hands-on Lab</p><h2 class="section-title">오늘의 실습 흐름</h2></div><p class="section-lead">자세한 미션, 템플릿, 체크리스트, 평가 기준은 <a href="real-benchmarking/index.html" style="color:var(--blue);font-weight:700">리얼 벤치마킹 PBL 워크스페이스</a>에서 확인하세요.</p></div>
+        <div class="lab-grid">
+          <div class="lab-step"><span class="num">STEP 01 · 40분</span><h3>서비스 선택 & 관찰</h3><p>Jumia·YouTube·Jiji 중 1개를 골라 3회 관찰 세션으로 성장 장치를 찾습니다.</p><code>OBS-001 ~ 010</code></div>
+          <div class="lab-step"><span class="num">STEP 02 · 30분</span><h3>AARRR & 성장 루프</h3><p>관찰을 5단계에 배치하고, 반복되는 루프와 멈추는 조건을 그립니다.</p><code>AARRR · LOOP</code></div>
+          <div class="lab-step"><span class="num">STEP 03 · 60분</span><h3>내 설계 → AI 재구현</h3><p>먼저 직접 설계한 뒤, 분석을 담은 프롬프트로 AI에게 대표 흐름을 만들게 합니다.</p><code>PRD · AI-###</code></div>
+          <div class="lab-step key"><span class="num">STEP 04 · 40분 · 핵심</span><h3>GAP 비교 & 회고</h3><p>내 설계와 AI 결과의 차이를 유지·개선·손실·변형으로 분류하고 원인을 씁니다.</p><code>GAP-### · CMP</code></div>
+        </div>
+        <div class="gap-box">
+          <div class="gap-card"><h3>GAP 기록 템플릿 <button class="copy-btn" type="button" data-copy="gapTemplate">복사</button></h3><p>장치 하나당 한 블록씩 작성합니다. 최소 5건.</p><pre id="gapTemplate">## GAP-001 — [성장 장치 이름]
+- 근거 관찰: OBS-___
+- AARRR 단계:
+- 내가 설계한 것:
+- AI가 만든 것:
+- 분류: 유지 / 개선 / 손실 / 변형
+- 차이의 원인: 프롬프트 누락 / AI 평균화 / 내 설계 오류 / 기타
+- 사람이 내린 판단: 채택 / 수정 / 기각 + 이유
+- 다음에 프롬프트에 추가할 것:</pre></div>
+          <div class="gap-card"><h3>회고 질문 <button class="copy-btn" type="button" data-copy="reflectTemplate">복사</button></h3><p>팀 토론에서 함께 답해 보세요.</p><pre id="reflectTemplate">1. AI가 "알아서" 만들어 준 성장 장치는 몇 개였나?
+2. 내가 명시하지 않아 빠진 장치는 무엇이었나?
+3. AI가 흔한 패턴으로 바꿔 버린 부분은 어디인가?
+4. 원본 서비스에서 화면만 봐서는 알 수 없었던 것은?
+5. 다시 한다면 관찰 단계에서 무엇을 더 봐야 하나?
+6. "AI는 만능이 아니다"를 우리 결과로 한 문장 증명하면?</pre></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="day-nav-section" aria-labelledby="dayNavTitle">
+      <div class="shell"><p class="eyebrow" id="dayNavTitle">10-Day Course Navigation</p>
+<div class="day-nav">
+  <a class="day-link" href="ai-project-day1.html"><strong>Day 1</strong><span>월</span></a>
+  <a class="day-link active" href="ai-project-day2.html"><strong>Day 2</strong><span>현재</span></a>
+  <a class="day-link" href="ai-project-day3.html"><strong>Day 3</strong><span>수</span></a>
+  <a class="day-link" href="ai-project-day4.html"><strong>Day 4</strong><span>목</span></a>
+  <a class="day-link" href="ai-project-day5.html"><strong>Day 5</strong><span>금</span></a>
+  <a class="day-link" href="ai-project-day6.html"><strong>Day 6</strong><span>월</span></a>
+  <a class="day-link" href="ai-project-day7.html"><strong>Day 7</strong><span>화</span></a>
+  <a class="day-link" href="ai-project-day8.html"><strong>Day 8</strong><span>수</span></a>
+  <a class="day-link" href="ai-project-day9.html"><strong>Day 9</strong><span>목</span></a>
+  <a class="day-link" href="ai-project-day10.html"><strong>Day 10</strong><span>금</span></a>
+</div>
+      <p class="day-notice" id="dayNotice">상단 버튼을 클릭해 Day 1~10 학습 페이지로 이동할 수 있습니다.</p></div>
+    </section>
+
+    <section class="learning-workspace" id="videos">
+      <div class="shell"><div class="section-head"><div><p class="eyebrow">Learning Workspace</p><h2 class="section-title">그로스해킹 영상과 Day 2 AI 도우미</h2></div><p class="section-lead">왼쪽에서 주제별 참고 영상을 골라 재생하고, 오른쪽 AI 채팅에서 그로스해킹과 역설계 실습에 대해 질문할 수 있습니다.</p></div>
+        <div class="workspace-grid">
+          <section class="video-panel" aria-label="Day 2 참고 영상"><header class="panel-head"><strong>관련 YouTube 영상</strong><span id="videoCount">Day 2 추천 학습 자료</span></header>
+            <div class="player"><iframe id="videoPlayer" src="https://www.youtube.com/embed/r9VW9eUhJHY" title="Day 2 참고 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+            <div class="playlist-filter" role="group" aria-label="영상 주제 필터">
+              <button class="filter-btn active" type="button" data-filter="all">전체</button>
+              <button class="filter-btn" type="button" data-filter="concept">그로스해킹 개념</button>
+              <button class="filter-btn" type="button" data-filter="aarrr">AARRR · 지표</button>
+              <button class="filter-btn" type="button" data-filter="case">성장 사례</button>
+              <button class="filter-btn" type="button" data-filter="design">설계 참고</button>
+            </div>
+            <ul class="playlist">
+              <li class="playlist-group" data-group="concept">그로스해킹 개념</li>
+              <li class="playlist-item active" data-cat="concept" data-src="https://www.youtube.com/embed/r9VW9eUhJHY">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>1. 그로스해킹! 정의부터 프로세스까지 10분 안에 파악하기</strong><span>그로스해킹 입문 · 개념과 업무 프로세스 요약</span></span>
+                <span class="lang">KR</span>
+              </li>
+              <li class="playlist-item" data-cat="concept" data-src="https://www.youtube.com/embed/o5psRs8cHCg">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>2. 그로스 해킹 기본 개념</strong><span>실무 회의에서 쓰는 핵심 용어 정리</span></span>
+                <span class="lang">KR</span>
+              </li>
+              <li class="playlist-item" data-cat="concept" data-src="https://www.youtube.com/embed/ognEpc8DSxo">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>3. 그로스해킹 - 데이터와 실험을 통해 성장하는 서비스를 만드는 방법</strong><span>데이터 · 실험 중심의 성장 방법론</span></span>
+                <span class="lang">KR</span>
+              </li>
+              <li class="playlist-item" data-cat="concept" data-src="https://www.youtube.com/embed/Jocfr7oocBs">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>4. 현직 그로스해커가 말하는 그로스해킹 (그로스해커도 고객이 답이다)</strong><span>현업 관점 · 고객 이해가 출발점인 이유</span></span>
+                <span class="lang">KR</span>
+              </li>
+              <li class="playlist-item" data-cat="concept" data-src="https://www.youtube.com/embed/uRkZ8foazHU">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>5. Growth Hacking: The Science of Growth with Sean Ellis</strong><span>용어를 만든 Sean Ellis가 설명하는 성장의 과학</span></span>
+                <span class="lang en">EN</span>
+              </li>
+              <li class="playlist-item" data-cat="concept" data-src="https://www.youtube.com/embed/VjJ6xcv7e8s">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>6. The original growth hacker reveals his secrets | Sean Ellis</strong><span>Lenny’s Podcast · PMF 40% 테스트와 성장 실험</span></span>
+                <span class="lang en">EN</span>
+              </li>
+
+              <li class="playlist-group" data-group="aarrr">AARRR · 지표</li>
+              <li class="playlist-item" data-cat="aarrr" data-src="https://www.youtube.com/embed/3J-hsAelzW8">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>7. 그로스 해킹 AARRR, 퍼널 분석</strong><span>5단계 지표와 퍼널 이탈 분석</span></span>
+                <span class="lang">KR</span>
+              </li>
+              <li class="playlist-item" data-cat="aarrr" data-src="https://www.youtube.com/embed/h7WZZ_L7Akk">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>8. 스타트업 마케팅, AAARRR 지표만 알면 성공할 수 있어요!</strong><span>스타트업 관점의 단계별 지표 활용</span></span>
+                <span class="lang">KR</span>
+              </li>
+              <li class="playlist-item" data-cat="aarrr" data-src="https://www.youtube.com/embed/JDW0pI2gkS0">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>9. Pirate Metrics for Startups - AARRR Framework by Dave McClure</strong><span>해적 지표 원작자의 프레임워크 해설</span></span>
+                <span class="lang en">EN</span>
+              </li>
+
+              <li class="playlist-group" data-group="case">성장 사례</li>
+              <li class="playlist-item" data-cat="case" data-src="https://www.youtube.com/embed/zORifBV3JwE">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>10. 그로스 해킹 사례와 방법 - 스타트업부터 1인 기업까지</strong><span>다양한 규모의 적용 사례</span></span>
+                <span class="lang">KR</span>
+              </li>
+              <li class="playlist-item" data-cat="case" data-src="https://www.youtube.com/embed/EPSokPMhhZI">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>11. How Did Airbnb And Dropbox Succeed With Surprisingly Simple MVPs?</strong><span>Airbnb · Dropbox 초기 MVP와 성장 장치</span></span>
+                <span class="lang en">EN</span>
+              </li>
+              <li class="playlist-item" data-cat="case" data-src="https://www.youtube.com/embed/v4ob-9bJOMw">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>12. Case Study: How Airbnb Used Growth Hacking to Overcome Challenges</strong><span>Airbnb 그로스해킹 사례 분석</span></span>
+                <span class="lang en">EN</span>
+              </li>
+
+              <li class="playlist-group" data-group="design">설계 참고 (기존 Day 2 영상)</li>
+              <li class="playlist-item" data-cat="design" data-src="https://www.youtube.com/embed/el501qi0KtI">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>13. UML Use-Case & Sequence Diagram 입문 가이드</strong><span>역설계 문서화 · 흐름도 작성</span></span>
+                <span class="lang en">EN</span>
+              </li>
+              <li class="playlist-item" data-cat="design" data-src="https://www.youtube.com/embed/lXTwrAWEzGY">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>14. Data Flow Diagram(DFD) 개념과 설계 실습 (Level 0/1)</strong><span>데이터 흐름 역설계</span></span>
+                <span class="lang en">EN</span>
+              </li>
+              <li class="playlist-item" data-cat="design" data-src="https://www.youtube.com/embed/F2FmTdLtb_4">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>15. System Design 핵심 아키텍처 및 클라이언트-서버 흐름</strong><span>BASE_ARCHITECTURE 작성 참고</span></span>
+                <span class="lang en">EN</span>
+              </li>
+              <li class="playlist-item" data-cat="design" data-src="https://www.youtube.com/embed/m8Icp_Cid5o">
+                <span class="play-icon"><i class="fa-solid fa-play"></i></span>
+                <span class="playlist-copy"><strong>16. 시스템 에러 핸들링 및 결함 허용(Fault Tolerance) 설계</strong><span>실패 상태 설계 참고</span></span>
+                <span class="lang en">EN</span>
+              </li>
+            </ul>
+            <p class="video-note">영상은 YouTube 공개 영상을 임베드합니다. 게시자 설정에 따라 재생이 제한되면 YouTube에서 직접 열어 주세요.</p>
+          </section>
+
+          <aside class="chat-panel" aria-label="Day 2 AI 채팅"><header class="panel-head"><strong>Day 2 AI Guide</strong><span class="chat-status">Local demo</span></header><div class="chat-messages" id="chatMessages"><div class="message ai">안녕하세요! Day 2 학습 도우미입니다. 그로스해킹, AARRR, 성장 루프, AI 역설계와 GAP 비교에 대해 질문해 보세요.</div></div><div class="quick-prompts">
+            <button class="quick-prompt" type="button">그로스해킹이 뭐야?</button>
+            <button class="quick-prompt" type="button">AARRR 설명해줘</button>
+            <button class="quick-prompt" type="button">AI가 똑같이 못 만드는 이유</button>
+            <button class="quick-prompt" type="button">북극성 지표란?</button>
+            <button class="quick-prompt" type="button">GAP 기록 방법</button>
+          </div><form class="chat-form" id="chatForm"><input id="chatInput" type="text" placeholder="Day 2에 대해 질문하세요" autocomplete="off" aria-label="AI 채팅 질문" /><button type="submit" aria-label="질문 보내기"><i class="fa-solid fa-arrow-up"></i></button></form><p class="chat-note">현재는 화면 검토용 로컬 데모이며 외부 AI로 데이터가 전송되지 않습니다.</p></aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="daily-feedback-section" aria-labelledby="dailyFeedbackTitle"><div class="shell"><div class="daily-feedback-card"><div class="daily-feedback-copy"><p class="daily-feedback-kicker"><i class="fa-regular fa-message"></i> Day 2 · Daily Feedback</p><h2 id="dailyFeedbackTitle">오늘의 교육 만족도 조사</h2><p>Day 2 수업을 마친 후 간단한 설문에 참여해 주세요. 응답은 다음 수업과 교육 운영을 개선하는 데 활용됩니다.</p><div class="daily-feedback-actions"><a class="daily-feedback-button" href="https://docs.google.com/forms/d/1lZV-DCHJ9YgB9iHWjJj2LgHqEhIwbiV5BGq_k4GwlzU/viewform" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Day 2 Survey</a><span class="daily-feedback-note">버튼 또는 QR 코드로 참여</span></div></div><div class="daily-feedback-qr"><a href="https://docs.google.com/forms/d/1lZV-DCHJ9YgB9iHWjJj2LgHqEhIwbiV5BGq_k4GwlzU/viewform" target="_blank" rel="noopener noreferrer" aria-label="Day 2 만족도 조사 열기"><img src="https://api.qrserver.com/v1/create-qr-code/?size=312x312&amp;data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2F1lZV-DCHJ9YgB9iHWjJj2LgHqEhIwbiV5BGq_k4GwlzU%2Fviewform" alt="Day 2 Daily Feedback Survey QR code" loading="lazy" /></a><strong>SCAN TO OPEN</strong><span>Nigeria AI Training · Day 2</span></div></div></div></section>
+  <footer><div class="shell footer-inner"><strong>ACE AI SW Startup Training</strong><span>AI 실전 프로젝트 · Day 2 그로스해킹과 서비스 역설계</span></div></footer>
+
+  <script>
+    (function () {
+      "use strict";
+      var toggle = document.getElementById("themeToggle");
+      function syncTheme() { var dark=document.documentElement.dataset.theme==="dark"; toggle.setAttribute("aria-pressed",String(dark)); toggle.setAttribute("aria-label",dark?"밝은 화면으로 변경":"어두운 화면으로 변경"); toggle.innerHTML=dark?'<i class="fa-regular fa-sun"></i>':'<i class="fa-regular fa-moon"></i>'; }
+      toggle.addEventListener("click",function(){ var next=document.documentElement.dataset.theme==="dark"?"light":"dark"; document.documentElement.dataset.theme=next; localStorage.setItem("lmsStudentHomeTheme",next); syncTheme(); }); syncTheme();
+      try { var session=JSON.parse(localStorage.getItem("currentUserSession")||"null"); if(session&&Number(session.expiresAt||0)>Date.now()){ var user=JSON.parse(session.value||"{}"); if(user.name)document.getElementById("profileName").textContent=user.name; if(user.studentId||user.id)document.getElementById("profileId").textContent=user.studentId||user.id; if(user.avatar)document.getElementById("profileAvatar").textContent=user.avatar; } } catch(error) { console.warn("Profile load failed"); }
+
+      // Slides
+      var slides=Array.from(document.querySelectorAll(".slide")); var index=0; var counter=document.getElementById("slideCounter"); var progress=document.getElementById("slideProgress"); var prev=document.getElementById("prevSlide"); var next=document.getElementById("nextSlide");
+      var notes=document.getElementById("slideNotes"); var noteText=document.getElementById("slideNoteText"); var notesBtn=document.getElementById("notesToggle");
+      function showSlide(value){ index=Math.max(0,Math.min(slides.length-1,value)); slides.forEach(function(slide,i){slide.classList.toggle("active",i===index); if(i===index) slide.scrollTop=0;}); counter.textContent=(index+1)+" / "+slides.length; progress.style.width=((index+1)/slides.length*100)+"%"; prev.disabled=index===0; next.disabled=index===slides.length-1; noteText.textContent=slides[index].dataset.note||"이 슬라이드에는 노트가 없습니다."; }
+      function toggleNotes(){ var open=notes.classList.toggle("open"); notesBtn.classList.toggle("on",open); notesBtn.setAttribute("aria-pressed",String(open)); }
+      prev.addEventListener("click",function(){showSlide(index-1);}); next.addEventListener("click",function(){showSlide(index+1);}); notesBtn.addEventListener("click",toggleNotes);
+      document.addEventListener("keydown",function(event){ var tag=(event.target.tagName||"").toLowerCase(); if(tag==="input"||tag==="textarea")return; if(event.key==="ArrowLeft")showSlide(index-1); if(event.key==="ArrowRight")showSlide(index+1); if(event.key==="n"||event.key==="N")toggleNotes(); });
+      document.getElementById("fullscreenSlide").addEventListener("click",function(){ var deck=document.getElementById("slideDeck"); if(!document.fullscreenElement&&deck.requestFullscreen)deck.requestFullscreen(); else if(document.exitFullscreen)document.exitFullscreen(); }); showSlide(0);
+
+      // Copy buttons
+      document.querySelectorAll("[data-copy]").forEach(function(btn){ btn.addEventListener("click",function(){ var text=document.getElementById(btn.dataset.copy).textContent; var done=function(){ btn.textContent="복사됨"; setTimeout(function(){btn.textContent="복사";},1400); }; if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done,function(){}); } else { var ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy"); done();}catch(e){} document.body.removeChild(ta); } }); });
+
+      // Videos
+      var video=document.getElementById("videoPlayer"); var items=Array.from(document.querySelectorAll(".playlist-item"));
+      items.forEach(function(item){ item.addEventListener("click",function(){ items.forEach(function(row){row.classList.remove("active");}); item.classList.add("active"); video.src=item.dataset.src; video.title=item.querySelector("strong").textContent; }); });
+      document.getElementById("videoCount").textContent="그로스해킹 · 설계 참고 "+items.length+"편";
+      document.querySelectorAll(".filter-btn").forEach(function(btn){ btn.addEventListener("click",function(){ var f=btn.dataset.filter; document.querySelectorAll(".filter-btn").forEach(function(b){b.classList.toggle("active",b===btn);}); items.forEach(function(item){ item.hidden=!(f==="all"||item.dataset.cat===f); }); document.querySelectorAll(".playlist-group").forEach(function(g){ g.hidden=!(f==="all"||g.dataset.group===f); }); }); });
+
+      // Chat (local demo)
+      var messages=document.getElementById("chatMessages"); var form=document.getElementById("chatForm"); var input=document.getElementById("chatInput");
+      function answer(question){ var q=question.toLowerCase();
+        if(q.includes("aarrr")||q.includes("해적")||q.includes("퍼널")) return "AARRR은 Acquisition(획득) → Activation(활성화) → Retention(유지) → Referral(추천) → Revenue(수익)의 5단계입니다. 각 단계마다 '질문'과 '측정 지표'를 함께 정하고, 관찰한 화면 장치(OBS)를 해당 단계에 배치해 보세요. 단계 사이 이탈 지점이 가장 큰 성장 기회입니다.";
+        if(q.includes("ai")&&(q.includes("못")||q.includes("다르")||q.includes("똑같")||q.includes("이유"))) return "AI는 프롬프트와 학습된 '평균적인 패턴'으로 만듭니다. 원본 서비스의 실험 기록, 사용자가 쌓은 데이터·네트워크 효과, 운영 정책, 사용자 맥락, 설계 의도는 화면에 보이지 않고 프롬프트에 없으면 AI에게 존재하지 않습니다. 그래서 그로스해킹 분석으로 이것들을 찾아 명시해야 합니다.";
+        if(q.includes("북극성")||q.includes("north")) return "북극성 지표는 사용자가 얻는 가치와 회사의 성장을 동시에 보여 주는 단 하나의 지표입니다. 예를 들어 영상 서비스라면 '만족한 시청 시간' 같은 지표를 가설로 세울 수 있습니다. 가입자 수·다운로드 수 같은 허영 지표는 피하세요.";
+        if(q.includes("gap")||q.includes("차이")||q.includes("비교")) return "GAP은 장치 하나당 한 블록으로 기록합니다: 근거 OBS, AARRR 단계, 내가 설계한 것, AI가 만든 것, 분류(유지/개선/손실/변형), 차이의 원인(프롬프트 누락·AI 평균화·내 설계 오류), 사람의 판단(채택/수정/기각)과 다음에 프롬프트에 추가할 것. 최소 5건을 작성하세요.";
+        if(q.includes("루프")||q.includes("loop")) return "성장 루프는 '사용자 행동 → 서비스 가치 증가 → 다른 사용자 반응 → 유입·재방문'이 반복되는 구조입니다. 예: 후기 작성 → 신뢰 정보 증가 → 새 구매자 불안 감소 → 구매와 후기 증가. 루프가 멈추는 조건도 함께 쓰세요.";
+        if(q.includes("pmf")||q.includes("40")) return "PMF(Product-Market Fit)는 시장이 정말 원하는 제품인지에 대한 신호입니다. Sean Ellis 테스트에서 '이 제품을 못 쓰게 되면 매우 실망할 것'이라는 응답이 40% 이상이면 PMF의 신호로 봅니다.";
+        if(q.includes("ice")||q.includes("실험")||q.includes("가설")) return "실험 가설은 '[변경]을 하면 [지표]가 [얼마나] 오를 것이다' 형태로 씁니다. 우선순위는 ICE(Impact 영향·Confidence 확신·Ease 용이성) 점수로 정하고, 한 번에 한 가지 변화와 하나의 주요 지표만 두세요.";
+        if(q.includes("그로스")||q.includes("growth")) return "그로스해킹은 2010년 Sean Ellis가 만든 용어로, 마케팅·제품·데이터·개발을 넘나들며 '무엇이 성장을 만드는가'를 가설과 빠른 실험으로 찾아내는 방법입니다. 핵심 도구는 PMF, 북극성 지표, AARRR, 성장 루프, 실험 사이클입니다.";
+        if(q.includes("역설계")) return "역설계는 ① 관찰(OBS) ② 3종 문서(PRD·BM·ADR) ③ AI 구현 ④ 원본과 비교(CMP) 순서로 진행합니다. 모든 결정을 ID로 근거에 연결하는 것이 핵심입니다.";
+        if(q.includes("프롬프트")) return "좋은 프롬프트에는 역할, 이번 목표, 근거 OBS ID, 지켜야 할 문서(PRD/BM/ADR), 완료 기준, 금지 사항(원본 복제·새 기능)이 들어갑니다. 먼저 계획과 수정 파일을 제안하게 하세요.";
+        return "좋은 질문입니다. 현재는 화면 검토용 로컬 데모라 Day 2 키워드(그로스해킹, AARRR, 북극성, 루프, PMF, 실험, GAP, 프롬프트, 역설계)에 대해 답할 수 있습니다."; }
+      function addMessage(text,type){ var node=document.createElement("div"); node.className="message "+type; node.textContent=text; messages.appendChild(node); messages.scrollTop=messages.scrollHeight; }
+      function submitQuestion(text){ var value=String(text||"").trim(); if(!value)return; addMessage(value,"user"); window.setTimeout(function(){addMessage(answer(value),"ai");},180); }
+      form.addEventListener("submit",function(event){event.preventDefault(); var value=input.value; input.value=""; submitQuestion(value);}); document.querySelectorAll(".quick-prompt").forEach(function(button){button.addEventListener("click",function(){submitQuestion(button.textContent);});});
+    })();
+  </script>
+</body>
+</html>

@@ -4,9 +4,9 @@
   var STORAGE_KEY = 'realBenchmarkPblV1';
   var defaultState = { projectName: '', service: '', activeMission: 1, checks: {} };
   var services = {
-    musinsa: { label: '무신사', slug: 'musinsa' },
-    youtube: { label: '유튜브', slug: 'youtube' },
-    daangn: { label: '당근', slug: 'daangn' }
+    jumia: { label: 'Jumia', slug: 'jumia' },
+    youtube: { label: 'YouTube', slug: 'youtube' },
+    jiji: { label: 'Jiji', slug: 'jiji' }
   };
   var state = loadState();
   var saveTimer;

@@ -5,7 +5,7 @@
 | 항목 | 내용 |
 |---|---|
 | 목표 | 공개 화면에서 사용자의 다음 행동을 만드는 장치를 찾아 성장 루프로 설명한다 |
-| 선택 대상 | 무신사, 유튜브, 당근 중 하나 |
+| 선택 대상 | Jumia, YouTube, Jiji 중 하나 |
 | 권장 시간 | 4~6시간 |
 | 배점 | 25점 |
 | 입력 | 브라우저에서 직접 관찰한 화면과 공식 공개 자료 |
@@ -20,9 +20,9 @@
 
 | 서비스 | 추천 질문 | 추천 대표 흐름 | 공식 시작 링크 |
 |---|---|---|---|
-| 무신사 | 콘텐츠·리뷰·혜택이 구매 의도에 어떻게 연결되는가? | 상품 발견 → 상세 탐색 → 신뢰 확인 → 구매 의도 | [무신사](https://www.musinsa.com/), [무신사 기업 서비스 소개](https://corp.musinsa.com/ko/business) |
-| 유튜브 | 한 편의 영상이 다음 시청과 재방문을 어떻게 만드는가? | 콘텐츠 발견 → 시청 → 다음 영상 → 구독·재방문 | [YouTube](https://www.youtube.com/), [How YouTube Works](https://www.youtube.com/howyoutubeworks/) |
-| 당근 | 지역성과 신뢰가 거래 또는 참여 의도를 어떻게 만드는가? | 동네 진입 → 게시물 발견 → 신뢰 확인 → 채팅 의도 | [당근](https://www.daangn.com/), [당근 서비스 소개](https://about.daangn.com/service/) |
+| Jumia | 평점·후기·공식 스토어·할인 혜택이 구매 의도에 어떻게 연결되는가? | 상품 발견 → 상세 탐색 → 신뢰 확인 → 구매 의도 | [Jumia Nigeria](https://www.jumia.com.ng/), [Jumia 기업 소개](https://group.jumia.com/about) |
+| YouTube | 한 편의 영상이 다음 시청과 재방문을 어떻게 만드는가? | 콘텐츠 발견 → 시청 → 다음 영상 → 구독·재방문 | [YouTube](https://www.youtube.com/), [How YouTube Works](https://www.youtube.com/howyoutubeworks/) |
+| Jiji | 지역성과 판매자 신뢰가 거래 연락 의도를 어떻게 만드는가? | 지역 선택 → 매물 발견 → 신뢰 확인 → 판매자 연락 의도 | [Jiji](https://jiji.ng/), [Jiji 소개](https://jiji.ng/about.html) |
 
 선택 문장을 프로젝트 README에 작성합니다.
 
@@ -36,7 +36,7 @@
 
 ## 3. 프로젝트 폴더 만들기
 
-`{team-name}`은 개인이면 영문 이름이나 학번 별칭을 사용합니다. `{service-name}`은 `musinsa`, `youtube`, `daangn` 중 하나입니다.
+`{team-name}`은 개인이면 영문 이름이나 학번 별칭을 사용합니다. `{service-name}`은 `jumia`, `youtube`, `jiji` 중 하나입니다.
 
 ```text
 teams/{team-name}/{service-name}/
@@ -62,7 +62,7 @@ teams/{team-name}/{service-name}/
 터미널을 사용할 수 있다면 프로젝트 루트에서 실행합니다. 예시 이름은 반드시 자신의 값으로 바꿉니다.
 
 ```bash
-mkdir -p teams/my-name/musinsa/{research/evidence,docs/01-product,docs/02-business,docs/03-engineering,development/apps/web,development/packages/ui/src,development/packages/config,development/tests/e2e,reports}
+mkdir -p teams/my-name/jumia/{research/evidence,docs/01-product,docs/02-business,docs/03-engineering,development/apps/web,development/packages/ui/src,development/packages/config,development/tests/e2e,reports}
 ```
 
 터미널이 어렵다면 파일 탐색기에서 같은 구조로 폴더와 빈 Markdown 파일을 만듭니다.
@@ -75,7 +75,7 @@ mkdir -p teams/my-name/musinsa/{research/evidence,docs/01-product,docs/02-busine
 - 해석: “구매 전 불확실성을 줄여 상세 진입을 돕는 것으로 보인다.”
 - 잘못된 단정: “후기 표시 때문에 매출이 30% 증가한다.”
 
-화면에 보이지 않는 알고리즘, 매출, 전환율은 공식 출처가 없으면 가설입니다. 유튜브 추천 시스템을 분석한다면 먼저 [YouTube의 공식 추천 설명](https://support.google.com/youtube/answer/16089387)을 읽고, 공식 설명과 자신의 화면 관찰을 구분합니다.
+화면에 보이지 않는 알고리즘, 매출, 전환율은 공식 출처가 없으면 가설입니다. YouTube 추천 시스템을 분석한다면 먼저 [YouTube의 공식 추천 설명](https://support.google.com/youtube/answer/16089387)을 읽고, 공식 설명과 자신의 화면 관찰을 구분합니다.
 
 ## 5. 관찰 세션 3회 수행하기
 
@@ -225,9 +225,9 @@ AI 답변은 관찰 근거가 아닙니다. 채택한 수정만 자신의 문서
 
 ## 14. 공식 참고 링크
 
-- 무신사: [온라인 스토어](https://www.musinsa.com/), [기업 서비스 소개](https://corp.musinsa.com/ko/business), [공지사항과 정책 변화](https://www.musinsa.com/cs/notice)
-- 유튜브: [서비스](https://www.youtube.com/), [How YouTube Works](https://www.youtube.com/howyoutubeworks/), [추천 작동 방식](https://support.google.com/youtube/answer/16089387)
-- 당근: [서비스](https://www.daangn.com/), [공식 서비스 소개](https://about.daangn.com/service/), [서비스 정책](https://www.daangn.com/policy/terms)
+- Jumia: [온라인 스토어](https://www.jumia.com.ng/), [기업 소개](https://group.jumia.com/about), [Jumia Nigeria 소개](https://group.jumia.com/about/locations/nigeria)
+- YouTube: [서비스](https://www.youtube.com/), [How YouTube Works](https://www.youtube.com/howyoutubeworks/), [추천 작동 방식](https://support.google.com/youtube/answer/16089387)
+- Jiji: [서비스](https://jiji.ng/), [공식 소개](https://jiji.ng/about.html), [안전 거래 팁](https://jiji.ng/safety-tips.html), [이용 약관](https://jiji.ng/rules.html)
 - 사용성 관찰: [Nielsen Norman Group의 10가지 사용성 휴리스틱](https://www.nngroup.com/articles/ten-usability-heuristics/)
 
 [학생 안내서로 돌아가기](PBL_MISSIONS.md) · [다음 미션](MISSION_2_DOCUMENTATION.md)
