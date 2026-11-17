@@ -126,6 +126,49 @@
     .slide-outcome { display:grid; grid-template-columns:repeat(2,1fr); gap:11px; margin-top:22px; }
     .slide-outcome div { display:flex; align-items:flex-start; gap:10px; padding:13px 14px; border:1px solid rgba(255,255,255,.12); border-radius:13px; background:rgba(255,255,255,.04); color:#c5d2e3; font-size:.76rem; }
     .slide-outcome i { margin-top:3px; color:#47d7a0; }
+    .learning-track-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:26px; }
+    .learning-track { position:relative; min-height:180px; padding:22px 20px 18px; overflow:hidden; border:1px solid rgba(255,255,255,.14); border-radius:18px; background:rgba(4,13,23,.7); }
+    .learning-track::after { content:attr(data-track); position:absolute; right:10px; bottom:-24px; color:rgba(255,255,255,.045); font-family:"Manrope",sans-serif; font-size:6.5rem; font-weight:800; line-height:1; }
+    .learning-track b,.learning-track strong,.learning-track span { position:relative; z-index:1; display:block; }
+    .learning-track b { color:#67e8f9; font-size:.68rem; letter-spacing:.08em; }
+    .learning-track strong { margin-top:9px; color:#fff; font-family:"Manrope",sans-serif; font-size:1.02rem; }
+    .learning-track span { margin-top:8px; color:#aebed2; font-size:.72rem; }
+    .ten-mission-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:9px; margin-top:20px; }
+    .mission-card { min-height:106px; padding:13px; border:1px solid rgba(255,255,255,.13); border-radius:13px; background:rgba(5,16,28,.76); }
+    .mission-card b,.mission-card strong,.mission-card span { display:block; }
+    .mission-card b { color:#67e8f9; font-size:.62rem; letter-spacing:.08em; }
+    .mission-card strong { margin-top:5px; color:#fff; font-size:.76rem; line-height:1.35; }
+    .mission-card span { margin-top:5px; color:#91a4bc; font-size:.6rem; line-height:1.35; }
+    .mission-card.week-two { border-color:rgba(71,215,160,.25); }
+    .mission-card.week-two b { color:#47d7a0; }
+    .dual-week { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:22px; }
+    .week-panel { padding:16px; border:1px solid rgba(255,255,255,.13); border-radius:16px; background:rgba(4,13,23,.68); }
+    .week-panel header { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px; }
+    .week-panel header strong { color:#67e8f9; font-size:.78rem; }
+    .week-panel header span { color:#91a4bc; font-size:.62rem; }
+    .tech-day { display:grid; grid-template-columns:48px 1fr; gap:9px; align-items:center; min-height:45px; border-top:1px solid rgba(255,255,255,.08); }
+    .tech-day:first-of-type { border-top:0; }
+    .tech-day b { color:#67e8f9; font-size:.62rem; }
+    .tech-day span { color:#dce8f5; font-size:.69rem; }
+    .case-study-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:11px; margin-top:22px; }
+    .case-study { padding:17px; border:1px solid rgba(255,255,255,.13); border-radius:15px; background:rgba(255,255,255,.045); }
+    .case-study b,.case-study strong,.case-study span { display:block; }
+    .case-study b { color:#f5b942; font-size:.63rem; letter-spacing:.06em; }
+    .case-study strong { margin-top:6px; color:#fff; font-size:.82rem; }
+    .case-study span { margin-top:6px; color:#9fb1c7; font-size:.65rem; line-height:1.45; }
+    .blended-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:26px; }
+    .blended-step { padding:21px; border:1px solid rgba(255,255,255,.13); border-radius:17px; background:rgba(4,13,23,.72); }
+    .blended-step i { width:38px; height:38px; display:grid; place-items:center; margin-bottom:14px; border-radius:11px; color:#07101d; background:linear-gradient(135deg,#67e8f9,#47d7a0); }
+    .blended-step b,.blended-step strong,.blended-step span { display:block; }
+    .blended-step b { color:#67e8f9; font-size:.64rem; letter-spacing:.08em; }
+    .blended-step strong { margin-top:5px; color:#fff; font-size:.9rem; }
+    .blended-step span { margin-top:7px; color:#9fb1c7; font-size:.68rem; }
+    .daily-loop { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:25px; counter-reset:learning-step; }
+    .daily-loop div { position:relative; min-height:122px; padding:17px 14px; border:1px solid rgba(255,255,255,.13); border-radius:15px; background:rgba(255,255,255,.04); }
+    .daily-loop div::before { counter-increment:learning-step; content:"0" counter(learning-step); display:block; margin-bottom:8px; color:#67e8f9; font-size:.65rem; font-weight:800; }
+    .daily-loop strong,.daily-loop span { display:block; }
+    .daily-loop strong { color:#fff; font-size:.8rem; }
+    .daily-loop span { margin-top:6px; color:#9fb1c7; font-size:.63rem; line-height:1.4; }
     .slide-controls { min-height:68px; display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center; padding:0 18px; border-top:1px solid rgba(255,255,255,.1); background:#080f1b; color:#d8e3f2; }
     .slide-nav-btn { width:42px; height:42px; border:1px solid rgba(255,255,255,.14); border-radius:11px; color:#d8e3f2; background:rgba(255,255,255,.05); cursor:pointer; }
     .slide-nav-btn:disabled { opacity:.35; cursor:not-allowed; }
@@ -200,8 +243,23 @@
       .slide-stage { min-height:720px; aspect-ratio:auto; }
       .slide { padding:30px 24px; }
       .slide h2 { font-size:2.4rem; }
-      .slide-grid,.slide-list,.slide-stat-grid,.slide-pillars,.phase-grid,.slide-outcome { grid-template-columns:1fr; }
+      .slide-grid,.slide-list,.slide-stat-grid,.slide-pillars,.phase-grid,.slide-outcome,.learning-track-grid,.dual-week,.case-study-grid,.blended-grid,.daily-loop { grid-template-columns:1fr; }
       .slide-stat-grid { grid-template-columns:repeat(2,1fr); }
+      .learning-track-grid,.blended-grid { gap:8px; }
+      .learning-track { min-height:0; padding:14px; }
+      .learning-track span { margin-top:4px; }
+      .ten-mission-grid { grid-template-columns:repeat(2,1fr); gap:6px; }
+      .mission-card { min-height:0; padding:9px 10px; }
+      .mission-card span { display:none; }
+      .dual-week { gap:8px; }
+      .week-panel { padding:11px; }
+      .tech-day { min-height:34px; }
+      .case-study-grid { grid-template-columns:repeat(2,1fr); gap:7px; }
+      .case-study { padding:11px; }
+      .blended-step { padding:14px; }
+      .blended-step i { float:left; margin:0 11px 0 0; }
+      .daily-loop { grid-template-columns:repeat(2,1fr); gap:7px; }
+      .daily-loop div { min-height:0; padding:11px; }
       .slide-pillars { gap:9px; }
       .slide-pillar { min-height:0; padding:14px; }
       .slide-pillar i { float:left; margin:0 11px 0 0; }
@@ -281,82 +339,96 @@
               </div>
             </div></article>
             <article class="slide slide-bilateral"><div class="slide-inner">
-              <span class="slide-kicker">10-Day learning journey</span>
-              <h2>설계에서 런칭까지<br />하나의 흐름으로</h2>
-              <p>10개의 수업을 따로 배우는 것이 아니라, 앞선 산출물을 다음 단계의 입력으로 사용하며 하나의 서비스를 완성합니다.</p>
-              <div class="slide-grid">
-                <div class="slide-card"><strong>PHASE 01 · DAYS 1–3</strong><span>문제 정의와 서비스 구조 설계</span></div>
-                <div class="slide-card"><strong>PHASE 02 · DAYS 4–7</strong><span>인터페이스와 핵심 기능 구현</span></div>
-                <div class="slide-card"><strong>PHASE 03 · DAYS 8–10</strong><span>회원·결제·배포와 최종 발표</span></div>
-                <div class="slide-card"><strong>FINAL OUTPUT</strong><span>AI Web Service + 설계·검증 문서</span></div>
+              <span class="slide-kicker">One program · Three learning tracks</span>
+              <h2>학생이 실제로 수행하는<br />세 가지 학습 축</h2>
+              <p>기술 강의만 듣는 과정이 아닙니다. 매일의 실전 미션, AI·SW 개발 교육, 실제 서비스 케이스 스터디를 동시에 연결합니다.</p>
+              <div class="learning-track-grid">
+                <div class="learning-track" data-track="1"><b>TRACK 01</b><strong>Real AI Project Mission × 10</strong><span>하루 하나의 실제 과제를 수행하며 10개의 프로젝트 미션과 증거를 완성합니다.</span></div>
+                <div class="learning-track" data-track="2"><b>TRACK 02</b><strong>10-Day AI·SW Tech Course</strong><span>AI 도구, 설계, 구현, 백엔드, MVP, POC와 발표까지 개발 전 과정을 학습합니다.</span></div>
+                <div class="learning-track" data-track="3"><b>TRACK 03</b><strong>Case Study &amp; Transfer</strong><span>실제 서비스와 개발 사례를 분석하고, 배운 원리를 자신의 프로젝트에 적용합니다.</span></div>
               </div>
-            </div></article>
-            <article class="slide"><div class="slide-inner slide-visual-layout">
-              <div>
-                <span class="slide-kicker">Phase 01 · Days 1–3</span>
-                <h2>문제 정의와<br />서비스 설계</h2>
-                <div class="phase-grid">
-                  <div class="phase-card"><strong>DAY 01</strong><span>요구사항·Figma</span><em>사용자 흐름과 화면 구조, 추적표 작성</em></div>
-                  <div class="phase-card"><strong>DAY 02</strong><span>시퀀스·데이터 흐름</span><em>클라이언트·서버·DB 상호작용 설계</em></div>
-                  <div class="phase-card"><strong>DAY 03</strong><span>정규화·ERD</span><em>데이터 모델과 용어·관계 확정</em></div>
-                </div>
-              </div>
-              <figure class="slide-visual"><img src="img/day1_wireframe.png" loading="lazy" alt="서비스 사용자 흐름과 와이어프레임 예시" /><figcaption>Day 1–3 · 사용자 흐름에서 데이터 구조까지</figcaption></figure>
-            </div></article>
-            <article class="slide"><div class="slide-inner slide-visual-layout">
-              <div>
-                <span class="slide-kicker">Phase 02 · Days 4–7</span>
-                <h2>설계를 실제<br />서비스 기능으로</h2>
-                <div class="phase-grid">
-                  <div class="phase-card"><strong>DAY 04</strong><span>API 명세</span><em>화면과 데이터를 연결하는 인터페이스 계약</em></div>
-                  <div class="phase-card"><strong>DAY 05</strong><span>UI·UX 리뷰</span><em>사용자 여정과 화면 일관성 개선</em></div>
-                  <div class="phase-card"><strong>DAY 06</strong><span>프론트엔드·API</span><em>반응형 화면 구현과 실제 데이터 연동</em></div>
-                  <div class="phase-card"><strong>DAY 07</strong><span>기능 통합·E2E</span><em>핵심 시나리오와 예외 흐름 검증</em></div>
-                </div>
-              </div>
-              <figure class="slide-visual"><img src="img/day6_backend.png" loading="lazy" alt="프론트엔드와 백엔드 서비스 구조 예시" /><figcaption>Day 4–7 · API 계약에서 기능 통합까지</figcaption></figure>
-            </div></article>
-            <article class="slide"><div class="slide-inner slide-visual-layout">
-              <div>
-                <span class="slide-kicker">Phase 03 · Days 8–10</span>
-                <h2>서비스 완성과<br />런칭·발표</h2>
-                <div class="phase-grid">
-                  <div class="phase-card"><strong>DAY 08</strong><span>회원·온보딩</span><em>가입, 로그인, 권한과 첫 사용자 경험</em></div>
-                  <div class="phase-card"><strong>DAY 09</strong><span>결제·체크아웃</span><em>결제 상태, 실패 대응과 구매 여정</em></div>
-                  <div class="phase-card"><strong>DAY 10</strong><span>런칭·최종 발표</span><em>배포, 결과보고서, 라이브 데모와 로드맵</em></div>
-                </div>
-              </div>
-              <figure class="slide-visual"><img src="img/day10_presentation.png" loading="lazy" alt="완성한 프로젝트의 최종 발표 장면 일러스트" /><figcaption>Day 8–10 · 실제 사용 흐름을 완성하고 발표합니다</figcaption></figure>
             </div></article>
             <article class="slide"><div class="slide-inner">
-              <span class="slide-kicker">Human-led AI collaboration</span>
-              <h2>AI가 대신 만드는 과정이<br />아닙니다</h2>
-              <p>사람이 문제와 완료 기준을 정하고 AI를 탐색·구현·검증 파트너로 활용합니다. 모든 중요한 판단에는 근거와 확인 결과를 남깁니다.</p>
-              <div class="slide-grid">
-                <div class="slide-card"><strong>01 · DEFINE</strong><span>사람이 문제와 목표를 정의</span></div>
-                <div class="slide-card"><strong>02 · COLLABORATE</strong><span>AI와 대안·초안·구현을 탐색</span></div>
-                <div class="slide-card"><strong>03 · VERIFY</strong><span>테스트와 근거로 결과를 검증</span></div>
-                <div class="slide-card"><strong>04 · DECIDE</strong><span>팀이 최종 선택과 책임을 기록</span></div>
+              <span class="slide-kicker">Track 01 · Real AI Project Mission × 10</span>
+              <h2>매일 하나씩,<br />실제로 만들고 검증합니다</h2>
+              <p>각 미션의 결과가 다음 날의 입력이 되어 마지막 날 하나의 완성 프로젝트로 연결됩니다.</p>
+              <div class="ten-mission-grid">
+                <div class="mission-card"><b>DAY 01</b><strong>AI 개발환경 가동</strong><span>도구 설치·로그인·첫 실행 증거</span></div>
+                <div class="mission-card"><b>DAY 02</b><strong>서비스 성장 역설계</strong><span>사용자 가치·전환·성장 가설</span></div>
+                <div class="mission-card"><b>DAY 03</b><strong>AI 기반 설계</strong><span>요구사항·흐름·구현 기준</span></div>
+                <div class="mission-card"><b>DAY 04</b><strong>Antigravity 구현</strong><span>문서 기반 첫 기능과 검증</span></div>
+                <div class="mission-card"><b>DAY 05</b><strong>백엔드·데이터 연동</strong><span>레이어 구조와 Apps Script 연결</span></div>
+                <div class="mission-card week-two"><b>DAY 06</b><strong>프로젝트 킥오프</strong><span>문제·사용자·범위·역할 확정</span></div>
+                <div class="mission-card week-two"><b>DAY 07</b><strong>AI 프로젝트 설계</strong><span>설계 패키지와 중간 리뷰</span></div>
+                <div class="mission-card week-two"><b>DAY 08</b><strong>MVP 개발</strong><span>핵심 기능과 진행 증거</span></div>
+                <div class="mission-card week-two"><b>DAY 09</b><strong>POC 검증·개선</strong><span>시연·피드백·개선 반영</span></div>
+                <div class="mission-card week-two"><b>DAY 10</b><strong>최종 발표·회고</strong><span>라이브 데모와 다음 로드맵</span></div>
+              </div>
+            </div></article>
+            <article class="slide"><div class="slide-inner">
+              <span class="slide-kicker">Track 02 · 10-Day AI·SW Technology Course</span>
+              <h2>기초 방법론에서<br />MVP·POC까지</h2>
+              <p>실제 운영 일정에 따라 Week 1은 AI 개발 기반, Week 2는 프로젝트 기획·구현·검증·발표에 집중합니다.</p>
+              <div class="dual-week">
+                <section class="week-panel"><header><strong>WEEK 1 · AI 개발 기반과 실전 방법론</strong><span>LEARN &amp; BUILD</span></header>
+                  <div class="tech-day"><b>DAY 01</b><span>과정 소개와 개발 환경 구성</span></div><div class="tech-day"><b>DAY 02</b><span>기본 교육과 서비스 성장 역설계</span></div><div class="tech-day"><b>DAY 03</b><span>AI 기반 설계와 gstack</span></div><div class="tech-day"><b>DAY 04</b><span>Antigravity 구현 실습</span></div><div class="tech-day"><b>DAY 05</b><span>백엔드 구조와 Apps Script</span></div>
+                </section>
+                <section class="week-panel"><header><strong>WEEK 2 · Real Project 완성</strong><span>PLAN · BUILD · VERIFY · PRESENT</span></header>
+                  <div class="tech-day"><b>DAY 06</b><span>실전 개발 프로세스</span></div><div class="tech-day"><b>DAY 07</b><span>AI 기반 프로젝트 설계</span></div><div class="tech-day"><b>DAY 08</b><span>MVP 개발과 중간 점검</span></div><div class="tech-day"><b>DAY 09</b><span>POC 발표와 개선</span></div><div class="tech-day"><b>DAY 10</b><span>최종 발표와 수료식</span></div>
+                </section>
+              </div>
+            </div></article>
+            <article class="slide"><div class="slide-inner">
+              <span class="slide-kicker">Track 03 · Case Study &amp; Transfer</span>
+              <h2>실제 사례를 분석하고<br />내 프로젝트로 전환합니다</h2>
+              <p>사례를 읽는 데서 끝나지 않습니다. 성공 구조와 실패 조건을 비교한 뒤 같은 원리를 자신의 서비스에 적용하고 결과를 검증합니다.</p>
+              <div class="case-study-grid">
+                <div class="case-study"><b>REAL PROJECT 01</b><strong>서비스 성장 역설계</strong><span>사용자 가치·핵심 행동·전환·수익 구조를 실제 서비스에서 추출합니다.</span></div>
+                <div class="case-study"><b>REAL PROJECT 02</b><strong>문서 주도 서비스 개발</strong><span>요구사항과 계약 문서를 구현·검증의 기준으로 사용합니다.</span></div>
+                <div class="case-study"><b>REAL PROJECT 03</b><strong>레이어드 아키텍처</strong><span>변경에 강한 백엔드 책임·의존성 구조를 비교하고 구현합니다.</span></div>
+                <div class="case-study"><b>REAL PROJECT · GSTACK</b><strong>AI Native 개발 워크플로우</strong><span>기획·설계·구현·리뷰·QA·출시를 하나의 반복 가능한 흐름으로 연결합니다.</span></div>
+              </div>
+            </div></article>
+            <article class="slide slide-bilateral"><div class="slide-inner">
+              <span class="slide-kicker">Blended learning · Online × Offline</span>
+              <h2>온라인과 오프라인이<br />하나의 수업으로 이어집니다</h2>
+              <p>온라인에서 준비하고, 오프라인에서 팀으로 실행하며, 다시 온라인에서 완성·제출·피드백하는 입체 교육입니다.</p>
+              <div class="blended-grid">
+                <div class="blended-step"><i class="fa-solid fa-laptop"></i><b>BEFORE · ONLINE</b><strong>개념·사례 사전학습</strong><span>LMS 영상, 교재, 케이스 스터디와 준비 미션으로 수업의 공통 출발점을 만듭니다.</span></div>
+                <div class="blended-step"><i class="fa-solid fa-people-group"></i><b>CLASS · OFFLINE</b><strong>팀 실습·코칭·리뷰</strong><span>강사 피드백과 동료 협업으로 설계하고 구현하며 중요한 결정을 현장에서 검증합니다.</span></div>
+                <div class="blended-step"><i class="fa-solid fa-cloud-arrow-up"></i><b>AFTER · ONLINE</b><strong>개선·제출·피드백</strong><span>AI 실습실에서 결과를 보완하고 산출물·테스트 증거·회고를 제출해 다음 Day로 연결합니다.</span></div>
+              </div>
+            </div></article>
+            <article class="slide"><div class="slide-inner">
+              <span class="slide-kicker">What students do every day</span>
+              <h2>매일 이 다섯 단계를<br />직접 수행합니다</h2>
+              <p>학생은 “오늘 무엇을 배우는가”뿐 아니라 “무엇을 만들고, 어떻게 검증하며, 무엇을 남기는가”까지 알고 시작합니다.</p>
+              <div class="daily-loop">
+                <div><strong>LEARN</strong><span>오늘의 AI·SW 개념과 도구를 이해합니다.</span></div>
+                <div><strong>ANALYZE</strong><span>실제 케이스에서 성공·실패 조건을 찾습니다.</span></div>
+                <div><strong>BUILD</strong><span>AI와 협업해 자신의 프로젝트에 구현합니다.</span></div>
+                <div><strong>VERIFY</strong><span>실행·테스트·리뷰로 결과를 검증합니다.</span></div>
+                <div><strong>RECORD</strong><span>산출물, 근거, 피드백과 다음 행동을 기록합니다.</span></div>
               </div>
             </div></article>
             <article class="slide slide-bilateral"><div class="slide-inner slide-visual-layout">
               <div>
                 <span class="slide-kicker">Final destination</span>
-                <h2>10일 후,<br />우리가 남길 것</h2>
+                <h2>10일 후,<br />설명하고 시연할 수 있습니다</h2>
                 <div class="slide-outcome">
-                  <div><i class="fa-solid fa-circle-check"></i><span>실제로 동작하고 시연할 수 있는 AI Web Service</span></div>
-                  <div><i class="fa-solid fa-circle-check"></i><span>요구사항·화면·데이터·API 설계 문서</span></div>
-                  <div><i class="fa-solid fa-circle-check"></i><span>정상·실패 흐름을 확인한 테스트 증거</span></div>
-                  <div><i class="fa-solid fa-circle-check"></i><span>최종 발표 자료와 Version 2.0 개선 로드맵</span></div>
+                  <div><i class="fa-solid fa-circle-check"></i><span>10개의 Real AI Project Mission과 수행 증거</span></div>
+                  <div><i class="fa-solid fa-circle-check"></i><span>실제로 동작하고 시연 가능한 AI Web Service</span></div>
+                  <div><i class="fa-solid fa-circle-check"></i><span>실제 사례를 내 프로젝트에 적용한 Case Study 기록</span></div>
+                  <div><i class="fa-solid fa-circle-check"></i><span>설계·테스트 문서, 최종 발표와 Version 2.0 로드맵</span></div>
                 </div>
-                <p style="margin-top:20px;color:#67e8f9;font-weight:800;">오늘 Day 1에서 첫 번째 요구사항과 사용자 흐름을 시작합니다.</p>
+                <p style="margin-top:20px;color:#67e8f9;font-weight:800;">오늘 Day 1에서 10일 여정의 목표와 첫 실행을 시작합니다.</p>
               </div>
-              <figure class="slide-visual"><img src="img/day10_presentation.png" loading="lazy" alt="AI Web Service 결과물을 발표하는 모습" /><figcaption>From idea to live service · 10-day final demo</figcaption></figure>
+              <figure class="slide-visual"><img src="img/day10_presentation.png" loading="lazy" alt="AI Web Service 결과물을 발표하는 모습" /><figcaption>Learn · Analyze · Build · Verify · Present</figcaption></figure>
             </div></article>
           </div>
           <div class="slide-controls">
             <button class="slide-nav-btn" id="prevSlide" type="button" aria-label="이전 슬라이드"><i class="fa-solid fa-chevron-left"></i></button>
-            <div class="slide-progress-wrap"><span class="slide-counter" id="slideCounter">1 / 9</span><div class="slide-progress"><span id="slideProgress"></span></div></div>
+            <div class="slide-progress-wrap"><span class="slide-counter" id="slideCounter">1 / 10</span><div class="slide-progress"><span id="slideProgress"></span></div></div>
             <div class="slide-tools"><button class="slide-nav-btn fullscreen-btn" id="fullscreenSlide" type="button" aria-label="슬라이드 전체 화면"><i class="fa-solid fa-expand"></i></button><button class="slide-nav-btn" id="nextSlide" type="button" aria-label="다음 슬라이드"><i class="fa-solid fa-chevron-right"></i></button></div>
           </div>
         </div>
