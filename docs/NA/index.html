@@ -712,6 +712,47 @@
     }
     .footer-links a:hover { color: #fff; }
 
+    @media (max-width: 768px) {
+      .container { padding-left: 18px; padding-right: 18px; }
+      .navbar { padding: 10px 0; }
+      .nav-inner { flex-direction: column; gap: 10px; }
+      .brand-logo { width: 100%; justify-content: center; gap: 10px; }
+      .brand-text { font-size: 0.92rem; }
+      .nav-links {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .nav-btn {
+        min-height: 44px;
+        padding: 9px 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        line-height: 1.25;
+      }
+      .hero-section { padding: 44px 0 42px; }
+      .hero-section::before { width: 380px; height: 380px; left: -210px; top: -150px; }
+      .hero-section::after { width: 42%; }
+      .partnership-pill { flex-wrap: wrap; justify-content: center; font-size: 0.76rem; }
+      .hero-title { font-size: clamp(1.85rem, 9vw, 2.35rem); line-height: 1.4; }
+      .flag-badge-svg { width: 44px; height: 29px; margin: 0 5px; }
+      .hero-desc { font-size: 1rem; }
+      .bilateral-banner { padding: 22px 18px; }
+      .country-card:first-child::after,
+      .country-card.right::after { left: 15%; right: 15%; }
+      .track-banner { height: 170px; padding: 18px; }
+      .track-body { padding: 22px 18px; }
+      .track-title { font-size: 1.35rem; }
+      .track-meta-grid { grid-template-columns: 1fr; }
+      .track-actions { grid-template-columns: 1fr; }
+      .track-actions > * { grid-column: auto !important; min-height: 48px; }
+      .portal-quick-grid { grid-template-columns: 1fr; }
+      .metrics-box { padding: 28px 20px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
