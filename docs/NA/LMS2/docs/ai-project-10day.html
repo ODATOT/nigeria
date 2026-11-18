@@ -32,6 +32,65 @@ document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeou
 new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
 document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
 
+<script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          var m = window.location.pathname.match(/^(.*\/NA\/LMS2\/docs\/)/);
+          if (m) {
+            redirectPath = m[1] + 'login/login.html';
+          } else {
+            var idx = window.location.pathname.indexOf('LMS2/docs/');
+            if (idx !== -1) {
+              var sub = window.location.pathname.substring(idx + 'LMS2/docs/'.length);
+              var depth = (sub.match(/\//g) || []).length;
+              redirectPath = (depth > 0 ? '../'.repeat(depth) : '') + 'login/login.html';
+            } else if (window.location.pathname.indexOf('/day') !== -1 || window.location.pathname.indexOf('/announcement') !== -1 || window.location.pathname.indexOf('/project_day') !== -1) {
+              redirectPath = '../login/login.html';
+            }
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="ACE AI SW Startup Training AI 실전 프로젝트 10일 과정 상세 안내" />

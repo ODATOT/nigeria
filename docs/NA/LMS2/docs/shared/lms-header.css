@@ -345,3 +345,30 @@ html.lms-unified-header-booting body > nav.mobile-nav {
     display: none !important;
   }
 }
+
+/* ---- Nigeria cohort accent (subtle) ---- */
+.lms-unified-header::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #008751 0 33.34%, #ffffff 33.34% 66.67%, #008751 66.67% 100%);
+  box-shadow: 0 1px 0 rgba(36, 59, 53, 0.1);
+  pointer-events: none;
+}
+.lms-header-brand-mark {
+  background: linear-gradient(145deg, #008751, #0b5d3b) !important;
+}
+.lms-header-brand-text::after {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 12px;
+  margin-left: 8px;
+  vertical-align: -1px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #008751 0 33.34%, #ffffff 33.34% 66.67%, #008751 66.67% 100%);
+  box-shadow: 0 0 0 1px rgba(36, 59, 53, 0.2);
+}

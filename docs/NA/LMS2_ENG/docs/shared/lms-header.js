@@ -11,7 +11,7 @@
   if (!document.querySelector('link[data-lms-header-style]')) {
     var styleLink = document.createElement("link");
     styleLink.rel = "stylesheet";
-    styleLink.href = new URL("lms-header.css?v=20261118-unified", sharedBase).href;
+    styleLink.href = new URL("lms-header.css?v=20261119-naija", sharedBase).href;
     styleLink.dataset.lmsHeaderStyle = "true";
     document.head.appendChild(styleLink);
   }

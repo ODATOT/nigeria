@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACE AI SW Startup Training | Participant Login</title>
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #2B5CA6;
+      /* Electric Blue */
+      --secondary-color: #2B5CA6;
+      /* Neon Cyan */
+      --bg-dark: #F6F9F4;
+      /* Deep Black */
+      --bg-charcoal: #F6F9F4;
+      /* Secondary Background */
+      --bg-card: #F6F9F4;
+      /* Surface/Card: Dark Gray */
+      --text-main: #243B35;
+      /* Primary: White */
+      --text-muted: #243B35;
+      /* Secondary: Light Gray */
+      --text-desc: #4A605A;
+      /* Description: Clean Gray */
+      --border-color: rgba(36,59,53,0.08);
+      --accent-color: #2B5CA6;
+      --accent-purple: #5D4AA8;
+      --card-radius: 18px;
+      --shadow-sm: 0 4px 20px rgba(36,59,53,0.14), 0 0 1px rgba(36,59,53,0.035);
+      --shadow-md: 0 8px 30px rgba(36,59,53,0.042), 0 0 1px rgba(36,59,53,0.07);
+      --glow-blue: 0 0 15px rgba(43,92,166,0.35);
+      --glow-cyan: 0 0 15px rgba(43,92,166,0.35);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      background: var(--bg-dark);
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Main Container to give generous room from footer */
+    .login-wrapper {
+      flex: 1;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 60px 20px 80px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .brand-section {
+      text-align: center;
+      margin-bottom: 36px;
+      max-width: 600px;
+    }
+
+    .brand-logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #243B35;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      transition: opacity 0.2s ease;
+    }
+
+    .brand-logo:hover {
+      opacity: 0.9;
+    }
+
+    .brand-logo::before {
+      content: "";
+      width: 8px;
+      height: 24px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .brand-section h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #243B35 40%, #2B5CA6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-section p {
+      font-size: 0.95rem;
+      color: var(--text-desc);
+      line-height: 1.6;
+    }
+
+    /* Operator Login Button */
+    .operator-login-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .operator-login-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 22px;
+      background: linear-gradient(135deg, rgba(93,74,168,0.176), rgba(43,92,166,0.176));
+      border: 1px solid rgba(93,74,168,0.4);
+      border-radius: 999px;
+      color: #243B35;
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 4px 18px rgba(36,59,53,0.063), inset 0 0 12px rgba(36,59,53,0.017);
+      transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .operator-login-btn .operator-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(93,74,168,0.275);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      color: #2B5CA6;
+      transition: all 0.2s ease;
+    }
+
+    .operator-login-btn .operator-arrow {
+      font-size: 0.8rem;
+      color: #5D4AA8;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .operator-login-btn:hover {
+      background: linear-gradient(135deg, rgba(93,74,168,0.352), rgba(43,92,166,0.352));
+      border-color: rgba(93,74,168,0.7);
+      color: #243B35;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(36,59,53,0.122), 0 0 16px rgba(36,59,53,0.105);
+    }
+
+    .operator-login-btn:hover .operator-arrow {
+      transform: translateX(4px);
+      color: #243B35;
+    }
+
+    .operator-login-btn:hover .operator-icon {
+      background: rgba(93,74,168,0.495);
+      color: #243B35;
+    }
+
+    .operator-login-btn:focus-visible {
+      outline: 2px solid rgba(93,74,168,0.55);
+      outline-offset: 3px;
+    }
+
+    /* Search Bar */
+    .search-container {
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 36px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(246,249,244,0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 15px 24px;
+      color: #243B35;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.25s ease;
+      text-align: center;
+    }
+
+    .search-input:focus {
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 16px rgba(36,59,53,0.087);
+      background: rgba(246,249,244,0.95);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-desc);
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 28px;
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 60px;
+    }
+
+    .profile-card {
+      width: 100%;
+      background: rgba(246,249,244,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      padding: 28px 20px;
+      text-align: center;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .profile-card:hover {
+      transform: translateY(-6px);
+      background: rgba(246,249,244,0.95);
+      box-shadow: var(--shadow-md), 0 0 20px rgba(36,59,53,0.07);
+      border-color: rgba(43,92,166,0.45);
+    }
+
+    .profile-card:focus-visible {
+      outline: 3px solid var(--secondary-color);
+      outline-offset: 4px;
+    }
+
+    /* Scanning animation overlay */
+    .scan-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to bottom, transparent, var(--secondary-color), transparent);
+      box-shadow: 0 0 8px var(--secondary-color);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .profile-card:hover .scan-line {
+      animation: scan 2.2s linear infinite;
+      opacity: 1;
+    }
+
+    @keyframes scan {
+      0% {
+        top: 0%;
+      }
+
+      50% {
+        top: 100%;
+      }
+
+      100% {
+        top: 0%;
+      }
+    }
+
+    .avatar-wrapper {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.67);
+      border: 1px solid rgba(36,59,53,0.09);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      box-shadow: inset 0 0 12px rgba(36,59,53,0.017);
+      transition: all 0.3s;
+    }
+
+    .profile-card:hover .avatar-wrapper {
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 16px rgba(36,59,53,0.105);
+      transform: scale(1.05);
+    }
+
+    /* Team Badges */
+    .track-badge {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(43,92,166,0.132);
+      border: 1px solid rgba(43,92,166,0.3);
+      margin-bottom: 14px;
+      letter-spacing: 0.03em;
+    }
+
+    .track-badge.team-1 { color: #2B5CA6; background: rgba(43,92,166,0.132); border-color: rgba(43,92,166,0.3); }
+    .track-badge.team-2 { color: #2B5CA6; background: rgba(43,92,166,0.132); border-color: rgba(43,92,166,0.3); }
+    .track-badge.team-3 { color: #5D4AA8; background: rgba(93,74,168,0.132); border-color: rgba(93,74,168,0.3); }
+    .track-badge.team-4 { color: #856000; background: rgba(133,96,0,0.132); border-color: rgba(133,96,0,0.3); }
+    .track-badge.team-5 { color: #27765B; background: rgba(39,118,91,0.132); border-color: rgba(39,118,91,0.3); }
+    .track-badge.team-none { color: #4A605A; background: rgba(238,244,236,0.12); border-color: rgba(36,59,53,0.225); }
+
+    .founder-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #243B35;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    /* Enhanced Student ID Badge */
+    .student-id-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      background: rgba(43,92,166,0.132);
+      border: 1px solid rgba(43,92,166,0.3);
+      margin-top: 4px;
+      margin-bottom: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .student-id-badge .id-label {
+      color: #2B5CA6;
+      font-weight: 700;
+      font-size: 0.74rem;
+      padding: 2px 6px;
+      background: rgba(43,92,166,0.275);
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+    }
+
+    .student-id-badge .id-value {
+      color: #243B35;
+      font-weight: 700;
+      font-size: 0.92rem;
+      letter-spacing: 0.05em;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .profile-card:hover .student-id-badge {
+      background: rgba(43,92,166,0.176);
+      border-color: rgba(43,92,166,0.45);
+      box-shadow: 0 0 14px rgba(36,59,53,0.087);
+    }
+
+    .profile-card:hover .student-id-badge .id-label {
+      background: rgba(43,92,166,0.33);
+      color: #2B5CA6;
+    }
+
+    /* Login Action Hint */
+    .login-action-hint {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-desc);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .login-action-hint .arrow-icon {
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
+
+    .profile-card:hover .login-action-hint {
+      color: var(--secondary-color);
+    }
+
+    .profile-card:hover .login-action-hint .arrow-icon {
+      transform: translateX(4px);
+    }
+
+    /* Auth Verification Overlay */
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(246,249,244,0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .auth-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .biometric-sensor {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(43,92,166,0.055);
+      border: 2px dashed var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+      position: relative;
+      animation: rotate 10s linear infinite;
+    }
+
+    @keyframes rotate {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .sensor-icon {
+      font-size: 3.5rem;
+      animation: pulsate 1.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulsate {
+      0% {
+        transform: scale(0.9);
+        opacity: 0.6;
+        text-shadow: 0 0 10px rgba(36,59,53,0.105);
+      }
+
+      100% {
+        transform: scale(1.05);
+        opacity: 1;
+        text-shadow: var(--glow-blue);
+      }
+    }
+
+    .auth-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #243B35;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .auth-status {
+      font-size: 0.95rem;
+      color: var(--secondary-color);
+      font-weight: 700;
+      height: 24px;
+    }
+
+    .cancel-btn {
+      margin-top: 40px;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 18px;
+      color: var(--text-desc);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cancel-btn:hover {
+      border-color: rgba(36,59,53,0.18);
+      color: #243B35;
+    }
+
+    /* Site Footer */
+    .site-footer {
+      margin-top: auto;
+      width: 100%;
+      background: #F6F9F4;
+      border-top: 1px solid rgba(36,59,53,0.08);
+      padding: 36px 20px;
+      text-align: center;
+      color: #4A605A;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      position: relative;
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Main Wrapper -->
+  <main class="login-wrapper">
+    <!-- Brand Header -->
+    <div class="brand-section">
+      <a href="../index.html" class="brand-logo">ACE AI SW Startup Training</a>
+      <h1>Participant Login</h1>
+      <p>Select your participant profile card to log in to your learning space.</p>
+      <div class="operator-login-container">
+        <button type="button" class="operator-login-btn" onclick="loginAsOperator()" aria-label="Edunity Lab Staff Login">
+          <span class="operator-icon"><i class="fa-solid fa-shield-halved"></i></span>
+          <span class="operator-label">Edunity Lab Staff Login</span>
+          <i class="fa-solid fa-arrow-right operator-arrow"></i>
+        </button>
+      </div>
+      <div style="margin-top: 14px;">
+        <a href="../notice.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 999px; background: rgba(43,92,166,0.132); border: 1px solid rgba(43,92,166,0.35); color: #2B5CA6; font-size: 0.86rem; font-weight: 600; text-decoration: none; transition: all 0.2s ease;">
+          <i class="fa-solid fa-camera"></i> <span>[Notice] Add your login profile photo (Google Form)</span> <i class="fa-solid fa-chevron-right" style="font-size: 0.72rem;"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Search Panel -->
+    <div class="search-container">
+      <input type="text" class="search-input" id="searchBar" placeholder="Search name, ID or organization..." />
+    </div>
+
+    <!-- Cards Grid Container -->
+    <div class="cards-grid" id="cardsGrid">
+      <!-- Generated dynamically -->
+    </div>
+  </main>
+
+  <!-- Dynamic Authentication Screen -->
+  <div class="auth-overlay" id="authOverlay">
+    <div class="biometric-sensor">
+      <div class="sensor-icon">🧬</div>
+    </div>
+    <h3 class="auth-title" id="authTitle">Establishing Connection...</h3>
+    <div class="auth-status" id="authStatus">Initial check...</div>
+    <button class="cancel-btn" onclick="cancelAuth()">Cancel sign-in</button>
+  </div>
+
+  <script src="login.js?v=20261118-final-roster"></script>
+  <footer class="site-footer">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company: Edunity Lab Co., Ltd.</span> | <span>CEO: Lee Gi-taek</span> | <span>Address: 2F Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul, Korea</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Phone: +82-2-6240-0053</span> | <span>Business Registration No.: 132-86-35644</span> | <span>Mail-Order Business Reg. No.: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

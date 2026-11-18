@@ -66,7 +66,6 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
         }
       }
       
-      // Determine if this is the login.html page
       var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
       
       if (isLoginPage) {
@@ -76,8 +75,18 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
       } else {
         if (!loggedInUser) {
           var redirectPath = 'login/login.html';
-          if (window.location.pathname.indexOf('/day') !== -1) {
-            redirectPath = '../login/login.html';
+          var m = window.location.pathname.match(/^(.*\/NA\/LMS2_ENG\/docs\/)/);
+          if (m) {
+            redirectPath = m[1] + 'login/login.html';
+          } else {
+            var idx = window.location.pathname.indexOf('LMS2_ENG/docs/');
+            if (idx !== -1) {
+              var sub = window.location.pathname.substring(idx + 'LMS2_ENG/docs/'.length);
+              var depth = (sub.match(/\//g) || []).length;
+              redirectPath = (depth > 0 ? '../'.repeat(depth) : '') + 'login/login.html';
+            } else if (window.location.pathname.indexOf('/day') !== -1 || window.location.pathname.indexOf('/announcement') !== -1 || window.location.pathname.indexOf('/project_day') !== -1) {
+              redirectPath = '../login/login.html';
+            }
           }
           window.location.href = redirectPath;
         }
@@ -600,14 +609,16 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
       z-index: 10;
     }
   </style>
+  <link rel="stylesheet" href="../shared/naija-theme.css?v=20261119" />
 </head>
 
-<body>
+<body class="ng-login">
   <!-- Main Wrapper -->
   <main class="login-wrapper">
     <!-- Brand Header -->
     <div class="brand-section">
       <a href="../index.html" class="brand-logo">ACE AI SW Startup Training</a>
+      <div><span class="ng-chip"><i class="ng-flag" aria-hidden="true"></i>Nigeria Cohort<small>Korea × Nigeria</small></span></div>
       <h1>Participant Login</h1>
       <p>Select your participant profile card to log in to your learning space.</p>
       <div class="operator-login-container">

@@ -1,0 +1,173 @@
+/* ACE AI SW · Nigeria cohort theme (subtle)
+   Flag green + white, Adire-inspired pattern, Ankara-inspired band.
+   Shared by login/login.html and index.html (KO + EN). */
+:root {
+  --ng-green: #008751;
+  --ng-green-deep: #0B5D3B;
+  --ng-green-soft: rgba(0, 135, 81, 0.10);
+  --ng-gold: #C8962E;
+  --ng-clay: #B5532F;
+  --ng-ink: #243B35;
+  --ng-flag: linear-gradient(90deg, var(--ng-green) 0 33.34%, #FFFFFF 33.34% 66.67%, var(--ng-green) 66.67% 100%);
+  /* Adire (eleko) inspired tile: rings, dots and stitched lines */
+  --ng-adire: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23008751' stroke-width='1.4'%3E%3Ccircle cx='16' cy='16' r='9'/%3E%3Ccircle cx='16' cy='16' r='4'/%3E%3Ccircle cx='48' cy='48' r='9'/%3E%3Ccircle cx='48' cy='48' r='4'/%3E%3Cpath d='M40 8l16 16M56 8L40 24M8 40l16 16M24 40L8 56' stroke-dasharray='2 3'/%3E%3C/g%3E%3Cg fill='%23008751'%3E%3Ccircle cx='48' cy='16' r='1.6'/%3E%3Ccircle cx='16' cy='48' r='1.6'/%3E%3Ccircle cx='32' cy='32' r='2'/%3E%3C/g%3E%3C/svg%3E");
+  /* Ankara inspired band: triangles + diamonds */
+  --ng-ankara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='12' viewBox='0 0 48 12'%3E%3Crect width='48' height='12' fill='%23008751'/%3E%3Cpath d='M0 12L6 0l6 12z' fill='%230B5D3B'/%3E%3Cpath d='M12 12L18 0l6 12z' fill='%23C8962E'/%3E%3Cpath d='M24 12L30 0l6 12z' fill='%230B5D3B'/%3E%3Cpath d='M36 12L42 0l6 12z' fill='%23B5532F'/%3E%3Cpath d='M18 4l2 2-2 2-2-2zM42 4l2 2-2 2-2-2z' fill='%23FFFFFF'/%3E%3C/svg%3E");
+}
+
+/* ---------- Shared pieces ---------- */
+.ng-flag {
+  display: inline-block;
+  width: 21px;
+  height: 14px;
+  flex: 0 0 auto;
+  border-radius: 3px;
+  background: var(--ng-flag);
+  box-shadow: 0 0 0 1px rgba(36, 59, 53, 0.18);
+}
+.ng-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px 7px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 135, 81, 0.28);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ng-green-deep);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  box-shadow: 0 6px 18px rgba(0, 135, 81, 0.08);
+}
+.ng-chip small {
+  color: #4A605A;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.ng-band {
+  display: block;
+  height: 8px;
+  background: var(--ng-ankara) repeat-x left center / 48px 8px;
+}
+
+/* ---------- Login page ---------- */
+body.ng-login {
+  --primary-color: #008751;
+  --secondary-color: #27765B;
+  --accent-color: #008751;
+  --glow-blue: 0 0 15px rgba(0, 135, 81, 0.28);
+  --glow-cyan: 0 0 15px rgba(0, 135, 81, 0.28);
+  background-color: #F6F9F4;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(0, 135, 81, 0.09) 0%, transparent 42%),
+    radial-gradient(circle at 88% 82%, rgba(200, 150, 46, 0.08) 0%, transparent 40%),
+    linear-gradient(#F6F9F4, #F6F9F4);
+}
+body.ng-login::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--ng-adire) repeat 0 0 / 64px 64px;
+  opacity: 0.07;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.55) 45%, transparent 85%);
+  mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.55) 45%, transparent 85%);
+}
+body.ng-login::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 50;
+  height: 6px;
+  background: var(--ng-flag);
+  box-shadow: 0 1px 0 rgba(36, 59, 53, 0.12);
+}
+body.ng-login .login-wrapper,
+body.ng-login .site-footer { position: relative; z-index: 1; }
+body.ng-login .brand-section .ng-chip { margin-bottom: 18px; }
+body.ng-login .brand-logo::before { background: var(--ng-flag); width: 24px; height: 16px; border-radius: 3px; box-shadow: 0 0 0 1px rgba(36,59,53,.18); }
+body.ng-login .brand-section h1 {
+  background: linear-gradient(135deg, #243B35 35%, #008751 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+body.ng-login .brand-section a[href="../notice.html"] {
+  background: rgba(0, 135, 81, 0.09) !important;
+  border-color: rgba(0, 135, 81, 0.32) !important;
+  color: #0B5D3B !important;
+}
+body.ng-login .profile-card { border-top: 0; }
+body.ng-login .profile-card::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 0;
+  height: 4px;
+  border-radius: 0 0 6px 6px;
+  background: var(--ng-flag);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+body.ng-login .profile-card:hover::after,
+body.ng-login .profile-card:focus-visible::after { opacity: 1; }
+body.ng-login .profile-card:hover { border-color: rgba(0, 135, 81, 0.45) !important; }
+body.ng-login .site-footer { border-top: 0; padding-top: 44px; }
+body.ng-login .site-footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 8px;
+  background: var(--ng-ankara) repeat-x left center / 48px 8px;
+}
+
+body.ng-login .student-id-badge { background: rgba(0,135,81,0.08); border-color: rgba(0,135,81,0.28); }
+body.ng-login .student-id-badge .id-label { color: #0B5D3B; background: rgba(0,135,81,0.16); }
+body.ng-login .profile-card:hover .student-id-badge { background: rgba(0,135,81,0.12); border-color: rgba(0,135,81,0.45); }
+body.ng-login .profile-card:hover .student-id-badge .id-label { color: #0B5D3B; background: rgba(0,135,81,0.24); }
+body.ng-login .operator-login-btn {
+  background: linear-gradient(135deg, rgba(0,135,81,0.10), rgba(200,150,46,0.12)) !important;
+  border-color: rgba(0,135,81,0.35) !important;
+}
+
+/* ---------- Student home (index) ---------- */
+.ng-home .hero-panel {
+  border-color: rgba(0, 135, 81, 0.24) !important;
+  background:
+    linear-gradient(120deg, rgba(0, 135, 81, 0.10), transparent 52%),
+    linear-gradient(160deg, #FFFFFF, #F6F9F4 72%) !important;
+  padding-bottom: calc(clamp(30px, 5vw, 64px) + 8px);
+}
+.ng-home .hero-panel::before {
+  opacity: 0.09 !important;
+  background: var(--ng-adire) repeat 0 0 / 64px 64px !important;
+  -webkit-mask-image: linear-gradient(to left, #000 0%, rgba(0,0,0,.6) 40%, transparent 75%);
+  mask-image: linear-gradient(to left, #000 0%, rgba(0,0,0,.6) 40%, transparent 75%);
+}
+.ng-home .hero-panel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  background: var(--ng-ankara) repeat-x left center / 36px 6px;
+  opacity: .9;
+}
+.ng-home .focus-card .progress span, .ng-home #focusProgressFill { background: linear-gradient(90deg, #008751, #27765B) !important; }
+.ng-home .hero-copy .ng-chip { margin-bottom: 18px; }
+.ng-home .hero-kicker { color: #0B5D3B !important; }
+.ng-home .hero-kicker::before { background: var(--ng-green); }
+.ng-home .today-intro { background: linear-gradient(125deg, rgba(0, 135, 81, 0.10), transparent) !important; }
+
+@media (max-width: 640px) {
+  .ng-chip { font-size: 0.72rem; padding: 6px 12px 6px 8px; }
+  .ng-chip small { display: none; }
+}

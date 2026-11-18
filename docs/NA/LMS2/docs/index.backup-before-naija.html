@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ACE AI SW Startup Training 학생용 학습 홈" />
+  <title>ACE AI SW Startup Training | Student Learning Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script>
+    (function () {
+      var savedTheme = localStorage.getItem("lmsStudentHomeTheme");
+      document.documentElement.dataset.theme = "light";
+    })();
+  </script>
+  <style>
+    :root {
+      --ink: #243B35;
+      --muted: #4A605A;
+      --faint: #6B7F79;
+      --base: #F6F9F4;
+      --surface: #F6F9F4;
+      --surface-2: #F6F9F4;
+      --line: rgba(36,59,53,0.135);
+      --blue: #2B5CA6;
+      --cyan: #27765B;
+      --violet: #5D4AA8;
+      --amber: #856000;
+      --green: #27765B;
+      --danger: #A83A45;
+      --radius-lg: 28px;
+      --radius-md: 20px;
+      --radius-sm: 13px;
+      --shadow: 0 24px 80px rgba(36,59,53,0.119);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(43,92,166,0.121), transparent 29rem),
+        radial-gradient(circle at 88% 26%, rgba(93,74,168,0.088), transparent 31rem),
+        var(--base);
+      font-family: "DM Sans", sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid rgba(43,92,166,0.75); outline-offset: 4px; }
+
+    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--blue);
+      font-family: "Manrope", sans-serif;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .section-heading { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 28px; }
+    .section-heading h2 {
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(1.75rem, 3vw, 2.65rem);
+      line-height: 1.12;
+      letter-spacing: -0.045em;
+    }
+    .section-heading p { max-width: 570px; margin: 0; color: var(--muted); }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--line);
+      background: rgba(36,59,53,0.08);
+      backdrop-filter: blur(20px);
+    }
+    .topbar-inner { min-height: 72px; display: flex; align-items: center; gap: 28px; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: max-content; font-family: "Manrope", sans-serif; font-weight: 800; }
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: linear-gradient(145deg, var(--blue), var(--cyan));
+      box-shadow: 0 10px 35px rgba(36,59,53,0.077);
+      color: #FFFFFF;
+    }
+    .main-nav { display: flex; gap: 6px; margin-left: auto; }
+    .main-nav a, .utility-link {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 13px;
+      border-radius: 11px;
+      color: #4A605A;
+      font-size: 0.88rem;
+      font-weight: 700;
+      transition: 160ms ease;
+    }
+    .main-nav a:hover, .utility-link:hover { background: rgba(255,255,255,0.73); color: #243B35; }
+    .utility-nav { display: flex; gap: 3px; padding-left: 14px; border-left: 1px solid var(--line); }
+    .utility-link { position: relative; width: 42px; padding: 0; justify-content: center; border: 0; background: transparent; cursor: pointer; }
+    .utility-link .dot {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      width: 7px;
+      height: 7px;
+      border: 2px solid var(--base);
+      border-radius: 50%;
+      background: var(--danger);
+    }
+    .profile-chip {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-left: 6px;
+      padding: 5px 9px 5px 5px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.655);
+      color: inherit;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+    .profile-chip:hover { border-color: rgba(43,92,166,0.45); background: rgba(43,92,166,0.088); }
+    .profile-avatar { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; background: #F6F9F4; }
+    .profile-copy { line-height: 1.1; }
+    .profile-copy strong, .profile-copy span { display: block; }
+    .profile-copy strong { max-width: 120px; overflow: hidden; text-overflow: ellipsis; font-size: .78rem; white-space: nowrap; }
+    .profile-copy span { margin-top: 4px; color: var(--faint); font-size: .64rem; }
+
+    .hero { padding: 54px 0 26px; }
+    .hero-panel {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 34px;
+      min-height: 390px;
+      padding: clamp(30px, 5vw, 64px);
+      border: 1px solid rgba(43,92,166,0.22);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(120deg, rgba(43,92,166,0.143), transparent 48%),
+        linear-gradient(160deg, #F6F9F4, #F6F9F4 72%);
+      box-shadow: var(--shadow);
+    }
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .28;
+      background-image: linear-gradient(rgba(255,255,255,0.655) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.655) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(to right, black, transparent 80%);
+    }
+    .hero-copy, .focus-card { position: relative; z-index: 1; }
+    .hero-kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; color: #2B5CA6; font-size: .8rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+    .hero-kicker::before { content: ""; width: 24px; height: 2px; background: var(--cyan); }
+    .hero h1 {
+      max-width: 720px;
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(2.4rem, 5.3vw, 5rem);
+      line-height: .99;
+      letter-spacing: -.065em;
+    }
+    .hero h1 span { color: var(--cyan); }
+    .hero-copy > p { max-width: 620px; margin: 24px 0 30px; color: #4A605A; font-size: 1.05rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 19px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(255,255,255,0.655);
+      font-weight: 800;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+    .btn:hover { transform: translateY(-2px); border-color: rgba(36,59,53,0.225); }
+    .btn-primary { border-color: transparent; color: #FFFFFF; background: #27765B; }
+
+    .focus-card {
+      align-self: end;
+      padding: 24px;
+      border: 1px solid rgba(36,59,53,0.108);
+      border-radius: 22px;
+      background: rgba(36,59,53,0.08);
+      box-shadow: 0 20px 45px rgba(36,59,53,0.081);
+      backdrop-filter: blur(18px);
+      user-select: none;
+    }
+    .focus-label { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--muted); font-size: .75rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+    .focus-label span:last-child { color: var(--green); }
+    .focus-slides { position: relative; min-height: 118px; margin-top: 13px; }
+    .focus-slide { display: none; animation: focusFade 240ms ease; }
+    .focus-slide.active { display: block; }
+    @keyframes focusFade { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }
+    .focus-slide h2 { margin: 0 0 8px; font-family: "Manrope", sans-serif; font-size: 1.35rem; line-height: 1.28; word-break: keep-all; }
+    .focus-slide h2 a:hover { color: var(--cyan); }
+    .focus-slide p { margin: 0; color: var(--muted); font-size: .86rem; line-height: 1.58; word-break: keep-all; }
+    .focus-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; color: var(--cyan); font-size: .78rem; font-weight: 800; }
+    .focus-link:hover { text-decoration: underline; }
+    .progress { height: 7px; margin: 18px 0 12px; overflow: hidden; border-radius: 20px; background: rgba(255,255,255,0.79); cursor: pointer; }
+    .progress span { display: block; width: 10%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), var(--cyan)); transition: width 260ms ease; }
+    .progress-copy { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--faint); font-size: .72rem; }
+    .focus-controls { display: inline-flex; align-items: center; gap: 6px; }
+    .focus-nav-btn {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.67);
+      color: var(--ink);
+      font-size: .72rem;
+      cursor: pointer;
+      transition: 150ms ease;
+    }
+    .focus-nav-btn:hover { border-color: var(--blue); color: var(--cyan); background: rgba(43,92,166,0.132); }
+    .focus-counter { min-width: 44px; text-align: center; font-weight: 800; color: var(--muted); }
+
+    .today { padding: 22px 0 72px; }
+    .today-bar {
+      display: grid;
+      grid-template-columns: 1.2fr repeat(3, 1fr);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(246,249,244,0.78);
+      overflow: hidden;
+    }
+    .today-intro, .today-item { min-height: 112px; padding: 22px; }
+    .today-intro { display: flex; flex-direction: column; justify-content: center; background: linear-gradient(125deg, rgba(43,92,166,0.11), transparent); }
+    .today-intro strong { font-family: "Manrope", sans-serif; font-size: 1.12rem; }
+    .today-intro span { margin-top: 4px; color: var(--muted); font-size: .83rem; }
+    .today-item { display: grid; grid-template-columns: 38px 1fr auto; gap: 12px; align-items: center; border-left: 1px solid var(--line); transition: background 160ms ease; }
+    .today-item:hover { background: rgba(255,255,255,0.655); }
+    .today-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 11px; background: rgba(255,255,255,0.715); color: var(--blue); }
+    .today-copy strong, .today-copy span { display: block; }
+    .today-copy strong { font-size: .87rem; }
+    .today-copy span { margin-top: 3px; color: var(--muted); font-size: .74rem; }
+    .status { padding: 5px 8px; border-radius: 999px; color: var(--green); background: rgba(39,118,91,0.11); font-size: .67rem; font-weight: 800; white-space: nowrap; }
+    .status.action { color: var(--amber); background: rgba(133,96,0,0.11); }
+
+    .track { padding: 74px 0; border-top: 1px solid rgba(36,59,53,0.08); }
+    .track-number { display: inline-grid; width: 32px; height: 32px; margin-right: 10px; place-items: center; border-radius: 10px; background: rgba(43,92,166,0.132); color: var(--blue); font-size: .92rem; vertical-align: 5px; }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      counter-reset: day;
+    }
+    .roadmap.week-two { counter-reset: day 5; }
+    .day-card {
+      position: relative;
+      min-height: 188px;
+      padding: 19px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: linear-gradient(150deg, rgba(255,255,255,0.655), rgba(255,255,255,0.586));
+      transition: 180ms ease;
+    }
+    .day-card:hover { transform: translateY(-4px); border-color: rgba(43,92,166,0.45); background: rgba(43,92,166,0.061); }
+    .day-card::before { counter-increment: day; content: "DAY " counter(day, decimal-leading-zero); display: block; margin-bottom: 24px; color: var(--blue); font-family: "Manrope", sans-serif; font-size: .7rem; font-weight: 800; letter-spacing: .1em; }
+    .day-card h3 { margin: 0 0 7px; font-family: "Manrope", sans-serif; font-size: 1rem; line-height: 1.28; }
+    .day-card p { margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.48; }
+    .day-card i { position: absolute; right: 17px; bottom: 17px; color: #6B7F79; font-size: .78rem; }
+    .day-card .day-type {
+      display: inline-block;
+      margin-top: 13px;
+      padding: 4px 7px;
+      border-radius: 999px;
+      color: var(--cyan);
+      background: rgba(39,118,91,0.099);
+      font-size: .62rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .week-strip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 28px 0 14px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .week-strip::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+    .week-strip span { color: var(--blue); }
+    .module-heading { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin: 54px 0 22px; }
+    .module-heading h3 { margin: 0; font-family: "Manrope", sans-serif; font-size: 1.45rem; }
+    .module-heading p { max-width: 560px; margin: 0; color: var(--muted); font-size: .86rem; }
+    .self-study-note {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+      padding: 14px 17px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--muted);
+      background: rgba(43,92,166,0.055);
+      font-size: .82rem;
+    }
+    .self-study-note i { color: var(--blue); }
+
+    .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .project-card {
+      position: relative;
+      min-height: 315px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      padding: 30px;
+      border: 1px solid rgba(93,74,168,0.22);
+      border-radius: var(--radius-md);
+      background: #F6F9F4;
+      isolation: isolate;
+    }
+    .project-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: var(--project-image) center/cover;
+      opacity: .4;
+      transition: transform 400ms ease, opacity 400ms ease;
+    }
+    .project-card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, rgba(246,249,244,0.97) 12%, rgba(36,59,53,0.08) 78%); }
+    .project-card:hover::before { transform: scale(1.045); opacity: .55; }
+    .project-card .meta { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 13px; }
+    .project-card .meta span { padding: 5px 8px; border: 1px solid rgba(36,59,53,0.135); border-radius: 999px; background: rgba(36,59,53,0.048); color: #243B35; font-size: .65rem; font-weight: 800; }
+    .project-card h3 { margin: 0 0 8px; font-family: "Manrope", sans-serif; font-size: 1.4rem; line-height: 1.2; }
+    .project-card p { max-width: 520px; margin: 0; color: #4A605A; font-size: .86rem; }
+    .project-card .arrow { position: absolute; right: 28px; top: 28px; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,0.82); }
+
+    .challenge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .challenge-card { min-height: 270px; display: flex; flex-direction: column; padding: 25px; border: 1px solid rgba(133,96,0,0.19); border-radius: var(--radius-md); background: linear-gradient(150deg, rgba(133,96,0,0.077), rgba(255,255,255,0.604)); transition: 180ms ease; }
+    .challenge-card:hover { transform: translateY(-4px); border-color: rgba(133,96,0,0.5); }
+    .challenge-icon { width: 45px; height: 45px; display: grid; place-items: center; border-radius: 13px; color: var(--amber); background: rgba(133,96,0,0.11); }
+    .challenge-card h3 { margin: 23px 0 9px; font-family: "Manrope", sans-serif; font-size: 1.15rem; }
+    .challenge-card p { margin: 0; color: var(--muted); font-size: .84rem; }
+    .challenge-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: auto; padding-top: 22px; color: var(--faint); font-size: .75rem; }
+    .challenge-footer strong { color: var(--amber); }
+
+    .support { padding: 70px 0 92px; }
+    .support-panel {
+      display: grid;
+      grid-template-columns: 1.1fr 1.9fr;
+      gap: 30px;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: #F6F9F4;
+    }
+    .support-copy h2 { margin: 0 0 8px; font-family: "Manrope", sans-serif; font-size: 1.35rem; }
+    .support-copy p { margin: 0; color: var(--muted); font-size: .84rem; }
+    .support-links { display: grid; grid-template-columns: repeat(6, 1fr); gap: 9px; }
+    .support-link { min-height: 84px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line); border-radius: 14px; color: #4A605A; background: rgba(255,255,255,0.625); font-size: .75rem; font-weight: 700; transition: 160ms ease; }
+    .support-link:hover { color: #243B35; border-color: rgba(43,92,166,0.4); background: rgba(43,92,166,0.066); }
+    .support-link i { color: var(--blue); font-size: 1rem; }
+
+    footer { padding: 25px 0 96px; border-top: 1px solid var(--line); color: var(--faint); font-size: .75rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+    .preview-badge { color: var(--amber); }
+    .mobile-nav { display: none; }
+
+    html[data-theme="light"] { color-scheme: light; }
+    html[data-theme="dark"] { color-scheme: dark; }
+    html[data-theme="light"] {
+      --ink: #243B35;
+      --muted: #243B35;
+      --faint: #6B7F79;
+      --base: #FFFFFF;
+      --surface: #FFFFFF;
+      --surface-2: #F6F9F4;
+      --line: rgba(43,92,166,0.14);
+      --blue: #2B5CA6;
+      --cyan: #27765B;
+      --violet: #5D4AA8;
+      --amber: #856000;
+      --green: #27765B;
+      --danger: #A83A45;
+      --shadow: 0 22px 65px rgba(36,59,53,0.049);
+    }
+    html[data-theme="light"] body {
+      background:
+        radial-gradient(circle at 8% 4%, rgba(43,92,166,0.132), transparent 30rem),
+        radial-gradient(circle at 92% 24%, rgba(93,74,168,0.088), transparent 28rem),
+        #FFFFFF;
+    }
+    html[data-theme="light"] .topbar {
+      border-bottom-color: rgba(43,92,166,0.12);
+      background: rgba(255,255,255,0.9);
+      box-shadow: 0 8px 32px rgba(36,59,53,0.025);
+    }
+    html[data-theme="light"] .main-nav a,
+    html[data-theme="light"] .utility-link { color: #243B35; }
+    html[data-theme="light"] .main-nav a:hover,
+    html[data-theme="light"] .utility-link:hover { color: #2B5CA6; background: #F6F9F4; }
+    html[data-theme="light"] .profile-chip { background: #FFFFFF; box-shadow: 0 6px 18px rgba(36,59,53,0.028); }
+    html[data-theme="light"] .profile-avatar { background: #F6F9F4; }
+    html[data-theme="light"] .hero-panel {
+      border-color: rgba(43,92,166,0.25);
+      background:
+        linear-gradient(120deg, rgba(43,92,166,0.121), transparent 48%),
+        linear-gradient(160deg, #FFFFFF, #F6F9F4 72%);
+    }
+    html[data-theme="light"] .hero-panel::before { opacity: .45; background-image: linear-gradient(rgba(43,92,166,0.066) 1px, transparent 1px), linear-gradient(90deg, rgba(43,92,166,0.066) 1px, transparent 1px); }
+    html[data-theme="light"] .hero-kicker { color: #2B5CA6; }
+    html[data-theme="light"] .hero-copy > p { color: #243B35; }
+    html[data-theme="light"] .focus-card { border-color: rgba(43,92,166,0.14); background: rgba(255,255,255,0.9); box-shadow: 0 16px 40px rgba(36,59,53,0.042); }
+    html[data-theme="light"] .focus-nav-btn { background: #FFFFFF; border-color: rgba(43,92,166,0.16); color: #243B35; }
+    html[data-theme="light"] .focus-nav-btn:hover { background: #F6F9F4; border-color: rgba(43,92,166,0.55); color: #2B5CA6; }
+    html[data-theme="light"] .progress { background: #EEF4EC; }
+    html[data-theme="light"] .btn { border-color: rgba(43,92,166,0.17); background: rgba(255,255,255,0.78); color: #243B35; }
+    html[data-theme="light"] .btn-primary { border-color: transparent; color: #FFFFFF; background: #27765B; }
+    html[data-theme="light"] .today-bar { background: rgba(255,255,255,0.91); box-shadow: 0 14px 38px rgba(36,59,53,0.028); }
+    html[data-theme="light"] .today-intro { background: linear-gradient(125deg, rgba(43,92,166,0.11), transparent); }
+    html[data-theme="light"] .today-item:hover { background: #F6F9F4; }
+    html[data-theme="light"] .today-icon { background: #F6F9F4; }
+    html[data-theme="light"] .track { border-top-color: rgba(43,92,166,0.09); }
+    html[data-theme="light"] .day-card { border-color: rgba(43,92,166,0.13); background: #FFFFFF; box-shadow: 0 8px 25px rgba(36,59,53,0.025); }
+    html[data-theme="light"] .day-card:hover { border-color: rgba(43,92,166,0.42); background: #FFFFFF; box-shadow: 0 15px 34px rgba(36,59,53,0.042); }
+    html[data-theme="light"] .day-card i { color: #6B7F79; }
+    html[data-theme="light"] .project-card { color: #243B35; border-color: rgba(36,59,53,0.14); box-shadow: 0 13px 34px rgba(36,59,53,0.056); }
+    html[data-theme="light"] .challenge-card { border-color: rgba(133,96,0,0.18); background: #FFFFFF; box-shadow: 0 8px 25px rgba(36,59,53,0.025); }
+    html[data-theme="light"] .challenge-card:hover { border-color: rgba(133,96,0,0.45); box-shadow: 0 15px 34px rgba(36,59,53,0.042); }
+    html[data-theme="light"] .support-panel { background: #FFFFFF; box-shadow: 0 12px 34px rgba(36,59,53,0.028); }
+    html[data-theme="light"] .support-link { color: #243B35; background: #FFFFFF; }
+    html[data-theme="light"] .support-link:hover { color: #2B5CA6; border-color: rgba(43,92,166,0.35); background: #F6F9F4; }
+    html[data-theme="light"] footer { border-top-color: rgba(43,92,166,0.12); }
+    html[data-theme="light"] .mobile-nav { background: rgba(255,255,255,0.96); box-shadow: 0 12px 38px rgba(36,59,53,0.056); }
+
+    @media (max-width: 1040px) {
+      .main-nav { display: none; }
+      .utility-nav { margin-left: auto; }
+      .hero-panel { grid-template-columns: 1fr; }
+      .focus-card { max-width: 520px; }
+      .today-bar { grid-template-columns: 1fr 1fr; }
+      .today-item { border-top: 1px solid var(--line); }
+      .today-item:nth-child(2) { border-top: 0; }
+      .roadmap { grid-template-columns: repeat(3, 1fr); }
+      .support-panel { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      body { padding-bottom: 70px; }
+      .shell { width: min(100% - 28px, 1180px); }
+      .topbar-inner { min-height: 64px; }
+      .brand span:last-child { font-size: .82rem; }
+      .utility-nav .utility-link:nth-child(3), .profile-copy { display: none; }
+      .profile-chip { border: 0; padding: 0; background: transparent; }
+      .hero { padding-top: 24px; }
+      .hero-panel { min-height: 0; padding: 29px 23px; }
+      .hero h1 { font-size: clamp(2.5rem, 13vw, 4rem); }
+      .focus-card { padding: 20px; }
+      .today { padding-bottom: 55px; }
+      .today-bar { grid-template-columns: 1fr; }
+      .today-item { border-left: 0; border-top: 1px solid var(--line) !important; }
+      .section-heading { display: block; }
+      .section-heading p { margin-top: 14px; }
+      .module-heading { display: block; }
+      .module-heading p { margin-top: 9px; }
+      .roadmap { display: flex; overflow-x: auto; padding-bottom: 12px; scroll-snap-type: x mandatory; }
+      .day-card { min-width: 230px; scroll-snap-align: start; }
+      .project-grid, .challenge-grid { grid-template-columns: 1fr; }
+      .project-card { min-height: 290px; padding: 25px; }
+      .support-links { grid-template-columns: repeat(3, 1fr); }
+      .footer-inner { display: block; }
+      .footer-inner span { display: block; margin-top: 5px; }
+      .mobile-nav {
+        position: fixed;
+        z-index: 120;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        padding: 7px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(246,249,244,0.94);
+        backdrop-filter: blur(18px);
+        box-shadow: 0 12px 45px rgba(36,59,53,0.14);
+      }
+      .mobile-nav a { min-height: 48px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--muted); font-size: .61rem; }
+      .mobile-nav i { font-size: .9rem; }
+      .mobile-nav a:first-child { color: var(--cyan); }
+    }
+  </style>
+  <script src="./shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="index.html" aria-label="학생 학습 홈">
+        <span class="brand-mark">A</span>
+        <span>ACE AI SW</span>
+      </a>
+      <nav class="main-nav" aria-label="주요 학습 메뉴">
+        <a href="#roadmap">10일 프로젝트</a>
+        <a href="#projects">개인 자율학습</a>
+        <a href="#challenges">과제·케이스 스터디</a>
+      </nav>
+      <nav class="utility-nav" aria-label="교육 지원 메뉴">
+        <a class="utility-link" href="notice.html" title="공지사항" aria-label="공지사항"><i class="fa-regular fa-bell"></i><span class="dot"></span></a>
+        <a class="utility-link" href="attendance_qr.html" title="출석" aria-label="출석"><i class="fa-regular fa-calendar-check"></i></a>
+        <a class="utility-link" href="qr_resources.html" title="설문 및 자료" aria-label="설문 및 자료"><i class="fa-solid fa-link"></i></a>
+        <button class="utility-link theme-toggle" id="themeToggle" type="button" title="화면 테마 변경" aria-label="어두운 화면으로 변경" aria-pressed="false"><i class="fa-regular fa-moon"></i></button>
+      </nav>
+      <button class="profile-chip" id="profileButton" type="button" title="로그아웃" aria-label="현재 로그인 참가자. 로그아웃">
+        <span class="profile-avatar" id="profileAvatar">👤</span>
+        <span class="profile-copy"><strong id="profileName">Participant</strong><span id="profileId">ACE AI SW Training</span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell hero-panel">
+        <div class="hero-copy">
+          <span class="hero-kicker">10-Day AI Project Sprint · Student Learning Home</span>
+          <h1>Build with AI.<br /><span>Launch in 10 days.</span></h1>
+          <p>Codex, Antigravity, Claude와 gstack을 활용해 서비스 분석과 설계부터 MVP 구현, 검증, 최종 발표까지 하나의 실전 프로젝트로 완주합니다.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="ai-project-10day.html">상세 과정 안내 <i class="fa-solid fa-arrow-right"></i></a>
+            <a class="btn" href="#roadmap">10일 일정 한눈에 보기</a>
+          </div>
+        </div>
+        <aside class="focus-card" id="focusCarousel" tabindex="0" aria-label="10일 과정 슬라이드">
+          <div class="focus-label"><span>Live Program</span><span id="focusWeekLabel">Week 1 · Monday</span></div>
+          <div class="focus-slides" aria-live="polite">
+            <div class="focus-slide active" data-week="Week 1 · Monday">
+              <h2><a href="ai-project-day1.html">Day 1 · 과정 소개와 개발 환경 구성</a></h2>
+              <p>전체 교육 과정과 ACE AI SW Startup Training을 이해하고 AI 개발 도구를 준비합니다.</p>
+              <a class="focus-link" href="ai-project-day1.html">Day 1 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 1 · Tuesday">
+              <h2><a href="ai-project-day2.html">Day 2 · 기본 교육과 서비스 성장 역설계</a></h2>
+              <p>AI 개발의 기본 원리를 익히고 실제 서비스의 성장 구조를 역으로 분석합니다.</p>
+              <a class="focus-link" href="ai-project-day2.html">Day 2 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 1 · Wednesday">
+              <h2><a href="ai-project-day3.html">Day 3 · AI 기반 설계와 gstack</a></h2>
+              <p>AI 기반 서비스 설계, gstack 워크플로우, 문서 주도 개발 방법을 연결합니다.</p>
+              <a class="focus-link" href="ai-project-day3.html">Day 3 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 1 · Thursday">
+              <h2><a href="ai-project-day4.html">Day 4 · Antigravity 구현 실습</a></h2>
+              <p>설계 문서를 기준으로 Antigravity와 gstack을 활용해 실제 기능 구현을 시작합니다.</p>
+              <a class="focus-link" href="ai-project-day4.html">Day 4 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 1 · Friday">
+              <h2><a href="ai-project-day5.html">Day 5 · 백엔드 구조와 Apps Script</a></h2>
+              <p>레이어드 아키텍처를 익히고 Apps Script를 이용해 데이터 연동 기능을 구현합니다.</p>
+              <a class="focus-link" href="ai-project-day5.html">Day 5 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 2 · Monday">
+              <h2><a href="ai-project-day6.html">Day 6 · 실전 개발 프로세스</a></h2>
+              <p>팀 프로젝트의 목표와 역할을 정하고 개발 프로세스와 산출물 기준을 확정합니다.</p>
+              <a class="focus-link" href="ai-project-day6.html">Day 6 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 2 · Tuesday">
+              <h2><a href="ai-project-day7.html">Day 7 · AI 기반 프로젝트 설계</a></h2>
+              <p>서비스 기획과 설계를 완성하고 중간 발표를 통해 구현 범위와 우선순위를 검증합니다.</p>
+              <a class="focus-link" href="ai-project-day7.html">Day 7 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 2 · Wednesday">
+              <h2><a href="ai-project-day8.html">Day 8 · MVP 개발과 중간 점검</a></h2>
+              <p>AI 도구를 활용해 핵심 기능을 구현하고 팀별 진행 상황과 위험 요소를 점검합니다.</p>
+              <a class="focus-link" href="ai-project-day8.html">Day 8 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 2 · Thursday">
+              <h2><a href="ai-project-day9.html">Day 9 · POC 발표와 개선</a></h2>
+              <p>동작하는 POC를 시연하고 피드백을 반영해 완성도와 발표 메시지를 개선합니다.</p>
+              <a class="focus-link" href="ai-project-day9.html">Day 9 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 2 · Friday">
+              <h2><a href="ai-project-day10.html">Day 10 · 최종 발표와 수료식</a></h2>
+              <p>완성 프로젝트를 발표하고 학습 결과를 공유한 뒤 전체 10일 과정을 마무리합니다.</p>
+              <a class="focus-link" href="ai-project-day10.html">Day 10 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="progress" id="focusProgressBar" title="클릭하여 해당 일차로 이동" aria-label="10일 과정 진행률"><span id="focusProgressFill"></span></div>
+          <div class="progress-copy">
+            <span>10-day project sprint</span>
+            <div class="focus-controls">
+              <button class="focus-nav-btn" id="focusPrev" type="button" aria-label="이전 일차"><i class="fa-solid fa-chevron-left"></i></button>
+              <span class="focus-counter" id="focusCounter">1 / 10</span>
+              <button class="focus-nav-btn" id="focusNext" type="button" aria-label="다음 일차"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="today-title">
+      <div class="shell today-bar">
+        <div class="today-intro"><strong id="today-title">오늘 확인할 항목</strong><span>학습 전에 필요한 운영 항목을 한곳에서 확인하세요.</span></div>
+        <a class="today-item" href="notice.html"><span class="today-icon"><i class="fa-regular fa-bell"></i></span><span class="today-copy"><strong>공지사항</strong><span>교육 안내와 변경 사항</span></span><span class="status action">1 NEW</span></a>
+        <a class="today-item" href="attendance_qr.html"><span class="today-icon"><i class="fa-regular fa-calendar-check"></i></span><span class="today-copy"><strong>오늘의 출석</strong><span>수업 시작 전 체크인</span></span><span class="status action">확인 필요</span></a>
+        <a class="today-item" href="qr_resources.html"><span class="today-icon"><i class="fa-regular fa-clipboard"></i></span><span class="today-copy"><strong>설문 및 자료</strong><span>필요한 링크 빠른 접근</span></span><span class="status">열기</span></a>
+      </div>
+    </section>
+
+    <section class="track" id="roadmap">
+      <div class="shell">
+        <div class="section-heading">
+          <div><p class="eyebrow">Track 01 · Live AI Project Sprint</p><h2><span class="track-number">1</span>AI 실전 프로젝트 10일 과정</h2></div>
+          <p>첫 주에는 AI 개발 환경과 핵심 방법론을 익히고, 둘째 주에는 하나의 프로젝트를 기획·구현·검증·발표합니다.</p>
+        </div>
+        <div class="week-strip"><span>Week 1</span> AI 개발 기반과 실전 방법론</div>
+        <div class="roadmap" aria-label="첫째 주 AI 개발 교육 과정">
+          <a class="day-card" href="ai-project-day1.html"><h3>과정 소개와 개발 환경 구성</h3><p>전체 교육 및 ACE AI SW Startup Training 소개. Codex, Antigravity, Claude 개발 환경을 준비합니다.</p><span class="day-type">MON · ORIENTATION</span><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="ai-project-day2.html"><h3>기본 교육과 서비스 성장 역설계</h3><p>AI 개발의 기본 원리를 익히고 실제 서비스의 성장 구조를 역으로 분석합니다.</p><span class="day-type">TUE · REAL PROJECT 1</span><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="ai-project-day3.html"><h3>AI 기반 설계와 gstack</h3><p>AI 기반 서비스 설계, gstack 워크플로우, 문서 주도 개발 방법을 연결합니다.</p><span class="day-type">WED · DESIGN</span><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="ai-project-day4.html"><h3>Antigravity 구현 실습</h3><p>설계 문서를 기준으로 Antigravity와 gstack을 활용해 실제 기능 구현을 시작합니다.</p><span class="day-type">THU · BUILD</span><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="ai-project-day5.html"><h3>백엔드 구조와 Apps Script</h3><p>레이어드 아키텍처를 익히고 Apps Script를 이용해 데이터 연동 기능을 구현합니다.</p><span class="day-type">FRI · BACKEND</span><i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="week-strip"><span>Week 2</span> Real Project 기획·구현·검증·발표</div>
+        <div class="roadmap week-two" aria-label="둘째 주 실전 프로젝트 과정">
+          <a class="day-card" href="ai-project-day6.html"><h3>실전 개발 프로세스</h3><p>팀 프로젝트의 목표와 역할을 정하고 개발 프로세스와 산출물 기준을 확정합니다.</p><span class="day-type">MON · PROJECT KICKOFF</span><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="ai-project-day7.html"><h3>AI 기반 프로젝트 설계</h3><p>서비스 기획과 설계를 완성하고 중간 발표를 통해 구현 범위와 우선순위를 검증합니다.</p><span class="day-type">TUE · PLAN &amp; REVIEW</span><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="ai-project-day8.html"><h3>MVP 개발과 중간 점검</h3><p>AI 도구를 활용해 핵심 기능을 구현하고 팀별 진행 상황과 위험 요소를 점검합니다.</p><span class="day-type">WED · MVP BUILD</span><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="ai-project-day9.html"><h3>POC 발표와 개선</h3><p>동작하는 POC를 시연하고 피드백을 반영해 완성도와 발표 메시지를 개선합니다.</p><span class="day-type">THU · POC REVIEW</span><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="ai-project-day10.html"><h3>최종 발표와 수료식</h3><p>완성 프로젝트를 발표하고 학습 결과를 공유한 뒤 전체 10일 과정을 마무리합니다.</p><span class="day-type">FRI · FINAL &amp; GRADUATION</span><i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="module-heading">
+          <div><p class="eyebrow" style="color: var(--violet)">Applied Learning Modules</p><h3>10일 과정에서 사용하는 핵심 실습 모듈</h3></div>
+          <p>각 모듈은 별도 과정이 아니라 10일 프로젝트의 분석·설계·구현 단계에서 사용하는 실습 워크스페이스입니다.</p>
+        </div>
+        <div class="project-grid">
+          <a class="project-card" href="real-benchmarking/index.html" style="--project-image:url('img/gstack_sprint_cover.png')"><span class="arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></span><div class="meta"><span>REAL PROJECT 1</span><span>BENCHMARKING</span></div><h3>서비스 성장 역설계</h3><p>실제 서비스를 관찰하고 사용자 가치, 핵심 흐름, 성장 구조를 재설계합니다.</p></a>
+          <a class="project-card" href="real-doc-driven-pbl/index.html" style="--project-image:url('img/real_project2_cover.png')"><span class="arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></span><div class="meta"><span>REAL PROJECT 2</span><span>DOC-DRIVEN</span></div><h3>문서 주도 서비스 개발</h3><p>요구사항과 계약 문서를 구현·검증의 기준으로 사용해 서비스 전체를 완성합니다.</p></a>
+          <a class="project-card" href="real-django-layered/index.html" style="--project-image:url('img/real_project3_cover.png')"><span class="arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></span><div class="meta"><span>REAL PROJECT 3</span><span>ARCHITECTURE</span></div><h3>Django 레이어드 아키텍처</h3><p>책임과 의존성을 분리해 변경에 강한 백엔드 구조를 설계하고 구현합니다.</p></a>
+          <a class="project-card" href="real-project-gstack/index.html" style="--project-image:url('img/real_project_gstack_cover.png')"><span class="arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></span><div class="meta"><span>AI WORKFLOW</span><span>GSTACK</span></div><h3>gstack 개발 워크플로우</h3><p>기획, 구현, 리뷰, QA, 배포를 연결하는 AI 기반 프로젝트 실행 방식을 학습합니다.</p></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="track" id="projects">
+      <div class="shell">
+        <div class="section-heading">
+          <div><p class="eyebrow" style="color: var(--violet)">Track 02 · Self-Paced Learning</p><h2><span class="track-number" style="color:var(--violet);background:rgba(93,74,168,0.132)">2</span>개발 프로세스 개인 학습</h2></div>
+          <p>정규 프로젝트 시간과 별도로 자신의 수준과 속도에 맞춰 Day 1~10 개발 주제를 반복 학습합니다.</p>
+        </div>
+        <div class="self-study-note"><i class="fa-regular fa-clock"></i><span>개인 학습 영역입니다. 필요한 주제를 선택해 자유롭게 학습하고 실전 프로젝트에서 부족한 부분을 보완하세요.</span></div>
+        <div class="roadmap" aria-label="Day 1부터 Day 10까지 개인 학습 과정">
+          <a class="day-card" href="day1/day1-ai-classroom.html"><h3>문제 정의와 요구사항</h3><p>사용자 문제를 구현 가능한 요구사항으로 전환합니다.</p><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="day2/day2-ai-classroom.html"><h3>도메인과 업무 흐름</h3><p>서비스의 핵심 개념과 사용자 여정을 구조화합니다.</p><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="day3/day3-ai-classroom.html"><h3>데이터 모델링</h3><p>도메인 관계를 데이터 구조와 ERD로 구체화합니다.</p><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="day4/day4-ai-classroom.html"><h3>API와 시스템 계약</h3><p>팀이 함께 구현할 인터페이스 계약을 정의합니다.</p><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="day5/day5-ai-classroom.html"><h3>프롬프트와 평가</h3><p>AI 기능의 동작 기준과 평가 방법을 설계합니다.</p><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="day6/day6-ai-classroom.html"><h3>프론트엔드 구현</h3><p>상태와 접근성을 고려한 화면을 구현합니다.</p><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="day7/day7-ai-classroom.html"><h3>서비스 통합</h3><p>화면, API, 데이터를 하나의 제품으로 연결합니다.</p><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="day8/day8-ai-classroom.html"><h3>테스트와 보안</h3><p>핵심 시나리오와 실패 조건을 검증합니다.</p><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="day9/day9-ai-classroom.html"><h3>결제와 운영</h3><p>중복과 누락을 통제하며 운영 흐름을 만듭니다.</p><i class="fa-solid fa-arrow-right"></i></a>
+          <a class="day-card" href="day10/day10-ai-classroom.html"><h3>출시와 발표</h3><p>배포 준비와 제품 가치 전달 방식을 익힙니다.</p><i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="track" id="challenges">
+      <div class="shell">
+        <div class="section-heading">
+          <div><p class="eyebrow" style="color: var(--amber)">Track 03 · Challenge &amp; Case Study</p><h2><span class="track-number" style="color:var(--amber);background:rgba(133,96,0,0.132)">3</span>과제·케이스 스터디</h2></div>
+          <p>학습한 개념을 짧고 구체적인 업무 상황에 적용하고, 결과물로 문제 해결 역량을 확인합니다.</p>
+        </div>
+        <div class="challenge-grid">
+          <a class="challenge-card" href="homework_week1.html"><span class="challenge-icon"><i class="fa-regular fa-pen-to-square"></i></span><h3>Day 1~5 실습 과제</h3><p>요구사항, 업무 흐름, 데이터, API, AI 평가 설계를 사례별로 연습합니다.</p><span class="challenge-footer"><span>10 CASES</span><strong>과제 열기 →</strong></span></a>
+          <a class="challenge-card" href="homework_week2.html"><span class="challenge-icon"><i class="fa-solid fa-code"></i></span><h3>Day 6~10 실습 과제</h3><p>구현, 서비스 통합, 테스트, 운영, 출시 판단을 실제 시나리오로 해결합니다.</p><span class="challenge-footer"><span>10 CASES</span><strong>과제 열기 →</strong></span></a>
+          <a class="challenge-card" href="homework_codex_field.html"><span class="challenge-icon"><i class="fa-solid fa-briefcase"></i></span><h3>Codex 현업 활용 과제</h3><p>연결 앱과 AI를 이용해 협업, 운영, 고객 대응과 배포 업무를 안전하게 수행합니다.</p><span class="challenge-footer"><span>10 MISSIONS</span><strong>미션 열기 →</strong></span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="support" id="support">
+      <div class="shell support-panel">
+        <div class="support-copy"><p class="eyebrow">Training Support</p><h2>학습에 필요한 지원 메뉴</h2><p>운영 기능은 학습 트랙과 분리하되 언제든 빠르게 접근할 수 있도록 제공합니다.</p></div>
+        <div class="support-links">
+          <a class="support-link" href="notice.html"><i class="fa-regular fa-bell"></i><span>공지사항</span></a>
+          <a class="support-link" href="attendance_qr.html"><i class="fa-regular fa-calendar-check"></i><span>출석</span></a>
+          <a class="support-link" href="qr_resources.html"><i class="fa-regular fa-clipboard"></i><span>설문</span></a>
+          <a class="support-link" href="qr_resources.html"><i class="fa-regular fa-folder-open"></i><span>교육 자료</span></a>
+          <a class="support-link" href="http://devhj.local/ODA_AI_SW/docs/NA/LMS2/docs/upload.html"><i class="fa-solid fa-cloud-arrow-up"></i><span>자료 업로드</span></a>
+          <a class="support-link" href="notice.html"><i class="fa-regular fa-circle-question"></i><span>문의·안내</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="shell footer-inner"><strong>ACE AI SW Startup Training</strong><span><span class="preview-badge">STUDENT LEARNING HOME</span> · 학생용 학습 홈</span></div></footer>
+
+  <nav class="mobile-nav" aria-label="모바일 주요 메뉴">
+    <a href="#"><i class="fa-solid fa-house"></i><span>홈</span></a>
+    <a href="#roadmap"><i class="fa-solid fa-rocket"></i><span>10일 과정</span></a>
+    <a href="#projects"><i class="fa-solid fa-book-open"></i><span>개인 학습</span></a>
+    <a href="#challenges"><i class="fa-solid fa-list-check"></i><span>과제</span></a>
+    <a href="#support"><i class="fa-solid fa-ellipsis"></i><span>더보기</span></a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+      var themeToggle = document.getElementById("themeToggle");
+      function syncThemeButton() {
+        var isDark = document.documentElement.dataset.theme === "dark";
+        themeToggle.setAttribute("aria-pressed", String(isDark));
+        themeToggle.setAttribute("aria-label", isDark ? "밝은 화면으로 변경" : "어두운 화면으로 변경");
+        themeToggle.title = isDark ? "밝은 화면으로 변경" : "어두운 화면으로 변경";
+        themeToggle.innerHTML = isDark ? '<i class="fa-regular fa-sun"></i>' : '<i class="fa-regular fa-moon"></i>';
+      }
+      themeToggle.addEventListener("click", function () {
+        var nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = nextTheme;
+        localStorage.setItem("lmsStudentHomeTheme", nextTheme);
+        syncThemeButton();
+      });
+      syncThemeButton();
+
+      // 10-Day Live Program Focus Card Slider
+      var focusCard = document.getElementById("focusCarousel");
+      var focusSlides = Array.prototype.slice.call(document.querySelectorAll("#focusCarousel .focus-slide"));
+      var focusWeekLabel = document.getElementById("focusWeekLabel");
+      var focusProgressFill = document.getElementById("focusProgressFill");
+      var focusProgressBar = document.getElementById("focusProgressBar");
+      var focusCounter = document.getElementById("focusCounter");
+      var focusPrev = document.getElementById("focusPrev");
+      var focusNext = document.getElementById("focusNext");
+      var currentFocusIdx = 0;
+      var autoTimer = null;
+
+      function showFocusSlide(index) {
+        if (!focusSlides.length) return;
+        currentFocusIdx = (index + focusSlides.length) % focusSlides.length;
+        focusSlides.forEach(function (slide, idx) {
+          slide.classList.toggle("active", idx === currentFocusIdx);
+        });
+        var activeSlide = focusSlides[currentFocusIdx];
+        if (focusWeekLabel && activeSlide) {
+          focusWeekLabel.textContent = activeSlide.getAttribute("data-week") || "";
+        }
+        if (focusProgressFill) {
+          focusProgressFill.style.width = ((currentFocusIdx + 1) / focusSlides.length * 100) + "%";
+        }
+        if (focusCounter) {
+          focusCounter.textContent = (currentFocusIdx + 1) + " / " + focusSlides.length;
+        }
+      }
+
+      function startAutoSlide() {
+        stopAutoSlide();
+        autoTimer = setInterval(function () {
+          showFocusSlide(currentFocusIdx + 1);
+        }, 5000);
+      }
+
+      function stopAutoSlide() {
+        if (autoTimer) {
+          clearInterval(autoTimer);
+          autoTimer = null;
+        }
+      }
+
+      if (focusPrev) {
+        focusPrev.addEventListener("click", function () {
+          showFocusSlide(currentFocusIdx - 1);
+          startAutoSlide();
+        });
+      }
+      if (focusNext) {
+        focusNext.addEventListener("click", function () {
+          showFocusSlide(currentFocusIdx + 1);
+          startAutoSlide();
+        });
+      }
+      if (focusProgressBar) {
+        focusProgressBar.addEventListener("click", function (e) {
+          var rect = focusProgressBar.getBoundingClientRect();
+          var ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+          var targetIdx = Math.min(focusSlides.length - 1, Math.floor(ratio * focusSlides.length));
+          showFocusSlide(targetIdx);
+          startAutoSlide();
+        });
+      }
+      if (focusCard) {
+        focusCard.addEventListener("mouseenter", stopAutoSlide);
+        focusCard.addEventListener("mouseleave", startAutoSlide);
+        focusCard.addEventListener("focusin", stopAutoSlide);
+        focusCard.addEventListener("focusout", startAutoSlide);
+        focusCard.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            showFocusSlide(currentFocusIdx - 1);
+          } else if (e.key === "ArrowRight") {
+            e.preventDefault();
+            showFocusSlide(currentFocusIdx + 1);
+          }
+        });
+        var touchStartX = 0;
+        focusCard.addEventListener("touchstart", function (e) {
+          if (e.touches && e.touches[0]) touchStartX = e.touches[0].clientX;
+          stopAutoSlide();
+        }, { passive: true });
+        focusCard.addEventListener("touchend", function (e) {
+          if (e.changedTouches && e.changedTouches[0]) {
+            var diff = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(diff) > 35) {
+              showFocusSlide(diff < 0 ? currentFocusIdx + 1 : currentFocusIdx - 1);
+            }
+          }
+          startAutoSlide();
+        }, { passive: true });
+      }
+      showFocusSlide(0);
+      startAutoSlide();
+
+      var profileButton = document.getElementById("profileButton");
+      var currentUser = null;
+      var sessionRaw = localStorage.getItem("currentUserSession");
+      if (sessionRaw) {
+        try {
+          var session = JSON.parse(sessionRaw);
+          if (session && Number(session.expiresAt || 0) > Date.now()) {
+            currentUser = JSON.parse(session.value || "{}");
+          } else {
+            localStorage.removeItem("currentUserSession");
+          }
+        } catch (error) {
+          localStorage.removeItem("currentUserSession");
+          console.warn("Student profile could not be loaded.");
+        }
+      }
+
+      if (currentUser) {
+        if (currentUser.name) document.getElementById("profileName").textContent = currentUser.name;
+        if (currentUser.studentId || currentUser.id) document.getElementById("profileId").textContent = currentUser.studentId || currentUser.id;
+        if (currentUser.avatar) document.getElementById("profileAvatar").textContent = currentUser.avatar;
+      } else {
+        profileButton.title = "로그인";
+        profileButton.setAttribute("aria-label", "로그인 페이지로 이동");
+      }
+
+      profileButton.addEventListener("click", function () {
+        if (!currentUser) {
+          window.location.replace("login/login.html");
+          return;
+        }
+        if (!window.confirm("로그아웃 하시겠습니까?")) return;
+
+        document.cookie = "currentUser=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax";
+        localStorage.removeItem("currentUserSession");
+        localStorage.removeItem("currentUser");
+        window.location.replace("login/login.html");
+      });
+    })();
+  </script>
+</body>
+</html>
