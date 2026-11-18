@@ -199,14 +199,38 @@
       background: rgba(7,11,20,.68);
       box-shadow: 0 20px 45px rgba(0,0,0,.23);
       backdrop-filter: blur(18px);
+      user-select: none;
     }
-    .focus-label { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .75rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+    .focus-label { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--muted); font-size: .75rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
     .focus-label span:last-child { color: var(--green); }
-    .focus-card h2 { margin: 13px 0 7px; font-family: "Manrope", sans-serif; font-size: 1.35rem; line-height: 1.25; }
-    .focus-card p { margin: 0; color: var(--muted); font-size: .86rem; }
-    .progress { height: 7px; margin: 20px 0 10px; overflow: hidden; border-radius: 20px; background: rgba(255,255,255,.08); }
-    .progress span { display: block; width: 10%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), var(--cyan)); }
-    .progress-copy { display: flex; justify-content: space-between; color: var(--faint); font-size: .72rem; }
+    .focus-slides { position: relative; min-height: 118px; margin-top: 13px; }
+    .focus-slide { display: none; animation: focusFade 240ms ease; }
+    .focus-slide.active { display: block; }
+    @keyframes focusFade { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }
+    .focus-slide h2 { margin: 0 0 8px; font-family: "Manrope", sans-serif; font-size: 1.35rem; line-height: 1.28; word-break: keep-all; }
+    .focus-slide h2 a:hover { color: var(--cyan); }
+    .focus-slide p { margin: 0; color: var(--muted); font-size: .86rem; line-height: 1.58; word-break: keep-all; }
+    .focus-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; color: var(--cyan); font-size: .78rem; font-weight: 800; }
+    .focus-link:hover { text-decoration: underline; }
+    .progress { height: 7px; margin: 18px 0 12px; overflow: hidden; border-radius: 20px; background: rgba(255,255,255,.08); cursor: pointer; }
+    .progress span { display: block; width: 10%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), var(--cyan)); transition: width 260ms ease; }
+    .progress-copy { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--faint); font-size: .72rem; }
+    .focus-controls { display: inline-flex; align-items: center; gap: 6px; }
+    .focus-nav-btn {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255,255,255,.04);
+      color: var(--ink);
+      font-size: .72rem;
+      cursor: pointer;
+      transition: 150ms ease;
+    }
+    .focus-nav-btn:hover { border-color: var(--blue); color: var(--cyan); background: rgba(70,166,255,.12); }
+    .focus-counter { min-width: 44px; text-align: center; font-weight: 800; color: var(--muted); }
 
     .today { padding: 22px 0 72px; }
     .today-bar {
@@ -347,7 +371,7 @@
     }
     .support-copy h2 { margin: 0 0 8px; font-family: "Manrope", sans-serif; font-size: 1.35rem; }
     .support-copy p { margin: 0; color: var(--muted); font-size: .84rem; }
-    .support-links { display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px; }
+    .support-links { display: grid; grid-template-columns: repeat(6, 1fr); gap: 9px; }
     .support-link { min-height: 84px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line); border-radius: 14px; color: #bdc8d8; background: rgba(255,255,255,.025); font-size: .75rem; font-weight: 700; transition: 160ms ease; }
     .support-link:hover { color: white; border-color: rgba(70,166,255,.4); background: rgba(70,166,255,.06); }
     .support-link i { color: var(--blue); font-size: 1rem; }
@@ -402,6 +426,8 @@
     html[data-theme="light"] .hero-kicker { color: #0879d9; }
     html[data-theme="light"] .hero-copy > p { color: #445b73; }
     html[data-theme="light"] .focus-card { border-color: rgba(25, 52, 84, 0.14); background: rgba(255, 255, 255, 0.9); box-shadow: 0 16px 40px rgba(38, 65, 96, 0.12); }
+    html[data-theme="light"] .focus-nav-btn { background: #f4f8fc; border-color: rgba(25, 52, 84, 0.16); color: #142238; }
+    html[data-theme="light"] .focus-nav-btn:hover { background: #e6f2fc; border-color: #0879d9; color: #0879d9; }
     html[data-theme="light"] .progress { background: #dae5ef; }
     html[data-theme="light"] .btn { border-color: rgba(25,52,84,.17); background: rgba(255,255,255,.78); color: #142238; }
     html[data-theme="light"] .btn-primary { border-color: transparent; color: #ffffff; background: linear-gradient(135deg, #0879d9, #009fa8); }
@@ -517,12 +543,69 @@
             <a class="btn" href="#roadmap">10일 일정 한눈에 보기</a>
           </div>
         </div>
-        <aside class="focus-card" aria-label="현재 학습 정보 예시">
-          <div class="focus-label"><span>Live Program</span><span>Week 1 · Monday</span></div>
-          <h2>Day 1 · 과정 소개와 개발 환경 구성</h2>
-          <p>전체 교육 과정과 ACE AI SW Startup Training을 이해하고 AI 개발 도구를 준비합니다.</p>
-          <div class="progress" aria-label="10일 과정 중 첫 번째 단계"><span></span></div>
-          <div class="progress-copy"><span>10-day project sprint</span><span>1 / 10</span></div>
+        <aside class="focus-card" id="focusCarousel" tabindex="0" aria-label="10일 과정 슬라이드">
+          <div class="focus-label"><span>Live Program</span><span id="focusWeekLabel">Week 1 · Monday</span></div>
+          <div class="focus-slides" aria-live="polite">
+            <div class="focus-slide active" data-week="Week 1 · Monday">
+              <h2><a href="ai-project-day1.html">Day 1 · 과정 소개와 개발 환경 구성</a></h2>
+              <p>전체 교육 과정과 ACE AI SW Startup Training을 이해하고 AI 개발 도구를 준비합니다.</p>
+              <a class="focus-link" href="ai-project-day1.html">Day 1 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 1 · Tuesday">
+              <h2><a href="ai-project-day2.html">Day 2 · 기본 교육과 서비스 성장 역설계</a></h2>
+              <p>AI 개발의 기본 원리를 익히고 실제 서비스의 성장 구조를 역으로 분석합니다.</p>
+              <a class="focus-link" href="ai-project-day2.html">Day 2 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 1 · Wednesday">
+              <h2><a href="ai-project-day3.html">Day 3 · AI 기반 설계와 gstack</a></h2>
+              <p>AI 기반 서비스 설계, gstack 워크플로우, 문서 주도 개발 방법을 연결합니다.</p>
+              <a class="focus-link" href="ai-project-day3.html">Day 3 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 1 · Thursday">
+              <h2><a href="ai-project-day4.html">Day 4 · Antigravity 구현 실습</a></h2>
+              <p>설계 문서를 기준으로 Antigravity와 gstack을 활용해 실제 기능 구현을 시작합니다.</p>
+              <a class="focus-link" href="ai-project-day4.html">Day 4 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 1 · Friday">
+              <h2><a href="ai-project-day5.html">Day 5 · 백엔드 구조와 Apps Script</a></h2>
+              <p>레이어드 아키텍처를 익히고 Apps Script를 이용해 데이터 연동 기능을 구현합니다.</p>
+              <a class="focus-link" href="ai-project-day5.html">Day 5 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 2 · Monday">
+              <h2><a href="ai-project-day6.html">Day 6 · 실전 개발 프로세스</a></h2>
+              <p>팀 프로젝트의 목표와 역할을 정하고 개발 프로세스와 산출물 기준을 확정합니다.</p>
+              <a class="focus-link" href="ai-project-day6.html">Day 6 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 2 · Tuesday">
+              <h2><a href="ai-project-day7.html">Day 7 · AI 기반 프로젝트 설계</a></h2>
+              <p>서비스 기획과 설계를 완성하고 중간 발표를 통해 구현 범위와 우선순위를 검증합니다.</p>
+              <a class="focus-link" href="ai-project-day7.html">Day 7 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 2 · Wednesday">
+              <h2><a href="ai-project-day8.html">Day 8 · MVP 개발과 중간 점검</a></h2>
+              <p>AI 도구를 활용해 핵심 기능을 구현하고 팀별 진행 상황과 위험 요소를 점검합니다.</p>
+              <a class="focus-link" href="ai-project-day8.html">Day 8 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 2 · Thursday">
+              <h2><a href="ai-project-day9.html">Day 9 · POC 발표와 개선</a></h2>
+              <p>동작하는 POC를 시연하고 피드백을 반영해 완성도와 발표 메시지를 개선합니다.</p>
+              <a class="focus-link" href="ai-project-day9.html">Day 9 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="focus-slide" data-week="Week 2 · Friday">
+              <h2><a href="ai-project-day10.html">Day 10 · 최종 발표와 수료식</a></h2>
+              <p>완성 프로젝트를 발표하고 학습 결과를 공유한 뒤 전체 10일 과정을 마무리합니다.</p>
+              <a class="focus-link" href="ai-project-day10.html">Day 10 바로가기 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="progress" id="focusProgressBar" title="클릭하여 해당 일차로 이동" aria-label="10일 과정 진행률"><span id="focusProgressFill"></span></div>
+          <div class="progress-copy">
+            <span>10-day project sprint</span>
+            <div class="focus-controls">
+              <button class="focus-nav-btn" id="focusPrev" type="button" aria-label="이전 일차"><i class="fa-solid fa-chevron-left"></i></button>
+              <span class="focus-counter" id="focusCounter">1 / 10</span>
+              <button class="focus-nav-btn" id="focusNext" type="button" aria-label="다음 일차"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
         </aside>
       </div>
     </section>
@@ -616,6 +699,7 @@
           <a class="support-link" href="attendance_qr.html"><i class="fa-regular fa-calendar-check"></i><span>출석</span></a>
           <a class="support-link" href="qr_resources.html"><i class="fa-regular fa-clipboard"></i><span>설문</span></a>
           <a class="support-link" href="qr_resources.html"><i class="fa-regular fa-folder-open"></i><span>교육 자료</span></a>
+          <a class="support-link" href="http://devhj.local/ODA_AI_SW/docs/NA/LMS2/docs/upload.html"><i class="fa-solid fa-cloud-arrow-up"></i><span>자료 업로드</span></a>
           <a class="support-link" href="notice.html"><i class="fa-regular fa-circle-question"></i><span>문의·안내</span></a>
         </div>
       </div>
@@ -650,6 +734,103 @@
         syncThemeButton();
       });
       syncThemeButton();
+
+      // 10-Day Live Program Focus Card Slider
+      var focusCard = document.getElementById("focusCarousel");
+      var focusSlides = Array.prototype.slice.call(document.querySelectorAll("#focusCarousel .focus-slide"));
+      var focusWeekLabel = document.getElementById("focusWeekLabel");
+      var focusProgressFill = document.getElementById("focusProgressFill");
+      var focusProgressBar = document.getElementById("focusProgressBar");
+      var focusCounter = document.getElementById("focusCounter");
+      var focusPrev = document.getElementById("focusPrev");
+      var focusNext = document.getElementById("focusNext");
+      var currentFocusIdx = 0;
+      var autoTimer = null;
+
+      function showFocusSlide(index) {
+        if (!focusSlides.length) return;
+        currentFocusIdx = (index + focusSlides.length) % focusSlides.length;
+        focusSlides.forEach(function (slide, idx) {
+          slide.classList.toggle("active", idx === currentFocusIdx);
+        });
+        var activeSlide = focusSlides[currentFocusIdx];
+        if (focusWeekLabel && activeSlide) {
+          focusWeekLabel.textContent = activeSlide.getAttribute("data-week") || "";
+        }
+        if (focusProgressFill) {
+          focusProgressFill.style.width = ((currentFocusIdx + 1) / focusSlides.length * 100) + "%";
+        }
+        if (focusCounter) {
+          focusCounter.textContent = (currentFocusIdx + 1) + " / " + focusSlides.length;
+        }
+      }
+
+      function startAutoSlide() {
+        stopAutoSlide();
+        autoTimer = setInterval(function () {
+          showFocusSlide(currentFocusIdx + 1);
+        }, 5000);
+      }
+
+      function stopAutoSlide() {
+        if (autoTimer) {
+          clearInterval(autoTimer);
+          autoTimer = null;
+        }
+      }
+
+      if (focusPrev) {
+        focusPrev.addEventListener("click", function () {
+          showFocusSlide(currentFocusIdx - 1);
+          startAutoSlide();
+        });
+      }
+      if (focusNext) {
+        focusNext.addEventListener("click", function () {
+          showFocusSlide(currentFocusIdx + 1);
+          startAutoSlide();
+        });
+      }
+      if (focusProgressBar) {
+        focusProgressBar.addEventListener("click", function (e) {
+          var rect = focusProgressBar.getBoundingClientRect();
+          var ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+          var targetIdx = Math.min(focusSlides.length - 1, Math.floor(ratio * focusSlides.length));
+          showFocusSlide(targetIdx);
+          startAutoSlide();
+        });
+      }
+      if (focusCard) {
+        focusCard.addEventListener("mouseenter", stopAutoSlide);
+        focusCard.addEventListener("mouseleave", startAutoSlide);
+        focusCard.addEventListener("focusin", stopAutoSlide);
+        focusCard.addEventListener("focusout", startAutoSlide);
+        focusCard.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            showFocusSlide(currentFocusIdx - 1);
+          } else if (e.key === "ArrowRight") {
+            e.preventDefault();
+            showFocusSlide(currentFocusIdx + 1);
+          }
+        });
+        var touchStartX = 0;
+        focusCard.addEventListener("touchstart", function (e) {
+          if (e.touches && e.touches[0]) touchStartX = e.touches[0].clientX;
+          stopAutoSlide();
+        }, { passive: true });
+        focusCard.addEventListener("touchend", function (e) {
+          if (e.changedTouches && e.changedTouches[0]) {
+            var diff = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(diff) > 35) {
+              showFocusSlide(diff < 0 ? currentFocusIdx + 1 : currentFocusIdx - 1);
+            }
+          }
+          startAutoSlide();
+        }, { passive: true });
+      }
+      showFocusSlide(0);
+      startAutoSlide();
 
       var sessionRaw = localStorage.getItem("currentUserSession");
       if (!sessionRaw) return;

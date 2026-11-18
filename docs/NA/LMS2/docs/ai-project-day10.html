@@ -660,7 +660,7 @@
       "use strict";
       var CFG = {"day": 10, "event": "최종 발표 · Final Presentation", "l1": "최종 발표", "l2": "질의응답", "qa": ["인상 깊었던 장면", "궁금한 점 1가지", "응원 한마디"], "discuss": ["10일 동안 가장 크게 배운 것은?", "AI와 함께 일하며 달라진 나의 습관은?", "다음에 만들고 싶은 서비스는?", "Day 2의 나에게 해 주고 싶은 말은?"]};
       /* 사후 설문 링크: 준비되면 아래 따옴표 안에 URL을 넣으세요 */
-      var POST_SURVEY_URL = "";
+      var POST_SURVEY_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdJ0quslSzp6tcVJzUh3kyHUY5yl9PVSx4lNgaQ4ws6uwuQ5Q/viewform?usp=header";
       function store(k,v){ try { if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v); } catch(e) { return null; } }
       var toggle=document.getElementById("themeToggle");
       function syncTheme(){ var dark=document.documentElement.dataset.theme==="dark"; toggle.setAttribute("aria-pressed",String(dark)); toggle.innerHTML=dark?'<i class="fa-regular fa-sun"></i>':'<i class="fa-regular fa-moon"></i>'; }
