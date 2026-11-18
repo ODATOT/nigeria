@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ACE AI SW Startup Training AI 실전 프로젝트 Day 5 · 백엔드 프레임워크, MVC, Django 레이어드 아키텍처" />
+  <title>Day 5 · 백엔드 프레임워크와 레이어드 아키텍처 | ACE AI SW</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script>
+    (function () {
+      var savedTheme = localStorage.getItem("lmsStudentHomeTheme");
+      document.documentElement.dataset.theme = savedTheme === "dark" ? "dark" : "light";
+    })();
+  </script>
+  <style>
+    :root {
+      --ink:#edf5ff; --muted:#a6b6cc; --faint:#7c8ba0; --base:#070b14; --surface:#0d1523; --surface-2:#121d2e;
+      --line:rgba(148,163,184,.18); --blue:#46a6ff; --cyan:#25d4d4; --violet:#a78bfa; --amber:#f5b942; --green:#47d7a0; --red:#f87171;
+      --shadow:0 24px 75px rgba(0,0,0,.32);
+    }
+    html[data-theme="light"] {
+      --ink:#142238; --muted:#4b5e75; --faint:#64748b; --base:#f4f8fc; --surface:#fff; --surface-2:#edf4fb;
+      --line:rgba(25,52,84,.14); --blue:#0879d9; --cyan:#008f9c; --violet:#7252c7; --amber:#a96500; --green:#087f5b; --red:#c2410c;
+      --shadow:0 22px 65px rgba(38,65,96,.13); color-scheme:light;
+    }
+    html[data-theme="dark"] { color-scheme:dark; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:90px; }
+    body {
+      margin:0; color:var(--ink); font-family:"Pretendard","DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      font-size:16px; line-height:1.75; word-break:keep-all;
+      background:radial-gradient(circle at 8% 3%,rgba(70,166,255,.11),transparent 30rem),radial-gradient(circle at 90% 24%,rgba(167,139,250,.08),transparent 30rem),var(--base);
+    }
+    html[data-theme="light"] body { background:radial-gradient(circle at 8% 3%,rgba(8,121,217,.12),transparent 30rem),radial-gradient(circle at 90% 24%,rgba(114,82,199,.08),transparent 30rem),#f4f8fc; }
+    a { color:inherit; text-decoration:none; }
+    button,input { font:inherit; }
+    button,a { -webkit-tap-highlight-color:transparent; }
+    :focus-visible { outline:3px solid rgba(70,166,255,.72); outline-offset:4px; }
+    .shell { width:min(1200px,calc(100% - 48px)); margin:0 auto; }
+    .eyebrow { margin:0 0 12px; color:var(--blue); font-family:"Manrope",sans-serif; font-size:.86rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .section-title { margin:0; font-family:"Manrope",sans-serif; font-size:clamp(1.85rem,3.6vw,2.85rem); line-height:1.25; letter-spacing:-.03em; word-break:keep-all; }
+    .section-lead { max-width:740px; margin:14px 0 0; color:var(--muted); font-size:1.05rem; line-height:1.75; word-break:keep-all; }
+
+    .topbar { position:sticky; top:0; z-index:100; border-bottom:1px solid var(--line); background:rgba(7,11,20,.87); backdrop-filter:blur(20px); }
+    html[data-theme="light"] .topbar { background:rgba(255,255,255,.92); box-shadow:0 8px 30px rgba(38,65,96,.06); }
+    .topbar-inner { min-height:72px; display:flex; align-items:center; gap:18px; }
+    .brand { font-size:1.15rem; display:flex; align-items:center; gap:10px; font-family:"Manrope",sans-serif; font-weight:800; }
+    .brand-mark { width:38px; height:38px; display:grid; place-items:center; border-radius:11px; color:#04101d; background:linear-gradient(145deg,var(--blue),var(--cyan)); font-size:1.1rem; }
+    .breadcrumb { display:flex; align-items:center; gap:8px; margin-left:14px; color:var(--muted); font-size:.92rem; font-weight:600; }
+    .breadcrumb i { font-size:.68rem; color:var(--faint); }
+    .top-actions { display:flex; align-items:center; gap:10px; margin-left:auto; }
+    .icon-btn { width:42px; height:42px; display:grid; place-items:center; border:1px solid var(--line); border-radius:12px; color:var(--muted); background:var(--surface); cursor:pointer; font-size:.95rem; transition:150ms ease; }
+    .icon-btn:hover { color:var(--ink); border-color:var(--blue); }
+    .profile { display:flex; align-items:center; gap:10px; padding:6px 14px 6px 6px; border:1px solid var(--line); border-radius:999px; background:var(--surface); }
+    .profile-avatar { width:34px; height:34px; display:grid; place-items:center; border-radius:50%; background:var(--surface-2); font-size:1.1rem; }
+    .profile-copy { line-height:1.2; }
+    .profile-copy strong,.profile-copy span { display:block; }
+    .profile-copy strong { font-size:.88rem; font-weight:700; }
+    .profile-copy span { margin-top:2px; color:var(--faint); font-size:.72rem; }
+
+    .day-hero { padding:52px 0 36px; }
+    .hero-grid { display:grid; grid-template-columns:1.3fr .7fr; gap:28px; align-items:stretch; }
+    .hero-copy,.day-summary { padding:clamp(30px,4.5vw,52px); border:1px solid var(--line); border-radius:26px; background:var(--surface); box-shadow:var(--shadow); }
+    .hero-copy { position:relative; overflow:hidden; background:linear-gradient(135deg,rgba(70,166,255,.11),transparent 55%),var(--surface); }
+    .hero-copy::after { content:"05"; position:absolute; right:18px; bottom:-54px; color:rgba(70,166,255,.08); font-family:"Manrope",sans-serif; font-size:13rem; font-weight:800; line-height:1; pointer-events:none; }
+    .day-chip { display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border-radius:999px; color:var(--cyan); background:rgba(37,212,212,.12); border:1px solid rgba(37,212,212,.28); font-size:.82rem; font-weight:800; letter-spacing:.06em; }
+    .hero-copy h1 { position:relative; z-index:1; margin:22px 0 18px; font-family:"Manrope",sans-serif; font-size:clamp(2.4rem,4.8vw,4.2rem); line-height:1.18; letter-spacing:-.05em; word-break:keep-all; }
+    .hero-copy > p { position:relative; z-index:1; max-width:740px; margin:0; color:var(--muted); font-size:1.15rem; line-height:1.85; word-break:keep-all; }
+    .hero-quote { position:relative; z-index:1; margin-top:24px; padding:18px 22px; border-left:4px solid var(--amber); border-radius:0 14px 14px 0; background:rgba(245,185,66,.1); color:var(--ink); font-size:1.02rem; font-weight:600; line-height:1.75; word-break:keep-all; }
+    .hero-quote i { margin-right:6px; color:var(--amber); }
+    .hero-actions { position:relative; z-index:1; display:flex; flex-wrap:wrap; gap:12px; margin-top:24px; }
+    .btn { display:inline-flex; align-items:center; gap:9px; min-height:48px; padding:0 22px; border-radius:12px; font-size:.95rem; font-weight:800; letter-spacing:-.01em; transition:180ms ease; }
+    .btn-primary { color:#04101d; background:linear-gradient(135deg,var(--blue),var(--cyan)); box-shadow:0 4px 16px rgba(37,212,212,.25); }
+    .btn-primary:hover { filter:brightness(1.1); transform:translateY(-1px); }
+    .btn-ghost { border:1px solid var(--line); color:var(--ink); background:var(--surface); }
+    .btn-ghost:hover { border-color:var(--blue); color:var(--blue); }
+    .day-summary { display:flex; flex-direction:column; justify-content:center; }
+    .summary-label { color:var(--blue); font-size:.84rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .summary-list { display:grid; gap:14px; margin:20px 0 0; padding:0; list-style:none; }
+    .summary-list li { display:flex; gap:12px; color:var(--muted); font-size:.98rem; line-height:1.7; word-break:keep-all; }
+    .summary-list i { margin-top:5px; color:var(--green); font-size:1rem; flex-shrink:0; }
+    .deliverable { margin-top:22px; padding:16px 18px; border-left:4px solid var(--amber); border-radius:0 12px 12px 0; background:rgba(245,185,66,.08); }
+    .deliverable strong { font-size:.94rem; color:var(--ink); margin-bottom:4px; display:block; }
+    .deliverable span { color:var(--muted); font-size:.9rem; line-height:1.65; display:block; word-break:keep-all; }
+
+    .slides-section { padding:68px 0 76px; }
+    .section-head { display:flex; justify-content:space-between; gap:24px; align-items:end; margin-bottom:28px; }
+    .slide-deck { border:1px solid var(--line); border-radius:24px; overflow:hidden; background:#07101d; box-shadow:var(--shadow); }
+    .slide-deck:fullscreen { display:flex; flex-direction:column; border-radius:0; }
+    .slide-deck:fullscreen .slide-stage { flex:1; aspect-ratio:auto; }
+    .slide-deck:fullscreen .slide-notes { display:none; }
+    .slide-stage { position:relative; aspect-ratio:16/9; min-height:420px; overflow:hidden; }
+    .slide { position:absolute; inset:0; display:none; overflow-y:auto; padding:clamp(32px,5.5vw,70px); color:#edf5ff; background:linear-gradient(135deg,#09172a,#0b2136); }
+    .slide.active { display:flex; animation:slideIn 260ms ease; }
+    @keyframes slideIn { from { opacity:0; transform:translateX(18px); } to { opacity:1; transform:none; } }
+    .slide::before { content:""; position:absolute; inset:0; opacity:.4; background-image:linear-gradient(rgba(70,166,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(70,166,255,.07) 1px,transparent 1px); background-size:42px 42px; pointer-events:none; }
+    .slide.alert { background:linear-gradient(135deg,#1d1209,#2a1608); }
+    .slide-inner { position:relative; z-index:1; width:100%; margin:auto 0; display:flex; flex-direction:column; justify-content:center; }
+    .slide-kicker { color:#5ab6ff; font-size:.86rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .slide.alert .slide-kicker { color:#fbbf24; }
+    .slide h2 { max-width:960px; margin:18px 0; font-family:"Manrope",sans-serif; font-size:clamp(2.3rem,4.6vw,4.4rem); line-height:1.15; letter-spacing:-.05em; word-break:keep-all; }
+    .slide h2.sm { max-width:1040px; margin:16px 0 14px; font-size:clamp(1.9rem,3.4vw,3rem); line-height:1.25; letter-spacing:-.04em; word-break:keep-all; }
+    .slide h2 .hl { color:#67e8f9; }
+    .slide.alert h2 .hl { color:#fbbf24; }
+    .slide p { max-width:860px; margin:0; color:#cbd5e1; font-size:clamp(1.05rem,1.55vw,1.26rem); line-height:1.85; word-break:keep-all; }
+    .slide-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:26px; }
+    .slide-grid.cols-3 { grid-template-columns:repeat(3,1fr); }
+    .slide-grid.cols-5 { grid-template-columns:repeat(5,1fr); gap:12px; }
+    .slide-card { padding:18px 20px; border:1px solid rgba(255,255,255,.14); border-radius:16px; background:rgba(255,255,255,.05); }
+    .slide-grid.cols-5 .slide-card { padding:16px 14px; }
+    .slide-grid.cols-5 .slide-card strong { font-size:.98rem; }
+    .slide-grid.cols-5 .slide-card span { font-size:.88rem; line-height:1.6; }
+    .slide-card strong { display:block; color:#67e8f9; font-size:1.05rem; font-weight:700; }
+    .slide-card span { display:block; margin-top:8px; color:#cbd5e1; font-size:.92rem; line-height:1.65; word-break:keep-all; }
+    .slide-card em { display:block; margin-top:10px; color:#fbbf24; font-style:normal; font-size:.82rem; font-weight:700; }
+    .slide-card .big { display:block; color:#fff; font-family:"Manrope",sans-serif; font-size:2.2rem; font-weight:800; line-height:1.1; margin-bottom:4px; }
+    .slide-list { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; max-width:980px; margin:24px 0 0; padding:0; list-style:none; }
+    .slide-list li { padding:15px 18px; border:1px solid rgba(255,255,255,.13); border-radius:14px; background:rgba(255,255,255,.045); color:#cbd5e1; font-size:.96rem; line-height:1.65; word-break:keep-all; }
+    .slide-list i { margin-right:10px; font-size:1.05rem; color:#47d7a0; }
+    .slide-list.warn i { color:#fbbf24; }
+    .compare { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:24px; }
+    .compare-col { padding:20px 22px; border:1px solid rgba(255,255,255,.14); border-radius:16px; background:rgba(255,255,255,.045); }
+    .compare-col.bad { border-color:rgba(248,113,113,.38); background:rgba(248,113,113,.07); }
+    .compare-col.good { border-color:rgba(71,215,160,.38); background:rgba(71,215,160,.07); }
+    .compare-col h4 { margin:0 0 12px; font-family:"Manrope",sans-serif; font-size:1.15rem; font-weight:800; }
+    .compare-col.bad h4 { color:#fca5a5; }
+    .compare-col.good h4 { color:#6ee7b7; }
+    .compare-col ul { margin:0; padding-left:20px; color:#cbd5e1; font-size:.96rem; line-height:1.75; }
+    .compare-col li + li { margin-top:6px; }
+    .compare-col pre { margin:0; white-space:pre-wrap; color:#dbe7f5; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9rem; line-height:1.7; }
+    .funnel { display:grid; gap:9px; margin-top:22px; }
+    .funnel-row { display:grid; grid-template-columns:190px 1.2fr 1fr; gap:16px; align-items:center; padding:12px 18px; border-left:4px solid #25d4d4; border-radius:0 12px 12px 0; background:rgba(255,255,255,.05); font-size:.92rem; color:#cbd5e1; line-height:1.6; }
+    .funnel-row strong { color:#fff; font-family:"Manrope",sans-serif; font-size:1.02rem; }
+    .funnel-row strong small { display:block; color:#67e8f9; font-size:.8rem; letter-spacing:.06em; margin-top:2px; }
+    .funnel-row span:last-child { color:#fbbf24; font-size:.9rem; font-weight:600; }
+    .funnel-row:nth-child(1) { margin-right:0; } .funnel-row:nth-child(2) { margin-right:3%; } .funnel-row:nth-child(3) { margin-right:6%; } .funnel-row:nth-child(4) { margin-right:9%; } .funnel-row:nth-child(5) { margin-right:12%; }
+    .loop-flow { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:24px; }
+    .loop-flow span { padding:14px 20px; border:1px solid rgba(103,232,249,.35); border-radius:13px; background:rgba(37,212,212,.1); color:#e6f6ff; font-size:.96rem; font-weight:700; }
+    .loop-flow b { color:#5ab6ff; font-size:1.2rem; }
+    .loop-flow .back { border-style:dashed; color:#fbbf24; border-color:rgba(251,191,36,.45); background:rgba(251,191,36,.07); }
+    .quote-box { max-width:940px; margin-top:24px; padding:18px 24px; border-left:4px solid #f5b942; border-radius:0 14px 14px 0; background:rgba(245,185,66,.1); color:#fef3c7; font-size:clamp(1.05rem,1.55vw,1.25rem); line-height:1.8; word-break:keep-all; }
+    .quote-box small { display:block; margin-top:8px; color:#d4c5a9; font-size:.85rem; }
+    .iceberg { display:grid; gap:12px; margin-top:22px; }
+    .ice-top { padding:16px 20px; border:1px solid rgba(103,232,249,.38); border-radius:14px; background:rgba(37,212,212,.1); color:#e0f2fe; font-size:.96rem; line-height:1.7; word-break:keep-all; }
+    .ice-top b { color:#67e8f9; margin-right:8px; }
+    .ice-bottom { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .ice-bottom div { padding:15px 18px; border:1px solid rgba(148,163,184,.22); border-radius:14px; background:rgba(2,8,18,.6); font-size:.9rem; color:#cbd5e1; line-height:1.65; word-break:keep-all; }
+    .ice-bottom strong { display:block; margin-bottom:6px; color:#fbbf24; font-size:.98rem; font-weight:700; }
+    .slide-controls { min-height:72px; display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center; padding:0 22px; border-top:1px solid rgba(255,255,255,.1); background:#080f1b; color:#d8e3f2; }
+    .slide-nav-btn { width:44px; height:44px; border:1px solid rgba(255,255,255,.14); border-radius:12px; color:#d8e3f2; background:rgba(255,255,255,.05); cursor:pointer; font-size:.95rem; }
+    .slide-nav-btn:disabled { opacity:.35; cursor:not-allowed; }
+    .slide-nav-btn.on { color:#04101d; background:#25d4d4; }
+    .slide-progress-wrap { display:flex; align-items:center; gap:14px; }
+    .slide-counter { min-width:56px; color:#cbd5e1; font-size:.88rem; font-weight:800; }
+    .slide-progress { flex:1; height:6px; overflow:hidden; border-radius:20px; background:rgba(255,255,255,.09); }
+    .slide-progress span { display:block; width:5%; height:100%; background:linear-gradient(90deg,#46a6ff,#25d4d4); transition:width 220ms ease; }
+    .slide-tools { display:flex; gap:8px; }
+    .slide-notes { display:none; padding:18px 24px 22px; border-top:1px solid rgba(255,255,255,.1); background:#0a1424; color:#dbeafe; font-size:.96rem; line-height:1.8; word-break:keep-all; }
+    .slide-notes.open { display:block; }
+    .slide-notes strong { display:block; margin-bottom:6px; color:#fbbf24; font-size:.85rem; letter-spacing:.08em; }
+
+    .deck-tabs { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+    .deck-tab { display:flex; align-items:center; gap:10px; min-height:50px; padding:0 20px; border:1px solid var(--line); border-radius:14px; color:var(--muted); background:var(--surface); font-size:.92rem; font-weight:800; cursor:pointer; transition:150ms ease; }
+    .deck-tab small { color:var(--faint); font-weight:700; font-size:.8rem; }
+    .deck-tab.active { color:#04101d; border-color:transparent; background:linear-gradient(135deg,var(--blue),var(--cyan)); }
+    .deck-tab.active small { color:#06324a; }
+    .slide.part2 { background:linear-gradient(135deg,#0b1a17,#0c2a2a); }
+    .slide.part2 .slide-kicker { color:#5eead4; }
+    .slide.divider { background:linear-gradient(135deg,#101935,#1d1147); }
+    .slide-code { margin:16px 0 0; padding:16px 20px; border:1px solid rgba(255,255,255,.14); border-radius:14px; background:rgba(2,8,18,.6); color:#dbe7f5; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.86rem; line-height:1.7; white-space:pre-wrap; }
+    .slide-code .c { color:#7dd3fc; }
+    .slide-code .m { color:#94a3b8; }
+    .pipe { display:flex; flex-wrap:wrap; align-items:center; gap:9px; margin-top:22px; }
+    .pipe code { padding:10px 14px; border:1px solid rgba(103,232,249,.32); border-radius:10px; background:rgba(37,212,212,.09); color:#e6f6ff; font-family:ui-monospace,Menlo,monospace; font-size:.9rem; font-weight:700; }
+    .pipe code.h { border-color:rgba(251,191,36,.5); background:rgba(251,191,36,.1); color:#fde68a; }
+    .pipe b { color:#5ab6ff; font-size:1.2rem; }
+    .s-table { width:100%; margin-top:18px; border-collapse:collapse; font-size:.88rem; color:#c5d2e3; line-height:1.65; }
+    .s-table th { padding:10px 12px; color:#67e8f9; text-align:left; font-size:.82rem; letter-spacing:.06em; border-bottom:1px solid rgba(255,255,255,.18); }
+    .s-table td { padding:10px 12px; border-bottom:1px solid rgba(255,255,255,.08); vertical-align:top; }
+    .s-table td code { color:#fde68a; font-family:ui-monospace,Menlo,monospace; }
+    .tree { margin:16px 0 0; padding:16px 20px; border:1px solid rgba(255,255,255,.12); border-radius:14px; background:rgba(2,8,18,.55); color:#c5d2e3; font-family:ui-monospace,Menlo,monospace; font-size:.88rem; line-height:1.8; white-space:pre; overflow-x:auto; }
+    .tree b { color:#5eead4; }
+    .tree i { color:#94a3b8; font-style:normal; }
+
+    .page-section { padding:20px 0 76px; }
+    .timeline { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; margin-top:26px; }
+    .tl-card { padding:22px; border:1px solid var(--line); border-radius:20px; background:var(--surface); }
+    .tl-card .when { color:var(--blue); font-size:.8rem; font-weight:800; letter-spacing:.1em; }
+    .tl-card h3 { margin:8px 0; font-family:"Manrope",sans-serif; font-size:1.15rem; word-break:keep-all; }
+    .tl-card ul { margin:10px 0 0; padding-left:18px; color:var(--muted); font-size:.92rem; line-height:1.65; word-break:keep-all; }
+    .tl-card .tag { display:inline-block; margin-top:12px; padding:5px 10px; border-radius:8px; color:var(--cyan); background:rgba(37,212,212,.12); font-size:.78rem; font-weight:800; }
+    .tl-card.part2 .when { color:var(--green); }
+    .tl-card.ext { border-style:dashed; }
+    .tl-card.ext .when { color:var(--amber); }
+    .table-wrap { margin-top:24px; overflow-x:auto; border:1px solid var(--line); border-radius:20px; background:var(--surface); }
+    .data-table { width:100%; min-width:860px; border-collapse:collapse; font-size:.92rem; line-height:1.65; }
+    .data-table th { padding:14px 16px; color:var(--blue); background:var(--surface-2); text-align:left; font-size:.82rem; letter-spacing:.08em; text-transform:uppercase; }
+    .data-table td { padding:14px 16px; border-top:1px solid var(--line); color:var(--muted); vertical-align:top; }
+    .data-table td:first-child { color:var(--ink); font-weight:800; white-space:nowrap; }
+    .data-table code { padding:3px 8px; border-radius:6px; color:var(--cyan); background:rgba(37,212,212,.1); font-size:.84rem; font-weight:700; white-space:nowrap; }
+    .data-table .out { color:var(--amber); font-weight:700; }
+    .cmd-filter { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+    .prompt-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:20px; }
+    .ref-links { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:24px; }
+    .ref-card { display:flex; gap:16px; align-items:center; padding:20px 24px; border:1px solid var(--line); border-radius:20px; background:var(--surface); transition:150ms ease; }
+    .ref-card:hover { border-color:var(--blue); }
+    .ref-card i { width:46px; height:46px; display:grid; place-items:center; border-radius:13px; color:#04101d; background:linear-gradient(135deg,var(--blue),var(--cyan)); font-size:1.15rem; flex-shrink:0; }
+    .ref-card strong,.ref-card span { display:block; }
+    .ref-card strong { font-size:1.05rem; }
+    .ref-card span { color:var(--muted); font-size:.88rem; line-height:1.6; margin-top:4px; }
+
+    .layer-stack { display:grid; gap:10px; margin-top:22px; max-width:920px; }
+    .layer { display:grid; grid-template-columns:360px 1fr; gap:18px; align-items:center; padding:14px 20px; border:1px solid rgba(255,255,255,.16); border-radius:14px; background:rgba(255,255,255,.05); font-size:.92rem; color:#c5d2e3; line-height:1.6; }
+    .layer b { color:#fff; font-family:ui-monospace,Menlo,monospace; font-size:.94rem; }
+    .layer.api { border-left:4px solid #46a6ff; } .layer.wf { border-left:4px solid #a78bfa; } .layer.rule { border-left:4px solid #47d7a0; } .layer.port { border-left:4px solid #fbbf24; } .layer.infra { border-left:4px solid #f87171; }
+    .layer-arrow { padding-left:28px; color:#5ab6ff; font-size:.82rem; font-weight:800; }
+    .mvc-flow { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-top:24px; }
+    .mvc-step { position:relative; padding:16px 14px; border:1px solid rgba(255,255,255,.14); border-radius:14px; background:rgba(255,255,255,.05); text-align:center; }
+    .mvc-step .n { display:block; color:#fbbf24; font-size:.78rem; font-weight:800; letter-spacing:.1em; }
+    .mvc-step strong { display:block; margin-top:6px; color:#67e8f9; font-size:.98rem; }
+    .mvc-step span { display:block; margin-top:6px; color:#aebed2; font-size:.84rem; line-height:1.55; }
+    .mvc-tri { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:24px; }
+    .mvc-box { padding:22px; border-radius:18px; text-align:center; border:1px solid rgba(255,255,255,.15); }
+    .mvc-box .ic { font-size:2rem; }
+    .mvc-box strong { display:block; margin-top:8px; font-family:"Manrope",sans-serif; font-size:1.2rem; color:#fff; }
+    .mvc-box span { display:block; margin-top:8px; color:#c5d2e3; font-size:.9rem; line-height:1.6; }
+    .mvc-box.m { background:rgba(71,215,160,.1); border-color:rgba(71,215,160,.4); }
+    .mvc-box.v { background:rgba(70,166,255,.1); border-color:rgba(70,166,255,.4); }
+    .mvc-box.c { background:rgba(167,139,250,.12); border-color:rgba(167,139,250,.45); }
+
+    .quiz-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:26px; }
+    .quiz-card { padding:20px 22px; border:1px solid var(--line); border-radius:18px; background:var(--surface); }
+    .quiz-card p { margin:0 0 12px; font-size:.98rem; font-weight:700; line-height:1.65; }
+    .quiz-card p code { color:var(--cyan); }
+    .quiz-opts { display:flex; flex-wrap:wrap; gap:8px; }
+    .quiz-opt { padding:8px 14px; border:1px solid var(--line); border-radius:10px; color:var(--muted); background:var(--surface-2); font-family:ui-monospace,Menlo,monospace; font-size:.82rem; cursor:pointer; transition:150ms ease; }
+    .quiz-opt:hover { border-color:var(--blue); }
+    .quiz-opt.right { color:#fff; border-color:transparent; background:#087f5b; }
+    .quiz-opt.wrong { color:#fff; border-color:transparent; background:#b91c1c; }
+    .quiz-fb { min-height:22px; margin-top:10px; color:var(--muted); font-size:.86rem; }
+    .quiz-score { margin-top:14px; color:var(--blue); font-weight:800; font-size:.98rem; }
+
+    .lab-section { padding:20px 0 76px; }
+    .lab-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:28px; }
+    .lab-step { position:relative; padding:24px; border:1px solid var(--line); border-radius:20px; background:var(--surface); }
+    .lab-step .num { color:var(--blue); font-family:"Manrope",sans-serif; font-size:.84rem; font-weight:800; letter-spacing:.1em; }
+    .lab-step h3 { margin:8px 0 10px; font-family:"Manrope",sans-serif; font-size:1.2rem; font-weight:800; word-break:keep-all; }
+    .lab-step p { margin:0; color:var(--muted); font-size:.96rem; line-height:1.7; word-break:keep-all; }
+    .lab-step code { display:inline-block; margin-top:14px; padding:5px 10px; border-radius:8px; color:var(--cyan); background:rgba(37,212,212,.12); font-size:.82rem; font-weight:700; }
+    .lab-step.key { border-color:rgba(245,185,66,.55); background:linear-gradient(135deg,rgba(245,185,66,.1),transparent 60%),var(--surface); }
+    .lab-step.key .num { color:var(--amber); }
+    .gap-box { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:22px; }
+    .gap-card { padding:24px; border:1px solid var(--line); border-radius:20px; background:var(--surface); }
+    .gap-card h3 { margin:0 0 10px; font-family:"Manrope",sans-serif; font-size:1.18rem; font-weight:800; }
+    .gap-card p { margin:0 0 12px; color:var(--muted); font-size:.94rem; line-height:1.7; }
+    .gap-card pre { margin:0; padding:18px; overflow-x:auto; border-radius:14px; color:var(--ink); background:var(--surface-2); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.86rem; line-height:1.7; white-space:pre-wrap; }
+    .copy-btn { float:right; margin-top:-4px; padding:5px 12px; border:1px solid var(--line); border-radius:9px; color:var(--blue); background:transparent; font-size:.8rem; font-weight:800; cursor:pointer; transition:150ms ease; }
+    .copy-btn:hover { background:var(--surface-2); border-color:var(--blue); }
+
+    .day-nav-section { padding:0 0 76px; }
+    .day-nav { display:grid; grid-template-columns:repeat(10,1fr); gap:10px; padding:16px; border:1px solid var(--line); border-radius:20px; background:var(--surface); }
+    .day-link { min-height:70px; display:flex; flex-direction:column; align-items:center; justify-content:center; border:1px solid transparent; border-radius:14px; color:var(--faint); background:transparent; font-size:.78rem; font-weight:800; cursor:pointer; transition:150ms ease; }
+    .day-link strong { font-size:1.02rem; color:inherit; }
+    .day-link span { margin-top:3px; font-size:.78rem; }
+    .day-link.active { color:white; background:linear-gradient(135deg,#0879d9,#008f9c); box-shadow:0 8px 20px rgba(8,121,217,.22); }
+    .day-link:not(.active):hover { color:var(--blue); border-color:var(--line); background:var(--surface-2); }
+    .day-notice { min-height:28px; margin:12px 0 0; color:var(--muted); text-align:center; font-size:.9rem; }
+
+    .learning-workspace { padding:76px 0 96px; border-top:1px solid var(--line); }
+    .workspace-grid { display:grid; grid-template-columns:1.45fr .75fr; gap:20px; align-items:start; margin-top:28px; }
+    .video-panel,.chat-panel { border:1px solid var(--line); border-radius:22px; background:var(--surface); overflow:hidden; box-shadow:0 10px 35px rgba(0,0,0,.05); }
+    .panel-head { min-height:66px; display:flex; align-items:center; justify-content:space-between; gap:14px; padding:0 22px; border-bottom:1px solid var(--line); }
+    .panel-head strong { font-family:"Manrope",sans-serif; font-size:1.05rem; font-weight:800; }
+    .panel-head span { color:var(--faint); font-size:.82rem; }
+    .player { position:relative; aspect-ratio:16/9; background:#050b13; }
+    .player iframe { width:100%; height:100%; border:0; }
+    .playlist-filter { display:flex; gap:8px; overflow-x:auto; padding:12px 18px; border-bottom:1px solid var(--line); }
+    .filter-btn { flex:0 0 auto; min-height:35px; padding:0 14px; border:1px solid var(--line); border-radius:999px; color:var(--muted); background:transparent; font-size:.82rem; font-weight:700; cursor:pointer; transition:150ms ease; }
+    .filter-btn.active { color:#04101d; border-color:transparent; background:linear-gradient(135deg,var(--blue),var(--cyan)); }
+    .playlist { max-height:580px; margin:0; padding:0; overflow-y:auto; list-style:none; }
+    .playlist-group { padding:12px 20px 8px; border-top:1px solid var(--line); color:var(--blue); background:var(--surface-2); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .playlist-group:first-child { border-top:0; }
+    .playlist-item { display:grid; grid-template-columns:44px 1fr auto; gap:14px; align-items:center; min-height:76px; padding:13px 20px; border-top:1px solid var(--line); cursor:pointer; transition:150ms ease; }
+    .playlist-item:hover { background:var(--surface-2); }
+    .playlist-item.active { background:rgba(70,166,255,.08); }
+    .playlist-item[hidden],.playlist-group[hidden] { display:none; }
+    .play-icon { width:40px; height:40px; display:grid; place-items:center; border-radius:12px; color:var(--blue); background:rgba(70,166,255,.1); font-size:1rem; }
+    .playlist-item.active .play-icon { color:#04101d; background:linear-gradient(135deg,var(--blue),var(--cyan)); }
+    .playlist-copy strong,.playlist-copy span { display:block; }
+    .playlist-copy strong { font-size:.95rem; font-weight:700; line-height:1.5; }
+    .playlist-copy span { margin-top:4px; color:var(--faint); font-size:.82rem; line-height:1.55; }
+    .lang { min-width:32px; padding:4px 8px; border-radius:7px; color:var(--cyan); background:rgba(37,212,212,.1); font-size:.74rem; font-weight:800; text-align:center; }
+    .lang.en { color:var(--violet); background:rgba(167,139,250,.12); }
+    .video-note { margin:0; padding:13px 20px; border-top:1px solid var(--line); color:var(--faint); font-size:.8rem; line-height:1.6; }
+
+    .chat-panel { position:sticky; top:90px; }
+    .chat-status { display:flex; align-items:center; gap:7px; color:var(--green)!important; font-size:.82rem; }
+    .chat-status::before { content:""; width:8px; height:8px; border-radius:50%; background:var(--green); }
+    .chat-messages { height:490px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; padding:20px; }
+    .message { max-width:88%; padding:13px 16px; border-radius:16px; font-size:.94rem; line-height:1.7; word-break:keep-all; }
+    .message.ai { align-self:flex-start; border:1px solid var(--line); border-radius:4px 16px 16px 16px; background:var(--surface-2); }
+    .message.user { align-self:flex-end; border-radius:16px 4px 16px 16px; color:white; background:linear-gradient(135deg,#0879d9,#008f9c); }
+    .quick-prompts { display:flex; gap:8px; overflow-x:auto; padding:0 18px 14px; }
+    .quick-prompt { flex:0 0 auto; min-height:36px; padding:0 14px; border:1px solid var(--line); border-radius:999px; color:var(--blue); background:transparent; font-size:.82rem; font-weight:700; cursor:pointer; transition:150ms ease; }
+    .quick-prompt:hover { background:rgba(70,166,255,.08); }
+    .chat-form { display:grid; grid-template-columns:1fr 46px; gap:10px; padding:14px 18px; border-top:1px solid var(--line); }
+    .chat-form input { min-width:0; height:46px; padding:0 16px; border:1px solid var(--line); border-radius:12px; color:var(--ink); background:var(--surface-2); font-size:.92rem; outline:none; }
+    .chat-form button { border:0; border-radius:12px; color:#04101d; background:linear-gradient(135deg,var(--blue),var(--cyan)); cursor:pointer; font-size:1.05rem; }
+    .chat-note { margin:0; padding:0 18px 14px; color:var(--faint); font-size:.78rem; text-align:center; line-height:1.6; }
+    footer { padding:32px 0 52px; border-top:1px solid var(--line); color:var(--faint); font-size:.88rem; line-height:1.65; }
+    .footer-inner { display:flex; justify-content:space-between; gap:20px; }
+
+
+    /* ===== Slide visualizations (added 2026-11-18) ===== */
+    .viz-split { display:grid; grid-template-columns:minmax(0,1fr) minmax(260px,420px); gap:34px; align-items:center; }
+    .viz-split.big-fig { grid-template-columns:minmax(0,1fr) minmax(300px,460px); }
+    .viz-split h2:not(.sm) { font-size:clamp(2.1rem,3.9vw,3.7rem); }
+    .viz-split p { max-width:none; }
+    .viz-fig { margin:0; }
+    .viz { display:block; width:100%; height:auto; overflow:visible; }
+    .viz-strip { margin-top:16px; }
+    .viz-strip.tight { margin-top:10px; }
+    .viz-strip.short svg { max-width:860px; margin:0 auto; }
+    .viz .flow { stroke-dasharray:6 7; animation:vizDash 1.6s linear infinite; }
+    @keyframes vizDash { to { stroke-dashoffset:-26; } }
+    @media (prefers-reduced-motion:reduce) { .viz .flow { animation:none; } }
+    .slide.dense { padding-top:clamp(24px,3.1vw,40px); padding-bottom:clamp(24px,3.1vw,40px); }
+    .slide.dense h2.sm { margin:12px 0 10px; }
+    .slide.dense .compare { margin-top:12px; }
+    .slide.dense .slide-grid { margin-top:12px; }
+    .slide.dense .quote-box { margin-top:12px; }
+    .slide.dense .slide-code { font-size:.8rem; line-height:1.55; padding:12px 16px; }
+    .slide.dense .s-table td, .slide.dense .s-table th { padding:7px 10px; }
+    .slide.dense .slide-list { margin-top:10px; } .slide.dense .slide-list li { padding:8px 14px; }
+    .slide.dense .compare-col { padding:14px 18px; } .slide.dense pre.tree { font-size:.8rem; line-height:1.55; }
+    .slide.dense .layer { padding-top:8px; padding-bottom:8px; } .slide.dense .layer-arrow { margin:0; padding:0; }
+    .slide.explain { background:linear-gradient(135deg,#0f1838,#16224d); }
+    .slide.explain .slide-kicker { color:#fbbf24; }
+    .slide.explain .slide-kicker::before { content:"쉽게 이해하기 · "; color:#fde68a; }
+    .slide-grid.steps .slide-card { position:relative; }
+    .slide-grid.steps .slide-card:not(:last-child)::after { content:"\203A"; position:absolute; right:-14px; top:50%; z-index:2; width:22px; height:22px; margin-top:-11px; border-radius:50%; background:#25d4d4; color:#04101d; font-weight:900; line-height:21px; text-align:center; }
+    .resto { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:16px; }
+    .rs5 { display:flex; flex-direction:column; align-items:center; gap:6px; padding:16px 12px; border:1px solid color-mix(in srgb,var(--c) 50%,transparent); border-top:5px solid var(--c); border-radius:18px; background:rgba(255,255,255,.04); text-align:center; }
+    .rs5 small { color:var(--c); font-size:.8rem; font-weight:900; font-family:ui-monospace,Menlo,monospace; }
+    .rs5 strong { color:#fff; font-size:1.3rem; font-weight:900; }
+    .rs5 .q { color:#e2e8f0; font-size:.95rem; font-weight:700; line-height:1.45; }
+    .rs5 .ex { margin-top:auto; padding-top:6px; color:#94a3b8; font-size:.85rem; line-height:1.45; }
+    .lay-tag { display:inline-block; padding:2px 9px; border-radius:999px; font-size:.78rem; font-weight:900; color:#04101d; }
+    @media (max-width:980px) { .viz-split,.viz-split.big-fig { grid-template-columns:1fr; } .resto { grid-template-columns:repeat(2,1fr); } .slide-grid.steps .slide-card::after { display:none; } }
+    @media (max-width:980px) {
+      .hero-grid,.workspace-grid { grid-template-columns:1fr; }
+      .chat-panel { position:static; }
+      .day-nav { grid-template-columns:repeat(5,1fr); }
+      .slide-grid,.slide-grid.cols-5 { grid-template-columns:repeat(2,1fr); }
+      .lab-grid { grid-template-columns:repeat(2,1fr); }
+      .funnel-row { grid-template-columns:160px 1fr; }
+      .funnel-row span:last-child { grid-column:2; }
+      .timeline { grid-template-columns:repeat(2,1fr); }
+      .prompt-grid,.ref-links { grid-template-columns:1fr; }
+      .mvc-flow { grid-template-columns:repeat(3,1fr); }
+      .quiz-grid { grid-template-columns:1fr; }
+    }
+    @media (max-width:650px) {
+      .shell { width:min(100% - 28px,1180px); }
+      .topbar-inner { min-height:64px; gap:8px; }
+      .brand span:last-child,.breadcrumb,.profile-copy { display:none; }
+      .profile { padding:0; border:0; background:transparent; }
+      .day-hero { padding-top:23px; }
+      .hero-copy,.day-summary { padding:26px 22px; }
+      .hero-copy h1 { font-size:clamp(2.2rem,11vw,3.4rem); }
+      .section-head { display:block; }
+      .section-head .section-lead { margin-top:11px; }
+      .slide-stage { min-height:560px; aspect-ratio:auto; }
+      .slide { padding:30px 22px; }
+      .slide h2 { font-size:2.3rem; }
+      .slide h2.sm { font-size:1.7rem; }
+      .slide-grid,.slide-grid.cols-3,.slide-grid.cols-5,.slide-list,.compare,.ice-bottom,.gap-box,.lab-grid { grid-template-columns:1fr; }
+      .funnel-row { grid-template-columns:1fr; margin-right:0!important; }
+      .funnel-row span:last-child { grid-column:auto; }
+      .slide-controls { grid-template-columns:auto 1fr auto; padding:0 12px; }
+      .slide-tools .fullscreen-btn { display:none; }
+      .day-nav { grid-template-columns:repeat(5,1fr); padding:10px; gap:6px; }
+      .day-link { min-height:58px; }
+      .chat-messages { height:420px; }
+      .footer-inner { display:block; }
+      .footer-inner span { display:block; margin-top:4px; }
+      .timeline { grid-template-columns:1fr; }
+      .s-table { font-size:.8rem; }
+      .mvc-flow,.mvc-tri { grid-template-columns:1fr; }
+      .layer { grid-template-columns:1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="daily-feedback.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark">A</span><span>ACE AI SW</span></a>
+      <div class="breadcrumb"><a href="ai-project-10day.html">10일 과정</a><i class="fa-solid fa-chevron-right"></i><strong>Day 5</strong></div>
+      <div class="top-actions">
+        <a class="icon-btn" href="ai-project-10day.html" title="10일 과정 안내" aria-label="10일 과정 안내"><i class="fa-regular fa-map"></i></a>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="어두운 화면으로 변경" aria-pressed="false"><i class="fa-regular fa-moon"></i></button>
+        <div class="profile"><span class="profile-avatar" id="profileAvatar">👤</span><span class="profile-copy"><strong id="profileName">Participant</strong><span id="profileId">ACE AI SW</span></span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="day-hero">
+      <div class="shell hero-grid">
+        <div class="hero-copy">
+          <span class="day-chip">DAY 05 · FRIDAY · BACKEND ARCHITECTURE</span>
+          <h1>백엔드 프레임워크와<br />레이어드 아키텍처</h1>
+          <p>화면 뒤에서 요청이 응답으로 바뀌는 과정을 배웁니다. <strong>Part 1</strong>에서는 어떤 프레임워크에도 통하는 <strong>MVC 패턴</strong>과 백엔드 기본기를, <strong>Part 2</strong>에서는 Django를 예시로 API·업무 규칙·DB·외부 결제를 책임별로 나누는 <strong>레이어드 아키텍처</strong>를 설계합니다.</p>
+          <div class="hero-quote"><i class="fa-solid fa-route"></i> Day 3에서 만든 문서(REQ · DATA · API)가 오늘 백엔드 코드의 “어느 폴더, 어느 파일”로 들어가는지 연결합니다.</div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="real-django-layered/index.html"><i class="fa-brands fa-python"></i> Django 레이어드 아키텍처 강의실</a>
+            <a class="btn btn-ghost" href="#timetable"><i class="fa-regular fa-calendar"></i> 진행 순서</a>
+            <a class="btn btn-ghost" href="#quiz"><i class="fa-solid fa-puzzle-piece"></i> 파일 배치 퀴즈</a>
+          </div>
+        </div>
+        <aside class="day-summary"><span class="summary-label">Today’s goals</span><ul class="summary-list">
+          <li><i class="fa-solid fa-check"></i><span>HTTP 요청·응답과 백엔드가 하는 일(라우팅·검증·규칙·저장·연동) 이해</span></li>
+          <li><i class="fa-solid fa-check"></i><span>MVC 패턴을 설명하고 Django(MTV)·Express·Spring·Laravel에 대응시키기</span></li>
+          <li><i class="fa-solid fa-check"></i><span>Fat View의 한계와 config · apps · business · infrastructure · tests 5계층 구분</span></li>
+          <li><i class="fa-solid fa-check"></i><span>Rule · Policy · Calculator · Workflow · Port · Adapter 역할로 카페 주문 API 설계</span></li>
+          <li><i class="fa-solid fa-check"></i><span>AI 에이전트가 따를 개발 규격(12단계 순서 · 9대 금지)을 내 프로젝트에 적용</span></li>
+        </ul><div class="deliverable"><strong>산출물</strong><span>MVC 요청 흐름도 · 내 프로젝트 백엔드 폴더 구조 · 카페 주문 API 계층 설계표 · 파일 배치 판단표 · AI 개발 규격(BACKEND_RULES.md)</span></div></aside>
+      </div>
+    </section>
+
+    <section class="page-section" id="timetable">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">Today’s Flow</p><h2 class="section-title">오늘의 진행 순서</h2></div><p class="section-lead">프레임워크에 상관없는 기본기(MVC)를 먼저 잡고, Django로 실무형 레이어드 구조까지 확장합니다.</p></div>
+        <div class="timeline">
+          <div class="tl-card"><span class="when">SESSION A · 80분 · PART 1</span><h3>백엔드와 프레임워크</h3><ul><li>요청 → 응답, HTTP 메서드·상태 코드</li><li>백엔드가 하는 6가지 일</li><li>프레임워크 비교 (Django·Express·Spring·Laravel …)</li></ul><span class="tag">슬라이드 P1 · 1–6</span></div>
+          <div class="tl-card"><span class="when">SESSION B · 80분 · PART 1</span><h3>MVC와 Django 시작</h3><ul><li>Model · View · Controller</li><li>Django MTV ↔ MVC 대응</li><li>startproject · startapp · 첫 API</li><li>Fat View의 한계</li></ul><span class="tag">슬라이드 P1 · 7–13</span></div>
+          <div class="tl-card part2"><span class="when">SESSION C · 100분 · PART 2</span><h3>레이어드 아키텍처</h3><ul><li>5대 디렉터리와 의존성 방향</li><li>DTO · Rule · Policy · Calculator · Workflow · Port</li><li>카페 주문 API와 container.py</li></ul><span class="tag">슬라이드 P2 · 1–8</span></div>
+          <div class="tl-card part2"><span class="when">SESSION D · 80분 · PART 2</span><h3>결제 확장 · 테스트 · AI 규격</h3><ul><li>Port &amp; Adapter로 결제사 추가</li><li>멱등성 · 웹훅 · Outbox</li><li>3단계 테스트, AI 12단계 · 9대 금지</li></ul><span class="tag">슬라이드 P2 · 9–13</span></div>
+          <div class="tl-card ext"><span class="when">실습 · 과제</span><h3>내 프로젝트에 적용</h3><ul><li>Day 3 명세의 REQ를 계층에 배치</li><li>파일 배치 퀴즈 8문항</li><li>BACKEND_RULES.md 작성</li><li>gstack /plan-eng-review로 검토</li></ul><span class="tag">아래 실습 가이드</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slides-section" id="slides" style="padding-top:20px">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">HTML Presentation</p><h2 class="section-title">Day 5 발표 슬라이드</h2></div><p class="section-lead">탭으로 Part 1(백엔드·MVC)과 Part 2(Django 레이어드 아키텍처)를 전환합니다. ←/→ 이동, N 키 또는 <i class="fa-regular fa-comment-dots"></i> 버튼으로 강의 노트를 엽니다.</p></div>
+        <div class="deck-tabs" role="tablist">
+          <button class="deck-tab active" type="button" data-part="1" role="tab"><i class="fa-solid fa-server"></i> PART 1 · 백엔드 프레임워크와 MVC <small id="count1"></small></button>
+          <button class="deck-tab" type="button" data-part="2" role="tab"><i class="fa-solid fa-layer-group"></i> PART 2 · Django 레이어드 아키텍처 <small id="count2"></small></button>
+        </div>
+        <div class="slide-deck" id="slideDeck">
+          <div class="slide-stage" aria-live="polite">
+
+<!-- ================= PART 1 : Backend & MVC ================= -->
+            <article class="slide divider dense" data-part="1" data-note="오늘의 큰 질문: 사용자가 '주문하기' 버튼을 누르면 화면 뒤에서 무슨 일이 일어나는가? Part 1은 어떤 언어·프레임워크를 쓰든 공통인 기본기(HTTP, MVC)를 다룹니다. Django는 예시일 뿐, 원리는 Express·Spring·Laravel에서도 똑같이 쓰입니다."><div class="slide-inner">
+              <div class="viz-split"><div>
+              <span class="slide-kicker">ACE AI SW Startup Training · Day 5 · Part 1</span>
+              <h2>버튼 하나 뒤에서<br /><span class="hl">무슨 일이 일어날까?</span></h2>
+              <p>사용자가 “주문하기”를 누르는 순간부터 화면에 “주문 완료”가 뜰 때까지 — 그 사이를 책임지는 것이 백엔드입니다.</p>
+              </div><figure class="viz-fig"><svg class="viz" viewBox="0 0 410 225" role="img" aria-label="사용자 요청이 백엔드 서버에서 검증·저장·연동된 뒤 응답으로 돌아오는 왕복" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="r1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#67e8f9"/></marker><marker id="r2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6ee7b7"/></marker></defs><circle cx="50" cy="110" r="34" fill="#101935" stroke="#5ab6ff" stroke-width="2.2"/><g transform="translate(33.0 93.0) scale(1.4166666666666667)" fill="none" stroke="#5ab6ff" stroke-width="1.34" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></g><text x="50" y="166" text-anchor="middle" fill="#fff" font-size="13" font-weight="800" >사용자</text><text x="50" y="182" text-anchor="middle" fill="#cbd5e1" font-size="12" font-weight="600" >“주문하기”</text><circle cx="220" cy="110" r="38" fill="#101935" stroke="#a78bfa" stroke-width="2.2"/><g transform="translate(202.0 92.0) scale(1.5)" fill="none" stroke="#a78bfa" stroke-width="1.27" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01"/></g><text x="220" y="170" text-anchor="middle" fill="#fff" font-size="13" font-weight="800" >백엔드 서버</text><circle cx="370" cy="60" r="28" fill="#101935" stroke="#fbbf24" stroke-width="2.2"/><g transform="translate(357.0 47.0) scale(1.0833333333333333)" fill="none" stroke="#fbbf24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g><text x="370" y="104" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="800" >DB</text><circle cx="370" cy="170" r="28" fill="#101935" stroke="#5eead4" stroke-width="2.2"/><g transform="translate(357.0 157.0) scale(1.0833333333333333)" fill="none" stroke="#5eead4" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></g><text x="370" y="214" text-anchor="middle" fill="#5eead4" font-size="12" font-weight="800" >결제 · 알림</text><path class="flow" d="M86 96 Q150 70 184 96" fill="none" stroke="#67e8f9" stroke-width="2.4" marker-end="url(#r1)"/><text x="135" y="66" text-anchor="middle" fill="#67e8f9" font-size="12.5" font-weight="900" >① 요청</text><path class="flow" d="M184 128 Q150 152 88 126" fill="none" stroke="#6ee7b7" stroke-width="2.4" marker-end="url(#r2)"/><text x="135" y="166" text-anchor="middle" fill="#6ee7b7" font-size="12.5" font-weight="900" >④ 응답</text><path d="M256 96 L340 70" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 4"/><path d="M256 124 L340 160" stroke="#5eead4" stroke-width="2" stroke-dasharray="4 4"/><text x="300" y="74" text-anchor="middle" fill="#fbbf24" font-size="11.5" font-weight="800" >③ 저장</text><text x="300" y="160" text-anchor="middle" fill="#5eead4" font-size="11.5" font-weight="800" >③ 연동</text><text x="220" y="40" text-anchor="middle" fill="#a78bfa" font-size="12.5" font-weight="900" >② 검증 · 규칙 · 계산</text></svg></figure></div>
+              <div class="slide-grid steps">
+                <div class="slide-card"><strong>Request</strong><span>브라우저·앱이 서버에 요청을 보낸다</span></div>
+                <div class="slide-card"><strong>Process</strong><span>검증하고, 규칙을 판단하고, 계산한다</span></div>
+                <div class="slide-card"><strong>Persist</strong><span>DB에 저장하고 외부 시스템과 연동한다</span></div>
+                <div class="slide-card"><strong>Response</strong><span>결과를 JSON 또는 HTML로 돌려준다</span></div>
+              </div>
+            </div></article>
+
+            <article class="slide dense" data-part="1" data-note="클라이언트-서버 구조. 프론트엔드는 보이는 부분, 백엔드는 데이터와 규칙을 책임지는 부분. Day 3의 문서와 연결: 화면 명세(UI)는 프론트엔드, DATA·API·규칙은 백엔드로 갑니다. 왜 규칙을 프론트엔드에만 두면 안 되는지(누구나 브라우저에서 조작 가능) 질문해 보세요."><div class="slide-inner">
+              <span class="slide-kicker">Client · Server · Database</span>
+              <h2 class="sm">프론트엔드는 <span class="hl">보여 주고</span>, 백엔드는 <span class="hl">지킨다</span></h2>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 122" role="img" aria-label="모바일·브라우저, 백엔드 서버, 데이터베이스, 외부 API로 이어지는 구조" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#67e8f9"/></marker></defs><circle cx="90" cy="46" r="30" fill="#0d1a2c" stroke="#5ab6ff" stroke-width="2.2"/><g transform="translate(76.0 32.0) scale(1.1666666666666667)" fill="none" stroke="#5ab6ff" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></g><text x="90" y="96" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" >모바일 앱 · 브라우저</text><text x="90" y="114" text-anchor="middle" fill="#5ab6ff" font-size="12" font-weight="700" >프론트엔드 · 보여 준다</text><circle cx="370" cy="46" r="30" fill="#0d1a2c" stroke="#a78bfa" stroke-width="2.2"/><g transform="translate(356.0 32.0) scale(1.1666666666666667)" fill="none" stroke="#a78bfa" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01"/></g><text x="370" y="96" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" >백엔드 서버</text><text x="370" y="114" text-anchor="middle" fill="#a78bfa" font-size="12" font-weight="700" >규칙을 지킨다</text><circle cx="640" cy="46" r="30" fill="#0d1a2c" stroke="#fbbf24" stroke-width="2.2"/><g transform="translate(626.0 32.0) scale(1.1666666666666667)" fill="none" stroke="#fbbf24" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g><text x="640" y="96" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" >데이터베이스</text><text x="640" y="114" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="700" >기록을 보관</text><circle cx="880" cy="46" r="30" fill="#0d1a2c" stroke="#5eead4" stroke-width="2.2"/><g transform="translate(866.0 32.0) scale(1.1666666666666667)" fill="none" stroke="#5eead4" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></g><text x="880" y="96" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" >외부 API</text><text x="880" y="114" text-anchor="middle" fill="#5eead4" font-size="12" font-weight="700" >결제 · 알림 · 지도</text><path class="flow" d="M128 46 H328" stroke="#67e8f9" stroke-width="2.4" marker-end="url(#a1)"/><text x="228" y="36" text-anchor="middle" fill="#67e8f9" font-size="12.5" font-weight="800" >HTTP 요청 / 응답</text><path d="M410 46 H600" stroke="#8ea3bd" stroke-width="2" stroke-dasharray="5 5"/><path d="M680 46 H842" stroke="#8ea3bd" stroke-width="2" stroke-dasharray="5 5"/><rect x="230" y="124" width="280" height="0" /></svg></div>
+              <div class="compare">
+                <div class="compare-col"><h4>프론트엔드 (Day 3 UI 명세)</h4><ul><li>화면, 버튼, 입력 폼, 상태 표시</li><li>사용자 경험과 즉각적인 피드백</li><li>사용자가 조작할 수 있음 → 신뢰할 수 없음</li></ul></div>
+                <div class="compare-col good"><h4>백엔드 (Day 3 DATA · API · REQ)</h4><ul><li>“품절 메뉴는 주문 불가” 같은 업무 규칙의 최종 판단</li><li>금액 계산, 데이터 저장, 권한 확인</li><li>결제·알림 등 외부 시스템 연동</li></ul></div>
+              </div>
+              <div class="quote-box">가격 계산을 브라우저에서만 하면? 사용자가 개발자 도구로 <b>0원 주문</b>을 보낼 수 있습니다. 규칙은 반드시 서버에서.</div>
+            </div></article>
+
+            <article class="slide dense" data-part="1" data-note="HTTP 기본. 메서드(GET 조회, POST 생성, PUT/PATCH 수정, DELETE 삭제)와 상태 코드를 짝지어 설명하세요. 오늘 Part 2의 카페 주문 API 예시가 바로 이 요청·응답입니다. 409 Conflict는 나중에 결제 멱등성에서 다시 나옵니다."><div class="slide-inner">
+              <span class="slide-kicker">HTTP basics</span>
+              <h2 class="sm">요청과 응답: <span class="hl">메서드 · URL · 본문 · 상태 코드</span></h2>
+              <div class="compare">
+                <div class="compare-col"><h4>요청 (Request)</h4><pre class="slide-code" style="margin:0"><span class="c">POST</span> /api/v1/cafe/orders
+Content-Type: application/json
+
+{ "items": [
+    { "menu_id": 1, "quantity": 2 },
+    { "menu_id": 3, "quantity": 1 } ] }</pre></div>
+                <div class="compare-col good"><h4>응답 (Response)</h4><pre class="slide-code" style="margin:0"><span class="c">201 Created</span>
+
+{ "order_id": 1042,
+  "status": "RECEIVED",
+  "total_price": 13500 }</pre></div>
+              </div>
+              <table class="s-table">
+                <thead><tr><th>메서드</th><th>의미</th><th>상태 코드</th><th>의미</th></tr></thead>
+                <tbody>
+                  <tr><td><code>GET</code></td><td>조회</td><td><code>200</code> / <code>201</code></td><td>성공 / 생성됨</td></tr>
+                  <tr><td><code>POST</code></td><td>생성</td><td><code>400</code> / <code>401</code> / <code>403</code></td><td>잘못된 요청 / 인증 필요 / 권한 없음</td></tr>
+                  <tr><td><code>PATCH</code> · <code>PUT</code></td><td>수정</td><td><code>404</code> / <code>409</code></td><td>없음 / 충돌(중복 등)</td></tr>
+                  <tr><td><code>DELETE</code></td><td>삭제</td><td><code>500</code></td><td>서버 내부 오류</td></tr>
+                </tbody>
+              </table>
+            </div></article>
+
+            <article class="slide explain dense" data-part="1" data-note="HTTP를 편지에 비유합니다. 요청은 주소(URL)·편지 종류(메서드)·내용물(본문)이 있는 편지, 응답은 도장(상태 코드)이 찍힌 답장입니다. 2xx는 성공, 4xx는 보낸 사람 쪽 문제, 5xx는 서버 쪽 문제. 학생들에게 '은행 앱에서 잘못된 계좌번호를 넣으면 몇 번 도장이 찍힐까?'(400)라고 물어보세요."><div class="slide-inner">
+              <span class="slide-kicker">Analogy · 편지와 답장</span>
+              <h2 class="sm">HTTP는 <span class="hl">편지를 보내고 답장을 받는 것</span></h2>
+              <div class="viz-strip"><svg class="viz" viewBox="0 10 1000 380" role="img" aria-label="HTTP 요청을 편지, 응답을 도장이 찍힌 답장으로 비유하고 상태 코드를 도장으로 설명" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="l1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#67e8f9"/></marker><marker id="l2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6ee7b7"/></marker></defs><rect x="20" y="40" width="380" height="230" rx="16" fill="#0d1a2c" stroke="#67e8f9" stroke-width="2.4"/><path d="M20 56 L210 160 L400 56" fill="none" stroke="#67e8f9" stroke-opacity=".4" stroke-width="2"/><text x="210" y="28" text-anchor="middle" fill="#67e8f9" font-size="18" font-weight="900" >요청 = 보내는 편지</text><text x="40" y="180" text-anchor="start" fill="#5ab6ff" font-size="13" font-weight="900" >받는 주소 (URL)</text><text x="380" y="180" text-anchor="end" fill="#fff" font-size="13" font-weight="700" >/api/v1/cafe/orders</text><text x="40" y="210" text-anchor="start" fill="#fbbf24" font-size="13" font-weight="900" >편지 종류 (메서드)</text><text x="380" y="210" text-anchor="end" fill="#fff" font-size="13" font-weight="700" >POST = 새로 만들어 주세요</text><text x="40" y="240" text-anchor="start" fill="#cbd5e1" font-size="13" font-weight="900" >내용물 (본문 JSON)</text><text x="380" y="240" text-anchor="end" fill="#fff" font-size="13" font-weight="700" >치킨 샌드위치 2개, 콜라 1개</text><path class="flow" d="M410 150 H540" stroke="#67e8f9" stroke-width="3" marker-end="url(#l1)"/><circle cx="600" cy="150" r="40" fill="#0d1a2c" stroke="#a78bfa" stroke-width="2.2"/><g transform="translate(581.0 131.0) scale(1.5833333333333333)" fill="none" stroke="#a78bfa" stroke-width="1.20" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01"/></g><text x="600" y="212" text-anchor="middle" fill="#fff" font-size="13" font-weight="800" >백엔드 = 우체국 + 사무실</text><path class="flow" d="M660 150 H780" stroke="#6ee7b7" stroke-width="3" marker-end="url(#l2)"/><rect x="790" y="60" width="200" height="190" rx="16" fill="#0d1a2c" stroke="#6ee7b7" stroke-width="2.4"/><text x="890" y="48" text-anchor="middle" fill="#6ee7b7" font-size="18" font-weight="900" >응답 = 답장</text><circle cx="890" cy="120" r="38" fill="none" stroke="#6ee7b7" stroke-width="4"/><text x="890" y="116" text-anchor="middle" fill="#6ee7b7" font-size="22" font-weight="900" >201</text><text x="890" y="136" text-anchor="middle" fill="#6ee7b7" font-size="12" font-weight="800" >Created</text><text x="890" y="186" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" >주문번호 1042</text><text x="890" y="206" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" >합계 ₦13,500</text><rect x="20" y="296" width="114" height="56" rx="10" fill="#6ee7b7" fill-opacity=".12" stroke="#6ee7b7"/><text x="77" y="320" text-anchor="middle" fill="#6ee7b7" font-size="18" font-weight="900" >200</text><text x="77" y="341" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" >성공</text><rect x="142" y="296" width="114" height="56" rx="10" fill="#6ee7b7" fill-opacity=".12" stroke="#6ee7b7"/><text x="199" y="320" text-anchor="middle" fill="#6ee7b7" font-size="18" font-weight="900" >201</text><text x="199" y="341" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" >만들어짐</text><rect x="264" y="296" width="114" height="56" rx="10" fill="#fbbf24" fill-opacity=".12" stroke="#fbbf24"/><text x="321" y="320" text-anchor="middle" fill="#fbbf24" font-size="18" font-weight="900" >400</text><text x="321" y="341" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" >편지 내용이 이상해요</text><rect x="386" y="296" width="114" height="56" rx="10" fill="#fbbf24" fill-opacity=".12" stroke="#fbbf24"/><text x="443" y="320" text-anchor="middle" fill="#fbbf24" font-size="18" font-weight="900" >401</text><text x="443" y="341" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" >누구세요?</text><rect x="508" y="296" width="114" height="56" rx="10" fill="#fbbf24" fill-opacity=".12" stroke="#fbbf24"/><text x="565" y="320" text-anchor="middle" fill="#fbbf24" font-size="18" font-weight="900" >403</text><text x="565" y="341" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" >권한 없음</text><rect x="630" y="296" width="114" height="56" rx="10" fill="#fca5a5" fill-opacity=".12" stroke="#fca5a5"/><text x="687" y="320" text-anchor="middle" fill="#fca5a5" font-size="18" font-weight="900" >404</text><text x="687" y="341" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" >그런 주소 없음</text><rect x="752" y="296" width="114" height="56" rx="10" fill="#fca5a5" fill-opacity=".12" stroke="#fca5a5"/><text x="809" y="320" text-anchor="middle" fill="#fca5a5" font-size="18" font-weight="900" >409</text><text x="809" y="341" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" >이미 처리됨 (중복)</text><rect x="874" y="296" width="114" height="56" rx="10" fill="#fca5a5" fill-opacity=".12" stroke="#fca5a5"/><text x="931" y="320" text-anchor="middle" fill="#fca5a5" font-size="18" font-weight="900" >500</text><text x="931" y="341" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" >우체국 사고</text><text x="500" y="378" text-anchor="middle" fill="#cbd5e1" font-size="14" font-weight="700" >도장(상태 코드)만 봐도 결과를 안다: 2xx 성공 · 4xx 보낸 사람 문제 · 5xx 서버 문제</text></svg></div>
+            </div></article>
+
+            <article class="slide dense" data-part="1" data-note="백엔드가 하는 6가지 일. 이 여섯 가지가 Part 2에서 각각 다른 계층(폴더)으로 나뉩니다. 미리 '이건 어느 계층일까?'를 예고하세요: 라우팅·검증=API, 규칙=business, 저장=repository, 외부 연동=adapter."><div class="slide-inner">
+              <span class="slide-kicker">What a backend does</span>
+              <h2 class="sm">백엔드가 하는 <span class="hl">6가지 일</span></h2>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="route" font-family="Pretendard,DM Sans,sans-serif" style="height:50px;width:50px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#5ab6ff" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#5ab6ff" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/></g></svg><strong>① 라우팅</strong><span>URL과 메서드를 보고 어떤 코드가 처리할지 결정</span><em>/api/v1/cafe/orders → 주문 생성</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="check" font-family="Pretendard,DM Sans,sans-serif" style="height:50px;width:50px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#67e8f9" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#67e8f9" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></g></svg><strong>② 입력 검증</strong><span>필수 값, 타입, 범위 확인</span><em>quantity는 1 이상 정수인가?</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="lock" font-family="Pretendard,DM Sans,sans-serif" style="height:50px;width:50px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#fbbf24" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#fbbf24" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></g></svg><strong>③ 인증 · 권한</strong><span>누구인지, 이 일을 해도 되는지</span><em>관리자만 품절 처리 가능</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="calc" font-family="Pretendard,DM Sans,sans-serif" style="height:50px;width:50px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#a78bfa" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#a78bfa" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></g></svg><strong>④ 업무 규칙 · 계산</strong><span>판매 가능 여부, 할인, 총액</span><em>서비스의 핵심 가치</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="db" font-family="Pretendard,DM Sans,sans-serif" style="height:50px;width:50px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#5eead4" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#5eead4" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g></svg><strong>⑤ 데이터 저장</strong><span>DB에 일관성 있게 기록 (트랜잭션)</span><em>주문 + 주문 항목 함께 저장</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="plug" font-family="Pretendard,DM Sans,sans-serif" style="height:50px;width:50px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#f9a8d4" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#f9a8d4" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v4"/></g></svg><strong>⑥ 외부 연동</strong><span>결제, 문자·이메일 알림, 지도 등</span><em>실패·지연에 대비</em></div>
+              </div>
+            </div></article>
+
+            <article class="slide dense" data-part="1" data-note="프레임워크 = 반복되는 일을 표준화한 뼈대. 직접 만들면 라우팅·DB 연결·보안을 매번 새로 짜야 합니다. 프레임워크는 '어디에 무엇을 쓸지' 규칙도 제공 — 이 규칙이 팀과 AI의 협업을 쉽게 만듭니다."><div class="slide-inner">
+              <span class="slide-kicker">Why frameworks?</span>
+              <h2 class="sm">프레임워크 = <span class="hl">반복되는 일 + 코드 위치의 약속</span></h2>
+              <div class="compare">
+                <div class="compare-col bad"><h4>프레임워크 없이</h4><ul><li>URL 파싱, DB 연결, 세션, 보안을 매번 직접 구현</li><li>사람마다 코드 위치와 스타일이 제각각</li><li>SQL 인젝션·CSRF 같은 보안 실수 위험</li></ul></div>
+                <div class="compare-col good"><h4>프레임워크와 함께</h4><ul><li>라우팅 · ORM · 인증 · 관리자 · 보안 기능 기본 제공</li><li>“모델은 여기, 뷰는 여기” 공통 구조 → 협업 용이</li><li>AI도 정해진 위치에 코드를 작성하기 쉬움</li></ul></div>
+              </div>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 108" role="img" aria-label="라이브러리는 내가 부르는 도구, 프레임워크는 정해진 자리의 내 코드를 불러 주는 뼈대" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="f1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5ab6ff"/></marker><marker id="f2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6ee7b7"/></marker></defs><circle cx="70" cy="50" r="26" fill="#0d1a2c" stroke="#5ab6ff" stroke-width="2.2"/><g transform="translate(58.0 38.0) scale(1.0)" fill="none" stroke="#5ab6ff" stroke-width="1.90" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></g><text x="70" y="92" text-anchor="middle" fill="#fff" font-size="13" font-weight="800" >내 코드</text><path d="M100 50 H200" stroke="#5ab6ff" stroke-width="2.4" marker-end="url(#f1)"/><text x="150" y="40" text-anchor="middle" fill="#5ab6ff" font-size="12" font-weight="800" >내가 부른다</text><circle cx="230" cy="50" r="26" fill="#0d1a2c" stroke="#5ab6ff" stroke-width="2.2"/><g transform="translate(218.0 38.0) scale(1.0)" fill="none" stroke="#5ab6ff" stroke-width="1.90" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6a4 4 0 0 0 5 5l-9 9a2 2 0 0 1-3-3l9-9a4 4 0 0 0-2-2z"/></g><text x="230" y="92" text-anchor="middle" fill="#fff" font-size="13" font-weight="800" >라이브러리 (도구)</text><rect x="520" y="10" width="460" height="90" rx="14" fill="rgba(71,215,160,.08)" stroke="#6ee7b7" stroke-dasharray="5 4"/><text x="750" y="30" text-anchor="middle" fill="#6ee7b7" font-size="13" font-weight="900" >프레임워크 (집의 뼈대)</text><rect x="545" y="44" width="110" height="34" rx="8" fill="#0d1a2c" stroke="#6ee7b7"/><text x="600" y="66" text-anchor="middle" fill="#fde68a" font-size="12.5" font-weight="800" font-family="ui-monospace,Menlo,monospace">urls.py</text><rect x="695" y="44" width="110" height="34" rx="8" fill="#0d1a2c" stroke="#6ee7b7"/><text x="750" y="66" text-anchor="middle" fill="#fde68a" font-size="12.5" font-weight="800" font-family="ui-monospace,Menlo,monospace">views.py</text><rect x="845" y="44" width="110" height="34" rx="8" fill="#0d1a2c" stroke="#6ee7b7"/><text x="900" y="66" text-anchor="middle" fill="#fde68a" font-size="12.5" font-weight="800" font-family="ui-monospace,Menlo,monospace">models.py</text><path d="M520 61 H430" stroke="#6ee7b7" stroke-width="2.4" marker-end="url(#f2)"/><text x="475" y="52" text-anchor="middle" fill="#6ee7b7" font-size="12" font-weight="800" >나를 부른다</text><circle cx="400" cy="61" r="22" fill="#0d1a2c" stroke="#6ee7b7" stroke-width="2.2"/><g transform="translate(390.0 51.0) scale(0.8333333333333334)" fill="none" stroke="#6ee7b7" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></g><text x="400" y="96" text-anchor="middle" fill="#cbd5e1" font-size="12" font-weight="700" >정해진 자리에 내 코드</text></svg></div>
+              <div class="quote-box">라이브러리는 <b>내가 부르는</b> 도구, 프레임워크는 <b>나를 불러 주는</b> 뼈대입니다. (제어의 역전)</div>
+            </div></article>
+
+            <article class="slide" data-part="1" data-note="대표 프레임워크 비교. 언어가 달라도 구조 패턴은 대부분 MVC 계열입니다. 학생들이 어떤 언어를 이미 아는지 물어보고 연결하세요. 오늘은 Python + Django로 실습하지만, 원리는 동일하게 적용됩니다."><div class="slide-inner">
+              <span class="slide-kicker">Popular backend frameworks</span>
+              <h2 class="sm">언어는 달라도 <span class="hl">구조는 MVC 계열</span></h2>
+              <table class="s-table">
+                <thead><tr><th>프레임워크</th><th>언어</th><th>성격</th><th>구조 패턴</th><th>이럴 때</th></tr></thead>
+                <tbody>
+                  <tr><td><b>Django</b> (+ DRF)</td><td>Python</td><td>풀스택 · 기능 내장(ORM·Admin·Auth)</td><td>MTV (= MVC)</td><td>빠른 MVP, 관리자 화면, 데이터 중심 서비스</td></tr>
+                  <tr><td><b>FastAPI</b> · Flask</td><td>Python</td><td>마이크로 · API 중심</td><td>자유 구성</td><td>가벼운 API, AI 모델 서빙</td></tr>
+                  <tr><td><b>Express</b> · NestJS</td><td>JavaScript / TS</td><td>마이크로 / 구조화</td><td>MVC · 모듈</td><td>프론트와 같은 언어, 실시간</td></tr>
+                  <tr><td><b>Spring Boot</b></td><td>Java / Kotlin</td><td>엔터프라이즈 · 강한 구조</td><td>Spring MVC · 계층형</td><td>대규모·금융·공공 시스템</td></tr>
+                  <tr><td><b>Laravel</b></td><td>PHP</td><td>풀스택 · 생산성</td><td>MVC</td><td>웹 서비스, 호스팅 환경이 PHP인 경우</td></tr>
+                  <tr><td><b>Ruby on Rails</b></td><td>Ruby</td><td>풀스택 · 관례 우선</td><td>MVC</td><td>스타트업 초기 제품</td></tr>
+                </tbody>
+              </table>
+            </div></article>
+
+            <article class="slide dense" data-part="1" data-note="MVC의 세 역할. Model=데이터와 그 데이터에 대한 규칙, View=사용자에게 보여 주는 표현, Controller=요청을 받아 Model과 View를 연결하는 조정자. 식당 비유: Controller=웨이터(주문 받고 전달), Model=주방(재료·조리 규칙), View=접시에 담긴 요리(보여지는 결과)."><div class="slide-inner">
+              <span class="slide-kicker">MVC pattern</span>
+              <h2 class="sm">MVC: <span class="hl">세 가지 책임</span>을 나눈다</h2>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 20 1000 308" role="img" aria-label="MVC 세 역할: Controller 웨이터, Model 주방, View 접시" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="m1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#67e8f9"/></marker></defs><circle cx="70" cy="60" r="24" fill="#0d1a2c" stroke="#6ee7b7" stroke-width="2.2"/><g transform="translate(59.0 49.0) scale(0.9166666666666666)" fill="none" stroke="#6ee7b7" stroke-width="2.07" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></g><text x="70" y="102" text-anchor="middle" fill="#fff" font-size="13" font-weight="800" >손님</text><path d="M98 60 H420" stroke="#6ee7b7" stroke-width="2" marker-end="url(#m1)"/><text x="260" y="50" text-anchor="middle" fill="#6ee7b7" font-size="12.5" font-weight="800" >요청 “주문하기”</text><circle cx="500" cy="60" r="32" fill="#0d1a2c" stroke="#67e8f9" stroke-width="2.2"/><g transform="translate(485.0 45.0) scale(1.25)" fill="none" stroke="#67e8f9" stroke-width="1.52" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/></g><text x="560" y="52" text-anchor="start" fill="#67e8f9" font-size="18" font-weight="900" >Controller</text><text x="560" y="72" text-anchor="start" fill="#fff" font-size="13" font-weight="700" >웨이터 — 주문 받고 전달</text><text x="560" y="90" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">OrderController.create()</text><path class="flow" d="M478 92 L300 196" stroke="#67e8f9" stroke-width="2.4" marker-end="url(#m1)"/><text x="372" y="132" text-anchor="end" fill="#67e8f9" font-size="13" font-weight="800" >① 데이터 요청</text><path class="flow" d="M522 92 L700 196" stroke="#67e8f9" stroke-width="2.4" marker-end="url(#m1)"/><text x="628" y="132" text-anchor="start" fill="#67e8f9" font-size="13" font-weight="800" >② 화면 결정</text><circle cx="270" cy="226" r="30" fill="#0d1a2c" stroke="#fbbf24" stroke-width="2.2"/><g transform="translate(256.0 212.0) scale(1.1666666666666667)" fill="none" stroke="#fbbf24" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g><text x="270" y="280" text-anchor="middle" fill="#fbbf24" font-size="18" font-weight="900" >Model</text><text x="270" y="300" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" >주방 — 재료와 조리 규칙</text><text x="270" y="318" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">Menu · Order · OrderItem</text><circle cx="730" cy="226" r="30" fill="#0d1a2c" stroke="#f9a8d4" stroke-width="2.2"/><g transform="translate(716.0 212.0) scale(1.1666666666666667)" fill="none" stroke="#f9a8d4" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g><text x="730" y="280" text-anchor="middle" fill="#f9a8d4" font-size="18" font-weight="900" >View</text><text x="730" y="300" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" >접시 — 보여지는 결과</text><text x="730" y="318" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">주문 완료 화면 / JSON</text><path d="M306 226 H690" stroke="#8ea3bd" stroke-width="1.6" stroke-dasharray="4 5"/><text x="500" y="218" text-anchor="middle" fill="#8ea3bd" font-size="12" font-weight="700" >데이터를 화면에 담아 표시</text></svg></div>
+              <div class="quote-box">🍽️ 식당 비유 — <b>웨이터</b>(Controller)가 주문을 받아 <b>주방</b>(Model)에 전달하고, 완성된 <b>요리</b>(View)를 손님에게 내놓는다.</div>
+            </div></article>
+
+            <article class="slide dense" data-part="1" data-note="MVC 요청 흐름 6단계. 화이트보드에 그리면서 학생들이 각 단계를 손가락으로 따라가게 하세요. 라우터는 MVC의 일부는 아니지만 모든 프레임워크에 있습니다."><div class="slide-inner">
+              <span class="slide-kicker">MVC request flow</span>
+              <h2 class="sm">요청 하나가 응답이 되기까지 <span class="hl">6단계</span></h2>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 256" role="img" aria-label="사용자, Router, Controller, Model과 DB, View 사이의 6단계 요청 흐름 시퀀스" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="sq" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#67e8f9"/></marker><marker id="sg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6ee7b7"/></marker></defs><circle cx="80" cy="28" r="20" fill="#0d1a2c" stroke="#6ee7b7" stroke-width="2.2"/><g transform="translate(71.0 19.0) scale(0.75)" fill="none" stroke="#6ee7b7" stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></g><text x="80" y="66" text-anchor="middle" fill="#6ee7b7" font-size="13.5" font-weight="900" >사용자</text><path d="M80 74 V250" stroke="#6ee7b7" stroke-opacity=".35" stroke-dasharray="3 5"/><circle cx="290" cy="28" r="20" fill="#0d1a2c" stroke="#5ab6ff" stroke-width="2.2"/><g transform="translate(281.0 19.0) scale(0.75)" fill="none" stroke="#5ab6ff" stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/></g><text x="290" y="66" text-anchor="middle" fill="#5ab6ff" font-size="13.5" font-weight="900" >Router</text><path d="M290 74 V250" stroke="#5ab6ff" stroke-opacity=".35" stroke-dasharray="3 5"/><circle cx="500" cy="28" r="20" fill="#0d1a2c" stroke="#67e8f9" stroke-width="2.2"/><g transform="translate(491.0 19.0) scale(0.75)" fill="none" stroke="#67e8f9" stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/></g><text x="500" y="66" text-anchor="middle" fill="#67e8f9" font-size="13.5" font-weight="900" >Controller</text><path d="M500 74 V250" stroke="#67e8f9" stroke-opacity=".35" stroke-dasharray="3 5"/><circle cx="710" cy="28" r="20" fill="#0d1a2c" stroke="#fbbf24" stroke-width="2.2"/><g transform="translate(701.0 19.0) scale(0.75)" fill="none" stroke="#fbbf24" stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g><text x="710" y="66" text-anchor="middle" fill="#fbbf24" font-size="13.5" font-weight="900" >Model ↔ DB</text><path d="M710 74 V250" stroke="#fbbf24" stroke-opacity=".35" stroke-dasharray="3 5"/><circle cx="920" cy="28" r="20" fill="#0d1a2c" stroke="#f9a8d4" stroke-width="2.2"/><g transform="translate(911.0 19.0) scale(0.75)" fill="none" stroke="#f9a8d4" stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g><text x="920" y="66" text-anchor="middle" fill="#f9a8d4" font-size="13.5" font-weight="900" >View</text><path d="M920 74 V250" stroke="#f9a8d4" stroke-opacity=".35" stroke-dasharray="3 5"/><path class="flow" d="M86 94 H282" stroke="#67e8f9" stroke-width="2.2" marker-end="url(#sq)"/><text x="185.0" y="88" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="700" >1 POST /orders</text><path class="flow" d="M296 124 H492" stroke="#67e8f9" stroke-width="2.2" marker-end="url(#sq)"/><text x="395.0" y="118" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="700" >2 담당 선택</text><path class="flow" d="M506 154 H702" stroke="#67e8f9" stroke-width="2.2" marker-end="url(#sq)"/><text x="605.0" y="148" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="700" >3·4 메뉴 조회 · 주문 저장</text><path class="flow" d="M704 184 H508" stroke="#67e8f9" stroke-width="2.2" marker-end="url(#sq)"/><text x="605.0" y="178" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="700" >저장 결과</text><path class="flow" d="M506 208 H912" stroke="#67e8f9" stroke-width="2.2" marker-end="url(#sq)"/><text x="710.0" y="202" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="700" >5 화면/JSON 만들기</text><path class="flow" d="M914 238 H88" stroke="#6ee7b7" stroke-width="2.2" marker-end="url(#sg)"/><text x="500.0" y="232" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="700" >6 201 Created + 주문번호</text></svg></div>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong>Express</strong><span>routes/ → controllers/ → models/ → views/</span></div>
+                <div class="slide-card"><strong>Spring MVC</strong><span>@Controller → @Service → @Repository → View/JSON</span></div>
+                <div class="slide-card"><strong>Laravel · Rails</strong><span>routes → Controller → Model(Eloquent/ActiveRecord) → View</span></div>
+              </div>
+            </div></article>
+
+            <article class="slide dense" data-part="1" data-note="Django는 MTV라고 부르지만 MVC와 같은 개념입니다. 헷갈리는 포인트: Django의 'View'는 MVC의 Controller 역할, Django의 'Template'이 MVC의 View 역할. API 서버에서는 Template 대신 DRF Serializer가 JSON 표현을 맡습니다."><div class="slide-inner">
+              <span class="slide-kicker">Django MTV = MVC</span>
+              <h2 class="sm">Django의 MTV는 <span class="hl">이름만 다른 MVC</span></h2>
+              <div class="viz-strip"><svg class="viz" viewBox="0 0 1000 300" role="img" aria-label="MVC 역할과 Django 이름 매핑. Django의 View는 Controller, Template은 View 역할" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><text x="170" y="22" text-anchor="middle" fill="#cbd5e1" font-size="15" font-weight="900" >MVC 이름</text><text x="830" y="22" text-anchor="middle" fill="#cbd5e1" font-size="15" font-weight="900" >Django 이름</text><rect x="40" y="44" width="260" height="48" rx="12" fill="#5ab6ff" fill-opacity=".14" stroke="#5ab6ff"/><text x="170" y="74" text-anchor="middle" fill="#fff" font-size="16" font-weight="900" >Router</text><rect x="660" y="44" width="320" height="48" rx="12" fill="#0d1a2c" stroke="#5ab6ff" stroke-width="1.4"/><text x="820" y="66" text-anchor="middle" fill="#fff" font-size="15" font-weight="900" >URLconf</text><text x="820" y="84" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="700" font-family="ui-monospace,Menlo,monospace">urls.py</text><path d="M302 68 H658" stroke="#5ab6ff" stroke-width="2.4"/><rect x="40" y="106" width="260" height="48" rx="12" fill="#67e8f9" fill-opacity=".14" stroke="#67e8f9"/><text x="170" y="136" text-anchor="middle" fill="#fff" font-size="16" font-weight="900" >Controller</text><rect x="660" y="106" width="320" height="48" rx="12" fill="#0d1a2c" stroke="#67e8f9" stroke-width="2.6"/><text x="820" y="128" text-anchor="middle" fill="#fde68a" font-size="15" font-weight="900" >View ⚠</text><text x="820" y="146" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="700" font-family="ui-monospace,Menlo,monospace">views.py</text><path d="M302 130 H658" stroke="#67e8f9" stroke-width="2.4"/><rect x="40" y="168" width="260" height="48" rx="12" fill="#fbbf24" fill-opacity=".14" stroke="#fbbf24"/><text x="170" y="198" text-anchor="middle" fill="#fff" font-size="16" font-weight="900" >Model</text><rect x="660" y="168" width="320" height="48" rx="12" fill="#0d1a2c" stroke="#fbbf24" stroke-width="1.4"/><text x="820" y="190" text-anchor="middle" fill="#fff" font-size="15" font-weight="900" >Model</text><text x="820" y="208" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="700" font-family="ui-monospace,Menlo,monospace">models.py</text><path d="M302 192 H658" stroke="#fbbf24" stroke-width="2.4"/><rect x="40" y="230" width="260" height="48" rx="12" fill="#f9a8d4" fill-opacity=".14" stroke="#f9a8d4"/><text x="170" y="260" text-anchor="middle" fill="#fff" font-size="16" font-weight="900" >View (표현)</text><rect x="660" y="230" width="320" height="48" rx="12" fill="#0d1a2c" stroke="#f9a8d4" stroke-width="2.6"/><text x="820" y="252" text-anchor="middle" fill="#fde68a" font-size="15" font-weight="900" >Template ⚠ / Serializer</text><text x="820" y="270" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="700" font-family="ui-monospace,Menlo,monospace">templates · DRF</text><path d="M302 254 H658" stroke="#f9a8d4" stroke-width="2.4"/><rect x="380" y="110" width="200" height="44" rx="10" fill="rgba(251,191,36,.16)" stroke="#fbbf24"/><text x="480" y="128" text-anchor="middle" fill="#fbbf24" font-size="12.5" font-weight="900" >⚠ 이름이 엇갈려요</text><text x="480" y="145" text-anchor="middle" fill="#fde68a" font-size="11.5" font-weight="700" >Django View = Controller</text></svg></div>
+              <div class="quote-box">Django에서 “View”라고 하면 <b>요청을 처리하는 함수/클래스</b>(MVC의 Controller)입니다.</div>
+            </div></article>
+
+            <article class="slide dense" data-part="1" data-note="Django 시작 명령. 실습 시간에 학생들이 직접 따라 하게 합니다. 가상환경을 먼저 만드는 습관을 강조. makemigrations/migrate는 Model을 DB 테이블로 반영하는 과정입니다."><div class="slide-inner">
+              <span class="slide-kicker">Hands-on · Django in 5 commands</span>
+              <h2 class="sm">Django 프로젝트 <span class="hl">시작하기</span></h2>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 68" role="img" aria-label="가상환경 → 설치 → 프로젝트 · 앱 → DB 반영 → 실행" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="st" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8ea3bd"/></marker></defs><rect x="4.0" y="4" width="176.0" height="60" rx="14" fill="#5ab6ff" fill-opacity=".1" stroke="#5ab6ff" stroke-opacity=".6"/><circle cx="34.0" cy="34" r="18" fill="#0d1a2c" stroke="#5ab6ff" stroke-width="2.2"/><g transform="translate(25.5 25.5) scale(0.7083333333333334)" fill="none" stroke="#5ab6ff" stroke-width="2.68" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></g><text x="58.0" y="30" text-anchor="start" fill="#fff" font-size="14" font-weight="800" >가상환경</text><text x="58.0" y="50" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">venv</text><path d="M182.0 34 H202.0" stroke="#8ea3bd" stroke-width="2" marker-end="url(#st)"/><rect x="204.0" y="4" width="176.0" height="60" rx="14" fill="#67e8f9" fill-opacity=".1" stroke="#67e8f9" stroke-opacity=".6"/><circle cx="234.0" cy="34" r="18" fill="#0d1a2c" stroke="#67e8f9" stroke-width="2.2"/><g transform="translate(225.5 25.5) scale(0.7083333333333334)" fill="none" stroke="#67e8f9" stroke-width="2.68" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v4"/></g><text x="258.0" y="30" text-anchor="start" fill="#fff" font-size="14" font-weight="800" >설치</text><text x="258.0" y="50" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">pip install</text><path d="M382.0 34 H402.0" stroke="#8ea3bd" stroke-width="2" marker-end="url(#st)"/><rect x="404.0" y="4" width="176.0" height="60" rx="14" fill="#a78bfa" fill-opacity=".1" stroke="#a78bfa" stroke-opacity=".6"/><circle cx="434.0" cy="34" r="18" fill="#0d1a2c" stroke="#a78bfa" stroke-width="2.2"/><g transform="translate(425.5 25.5) scale(0.7083333333333334)" fill="none" stroke="#a78bfa" stroke-width="2.68" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h7l2 2h9v12H3z"/></g><text x="458.0" y="30" text-anchor="start" fill="#fff" font-size="14" font-weight="800" >프로젝트 · 앱</text><text x="458.0" y="50" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">startproject</text><path d="M582.0 34 H602.0" stroke="#8ea3bd" stroke-width="2" marker-end="url(#st)"/><rect x="604.0" y="4" width="176.0" height="60" rx="14" fill="#fbbf24" fill-opacity=".1" stroke="#fbbf24" stroke-opacity=".6"/><circle cx="634.0" cy="34" r="18" fill="#0d1a2c" stroke="#fbbf24" stroke-width="2.2"/><g transform="translate(625.5 25.5) scale(0.7083333333333334)" fill="none" stroke="#fbbf24" stroke-width="2.68" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g><text x="658.0" y="30" text-anchor="start" fill="#fff" font-size="14" font-weight="800" >DB 반영</text><text x="658.0" y="50" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">migrate</text><path d="M782.0 34 H802.0" stroke="#8ea3bd" stroke-width="2" marker-end="url(#st)"/><rect x="804.0" y="4" width="176.0" height="60" rx="14" fill="#6ee7b7" fill-opacity=".1" stroke="#6ee7b7" stroke-opacity=".6"/><circle cx="834.0" cy="34" r="18" fill="#0d1a2c" stroke="#6ee7b7" stroke-width="2.2"/><g transform="translate(825.5 25.5) scale(0.7083333333333334)" fill="none" stroke="#6ee7b7" stroke-width="2.68" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></g><text x="858.0" y="30" text-anchor="start" fill="#fff" font-size="14" font-weight="800" >실행</text><text x="858.0" y="50" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">runserver</text></svg></div>
+              <div class="compare">
+                <div class="compare-col"><h4>명령어</h4><pre class="slide-code" style="margin:0"><span class="m"># 가상환경 + 설치</span>
+python -m venv .venv
+source .venv/bin/activate   <span class="m"># Windows: .venv\Scripts\activate</span>
+pip install django djangorestframework
+
+<span class="m"># 프로젝트 · 앱 생성</span>
+django-admin startproject config .
+python manage.py startapp cafe
+
+<span class="m"># Model → DB 반영, 서버 실행</span>
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver</pre></div>
+                <div class="compare-col"><h4>생성되는 기본 구조</h4><pre class="tree" style="margin:0">backend/
+├── manage.py
+├── config/   <i># settings · urls · wsgi/asgi</i>
+└── cafe/
+    ├── migrations/
+    ├── admin.py
+    ├── apps.py
+    ├── <b>models.py</b>   <i># Model</i>
+    ├── <b>views.py</b>    <i># Controller 역할</i>
+    └── tests.py</pre></div>
+              </div>
+            </div></article>
+
+            <article class="slide dense" data-part="1" data-note="가장 단순한 Django 흐름 코드. urls → views → models 순서로 읽게 하세요. 이 정도 규모에서는 이 구조로 충분합니다. 문제는 기능이 커질 때 — 다음 슬라이드."><div class="slide-inner">
+              <span class="slide-kicker">Basic Django flow</span>
+              <h2 class="sm"><span class="hl">urls → views → models</span> 한눈에 보기</h2>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 68" role="img" aria-label="① urls.py → ② views.py → ③ models.py" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="st" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8ea3bd"/></marker></defs><rect x="4.0" y="4" width="309.3333333333333" height="60" rx="14" fill="#5ab6ff" fill-opacity=".1" stroke="#5ab6ff" stroke-opacity=".6"/><circle cx="34.0" cy="34" r="18" fill="#0d1a2c" stroke="#5ab6ff" stroke-width="2.2"/><g transform="translate(25.5 25.5) scale(0.7083333333333334)" fill="none" stroke="#5ab6ff" stroke-width="2.68" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/></g><text x="58.0" y="30" text-anchor="start" fill="#fff" font-size="14" font-weight="800" >① urls.py</text><text x="58.0" y="50" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">URL → 어느 View?</text><path d="M315.3333333333333 34 H335.3333333333333" stroke="#8ea3bd" stroke-width="2" marker-end="url(#st)"/><rect x="337.3333333333333" y="4" width="309.3333333333333" height="60" rx="14" fill="#67e8f9" fill-opacity=".1" stroke="#67e8f9" stroke-opacity=".6"/><circle cx="367.3333333333333" cy="34" r="18" fill="#0d1a2c" stroke="#67e8f9" stroke-width="2.2"/><g transform="translate(358.8333333333333 25.5) scale(0.7083333333333334)" fill="none" stroke="#67e8f9" stroke-width="2.68" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01"/></g><text x="391.3333333333333" y="30" text-anchor="start" fill="#fff" font-size="14" font-weight="800" >② views.py</text><text x="391.3333333333333" y="50" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">요청 처리 (Controller)</text><path d="M648.6666666666666 34 H668.6666666666666" stroke="#8ea3bd" stroke-width="2" marker-end="url(#st)"/><rect x="670.6666666666666" y="4" width="309.3333333333333" height="60" rx="14" fill="#fbbf24" fill-opacity=".1" stroke="#fbbf24" stroke-opacity=".6"/><circle cx="700.6666666666666" cy="34" r="18" fill="#0d1a2c" stroke="#fbbf24" stroke-width="2.2"/><g transform="translate(692.1666666666666 25.5) scale(0.7083333333333334)" fill="none" stroke="#fbbf24" stroke-width="2.68" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g><text x="724.6666666666666" y="30" text-anchor="start" fill="#fff" font-size="14" font-weight="800" >③ models.py</text><text x="724.6666666666666" y="50" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">데이터 · DB</text></svg></div>
+              <div class="slide-grid cols-3" style="align-items:start">
+                <div class="compare-col"><h4>models.py · Model</h4><pre class="slide-code" style="margin:0">class Menu(models.Model):
+    name = models.CharField(max_length=50)
+    price = models.IntegerField()
+    is_available = models.BooleanField(
+        default=True)</pre></div>
+                <div class="compare-col"><h4>views.py · Controller</h4><pre class="slide-code" style="margin:0">class MenuListView(APIView):
+    def get(self, request):
+        menus = Menu.objects.filter(
+            is_available=True)
+        data = MenuSerializer(
+            menus, many=True).data
+        return Response(data)</pre></div>
+                <div class="compare-col"><h4>urls.py · Router</h4><pre class="slide-code" style="margin:0">urlpatterns = [
+    path("api/v1/cafe/menus",
+         MenuListView.as_view()),
+]</pre></div>
+              </div>
+            </div></article>
+
+            <article class="slide alert dense" data-part="1" data-note="Fat View 안티패턴. 이 View 하나에 HTTP 처리, DB 조회, 판매 가능 판단, 금액 계산, 저장, 외부 결제가 모두 섞여 있습니다. 학생들에게 '이 코드에서 몇 가지 책임이 섞여 있나?'를 찾게 하세요 (6개). 다른 프레임워크의 Fat Controller도 같은 문제입니다."><div class="slide-inner">
+              <span class="slide-kicker">Anti-pattern · Fat View / Fat Controller</span>
+              <h2 class="sm">한 View가 <span class="hl">모든 일을 할 때</span> 생기는 문제</h2>
+              <div class="compare">
+                <div class="compare-col bad"><h4>책임 6개가 섞인 View</h4><pre class="slide-code" style="margin:0">class OrderCreateView(APIView):
+    def post(self, request):
+        menu = Menu.objects.get(           <span class="m"># DB 조회</span>
+            id=request.data["menu_id"])
+        if not menu.is_available:          <span class="m"># 업무 규칙</span>
+            raise ValidationError("판매 중 아님")
+        total = menu.price * \
+            request.data["quantity"]       <span class="m"># 계산</span>
+        order = Order.objects.create(      <span class="m"># 저장</span>
+            user=request.user, total_price=total)
+        PaymentAPI.confirm(...)            <span class="m"># 외부 결제</span>
+        return Response({"order_id": order.id})</pre></div>
+                <div class="compare-col"><h4>규모가 커지면</h4><ul><li>같은 규칙이 여러 API에 <b>중복</b>된다</li><li>DB 없이 업무 로직을 <b>테스트할 수 없다</b></li><li>여러 개발자가 같은 파일을 고쳐 <b>충돌</b>한다</li><li>결제사 변경이 서비스 전체에 <b>영향</b>을 준다</li><li><b>AI가 코드 위치를 일관되게 판단하지 못한다</b></li></ul></div>
+              </div>
+            </div></article>
+
+            <article class="slide dense" data-part="1" data-note="MVC 정리와 Part 2 예고. MVC는 '어디서 시작할지'를 알려 주지만, 업무 규칙이 많아지면 Model이나 Controller가 비대해집니다. 그래서 MVC를 더 잘게 나눈 레이어드 아키텍처로 확장합니다. Spring의 Controller-Service-Repository도 같은 아이디어입니다."><div class="slide-inner">
+              <span class="slide-kicker">From MVC to layers</span>
+              <h2 class="sm">MVC는 출발점, 규모가 커지면 <span class="hl">계층을 더 나눈다</span></h2>
+              <div class="viz-strip"><svg class="viz" viewBox="0 0 1000 212" role="img" aria-label="작은 MVC에서 규칙이 많아지면 API, Workflow, Rule, Port와 Adapter 계층으로 나눈다" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ml" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8ea3bd"/></marker></defs><text x="220" y="20" text-anchor="middle" fill="#cbd5e1" font-size="15" font-weight="900" >기본 MVC — 작은 서비스</text><rect x="60" y="34" width="320" height="48" rx="10" fill="#67e8f9" fill-opacity=".14" stroke="#67e8f9"/><text x="76" y="64" text-anchor="start" fill="#fff" font-size="15" font-weight="800" >Controller (점점 비대해짐)</text><rect x="60" y="92" width="320" height="48" rx="10" fill="#fbbf24" fill-opacity=".14" stroke="#fbbf24"/><text x="76" y="122" text-anchor="start" fill="#fff" font-size="15" font-weight="800" >Model (점점 비대해짐)</text><rect x="60" y="150" width="200" height="48" rx="10" fill="#f9a8d4" fill-opacity=".14" stroke="#f9a8d4"/><text x="76" y="180" text-anchor="start" fill="#fff" font-size="15" font-weight="800" >View</text><text x="760" y="20" text-anchor="middle" fill="#6ee7b7" font-size="15" font-weight="900" >레이어드 — 규칙이 많아질 때</text><rect x="560" y="34" width="400" height="36" rx="9" fill="#67e8f9" fill-opacity=".14" stroke="#67e8f9"/><text x="580" y="58" text-anchor="start" fill="#fff" font-size="14.5" font-weight="800" >API (View · Serializer)</text><path d="M760 70 V78" stroke="#8ea3bd" stroke-width="2" marker-end="url(#ml)"/><rect x="560" y="78" width="400" height="36" rx="9" fill="#5ab6ff" fill-opacity=".14" stroke="#5ab6ff"/><text x="580" y="102" text-anchor="start" fill="#fff" font-size="14.5" font-weight="800" >Workflow — 순서</text><path d="M760 114 V122" stroke="#8ea3bd" stroke-width="2" marker-end="url(#ml)"/><rect x="560" y="122" width="400" height="36" rx="9" fill="#a78bfa" fill-opacity=".14" stroke="#a78bfa"/><text x="580" y="146" text-anchor="start" fill="#fff" font-size="14.5" font-weight="800" >Rule · Policy · Calculator</text><path d="M760 158 V166" stroke="#8ea3bd" stroke-width="2" marker-end="url(#ml)"/><rect x="560" y="166" width="400" height="36" rx="9" fill="#fbbf24" fill-opacity=".14" stroke="#fbbf24"/><text x="580" y="190" text-anchor="start" fill="#fff" font-size="14.5" font-weight="800" >Port ← Adapter (DB · 결제)</text><path d="M420 110 H530" stroke="#6ee7b7" stroke-width="3" marker-end="url(#ml)"/><text x="475" y="100" text-anchor="middle" fill="#6ee7b7" font-size="13" font-weight="900" >더 잘게</text></svg></div>
+              <div class="quote-box">Spring의 <b>Controller → Service → Repository</b>, NestJS의 <b>Controller → Provider</b>도 같은 생각입니다. Part 2에서 Django로 구체화합니다.</div>
+            </div></article>
+
+<!-- ================= PART 2 : Django Layered ================= -->
+            <article class="slide divider part2 dense" data-part="2" data-note="Part 2. Real Project 3의 6대 설계 요구사항을 소개합니다. 마지막 항목 'AI 개발 에이전트가 일관되게 코드를 작성할 수 있는 규격'이 이 과정의 특징 — Day 3의 문서 기반 설계와 연결됩니다."><div class="slide-inner">
+              <div class="viz-split"><div>
+              <span class="slide-kicker">Day 5 · Part 2 · Django layered architecture</span>
+              <h2>변경의 영향을<br /><span class="hl">한 곳에 가두는 구조</span></h2></div><figure class="viz-fig"><svg class="viz" viewBox="0 0 430 275" role="img" aria-label="구조 없이 고치면 영향이 퍼지고, 계층으로 나누면 한 층에만 머문다" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><text x="110" y="20" text-anchor="middle" fill="#fca5a5" font-size="14" font-weight="900" >✗ 한 곳을 고치면</text><circle cx="110" cy="130" r="30" fill="none" stroke="#fca5a5" stroke-opacity="0.6" stroke-width="2"/><circle cx="110" cy="130" r="60" fill="none" stroke="#fca5a5" stroke-opacity="0.4" stroke-width="2"/><circle cx="110" cy="130" r="90" fill="none" stroke="#fca5a5" stroke-opacity="0.25" stroke-width="2"/><circle cx="110" cy="130" r="14" fill="#1a0d10" stroke="#fca5a5" stroke-width="2.2"/><g transform="translate(103.0 123.0) scale(0.5833333333333334)" fill="none" stroke="#fca5a5" stroke-width="3.26" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="8" width="10" height="12" rx="5"/><path d="M12 8V5M9 5l1.5 2M15 5l-1.5 2M3 12h4M17 12h4M4 18l3-2M20 18l-3-2"/></g><rect x="26" y="50" width="28" height="20" rx="4" fill="rgba(248,113,113,.3)"/><rect x="166" y="60" width="28" height="20" rx="4" fill="rgba(248,113,113,.3)"/><rect x="16" y="190" width="28" height="20" rx="4" fill="rgba(248,113,113,.3)"/><rect x="176" y="190" width="28" height="20" rx="4" fill="rgba(248,113,113,.3)"/><rect x="96" y="220" width="28" height="20" rx="4" fill="rgba(248,113,113,.3)"/><text x="110" y="262" text-anchor="middle" fill="#fecaca" font-size="13" font-weight="700" >여기저기 영향</text><text x="330" y="20" text-anchor="middle" fill="#6ee7b7" font-size="14" font-weight="900" >✓ 계층으로 가두면</text><rect x="250" y="40" width="160" height="42" rx="9" fill="#67e8f9" fill-opacity="0.08" stroke="#67e8f9" stroke-width="1"/><text x="330" y="67" text-anchor="middle" fill="#8ea3bd" font-size="14" font-weight="800" >API</text><rect x="250" y="92" width="160" height="42" rx="9" fill="#5ab6ff" fill-opacity="0.08" stroke="#5ab6ff" stroke-width="1"/><text x="330" y="119" text-anchor="middle" fill="#8ea3bd" font-size="14" font-weight="800" >Workflow</text><rect x="250" y="144" width="160" height="42" rx="9" fill="#a78bfa" fill-opacity="0.4" stroke="#a78bfa" stroke-width="2.6"/><text x="330" y="171" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" >Rules ← 여기만</text><rect x="250" y="196" width="160" height="42" rx="9" fill="#fbbf24" fill-opacity="0.08" stroke="#fbbf24" stroke-width="1"/><text x="330" y="223" text-anchor="middle" fill="#8ea3bd" font-size="14" font-weight="800" >Infra</text><text x="330" y="262" text-anchor="middle" fill="#bbf7d0" font-size="13" font-weight="700" >변경이 한 층에 머문다</text></svg></figure></div>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong>① API ↔ 업무 로직 분리</strong><span>View가 모든 일을 하지 않게</span></div>
+                <div class="slide-card"><strong>② DB 접근 분리</strong><span>ORM 쿼리를 Repository 뒤에</span></div>
+                <div class="slide-card"><strong>③ 업무 규칙 라이브러리화</strong><span>Rule · Policy · Calculator</span></div>
+                <div class="slide-card"><strong>④ 동시 개발 용이</strong><span>파일 단위 책임 → Git 충돌 최소화</span></div>
+                <div class="slide-card"><strong>⑤ 외부 결제 구조화</strong><span>Port &amp; Adapter로 느슨한 결합</span></div>
+                <div class="slide-card"><strong>⑥ AI 개발 규격</strong><span>AI가 일관된 위치에 코드 작성</span></div>
+              </div>
+            </div></article>
+
+            <article class="slide part2 dense" data-part="2" data-note="5대 최상위 디렉터리. business 폴더에는 Django import가 금지됩니다. infrastructure는 business가 정의한 Port를 구현합니다. tests는 3단계로 나뉩니다."><div class="slide-inner">
+              <span class="slide-kicker">Target architecture</span>
+              <h2 class="sm"><span class="hl">5대 디렉터리</span>로 책임을 나눈다</h2>
+              <div class="compare" style="align-items:start">
+<pre class="tree" style="margin:0">backend/
+├── manage.py
+├── <b>config/</b>          <i># Django 전역 설정</i>
+├── <b>apps/</b>            <i># Django · HTTP 계층</i>
+│   ├── cafe/
+│   └── billing/
+├── <b>business/</b>        <i># 순수 업무 로직 (Django import 금지)</i>
+│   ├── core/  cafe/  billing/
+├── <b>infrastructure/</b>  <i># DB · 외부 시스템 구현 (Port 구현체)</i>
+│   ├── repositories/  transactions/
+│   ├── payment_gateways/  notifications/  outbox/
+└── <b>tests/</b>
+    ├── unit/  integration/  contract/</pre>
+                <svg class="viz" viewBox="0 0 450 318" role="img" aria-label="5대 디렉터리와 책임: config, apps, business, infrastructure, tests" font-family="Pretendard,DM Sans,sans-serif" style="max-height:330px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6 h60 l10 10 h360 v48 h-430z" fill="#8ea3bd" fill-opacity=".13" stroke="#8ea3bd" stroke-width="1.4"/><text x="28" y="34" text-anchor="start" fill="#8ea3bd" font-size="14.5" font-weight="900" font-family="ui-monospace,Menlo,monospace">config/</text><text x="190" y="34" text-anchor="start" fill="#fff" font-size="14.5" font-weight="800" >Django 전역 설정</text><text x="28" y="54" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" >settings · urls · wsgi/asgi</text><path d="M10 68 h60 l10 10 h360 v48 h-430z" fill="#67e8f9" fill-opacity=".13" stroke="#67e8f9" stroke-width="1.4"/><text x="28" y="96" text-anchor="start" fill="#67e8f9" font-size="14.5" font-weight="900" font-family="ui-monospace,Menlo,monospace">apps/</text><text x="190" y="96" text-anchor="start" fill="#fff" font-size="14.5" font-weight="800" >Django · HTTP 계층</text><text x="28" y="116" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" >DRF API · Model · Admin · container.py</text><path d="M10 130 h60 l10 10 h360 v48 h-430z" fill="#a78bfa" fill-opacity=".13" stroke="#a78bfa" stroke-width="2.4"/><text x="28" y="158" text-anchor="start" fill="#a78bfa" font-size="14.5" font-weight="900" font-family="ui-monospace,Menlo,monospace">business/</text><text x="190" y="158" text-anchor="start" fill="#fff" font-size="14.5" font-weight="800" >순수 업무 로직 ★</text><text x="28" y="178" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" >Rule · Policy · Calculator · Workflow · Port · DTO</text><path d="M10 192 h60 l10 10 h360 v48 h-430z" fill="#fbbf24" fill-opacity=".13" stroke="#fbbf24" stroke-width="1.4"/><text x="28" y="220" text-anchor="start" fill="#fbbf24" font-size="14.5" font-weight="900" font-family="ui-monospace,Menlo,monospace">infrastructure/</text><text x="190" y="220" text-anchor="start" fill="#fff" font-size="14.5" font-weight="800" >DB · 외부 시스템</text><text x="28" y="240" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" >Repository · 트랜잭션 · 결제 Adapter · Outbox</text><path d="M10 254 h60 l10 10 h360 v48 h-430z" fill="#6ee7b7" fill-opacity=".13" stroke="#6ee7b7" stroke-width="1.4"/><text x="28" y="282" text-anchor="start" fill="#6ee7b7" font-size="14.5" font-weight="900" font-family="ui-monospace,Menlo,monospace">tests/</text><text x="190" y="282" text-anchor="start" fill="#fff" font-size="14.5" font-weight="800" >3단계 테스트</text><text x="28" y="302" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" >unit · integration · contract</text></svg>
+              </div>
+            </div></article>
+
+            <article class="slide part2 dense" data-part="2" data-note="의존성 원칙이 이 아키텍처의 핵심입니다. 화살표는 '안다/부른다'의 방향. Business는 Port(인터페이스)만 알고, 실제 DB나 결제사는 모릅니다. 그래서 DB를 바꾸거나 결제사를 추가해도 business 코드는 그대로입니다."><div class="slide-inner">
+              <span class="slide-kicker">Dependency rule</span>
+              <h2 class="sm">의존성은 <span class="hl">한 방향으로만</span> 흐른다</h2>
+              <div class="layer-stack">
+                <div class="layer api"><b>apps / API</b><span>View · Serializer — HTTP 요청 검증, Workflow 호출</span></div>
+                <div class="layer-arrow">↓ calls</div>
+                <div class="layer wf"><b>business / Workflow</b><span>유스케이스 전체 처리 순서 조율</span></div>
+                <div class="layer-arrow">↓ orchestrates</div>
+                <div class="layer rule"><b>business / Rule · Policy · Calculator</b><span>순수 업무 규칙 · 정책 결정 · 금액 계산 (Django 비의존)</span></div>
+                <div class="layer-arrow">↓ depends on interface</div>
+                <div class="layer port"><b>business / Port (Protocol)</b><span>OrderRepository · PaymentGateway 인터페이스</span></div>
+                <div class="layer-arrow">↑ implements</div>
+                <div class="layer infra"><b>infrastructure / Repository · Adapter</b><span>Django ORM · 결제사 API · Outbox 구현체</span></div>
+              </div>
+            </div></article>
+
+            <article class="slide explain dense" data-part="2" data-note="레이어드 구조를 식당 운영에 비유합니다. 홀 직원(API)은 주문만 받고, 매니저(Workflow)는 순서를 조율하며, 레시피·가격표(Rule·Policy·Calculator)는 규칙, 납품 주문서 양식(Port)은 '이런 형식으로 가져와 달라'는 약속, 납품 업체(Adapter·Repository)는 실제 재료(DB·결제사)를 가져옵니다. 학생들에게 '납품 업체가 바뀌면 레시피를 바꿔야 하나?'라고 물어보세요."><div class="slide-inner">
+              <span class="slide-kicker">Analogy · 식당 운영</span>
+              <h2 class="sm">레이어드 아키텍처를 <span class="hl">식당 운영</span>으로 이해하기</h2>
+              <div class="resto"><div class="rs5" style="--c:#67e8f9"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="홀 직원" font-family="Pretendard,DM Sans,sans-serif" style="width:56px;height:56px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#67e8f9" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#67e8f9" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l4 4 5-7 5 7 4-4-2 11H5z"/></g></svg><small>apps / API</small><strong>홀 직원</strong><span class="q">주문을 받고 확인해 넘긴다</span><span class="ex">View · Serializer</span></div><div class="rs5" style="--c:#5ab6ff"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="매니저" font-family="Pretendard,DM Sans,sans-serif" style="width:56px;height:56px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#5ab6ff" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#5ab6ff" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/></g></svg><small>Workflow</small><strong>매니저</strong><span class="q">순서를 정하고 일을 나눠 준다</span><span class="ex">CreateOrderWorkflow</span></div><div class="rs5" style="--c:#a78bfa"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="레시피 · 가격표" font-family="Pretendard,DM Sans,sans-serif" style="width:56px;height:56px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#a78bfa" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#a78bfa" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></g></svg><small>Rule · Policy · Calc</small><strong>레시피 · 가격표</strong><span class="q">“재료 없으면 판매 불가”</span><span class="ex">OrderQuantityRule</span></div><div class="rs5" style="--c:#fbbf24"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="납품 주문서 양식" font-family="Pretendard,DM Sans,sans-serif" style="width:56px;height:56px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#fbbf24" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#fbbf24" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4M9 11h7M9 15h7M9 19h4"/></g></svg><small>Port</small><strong>납품 주문서 양식</strong><span class="q">“이런 형식으로 가져와 주세요”</span><span class="ex">OrderRepository</span></div><div class="rs5" style="--c:#5eead4"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="납품 업체" font-family="Pretendard,DM Sans,sans-serif" style="width:56px;height:56px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#5eead4" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#5eead4" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></g></svg><small>Adapter · Repository</small><strong>납품 업체</strong><span class="q">양식대로 실제 재료를 가져온다</span><span class="ex">DjangoOrderRepository</span></div></div><div class="quote-box">납품 업체(DB · 결제사)가 바뀌어도 <b>매니저와 레시피는 그대로</b>입니다. 양식(Port)만 지키면 됩니다.</div>
+            </div></article>
+
+            <article class="slide part2 dense" data-part="2" data-note="금지와 허용 예시. business 안에서 from django... 또는 Order.objects... 가 보이면 규칙 위반입니다. 코드 리뷰(또는 gstack /review)에서 가장 먼저 확인할 항목."><div class="slide-inner">
+              <span class="slide-kicker">Forbidden vs allowed</span>
+              <h2 class="sm">Business는 <span class="hl">어떤 DB를 쓰는지 모른다</span></h2>
+              <div class="compare">
+                <div class="compare-col bad"><h4><i class="fa-solid fa-xmark"></i> 금지 — business에서 ORM 직접 호출</h4><pre class="slide-code" style="margin:0">from django.db import transaction
+from apps.cafe.models import Order
+
+Order.objects.create(...)</pre></div>
+                <div class="compare-col good"><h4><i class="fa-solid fa-check"></i> 허용 — Port 인터페이스 주입</h4><pre class="slide-code" style="margin:0">class CreateOrderWorkflow:
+    def __init__(self,
+                 order_repository: OrderRepository):
+        self.order_repository = order_repository</pre></div>
+              </div>
+              <div class="quote-box">판단 질문: <b>“이 코드는 Django와 DB가 없어도 실행할 수 있는 업무 규칙인가?”</b> → Yes면 business/</div>
+            </div></article>
+
+            <article class="slide part2 dense" data-part="2" data-note="Business 계층 6대 구성요소. 각각의 '한 줄 정의'를 학생들이 외울 수 있게 하세요. Rule은 조건 하나, Policy는 Rule 묶음으로 결정, Calculator는 계산만, Workflow는 순서만, Port는 바깥에 요구하는 인터페이스, DTO는 계층 사이 데이터."><div class="slide-inner">
+              <span class="slide-kicker">Business layer components</span>
+              <h2 class="sm">Business 계층의 <span class="hl">6대 구성요소</span></h2>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="box" font-family="Pretendard,DM Sans,sans-serif" style="height:50px;width:50px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#8ea3bd" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#8ea3bd" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></g></svg><strong>DTO</strong><span>계층 사이 데이터를 전달하는 불변 객체 (Model 사용 안 함)</span><em>CreateOrderCommand</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="check" font-family="Pretendard,DM Sans,sans-serif" style="height:50px;width:50px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#a78bfa" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#a78bfa" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></g></svg><strong>Rule</strong><span>하나의 업무 조건만 판단</span><em>OrderQuantityRule, MenuAvailableRule</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="layers" font-family="Pretendard,DM Sans,sans-serif" style="height:50px;width:50px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#a78bfa" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#a78bfa" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></g></svg><strong>Policy</strong><span>여러 Rule을 조합해 최종 결정</span><em>OrderAcceptancePolicy</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="calc" font-family="Pretendard,DM Sans,sans-serif" style="height:50px;width:50px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#a78bfa" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#a78bfa" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></g></svg><strong>Calculator</strong><span>같은 입력 → 같은 결과. DB·외부 호출 없음, 금액에 float 금지</span><em>OrderPriceCalculator</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="route" font-family="Pretendard,DM Sans,sans-serif" style="height:50px;width:50px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#5ab6ff" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#5ab6ff" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/></g></svg><strong>Workflow</strong><span>유스케이스의 처리 순서 조율. 직접 판단하지 않고 조합</span><em>CreateOrderWorkflow</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="plug" font-family="Pretendard,DM Sans,sans-serif" style="height:50px;width:50px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#0d1a2c" stroke="#fbbf24" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#fbbf24" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v4"/></g></svg><strong>Port</strong><span>외부 계층에 요구하는 기능의 Protocol 인터페이스</span><em>OrderRepository, PaymentGateway</em></div>
+              </div>
+            </div></article>
+
+            <article class="slide part2 dense" data-part="2" data-note="Rule·Policy·Calculator 코드. 모두 순수 Python이라 DB 없이 밀리초 단위로 테스트할 수 있습니다. Day 3에서 만든 REQ(예: '수량은 1~20개')가 Rule 하나로 그대로 옮겨진다는 점을 연결하세요."><div class="slide-inner">
+              <span class="slide-kicker">Rule · Policy · Calculator</span>
+              <h2 class="sm">Day 3의 REQ가 <span class="hl">순수 Python 규칙</span>이 된다</h2>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 68" role="img" aria-label="Day 3 문서 → Rule 클래스 → Unit 테스트" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="st" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8ea3bd"/></marker></defs><rect x="4.0" y="4" width="309.3333333333333" height="60" rx="14" fill="#5eead4" fill-opacity=".1" stroke="#5eead4" stroke-opacity=".6"/><circle cx="34.0" cy="34" r="18" fill="#0d1a2c" stroke="#5eead4" stroke-width="2.2"/><g transform="translate(25.5 25.5) scale(0.7083333333333334)" fill="none" stroke="#5eead4" stroke-width="2.68" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4M9 11h7M9 15h7M9 19h4"/></g><text x="58.0" y="30" text-anchor="start" fill="#fff" font-size="14" font-weight="800" >Day 3 문서</text><text x="58.0" y="50" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">REQ-006 수량 1~20</text><path d="M315.3333333333333 34 H335.3333333333333" stroke="#8ea3bd" stroke-width="2" marker-end="url(#st)"/><rect x="337.3333333333333" y="4" width="309.3333333333333" height="60" rx="14" fill="#a78bfa" fill-opacity=".1" stroke="#a78bfa" stroke-opacity=".6"/><circle cx="367.3333333333333" cy="34" r="18" fill="#0d1a2c" stroke="#a78bfa" stroke-width="2.2"/><g transform="translate(358.8333333333333 25.5) scale(0.7083333333333334)" fill="none" stroke="#a78bfa" stroke-width="2.68" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></g><text x="391.3333333333333" y="30" text-anchor="start" fill="#fff" font-size="14" font-weight="800" >Rule 클래스</text><text x="391.3333333333333" y="50" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">OrderQuantityRule</text><path d="M648.6666666666666 34 H668.6666666666666" stroke="#8ea3bd" stroke-width="2" marker-end="url(#st)"/><rect x="670.6666666666666" y="4" width="309.3333333333333" height="60" rx="14" fill="#6ee7b7" fill-opacity=".1" stroke="#6ee7b7" stroke-opacity=".6"/><circle cx="700.6666666666666" cy="34" r="18" fill="#0d1a2c" stroke="#6ee7b7" stroke-width="2.2"/><g transform="translate(692.1666666666666 25.5) scale(0.7083333333333334)" fill="none" stroke="#6ee7b7" stroke-width="2.68" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></g><text x="724.6666666666666" y="30" text-anchor="start" fill="#fff" font-size="14" font-weight="800" >Unit 테스트</text><text x="724.6666666666666" y="50" text-anchor="start" fill="#cbd5e1" font-size="11.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">DB 없이 0.01초</text></svg></div>
+              <div class="slide-grid cols-3" style="align-items:start">
+                <div class="compare-col"><h4>Rule · REQ-006</h4><pre class="slide-code" style="margin:0">class OrderQuantityRule:
+    MAX = 20
+
+    def evaluate(self, quantity):
+        if quantity &lt; 1 or quantity &gt; self.MAX:
+            return RuleResult.reject(
+                "QUANTITY_OUT_OF_RANGE")
+        return RuleResult.accept()</pre></div>
+                <div class="compare-col"><h4>Policy</h4><pre class="slide-code" style="margin:0">class OrderAcceptancePolicy:
+    def __init__(self, rules):
+        self.rules = rules
+
+    def evaluate(self, context):
+        for rule in self.rules:
+            result = rule.evaluate(context)
+            if not result.passed:
+                return result
+        return RuleResult.accept()</pre></div>
+                <div class="compare-col"><h4>Calculator</h4><pre class="slide-code" style="margin:0">class OrderPriceCalculator:
+    def calculate(self, items):
+        return sum(
+            item.unit_price * item.quantity
+            for item in items
+        )
+<span class="m"># 금액은 정수(최소 화폐 단위)
+# 또는 Decimal 사용, float 금지</span></pre></div>
+              </div>
+            </div></article>
+
+            <article class="slide part2 dense" data-part="2" data-note="카페 주문 API 7단계 흐름. 각 단계 옆에 담당 계층을 붙여 읽게 하세요. View는 1·7단계만, 나머지는 Workflow가 조율합니다."><div class="slide-inner">
+              <span class="slide-kicker">Case 1 · Cafe order API</span>
+              <h2 class="sm">주문 생성 <span class="hl">7단계</span>와 담당 계층</h2>
+              <table class="s-table">
+                <thead><tr><th>#</th><th>처리</th><th>담당</th><th>파일</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>요청 데이터 검증</td><td><span class="lay-tag" style="background:#67e8f9">API</span></td><td><code>apps/cafe/api/serializers.py</code></td></tr>
+                  <tr><td>2</td><td>CreateOrderCommand DTO 생성</td><td><span class="lay-tag" style="background:#5ab6ff">API → business</span></td><td><code>business/cafe/dto/order_command.py</code></td></tr>
+                  <tr><td>3</td><td>메뉴 조회</td><td><span class="lay-tag" style="background:#fbbf24">Port → Repository</span></td><td><code>infrastructure/repositories/django_menu_repository.py</code></td></tr>
+                  <tr><td>4</td><td>판매 가능 + 수량 검증</td><td><span class="lay-tag" style="background:#a78bfa">Policy · Rule</span></td><td><code>business/cafe/policies/order_acceptance_policy.py</code></td></tr>
+                  <tr><td>5</td><td>총금액 계산</td><td><span class="lay-tag" style="background:#a78bfa">Calculator</span></td><td><code>business/cafe/calculators/order_price_calculator.py</code></td></tr>
+                  <tr><td>6</td><td>주문 + 항목 트랜잭션 저장</td><td><span class="lay-tag" style="background:#fbbf24">Repository · UoW</span></td><td><code>infrastructure/transactions/django_unit_of_work.py</code></td></tr>
+                  <tr><td>7</td><td>결과 반환 (201 Created)</td><td><span class="lay-tag" style="background:#67e8f9">API</span></td><td><code>apps/cafe/api/views.py</code></td></tr>
+                </tbody>
+              </table>
+            </div></article>
+
+            <article class="slide part2 dense" data-part="2" data-note="Workflow와 의존성 조립. Workflow 안에서 DjangoOrderRepository()를 직접 만들지 않고, container.py에서 조립해 주입합니다(DI). 테스트에서는 FakeRepository를 넣으면 DB 없이 Workflow 전체를 검증할 수 있습니다."><div class="slide-inner">
+              <span class="slide-kicker">Workflow &amp; dependency injection</span>
+              <h2 class="sm">Workflow는 <span class="hl">순서만</span>, 조립은 <span class="hl">container.py</span>에서</h2>
+              <div class="compare" style="align-items:start">
+                <div class="compare-col"><h4>business/cafe/workflows/create_order_workflow.py</h4><pre class="slide-code" style="margin:0">def execute(self, command):
+    menus = self.menu_repository.get_available_menus(
+        menu_ids=[i.menu_id for i in command.items])
+    self.acceptance_policy.validate(
+        menus=menus, items=command.items)
+    total = self.price_calculator.calculate(
+        items=command.items, menus=menus)
+    with self.unit_of_work:
+        return self.order_repository.create_order(
+            customer_id=command.customer_id,
+            items=command.items, total_price=total)</pre></div>
+                <div class="compare-col good"><h4>apps/cafe/container.py</h4><pre class="slide-code" style="margin:0">def create_order_workflow():
+    return CreateOrderWorkflow(
+        menu_repository=DjangoMenuRepository(),
+        order_repository=DjangoOrderRepository(),
+        acceptance_policy=OrderAcceptancePolicy(...),
+        price_calculator=OrderPriceCalculator(),
+        unit_of_work=DjangoUnitOfWork(),
+    )</pre><ul style="margin-top:8px"><li>테스트에서 FakeRepository 즉시 주입</li><li>DB·외부 API 구현체 교체 용이</li></ul></div>
+              </div>
+            </div></article>
+
+            <article class="slide explain dense" data-part="2" data-note="Port & Adapter를 콘센트와 여행용 어댑터로 설명합니다. 벽 콘센트(Port)의 규격은 하나로 정해져 있고, 결제사마다 다른 플러그 모양(Paystack, Flutterwave, Toss)을 어댑터(Adapter)가 맞춰 줍니다. 해외 여행을 가거나 다른 나라 전자제품을 써 본 경험을 물어보세요. 새 결제사가 와도 어댑터 하나만 추가하면 벽 속 배선(Workflow)은 그대로입니다."><div class="slide-inner">
+              <span class="slide-kicker">Analogy · 콘센트와 어댑터</span>
+              <h2 class="sm">Port & Adapter = <span class="hl">벽 콘센트와 여행용 어댑터</span></h2>
+              <div class="viz-strip"><svg class="viz" viewBox="0 20 1000 372" role="img" aria-label="Port는 벽 콘센트 규격, Adapter는 결제사마다 다른 플러그를 맞춰 주는 여행용 어댑터" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ad" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8ea3bd"/></marker></defs><rect x="40" y="70" width="220" height="220" rx="24" fill="#0d1a2c" stroke="#a78bfa" stroke-width="3"/><rect x="110" y="140" width="22" height="40" rx="4" fill="#a78bfa"/><rect x="168" y="140" width="22" height="40" rx="4" fill="#a78bfa"/><rect x="140" y="200" width="20" height="30" rx="4" fill="#a78bfa"/><text x="150" y="50" text-anchor="middle" fill="#a78bfa" font-size="18" font-weight="900" >벽 콘센트 = Port</text><text x="150" y="316" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" >business가 정한 규격 하나</text><text x="150" y="336" text-anchor="middle" fill="#fde68a" font-size="12" font-weight="800" font-family="ui-monospace,Menlo,monospace">PaymentGateway</text><path class="flow" d="M500 100 H290" stroke="#5eead4" stroke-width="2.2" marker-end="url(#ad)"/><rect x="510" y="60" width="170" height="80" rx="14" fill="#5eead4" fill-opacity=".14" stroke="#5eead4" stroke-width="2"/><text x="595" y="96" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" >여행용 어댑터</text><text x="595" y="118" text-anchor="middle" fill="#5eead4" font-size="13" font-weight="900" >Paystack Adapter</text><rect x="720" y="70" width="160" height="60" rx="10" fill="#0d1a2c" stroke="#5eead4"/><g transform="translate(734 82) scale(1.4)" fill="none" stroke="#5eead4" stroke-width="1.36" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v4"/></g><text x="772" y="106" text-anchor="start" fill="#fff" font-size="13" font-weight="800" >Paystack</text><path d="M718 100 H682" stroke="#5eead4" stroke-width="2"/><path class="flow" d="M500 200 H290" stroke="#fbbf24" stroke-width="2.2" marker-end="url(#ad)"/><rect x="510" y="160" width="170" height="80" rx="14" fill="#fbbf24" fill-opacity=".14" stroke="#fbbf24" stroke-width="2"/><text x="595" y="196" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" >여행용 어댑터</text><text x="595" y="218" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="900" >Flutterwave Adapter</text><rect x="720" y="170" width="160" height="60" rx="10" fill="#0d1a2c" stroke="#fbbf24"/><g transform="translate(734 182) scale(1.4)" fill="none" stroke="#fbbf24" stroke-width="1.36" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v4"/></g><text x="772" y="206" text-anchor="start" fill="#fff" font-size="13" font-weight="800" >Flutterwave</text><path d="M718 200 H682" stroke="#fbbf24" stroke-width="2"/><path class="flow" d="M500 300 H290" stroke="#5ab6ff" stroke-width="2.2" marker-end="url(#ad)"/><rect x="510" y="260" width="170" height="80" rx="14" fill="#5ab6ff" fill-opacity=".14" stroke="#5ab6ff" stroke-width="2"/><text x="595" y="296" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" >여행용 어댑터</text><text x="595" y="318" text-anchor="middle" fill="#5ab6ff" font-size="13" font-weight="900" >Toss Adapter</text><rect x="720" y="270" width="160" height="60" rx="10" fill="#0d1a2c" stroke="#5ab6ff"/><g transform="translate(734 282) scale(1.4)" fill="none" stroke="#5ab6ff" stroke-width="1.36" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v4"/></g><text x="772" y="306" text-anchor="start" fill="#fff" font-size="13" font-weight="800" >Toss</text><path d="M718 300 H682" stroke="#5ab6ff" stroke-width="2"/><text x="680" y="30" text-anchor="middle" fill="#cbd5e1" font-size="16" font-weight="900" >결제사 플러그 모양은 제각각</text><rect x="300" y="340" width="660" height="44" rx="12" fill="rgba(71,215,160,.12)" stroke="#6ee7b7"/><text x="630" y="368" text-anchor="middle" fill="#bbf7d0" font-size="14.5" font-weight="800" >새 결제사가 와도 어댑터 하나만 추가 → Workflow(벽 속 배선)는 0줄 수정</text></svg></div>
+            </div></article>
+
+            <article class="slide part2 dense" data-part="2" data-note="결제 확장. Business는 PaymentGateway Protocol만 알고, 결제사 이름이나 응답 형식을 모릅니다. 원본 강의는 한국 결제사 Toss 예시이며, 나이지리아라면 Paystack·Flutterwave 같은 결제사를 Adapter 하나씩 추가하는 방식이 됩니다(실제 연동 시 각 결제사 공식 문서 확인). Registry를 쓰면 if provider == ... 분기 없이 결제사를 고릅니다."><div class="slide-inner">
+              <span class="slide-kicker">Case 2 · Billing with Port &amp; Adapter</span>
+              <h2 class="sm">결제사를 바꿔도 <span class="hl">Workflow는 0줄 수정</span></h2>
+              <div class="compare" style="align-items:start">
+                <div class="compare-col"><h4>Port (business)</h4><pre class="slide-code" style="margin:0">class PaymentGateway(Protocol):
+    provider_code: str
+    def confirm(self, command) -&gt; PaymentResult: ...
+    def get_payment(self, payment_id) -&gt; PaymentResult: ...
+    def cancel(self, command) -&gt; RefundResult: ...
+    def verify_webhook(self, raw_body, headers) -&gt; bool: ...</pre></div>
+                <div class="compare-col good"><h4>Registry (조립)</h4><pre class="slide-code" style="margin:0">class PaymentGatewayRegistry:
+    def __init__(self, gateways):
+        self._gateways = {
+            g.provider_code: g for g in gateways}
+    def get(self, provider_code):
+        return self._gateways[provider_code]</pre></div>
+              </div>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 122" role="img" aria-label="Workflow가 Port와 Registry를 통해 Toss, Paystack, Flutterwave Adapter 중 하나를 고른다" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="bl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8ea3bd"/></marker></defs><rect x="10" y="30" width="170" height="60" rx="12" fill="rgba(90,182,255,.14)" stroke="#5ab6ff"/><text x="95" y="56" text-anchor="middle" fill="#fff" font-size="15" font-weight="900" >Workflow</text><text x="95" y="76" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="700" >결제사 이름 모름</text><path d="M182 60 H250" stroke="#8ea3bd" stroke-width="2" marker-end="url(#bl)"/><rect x="256" y="30" width="180" height="60" rx="12" fill="rgba(167,139,250,.14)" stroke="#a78bfa" stroke-width="2"/><text x="346" y="56" text-anchor="middle" fill="#a78bfa" font-size="15" font-weight="900" >Port</text><text x="346" y="76" text-anchor="middle" fill="#fde68a" font-size="11.5" font-weight="700" font-family="ui-monospace,Menlo,monospace">PaymentGateway</text><path d="M438 60 H500" stroke="#8ea3bd" stroke-width="2" marker-end="url(#bl)"/><rect x="506" y="30" width="160" height="60" rx="12" fill="rgba(251,191,36,.12)" stroke="#fbbf24"/><text x="586" y="56" text-anchor="middle" fill="#fbbf24" font-size="15" font-weight="900" >Registry</text><text x="586" y="76" text-anchor="middle" fill="#cbd5e1" font-size="11.5" font-weight="700" >provider_code로 선택</text><path d="M668 60 C700 60 700 20 730 20" fill="none" stroke="#5ab6ff" stroke-width="1.8" marker-end="url(#bl)"/><rect x="736" y="4" width="250" height="32" rx="8" fill="#0d1a2c" stroke="#5ab6ff"/><text x="750" y="25" text-anchor="start" fill="#5ab6ff" font-size="13" font-weight="900" font-family="ui-monospace,Menlo,monospace">toss/ Adapter</text><path d="M668 60 C700 60 700 58 730 58" fill="none" stroke="#5eead4" stroke-width="1.8" marker-end="url(#bl)"/><rect x="736" y="42" width="250" height="32" rx="8" fill="#0d1a2c" stroke="#5eead4"/><text x="750" y="63" text-anchor="start" fill="#5eead4" font-size="13" font-weight="900" font-family="ui-monospace,Menlo,monospace">paystack/ Adapter</text><path d="M668 60 C700 60 700 96 730 96" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#bl)"/><rect x="736" y="80" width="250" height="32" rx="8" fill="#0d1a2c" stroke="#fbbf24"/><text x="750" y="101" text-anchor="start" fill="#fbbf24" font-size="13" font-weight="900" font-family="ui-monospace,Menlo,monospace">flutterwave/ Adapter</text></svg></div><p style="margin-top:8px;font-size:.92rem;color:#94a3b8">각 Adapter 폴더: adapter · client · mapper · schemas · signature · exceptions</p>
+            </div></article>
+
+            <article class="slide explain dense" data-part="2" data-note="멱등성(idempotency)을 엘리베이터 버튼으로 설명합니다. 버튼을 여러 번 눌러도 엘리베이터는 한 번만 옵니다. 결제도 네트워크가 느려 사용자가 두 번 눌러도, 같은 Idempotency-Key면 돈은 한 번만 나가야 합니다. 같은 키인데 금액이 다르면 409로 거부합니다. 모바일 머니 이체를 두 번 누른 경험이 있는지 물어보세요."><div class="slide-inner">
+              <span class="slide-kicker">Analogy · 엘리베이터 버튼</span>
+              <h2 class="sm">두 번 눌러도 한 번만: <span class="hl">멱등성</span></h2>
+              <div class="viz-strip"><svg class="viz" viewBox="0 10 1000 365" role="img" aria-label="엘리베이터 버튼을 여러 번 눌러도 한 번만 오듯, 결제도 같은 멱등성 키로 여러 번 요청해도 한 번만 처리" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ev" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6ee7b7"/></marker></defs><rect x="40" y="40" width="200" height="290" rx="16" fill="#0d1a2c" stroke="#67e8f9" stroke-width="2.4"/><text x="140" y="28" text-anchor="middle" fill="#67e8f9" font-size="17" font-weight="900" >엘리베이터 버튼</text><circle cx="140" cy="110" r="26" fill="#fbbf24" stroke="#fbbf24" stroke-width="2.4"/><text x="140" y="116" text-anchor="middle" fill="#1a1205" font-size="18" font-weight="900" >▲</text><text x="186" y="116" text-anchor="start" fill="#cbd5e1" font-size="12.5" font-weight="700" >1번 누름</text><circle cx="140" cy="190" r="26" fill="rgba(251,191,36,.25)" stroke="#fbbf24" stroke-width="2.4"/><text x="140" y="196" text-anchor="middle" fill="#1a1205" font-size="18" font-weight="900" >▲</text><text x="186" y="196" text-anchor="start" fill="#cbd5e1" font-size="12.5" font-weight="700" >2번 누름</text><circle cx="140" cy="270" r="26" fill="rgba(251,191,36,.25)" stroke="#fbbf24" stroke-width="2.4"/><text x="140" y="276" text-anchor="middle" fill="#1a1205" font-size="18" font-weight="900" >▲</text><text x="186" y="276" text-anchor="start" fill="#cbd5e1" font-size="12.5" font-weight="700" >3번 누름</text><path class="flow" d="M250 190 H330" stroke="#6ee7b7" stroke-width="3" marker-end="url(#ev)"/><rect x="340" y="150" width="140" height="80" rx="12" fill="rgba(71,215,160,.14)" stroke="#6ee7b7" stroke-width="2"/><text x="410" y="184" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" >엘리베이터</text><text x="410" y="206" text-anchor="middle" fill="#6ee7b7" font-size="15" font-weight="900" >1번만 온다</text><text x="260" y="360" text-anchor="middle" fill="#fff" font-size="15" font-weight="800" >여러 번 눌러도 결과는 한 번 = 멱등성</text><rect x="540" y="40" width="440" height="290" rx="16" fill="#0d1a2c" stroke="#fbbf24" stroke-width="2.4"/><text x="760" y="28" text-anchor="middle" fill="#fbbf24" font-size="17" font-weight="900" >결제 버튼도 똑같아야 한다</text><rect x="580" y="80" width="170" height="54" rx="12" fill="#fbbf24"/><text x="665" y="113" text-anchor="middle" fill="#1a1205" font-size="16" font-weight="900" >₦13,500 결제</text><text x="665" y="160" text-anchor="middle" fill="#fca5a5" font-size="13" font-weight="800" >네트워크가 느려 2번 누름</text><text x="665" y="184" text-anchor="middle" fill="#fde68a" font-size="12" font-weight="800" font-family="ui-monospace,Menlo,monospace">Idempotency-Key: abc-123</text><path class="flow" d="M760 107 H820" stroke="#6ee7b7" stroke-width="3" marker-end="url(#ev)"/><rect x="826" y="74" width="140" height="66" rx="12" fill="rgba(71,215,160,.14)" stroke="#6ee7b7"/><text x="896" y="102" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="800" >같은 키 → 기존 결과</text><text x="896" y="124" text-anchor="middle" fill="#6ee7b7" font-size="14" font-weight="900" >돈은 1번만</text><rect x="580" y="214" width="380" height="96" rx="12" fill="rgba(248,113,113,.1)" stroke="#fca5a5" stroke-dasharray="5 4"/><text x="770" y="244" text-anchor="middle" fill="#fca5a5" font-size="14" font-weight="900" >같은 키인데 금액이 다르면?</text><text x="770" y="270" text-anchor="middle" fill="#fecaca" font-size="15" font-weight="900" >409 Conflict — 처리 거부</text><text x="770" y="294" text-anchor="middle" fill="#cbd5e1" font-size="12.5" font-weight="700" >(실수 · 조작 방지)</text></svg></div>
+            </div></article>
+
+            <article class="slide part2 dense" data-part="2" data-note="결제는 네트워크가 실패해도 돈이 두 번 나가면 안 됩니다. 다섯 가지 안전장치: 상태 전이 머신, 승인 트랜잭션 분리(외부 호출 중 DB 트랜잭션 잡지 않기), 멱등성 키, 웹훅 서명·중복 방어, Outbox. Timeout을 바로 실패로 확정하지 말고 조회/웹훅으로 확인하는 점이 실무 포인트."><div class="slide-inner">
+              <span class="slide-kicker">Payment safety</span>
+              <h2 class="sm">돈이 오가는 곳의 <span class="hl">5가지 안전장치</span></h2>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 124" role="img" aria-label="결제 상태 전이: READY에서 PENDING, PAID 또는 FAILED, PAID에서 REFUNDED. FAILED에서 REFUNDED는 금지" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="sm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#67e8f9"/></marker><marker id="sx" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#fca5a5"/></marker></defs><rect x="10" y="42" width="140" height="36" rx="18" fill="#8ea3bd" fill-opacity=".16" stroke="#8ea3bd" stroke-width="2"/><text x="80" y="65" text-anchor="middle" fill="#8ea3bd" font-size="14" font-weight="900" font-family="ui-monospace,Menlo,monospace">READY</text><rect x="230" y="42" width="140" height="36" rx="18" fill="#fbbf24" fill-opacity=".16" stroke="#fbbf24" stroke-width="2"/><text x="300" y="65" text-anchor="middle" fill="#fbbf24" font-size="14" font-weight="900" font-family="ui-monospace,Menlo,monospace">PENDING</text><rect x="470" y="6" width="140" height="36" rx="18" fill="#6ee7b7" fill-opacity=".16" stroke="#6ee7b7" stroke-width="2"/><text x="540" y="29" text-anchor="middle" fill="#6ee7b7" font-size="14" font-weight="900" font-family="ui-monospace,Menlo,monospace">PAID</text><rect x="470" y="82" width="140" height="36" rx="18" fill="#fca5a5" fill-opacity=".16" stroke="#fca5a5" stroke-width="2"/><text x="540" y="105" text-anchor="middle" fill="#fca5a5" font-size="14" font-weight="900" font-family="ui-monospace,Menlo,monospace">FAILED</text><rect x="730" y="6" width="140" height="36" rx="18" fill="#a78bfa" fill-opacity=".16" stroke="#a78bfa" stroke-width="2"/><text x="800" y="29" text-anchor="middle" fill="#a78bfa" font-size="14" font-weight="900" font-family="ui-monospace,Menlo,monospace">REFUNDED</text><path class="flow" d="M152 60 C190.0 60 190.0 60 224 60" fill="none" stroke="#67e8f9" stroke-width="2.2" marker-end="url(#sm)"/><path class="flow" d="M372 60 C420.0 60 420.0 24 464 24" fill="none" stroke="#67e8f9" stroke-width="2.2" marker-end="url(#sm)"/><path class="flow" d="M372 60 C420.0 60 420.0 100 464 100" fill="none" stroke="#67e8f9" stroke-width="2.2" marker-end="url(#sm)"/><path class="flow" d="M612 24 C670.0 24 670.0 24 724 24" fill="none" stroke="#67e8f9" stroke-width="2.2" marker-end="url(#sm)"/><path d="M612 100 C720 100 760 60 790 46" fill="none" stroke="#fca5a5" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#sx)"/><text x="760" y="110" text-anchor="middle" fill="#fca5a5" font-size="13" font-weight="900" >✗ FAILED → REFUNDED 금지</text></svg></div>
+              <div class="slide-grid cols-5">
+                <div class="slide-card"><strong>상태 전이</strong><span>READY → PENDING → PAID / FAILED<br />PAID → REFUNDED</span><em>금지: FAILED → REFUNDED</em></div>
+                <div class="slide-card"><strong>TX 분리</strong><span>TX1: PENDING 저장 → TX 밖: 결제사 호출 → TX2: 결과 + Outbox</span><em>Timeout ≠ 즉시 실패</em></div>
+                <div class="slide-card"><strong>멱등성</strong><span>Idempotency-Key 필수. 같은 키 + 같은 요청 → 기존 결과</span><em>다른 금액 → 409</em></div>
+                <div class="slide-card"><strong>웹훅</strong><span>Raw Body 서명 검증, event_id Unique</span><em>과거 이벤트가 최신 상태 덮어쓰기 금지</em></div>
+                <div class="slide-card"><strong>Outbox</strong><span>결제 저장과 이벤트를 같은 TX에, 후속 작업은 Commit 후 비동기</span><em>알림 장애 ≠ 결제 롤백</em></div>
+              </div>
+            </div></article>
+
+            <article class="slide part2 dense" data-part="2" data-note="3단계 테스트. 레이어드 구조의 가장 큰 보상은 Unit 테스트입니다 — DB 없이 업무 규칙 전체를 빠르게 검증. Day 3의 TEST-### ID를 여기에 연결합니다."><div class="slide-inner">
+              <span class="slide-kicker">3-level test strategy</span>
+              <div class="viz-split big-fig"><div><h2 class="sm">계층이 나뉘면 <span class="hl">테스트도 나뉜다</span></h2><p>업무 규칙은 DB 없이 Unit으로 빠르게, DB·결제사 연결은 위쪽 테스트로 확인합니다.</p></div><figure class="viz-fig"><svg class="viz" viewBox="0 0 480 270" role="img" aria-label="테스트 피라미드: 아래 Unit이 가장 많고 빠르며, 위로 Integration과 Contract" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><path d="M120.0 90 L150.0 20 H290.0 L320.0 90z" fill="#a78bfa" fill-opacity=".18" stroke="#a78bfa" stroke-width="2"/><text x="220" y="50" text-anchor="middle" fill="#a78bfa" font-size="16" font-weight="900" >Contract</text><text x="220" y="70" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" >결제사 Adapter 규격</text><text x="220" y="86" text-anchor="middle" fill="#cbd5e1" font-size="10.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">tests/contract/</text><path d="M70.0 170 L100.0 100 H340.0 L370.0 170z" fill="#5ab6ff" fill-opacity=".18" stroke="#5ab6ff" stroke-width="2"/><text x="220" y="130" text-anchor="middle" fill="#5ab6ff" font-size="16" font-weight="900" >Integration</text><text x="220" y="150" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" >실제 DB · 트랜잭션</text><text x="220" y="166" text-anchor="middle" fill="#cbd5e1" font-size="10.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">tests/integration/</text><path d="M20.0 250 L50.0 180 H390.0 L420.0 250z" fill="#6ee7b7" fill-opacity=".18" stroke="#6ee7b7" stroke-width="2"/><text x="220" y="210" text-anchor="middle" fill="#6ee7b7" font-size="16" font-weight="900" >Unit</text><text x="220" y="230" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" >DB 없이 business 규칙</text><text x="220" y="246" text-anchor="middle" fill="#cbd5e1" font-size="10.5" font-weight="600" font-family="ui-monospace,Menlo,monospace">tests/unit/business/</text><path d="M420 250 V30" stroke="#fbbf24" stroke-width="2"/><text x="430" y="40" text-anchor="start" fill="#fbbf24" font-size="12" font-weight="800" >느림</text><text x="430" y="250" text-anchor="start" fill="#6ee7b7" font-size="12" font-weight="800" >빠름 · 많이</text></svg></figure></div>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong>🧪 Unit · tests/unit/business/</strong><span>DB 없이 순수 business를 밀리초 단위로</span><em>수량·판매 가능·총액 · 결제 상태 전이 · 중복 결제</em></div>
+                <div class="slide-card"><strong>🔗 Integration · tests/integration/</strong><span>실제 Django 모델·트랜잭션·DB 제약</span><em>주문+항목 원자적 저장 · 웹훅 1회 처리</em></div>
+                <div class="slide-card"><strong>📜 Contract · tests/contract/</strong><span>모든 결제사 Adapter가 같은 규격을 지키는가</span><em>DTO 변환 · Timeout 분류 · 서명 검증</em></div>
+              </div>
+              <div class="quote-box">Day 3 추적표의 <b>TEST-###</b>를 이 세 폴더 중 하나에 배치하세요. 업무 규칙 테스트는 대부분 Unit입니다.</div>
+            </div></article>
+
+            <article class="slide part2 dense" data-part="2" data-note="AI 개발 규격. AI에게 '주문 기능 만들어 줘'가 아니라 이 12단계 순서와 9대 금지를 프로젝트 규격(BACKEND_RULES.md, AGENTS.md, CLAUDE.md 등)으로 주면 매번 같은 위치에 코드를 씁니다. Day 3의 gstack /plan-eng-review로 설계를, /review로 금지 사항 위반을 검토하세요."><div class="slide-inner">
+              <span class="slide-kicker">AI development spec</span>
+              <h2 class="sm">AI 에이전트를 위한 <span class="hl">12단계 순서 · 9대 금지</span></h2>
+              <div class="compare" style="align-items:start">
+                <div class="compare-col good"><h4>구현 순서</h4><svg class="viz" viewBox="0 0 528 258" role="img" aria-label="AI 개발 12단계 순서를 지그재그 경로로 표시" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="tw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8ea3bd"/></marker></defs><rect x="6" y="6" width="118" height="58" rx="10" fill="#5ab6ff" fill-opacity=".14" stroke="#5ab6ff"/><text x="24" y="42" text-anchor="middle" fill="#5ab6ff" font-size="18" font-weight="900" >1</text><text x="42" y="41" text-anchor="start" fill="#fff" font-size="12.5" font-weight="800" >규격 읽기</text><path d="M125 35 H137" stroke="#8ea3bd" stroke-width="1.6" marker-end="url(#tw)"/><rect x="138" y="6" width="118" height="58" rx="10" fill="#5ab6ff" fill-opacity=".14" stroke="#5ab6ff"/><text x="156" y="42" text-anchor="middle" fill="#5ab6ff" font-size="18" font-weight="900" >2</text><text x="174" y="41" text-anchor="start" fill="#fff" font-size="12.5" font-weight="800" >기존 코드 검색</text><path d="M257 35 H269" stroke="#8ea3bd" stroke-width="1.6" marker-end="url(#tw)"/><rect x="270" y="6" width="118" height="58" rx="10" fill="#a78bfa" fill-opacity=".14" stroke="#a78bfa"/><text x="288" y="42" text-anchor="middle" fill="#a78bfa" font-size="18" font-weight="900" >3</text><text x="306" y="41" text-anchor="start" fill="#fff" font-size="12.5" font-weight="800" >DTO · 오류 코드</text><path d="M389 35 H401" stroke="#8ea3bd" stroke-width="1.6" marker-end="url(#tw)"/><rect x="402" y="6" width="118" height="58" rx="10" fill="#a78bfa" fill-opacity=".14" stroke="#a78bfa"/><text x="420" y="42" text-anchor="middle" fill="#a78bfa" font-size="18" font-weight="900" >4</text><text x="438" y="41" text-anchor="start" fill="#fff" font-size="12.5" font-weight="800" >Rule · Calc</text><path d="M461.0 66 V82" stroke="#8ea3bd" stroke-width="1.6" marker-end="url(#tw)"/><rect x="402" y="84" width="118" height="58" rx="10" fill="#a78bfa" fill-opacity=".14" stroke="#a78bfa"/><text x="420" y="120" text-anchor="middle" fill="#a78bfa" font-size="18" font-weight="900" >5</text><text x="438" y="119" text-anchor="start" fill="#fff" font-size="12.5" font-weight="800" >단위 테스트</text><path d="M401 113 H389" stroke="#8ea3bd" stroke-width="1.6" marker-end="url(#tw)"/><rect x="270" y="84" width="118" height="58" rx="10" fill="#a78bfa" fill-opacity=".14" stroke="#a78bfa"/><text x="288" y="120" text-anchor="middle" fill="#a78bfa" font-size="18" font-weight="900" >6</text><text x="306" y="119" text-anchor="start" fill="#fff" font-size="12.5" font-weight="800" >Port 정의</text><path d="M269 113 H257" stroke="#8ea3bd" stroke-width="1.6" marker-end="url(#tw)"/><rect x="138" y="84" width="118" height="58" rx="10" fill="#67e8f9" fill-opacity=".14" stroke="#67e8f9"/><text x="156" y="120" text-anchor="middle" fill="#67e8f9" font-size="18" font-weight="900" >7</text><text x="174" y="119" text-anchor="start" fill="#fff" font-size="12.5" font-weight="800" >Workflow</text><path d="M137 113 H125" stroke="#8ea3bd" stroke-width="1.6" marker-end="url(#tw)"/><rect x="6" y="84" width="118" height="58" rx="10" fill="#fbbf24" fill-opacity=".14" stroke="#fbbf24"/><text x="24" y="120" text-anchor="middle" fill="#fbbf24" font-size="18" font-weight="900" >8</text><text x="42" y="119" text-anchor="start" fill="#fff" font-size="12.5" font-weight="800" >Model · DB</text><path d="M65.0 144 V160" stroke="#8ea3bd" stroke-width="1.6" marker-end="url(#tw)"/><rect x="6" y="162" width="118" height="58" rx="10" fill="#fbbf24" fill-opacity=".14" stroke="#fbbf24"/><text x="24" y="198" text-anchor="middle" fill="#fbbf24" font-size="18" font-weight="900" >9</text><text x="42" y="197" text-anchor="start" fill="#fff" font-size="12.5" font-weight="800" >Repo · Adapter</text><path d="M125 191 H137" stroke="#8ea3bd" stroke-width="1.6" marker-end="url(#tw)"/><rect x="138" y="162" width="118" height="58" rx="10" fill="#67e8f9" fill-opacity=".14" stroke="#67e8f9"/><text x="156" y="198" text-anchor="middle" fill="#67e8f9" font-size="18" font-weight="900" >10</text><text x="174" y="197" text-anchor="start" fill="#fff" font-size="12.5" font-weight="800" >API</text><path d="M257 191 H269" stroke="#8ea3bd" stroke-width="1.6" marker-end="url(#tw)"/><rect x="270" y="162" width="118" height="58" rx="10" fill="#67e8f9" fill-opacity=".14" stroke="#67e8f9"/><text x="288" y="198" text-anchor="middle" fill="#67e8f9" font-size="18" font-weight="900" >11</text><text x="306" y="197" text-anchor="start" fill="#fff" font-size="12.5" font-weight="800" >container 조립</text><path d="M389 191 H401" stroke="#8ea3bd" stroke-width="1.6" marker-end="url(#tw)"/><rect x="402" y="162" width="118" height="58" rx="10" fill="#6ee7b7" fill-opacity=".14" stroke="#6ee7b7"/><text x="420" y="198" text-anchor="middle" fill="#6ee7b7" font-size="18" font-weight="900" >12</text><text x="438" y="197" text-anchor="start" fill="#fff" font-size="12.5" font-weight="800" >전체 테스트</text><text x="264" y="250" text-anchor="middle" fill="#cbd5e1" font-size="13" font-weight="700" >규칙(business)부터 → 바깥(API)은 나중에</text></svg></div>
+                <div class="compare-col bad"><h4>절대 하지 않을 것</h4><ul><li>View에 복잡한 업무 로직</li><li>business에서 Django ORM 사용</li><li>기존 Rule 확인 없이 복제</li><li>결제사 원본 응답을 그대로 반환</li><li>실패 테스트 없이 임시 조건문으로 버그 수정</li><li>기존 Migration 임의 변경 · Secret Key 하드코딩</li><li>요청 없는 대규모 리팩터링 · 실행 안 한 테스트 통과 보고</li></ul></div>
+              </div>
+            </div></article>
+
+            <article class="slide part2 dense" data-part="2" data-note="마무리. 레이어드 아키텍처의 목적은 폴더를 많이 만드는 것이 아니라 변경의 영향을 특정 영역에 가두는 것. 5대 원칙을 함께 읽고 끝냅니다. 다음 시간에는 이 구조로 실제 구현을 시작합니다."><div class="slide-inner">
+              <span class="slide-kicker">Wrap-up</span>
+              <h2 class="sm">폴더를 늘리는 게 아니라 <span class="hl">변경의 영향을 가두는 것</span></h2>
+              <table class="s-table">
+                <thead><tr><th>이런 변경이 생기면</th><th>여기만 바뀐다</th></tr></thead>
+                <tbody>
+                  <tr><td>API 스펙 변경</td><td><code>apps/&lt;domain&gt;/api</code></td></tr>
+                  <tr><td>업무 규칙 변경</td><td><code>business/&lt;domain&gt;/rules</code> · <code>policies</code></td></tr>
+                  <tr><td>금액 계산 공식 변경</td><td><code>business/&lt;domain&gt;/calculators</code></td></tr>
+                  <tr><td>DB 접근 방식 변경</td><td><code>infrastructure/repositories</code></td></tr>
+                  <tr><td>결제사 추가 · 변경</td><td><code>infrastructure/payment_gateways/&lt;provider&gt;</code></td></tr>
+                </tbody>
+              </table>
+              <ul class="slide-list">
+                <li><i class="fa-solid fa-check"></i>View는 요청을 받고 Workflow를 호출한다</li>
+                <li><i class="fa-solid fa-check"></i>Workflow는 업무 처리 순서를 관리한다</li>
+                <li><i class="fa-solid fa-check"></i>Rule · Policy · Calculator는 순수 업무 로직</li>
+                <li><i class="fa-solid fa-check"></i>DB와 외부 시스템은 Port와 Adapter로 연결, business는 Django에 의존하지 않는다</li>
+              </ul>
+            </div></article>
+
+          </div>
+          <div class="slide-controls">
+            <button class="slide-nav-btn" id="prevSlide" type="button" aria-label="이전 슬라이드"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="slide-progress-wrap"><span class="slide-counter" id="slideCounter">P1 · 1</span><div class="slide-progress"><span id="slideProgress"></span></div></div>
+            <div class="slide-tools"><button class="slide-nav-btn" id="notesToggle" type="button" aria-label="강의 노트 보기" aria-pressed="false" title="강의 노트 (N)"><i class="fa-regular fa-comment-dots"></i></button><button class="slide-nav-btn fullscreen-btn" id="fullscreenSlide" type="button" aria-label="슬라이드 전체 화면"><i class="fa-solid fa-expand"></i></button><button class="slide-nav-btn" id="nextSlide" type="button" aria-label="다음 슬라이드"><i class="fa-solid fa-chevron-right"></i></button></div>
+          </div>
+          <div class="slide-notes" id="slideNotes"><strong>LECTURE NOTE</strong><span id="slideNoteText"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="frameworks">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">MVC Across Frameworks</p><h2 class="section-title">같은 MVC, 프레임워크별 이름</h2></div><p class="section-lead">어떤 프레임워크를 만나도 “라우터 → 요청 처리 → 업무 로직 → 데이터 → 표현” 위치만 찾으면 구조가 보입니다.</p></div>
+        <div class="table-wrap"><table class="data-table">
+          <thead><tr><th>역할</th><th>Django (DRF)</th><th>Express · NestJS</th><th>Spring Boot</th><th>Laravel</th><th>Ruby on Rails</th></tr></thead>
+          <tbody>
+            <tr><td>Router</td><td><code>urls.py</code></td><td><code>routes/</code> · <code>@Controller()</code> 경로</td><td><code>@RequestMapping</code></td><td><code>routes/web.php</code> · <code>api.php</code></td><td><code>config/routes.rb</code></td></tr>
+            <tr><td>Controller</td><td><code>views.py</code> (APIView · ViewSet)</td><td><code>controllers/</code></td><td><code>@RestController</code></td><td><code>app/Http/Controllers</code></td><td><code>app/controllers</code></td></tr>
+            <tr><td>업무 로직 (확장)</td><td><code>business/</code> (오늘의 구조)</td><td><code>services/</code> · Provider</td><td><code>@Service</code></td><td><code>app/Services</code> · Actions</td><td>Service Object</td></tr>
+            <tr><td>Model · 데이터</td><td><code>models.py</code> + ORM</td><td>Mongoose · Prisma · TypeORM</td><td><code>@Entity</code> + <code>@Repository</code> (JPA)</td><td>Eloquent Model</td><td>ActiveRecord</td></tr>
+            <tr><td>View · 표현</td><td>Template / Serializer(JSON)</td><td>템플릿 엔진 / <code>res.json()</code></td><td>Thymeleaf / JSON</td><td>Blade / API Resource</td><td>ERB / Jbuilder</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <section class="page-section" id="lab">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">Hands-on Lab Guide</p><h2 class="section-title">내 프로젝트에 레이어드 구조 적용하기</h2></div><p class="section-lead">Day 3에서 만든 명세(REQ · DATA · API)를 오늘 배운 계층에 배치합니다. 막히면 아래 프롬프트를 gstack과 함께 사용하세요.</p></div>
+        <div class="table-wrap"><table class="data-table">
+          <thead><tr><th>단계</th><th>할 일</th><th>입력</th><th>산출물</th><th>통과 조건</th></tr></thead>
+          <tbody>
+            <tr><td>1. MVC 흐름도</td><td>대표 API 1개의 요청 → 응답 6단계 그리기</td><td>Day 3 API-###</td><td class="out">MVC_FLOW.md</td><td>Router·Controller·Model·View 위치가 표시됨</td></tr>
+            <tr><td>2. Django 시작</td><td>venv · startproject · startapp · runserver</td><td>—</td><td class="out">backend/ 기본 구조</td><td>runserver 화면 확인, git 커밋</td></tr>
+            <tr><td>3. 폴더 설계</td><td>config · apps · business · infrastructure · tests 생성</td><td>도메인 목록</td><td class="out">ARCHITECTURE.md</td><td>각 폴더 책임 1줄, business에 Django import 없음</td></tr>
+            <tr><td>4. 계층 배치</td><td>REQ마다 Rule/Policy/Calculator/Workflow 지정</td><td>TRACEABILITY.md</td><td class="out">LAYER_MAP.md</td><td>모든 REQ에 담당 파일 경로가 있음</td></tr>
+            <tr><td>5. 주문 API 설계</td><td>7단계 흐름과 DTO · Port 정의</td><td>API 명세</td><td class="out">ORDER_API_DESIGN.md</td><td>요청·응답·오류 코드·상태 전이 포함</td></tr>
+            <tr><td>6. AI 규격</td><td>12단계 순서 · 9대 금지 · 배치표</td><td>오늘 슬라이드</td><td class="out">BACKEND_RULES.md</td><td>AI에게 그대로 줄 수 있는 문서</td></tr>
+            <tr><td>7. 검토</td><td>gstack <code>/plan-eng-review</code>로 설계 검토</td><td>3~6 산출물</td><td class="out">검토 결과 + DECISION_LOG</td><td>지적별 채택/수정/반려 이유</td></tr>
+          </tbody>
+        </table></div>
+        <div class="gap-box">
+          <div class="gap-card"><h3>① 계층 배치 요청 <button class="copy-btn" type="button" data-copy="p1">복사</button></h3><p>/plan-eng-review (Codex: gstack-plan-eng-review 스킬)</p><pre id="p1">/plan-eng-review
+TRACEABILITY.md 의 각 REQ를 Django 레이어드 아키텍처에 배치해 줘.
+구조: config / apps / business / infrastructure / tests
+- 각 REQ마다 Rule · Policy · Calculator · Workflow · Port · Repository · Adapter 중
+  어디에 들어가는지와 파일 경로를 표로 제안
+- business 계층에는 Django·DRF import 금지
+- 판단이 애매한 REQ는 "사람 결정 필요"로 표시
+아직 코드를 작성하지 마.</pre></div>
+          <div class="gap-card"><h3>② BACKEND_RULES.md 초안 <button class="copy-btn" type="button" data-copy="p2">복사</button></h3><p>AI 개발 규격 문서 만들기</p><pre id="p2">이 프로젝트의 백엔드 개발 규격 BACKEND_RULES.md 초안을 작성해 줘.
+포함할 내용:
+1. 5대 디렉터리와 각 책임
+2. 의존성 방향: API → Workflow → Rule/Policy/Calculator → Port ← Adapter
+3. 새 기능 구현 12단계 순서
+4. AI가 절대 하지 말아야 할 9가지
+5. 파일 배치 판단표 (코드 종류 → 작성 위치)
+6. 테스트 3단계 (unit / integration / contract) 위치와 기준
+내 프로젝트 도메인 이름: [예: cafe, billing]
+파일은 내가 검토한 뒤 저장할게.</pre></div>
+          <div class="gap-card"><h3>③ 기능 하나 구현 계약 <button class="copy-btn" type="button" data-copy="p3">복사</button></h3><p>다음 시간 구현 단계에서 사용</p><pre id="p3">BACKEND_RULES.md 와 LAYER_MAP.md 를 먼저 읽어 줘.
+이번 범위는 [REQ-___] 하나다.
+12단계 순서를 따르되, 코드를 쓰기 전에
+1) 생성·수정할 파일 경로 2) 정의할 DTO·Port 3) 작성할 단위 테스트
+를 먼저 보고해 줘. 승인 후 구현하고,
+실제로 실행한 테스트 결과만 보고해 줘.</pre></div>
+          <div class="gap-card"><h3>④ 규칙 위반 리뷰 <button class="copy-btn" type="button" data-copy="p4">복사</button></h3><p>/review (Codex: gstack-review 스킬)</p><pre id="p4">/review
+현재 diff를 BACKEND_RULES.md 기준으로 검토해 줘.
+특히 다음을 우선 확인:
+- business/ 안의 django · rest_framework import
+- View 안의 업무 규칙 · 금액 계산 · ORM 직접 호출
+- 기존 Rule 중복 구현
+- 결제사 원본 응답 노출, 하드코딩된 Secret
+심각도 · 파일 · 줄 · 근거만 보고하고 수정하지 마.</pre></div>
+        </div>
+        <div class="ref-links">
+          <a class="ref-card" href="real-django-layered/index.html"><i class="fa-brands fa-python"></i><div><strong>Real Project 3 · Django 레이어드 아키텍처</strong><span>20강 슬라이드 · 카페 주문 API · 빌링·결제 Adapter · AI 개발 규격</span></div></a>
+          <a class="ref-card" href="ai-project-day3.html"><i class="fa-solid fa-terminal"></i><div><strong>Day 3 · gstack과 문서 기반 설계</strong><span>REQ → UI → DATA → API → TEST 추적표와 gstack 검토 방법 복습</span></div></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="quiz">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">Quick Check</p><h2 class="section-title">파일 배치 퀴즈: 이 코드는 어디에?</h2></div><p class="section-lead">판단 질문: “Django와 DB가 없어도 실행할 수 있는 업무 규칙인가?” Yes면 business/ 입니다.</p></div>
+        <div class="quiz-grid" id="quizGrid"></div>
+        <div class="quiz-score" id="quizScore">0 / 8 정답</div>
+      </div>
+    </section>
+
+    <section class="day-nav-section" aria-labelledby="dayNavTitle">
+      <div class="shell"><p class="eyebrow" id="dayNavTitle">10-Day Course Navigation</p>
+<div class="day-nav">
+  <a class="day-link" href="ai-project-day1.html"><strong>Day 1</strong><span>월</span></a>
+  <a class="day-link" href="ai-project-day2.html"><strong>Day 2</strong><span>화</span></a>
+  <a class="day-link" href="ai-project-day3.html"><strong>Day 3</strong><span>수</span></a>
+  <a class="day-link" href="ai-project-day4.html"><strong>Day 4</strong><span>목</span></a>
+  <a class="day-link active" href="ai-project-day5.html"><strong>Day 5</strong><span>현재</span></a>
+  <a class="day-link" href="ai-project-day6.html"><strong>Day 6</strong><span>월</span></a>
+  <a class="day-link" href="ai-project-day7.html"><strong>Day 7</strong><span>화</span></a>
+  <a class="day-link" href="ai-project-day8.html"><strong>Day 8</strong><span>수</span></a>
+  <a class="day-link" href="ai-project-day9.html"><strong>Day 9</strong><span>목</span></a>
+  <a class="day-link" href="ai-project-day10.html"><strong>Day 10</strong><span>금</span></a>
+</div>
+      <p class="day-notice" id="dayNotice">상단 버튼을 클릭해 Day 1~10 학습 페이지로 이동할 수 있습니다.</p></div>
+    </section>
+
+    <section class="learning-workspace" id="videos">
+      <div class="shell"><div class="section-head"><div><p class="eyebrow">Learning Workspace</p><h2 class="section-title">백엔드 · MVC · Django 영상과 Day 5 AI 도우미</h2></div><p class="section-lead">프레임워크 개요 → MVC → Django 기초 → 레이어드·클린 아키텍처 순서로 정리했습니다.</p></div>
+        <div class="workspace-grid">
+          <section class="video-panel" aria-label="Day 5 참고 영상"><header class="panel-head"><strong>관련 YouTube 영상</strong><span id="videoCount">Day 5 추천 학습 자료</span></header>
+            <div class="player"><iframe id="videoPlayer" src="https://www.youtube.com/embed/DUg2SWWK18I" title="Day 5 참고 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+            <div class="playlist-filter" role="group" aria-label="영상 주제 필터">
+              <button class="filter-btn active" type="button" data-filter="all">전체</button>
+              <button class="filter-btn" type="button" data-filter="fw">백엔드 프레임워크</button>
+              <button class="filter-btn" type="button" data-filter="mvc">MVC 패턴</button>
+              <button class="filter-btn" type="button" data-filter="django">Django · DRF</button>
+              <button class="filter-btn" type="button" data-filter="arch">레이어드 · 클린 아키텍처</button>
+            </div>
+            <ul class="playlist">
+              <li class="playlist-group" data-group="mvc">MVC 패턴</li>
+              <li class="playlist-item active" data-cat="mvc" data-src="https://www.youtube.com/embed/DUg2SWWK18I"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>1. MVC Explained in 4 Minutes</strong><span>Model · View · Controller 핵심 요약</span></span><span class="lang en">EN</span></li>
+              <li class="playlist-item" data-cat="mvc" data-src="https://www.youtube.com/embed/vahOQN_czyk"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>2. What is MVC? The Simplest Explanation You'll Ever See</strong><span>비유로 이해하는 MVC</span></span><span class="lang en">EN</span></li>
+              <li class="playlist-item" data-cat="mvc" data-src="https://www.youtube.com/embed/Cgvopu9zg8Y"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>3. Learn MVC Pattern with ExpressJS and NodeJS</strong><span>다른 프레임워크(Express)에서의 MVC</span></span><span class="lang en">EN</span></li>
+
+              <li class="playlist-group" data-group="fw">백엔드 프레임워크</li>
+              <li class="playlist-item" data-cat="fw" data-src="https://www.youtube.com/embed/mRfwTqFrF2Y"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>4. Backend Frameworks for Web Development: Which One Should You Learn?</strong><span>주요 백엔드 프레임워크 개요</span></span><span class="lang en">EN</span></li>
+              <li class="playlist-item" data-cat="fw" data-src="https://www.youtube.com/embed/Zwp8QEtR6co"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>5. Every Backend Framework Ranked &amp; Explained (FastAPI, Django, Node.js …)</strong><span>프레임워크별 특징 비교</span></span><span class="lang en">EN</span></li>
+
+              <li class="playlist-group" data-group="django">Django · DRF</li>
+              <li class="playlist-item" data-cat="django" data-src="https://www.youtube.com/embed/DG7hO_XtezQ"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>6. Django(장고) 프레임워크 제대로 배우기 (입문) Part.1 Django Basic</strong><span>Django 기본 구조와 동작</span></span><span class="lang">KR</span></li>
+              <li class="playlist-item" data-cat="django" data-src="https://www.youtube.com/embed/an89p2xXREU"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>7. 밑바닥부터 시작하는 파이썬 장고 (Python Django From Scratch)</strong><span>설치부터 따라 하는 입문</span></span><span class="lang">KR</span></li>
+              <li class="playlist-item" data-cat="django" data-src="https://www.youtube.com/embed/sE87oB3wYMc"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>8. What is MVT Architecture in Django and How it Works</strong><span>Django MTV(MVT)와 MVC 대응</span></span><span class="lang en">EN</span></li>
+              <li class="playlist-item" data-cat="django" data-src="https://www.youtube.com/embed/263xt_4mBNc"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>9. Getting Started With Django REST Framework</strong><span>DRF로 첫 API 만들기</span></span><span class="lang en">EN</span></li>
+              <li class="playlist-item" data-cat="django" data-src="https://www.youtube.com/embed/dMCAHncMFQM"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>10. Django REST Framework Full Course - Beginner to Pro</strong><span>DRF 전체 과정 (장편 · 복습용)</span></span><span class="lang en">EN</span></li>
+
+              <li class="playlist-group" data-group="arch">레이어드 · 클린 아키텍처</li>
+              <li class="playlist-item" data-cat="arch" data-src="https://www.youtube.com/embed/Fqhpr_SXqzs"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>11. Where to Put Business Logic in Django</strong><span>업무 로직의 위치 — 오늘의 핵심 질문</span></span><span class="lang en">EN</span></li>
+              <li class="playlist-item" data-cat="arch" data-src="https://www.youtube.com/embed/NvTE1Q7xouU"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>12. Django - service layers and "thin views" for business logic</strong><span>Fat View에서 Thin View로</span></span><span class="lang en">EN</span></li>
+              <li class="playlist-item" data-cat="arch" data-src="https://www.youtube.com/embed/nHd7aYUQMdY"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>13. Clean Architecture vs Django’s Pragmatic Design</strong><span>Django 기본 방식과 계층 분리의 장단점</span></span><span class="lang en">EN</span></li>
+              <li class="playlist-item" data-cat="arch" data-src="https://www.youtube.com/embed/R4t_k86JWwg"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>14. Service Layer Design Pattern Explained</strong><span>서비스(업무) 계층 패턴</span></span><span class="lang en">EN</span></li>
+              <li class="playlist-item" data-cat="arch" data-src="https://www.youtube.com/embed/AAh7pQ9Il4c"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>15. Hexagonal Architecture Explained in 10 Minutes</strong><span>Port &amp; Adapter의 원리</span></span><span class="lang en">EN</span></li>
+              <li class="playlist-item" data-cat="arch" data-src="https://www.youtube.com/embed/zZDbw_lKBT0"><span class="play-icon"><i class="fa-solid fa-play"></i></span><span class="playlist-copy"><strong>16. Ports and Adapters Architecture</strong><span>외부 시스템과 느슨하게 연결하기</span></span><span class="lang en">EN</span></li>
+            </ul>
+            <p class="video-note">영상은 YouTube 공개 영상을 임베드합니다. 게시자 설정에 따라 재생이 제한되면 YouTube에서 직접 열어 주세요.</p>
+          </section>
+
+          <aside class="chat-panel" aria-label="Day 5 AI 채팅"><header class="panel-head"><strong>Day 5 AI Guide</strong><span class="chat-status">Local demo</span></header><div class="chat-messages" id="chatMessages"><div class="message ai">안녕하세요! Day 5 학습 도우미입니다. 백엔드 기본, MVC, Django MTV, 레이어드 아키텍처, 결제 Adapter에 대해 질문해 보세요.</div></div><div class="quick-prompts">
+            <button class="quick-prompt" type="button">MVC가 뭐야?</button>
+            <button class="quick-prompt" type="button">Django View는 왜 Controller야?</button>
+            <button class="quick-prompt" type="button">Rule과 Policy 차이</button>
+            <button class="quick-prompt" type="button">Port와 Adapter</button>
+            <button class="quick-prompt" type="button">멱등성이 뭐야?</button>
+            <button class="quick-prompt" type="button">어느 프레임워크를 배울까?</button>
+          </div><form class="chat-form" id="chatForm"><input id="chatInput" type="text" placeholder="Day 5에 대해 질문하세요" autocomplete="off" aria-label="AI 채팅 질문" /><button type="submit" aria-label="질문 보내기"><i class="fa-solid fa-arrow-up"></i></button></form><p class="chat-note">현재는 화면 검토용 로컬 데모이며 외부 AI로 데이터가 전송되지 않습니다.</p></aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="daily-feedback-section" aria-labelledby="dailyFeedbackTitle"><div class="shell"><div class="daily-feedback-card"><div class="daily-feedback-copy"><p class="daily-feedback-kicker"><i class="fa-regular fa-message"></i> Day 5 · Daily Feedback</p><h2 id="dailyFeedbackTitle">오늘의 교육 만족도 조사</h2><p>Day 5 수업을 마친 후 간단한 설문에 참여해 주세요. 응답은 다음 수업과 교육 운영을 개선하는 데 활용됩니다.</p><div class="daily-feedback-actions"><a class="daily-feedback-button" href="https://docs.google.com/forms/d/1TpTdia8YpInSBY6Z0MXxzYEuhfnQ3kI2tgCHz9_fFEs/viewform" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Day 5 Survey</a><span class="daily-feedback-note">버튼 또는 QR 코드로 참여</span></div></div><div class="daily-feedback-qr"><a href="https://docs.google.com/forms/d/1TpTdia8YpInSBY6Z0MXxzYEuhfnQ3kI2tgCHz9_fFEs/viewform" target="_blank" rel="noopener noreferrer" aria-label="Day 5 만족도 조사 열기"><img src="https://api.qrserver.com/v1/create-qr-code/?size=312x312&amp;data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2F1TpTdia8YpInSBY6Z0MXxzYEuhfnQ3kI2tgCHz9_fFEs%2Fviewform" alt="Day 5 Daily Feedback Survey QR code" loading="lazy" /></a><strong>SCAN TO OPEN</strong><span>Nigeria AI Training · Day 5</span></div></div></div></section>
+  <footer><div class="shell footer-inner"><strong>ACE AI SW Startup Training</strong><span>AI 실전 프로젝트 · Day 5 백엔드 프레임워크와 레이어드 아키텍처</span></div></footer>
+
+  <script>
+    (function () {
+      "use strict";
+      var toggle = document.getElementById("themeToggle");
+      function syncTheme() { var dark=document.documentElement.dataset.theme==="dark"; toggle.setAttribute("aria-pressed",String(dark)); toggle.setAttribute("aria-label",dark?"밝은 화면으로 변경":"어두운 화면으로 변경"); toggle.innerHTML=dark?'<i class="fa-regular fa-sun"></i>':'<i class="fa-regular fa-moon"></i>'; }
+      toggle.addEventListener("click",function(){ var next=document.documentElement.dataset.theme==="dark"?"light":"dark"; document.documentElement.dataset.theme=next; localStorage.setItem("lmsStudentHomeTheme",next); syncTheme(); }); syncTheme();
+      try { var session=JSON.parse(localStorage.getItem("currentUserSession")||"null"); if(session&&Number(session.expiresAt||0)>Date.now()){ var user=JSON.parse(session.value||"{}"); if(user.name)document.getElementById("profileName").textContent=user.name; if(user.studentId||user.id)document.getElementById("profileId").textContent=user.studentId||user.id; if(user.avatar)document.getElementById("profileAvatar").textContent=user.avatar; } } catch(error) { console.warn("Profile load failed"); }
+
+      // Slides with two parts
+      var all=Array.from(document.querySelectorAll(".slide")); var part="1"; var slides=[]; var index=0;
+      var counter=document.getElementById("slideCounter"); var progress=document.getElementById("slideProgress"); var prev=document.getElementById("prevSlide"); var next=document.getElementById("nextSlide");
+      var notes=document.getElementById("slideNotes"); var noteText=document.getElementById("slideNoteText"); var notesBtn=document.getElementById("notesToggle");
+      document.getElementById("count1").textContent=all.filter(function(s){return s.dataset.part==="1";}).length+"장";
+      document.getElementById("count2").textContent=all.filter(function(s){return s.dataset.part==="2";}).length+"장";
+      function setPart(p,start){ part=p; slides=all.filter(function(s){return s.dataset.part===p;}); document.querySelectorAll(".deck-tab").forEach(function(t){ var on=t.dataset.part===p; t.classList.toggle("active",on); t.setAttribute("aria-selected",String(on)); }); showSlide(start||0); }
+      function showSlide(value){ index=Math.max(0,Math.min(slides.length-1,value)); all.forEach(function(s){ s.classList.remove("active"); }); var cur=slides[index]; cur.classList.add("active"); cur.scrollTop=0; counter.textContent="P"+part+" · "+(index+1)+" / "+slides.length; progress.style.width=((index+1)/slides.length*100)+"%"; prev.disabled=(index===0&&part==="1"); next.disabled=(index===slides.length-1&&part==="2"); noteText.textContent=cur.dataset.note||"이 슬라이드에는 노트가 없습니다."; }
+      function go(d){ var t=index+d; if(t>=slides.length&&part==="1"){ setPart("2",0); return; } if(t<0&&part==="2"){ setPart("1",9999); return; } showSlide(t); }
+      function toggleNotes(){ var open=notes.classList.toggle("open"); notesBtn.classList.toggle("on",open); notesBtn.setAttribute("aria-pressed",String(open)); }
+      prev.addEventListener("click",function(){go(-1);}); next.addEventListener("click",function(){go(1);}); notesBtn.addEventListener("click",toggleNotes);
+      document.querySelectorAll(".deck-tab").forEach(function(t){ t.addEventListener("click",function(){ setPart(t.dataset.part,0); }); });
+      document.addEventListener("keydown",function(event){ var tag=(event.target.tagName||"").toLowerCase(); if(tag==="input"||tag==="textarea")return; if(event.key==="ArrowLeft")go(-1); if(event.key==="ArrowRight")go(1); if(event.key==="n"||event.key==="N")toggleNotes(); });
+      document.getElementById("fullscreenSlide").addEventListener("click",function(){ var deck=document.getElementById("slideDeck"); if(!document.fullscreenElement&&deck.requestFullscreen)deck.requestFullscreen(); else if(document.exitFullscreen)document.exitFullscreen(); });
+      setPart("1",0);
+
+      // Copy buttons
+      document.querySelectorAll("[data-copy]").forEach(function(btn){ btn.addEventListener("click",function(){ var text=document.getElementById(btn.dataset.copy).textContent; var done=function(){ btn.textContent="복사됨"; setTimeout(function(){btn.textContent="복사";},1400); }; if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done,function(){}); } else { var ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy"); done();}catch(e){} document.body.removeChild(ta); } }); });
+
+      // File placement quiz
+      var OPTS=["apps/api","apps/models","business/rules","business/policies","business/calculators","business/workflows","business/ports","infrastructure/repositories","infrastructure/payment_gateways","apps/container.py"];
+      var QUIZ=[
+        ["주문 수량이 1~20개인지 확인하는 코드","business/rules","조건 하나만 판단 → Rule"],
+        ["요청 JSON의 menu_id가 정수인지 검증하는 Serializer","apps/api","HTTP 요청·응답 검증 → API 계층"],
+        ["판매 가능 + 수량 + 영업시간 Rule을 묶어 접수 여부 결정","business/policies","여러 Rule의 조합 → Policy"],
+        ["(단가 + 옵션 추가금) × 수량 합계 계산","business/calculators","순수 계산 → Calculator"],
+        ["Order.objects.create()로 주문과 항목 저장","infrastructure/repositories","Django ORM 구현 → Repository"],
+        ["메뉴 조회 → 정책 검증 → 금액 계산 → 저장 순서 조율","business/workflows","처리 순서 관리 → Workflow"],
+        ["Paystack(나이지리아 결제사) API 호출과 응답 변환","infrastructure/payment_gateways","특정 결제사 구현 → Adapter"],
+        ["Workflow에 Django Repository 구현체를 넣어 조립","apps/container.py","의존성 조립 → container.py"]
+      ];
+      var grid=document.getElementById("quizGrid"); var score=0; var answered=0;
+      QUIZ.forEach(function(q,i){ var card=document.createElement("div"); card.className="quiz-card"; var p=document.createElement("p"); p.textContent=(i+1)+". "+q[0]; card.appendChild(p); var box=document.createElement("div"); box.className="quiz-opts"; var fb=document.createElement("div"); fb.className="quiz-fb"; var done=false;
+        OPTS.forEach(function(o){ var b=document.createElement("button"); b.type="button"; b.className="quiz-opt"; b.textContent=o; b.addEventListener("click",function(){ if(done)return; done=true; answered++; if(o===q[1]){ b.classList.add("right"); score++; fb.textContent="정답! "+q[2]; } else { b.classList.add("wrong"); box.querySelectorAll(".quiz-opt").forEach(function(x){ if(x.textContent===q[1]) x.classList.add("right"); }); fb.textContent="정답은 "+q[1]+" — "+q[2]; } document.getElementById("quizScore").textContent=score+" / "+QUIZ.length+" 정답"+(answered===QUIZ.length?" · 완료!":""); }); box.appendChild(b); });
+        card.appendChild(box); card.appendChild(fb); grid.appendChild(card); });
+
+      // Videos
+      var video=document.getElementById("videoPlayer"); var items=Array.from(document.querySelectorAll(".playlist-item"));
+      items.forEach(function(item){ item.addEventListener("click",function(){ items.forEach(function(row){row.classList.remove("active");}); item.classList.add("active"); video.src=item.dataset.src; video.title=item.querySelector("strong").textContent; }); });
+      document.getElementById("videoCount").textContent="백엔드 · MVC · Django "+items.length+"편";
+      document.querySelectorAll(".playlist-filter .filter-btn").forEach(function(btn){ btn.addEventListener("click",function(){ var f=btn.dataset.filter; document.querySelectorAll(".playlist-filter .filter-btn").forEach(function(b){b.classList.toggle("active",b===btn);}); items.forEach(function(item){ item.hidden=!(f==="all"||item.dataset.cat===f); }); document.querySelectorAll(".playlist-group").forEach(function(g){ g.hidden=!(f==="all"||g.dataset.group===f); }); }); });
+
+      // Chat (local demo)
+      var messages=document.getElementById("chatMessages"); var form=document.getElementById("chatForm"); var input=document.getElementById("chatInput");
+      function answer(question){ var q=question.toLowerCase();
+        if(q.includes("controller")||(q.includes("view")&&q.includes("django"))) return "Django는 MTV라는 이름을 쓰지만 MVC와 같은 구조입니다. Django의 View(views.py)가 요청을 받아 Model을 호출하고 응답을 정하므로 MVC의 Controller 역할을, Template(또는 DRF Serializer)이 MVC의 View(표현) 역할을 합니다.";
+        if(q.includes("mvc")) return "MVC는 Model(데이터와 규칙), View(사용자에게 보이는 표현: HTML·JSON), Controller(요청을 받아 Model과 View를 연결)로 책임을 나누는 패턴입니다. 요청 흐름: 요청 → Router → Controller → Model ↔ DB → View → 응답.";
+        if(q.includes("rule")||q.includes("policy")) return "Rule은 조건 하나만 판단합니다(예: 수량 1~20). Policy는 여러 Rule을 조합해 최종 결정을 내립니다(예: 판매 가능 + 수량 + 영업시간 → 주문 접수 여부). 둘 다 Django 없이 실행되는 순수 business 코드입니다.";
+        if(q.includes("port")||q.includes("adapter")) return "Port는 business 계층이 바깥에 요구하는 기능의 인터페이스(Protocol)입니다(예: PaymentGateway.confirm). Adapter는 그 Port를 특정 기술로 구현한 것입니다(예: Paystack·Toss 결제 Adapter, Django ORM Repository). 그래서 결제사를 바꿔도 Workflow는 수정하지 않습니다.";
+        if(q.includes("멱등")||q.includes("idempot")) return "멱등성은 같은 요청을 여러 번 보내도 결과가 한 번 처리한 것과 같도록 하는 성질입니다. 결제 요청에 Idempotency-Key를 붙이고, 같은 키+같은 요청이면 기존 결과를 돌려주며, 같은 키에 금액이 다르면 409 Conflict를 반환해 중복 결제를 막습니다.";
+        if(q.includes("프레임워크")||q.includes("framework")) return "목표에 따라 고르세요. 빠른 MVP·관리자 화면·데이터 중심 → Django, 가벼운 API·AI 모델 서빙 → FastAPI, 프론트와 같은 언어 → Express/NestJS, 대규모 기업 시스템 → Spring Boot, PHP 호스팅 환경 → Laravel. 구조 원리(MVC·계층 분리)는 모두 같습니다.";
+        if(q.includes("workflow")) return "Workflow는 하나의 유스케이스(예: 주문 생성)의 처리 순서를 조율합니다. 직접 판단·계산하지 않고 Repository로 조회 → Policy로 검증 → Calculator로 계산 → Repository로 저장 순서로 다른 구성요소를 호출합니다.";
+        if(q.includes("테스트")||q.includes("test")) return "Unit(tests/unit: DB 없이 business 검증), Integration(tests/integration: 실제 DB·트랜잭션), Contract(tests/contract: 결제사 Adapter가 같은 규격을 지키는지) 3단계로 나눕니다.";
+        return "좋은 질문입니다. 현재는 로컬 데모라 Day 5 키워드(MVC, Django View, Rule·Policy, Workflow, Port·Adapter, 멱등성, 테스트, 프레임워크)에 대해 답할 수 있습니다."; }
+      function addMessage(text,type){ var node=document.createElement("div"); node.className="message "+type; node.textContent=text; messages.appendChild(node); messages.scrollTop=messages.scrollHeight; }
+      function submitQuestion(text){ var value=String(text||"").trim(); if(!value)return; addMessage(value,"user"); window.setTimeout(function(){addMessage(answer(value),"ai");},180); }
+      form.addEventListener("submit",function(event){event.preventDefault(); var value=input.value; input.value=""; submitQuestion(value);}); document.querySelectorAll(".quick-prompt").forEach(function(button){button.addEventListener("click",function(){submitQuestion(button.textContent);});});
+    })();
+  </script>
+</body>
+</html>

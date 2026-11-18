@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../../../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../../../thankyou.html" /> -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>FreshSand Mobile Ordering | Fresh Route</title>
+  <!-- Pretendard, Gmarket Sans, IBM Plex Mono 웹폰트 로드 (오프라인 시 시스템 및 Noto Sans KR 폴백) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- 시뮬레이션/테스트 컨트롤 바 (기획서의 예외 상태를 즉시 검증 가능) -->
+  <aside class="sim-toolbar" aria-label="Exception and status test tools">
+    <div class="sim-toolbar-header">
+      <span class="sim-badge">TEST MODE</span>
+      <button type="button" id="toggle-sim-btn" class="sim-toggle-btn" aria-expanded="false" aria-controls="sim-panel">
+        Open exception test
+      </button>
+    </div>
+    <div id="sim-panel" class="sim-panel" hidden>
+      <div class="sim-grid">
+        <label class="sim-check">
+          <input type="checkbox" id="sim-invalid-link" />
+          <span>Invalid store link</span>
+        </label>
+        <label class="sim-check">
+          <input type="checkbox" id="sim-closed-hours" />
+          <span>Closed hours</span>
+        </label>
+        <label class="sim-check">
+          <input type="checkbox" id="sim-order-paused" />
+          <span>Orders temporarily paused (synced with admin)</span>
+        </label>
+        <label class="sim-check">
+          <input type="checkbox" id="sim-network-offline" />
+          <span>Network disconnected</span>
+        </label>
+      </div>
+      <div class="sim-row">
+        <label for="sim-payment-behavior" class="sim-select-label">Payment simulation result</label>
+        <select id="sim-payment-behavior" class="sim-select">
+          <option value="SUCCESS">Payment succeeds</option>
+          <option value="FAIL">Payment fails (limit exceeded·declined)</option>
+          <option value="UNCERTAIN">Checking payment result (slow response·duplicate payment prevention)</option>
+        </select>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 모바일 앱 컨테이너 (Fresh Route 콘셉트) -->
+  <div class="mobile-shell" id="app-shell">
+    <!-- 네트워크 오프라인 배너 -->
+    <div id="offline-banner" class="alert-banner alert-error" role="alert" hidden>
+      <svg class="status-svg-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+      </svg>
+      <div class="alert-banner-text">
+        <strong>Network connection lost.</strong>
+        <span>Your items are still saved. Check your connection and try again.</span>
+      </div>
+      <button type="button" id="retry-network-btn" class="btn-inline-retry">Reconnect</button>
+    </div>
+
+    <!-- 공통 상단 영역: 매장명, 화면 제목, 장바구니 -->
+    <header class="app-header">
+      <div class="header-left">
+        <button type="button" id="header-back-btn" class="icon-btn" aria-label="Go to previous screen" hidden>
+          <svg class="line-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          <span class="sr-only">Previous screen</span>
+        </button>
+        <div class="header-titles">
+          <span id="header-store-name" class="header-store-name">FreshSand Lekki Branch</span>
+          <h1 id="header-screen-title" class="header-screen-title">Start order</h1>
+        </div>
+      </div>
+      <div class="header-right">
+        <button type="button" id="header-order-status-btn" class="header-pill-btn" aria-label="Check order in progress" hidden>
+          <svg class="status-svg-icon-sm" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" fill="currentColor" />
+          </svg>
+          <span id="header-active-order-label">Order status</span>
+        </button>
+        <button type="button" id="header-cart-btn" class="header-cart-btn" aria-label="Open cart">
+          <svg class="line-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+            <path d="M3 6h18" />
+            <path d="M16 10a4 4 0 01-8 0" />
+          </svg>
+          <span class="cart-btn-text">Cart</span>
+          <span id="header-cart-count" class="cart-count-badge" aria-live="polite">0</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 실시간 알림 토스트 -->
+    <div id="live-toast" class="live-toast" role="status" aria-live="polite" hidden></div>
+
+    <!-- 본문 영역 (한 화면에 하나의 의사결정이 중심이 되도록 구성) -->
+    <main id="main-content" class="app-main" tabindex="-1"></main>
+
+    <!-- 공통 하단 고정 주문 바: 금액과 주 행동 버튼을 고정 -->
+    <footer id="app-footer" class="app-footer">
+      <div id="footer-reason-box" class="footer-reason" role="status" aria-live="polite" hidden>
+        <svg class="status-svg-icon-sm" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        <span id="footer-reason-text"></span>
+      </div>
+      <div class="footer-summary-row">
+        <div class="footer-price-info">
+          <span id="footer-price-label" class="footer-price-label">Current order amount</span>
+          <strong id="footer-price-value" class="footer-price-value">₦0</strong>
+        </div>
+        <div class="footer-actions" id="footer-actions">
+          <button type="button" id="footer-primary-btn" class="btn-primary btn-thumb">
+            Start order
+          </button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="../shared/menu-data.js"></script>
+  <script src="../shared/store.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

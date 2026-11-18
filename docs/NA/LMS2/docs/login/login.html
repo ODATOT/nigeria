@@ -2,6 +2,37 @@
 <html lang="ko">
 
 <head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
   <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
   <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
   <script id="auth-guard">
@@ -61,30 +92,30 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     :root {
-      --primary-color: #3b82f6;
+      --primary-color: #2B5CA6;
       /* Electric Blue */
-      --secondary-color: #06b6d4;
+      --secondary-color: #2B5CA6;
       /* Neon Cyan */
-      --bg-dark: #09090b;
+      --bg-dark: #F6F9F4;
       /* Deep Black */
-      --bg-charcoal: #111827;
+      --bg-charcoal: #F6F9F4;
       /* Secondary Background */
-      --bg-card: #1a1d24;
+      --bg-card: #F6F9F4;
       /* Surface/Card: Dark Gray */
-      --text-main: #ffffff;
+      --text-main: #243B35;
       /* Primary: White */
-      --text-muted: #e4e4e7;
+      --text-muted: #243B35;
       /* Secondary: Light Gray */
-      --text-desc: #9ca3af;
+      --text-desc: #4A605A;
       /* Description: Clean Gray */
-      --border-color: rgba(255, 255, 255, 0.08);
-      --accent-color: #06b6d4;
-      --accent-purple: #8b5cf6;
+      --border-color: rgba(36,59,53,0.08);
+      --accent-color: #2B5CA6;
+      --accent-purple: #5D4AA8;
       --card-radius: 18px;
-      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
-      --shadow-md: 0 8px 30px rgba(59, 130, 246, 0.12), 0 0 1px rgba(255, 255, 255, 0.2);
-      --glow-blue: 0 0 15px rgba(59, 130, 246, 0.35);
-      --glow-cyan: 0 0 15px rgba(6, 182, 212, 0.35);
+      --shadow-sm: 0 4px 20px rgba(36,59,53,0.14), 0 0 1px rgba(36,59,53,0.035);
+      --shadow-md: 0 8px 30px rgba(36,59,53,0.042), 0 0 1px rgba(36,59,53,0.07);
+      --glow-blue: 0 0 15px rgba(43,92,166,0.35);
+      --glow-cyan: 0 0 15px rgba(43,92,166,0.35);
     }
 
     * {
@@ -98,9 +129,9 @@
       color: var(--text-main);
       background: var(--bg-dark);
       background-image:
-        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
-        linear-gradient(to bottom, #09090b 0%, #111827 100%);
+        radial-gradient(circle at 10% 20%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%);
       background-attachment: fixed;
       min-height: 100vh;
       display: flex;
@@ -130,7 +161,7 @@
     .brand-logo {
       font-size: 1.5rem;
       font-weight: 800;
-      color: #ffffff;
+      color: #243B35;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
@@ -156,7 +187,7 @@
       font-size: 2.2rem;
       font-weight: 800;
       margin-bottom: 10px;
-      background: linear-gradient(135deg, #ffffff 40%, #93c5fd 100%);
+      background: linear-gradient(135deg, #243B35 40%, #2B5CA6 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -181,17 +212,17 @@
       align-items: center;
       gap: 10px;
       padding: 10px 22px;
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.16), rgba(59, 130, 246, 0.16));
-      border: 1px solid rgba(167, 139, 250, 0.4);
+      background: linear-gradient(135deg, rgba(93,74,168,0.176), rgba(43,92,166,0.176));
+      border: 1px solid rgba(93,74,168,0.4);
       border-radius: 999px;
-      color: #e9d5ff;
+      color: #243B35;
       font-size: 0.92rem;
       font-weight: 700;
       letter-spacing: -0.01em;
       cursor: pointer;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 4px 18px rgba(139, 92, 246, 0.18), inset 0 0 12px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 18px rgba(36,59,53,0.063), inset 0 0 12px rgba(36,59,53,0.017);
       transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
@@ -199,41 +230,41 @@
       width: 26px;
       height: 26px;
       border-radius: 50%;
-      background: rgba(167, 139, 250, 0.25);
+      background: rgba(93,74,168,0.275);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-size: 0.82rem;
-      color: #c4b5fd;
+      color: #2B5CA6;
       transition: all 0.2s ease;
     }
 
     .operator-login-btn .operator-arrow {
       font-size: 0.8rem;
-      color: #a78bfa;
+      color: #5D4AA8;
       transition: transform 0.2s ease, color 0.2s ease;
     }
 
     .operator-login-btn:hover {
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.32), rgba(59, 130, 246, 0.32));
-      border-color: rgba(192, 132, 252, 0.7);
-      color: #ffffff;
+      background: linear-gradient(135deg, rgba(93,74,168,0.352), rgba(43,92,166,0.352));
+      border-color: rgba(93,74,168,0.7);
+      color: #243B35;
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35), 0 0 16px rgba(139, 92, 246, 0.3);
+      box-shadow: 0 8px 24px rgba(36,59,53,0.122), 0 0 16px rgba(36,59,53,0.105);
     }
 
     .operator-login-btn:hover .operator-arrow {
       transform: translateX(4px);
-      color: #ffffff;
+      color: #243B35;
     }
 
     .operator-login-btn:hover .operator-icon {
-      background: rgba(167, 139, 250, 0.45);
-      color: #ffffff;
+      background: rgba(93,74,168,0.495);
+      color: #243B35;
     }
 
     .operator-login-btn:focus-visible {
-      outline: 2px solid #a78bfa;
+      outline: 2px solid rgba(93,74,168,0.55);
       outline-offset: 3px;
     }
 
@@ -246,13 +277,13 @@
 
     .search-input {
       width: 100%;
-      background: rgba(26, 29, 36, 0.7);
+      background: rgba(246,249,244,0.7);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--border-color);
       border-radius: 14px;
       padding: 15px 24px;
-      color: #ffffff;
+      color: #243B35;
       font-size: 0.95rem;
       outline: none;
       transition: all 0.25s ease;
@@ -261,8 +292,8 @@
 
     .search-input:focus {
       border-color: var(--secondary-color);
-      box-shadow: 0 0 16px rgba(6, 182, 212, 0.25);
-      background: rgba(26, 29, 36, 0.95);
+      box-shadow: 0 0 16px rgba(36,59,53,0.087);
+      background: rgba(246,249,244,0.95);
     }
 
     .search-input::placeholder {
@@ -281,7 +312,7 @@
 
     .profile-card {
       width: 100%;
-      background: rgba(26, 29, 36, 0.85);
+      background: rgba(246,249,244,0.85);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border-color);
@@ -302,9 +333,9 @@
 
     .profile-card:hover {
       transform: translateY(-6px);
-      background: rgba(32, 36, 46, 0.95);
-      box-shadow: var(--shadow-md), 0 0 20px rgba(6, 182, 212, 0.2);
-      border-color: rgba(6, 182, 212, 0.45);
+      background: rgba(246,249,244,0.95);
+      box-shadow: var(--shadow-md), 0 0 20px rgba(36,59,53,0.07);
+      border-color: rgba(43,92,166,0.45);
     }
 
     .profile-card:focus-visible {
@@ -348,20 +379,20 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.67);
+      border: 1px solid rgba(36,59,53,0.09);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 2.5rem;
       margin-bottom: 16px;
-      box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.05);
+      box-shadow: inset 0 0 12px rgba(36,59,53,0.017);
       transition: all 0.3s;
     }
 
     .profile-card:hover .avatar-wrapper {
       border-color: var(--secondary-color);
-      box-shadow: 0 0 16px rgba(6, 182, 212, 0.3);
+      box-shadow: 0 0 16px rgba(36,59,53,0.105);
       transform: scale(1.05);
     }
 
@@ -372,23 +403,23 @@
       color: var(--secondary-color);
       padding: 4px 12px;
       border-radius: 999px;
-      background: rgba(6, 182, 212, 0.12);
-      border: 1px solid rgba(6, 182, 212, 0.3);
+      background: rgba(43,92,166,0.132);
+      border: 1px solid rgba(43,92,166,0.3);
       margin-bottom: 14px;
       letter-spacing: 0.03em;
     }
 
-    .track-badge.team-1 { color: #22d3ee; background: rgba(6, 182, 212, 0.12); border-color: rgba(6, 182, 212, 0.3); }
-    .track-badge.team-2 { color: #60a5fa; background: rgba(59, 130, 246, 0.12); border-color: rgba(59, 130, 246, 0.3); }
-    .track-badge.team-3 { color: #c084fc; background: rgba(168, 85, 247, 0.12); border-color: rgba(168, 85, 247, 0.3); }
-    .track-badge.team-4 { color: #fbbf24; background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); }
-    .track-badge.team-5 { color: #34d399; background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); }
-    .track-badge.team-none { color: #94a3b8; background: rgba(148, 163, 184, 0.12); border-color: rgba(148, 163, 184, 0.25); }
+    .track-badge.team-1 { color: #2B5CA6; background: rgba(43,92,166,0.132); border-color: rgba(43,92,166,0.3); }
+    .track-badge.team-2 { color: #2B5CA6; background: rgba(43,92,166,0.132); border-color: rgba(43,92,166,0.3); }
+    .track-badge.team-3 { color: #5D4AA8; background: rgba(93,74,168,0.132); border-color: rgba(93,74,168,0.3); }
+    .track-badge.team-4 { color: #856000; background: rgba(133,96,0,0.132); border-color: rgba(133,96,0,0.3); }
+    .track-badge.team-5 { color: #27765B; background: rgba(39,118,91,0.132); border-color: rgba(39,118,91,0.3); }
+    .track-badge.team-none { color: #4A605A; background: rgba(238,244,236,0.12); border-color: rgba(36,59,53,0.225); }
 
     .founder-name {
       font-size: 1.25rem;
       font-weight: 800;
-      color: #ffffff;
+      color: #243B35;
       margin-bottom: 6px;
       letter-spacing: -0.01em;
     }
@@ -400,25 +431,25 @@
       gap: 6px;
       padding: 5px 12px;
       border-radius: 8px;
-      background: rgba(59, 130, 246, 0.12);
-      border: 1px solid rgba(59, 130, 246, 0.3);
+      background: rgba(43,92,166,0.132);
+      border: 1px solid rgba(43,92,166,0.3);
       margin-top: 4px;
       margin-bottom: 14px;
       transition: all 0.2s ease;
     }
 
     .student-id-badge .id-label {
-      color: #93c5fd;
+      color: #2B5CA6;
       font-weight: 700;
       font-size: 0.74rem;
       padding: 2px 6px;
-      background: rgba(59, 130, 246, 0.25);
+      background: rgba(43,92,166,0.275);
       border-radius: 4px;
       letter-spacing: 0.04em;
     }
 
     .student-id-badge .id-value {
-      color: #ffffff;
+      color: #243B35;
       font-weight: 700;
       font-size: 0.92rem;
       letter-spacing: 0.05em;
@@ -426,14 +457,14 @@
     }
 
     .profile-card:hover .student-id-badge {
-      background: rgba(6, 182, 212, 0.16);
-      border-color: rgba(6, 182, 212, 0.45);
-      box-shadow: 0 0 14px rgba(6, 182, 212, 0.25);
+      background: rgba(43,92,166,0.176);
+      border-color: rgba(43,92,166,0.45);
+      box-shadow: 0 0 14px rgba(36,59,53,0.087);
     }
 
     .profile-card:hover .student-id-badge .id-label {
-      background: rgba(6, 182, 212, 0.3);
-      color: #22d3ee;
+      background: rgba(43,92,166,0.33);
+      color: #2B5CA6;
     }
 
     /* Login Action Hint */
@@ -464,7 +495,7 @@
     .auth-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(9, 9, 11, 0.95);
+      background: rgba(246,249,244,0.95);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       z-index: 9999;
@@ -486,7 +517,7 @@
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      background: rgba(59, 130, 246, 0.05);
+      background: rgba(43,92,166,0.055);
       border: 2px dashed var(--primary-color);
       display: flex;
       align-items: center;
@@ -511,7 +542,7 @@
       0% {
         transform: scale(0.9);
         opacity: 0.6;
-        text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        text-shadow: 0 0 10px rgba(36,59,53,0.105);
       }
 
       100% {
@@ -524,7 +555,7 @@
     .auth-title {
       font-size: 1.5rem;
       font-weight: 800;
-      color: #ffffff;
+      color: #243B35;
       margin-bottom: 12px;
       letter-spacing: -0.02em;
     }
@@ -550,19 +581,19 @@
     }
 
     .cancel-btn:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-      color: #ffffff;
+      border-color: rgba(36,59,53,0.18);
+      color: #243B35;
     }
 
     /* Site Footer */
     .site-footer {
       margin-top: auto;
       width: 100%;
-      background: #09090b;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: #F6F9F4;
+      border-top: 1px solid rgba(36,59,53,0.08);
       padding: 36px 20px;
       text-align: center;
-      color: #a1a1aa;
+      color: #4A605A;
       font-size: 0.82rem;
       line-height: 1.8;
       position: relative;
@@ -587,7 +618,7 @@
         </button>
       </div>
       <div style="margin-top: 14px;">
-        <a href="../notice.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 999px; background: rgba(6, 182, 212, 0.12); border: 1px solid rgba(6, 182, 212, 0.35); color: #67e8f9; font-size: 0.86rem; font-weight: 600; text-decoration: none; transition: all 0.2s ease;">
+        <a href="../notice.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 999px; background: rgba(43,92,166,0.132); border: 1px solid rgba(43,92,166,0.35); color: #2B5CA6; font-size: 0.86rem; font-weight: 600; text-decoration: none; transition: all 0.2s ease;">
           <i class="fa-solid fa-camera"></i> <span>[공지] 로그인 프로필 사진 등록하기 (구글 폼)</span> <i class="fa-solid fa-chevron-right" style="font-size: 0.72rem;"></i>
         </a>
       </div>
@@ -614,7 +645,7 @@
     <button class="cancel-btn" onclick="cancelAuth()">인증 취소</button>
   </div>
 
-  <script src="login.js?v=20261022-operator-btn"></script>
+  <script src="login.js?v=20261118-final-roster"></script>
   <footer class="site-footer">
     <div style="max-width: 1200px; margin: 0 auto;">
       <div style="margin-bottom: 6px; word-break: keep-all;">
@@ -623,7 +654,7 @@
       <div style="margin-bottom: 10px; word-break: keep-all;">
         <span>연락처: (02)6240-0053</span> | <span>사업자등록번호: 132-86-35644</span> | <span>통신판매업신고번호: 제2024-서울강남-01134호</span> | <span>이메일: with@edunlab.kr</span>
       </div>
-      <div style="color: #71717a; font-size: 0.8rem; font-weight: 500;">
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
         Copyright ⓒ Eduniety Lab. All Rights Reserved.
       </div>
     </div>

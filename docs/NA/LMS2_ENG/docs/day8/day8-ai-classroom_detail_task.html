@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 8 User Management & UX Audit Tasks | ACE AI SW Startup Training</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary-color: #2B5CA6; /* Electric Blue */
+      --secondary-color: #2B5CA6; /* Neon Cyan */
+      --bg-dark: #F6F9F4; /* Primary Background: Deep Black */
+      --bg-charcoal: #F6F9F4; /* Secondary Background */
+      --bg-card: #F6F9F4; /* Surface/Card: Dark Gray */
+      --text-main: #243B35; /* Primary: White */
+      --text-muted: #243B35; /* Secondary: Light Gray */
+      --text-desc: #6B7F79; /* Description: Gray */
+      --border-color: rgba(36,59,53,0.08); /* Thin border with low opacity */
+      --accent-color: #2B5CA6; /* Neon Cyan */
+      --accent-purple: #5D4AA8; /* Purple highlight */
+      --card-radius: 18px;
+      --shadow-sm: 0 4px 20px rgba(36,59,53,0.14), 0 0 1px rgba(36,59,53,0.035);
+      --shadow-md: 0 8px 30px rgba(36,59,53,0.035), 0 0 1px rgba(36,59,53,0.07);
+      --glow-blue: 0 0 15px rgba(43,92,166,0.35);
+      --glow-cyan: 0 0 15px rgba(43,92,166,0.35);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-main);
+      line-height: 1.65;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, p, li, span, strong { word-break: keep-all; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section { padding: 60px 0; }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(36,59,53,0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(36,59,53,0.017);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .nav-container {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #243B35;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .logo::before {
+      content: "";
+      width: 8px;
+      height: 20px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      background: rgba(255,255,255,0.7);
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.85);
+      color: var(--secondary-color);
+      border-color: rgba(43,92,166,0.3);
+    }
+
+    .hero {
+      margin-top: 70px;
+      padding: 100px 0 70px;
+      background: radial-gradient(circle at 50% 50%, rgba(43,92,166,0.088), transparent 60%), #F6F9F4;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.61) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.61) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .hero-center {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(43,92,166,0.132);
+      border: 1px solid rgba(43,92,166,0.25);
+      font-size: 0.8rem;
+      color: #2B5CA6;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #243B35 40%, #2B5CA6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 750px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 24px;
+      border-radius: 12px;
+      background: #27765B;
+      color: #FFFFFF;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(36,59,53,0.105);
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(36,59,53,0.14);
+    }
+
+    .task-board {
+      background: #F6F9F4;
+      position: relative;
+    }
+
+    .task-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .task-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .task-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(43,92,166,0.3);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-thumb {
+      height: 160px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: rgba(36,59,53,0.9);
+      text-shadow: 0 2px 10px rgba(36,59,53,0.14);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .card-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex-grow: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-badge {
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: rgba(43,92,166,0.11);
+      color: #2B5CA6;
+      border: 1px solid rgba(43,92,166,0.2);
+    }
+
+    .card-badge.mission {
+      background: rgba(93,74,168,0.11);
+      color: #2B5CA6;
+      border: 1px solid rgba(93,74,168,0.2);
+    }
+
+    .card-step {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-desc);
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #243B35;
+      line-height: 1.4;
+    }
+
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .card-outcomes {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .outcomes-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    .outcome-list {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .outcome-item {
+      font-size: 0.8rem;
+      color: var(--text-desc);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .outcome-item::before {
+      content: "✓";
+      color: var(--secondary-color);
+      font-weight: bold;
+    }
+
+    .enter-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(36,59,53,0.08);
+      color: #243B35;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 12px;
+      text-decoration: none;
+    }
+
+    .enter-btn:hover {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(36,59,53,0.07);
+    }
+
+    @media (max-width: 1200px) {
+      .task-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.2rem; }
+      .task-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="logo">
+        ACE AI SW Startup Training
+      </a>
+      <ul class="nav-links">
+        <li><a href="day8-ai-classroom.html">← Back to main classroom</a></li>
+        <li><a href="../homework_week1.html" style="color: #5D4AA8 !important; font-weight: 700 !important; background: rgba(93,74,168,0.165); border: 1px solid rgba(93,74,168,0.3); padding: 6px 14px; border-radius: 8px;">📝 Homework</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-center">
+      <div class="hero-badge-wrap">
+        <span class="hero-badge">DAY 8</span>
+        <span class="hero-badge">Membership & Onboarding Experience</span>
+        <span class="hero-badge">Codex AI Lab</span>
+      </div>
+      <h1>Member Service Design & Usability Checks</h1>
+      <p>
+        Go beyond just coding sign-up/login: design the smoothest onboarding path for users, build solid security/consistency guards, and check user-centered quality with AI.
+      </p>
+      <a href="day8-ai-classroom.html" class="back-btn">← Go to Day 8 main classroom</a>
+    </div>
+  </section>
+
+  <!-- Task Board Section -->
+  <section class="task-board">
+    <div class="container">
+      <div class="task-grid">
+
+        <!-- Task 1 -->
+        <article class="task-card">
+          <div class="card-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(0deg);">TASK 1</div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span class="card-badge">Planning</span>
+              <span class="card-step">Task 01</span>
+            </div>
+            <h3 class="card-title">Design Member Features</h3>
+            <p class="card-desc">Work out the required member features (sign-up, login) and extras (social login, My Page) that fit your service's business, and write a priority spec table.</p>
+            <div class="card-outcomes">
+              <h4 class="outcomes-title">Expected output</h4>
+              <ul class="outcome-list">
+                <li class="outcome-item">Design doc based on <code>day8_service_intro.md</code></li>
+                <li class="outcome-item">Implementation priority checklist table</li>
+              </ul>
+            </div>
+            <a href="day8-ai-codex-1.html" class="enter-btn">Enter Task 1 lab →</a>
+          </div>
+        </article>
+
+        <!-- Task 2 -->
+        <article class="task-card">
+          <div class="card-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(90deg);">TASK 2</div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span class="card-badge">UX Flow</span>
+              <span class="card-step">Task 02</span>
+            </div>
+            <h3 class="card-title">Review Member Features from the User's View</h3>
+            <p class="card-desc">Find barriers that make users drop off at sign-up — too many fields, or the password resetting on errors — and plan improvements that split input over time.</p>
+            <div class="card-outcomes">
+              <h4 class="outcomes-title">Expected output</h4>
+              <ul class="outcome-list">
+                <li class="outcome-item">Analysis of <code>day8_signup_spec.md</code></li>
+                <li class="outcome-item">User flow report removing sign-up barriers</li>
+              </ul>
+            </div>
+            <a href="day8-ai-codex-2.html" class="enter-btn">Enter Task 2 lab →</a>
+          </div>
+        </article>
+
+        <!-- Task 3 -->
+        <article class="task-card">
+          <div class="card-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(180deg);">TASK 3</div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span class="card-badge">Integrity</span>
+              <span class="card-step">Task 03</span>
+            </div>
+            <h3 class="card-title">Check Member Features</h3>
+            <p class="card-desc">Strengthen consistency guard code that blocks broken integrity from duplicate email sign-ups, bad email formats and session security exceptions when changing passwords.</p>
+            <div class="card-outcomes">
+              <h4 class="outcomes-title">Expected output</h4>
+              <ul class="outcome-list">
+                <li class="outcome-item">Weakness audit of <code>day8_user_service.js</code></li>
+                <li class="outcome-item">JS source with duplicate guard/regex added</li>
+              </ul>
+            </div>
+            <a href="day8-ai-codex-3.html" class="enter-btn">Enter Task 3 lab →</a>
+          </div>
+        </article>
+
+        <!-- Skill Task 1 -->
+        <article class="task-card" style="border-color: rgba(43,92,166,0.3);">
+          <div class="card-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(45deg);">SKILL 1</div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span class="card-badge" style="background: rgba(43,92,166,0.165); color: #2B5CA6;">Skill Task</span>
+              <span class="card-step">Skill Task 1</span>
+            </div>
+            <h3 class="card-title">Role·Permission Matrix Design</h3>
+            <p class="card-desc">ADD-D08-T01: Define screen, API and data permissions for Viewer·Creator·Advertiser·Admin in a Matrix, and find excessive permissions and missing ownership checks.</p>
+            <div class="card-outcomes">
+              <h4 class="outcomes-title">Expected output</h4>
+              <ul class="outcome-list">
+                <li class="outcome-item"><code>10_SECURITY.md</code></li>
+                <li class="outcome-item">Authorization Matrix spec</li>
+              </ul>
+            </div>
+            <a href="day8-ai-codex-1.html" class="enter-btn">Enter lab →</a>
+          </div>
+        </article>
+
+        <!-- Skill Task 2 -->
+        <article class="task-card" style="border-color: rgba(43,92,166,0.3);">
+          <div class="card-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(135deg);">SKILL 2</div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span class="card-badge" style="background: rgba(43,92,166,0.165); color: #2B5CA6;">Skill Task</span>
+              <span class="card-step">Skill Task 2</span>
+            </div>
+            <h3 class="card-title">Authentication Flow</h3>
+            <p class="card-desc">ADD-D08-T02: Build Signup, Login, password handling, Token/JWT issuing, expiry and refresh, and the Front-End session flow.</p>
+            <div class="card-outcomes">
+              <h4 class="outcomes-title">Expected output</h4>
+              <ul class="outcome-list">
+                <li class="outcome-item"><code>auth-service-code.js</code></li>
+                <li class="outcome-item">JWT / Session Auth Flow source</li>
+              </ul>
+            </div>
+            <a href="day8-ai-codex-2.html" class="enter-btn">Enter lab →</a>
+          </div>
+        </article>
+
+        <!-- Skill Task 3 -->
+        <article class="task-card" style="border-color: rgba(43,92,166,0.3);">
+          <div class="card-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(225deg);">SKILL 3</div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span class="card-badge" style="background: rgba(43,92,166,0.165); color: #2B5CA6;">Skill Task</span>
+              <span class="card-step">Skill Task 3</span>
+            </div>
+            <h3 class="card-title">Authorization Negative Test &amp; Security Audit</h3>
+            <p class="card-desc">ADD-D08-T03: Try permission bypasses like editing others' data, accessing Admin APIs and forging Roles, and run a security audit.</p>
+            <div class="card-outcomes">
+              <h4 class="outcomes-title">Expected output</h4>
+              <ul class="outcome-list">
+                <li class="outcome-item"><code>security-audit-report.md</code></li>
+                <li class="outcome-item">Role Validation Fix patch</li>
+              </ul>
+            </div>
+            <a href="day8-ai-codex-3.html" class="enter-btn">Enter lab →</a>
+          </div>
+        </article>
+
+        <!-- Mission 1 -->
+        <article class="task-card" style="border-color: rgba(93,74,168,0.15);">
+          <div class="card-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(270deg);">MISSION 1</div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span class="card-badge mission">QA Review</span>
+              <span class="card-step">Mission 01</span>
+            </div>
+            <h3 class="card-title">Be a First-Time Sign-Up User</h3>
+            <p class="card-desc">Use a virtual persona from a digitally excluded group to collect points where they struggle to understand rules on the sign-up screen, and apply real-time validation.</p>
+            <div class="card-outcomes">
+              <h4 class="outcomes-title">Expected output</h4>
+              <ul class="outcome-list">
+                <li class="outcome-item"><code>day8_first_user_review.md</code></li>
+                <li class="outcome-item">Email blur async check request</li>
+              </ul>
+            </div>
+            <a href="day8-ai-codex-mission1.html" class="enter-btn">Enter Mission 1 lab →</a>
+          </div>
+        </article>
+
+        <!-- Mission 2 -->
+        <article class="task-card" style="border-color: rgba(93,74,168,0.15);">
+          <div class="card-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(320deg);">MISSION 2</div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span class="card-badge mission">Usability Metric</span>
+              <span class="card-step">Mission 02</span>
+            </div>
+            <h3 class="card-title">Evaluate Member Service Quality</h3>
+            <p class="card-desc">Get your final member logic scored on several dimensions like ease of use, error prevention and security, and patch the detailed login failure message weakness.</p>
+            <div class="card-outcomes">
+              <h4 class="outcomes-title">Expected output</h4>
+              <ul class="outcome-list">
+                <li class="outcome-item"><code>day8_usability_evaluation.md</code></li>
+                <li class="outcome-item">Unified, secure failure message code</li>
+              </ul>
+            </div>
+            <a href="day8-ai-codex-mission2.html" class="enter-btn">Enter Mission 2 lab →</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer" style="background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08); padding: 32px 20px; text-align: center; color: #4A605A; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company: Edunity Lab Co., Ltd.</span> | <span>CEO: Lee Gi-taek</span> | <span>Address: 2F Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul, Korea</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Phone: +82-2-6240-0053</span> | <span>Business Registration No.: 132-86-35644</span> | <span>Mail-Order Business Reg. No.: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+  <script src="../shared/curriculum-content.js"></script>
+  <script src="../shared/curriculum-cards.js"></script>
+</body>
+</html>

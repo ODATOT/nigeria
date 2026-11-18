@@ -2,6 +2,37 @@
 <html lang="ko">
 
 <head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
   <!-- <script id="thankyou-redirect">window.location.replace("thankyou.html");</script>
   <meta http-equiv="refresh" content="0; url=thankyou.html" /> -->
   <script id="auth-guard">
@@ -62,33 +93,33 @@
   <link rel="stylesheet" href="shared/notice-modal.css?v=20261027_02" />
   <style>
     :root {
-      --primary-color: #3b82f6;
+      --primary-color: #2B5CA6;
       /* Electric Blue */
-      --secondary-color: #06b6d4;
+      --secondary-color: #2B5CA6;
       /* Neon Cyan */
-      --bg-dark: #09090b;
+      --bg-dark: #F6F9F4;
       /* Primary Background: Deep Black */
-      --bg-charcoal: #111827;
+      --bg-charcoal: #F6F9F4;
       /* Secondary Background */
-      --bg-card: #1a1d24;
+      --bg-card: #F6F9F4;
       /* Surface/Card: Dark Gray */
-      --text-main: #ffffff;
+      --text-main: #243B35;
       /* Primary: White */
-      --text-muted: #e4e4e7;
+      --text-muted: #243B35;
       /* Secondary: Light Gray */
-      --text-desc: #71717a;
+      --text-desc: #6B7F79;
       /* Description: Gray */
-      --border-color: rgba(255, 255, 255, 0.08);
+      --border-color: rgba(36,59,53,0.08);
       /* Thin border with low opacity */
-      --accent-color: #06b6d4;
+      --accent-color: #2B5CA6;
       /* Neon Cyan */
-      --accent-purple: #8b5cf6;
+      --accent-purple: #5D4AA8;
       /* Purple highlight */
       --card-radius: 18px;
-      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
-      --shadow-md: 0 8px 30px rgba(59, 130, 246, 0.1), 0 0 1px rgba(255, 255, 255, 0.2);
-      --glow-blue: 0 0 15px rgba(59, 130, 246, 0.35);
-      --glow-cyan: 0 0 15px rgba(6, 182, 212, 0.35);
+      --shadow-sm: 0 4px 20px rgba(36,59,53,0.14), 0 0 1px rgba(36,59,53,0.035);
+      --shadow-md: 0 8px 30px rgba(36,59,53,0.035), 0 0 1px rgba(36,59,53,0.07);
+      --glow-blue: 0 0 15px rgba(43,92,166,0.35);
+      --glow-cyan: 0 0 15px rgba(43,92,166,0.35);
     }
 
     * {
@@ -108,9 +139,9 @@
       line-height: 1.65;
       background: var(--bg-dark);
       background-image:
-        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
-        linear-gradient(to bottom, #09090b 0%, #111827 100%);
+        radial-gradient(circle at 10% 20%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%);
       background-attachment: fixed;
     }
 
@@ -144,11 +175,11 @@
       top: 0;
       width: 100%;
       z-index: 1000;
-      background: rgba(9, 9, 11, 0.7);
+      background: rgba(36,59,53,0.08);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 1px 0 rgba(36,59,53,0.017);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
     }
 
     .nav-container {
@@ -161,7 +192,7 @@
     .logo {
       font-size: 1.25rem;
       font-weight: 800;
-      color: #ffffff;
+      color: #243B35;
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -199,18 +230,18 @@
     .hero {
       margin-top: 96px;
       padding: 120px 0 90px;
-      background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1), transparent 60%), #09090b;
+      background: radial-gradient(circle at 50% 50%, rgba(43,92,166,0.11), transparent 60%), #F6F9F4;
       position: relative;
       overflow: hidden;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
     }
 
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-image: linear-gradient(rgba(255,255,255,0.61) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.61) 1px, transparent 1px);
       background-size: 40px 40px;
       pointer-events: none;
     }
@@ -241,7 +272,7 @@
       line-height: 1.2;
       margin-bottom: 18px;
       font-weight: 800;
-      background: linear-gradient(135deg, #ffffff 30%, #93c5fd 100%);
+      background: linear-gradient(135deg, #243B35 30%, #2B5CA6 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -261,11 +292,11 @@
     }
 
     .hero-box {
-      background: rgba(26, 29, 36, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(246,249,244,0.6);
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: 24px;
       padding: 28px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 20px 40px rgba(36,59,53,0.14);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
@@ -274,7 +305,7 @@
       font-size: 1.1rem;
       margin-bottom: 16px;
       font-weight: 700;
-      color: #93c5fd;
+      color: #2B5CA6;
     }
 
     .hero-badges {
@@ -288,17 +319,17 @@
       align-items: center;
       padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(36,59,53,0.08);
       font-size: 0.92rem;
-      color: white;
+      color: #243B35;
       font-weight: 600;
       transition: all 0.2s ease;
     }
 
     .hero-badge:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255,255,255,0.92);
+      border-color: rgba(36,59,53,0.27);
       transform: translateY(-2px);
     }
 
@@ -314,33 +345,33 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #2563eb, #06b6d4);
-      color: white;
-      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+      background: #27765B;
+      color: #FFFFFF;
+      box-shadow: 0 4px 20px rgba(36,59,53,0.14);
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(59, 130, 246, 0.6), 0 0 15px rgba(6, 182, 212, 0.4);
+      box-shadow: 0 6px 24px rgba(36,59,53,0.14), 0 0 15px rgba(36,59,53,0.14);
     }
 
     .btn-outline {
-      border: 1.5px solid rgba(255, 255, 255, 0.15);
-      color: white;
-      background: rgba(255, 255, 255, 0.03);
+      border: 1.5px solid rgba(36,59,53,0.135);
+      color: #243B35;
+      background: rgba(255,255,255,0.64);
       backdrop-filter: blur(4px);
     }
 
     .btn-outline:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.4);
+      background: rgba(255,255,255,0.79);
+      border-color: rgba(36,59,53,0.36);
       transform: translateY(-2px);
     }
 
     .section-title {
       text-align: center;
       font-size: 2.2rem;
-      color: #ffffff;
+      color: #243B35;
       font-weight: 800;
       margin-bottom: 18px;
     }
@@ -370,10 +401,10 @@
     }
 
     .overview-card {
-      background: rgba(26, 29, 36, 0.8);
+      background: rgba(246,249,244,0.8);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: var(--card-radius);
       padding: 26px 20px;
       text-align: center;
@@ -383,8 +414,8 @@
 
     .overview-card:hover {
       transform: translateY(-4px);
-      box-shadow: var(--shadow-md), 0 0 15px rgba(6, 182, 212, 0.15);
-      border-color: rgba(6, 182, 212, 0.3);
+      box-shadow: var(--shadow-md), 0 0 15px rgba(36,59,53,0.052);
+      border-color: rgba(43,92,166,0.3);
     }
 
     .overview-card .value {
@@ -408,10 +439,10 @@
     }
 
     .course-card {
-      background: rgba(26, 29, 36, 0.85);
+      background: rgba(246,249,244,0.85);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: var(--card-radius);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
@@ -425,8 +456,8 @@
 
     .course-card:hover {
       transform: translateY(-6px);
-      box-shadow: var(--shadow-md), 0 0 20px rgba(59, 130, 246, 0.15);
-      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: var(--shadow-md), 0 0 20px rgba(36,59,53,0.052);
+      border-color: rgba(43,92,166,0.3);
     }
 
     .course-card.is-clickable {
@@ -439,21 +470,21 @@
       position: absolute;
       top: 16px;
       right: 16px;
-      background: rgba(17, 24, 39, 0.8);
+      background: rgba(246,249,244,0.8);
       backdrop-filter: blur(4px);
       color: var(--secondary-color);
       font-size: 0.78rem;
       font-weight: 800;
       padding: 7px 12px;
       border-radius: 999px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 12px rgba(36,59,53,0.07);
+      border: 1px solid rgba(36,59,53,0.09);
       transition: all 0.2s ease;
     }
 
     .course-card.is-clickable:hover::after {
       background: var(--primary-color);
-      color: white;
+      color: #FFFFFF;
       transform: scale(1.05);
       box-shadow: var(--glow-blue);
     }
@@ -468,21 +499,21 @@
 
     .course-thumb {
       height: 220px;
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(6, 182, 212, 0.05));
+      background: linear-gradient(135deg, rgba(43,92,166,0.165), rgba(43,92,166,0.055));
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #ffffff;
+      color: #243B35;
       font-size: 1.4rem;
       font-weight: 800;
       letter-spacing: 0.5px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+      text-shadow: 0 0 10px rgba(36,59,53,0.14);
     }
 
     .course-thumb.placeholder {
-      background: linear-gradient(135deg, rgba(26, 29, 36, 0.4), rgba(26, 29, 36, 0.8));
-      color: #71717a;
+      background: linear-gradient(135deg, rgba(246,249,244,0.4), rgba(246,249,244,0.8));
+      color: #6B7F79;
       text-shadow: none;
     }
 
@@ -510,16 +541,16 @@
       border-radius: 999px;
       font-size: 0.82rem;
       font-weight: 700;
-      background: rgba(6, 182, 212, 0.1);
+      background: rgba(43,92,166,0.11);
       color: var(--secondary-color);
-      border: 1px solid rgba(6, 182, 212, 0.15);
+      border: 1px solid rgba(43,92,166,0.15);
     }
 
     .course-title {
       font-size: 1.22rem;
       line-height: 1.35;
       font-weight: 800;
-      color: #ffffff;
+      color: #243B35;
       transition: color 0.2s ease;
     }
 
@@ -538,12 +569,12 @@
       margin: 0 auto 40px;
       padding: 10px 14px;
       max-width: 1040px;
-      background: rgba(17, 24, 39, 0.78);
+      background: rgba(246,249,244,0.78);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(36,59,53,0.09);
       border-radius: 18px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 12px 32px rgba(36,59,53,0.122);
       position: sticky;
       top: 78px;
       z-index: 40;
@@ -555,9 +586,9 @@
       gap: 8px;
       padding: 10px 16px;
       border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(255, 255, 255, 0.03);
-      color: #cbd5e1;
+      border: 1px solid rgba(36,59,53,0.08);
+      background: rgba(255,255,255,0.64);
+      color: #4A605A;
       font-family: inherit;
       font-size: 0.9rem;
       font-weight: 700;
@@ -567,17 +598,17 @@
     }
 
     .curriculum-filter-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffffff;
-      border-color: rgba(56, 189, 248, 0.35);
+      background: rgba(255,255,255,0.79);
+      color: #243B35;
+      border-color: rgba(43,92,166,0.35);
       transform: translateY(-1px);
     }
 
     .curriculum-filter-btn.active {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(6, 182, 212, 0.85));
-      color: #ffffff;
-      border-color: rgba(56, 189, 248, 0.6);
-      box-shadow: 0 6px 18px rgba(6, 182, 212, 0.28);
+      background: #D7EEDD;
+      color: #243B35;
+      border-color: rgba(43,92,166,0.6);
+      box-shadow: 0 6px 18px rgba(36,59,53,0.098);
     }
 
     .curriculum-filter-btn .filter-count {
@@ -588,15 +619,15 @@
       height: 20px;
       padding: 0 6px;
       border-radius: 999px;
-      background: rgba(9, 9, 11, 0.45);
-      color: #e2e8f0;
+      background: rgba(36,59,53,0.08);
+      color: #243B35;
       font-size: 0.76rem;
       font-weight: 800;
     }
 
     .curriculum-filter-btn.active .filter-count {
-      background: rgba(255, 255, 255, 0.22);
-      color: #ffffff;
+      background: rgba(255,255,255,0.22);
+      color: #243B35;
     }
 
     .curriculum-zones-wrapper {
@@ -606,32 +637,32 @@
     }
 
     .curriculum-zone {
-      background: rgba(17, 20, 28, 0.55);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(246,249,244,0.55);
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: 26px;
       padding: 32px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 16px 40px rgba(36,59,53,0.087);
       transition: opacity 0.25s ease, transform 0.25s ease;
     }
 
     .curriculum-zone.zone-pbl {
-      background: linear-gradient(180deg, rgba(16, 185, 129, 0.07) 0%, rgba(17, 20, 28, 0.65) 100%);
-      border-color: rgba(16, 185, 129, 0.25);
+      background: linear-gradient(180deg, rgba(39,118,91,0.077) 0%, rgba(246,249,244,0.65) 100%);
+      border-color: rgba(39,118,91,0.25);
     }
 
     .curriculum-zone.zone-module1 {
-      background: linear-gradient(180deg, rgba(59, 130, 246, 0.07) 0%, rgba(17, 20, 28, 0.65) 100%);
-      border-color: rgba(59, 130, 246, 0.22);
+      background: linear-gradient(180deg, rgba(43,92,166,0.077) 0%, rgba(246,249,244,0.65) 100%);
+      border-color: rgba(43,92,166,0.22);
     }
 
     .curriculum-zone.zone-module2 {
-      background: linear-gradient(180deg, rgba(139, 92, 246, 0.07) 0%, rgba(17, 20, 28, 0.65) 100%);
-      border-color: rgba(139, 92, 246, 0.22);
+      background: linear-gradient(180deg, rgba(93,74,168,0.077) 0%, rgba(246,249,244,0.65) 100%);
+      border-color: rgba(93,74,168,0.22);
     }
 
     .curriculum-zone.zone-support {
-      background: linear-gradient(180deg, rgba(6, 182, 212, 0.06) 0%, rgba(17, 20, 28, 0.65) 100%);
-      border-color: rgba(6, 182, 212, 0.2);
+      background: linear-gradient(180deg, rgba(43,92,166,0.066) 0%, rgba(246,249,244,0.65) 100%);
+      border-color: rgba(43,92,166,0.2);
     }
 
     .curriculum-zone.is-hidden {
@@ -646,7 +677,7 @@
       gap: 16px;
       margin-bottom: 26px;
       padding-bottom: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
     }
 
     .zone-title-group {
@@ -669,33 +700,33 @@
     }
 
     .zone-pbl .zone-badge {
-      background: rgba(16, 185, 129, 0.16);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.35);
+      background: rgba(39,118,91,0.176);
+      color: #27765B;
+      border: 1px solid rgba(39,118,91,0.35);
     }
 
     .zone-module1 .zone-badge {
-      background: rgba(59, 130, 246, 0.16);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.35);
+      background: rgba(43,92,166,0.176);
+      color: #2B5CA6;
+      border: 1px solid rgba(43,92,166,0.35);
     }
 
     .zone-module2 .zone-badge {
-      background: rgba(168, 85, 247, 0.16);
-      color: #c084fc;
-      border: 1px solid rgba(168, 85, 247, 0.35);
+      background: rgba(93,74,168,0.176);
+      color: #5D4AA8;
+      border: 1px solid rgba(93,74,168,0.35);
     }
 
     .zone-support .zone-badge {
-      background: rgba(6, 182, 212, 0.16);
-      color: #22d3ee;
-      border: 1px solid rgba(6, 182, 212, 0.35);
+      background: rgba(43,92,166,0.176);
+      color: #2B5CA6;
+      border: 1px solid rgba(43,92,166,0.35);
     }
 
     .zone-title {
       font-size: 1.5rem;
       font-weight: 800;
-      color: #ffffff;
+      color: #243B35;
       line-height: 1.3;
     }
 
@@ -721,18 +752,18 @@
       font-size: 0.85rem;
       font-weight: 700;
       text-decoration: none;
-      color: #f8fafc;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #243B35;
+      background: rgba(255,255,255,0.73);
+      border: 1px solid rgba(36,59,53,0.126);
       transition: all 0.2s ease;
     }
 
     .zone-shortcut-btn:hover {
       transform: translateY(-2px);
-      background: rgba(59, 130, 246, 0.2);
-      border-color: rgba(56, 189, 248, 0.5);
-      color: #ffffff;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      background: rgba(43,92,166,0.22);
+      border-color: rgba(43,92,166,0.5);
+      color: #243B35;
+      box-shadow: 0 6px 16px rgba(36,59,53,0.087);
     }
 
     /* Full-width Featured Banner Card in Zone 1 (Project Day) */
@@ -747,19 +778,19 @@
       height: 100%;
       min-height: 220px;
       border-bottom: none;
-      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      border-right: 1px solid rgba(36,59,53,0.08);
     }
 
     /* Module Homework Hub Card (6th slot in 2x3 Module grids) */
     .course-card.module-hub-card {
-      background: linear-gradient(145deg, rgba(17, 24, 39, 0.92), rgba(30, 41, 59, 0.78));
-      border: 1px dashed rgba(56, 189, 248, 0.35);
+      background: linear-gradient(145deg, rgba(246,249,244,0.92), rgba(255,255,255,0.78));
+      border: 1px dashed rgba(43,92,166,0.35);
       justify-content: space-between;
     }
 
     .course-card.module-hub-card:hover {
       border-style: solid;
-      border-color: rgba(56, 189, 248, 0.65);
+      border-color: rgba(43,92,166,0.65);
     }
 
     .hub-links-stack {
@@ -775,9 +806,9 @@
       justify-content: space-between;
       padding: 12px 16px;
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #f8fafc;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(36,59,53,0.09);
+      color: #243B35;
       text-decoration: none;
       font-weight: 700;
       font-size: 0.92rem;
@@ -785,8 +816,8 @@
     }
 
     .hub-action-link:hover {
-      background: rgba(59, 130, 246, 0.18);
-      border-color: rgba(56, 189, 248, 0.5);
+      background: rgba(43,92,166,0.198);
+      border-color: rgba(43,92,166,0.5);
       transform: translateX(4px);
     }
 
@@ -836,9 +867,9 @@
       grid-column: 1 / -1;
       padding: 32px;
       background:
-        radial-gradient(circle at top right, rgba(6, 182, 212, 0.14), transparent 34%),
-        rgba(26, 29, 36, 0.9);
-      border: 1px solid rgba(6, 182, 212, 0.22);
+        radial-gradient(circle at top right, rgba(43,92,166,0.154), transparent 34%),
+        rgba(246,249,244,0.9);
+      border: 1px solid rgba(43,92,166,0.22);
       border-radius: var(--card-radius);
       box-shadow: var(--shadow-sm);
     }
@@ -875,8 +906,8 @@
       padding: 14px;
       color: var(--text-main);
       text-decoration: none;
-      background: rgba(9, 9, 11, 0.58);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(36,59,53,0.08);
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: 16px;
       transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
@@ -884,7 +915,7 @@
     .qr-resource-item:hover,
     .qr-resource-item:focus-visible {
       transform: translateY(-4px);
-      border-color: rgba(6, 182, 212, 0.48);
+      border-color: rgba(43,92,166,0.48);
       box-shadow: var(--glow-cyan);
       outline: none;
     }
@@ -896,7 +927,7 @@
       aspect-ratio: 1;
       padding: 10px;
       overflow: hidden;
-      background: #ffffff;
+      background: #FFFFFF;
       border-radius: 12px;
     }
 
@@ -938,9 +969,9 @@
     }
 
     .meta-item {
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255,255,255,0.64);
       border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(36,59,53,0.08);
       padding: 12px 14px;
       font-size: 0.93rem;
       color: var(--text-muted);
@@ -959,7 +990,7 @@
     }
 
     .time-row {
-      border-left: 3px solid rgba(6, 182, 212, 0.4);
+      border-left: 3px solid rgba(43,92,166,0.4);
       padding-left: 12px;
       font-size: 0.94rem;
       color: var(--text-muted);
@@ -980,36 +1011,36 @@
     .tag {
       padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.7);
       color: var(--text-muted);
       font-size: 0.8rem;
       font-weight: 600;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(36,59,53,0.08);
       transition: all 0.2s ease;
     }
 
     .tag:hover {
-      background: rgba(59, 130, 246, 0.15);
-      color: #ffffff;
-      border-color: rgba(59, 130, 246, 0.3);
+      background: rgba(43,92,166,0.165);
+      color: #243B35;
+      border-color: rgba(43,92,166,0.3);
     }
 
     .placeholder-note {
       margin-top: auto;
       padding: 14px;
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(255,255,255,0.61);
       color: var(--text-desc);
       font-size: 0.92rem;
-      border: 1px dashed rgba(255, 255, 255, 0.1);
+      border: 1px dashed rgba(36,59,53,0.09);
     }
 
     .footer-cta {
-      background: #09090b;
-      color: white;
+      background: #F6F9F4;
+      color: #243B35;
       text-align: center;
       padding: 70px 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-top: 1px solid rgba(36,59,53,0.08);
     }
 
     .footer-cta h3 {
@@ -1028,7 +1059,7 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(9, 9, 11, 0.85);
+      background: rgba(36,59,53,0.08);
       backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
@@ -1050,10 +1081,10 @@
       max-width: 1100px;
       max-height: 90vh;
       overflow: auto;
-      background: #111827;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #F6F9F4;
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: 24px;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 30px 80px rgba(36,59,53,0.14);
       transform: translateY(24px) scale(0.98);
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
@@ -1071,24 +1102,24 @@
       height: 44px;
       border-radius: 999px;
       border: none;
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      background: rgba(255,255,255,0.79);
+      box-shadow: 0 8px 20px rgba(36,59,53,0.105);
       cursor: pointer;
       font-size: 1.4rem;
-      color: #ffffff;
+      color: #243B35;
       z-index: 4;
       transition: all 0.2s ease;
     }
 
     .modal-close:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255,255,255,0.92);
       transform: rotate(90deg);
     }
 
     .modal-hero {
-      background: linear-gradient(135deg, #09090b, #111827);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      color: white;
+      background: linear-gradient(135deg, #F6F9F4, #F6F9F4);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+      color: #243B35;
       padding: 42px 36px 32px;
       border-radius: 24px 24px 0 0;
     }
@@ -1096,8 +1127,8 @@
     .modal-day {
       display: inline-flex;
       padding: 8px 12px;
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.2);
+      background: rgba(43,92,166,0.11);
+      border: 1px solid rgba(43,92,166,0.2);
       border-radius: 999px;
       font-size: 0.84rem;
       font-weight: 700;
@@ -1148,8 +1179,8 @@
     }
 
     .info-panel {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,0.61);
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: 18px;
       padding: 20px;
       margin-bottom: 18px;
@@ -1169,8 +1200,8 @@
     }
 
     .info-list li {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.61);
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: 12px;
       padding: 12px 14px;
       font-size: 0.94rem;
@@ -1188,17 +1219,17 @@
     }
 
     .session-card {
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: 16px;
       padding: 16px 18px;
-      background: rgba(255, 255, 255, 0.01);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background: rgba(255,255,255,0.58);
+      box-shadow: 0 4px 12px rgba(36,59,53,0.035);
       transition: all 0.2s ease;
     }
 
     .session-card:hover {
-      border-color: rgba(59, 130, 246, 0.2);
-      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(43,92,166,0.2);
+      background: rgba(255,255,255,0.64);
     }
 
     .session-time {
@@ -1206,7 +1237,7 @@
       font-size: 0.82rem;
       font-weight: 800;
       color: var(--secondary-color);
-      background: rgba(6, 182, 212, 0.1);
+      background: rgba(43,92,166,0.11);
       border-radius: 999px;
       padding: 6px 10px;
       margin-bottom: 10px;
@@ -1215,11 +1246,11 @@
     .session-card h5 {
       font-size: 1rem;
       margin-bottom: 8px;
-      color: #ffffff;
+      color: #243B35;
     }
 
     .session-card p {
-      color: #a1a1aa;
+      color: #4A605A;
       font-size: 0.95rem;
     }
 
@@ -1239,13 +1270,13 @@
     }
 
     .outcome-tag {
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255,255,255,0.67);
       color: var(--secondary-color);
       font-size: 0.88rem;
       font-weight: 700;
       padding: 10px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(36,59,53,0.08);
     }
 
     @media (max-width: 1024px) {
@@ -1268,7 +1299,7 @@
       .course-card.pbl-wide-card .course-thumb {
         height: 220px;
         border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid rgba(36,59,53,0.08);
       }
     }
 
@@ -1349,19 +1380,19 @@
       justify-content: center;
       padding: 12px 18px;
       border-radius: 12px;
-      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-      color: #ffffff;
+      background: #27765B;
+      color: #FFFFFF;
       text-decoration: none;
       font-weight: 700;
       font-size: 0.95rem;
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      box-shadow: 0 4px 15px rgba(36,59,53,0.105);
       transition: all 0.3s ease;
     }
 
     .ai-class-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5), 0 0 10px rgba(6, 182, 212, 0.3);
-      background: linear-gradient(135deg, #2563eb, #0891b2);
+      box-shadow: 0 6px 20px rgba(36,59,53,0.14), 0 0 10px rgba(36,59,53,0.105);
+      background: linear-gradient(135deg, #D2E0FB, #D2E0FB);
     }
 
     /* Notice Hero Banner */
@@ -1371,19 +1402,19 @@
       justify-content: space-between;
       gap: 16px;
       padding: 14px 22px;
-      background: linear-gradient(90deg, rgba(239, 68, 68, 0.2), rgba(59, 130, 246, 0.22), rgba(16, 185, 129, 0.18));
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: linear-gradient(90deg, rgba(168,58,69,0.22), rgba(43,92,166,0.242), rgba(39,118,91,0.198));
+      border: 1px solid rgba(43,92,166,0.35);
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.25s ease;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 4px 20px rgba(36,59,53,0.122);
       backdrop-filter: blur(10px);
     }
     .notice-hero-banner:hover {
       transform: translateY(-2px);
-      border-color: #38bdf8;
-      box-shadow: 0 8px 30px rgba(56, 189, 248, 0.25);
-      background: linear-gradient(90deg, rgba(239, 68, 68, 0.3), rgba(59, 130, 246, 0.32), rgba(16, 185, 129, 0.25));
+      border-color: rgba(43,92,166,0.55);
+      box-shadow: 0 8px 30px rgba(36,59,53,0.087);
+      background: linear-gradient(90deg, rgba(168,58,69,0.33), rgba(43,92,166,0.352), rgba(39,118,91,0.275));
     }
     .notice-hero-left {
       display: flex;
@@ -1395,19 +1426,19 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #ef4444;
-      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+      background: #F6D5CF;
+      box-shadow: 0 0 0 0 rgba(36,59,53,0.14);
       animation: heroPulse 1.8s infinite;
       flex-shrink: 0;
     }
     @keyframes heroPulse {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-      70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(36,59,53,0.14); }
+      70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(36,59,53,0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(36,59,53,0); }
     }
     .notice-hero-tag {
-      background: #ef4444;
-      color: #ffffff;
+      background: #F6D5CF;
+      color: #243B35;
       font-size: 0.75rem;
       font-weight: 800;
       padding: 3px 9px;
@@ -1416,14 +1447,14 @@
       flex-shrink: 0;
     }
     .notice-hero-text {
-      color: #f8fafc;
+      color: #243B35;
       font-size: 0.96rem;
     }
     .notice-hero-right {
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #38bdf8;
+      color: #2B5CA6;
       font-size: 0.88rem;
       font-weight: 700;
       white-space: nowrap;
@@ -1480,13 +1511,13 @@
 
   <section class="hero">
     <div class="container" style="margin-bottom: 28px; display: flex; flex-direction: column; gap: 10px;">
-      <a href="notice.html" class="notice-hero-banner" style="text-decoration: none; border-color: rgba(6, 182, 212, 0.45); background: linear-gradient(90deg, rgba(6, 182, 212, 0.18), rgba(15, 23, 42, 0.92));" title="[공지] 로그인 페이지 프로필 사진 등록 안내 확인하기">
+      <a href="notice.html" class="notice-hero-banner" style="text-decoration: none; border-color: rgba(43,92,166,0.45); background: linear-gradient(90deg, rgba(43,92,166,0.198), rgba(246,249,244,0.92));" title="[공지] 로그인 페이지 프로필 사진 등록 안내 확인하기">
         <div class="notice-hero-left">
-          <span class="notice-hero-pulse" style="background: #06b6d4; box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7);"></span>
-          <span class="notice-hero-tag" style="background: #06b6d4; color: #fff;">📢 중요 공지</span>
-          <span class="notice-hero-text"><strong style="color: #67e8f9;">[공지] 로그인 페이지 프로필 사진 등록 안내</strong> (구글 폼 접수 및 QR 코드 등록)</span>
+          <span class="notice-hero-pulse" style="background: #D2E0FB; box-shadow: 0 0 0 0 rgba(36,59,53,0.14);"></span>
+          <span class="notice-hero-tag" style="background: #D2E0FB; color: #243B35;">📢 중요 공지</span>
+          <span class="notice-hero-text"><strong style="color: #2B5CA6;">[공지] 로그인 페이지 프로필 사진 등록 안내</strong> (구글 폼 접수 및 QR 코드 등록)</span>
         </div>
-        <div class="notice-hero-right" style="color: #67e8f9;">
+        <div class="notice-hero-right" style="color: #2B5CA6;">
           <span>공지사항 확인</span>
           <i class="fa-solid fa-arrow-right"></i>
         </div>
@@ -1589,10 +1620,10 @@
               <p class="zone-subtitle">서비스 성장 역설계, 문서 주도 개발, Django 레이어드 아키텍처, gstack 기반 기획·개발·QA 자동화까지 완주하는 핵심 프로젝트 트랙입니다.</p>
             </div>
             <div class="zone-actions">
-              <a href="real-benchmarking/index.html" class="zone-shortcut-btn" style="border-color: rgba(16, 185, 129, 0.4); color: #6ee7b7;">🚀 Real Project 1 바로가기</a>
-              <a href="real-doc-driven-pbl/index.html" class="zone-shortcut-btn" style="border-color: rgba(6, 182, 212, 0.4); color: #67e8f9;">🚀 Real Project 2 바로가기</a>
-              <a href="real-django-layered/index.html" class="zone-shortcut-btn" style="border-color: rgba(52, 211, 153, 0.5); color: #a7f3d0;">🏗️ Real Project 3 바로가기</a>
-              <a href="real-project-gstack/index.html" class="zone-shortcut-btn" style="border-color: rgba(96, 165, 250, 0.5); color: #bfdbfe;">⚡ gstack 강의 바로가기</a>
+              <a href="real-benchmarking/index.html" class="zone-shortcut-btn" style="border-color: rgba(39,118,91,0.4); color: #27765B;">🚀 Real Project 1 바로가기</a>
+              <a href="real-doc-driven-pbl/index.html" class="zone-shortcut-btn" style="border-color: rgba(43,92,166,0.4); color: #2B5CA6;">🚀 Real Project 2 바로가기</a>
+              <a href="real-django-layered/index.html" class="zone-shortcut-btn" style="border-color: rgba(39,118,91,0.5); color: #27765B;">🏗️ Real Project 3 바로가기</a>
+              <a href="real-project-gstack/index.html" class="zone-shortcut-btn" style="border-color: rgba(43,92,166,0.5); color: #2B5CA6;">⚡ gstack 강의 바로가기</a>
             </div>
           </div>
 
@@ -1601,17 +1632,17 @@
         <a class="course-card is-clickable" href="real-benchmarking/index.html"
           aria-label="리얼 벤치마킹 PBL 프로젝트 워크스페이스 열기" style="text-decoration: none; color: inherit;">
           <div class="course-thumb"
-            style="background-image: linear-gradient(135deg, rgba(16, 185, 129, 0.4), rgba(6, 182, 212, 0.4)), url('img/gstack_sprint_cover.png'); background-size: cover; background-position: center; color: #fff;">
+            style="background-image: linear-gradient(135deg, rgba(39,118,91,0.44), rgba(43,92,166,0.44)), url('img/gstack_sprint_cover.png'); background-size: cover; background-position: center; color: #243B35;">
             REAL PROJECT 1</div>
           <div class="course-content">
-            <span class="day-label" style="background: linear-gradient(135deg, #10b981, #06b6d4); color: #fff;">Real Project 1</span>
+            <span class="day-label" style="background: linear-gradient(135deg, #D7EEDD, #D2E0FB); color: #243B35;">Real Project 1</span>
             <h3 class="course-title">리얼 벤치마킹 PBL: Growth Reverse Engineering Lab</h3>
             <p class="course-subtitle">무신사·유튜브·당근의 성장 메커니즘을 역설계하고 AI와 함께 작동하는 웹사이트로 구현</p>
             <p class="course-desc">
               무신사, 유튜브, 당근 중 하나를 선택해 실제 서비스의 성장 구조(AARRR)를 관찰하고, 이를 제품·비즈니스·개발 3종 문서로 역설계한 뒤 AI와 함께 새로운 웹사이트로 구현합니다. 성장을 만드는 사용자 행동과 제품 구조를 근거로 설명하고 원리를 적용하는 실전 역량을 훈련합니다.
             </p>
 
-            <blockquote style="margin: 12px 0; padding: 10px 14px; background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; border-radius: 6px; font-size: 0.88rem; color: #a7f3d0; line-height: 1.6;">
+            <blockquote style="margin: 12px 0; padding: 10px 14px; background: rgba(39,118,91,0.088); border-left: 3px solid rgba(39,118,91,0.55); border-radius: 6px; font-size: 0.88rem; color: #27765B; line-height: 1.6;">
               <strong>💡 핵심 질문:</strong> "성공한 서비스의 성장 메커니즘을 관찰 가능한 증거로 설명하고, 이를 문서와 작동하는 제품으로 다시 만들 수 있는가?"
             </blockquote>
 
@@ -1630,7 +1661,7 @@
             </div>
 
             <div class="tag-list">
-              <span class="tag" style="border-color: rgba(16, 185, 129, 0.4); color: #34d399;">PBL Lab</span>
+              <span class="tag" style="border-color: rgba(39,118,91,0.4); color: #27765B;">PBL Lab</span>
               <span class="tag">성장 역설계</span>
               <span class="tag">3종 기획문서</span>
               <span class="tag">AI 웹구현</span>
@@ -1644,7 +1675,7 @@
             </div>
 
             <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
-              <span class="ai-class-btn" style="background: linear-gradient(135deg, #10b981, #0891b2); border: none; cursor: pointer;">
+              <span class="ai-class-btn" style="background: linear-gradient(135deg, #D7EEDD, #D2E0FB); border: none; cursor: pointer;">
                 🚀 프로젝트 워크스페이스 시작
               </span>
             </div>
@@ -1657,10 +1688,10 @@
           aria-label="Codex와 Antigravity 문서 주도 서비스 개발 PBL 열기"
           style="text-decoration: none; color: inherit;">
           <div class="course-thumb"
-            style="background-image: linear-gradient(135deg, rgba(16, 185, 129, 0.4), rgba(6, 182, 212, 0.4)), url('img/real_project2_cover.png'); background-size: cover; background-position: center; color: #fff;">
+            style="background-image: linear-gradient(135deg, rgba(39,118,91,0.44), rgba(43,92,166,0.44)), url('img/real_project2_cover.png'); background-size: cover; background-position: center; color: #243B35;">
             REAL PROJECT 2</div>
           <div class="course-content">
-            <span class="day-label" style="background: linear-gradient(135deg, #10b981, #06b6d4); color: #fff;">Real Project 2</span>
+            <span class="day-label" style="background: linear-gradient(135deg, #D7EEDD, #D2E0FB); color: #243B35;">Real Project 2</span>
             <h3 class="course-title">Codex × Antigravity: 문서 주도 서비스 개발 PBL</h3>
             <p class="course-subtitle">대화를 Markdown 명세로 전환하고, 모바일 주문·PC 관리자 서비스를 구현·검증하는 실전 PBL</p>
             <p class="course-desc">
@@ -1669,7 +1700,7 @@
               설계 검증과 서비스 검증을 증거 중심으로 수행합니다.
             </p>
 
-            <blockquote style="margin: 12px 0; padding: 10px 14px; background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; border-radius: 6px; font-size: 0.88rem; color: #a7f3d0; line-height: 1.6;">
+            <blockquote style="margin: 12px 0; padding: 10px 14px; background: rgba(39,118,91,0.088); border-left: 3px solid rgba(39,118,91,0.55); border-radius: 6px; font-size: 0.88rem; color: #27765B; line-height: 1.6;">
               <strong>💡 핵심 질문:</strong> "AI와 나눈 대화를 사람이 검증할 수 있는 문서 계약으로 만들고, 그 계약대로 구현·검증할 수 있는가?"
             </blockquote>
 
@@ -1688,7 +1719,7 @@
             </div>
 
             <div class="tag-list">
-              <span class="tag" style="border-color: rgba(16, 185, 129, 0.4); color: #34d399;">PBL Lab</span>
+              <span class="tag" style="border-color: rgba(39,118,91,0.4); color: #27765B;">PBL Lab</span>
               <span class="tag">Codex 명세화</span>
               <span class="tag">Antigravity IDE</span>
               <span class="tag">Markdown 계약</span>
@@ -1703,7 +1734,7 @@
             </div>
 
             <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
-              <span class="ai-class-btn" style="background: linear-gradient(135deg, #10b981, #0891b2); border: none; cursor: pointer;">
+              <span class="ai-class-btn" style="background: linear-gradient(135deg, #D7EEDD, #D2E0FB); border: none; cursor: pointer;">
                 🚀 프로젝트 워크스페이스 시작
               </span>
             </div>
@@ -1715,17 +1746,17 @@
           aria-label="Real Project 3 Django 레이어드 아키텍처 설계 강의 열기"
           style="text-decoration: none; color: inherit;">
           <div class="course-thumb"
-            style="background-image: linear-gradient(135deg, rgba(16, 185, 129, 0.36), rgba(6, 182, 212, 0.36)), url('img/real_project3_cover.png'); background-size: cover; background-position: center; color: #fff;">
+            style="background-image: linear-gradient(135deg, rgba(39,118,91,0.396), rgba(43,92,166,0.396)), url('img/real_project3_cover.png'); background-size: cover; background-position: center; color: #243B35;">
             REAL PROJECT 3</div>
           <div class="course-content">
-            <span class="day-label" style="background: linear-gradient(135deg, #10b981, #06b6d4); color: #fff;">Real Project 3</span>
+            <span class="day-label" style="background: linear-gradient(135deg, #D7EEDD, #D2E0FB); color: #243B35;">Real Project 3</span>
             <h3 class="course-title">Django 레이어드 아키텍처 설계 강의</h3>
             <p class="course-subtitle">API·Business·Infrastructure 분리, 외부 결제 Adapter, AI 에이전트 개발 규격을 수립하는 실전 아키텍처</p>
             <p class="course-desc">
               Django 기본 구조의 Fat View 한계를 넘어 Model·API·Business(DTO·Rule·Policy·Calculator·Workflow·Port)·Infrastructure 계층을 분리합니다. 카페 주문 API와 외부 결제 모듈(Port &amp; Adapter, Registry, 상태 전이, 멱등성, 웹훅, Outbox), 3단계 테스트 전략과 AI 에이전트 12단계 개발 규격까지 전 20강으로 완성합니다.
             </p>
 
-            <blockquote style="margin: 12px 0; padding: 10px 14px; background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; border-radius: 6px; font-size: 0.88rem; color: #a7f3d0; line-height: 1.6;">
+            <blockquote style="margin: 12px 0; padding: 10px 14px; background: rgba(39,118,91,0.088); border-left: 3px solid rgba(39,118,91,0.55); border-radius: 6px; font-size: 0.88rem; color: #27765B; line-height: 1.6;">
               <strong>💡 핵심 원칙:</strong> "좋은 아키텍처는 변경이 발생하지 않게 하는 구조가 아니라, 변경이 발생했을 때 수정할 위치를 명확하게 만드는 구조다."
             </blockquote>
 
@@ -1744,7 +1775,7 @@
             </div>
 
             <div class="tag-list">
-              <span class="tag" style="border-color: rgba(16, 185, 129, 0.4); color: #34d399;">Layered Arch</span>
+              <span class="tag" style="border-color: rgba(39,118,91,0.4); color: #27765B;">Layered Arch</span>
               <span class="tag">Django &amp; DRF</span>
               <span class="tag">Rule · Policy · Workflow</span>
               <span class="tag">Port &amp; Adapter</span>
@@ -1759,7 +1790,7 @@
             </div>
 
             <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
-              <span class="ai-class-btn" style="background: linear-gradient(135deg, #10b981, #0891b2); border: none; cursor: pointer;">
+              <span class="ai-class-btn" style="background: linear-gradient(135deg, #D7EEDD, #D2E0FB); border: none; cursor: pointer;">
                 🏗️ 아키텍처 강의 &amp; 20강 슬라이드 열기
               </span>
             </div>
@@ -1770,18 +1801,18 @@
         <a class="course-card is-clickable" href="real-project-gstack/index.html"
           aria-label="Real Project gstack 강의 상세 페이지 열기" style="text-decoration: none; color: inherit;">
           <div class="course-thumb"
-            style="background-image: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(37, 99, 235, 0.38)), url('img/real_project_gstack_cover.png'); background-size: cover; background-position: center; color: #fff;">
+            style="background-image: linear-gradient(135deg, rgba(43,92,166,0.385), rgba(43,92,166,0.418)), url('img/real_project_gstack_cover.png'); background-size: cover; background-position: center; color: #243B35;">
             REAL PROJECT · GSTACK
           </div>
           <div class="course-content">
-            <span class="day-label" style="background: linear-gradient(135deg, #0891b2, #2563eb); color: #fff;">Real Project · gstack</span>
+            <span class="day-label" style="background: linear-gradient(135deg, #D2E0FB, #D2E0FB); color: #243B35;">Real Project · gstack</span>
             <h3 class="course-title">Real Project gstack 강의</h3>
             <p class="course-subtitle">Codex와 Claude Code로 설치부터 기획·개발·리뷰·QA·출시까지 연결하는 전체 프로젝트 실습</p>
             <p class="course-desc">
               Windows WSL과 macOS 설치, Codex 프롬프팅 설치, Claude Code 등록부터 시작합니다. 문제 정의와 명세, 제품·디자인·엔지니어링 계획, 구현, 코드 리뷰, 원인 중심 디버깅, 브라우저 QA, 보안·성능·문서화, 출시와 회고까지 gstack 명령을 실제 프로젝트 흐름에 맞춰 연습합니다.
             </p>
 
-            <blockquote style="margin: 12px 0; padding: 10px 14px; background: rgba(6, 182, 212, 0.08); border-left: 3px solid #06b6d4; border-radius: 6px; font-size: 0.88rem; color: #a5f3fc; line-height: 1.6;">
+            <blockquote style="margin: 12px 0; padding: 10px 14px; background: rgba(43,92,166,0.088); border-left: 3px solid rgba(43,92,166,0.55); border-radius: 6px; font-size: 0.88rem; color: #2B5CA6; line-height: 1.6;">
               <strong>💡 핵심 흐름:</strong> "/office-hours → /autoplan → 기능 구현 → /review → /qa → /ship → /land-and-deploy → /canary"
             </blockquote>
 
@@ -1800,7 +1831,7 @@
             </div>
 
             <div class="tag-list">
-              <span class="tag" style="border-color: rgba(34, 211, 238, 0.4); color: #67e8f9;">gstack</span>
+              <span class="tag" style="border-color: rgba(43,92,166,0.4); color: #2B5CA6;">gstack</span>
               <span class="tag">Codex</span>
               <span class="tag">Claude Code</span>
               <span class="tag">Spec &amp; Plan</span>
@@ -1815,7 +1846,7 @@
             </div>
 
             <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
-              <span class="ai-class-btn" style="background: linear-gradient(135deg, #06b6d4, #2563eb); border: none; cursor: pointer;">
+              <span class="ai-class-btn" style="background: linear-gradient(135deg, #D2E0FB, #D2E0FB); border: none; cursor: pointer;">
                 ⚡ 강의와 실습 자료 열기
               </span>
             </div>
@@ -1829,7 +1860,7 @@
             style="background-image: url('img/project_day_cover.png'); background-size: cover; background-position: center;">
             PROJECT DAY</div>
           <div class="course-content">
-            <span class="day-label" style="background: linear-gradient(135deg, #3b82f6, #06b6d4); color: #fff;">Project Day · Multi-Agent Full-Cycle Sprint</span>
+            <span class="day-label" style="background: linear-gradient(135deg, #D2E0FB, #D2E0FB); color: #243B35;">Project Day · Multi-Agent Full-Cycle Sprint</span>
             <h3 class="course-title">Codex · gstack · Antigravity · Claude 기반 웹사이트 구축 (Project Day)</h3>
             <p class="course-subtitle">코덱스(Codex)와 gstack으로 기획하고, 안티그라비티(Antigravity)로 개발하며, 코덱스로 자동화하고, 클로드(Claude)로 고도화하는 실전 풀사이클 프로젝트 실습</p>
             <p class="course-desc">
@@ -1850,10 +1881,10 @@
 
             <div class="tag-list">
               <span class="tag">Project Day</span>
-              <span class="tag" style="border-color: rgba(34, 211, 238, 0.45); color: #67e8f9;">기획: Codex + gstack</span>
-              <span class="tag" style="border-color: rgba(168, 85, 247, 0.45); color: #d8b4fe;">개발: Antigravity</span>
-              <span class="tag" style="border-color: rgba(245, 158, 11, 0.45); color: #fde68a;">자동화: Codex</span>
-              <span class="tag" style="border-color: rgba(52, 211, 153, 0.45); color: #6ee7b7;">고도화: Claude</span>
+              <span class="tag" style="border-color: rgba(43,92,166,0.45); color: #2B5CA6;">기획: Codex + gstack</span>
+              <span class="tag" style="border-color: rgba(93,74,168,0.45); color: #5D4AA8;">개발: Antigravity</span>
+              <span class="tag" style="border-color: rgba(133,96,0,0.45); color: #856000;">자동화: Codex</span>
+              <span class="tag" style="border-color: rgba(39,118,91,0.45); color: #27765B;">고도화: Claude</span>
               <span class="tag">Markdown Specs</span>
               <span class="tag">/office-hours · /autoplan</span>
               <span class="tag">/review · /qa · /ship</span>
@@ -1867,7 +1898,7 @@
               <a href="project_day/project_day-ai-classroom.html" class="ai-class-btn">
                 AI 강의실 입장
               </a>
-              <a href="real-project-gstack/index.html" class="ai-class-btn" style="background: rgba(6, 182, 212, 0.16); border: 1px solid rgba(34, 211, 238, 0.45); color: #a5f3fc;">
+              <a href="real-project-gstack/index.html" class="ai-class-btn" style="background: rgba(43,92,166,0.176); border: 1px solid rgba(43,92,166,0.45); color: #2B5CA6;">
                 ⚡ gstack 명령어 &amp; 가이드 보기
               </a>
             </div>
@@ -1885,8 +1916,8 @@
               <p class="zone-subtitle">아이디어 발굴부터 요구사항 명세(PRD), ERD 설계, API 명세서, UI/UX 프로토타이핑 및 사용성 검증까지 설계 전반을 다룹니다.</p>
             </div>
             <div class="zone-actions">
-              <a href="homework_week1.html" class="zone-shortcut-btn" style="border-color: rgba(139, 92, 246, 0.45); color: #c4b5fd;">📝 1~5day 과제 바로가기</a>
-              <a href="homework_codex_field.html" class="zone-shortcut-btn" style="border-color: rgba(245, 158, 11, 0.45); color: #fde68a;">💼 코덱스 현업 과제</a>
+              <a href="homework_week1.html" class="zone-shortcut-btn" style="border-color: rgba(93,74,168,0.45); color: #2B5CA6;">📝 1~5day 과제 바로가기</a>
+              <a href="homework_codex_field.html" class="zone-shortcut-btn" style="border-color: rgba(133,96,0,0.45); color: #856000;">💼 코덱스 현업 과제</a>
             </div>
           </div>
 
@@ -2159,22 +2190,22 @@
         <!-- Module 1 Homework & Codex Action Hub (6th slot in 2x3 grid) -->
         <article class="course-card module-hub-card" aria-label="Module 1 실습 과제 및 코덱스 미션 허브">
           <div class="course-thumb"
-            style="background-image: linear-gradient(135deg, rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.65)), url('img/homework_module1_cover.png'); background-size: cover; background-position: center; border-bottom: 1px solid rgba(59, 130, 246, 0.2); flex-direction: column; gap: 6px; color: #fff;">
-            <span style="font-size: 0.82rem; color: #93c5fd; letter-spacing: 0.12em; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);">MODULE 1 ACTION HUB</span>
-            <span style="text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);">DAY 1 ~ 5 과제 · 미션</span>
+            style="background-image: linear-gradient(135deg, rgba(246,249,244,0.35), rgba(246,249,244,0.65)), url('img/homework_module1_cover.png'); background-size: cover; background-position: center; border-bottom: 1px solid rgba(43,92,166,0.2); flex-direction: column; gap: 6px; color: #243B35;">
+            <span style="font-size: 0.82rem; color: #2B5CA6; letter-spacing: 0.12em; text-shadow: 0 2px 8px rgba(36,59,53,0.14);">MODULE 1 ACTION HUB</span>
+            <span style="text-shadow: 0 2px 12px rgba(36,59,53,0.14);">DAY 1 ~ 5 과제 · 미션</span>
           </div>
           <div class="course-content">
-            <span class="day-label" style="background: rgba(139, 92, 246, 0.18); color: #c4b5fd; border-color: rgba(139, 92, 246, 0.35);">Module 1 · 실습 과제 &amp; 자동화 미션</span>
+            <span class="day-label" style="background: rgba(93,74,168,0.198); color: #2B5CA6; border-color: rgba(93,74,168,0.35);">Module 1 · 실습 과제 &amp; 자동화 미션</span>
             <h3 class="course-title">Day 1~5 기획·설계 실습 과제 및 현업 자동화 미션</h3>
             <p class="course-subtitle">1~5일차에 학습한 PRD·ERD·API·UI/UX 설계 역량을 온라인 과제와 코덱스 현업 미션으로 점검합니다.</p>
             <div class="hub-links-stack">
               <a href="homework_week1.html" class="hub-action-link">
                 <span>📝 1~5Day 일차별 실습 과제 (HW-D01 ~ D05)</span>
-                <span style="color: #60a5fa;">열기 →</span>
+                <span style="color: #2B5CA6;">열기 →</span>
               </a>
               <a href="homework_codex_field.html" class="hub-action-link">
                 <span>💼 코덱스 현업 자동화 미션 (입문·협업·개발)</span>
-                <span style="color: #fbbf24;">열기 →</span>
+                <span style="color: #856000;">열기 →</span>
               </a>
             </div>
           </div>
@@ -2191,8 +2222,8 @@
               <p class="zone-subtitle">설계 명세를 실제 동작하는 코드로 구현하고, 디버깅·예외 방어·인증·결제 UX·최종 런칭 패키지까지 완성합니다.</p>
             </div>
             <div class="zone-actions">
-              <a href="homework_week2.html" class="zone-shortcut-btn" style="border-color: rgba(6, 182, 212, 0.45); color: #67e8f9;">⚡ 5~10day 과제 바로가기</a>
-              <a href="homework_codex_field.html" class="zone-shortcut-btn" style="border-color: rgba(245, 158, 11, 0.45); color: #fde68a;">💼 코덱스 현업 과제</a>
+              <a href="homework_week2.html" class="zone-shortcut-btn" style="border-color: rgba(43,92,166,0.45); color: #2B5CA6;">⚡ 5~10day 과제 바로가기</a>
+              <a href="homework_codex_field.html" class="zone-shortcut-btn" style="border-color: rgba(133,96,0,0.45); color: #856000;">💼 코덱스 현업 과제</a>
             </div>
           </div>
 
@@ -2442,22 +2473,22 @@
         <!-- Module 2 Homework & Codex Action Hub (6th slot in 2x3 grid) -->
         <article class="course-card module-hub-card" aria-label="Module 2 실습 과제 및 코덱스 미션 허브">
           <div class="course-thumb"
-            style="background-image: linear-gradient(135deg, rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.65)), url('img/homework_module2_cover.png'); background-size: cover; background-position: center; border-bottom: 1px solid rgba(139, 92, 246, 0.2); flex-direction: column; gap: 6px; color: #fff;">
-            <span style="font-size: 0.82rem; color: #c4b5fd; letter-spacing: 0.12em; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);">MODULE 2 ACTION HUB</span>
-            <span style="text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);">DAY 6 ~ 10 과제 · 미션</span>
+            style="background-image: linear-gradient(135deg, rgba(246,249,244,0.35), rgba(246,249,244,0.65)), url('img/homework_module2_cover.png'); background-size: cover; background-position: center; border-bottom: 1px solid rgba(93,74,168,0.2); flex-direction: column; gap: 6px; color: #243B35;">
+            <span style="font-size: 0.82rem; color: #2B5CA6; letter-spacing: 0.12em; text-shadow: 0 2px 8px rgba(36,59,53,0.14);">MODULE 2 ACTION HUB</span>
+            <span style="text-shadow: 0 2px 12px rgba(36,59,53,0.14);">DAY 6 ~ 10 과제 · 미션</span>
           </div>
           <div class="course-content">
-            <span class="day-label" style="background: rgba(6, 182, 212, 0.18); color: #67e8f9; border-color: rgba(6, 182, 212, 0.35);">Module 2 · 심화 구현 &amp; 런칭 미션</span>
+            <span class="day-label" style="background: rgba(43,92,166,0.198); color: #2B5CA6; border-color: rgba(43,92,166,0.35);">Module 2 · 심화 구현 &amp; 런칭 미션</span>
             <h3 class="course-title">Day 6~10 기능 구현·보안·결제·런칭 과제 및 미션</h3>
             <p class="course-subtitle">6~10일차에 구현한 서비스 통합·보안·결제·QA·런칭 역량을 심화 과제와 현업 자동화 미션으로 완성합니다.</p>
             <div class="hub-links-stack">
               <a href="homework_week2.html" class="hub-action-link">
                 <span>⚡ 5~10Day 심화 구현·런칭 과제 (HW-D06 ~ D10)</span>
-                <span style="color: #22d3ee;">열기 →</span>
+                <span style="color: #2B5CA6;">열기 →</span>
               </a>
               <a href="homework_codex_field.html" class="hub-action-link">
                 <span>💼 코덱스 현업 자동화 미션 (입문·협업·개발)</span>
-                <span style="color: #fbbf24;">열기 →</span>
+                <span style="color: #856000;">열기 →</span>
               </a>
             </div>
           </div>
@@ -2474,18 +2505,18 @@
               <p class="zone-subtitle">주차별 출결 체크, 역량 진단·커뮤니티 QR 모음, 최종 수료 설문을 한눈에 이용하세요.</p>
             </div>
             <div class="zone-actions">
-              <a href="attendance_qr.html" class="zone-shortcut-btn" style="border-color: rgba(16, 185, 129, 0.45); color: #6ee7b7;">📅 출석 QR 체크인</a>
-              <a href="qr_resources.html" class="zone-shortcut-btn" style="border-color: rgba(6, 182, 212, 0.45); color: #67e8f9;">📱 전체 QR 모음</a>
+              <a href="attendance_qr.html" class="zone-shortcut-btn" style="border-color: rgba(39,118,91,0.45); color: #27765B;">📅 출석 QR 체크인</a>
+              <a href="qr_resources.html" class="zone-shortcut-btn" style="border-color: rgba(43,92,166,0.45); color: #2B5CA6;">📱 전체 QR 모음</a>
             </div>
           </div>
 
           <div class="curriculum-grid support-compact-grid">
         <!-- Attendance QR entry -->
         <article class="course-card is-clickable" id="attendance-qr-card" tabindex="0" role="link" aria-label="데일리 출석 QR 코드" onclick="location.href='attendance_qr.html'" onkeydown="if(event.key==='Enter'||event.key===' '){location.href='attendance_qr.html';event.preventDefault();}">
-          <div class="course-thumb" style="background-image: linear-gradient(rgba(9, 9, 11, 0.25), rgba(9, 9, 11, 0.65)), url('img/attendance_qr_cover.png'); background-size: cover; background-position: center; color: #fff;">
+          <div class="course-thumb" style="background-image: linear-gradient(rgba(36,59,53,0.05), rgba(36,59,53,0.08)), url('img/attendance_qr_cover.png'); background-size: cover; background-position: center; color: #243B35;">
             DAILY ATTENDANCE QR</div>
           <div class="course-content">
-            <span class="day-label" style="background: linear-gradient(135deg, #10b981, #06b6d4); color: #fff;">출석 체크인 · 데일리</span>
+            <span class="day-label" style="background: linear-gradient(135deg, #D7EEDD, #D2E0FB); color: #243B35;">출석 체크인 · 데일리</span>
             <h3 class="course-title">데일리 출석 QR 코드</h3>
             <p class="course-subtitle">일차별 수업 일정 및 기준 시간별 데일리 출석 체크인 시스템</p>
             <p class="course-desc">
@@ -2507,7 +2538,7 @@
             </div>
 
             <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
-              <a href="attendance_qr.html" class="ai-class-btn" style="background: linear-gradient(135deg, #10b981, #059669);">
+              <a href="attendance_qr.html" class="ai-class-btn" style="background: linear-gradient(135deg, #D7EEDD, #D7EEDD);">
                 📅 출석 QR 페이지 열기
               </a>
             </div>
@@ -2516,10 +2547,10 @@
 
         <!-- Student QR Resources Card -->
         <article class="course-card is-clickable" id="openQrResourcesCard" tabindex="0" role="link" aria-label="설문·클래스룸·커뮤니티 QR 코드" onclick="location.href='qr_resources.html'" onkeydown="if(event.key==='Enter'||event.key===' '){location.href='qr_resources.html';event.preventDefault();}">
-          <div class="course-thumb" style="background-image: linear-gradient(rgba(9, 9, 11, 0.2), rgba(9, 9, 11, 0.65)), url('img/qr_resource_cover.png'); background-size: cover; background-position: center; color: #fff;">
+          <div class="course-thumb" style="background-image: linear-gradient(rgba(36,59,53,0.04), rgba(36,59,53,0.08)), url('img/qr_resource_cover.png'); background-size: cover; background-position: center; color: #243B35;">
             QR CODES &amp; RESOURCES</div>
           <div class="course-content">
-            <span class="day-label" style="background: linear-gradient(135deg, #06b6d4, #3b82f6); color: #fff;">수강생 바로가기 · QR 안내</span>
+            <span class="day-label" style="background: linear-gradient(135deg, #D2E0FB, #D2E0FB); color: #243B35;">수강생 바로가기 · QR 안내</span>
             <h3 class="course-title">역량조사·설문·클래스룸·커뮤니티 QR 코드</h3>
             <p class="course-subtitle">AI 활용 역량 사전·사후 조사, 학습성향 분석, 만족도 조사, Google 클래스룸 및 Discord</p>
             <p class="course-desc">
@@ -2542,7 +2573,7 @@
             </div>
 
             <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
-              <a href="qr_resources.html" class="ai-class-btn" style="background: linear-gradient(135deg, #06b6d4, #2563eb);">
+              <a href="qr_resources.html" class="ai-class-btn" style="background: linear-gradient(135deg, #D2E0FB, #D2E0FB);">
                 📱 QR 코드 모음 열기
               </a>
             </div>
@@ -2551,10 +2582,10 @@
 
         <!-- Final Survey & Graduation Card (KR) -->
         <article class="course-card" id="openSurveyModal" tabindex="0" role="region" aria-label="최종 설문조사 및 수료 안내">
-          <div class="course-thumb" style="background-image: url('img/survey_card_cover.png'); background-size: cover; background-position: center; color: #fff;">
+          <div class="course-thumb" style="background-image: url('img/survey_card_cover.png'); background-size: cover; background-position: center; color: #243B35;">
             SURVEY &amp; GRADUATION</div>
           <div class="course-content">
-            <span class="day-label" style="background: linear-gradient(135deg, #f59e0b, #ec4899); color: #fff;">최종 설문조사 · 수료 안내</span>
+            <span class="day-label" style="background: linear-gradient(135deg, #F5F0BB, #F6D5CF); color: #243B35;">최종 설문조사 · 수료 안내</span>
             <h3 class="course-title">ACE AI SW Startup Training 최종 설문조사 및 수료 안내</h3>
             <p class="course-subtitle">사후 설문조사 및 AI 트랙 사전 학습 진단 QR 코드 안내</p>
             <p class="course-desc">
@@ -2575,7 +2606,7 @@
             </div>
 
             <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
-              <a href="survey.html" class="ai-class-btn" style="background: linear-gradient(135deg, #f59e0b, #ec4899);">
+              <a href="survey.html" class="ai-class-btn" style="background: linear-gradient(135deg, #F5F0BB, #F6D5CF);">
                 📋 설문조사 QR 열기
               </a>
             </div>
@@ -2921,8 +2952,8 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="realProject1ModalTitle">
       <button class="modal-close" id="closeRealProject1Modal" aria-label="모달 닫기">×</button>
 
-      <div class="modal-hero" style="background: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.25), transparent 70%), #141926;">
-        <span class="modal-day" style="background: linear-gradient(135deg, #10b981, #06b6d4); color: #fff;">Real Project 1 · PBL Lab</span>
+      <div class="modal-hero" style="background: radial-gradient(circle at 10% 20%, rgba(39,118,91,0.275), transparent 70%), #F6F9F4;">
+        <span class="modal-day" style="background: linear-gradient(135deg, #D7EEDD, #D2E0FB); color: #243B35;">Real Project 1 · PBL Lab</span>
         <h3 class="modal-title" id="realProject1ModalTitle">리얼 벤치마킹 PBL: Growth Reverse Engineering Lab</h3>
         <p class="modal-subtitle">
           무신사, 유튜브, 당근 중 하나를 선택해 실제 서비스의 성장 구조를 관찰하고, 이를 제품·비즈니스·개발 문서로 역설계한 뒤 AI와 함께 새로운 웹사이트로 구현합니다.
@@ -2941,8 +2972,8 @@
               <p>
                 이 프로젝트의 목적은 유명 사이트를 그대로 복제하는 것이 아닙니다. <strong>성장을 만드는 사용자 행동과 제품 구조를 근거로 설명하고, 그 원리를 새로운 맥락에 적용하는 능력</strong>을 훈련하는 것입니다.
               </p>
-              <blockquote style="margin: 14px 0 0 0; padding: 12px 16px; background: rgba(16, 185, 129, 0.08); border-left: 4px solid #10b981; border-radius: 6px; color: #a7f3d0; line-height: 1.6;">
-                <strong style="color: #34d399;">💡 핵심 질문:</strong><br />
+              <blockquote style="margin: 14px 0 0 0; padding: 12px 16px; background: rgba(39,118,91,0.088); border-left: 4px solid rgba(39,118,91,0.55); border-radius: 6px; color: #27765B; line-height: 1.6;">
+                <strong style="color: #27765B;">💡 핵심 질문:</strong><br />
                 "성공한 서비스의 성장 메커니즘을 관찰 가능한 증거로 설명하고, 이를 문서와 작동하는 제품으로 다시 만들 수 있는가?"
               </blockquote>
             </div>
@@ -2965,65 +2996,65 @@
               <h4>3. 운영 조건 및 추천 역할</h4>
 
               <div style="overflow-x: auto; margin-bottom: 18px;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; background: rgba(255,255,255,0.02); border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08);">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; background: rgba(255,255,255,0.61); border-radius: 8px; overflow: hidden; border: 1px solid rgba(36,59,53,0.08);">
                   <thead>
-                    <tr style="background: rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.1);">
-                      <th style="padding: 10px 14px; color: #f1f5f9; width: 28%;">항목</th>
-                      <th style="padding: 10px 14px; color: #38bdf8;">권장안</th>
+                    <tr style="background: rgba(255,255,255,0.73); border-bottom: 1px solid rgba(36,59,53,0.09);">
+                      <th style="padding: 10px 14px; color: #243B35; width: 28%;">항목</th>
+                      <th style="padding: 10px 14px; color: #2B5CA6;">권장안</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                      <td style="padding: 10px 14px; font-weight: 600; color: #e2e8f0;">대상</td>
-                      <td style="padding: 10px 14px; color: #cbd5e1;">무신사, 유튜브, 당근 중 한 서비스</td>
+                    <tr style="border-bottom: 1px solid rgba(36,59,53,0.08);">
+                      <td style="padding: 10px 14px; font-weight: 600; color: #243B35;">대상</td>
+                      <td style="padding: 10px 14px; color: #4A605A;">무신사, 유튜브, 당근 중 한 서비스</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                      <td style="padding: 10px 14px; font-weight: 600; color: #e2e8f0;">팀 구성</td>
-                      <td style="padding: 10px 14px; color: #cbd5e1;">3~5명</td>
+                    <tr style="border-bottom: 1px solid rgba(36,59,53,0.08);">
+                      <td style="padding: 10px 14px; font-weight: 600; color: #243B35;">팀 구성</td>
+                      <td style="padding: 10px 14px; color: #4A605A;">3~5명</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                      <td style="padding: 10px 14px; font-weight: 600; color: #e2e8f0;">기간</td>
-                      <td style="padding: 10px 14px; color: #cbd5e1;">4개 미션, 총 4주 권장</td>
+                    <tr style="border-bottom: 1px solid rgba(36,59,53,0.08);">
+                      <td style="padding: 10px 14px; font-weight: 600; color: #243B35;">기간</td>
+                      <td style="padding: 10px 14px; color: #4A605A;">4개 미션, 총 4주 권장</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                      <td style="padding: 10px 14px; font-weight: 600; color: #e2e8f0;">결과물</td>
-                      <td style="padding: 10px 14px; color: #cbd5e1;">근거 자료, 3종 핵심 문서, 작동하는 웹사이트, 비교 분석 보고서</td>
+                    <tr style="border-bottom: 1px solid rgba(36,59,53,0.08);">
+                      <td style="padding: 10px 14px; font-weight: 600; color: #243B35;">결과물</td>
+                      <td style="padding: 10px 14px; color: #4A605A;">근거 자료, 3종 핵심 문서, 작동하는 웹사이트, 비교 분석 보고서</td>
                     </tr>
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                      <td style="padding: 10px 14px; font-weight: 600; color: #e2e8f0;">구현 범위</td>
-                      <td style="padding: 10px 14px; color: #cbd5e1;">핵심 성장 루프가 드러나는 <strong>1개의 대표 사용자 흐름</strong></td>
+                    <tr style="border-bottom: 1px solid rgba(36,59,53,0.08);">
+                      <td style="padding: 10px 14px; font-weight: 600; color: #243B35;">구현 범위</td>
+                      <td style="padding: 10px 14px; color: #4A605A;">핵심 성장 루프가 드러나는 <strong>1개의 대표 사용자 흐름</strong></td>
                     </tr>
                     <tr>
-                      <td style="padding: 10px 14px; font-weight: 600; color: #e2e8f0;">발표</td>
-                      <td style="padding: 10px 14px; color: #cbd5e1;">데모 7분, 근거와 회고 5분, 질의응답 5분 (총 17분)</td>
+                      <td style="padding: 10px 14px; font-weight: 600; color: #243B35;">발표</td>
+                      <td style="padding: 10px 14px; color: #4A605A;">데모 7분, 근거와 회고 5분, 질의응답 5분 (총 17분)</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
 
-              <h5 style="color: #f8fafc; font-size: 0.98rem; margin: 16px 0 10px;">👥 추천 역할 (5 Roles)</h5>
-              <p style="font-size: 0.88rem; color: #94a3b8; margin-bottom: 12px;">역할은 책임을 나누기 위한 장치이며 문서와 구현은 팀 전체가 검토합니다.</p>
+              <h5 style="color: #243B35; font-size: 0.98rem; margin: 16px 0 10px;">👥 추천 역할 (5 Roles)</h5>
+              <p style="font-size: 0.88rem; color: #4A605A; margin-bottom: 12px;">역할은 책임을 나누기 위한 장치이며 문서와 구현은 팀 전체가 검토합니다.</p>
               <ul class="bullet-list">
-                <li><code style="color: #38bdf8; background: rgba(56,189,248,0.1); padding: 2px 6px; border-radius: 4px;">Growth Researcher</code>: 사용자 여정과 성장 루프 조사</li>
-                <li><code style="color: #38bdf8; background: rgba(56,189,248,0.1); padding: 2px 6px; border-radius: 4px;">Product Owner</code>: 문제, 대상 고객, MVP 범위 관리</li>
-                <li><code style="color: #38bdf8; background: rgba(56,189,248,0.1); padding: 2px 6px; border-radius: 4px;">Business Designer</code>: 가치 교환과 수익 구조 정의</li>
-                <li><code style="color: #38bdf8; background: rgba(56,189,248,0.1); padding: 2px 6px; border-radius: 4px;">Tech Lead</code>: 기술 구조, 구현, 품질 관리</li>
-                <li><code style="color: #38bdf8; background: rgba(56,189,248,0.1); padding: 2px 6px; border-radius: 4px;">Evidence Keeper</code>: URL, 화면, 실험 기록, AI 사용 기록 관리</li>
+                <li><code style="color: #2B5CA6; background: rgba(43,92,166,0.11); padding: 2px 6px; border-radius: 4px;">Growth Researcher</code>: 사용자 여정과 성장 루프 조사</li>
+                <li><code style="color: #2B5CA6; background: rgba(43,92,166,0.11); padding: 2px 6px; border-radius: 4px;">Product Owner</code>: 문제, 대상 고객, MVP 범위 관리</li>
+                <li><code style="color: #2B5CA6; background: rgba(43,92,166,0.11); padding: 2px 6px; border-radius: 4px;">Business Designer</code>: 가치 교환과 수익 구조 정의</li>
+                <li><code style="color: #2B5CA6; background: rgba(43,92,166,0.11); padding: 2px 6px; border-radius: 4px;">Tech Lead</code>: 기술 구조, 구현, 품질 관리</li>
+                <li><code style="color: #2B5CA6; background: rgba(43,92,166,0.11); padding: 2px 6px; border-radius: 4px;">Evidence Keeper</code>: URL, 화면, 실험 기록, AI 사용 기록 관리</li>
               </ul>
             </div>
 
             <!-- 4. 전체 진행 흐름 -->
             <div class="modal-section">
               <h4>4. 전체 진행 흐름 (4개 미션)</h4>
-              <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 10px; padding: 14px 18px; margin-bottom: 14px;">
-                <div style="display: flex; flex-direction: column; gap: 8px; font-family: monospace; font-size: 0.92rem; color: #e2e8f0;">
-                  <div><strong style="color: #38bdf8;">미션 1:</strong> 실제 서비스 관찰과 성장 가설</div>
-                  <div style="padding-left: 14px; color: #94a3b8;">↳ <strong style="color: #34d399;">미션 2:</strong> 3종 문서로 역설계</div>
-                  <div style="padding-left: 28px; color: #94a3b8;">↳ <strong style="color: #a78bfa;">미션 3:</strong> 문서를 기준으로 AI 구현</div>
-                  <div style="padding-left: 42px; color: #94a3b8;">↳ <strong style="color: #f59e0b;">미션 4:</strong> 원본과 구현 결과 비교·회고</div>
+              <div style="background: rgba(246,249,244,0.8); border: 1px solid rgba(43,92,166,0.2); border-radius: 10px; padding: 14px 18px; margin-bottom: 14px;">
+                <div style="display: flex; flex-direction: column; gap: 8px; font-family: monospace; font-size: 0.92rem; color: #243B35;">
+                  <div><strong style="color: #2B5CA6;">미션 1:</strong> 실제 서비스 관찰과 성장 가설</div>
+                  <div style="padding-left: 14px; color: #4A605A;">↳ <strong style="color: #27765B;">미션 2:</strong> 3종 문서로 역설계</div>
+                  <div style="padding-left: 28px; color: #4A605A;">↳ <strong style="color: #5D4AA8;">미션 3:</strong> 문서를 기준으로 AI 구현</div>
+                  <div style="padding-left: 42px; color: #4A605A;">↳ <strong style="color: #856000;">미션 4:</strong> 원본과 구현 결과 비교·회고</div>
                 </div>
               </div>
-              <p style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.6;">
+              <p style="font-size: 0.92rem; color: #4A605A; line-height: 1.6;">
                 💡 <strong>진행 원칙:</strong> 각 미션은 이전 미션의 산출물을 입력으로 사용합니다. 이전 단계의 근거가 부족하면 다음 단계에서 임의로 채우지 말고 문서를 수정한 뒤 진행합니다.
               </p>
             </div>
@@ -4393,7 +4424,7 @@
         const lastNavLink = document.getElementById('nav-user-item') || document.querySelector('.nav-auth-slot') || document.querySelector('.nav-links li:last-child');
         if (lastNavLink) {
           lastNavLink.innerHTML = `
-            <div class="user-badge-main" style="display:flex; align-items:center; gap:8px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 50px; padding: 6px 14px; font-size: 0.9rem; font-weight: 700; color: var(--secondary-color); cursor: pointer;" onclick="logoutUser()" title="클릭하여 로그아웃">
+            <div class="user-badge-main" style="display:flex; align-items:center; gap:8px; background: rgba(43,92,166,0.11); border: 1px solid rgba(43,92,166,0.2); border-radius: 50px; padding: 6px 14px; font-size: 0.9rem; font-weight: 700; color: var(--secondary-color); cursor: pointer;" onclick="logoutUser()" title="클릭하여 로그아웃">
               <span>${user.avatar}</span>
               <span>${user.name}</span>
             </div>
@@ -4413,7 +4444,7 @@
       }
     };
   </script>
-  <footer class="site-footer" style="background: #09090b; border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 32px 20px; text-align: center; color: #a1a1aa; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+  <footer class="site-footer" style="background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08); padding: 32px 20px; text-align: center; color: #4A605A; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
     <div style="max-width: 1200px; margin: 0 auto;">
       <div style="margin-bottom: 6px; word-break: keep-all;">
         <span>상호명: (주)에듀니티랩</span> | <span>대표자: 이기택</span> | <span>사업장주소: 서울 강남구 테헤란로21길 25 (역삼동, 태림빌딩) 태림빌딩 2층</span>
@@ -4421,7 +4452,7 @@
       <div style="margin-bottom: 10px; word-break: keep-all;">
         <span>연락처: (02)6240-0053</span> | <span>사업자등록번호: 132-86-35644</span> | <span>통신판매업신고번호: 제2024-서울강남-01134호</span> | <span>이메일: with@edunlab.kr</span>
       </div>
-      <div style="color: #71717a; font-size: 0.8rem; font-weight: 500;">
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
         Copyright ⓒ Eduniety Lab. All Rights Reserved.
       </div>
     </div>

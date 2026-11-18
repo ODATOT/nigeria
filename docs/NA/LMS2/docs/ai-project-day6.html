@@ -1,6 +1,37 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="ACE AI SW Startup Training AI 실전 프로젝트 Day 6 · 실제 서비스 개발의 Why·What·How, gstack 시퀀스와 AI Native 개발 프로세스로 프로젝트를 킥오프하는 학습 페이지" />
@@ -13,19 +44,19 @@
   <script>
     (function () {
       var savedTheme = localStorage.getItem("lmsStudentHomeTheme");
-      document.documentElement.dataset.theme = savedTheme === "dark" ? "dark" : "light";
+      document.documentElement.dataset.theme = "light";
     })();
   </script>
   <style>
     :root {
-      --ink:#edf5ff; --muted:#a6b6cc; --faint:#7c8ba0; --base:#070b14; --surface:#0d1523; --surface-2:#121d2e;
-      --line:rgba(148,163,184,.18); --blue:#46a6ff; --cyan:#25d4d4; --violet:#a78bfa; --amber:#f5b942; --green:#47d7a0; --red:#f87171;
-      --shadow:0 24px 75px rgba(0,0,0,.32);
+      --ink:#243B35; --muted:#4A605A; --faint:#6B7F79; --base:#F6F9F4; --surface:#F6F9F4; --surface-2:#F6F9F4;
+      --line:rgba(36,59,53,0.162); --blue:#2B5CA6; --cyan:#27765B; --violet:#5D4AA8; --amber:#856000; --green:#27765B; --red:#A83A45;
+      --shadow:0 24px 75px rgba(36,59,53,0.112);
     }
     html[data-theme="light"] {
-      --ink:#142238; --muted:#4b5e75; --faint:#64748b; --base:#f4f8fc; --surface:#fff; --surface-2:#edf4fb;
-      --line:rgba(25,52,84,.14); --blue:#0879d9; --cyan:#008f9c; --violet:#7252c7; --amber:#a96500; --green:#087f5b; --red:#c2410c;
-      --shadow:0 22px 65px rgba(38,65,96,.13); color-scheme:light;
+      --ink:#243B35; --muted:#243B35; --faint:#6B7F79; --base:#FFFFFF; --surface:#FFFFFF; --surface-2:#F6F9F4;
+      --line:rgba(43,92,166,0.14); --blue:#2B5CA6; --cyan:#27765B; --violet:#5D4AA8; --amber:#856000; --green:#27765B; --red:#856000;
+      --shadow:0 22px 65px rgba(36,59,53,0.045); color-scheme:light;
     }
     html[data-theme="dark"] { color-scheme:dark; }
     * { box-sizing:border-box; }
@@ -33,23 +64,23 @@
     body {
       margin:0; color:var(--ink); font-family:"Pretendard","DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       font-size:16px; line-height:1.75; word-break:keep-all;
-      background:radial-gradient(circle at 8% 3%,rgba(70,166,255,.11),transparent 30rem),radial-gradient(circle at 90% 24%,rgba(167,139,250,.08),transparent 30rem),var(--base);
+      background:radial-gradient(circle at 8% 3%,rgba(43,92,166,0.121),transparent 30rem),radial-gradient(circle at 90% 24%,rgba(93,74,168,0.088),transparent 30rem),var(--base);
     }
-    html[data-theme="light"] body { background:radial-gradient(circle at 8% 3%,rgba(8,121,217,.12),transparent 30rem),radial-gradient(circle at 90% 24%,rgba(114,82,199,.08),transparent 30rem),#f4f8fc; }
+    html[data-theme="light"] body { background:radial-gradient(circle at 8% 3%,rgba(43,92,166,0.132),transparent 30rem),radial-gradient(circle at 90% 24%,rgba(93,74,168,0.088),transparent 30rem),#FFFFFF; }
     a { color:inherit; text-decoration:none; }
     button,input { font:inherit; }
     button,a { -webkit-tap-highlight-color:transparent; }
-    :focus-visible { outline:3px solid rgba(70,166,255,.72); outline-offset:4px; }
+    :focus-visible { outline:3px solid rgba(43,92,166,0.72); outline-offset:4px; }
     .shell { width:min(1200px,calc(100% - 48px)); margin:0 auto; }
     .eyebrow { margin:0 0 12px; color:var(--blue); font-family:"Manrope",sans-serif; font-size:.86rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
     .section-title { margin:0; font-family:"Manrope",sans-serif; font-size:clamp(1.85rem,3.6vw,2.85rem); line-height:1.25; letter-spacing:-.03em; word-break:keep-all; }
     .section-lead { max-width:740px; margin:14px 0 0; color:var(--muted); font-size:1.05rem; line-height:1.75; word-break:keep-all; }
 
-    .topbar { position:sticky; top:0; z-index:100; border-bottom:1px solid var(--line); background:rgba(7,11,20,.87); backdrop-filter:blur(20px); }
-    html[data-theme="light"] .topbar { background:rgba(255,255,255,.92); box-shadow:0 8px 30px rgba(38,65,96,.06); }
+    .topbar { position:sticky; top:0; z-index:100; border-bottom:1px solid var(--line); background:rgba(36,59,53,0.08); backdrop-filter:blur(20px); }
+    html[data-theme="light"] .topbar { background:rgba(255,255,255,0.92); box-shadow:0 8px 30px rgba(36,59,53,0.021); }
     .topbar-inner { min-height:72px; display:flex; align-items:center; gap:18px; }
     .brand { font-size:1.15rem; display:flex; align-items:center; gap:10px; font-family:"Manrope",sans-serif; font-weight:800; }
-    .brand-mark { width:38px; height:38px; display:grid; place-items:center; border-radius:11px; color:#04101d; background:linear-gradient(145deg,var(--blue),var(--cyan)); font-size:1.1rem; }
+    .brand-mark { width:38px; height:38px; display:grid; place-items:center; border-radius:11px; color:#FFFFFF; background:linear-gradient(145deg,var(--blue),var(--cyan)); font-size:1.1rem; }
     .breadcrumb { display:flex; align-items:center; gap:8px; margin-left:14px; color:var(--muted); font-size:.92rem; font-weight:600; }
     .breadcrumb i { font-size:.68rem; color:var(--faint); }
     .top-actions { display:flex; align-items:center; gap:10px; margin-left:auto; }
@@ -65,16 +96,16 @@
     .day-hero { padding:52px 0 36px; }
     .hero-grid { display:grid; grid-template-columns:1.3fr .7fr; gap:28px; align-items:stretch; }
     .hero-copy,.day-summary { padding:clamp(30px,4.5vw,52px); border:1px solid var(--line); border-radius:26px; background:var(--surface); box-shadow:var(--shadow); }
-    .hero-copy { position:relative; overflow:hidden; background:linear-gradient(135deg,rgba(70,166,255,.11),transparent 55%),var(--surface); }
-    .hero-copy::after { content:"06"; position:absolute; right:18px; bottom:-54px; color:rgba(70,166,255,.08); font-family:"Manrope",sans-serif; font-size:13rem; font-weight:800; line-height:1; pointer-events:none; }
-    .day-chip { display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border-radius:999px; color:var(--cyan); background:rgba(37,212,212,.12); border:1px solid rgba(37,212,212,.28); font-size:.82rem; font-weight:800; letter-spacing:.06em; }
+    .hero-copy { position:relative; overflow:hidden; background:linear-gradient(135deg,rgba(43,92,166,0.121),transparent 55%),var(--surface); }
+    .hero-copy::after { content:"06"; position:absolute; right:18px; bottom:-54px; color:rgba(43,92,166,0.08); font-family:"Manrope",sans-serif; font-size:13rem; font-weight:800; line-height:1; pointer-events:none; }
+    .day-chip { display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border-radius:999px; color:var(--cyan); background:rgba(39,118,91,0.132); border:1px solid rgba(39,118,91,0.28); font-size:.82rem; font-weight:800; letter-spacing:.06em; }
     .hero-copy h1 { position:relative; z-index:1; margin:22px 0 18px; font-family:"Manrope",sans-serif; font-size:clamp(2.4rem,4.8vw,4.2rem); line-height:1.18; letter-spacing:-.05em; word-break:keep-all; }
     .hero-copy > p { position:relative; z-index:1; max-width:740px; margin:0; color:var(--muted); font-size:1.15rem; line-height:1.85; word-break:keep-all; }
-    .hero-quote { position:relative; z-index:1; margin-top:24px; padding:18px 22px; border-left:4px solid var(--amber); border-radius:0 14px 14px 0; background:rgba(245,185,66,.1); color:var(--ink); font-size:1.02rem; font-weight:600; line-height:1.75; word-break:keep-all; }
+    .hero-quote { position:relative; z-index:1; margin-top:24px; padding:18px 22px; border-left:4px solid var(--amber); border-radius:0 14px 14px 0; background:rgba(133,96,0,0.11); color:var(--ink); font-size:1.02rem; font-weight:600; line-height:1.75; word-break:keep-all; }
     .hero-quote i { margin-right:6px; color:var(--amber); }
     .hero-actions { position:relative; z-index:1; display:flex; flex-wrap:wrap; gap:12px; margin-top:24px; }
     .btn { display:inline-flex; align-items:center; gap:9px; min-height:48px; padding:0 22px; border-radius:12px; font-size:.95rem; font-weight:800; letter-spacing:-.01em; transition:180ms ease; }
-    .btn-primary { color:#04101d; background:linear-gradient(135deg,var(--blue),var(--cyan)); box-shadow:0 4px 16px rgba(37,212,212,.25); }
+    .btn-primary { color:#FFFFFF; background:#27765B; box-shadow:0 4px 16px rgba(36,59,53,0.087); }
     .btn-primary:hover { filter:brightness(1.1); transform:translateY(-1px); }
     .btn-ghost { border:1px solid var(--line); color:var(--ink); background:var(--surface); }
     .btn-ghost:hover { border-color:var(--blue); color:var(--blue); }
@@ -83,82 +114,82 @@
     .summary-list { display:grid; gap:14px; margin:20px 0 0; padding:0; list-style:none; }
     .summary-list li { display:flex; gap:12px; color:var(--muted); font-size:.98rem; line-height:1.7; word-break:keep-all; }
     .summary-list i { margin-top:5px; color:var(--green); font-size:1rem; flex-shrink:0; }
-    .deliverable { margin-top:22px; padding:16px 18px; border-left:4px solid var(--amber); border-radius:0 12px 12px 0; background:rgba(245,185,66,.08); }
+    .deliverable { margin-top:22px; padding:16px 18px; border-left:4px solid var(--amber); border-radius:0 12px 12px 0; background:rgba(133,96,0,0.088); }
     .deliverable strong { font-size:.94rem; color:var(--ink); margin-bottom:4px; display:block; }
     .deliverable span { color:var(--muted); font-size:.9rem; line-height:1.65; display:block; word-break:keep-all; }
 
     .slides-section { padding:68px 0 76px; }
     .section-head { display:flex; justify-content:space-between; gap:24px; align-items:end; margin-bottom:28px; }
-    .slide-deck { border:1px solid var(--line); border-radius:24px; overflow:hidden; background:#07101d; box-shadow:var(--shadow); }
+    .slide-deck { border:1px solid var(--line); border-radius:24px; overflow:hidden; background:#F6F9F4; box-shadow:var(--shadow); }
     .slide-deck:fullscreen { display:flex; flex-direction:column; border-radius:0; }
     .slide-deck:fullscreen .slide-stage { flex:1; aspect-ratio:auto; }
     .slide-deck:fullscreen .slide-notes { display:none; }
     .slide-stage { position:relative; aspect-ratio:16/9; min-height:420px; overflow:hidden; }
-    .slide { position:absolute; inset:0; display:none; overflow-y:auto; padding:clamp(32px,5.5vw,70px); color:#edf5ff; background:linear-gradient(135deg,#09172a,#0b2136); }
+    .slide { position:absolute; inset:0; display:none; overflow-y:auto; padding:clamp(32px,5.5vw,70px); color:#243B35; background:linear-gradient(135deg,#F6F9F4,#F6F9F4); }
     .slide.active { display:flex; animation:slideIn 260ms ease; }
     @keyframes slideIn { from { opacity:0; transform:translateX(18px); } to { opacity:1; transform:none; } }
-    .slide::before { content:""; position:absolute; inset:0; opacity:.4; background-image:linear-gradient(rgba(70,166,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(70,166,255,.07) 1px,transparent 1px); background-size:42px 42px; pointer-events:none; }
-    .slide.alert { background:linear-gradient(135deg,#1d1209,#2a1608); }
+    .slide::before { content:""; position:absolute; inset:0; opacity:.4; background-image:linear-gradient(rgba(43,92,166,0.077) 1px,transparent 1px),linear-gradient(90deg,rgba(43,92,166,0.077) 1px,transparent 1px); background-size:42px 42px; pointer-events:none; }
+    .slide.alert { background:linear-gradient(135deg,#F6F9F4,#F6F9F4); }
     .slide-inner { position:relative; z-index:1; width:100%; margin:auto 0; display:flex; flex-direction:column; justify-content:center; }
-    .slide-kicker { color:#5ab6ff; font-size:.86rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
-    .slide.alert .slide-kicker { color:#fbbf24; }
+    .slide-kicker { color:#2B5CA6; font-size:.86rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .slide.alert .slide-kicker { color:#856000; }
     .slide h2 { max-width:960px; margin:18px 0; font-family:"Manrope",sans-serif; font-size:clamp(2.3rem,4.6vw,4.4rem); line-height:1.15; letter-spacing:-.05em; word-break:keep-all; }
     .slide h2.sm { max-width:1040px; margin:16px 0 14px; font-size:clamp(1.9rem,3.4vw,3rem); line-height:1.25; letter-spacing:-.04em; word-break:keep-all; }
-    .slide h2 .hl { color:#67e8f9; }
-    .slide.alert h2 .hl { color:#fbbf24; }
-    .slide p { max-width:860px; margin:0; color:#cbd5e1; font-size:clamp(1.05rem,1.55vw,1.26rem); line-height:1.85; word-break:keep-all; }
+    .slide h2 .hl { color:#2B5CA6; }
+    .slide.alert h2 .hl { color:#856000; }
+    .slide p { max-width:860px; margin:0; color:#4A605A; font-size:clamp(1.05rem,1.55vw,1.26rem); line-height:1.85; word-break:keep-all; }
     .slide-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:26px; }
     .slide-grid.cols-3 { grid-template-columns:repeat(3,1fr); }
     .slide-grid.cols-5 { grid-template-columns:repeat(5,1fr); }
-    .slide-card { padding:18px 20px; border:1px solid rgba(255,255,255,.14); border-radius:16px; background:rgba(255,255,255,.05); }
-    .slide-card strong { display:block; color:#67e8f9; font-size:1.05rem; font-weight:700; }
-    .slide-card span { display:block; margin-top:8px; color:#cbd5e1; font-size:.92rem; line-height:1.65; word-break:keep-all; }
-    .slide-card em { display:block; margin-top:10px; color:#fbbf24; font-style:normal; font-size:.82rem; font-weight:700; }
-    .slide-card .big { display:block; color:#fff; font-family:"Manrope",sans-serif; font-size:2.2rem; font-weight:800; line-height:1.1; margin-bottom:4px; }
+    .slide-card { padding:18px 20px; border:1px solid rgba(36,59,53,0.126); border-radius:16px; background:rgba(255,255,255,0.7); }
+    .slide-card strong { display:block; color:#2B5CA6; font-size:1.05rem; font-weight:700; }
+    .slide-card span { display:block; margin-top:8px; color:#4A605A; font-size:.92rem; line-height:1.65; word-break:keep-all; }
+    .slide-card em { display:block; margin-top:10px; color:#856000; font-style:normal; font-size:.82rem; font-weight:700; }
+    .slide-card .big { display:block; color:#243B35; font-family:"Manrope",sans-serif; font-size:2.2rem; font-weight:800; line-height:1.1; margin-bottom:4px; }
     .slide-list { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; max-width:980px; margin:24px 0 0; padding:0; list-style:none; }
-    .slide-list li { padding:15px 18px; border:1px solid rgba(255,255,255,.13); border-radius:14px; background:rgba(255,255,255,.045); color:#cbd5e1; font-size:.96rem; line-height:1.65; word-break:keep-all; }
-    .slide-list i { margin-right:10px; font-size:1.05rem; color:#47d7a0; }
-    .slide-list.warn i { color:#fbbf24; }
+    .slide-list li { padding:15px 18px; border:1px solid rgba(36,59,53,0.117); border-radius:14px; background:rgba(255,255,255,0.685); color:#4A605A; font-size:.96rem; line-height:1.65; word-break:keep-all; }
+    .slide-list i { margin-right:10px; font-size:1.05rem; color:#27765B; }
+    .slide-list.warn i { color:#856000; }
     .compare { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:24px; }
-    .compare-col { padding:20px 22px; border:1px solid rgba(255,255,255,.14); border-radius:16px; background:rgba(255,255,255,.045); }
-    .compare-col.bad { border-color:rgba(248,113,113,.38); background:rgba(248,113,113,.07); }
-    .compare-col.good { border-color:rgba(71,215,160,.38); background:rgba(71,215,160,.07); }
+    .compare-col { padding:20px 22px; border:1px solid rgba(36,59,53,0.126); border-radius:16px; background:rgba(255,255,255,0.685); }
+    .compare-col.bad { border-color:rgba(168,58,69,0.38); background:rgba(168,58,69,0.077); }
+    .compare-col.good { border-color:rgba(39,118,91,0.38); background:rgba(39,118,91,0.077); }
     .compare-col h4 { margin:0 0 12px; font-family:"Manrope",sans-serif; font-size:1.15rem; font-weight:800; }
-    .compare-col.bad h4 { color:#fca5a5; }
-    .compare-col.good h4 { color:#6ee7b7; }
-    .compare-col ul { margin:0; padding-left:20px; color:#cbd5e1; font-size:.96rem; line-height:1.75; }
+    .compare-col.bad h4 { color:#A83A45; }
+    .compare-col.good h4 { color:#27765B; }
+    .compare-col ul { margin:0; padding-left:20px; color:#4A605A; font-size:.96rem; line-height:1.75; }
     .compare-col li + li { margin-top:6px; }
-    .compare-col pre { margin:0; white-space:pre-wrap; color:#dbe7f5; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9rem; line-height:1.7; }
+    .compare-col pre { margin:0; white-space:pre-wrap; color:#243B35; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9rem; line-height:1.7; }
     .funnel { display:grid; gap:9px; margin-top:22px; }
-    .funnel-row { display:grid; grid-template-columns:190px 1.2fr 1fr; gap:16px; align-items:center; padding:12px 18px; border-left:4px solid #25d4d4; border-radius:0 12px 12px 0; background:rgba(255,255,255,.05); font-size:.92rem; color:#cbd5e1; line-height:1.6; }
-    .funnel-row strong { color:#fff; font-family:"Manrope",sans-serif; font-size:1.02rem; }
-    .funnel-row strong small { display:block; color:#67e8f9; font-size:.8rem; letter-spacing:.06em; margin-top:2px; }
-    .funnel-row span:last-child { color:#fbbf24; font-size:.9rem; font-weight:600; }
+    .funnel-row { display:grid; grid-template-columns:190px 1.2fr 1fr; gap:16px; align-items:center; padding:12px 18px; border-left:4px solid rgba(39,118,91,0.55); border-radius:0 12px 12px 0; background:rgba(255,255,255,0.7); font-size:.92rem; color:#4A605A; line-height:1.6; }
+    .funnel-row strong { color:#243B35; font-family:"Manrope",sans-serif; font-size:1.02rem; }
+    .funnel-row strong small { display:block; color:#2B5CA6; font-size:.8rem; letter-spacing:.06em; margin-top:2px; }
+    .funnel-row span:last-child { color:#856000; font-size:.9rem; font-weight:600; }
     .funnel-row:nth-child(1) { margin-right:0; } .funnel-row:nth-child(2) { margin-right:3%; } .funnel-row:nth-child(3) { margin-right:6%; } .funnel-row:nth-child(4) { margin-right:9%; } .funnel-row:nth-child(5) { margin-right:12%; }
     .loop-flow { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:24px; }
-    .loop-flow span { padding:14px 20px; border:1px solid rgba(103,232,249,.35); border-radius:13px; background:rgba(37,212,212,.1); color:#e6f6ff; font-size:.96rem; font-weight:700; }
-    .loop-flow b { color:#5ab6ff; font-size:1.2rem; }
-    .loop-flow .back { border-style:dashed; color:#fbbf24; border-color:rgba(251,191,36,.45); background:rgba(251,191,36,.07); }
-    .quote-box { max-width:940px; margin-top:24px; padding:18px 24px; border-left:4px solid #f5b942; border-radius:0 14px 14px 0; background:rgba(245,185,66,.1); color:#fef3c7; font-size:clamp(1.05rem,1.55vw,1.25rem); line-height:1.8; word-break:keep-all; }
-    .quote-box small { display:block; margin-top:8px; color:#d4c5a9; font-size:.85rem; }
+    .loop-flow span { padding:14px 20px; border:1px solid rgba(43,92,166,0.35); border-radius:13px; background:rgba(39,118,91,0.11); color:#243B35; font-size:.96rem; font-weight:700; }
+    .loop-flow b { color:#2B5CA6; font-size:1.2rem; }
+    .loop-flow .back { border-style:dashed; color:#856000; border-color:rgba(133,96,0,0.45); background:rgba(133,96,0,0.077); }
+    .quote-box { max-width:940px; margin-top:24px; padding:18px 24px; border-left:4px solid rgba(133,96,0,0.55); border-radius:0 14px 14px 0; background:rgba(133,96,0,0.11); color:#856000; font-size:clamp(1.05rem,1.55vw,1.25rem); line-height:1.8; word-break:keep-all; }
+    .quote-box small { display:block; margin-top:8px; color:#856000; font-size:.85rem; }
     .iceberg { display:grid; gap:12px; margin-top:22px; }
-    .ice-top { padding:16px 20px; border:1px solid rgba(103,232,249,.38); border-radius:14px; background:rgba(37,212,212,.1); color:#e0f2fe; font-size:.96rem; line-height:1.7; word-break:keep-all; }
-    .ice-top b { color:#67e8f9; margin-right:8px; }
+    .ice-top { padding:16px 20px; border:1px solid rgba(43,92,166,0.38); border-radius:14px; background:rgba(39,118,91,0.11); color:#243B35; font-size:.96rem; line-height:1.7; word-break:keep-all; }
+    .ice-top b { color:#2B5CA6; margin-right:8px; }
     .ice-bottom { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
-    .ice-bottom div { padding:15px 18px; border:1px solid rgba(148,163,184,.22); border-radius:14px; background:rgba(2,8,18,.6); font-size:.9rem; color:#cbd5e1; line-height:1.65; word-break:keep-all; }
-    .ice-bottom strong { display:block; margin-bottom:6px; color:#fbbf24; font-size:.98rem; font-weight:700; }
-    .slide-controls { min-height:72px; display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center; padding:0 22px; border-top:1px solid rgba(255,255,255,.1); background:#080f1b; color:#d8e3f2; }
-    .slide-nav-btn { width:44px; height:44px; border:1px solid rgba(255,255,255,.14); border-radius:12px; color:#d8e3f2; background:rgba(255,255,255,.05); cursor:pointer; font-size:.95rem; }
+    .ice-bottom div { padding:15px 18px; border:1px solid rgba(36,59,53,0.198); border-radius:14px; background:rgba(36,59,53,0.08); font-size:.9rem; color:#4A605A; line-height:1.65; word-break:keep-all; }
+    .ice-bottom strong { display:block; margin-bottom:6px; color:#856000; font-size:.98rem; font-weight:700; }
+    .slide-controls { min-height:72px; display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center; padding:0 22px; border-top:1px solid rgba(36,59,53,0.09); background:#F6F9F4; color:#243B35; }
+    .slide-nav-btn { width:44px; height:44px; border:1px solid rgba(36,59,53,0.126); border-radius:12px; color:#243B35; background:rgba(255,255,255,0.7); cursor:pointer; font-size:.95rem; }
     .slide-nav-btn:disabled { opacity:.35; cursor:not-allowed; }
-    .slide-nav-btn.on { color:#04101d; background:#25d4d4; }
+    .slide-nav-btn.on { color:#243B35; background:#D7EEDD; }
     .slide-progress-wrap { display:flex; align-items:center; gap:14px; }
-    .slide-counter { min-width:56px; color:#cbd5e1; font-size:.88rem; font-weight:800; }
-    .slide-progress { flex:1; height:6px; overflow:hidden; border-radius:20px; background:rgba(255,255,255,.09); }
-    .slide-progress span { display:block; width:5%; height:100%; background:linear-gradient(90deg,#46a6ff,#25d4d4); transition:width 220ms ease; }
+    .slide-counter { min-width:56px; color:#4A605A; font-size:.88rem; font-weight:800; }
+    .slide-progress { flex:1; height:6px; overflow:hidden; border-radius:20px; background:rgba(255,255,255,0.82); }
+    .slide-progress span { display:block; width:5%; height:100%; background:linear-gradient(90deg,#D2E0FB,#D2E0FB); transition:width 220ms ease; }
     .slide-tools { display:flex; gap:8px; }
-    .slide-notes { display:none; padding:18px 24px 22px; border-top:1px solid rgba(255,255,255,.1); background:#0a1424; color:#dbeafe; font-size:.96rem; line-height:1.8; word-break:keep-all; }
+    .slide-notes { display:none; padding:18px 24px 22px; border-top:1px solid rgba(36,59,53,0.09); background:#F6F9F4; color:#243B35; font-size:.96rem; line-height:1.8; word-break:keep-all; }
     .slide-notes.open { display:block; }
-    .slide-notes strong { display:block; margin-bottom:6px; color:#fbbf24; font-size:.85rem; letter-spacing:.08em; }
+    .slide-notes strong { display:block; margin-bottom:6px; color:#856000; font-size:.85rem; letter-spacing:.08em; }
 
     .lab-section { padding:20px 0 76px; }
     .lab-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:28px; }
@@ -166,8 +197,8 @@
     .lab-step .num { color:var(--blue); font-family:"Manrope",sans-serif; font-size:.84rem; font-weight:800; letter-spacing:.1em; }
     .lab-step h3 { margin:8px 0 10px; font-family:"Manrope",sans-serif; font-size:1.2rem; font-weight:800; word-break:keep-all; }
     .lab-step p { margin:0; color:var(--muted); font-size:.96rem; line-height:1.7; word-break:keep-all; }
-    .lab-step code { display:inline-block; margin-top:14px; padding:5px 10px; border-radius:8px; color:var(--cyan); background:rgba(37,212,212,.12); font-size:.82rem; font-weight:700; }
-    .lab-step.key { border-color:rgba(245,185,66,.55); background:linear-gradient(135deg,rgba(245,185,66,.1),transparent 60%),var(--surface); }
+    .lab-step code { display:inline-block; margin-top:14px; padding:5px 10px; border-radius:8px; color:var(--cyan); background:rgba(39,118,91,0.132); font-size:.82rem; font-weight:700; }
+    .lab-step.key { border-color:rgba(133,96,0,0.55); background:linear-gradient(135deg,rgba(133,96,0,0.11),transparent 60%),var(--surface); }
     .lab-step.key .num { color:var(--amber); }
     .gap-box { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:22px; }
     .gap-card { padding:24px; border:1px solid var(--line); border-radius:20px; background:var(--surface); }
@@ -182,35 +213,35 @@
     .day-link { min-height:70px; display:flex; flex-direction:column; align-items:center; justify-content:center; border:1px solid transparent; border-radius:14px; color:var(--faint); background:transparent; font-size:.78rem; font-weight:800; cursor:pointer; transition:150ms ease; }
     .day-link strong { font-size:1.02rem; color:inherit; }
     .day-link span { margin-top:3px; font-size:.78rem; }
-    .day-link.active { color:white; background:linear-gradient(135deg,#0879d9,#008f9c); box-shadow:0 8px 20px rgba(8,121,217,.22); }
+    .day-link.active { color:#243B35; background:linear-gradient(135deg,#D2E0FB,#D2E0FB); box-shadow:0 8px 20px rgba(36,59,53,0.077); }
     .day-link:not(.active):hover { color:var(--blue); border-color:var(--line); background:var(--surface-2); }
     .day-notice { min-height:28px; margin:12px 0 0; color:var(--muted); text-align:center; font-size:.9rem; }
 
     .learning-workspace { padding:76px 0 96px; border-top:1px solid var(--line); }
     .workspace-grid { display:grid; grid-template-columns:1.45fr .75fr; gap:20px; align-items:start; margin-top:28px; }
-    .video-panel,.chat-panel { border:1px solid var(--line); border-radius:22px; background:var(--surface); overflow:hidden; box-shadow:0 10px 35px rgba(0,0,0,.05); }
+    .video-panel,.chat-panel { border:1px solid var(--line); border-radius:22px; background:var(--surface); overflow:hidden; box-shadow:0 10px 35px rgba(36,59,53,0.017); }
     .panel-head { min-height:66px; display:flex; align-items:center; justify-content:space-between; gap:14px; padding:0 22px; border-bottom:1px solid var(--line); }
     .panel-head strong { font-family:"Manrope",sans-serif; font-size:1.05rem; font-weight:800; }
     .panel-head span { color:var(--faint); font-size:.82rem; }
-    .player { position:relative; aspect-ratio:16/9; background:#050b13; }
+    .player { position:relative; aspect-ratio:16/9; background:#F6F9F4; }
     .player iframe { width:100%; height:100%; border:0; }
     .playlist-filter { display:flex; gap:8px; overflow-x:auto; padding:12px 18px; border-bottom:1px solid var(--line); }
     .filter-btn { flex:0 0 auto; min-height:35px; padding:0 14px; border:1px solid var(--line); border-radius:999px; color:var(--muted); background:transparent; font-size:.82rem; font-weight:700; cursor:pointer; transition:150ms ease; }
-    .filter-btn.active { color:#04101d; border-color:transparent; background:linear-gradient(135deg,var(--blue),var(--cyan)); }
+    .filter-btn.active { color:#243B35; border-color:transparent; background:#D7EEDD; }
     .playlist { max-height:580px; margin:0; padding:0; overflow-y:auto; list-style:none; }
     .playlist-group { padding:12px 20px 8px; border-top:1px solid var(--line); color:var(--blue); background:var(--surface-2); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
     .playlist-group:first-child { border-top:0; }
     .playlist-item { display:grid; grid-template-columns:44px 1fr auto; gap:14px; align-items:center; min-height:76px; padding:13px 20px; border-top:1px solid var(--line); cursor:pointer; transition:150ms ease; }
     .playlist-item:hover { background:var(--surface-2); }
-    .playlist-item.active { background:rgba(70,166,255,.08); }
+    .playlist-item.active { background:rgba(43,92,166,0.088); }
     .playlist-item[hidden],.playlist-group[hidden] { display:none; }
-    .play-icon { width:40px; height:40px; display:grid; place-items:center; border-radius:12px; color:var(--blue); background:rgba(70,166,255,.1); font-size:1rem; }
-    .playlist-item.active .play-icon { color:#04101d; background:linear-gradient(135deg,var(--blue),var(--cyan)); }
+    .play-icon { width:40px; height:40px; display:grid; place-items:center; border-radius:12px; color:var(--blue); background:rgba(43,92,166,0.11); font-size:1rem; }
+    .playlist-item.active .play-icon { color:#243B35; background:#D7EEDD; }
     .playlist-copy strong,.playlist-copy span { display:block; }
     .playlist-copy strong { font-size:.95rem; font-weight:700; line-height:1.5; }
     .playlist-copy span { margin-top:4px; color:var(--faint); font-size:.82rem; line-height:1.55; }
-    .lang { min-width:32px; padding:4px 8px; border-radius:7px; color:var(--cyan); background:rgba(37,212,212,.1); font-size:.74rem; font-weight:800; text-align:center; }
-    .lang.en { color:var(--violet); background:rgba(167,139,250,.12); }
+    .lang { min-width:32px; padding:4px 8px; border-radius:7px; color:var(--cyan); background:rgba(39,118,91,0.11); font-size:.74rem; font-weight:800; text-align:center; }
+    .lang.en { color:var(--violet); background:rgba(93,74,168,0.132); }
     .video-note { margin:0; padding:13px 20px; border-top:1px solid var(--line); color:var(--faint); font-size:.8rem; line-height:1.6; }
 
     .chat-panel { position:sticky; top:90px; }
@@ -219,17 +250,55 @@
     .chat-messages { height:490px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; padding:20px; }
     .message { max-width:88%; padding:13px 16px; border-radius:16px; font-size:.94rem; line-height:1.7; word-break:keep-all; }
     .message.ai { align-self:flex-start; border:1px solid var(--line); border-radius:4px 16px 16px 16px; background:var(--surface-2); }
-    .message.user { align-self:flex-end; border-radius:16px 4px 16px 16px; color:white; background:linear-gradient(135deg,#0879d9,#008f9c); }
+    .message.user { align-self:flex-end; border-radius:16px 4px 16px 16px; color:#243B35; background:linear-gradient(135deg,#D2E0FB,#D2E0FB); }
     .quick-prompts { display:flex; gap:8px; overflow-x:auto; padding:0 18px 14px; }
     .quick-prompt { flex:0 0 auto; min-height:36px; padding:0 14px; border:1px solid var(--line); border-radius:999px; color:var(--blue); background:transparent; font-size:.82rem; font-weight:700; cursor:pointer; transition:150ms ease; }
-    .quick-prompt:hover { background:rgba(70,166,255,.08); }
+    .quick-prompt:hover { background:rgba(43,92,166,0.088); }
     .chat-form { display:grid; grid-template-columns:1fr 46px; gap:10px; padding:14px 18px; border-top:1px solid var(--line); }
     .chat-form input { min-width:0; height:46px; padding:0 16px; border:1px solid var(--line); border-radius:12px; color:var(--ink); background:var(--surface-2); font-size:.92rem; outline:none; }
-    .chat-form button { border:0; border-radius:12px; color:#04101d; background:linear-gradient(135deg,var(--blue),var(--cyan)); cursor:pointer; font-size:1.05rem; }
+    .chat-form button { border:0; border-radius:12px; color:#FFFFFF; background:#27765B; cursor:pointer; font-size:1.05rem; }
     .chat-note { margin:0; padding:0 18px 14px; color:var(--faint); font-size:.78rem; text-align:center; line-height:1.6; }
     footer { padding:32px 0 52px; border-top:1px solid var(--line); color:var(--faint); font-size:.88rem; line-height:1.65; }
     .footer-inner { display:flex; justify-content:space-between; gap:20px; }
 
+
+    /* ===== Slide visualizations (added 2026-11-18) ===== */
+    .viz-split { display:grid; grid-template-columns:minmax(0,1fr) minmax(260px,420px); gap:34px; align-items:center; }
+    .viz-split.big-fig { grid-template-columns:minmax(0,1fr) minmax(300px,460px); }
+    .viz-split h2:not(.sm) { font-size:clamp(2.1rem,3.9vw,3.7rem); }
+    .viz-split p { max-width:none; }
+    .viz-fig { margin:0; }
+    .viz { display:block; width:100%; height:auto; overflow:visible; }
+    .viz-strip { margin-top:16px; }
+    .viz-strip.tight { margin-top:10px; }
+    .viz-strip.short svg { max-width:860px; margin:0 auto; }
+    .viz .flow { stroke-dasharray:6 7; animation:vizDash 1.6s linear infinite; }
+    @keyframes vizDash { to { stroke-dashoffset:-26; } }
+    @media (prefers-reduced-motion:reduce) { .viz .flow { animation:none; } }
+    .slide.dense { padding-top:clamp(24px,3.1vw,40px); padding-bottom:clamp(24px,3.1vw,40px); }
+    .slide.dense h2.sm { margin:12px 0 10px; }
+    .slide.dense .compare { margin-top:12px; }
+    .slide.dense .slide-grid { margin-top:12px; }
+    .slide.dense .quote-box { margin-top:12px; }
+    .slide.dense .slide-code { font-size:.8rem; line-height:1.55; padding:12px 16px; }
+    .slide.dense .s-table td, .slide.dense .s-table th { padding:7px 10px; }
+    .slide.dense .slide-list { margin-top:10px; } .slide.dense .slide-list li { padding:8px 14px; }
+    .slide.dense .compare-col { padding:14px 18px; } .slide.dense pre.tree { font-size:.8rem; line-height:1.55; }
+    .slide.dense .layer { padding-top:8px; padding-bottom:8px; } .slide.dense .layer-arrow { margin:0; padding:0; }
+    .slide.explain { background:linear-gradient(135deg,#F6F9F4,#D2E0FB); }
+    .slide.explain .slide-kicker { color:#856000; }
+    .slide.explain .slide-kicker::before { content:"쉽게 이해하기 · "; color:#856000; }
+    .slide-grid.steps .slide-card { position:relative; }
+    .slide-grid.steps .slide-card:not(:last-child)::after { content:"\203A"; position:absolute; right:-14px; top:50%; z-index:2; width:22px; height:22px; margin-top:-11px; border-radius:50%; background:#D2E0FB; color:#243B35; font-weight:900; line-height:21px; text-align:center; }
+    .resto { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:16px; }
+    .rs5 { display:flex; flex-direction:column; align-items:center; gap:6px; padding:16px 12px; border:1px solid color-mix(in srgb,var(--c) 50%,transparent); border-top:5px solid var(--c); border-radius:18px; background:rgba(255,255,255,0.67); text-align:center; }
+    .rs5 small { color:var(--c); font-size:.8rem; font-weight:900; font-family:ui-monospace,Menlo,monospace; }
+    .rs5 strong { color:#243B35; font-size:1.3rem; font-weight:900; }
+    .rs5 .q { color:#243B35; font-size:.95rem; font-weight:700; line-height:1.45; }
+    .rs5 .ex { margin-top:auto; padding-top:6px; color:#4A605A; font-size:.85rem; line-height:1.45; }
+    .lay-tag { display:inline-block; padding:2px 9px; border-radius:999px; font-size:.78rem; font-weight:900; color:#243B35; }
+    @media (max-width:980px) { .viz-split,.viz-split.big-fig { grid-template-columns:1fr; } .resto { grid-template-columns:repeat(2,1fr); } .slide-grid.steps .slide-card::after { display:none; } }
+    .slide.dense .funnel-row { padding-top:6px; padding-bottom:6px; } .slide.dense .funnel { gap:4px; margin-top:8px; } .slide.dense .funnel-row { font-size:.86rem; line-height:1.45; }
     @media (max-width:980px) {
       .hero-grid,.workspace-grid { grid-template-columns:1fr; }
       .chat-panel { position:static; }
@@ -265,14 +334,14 @@
       .footer-inner span { display:block; margin-top:4px; }
     }
     .funnel.flat .funnel-row { margin-right:0!important; grid-template-columns:230px 1.2fr 1fr; }
-    .slide code,.lab-step p code,.gap-card p code,.section-lead code { padding:1px 7px; border-radius:6px; background:rgba(103,232,249,.12); color:#a5f3fc; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.86em; }
-    .lab-step p code,.gap-card p code,.section-lead code { color:var(--cyan); background:rgba(37,212,212,.12); }
+    .slide code,.lab-step p code,.gap-card p code,.section-lead code { padding:1px 7px; border-radius:6px; background:rgba(43,92,166,0.132); color:#2B5CA6; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.86em; }
+    .lab-step p code,.gap-card p code,.section-lead code { color:var(--cyan); background:rgba(39,118,91,0.132); }
     .compare.wide { grid-template-columns:1.15fr .85fr; }
     .compare-col pre.tree { font-size:.84rem; line-height:1.62; }
-    .compare-col .mini { margin:12px 0 0; color:#94a3b8; font-size:.84rem; line-height:1.6; }
+    .compare-col .mini { margin:12px 0 0; color:#4A605A; font-size:.84rem; line-height:1.6; }
     .kit-title { margin:56px 0 0; font-family:"Manrope",sans-serif; font-size:1.45rem; font-weight:800; letter-spacing:-.02em; }
     .kit-lead { margin:8px 0 0; color:var(--muted); font-size:.98rem; line-height:1.7; }
-    .gap-card .tag { display:inline-block; margin-bottom:10px; padding:3px 10px; border-radius:999px; color:var(--violet); background:rgba(167,139,250,.12); font-size:.74rem; font-weight:800; letter-spacing:.06em; }
+    .gap-card .tag { display:inline-block; margin-bottom:10px; padding:3px 10px; border-radius:999px; color:var(--violet); background:rgba(93,74,168,0.132); font-size:.74rem; font-weight:800; letter-spacing:.06em; }
     .gap-card pre { max-height:420px; overflow:auto; }
     .md-table { width:100%; margin-top:22px; border-collapse:collapse; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--surface); font-size:.92rem; }
     .md-table th,.md-table td { padding:13px 16px; border-top:1px solid var(--line); text-align:left; vertical-align:top; line-height:1.65; word-break:keep-all; }
@@ -287,23 +356,24 @@
     .golden { display:grid; grid-template-columns:300px 1fr; gap:30px; align-items:center; margin-top:22px; }
     .rings { position:relative; width:290px; height:290px; }
     .rings span { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); border-radius:50%; display:flex; justify-content:center; font-family:"Manrope",sans-serif; font-weight:800; }
-    .rings .r3 { width:290px; height:290px; padding-top:22px; border:1px solid rgba(148,163,184,.35); background:rgba(148,163,184,.08); color:#cbd5e1; }
-    .rings .r2 { width:195px; height:195px; padding-top:20px; border:1px solid rgba(103,232,249,.45); background:rgba(37,212,212,.1); color:#67e8f9; }
-    .rings .r1 { width:100px; height:100px; align-items:center; border:1px solid rgba(251,191,36,.6); background:rgba(251,191,36,.16); color:#fbbf24; font-size:1.15rem; }
+    .rings .r3 { width:290px; height:290px; padding-top:22px; border:1px solid rgba(36,59,53,0.315); background:rgba(238,244,236,0.08); color:#4A605A; }
+    .rings .r2 { width:195px; height:195px; padding-top:20px; border:1px solid rgba(43,92,166,0.45); background:rgba(39,118,91,0.11); color:#2B5CA6; }
+    .rings .r1 { width:100px; height:100px; align-items:center; border:1px solid rgba(133,96,0,0.6); background:rgba(133,96,0,0.176); color:#856000; font-size:1.15rem; }
     .golden-list { display:grid; gap:12px; }
-    .golden-list div { padding:14px 18px; border-left:4px solid #fbbf24; border-radius:0 12px 12px 0; background:rgba(255,255,255,.05); color:#cbd5e1; font-size:.95rem; line-height:1.65; word-break:keep-all; }
-    .golden-list div:nth-child(2) { border-color:#25d4d4; } .golden-list div:nth-child(3) { border-color:#94a3b8; }
-    .golden-list b { display:block; color:#fff; font-size:1.02rem; margin-bottom:2px; }
+    .golden-list div { padding:14px 18px; border-left:4px solid rgba(133,96,0,0.55); border-radius:0 12px 12px 0; background:rgba(255,255,255,0.7); color:#4A605A; font-size:.95rem; line-height:1.65; word-break:keep-all; }
+    .golden-list div:nth-child(2) { border-color:rgba(39,118,91,0.55); } .golden-list div:nth-child(3) { border-color:rgba(36,59,53,0.14); }
+    .golden-list b { display:block; color:#243B35; font-size:1.02rem; margin-bottom:2px; }
     .sprint { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:24px; }
-    .sprint div { padding:16px 16px 18px; border:1px solid rgba(255,255,255,.14); border-top:4px solid #46a6ff; border-radius:12px; background:rgba(255,255,255,.05); color:#cbd5e1; font-size:.88rem; line-height:1.6; word-break:keep-all; }
-    .sprint div.now { border-top-color:#fbbf24; background:rgba(251,191,36,.08); }
-    .sprint strong { display:block; color:#fff; font-family:"Manrope",sans-serif; font-size:1rem; }
-    .sprint em { display:block; margin:4px 0 8px; color:#67e8f9; font-style:normal; font-size:.78rem; font-weight:800; letter-spacing:.06em; }
+    .sprint div { padding:16px 16px 18px; border:1px solid rgba(36,59,53,0.126); border-top:4px solid rgba(43,92,166,0.55); border-radius:12px; background:rgba(255,255,255,0.7); color:#4A605A; font-size:.88rem; line-height:1.6; word-break:keep-all; }
+    .sprint div.now { border-top-color:rgba(133,96,0,0.55); background:rgba(133,96,0,0.088); }
+    .sprint strong { display:block; color:#243B35; font-family:"Manrope",sans-serif; font-size:1rem; }
+    .sprint em { display:block; margin:4px 0 8px; color:#2B5CA6; font-style:normal; font-size:.78rem; font-weight:800; letter-spacing:.06em; }
     .sprint code { display:table; margin-top:10px; }
     @media (max-width:980px) { .golden { grid-template-columns:1fr; justify-items:start; } .sprint { grid-template-columns:repeat(2,1fr); } }
     @media (max-width:650px) { .rings { transform:scale(.8); transform-origin:left top; height:240px; } .sprint { grid-template-columns:1fr; } }
   </style>
   <link rel="stylesheet" href="daily-feedback.css" />
+  <script src="./shared/lms-header.js?v=20261118-unified"></script>
 </head>
 <body>
   <header class="topbar">
@@ -348,11 +418,13 @@
           <div class="slide-stage" aria-live="polite">
 
             <!-- 1 -->
-            <article class="slide active" data-note="2주차 시작. 지난주에는 그로스해킹(Day 2), 설계와 gstack(Day 3), MD 기반 Antigravity 구현(Day 4), 백엔드 구조(Day 5)를 각각 배웠습니다. 오늘은 그 조각들을 '실제 서비스 하나를 처음부터 끝까지 만드는 순서'로 엮습니다. 핵심 메시지: 올바른 것을 만들고(Build the right thing), 그다음에 올바르게 만든다(Build it right)."><div class="slide-inner">
+            <article class="slide dense active" data-note="2주차 시작. 지난주에는 그로스해킹(Day 2), 설계와 gstack(Day 3), MD 기반 Antigravity 구현(Day 4), 백엔드 구조(Day 5)를 각각 배웠습니다. 오늘은 그 조각들을 '실제 서비스 하나를 처음부터 끝까지 만드는 순서'로 엮습니다. 핵심 메시지: 올바른 것을 만들고(Build the right thing), 그다음에 올바르게 만든다(Build it right)."><div class="slide-inner">
+              <div class="viz-split"><div>
               <span class="slide-kicker">ACE AI SW Startup Training · Day 6 · Week 2 Kickoff</span>
               <h2>Build the Right Thing,<br /><span class="hl">then Build it Right.</span></h2>
               <p>올바른 문제를 고르는 일은 사람이, 빠르고 정확하게 만드는 일은 사람과 AI가 함께 합니다. 오늘은 실제 서비스 개발의 전체 지도를 그리고 팀 프로젝트를 킥오프합니다.</p>
-              <div class="slide-grid">
+              </div><figure class="viz-fig"><svg class="viz" viewBox="0 0 440 270" role="img" aria-label="먼저 과녁 중앙(올바른 문제)을 맞히고, 그다음 사람과 AI가 함께 올바르게 만든다" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="t1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#D2E0FB"/></marker></defs><circle cx="120" cy="130" r="80" fill="none" stroke="#A83A45" stroke-opacity=".7" stroke-width="10"/><circle cx="120" cy="130" r="56" fill="none" stroke="#243B35" stroke-opacity=".7" stroke-width="10"/><circle cx="120" cy="130" r="32" fill="none" stroke="#A83A45" stroke-opacity=".7" stroke-width="10"/><path d="M30 40 L112 122" stroke="#856000" stroke-width="5" stroke-linecap="round"/><path d="M112 122 l-14 -2 l12 -12z" fill="#F5F0BB"/><text x="120" y="240" text-anchor="middle" fill="#243B35" font-size="15" font-weight="900" >① 올바른 것을 고른다</text><text x="120" y="260" text-anchor="middle" fill="#856000" font-size="12.5" font-weight="800" >사람 · Why / What</text><path class="flow" d="M215 130 H265" stroke="#2B5CA6" stroke-width="3" marker-end="url(#t1)"/><circle cx="340" cy="110" r="46" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(317.0 87.0) scale(1.9166666666666667)" fill="none" stroke="#2B5CA6" stroke-width="0.99" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></g><circle cx="395" cy="165" r="22" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(385.0 155.0) scale(0.8333333333333334)" fill="none" stroke="#5D4AA8" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9 17h6"/></g><circle cx="285" cy="165" r="22" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(275.0 155.0) scale(0.8333333333333334)" fill="none" stroke="#856000" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></g><text x="340" y="240" text-anchor="middle" fill="#243B35" font-size="15" font-weight="900" >② 올바르게 만든다</text><text x="340" y="260" text-anchor="middle" fill="#2B5CA6" font-size="12.5" font-weight="800" >사람 + AI · How</text></svg></figure></div>
+              <div class="slide-grid steps">
                 <div class="slide-card"><strong>01 · Why</strong><span>누구의 어떤 문제인가</span></div>
                 <div class="slide-card"><strong>02 · What</strong><span>이번에 무엇만 만드는가</span></div>
                 <div class="slide-card"><strong>03 · How</strong><span>gstack 시퀀스로 어떻게 만드는가</span></div>
@@ -361,7 +433,7 @@
             </div></article>
 
             <!-- 2 -->
-            <article class="slide alert" data-note="질문으로 시작: '스타트업이 망하는 가장 큰 이유는 뭘까?' 기술이 부족해서라고 답하는 학생이 많습니다. CB Insights 등 스타트업 실패 원인 분석에서는 '시장에 필요 없는 제품(no market need)'과 '자금 소진'이 늘 최상위에 있습니다. 코드를 못 짜서가 아니라 아무도 원하지 않는 것을 만들어서 실패한다는 것. AI 시대에는 만드는 속도가 빨라진 만큼 이 실패도 더 빨리, 더 자주 일어납니다."><div class="slide-inner">
+            <article class="slide dense alert" data-note="질문으로 시작: '스타트업이 망하는 가장 큰 이유는 뭘까?' 기술이 부족해서라고 답하는 학생이 많습니다. CB Insights 등 스타트업 실패 원인 분석에서는 '시장에 필요 없는 제품(no market need)'과 '자금 소진'이 늘 최상위에 있습니다. 코드를 못 짜서가 아니라 아무도 원하지 않는 것을 만들어서 실패한다는 것. AI 시대에는 만드는 속도가 빨라진 만큼 이 실패도 더 빨리, 더 자주 일어납니다."><div class="slide-inner">
               <span class="slide-kicker">Opening question</span>
               <h2 class="sm">서비스는 왜 실패할까요?<br /><span class="hl">“못 만들어서”가 아니라 “아무도 원하지 않아서”</span></h2>
               <div class="compare">
@@ -371,8 +443,15 @@
               <div class="quote-box">스타트업 실패 원인 분석에서 <b>“시장 수요 없음(no market need)”</b>은 늘 최상위 원인입니다. AI는 만드는 속도를 높이지만, <b>틀린 방향의 속도</b>도 함께 높입니다.</div>
             </div></article>
 
+            <!-- EXPLAIN -->
+            <article class="slide explain dense" data-note="비유: 아무리 좋은 우산을 만들어도 건기(Harmattan)에는 손님이 없습니다. 평범한 물이라도 붐비는 버스 정류장에서는 줄이 섭니다. 제품의 성패는 '얼마나 잘 만들었나'보다 '누가, 언제, 무엇이 필요한가'에서 먼저 갈립니다. 학생들에게 '우리 동네에서 늘 줄이 서는 가게는 어디인가? 왜인가?'를 물어보세요."><div class="slide-inner">
+              <span class="slide-kicker">Analogy · 시장 가게</span>
+              <h2 class="sm">잘 만든 가게보다 <span class="hl">필요한 곳에 연 가게</span>가 살아남는다</h2>
+              <div class="viz-strip"><svg class="viz" viewBox="0 10 1000 316" role="img" aria-label="건기에 우산 가게는 손님이 없고, 붐비는 버스 정류장의 물 가게는 줄이 선다" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="m1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#D7EEDD"/></marker></defs><rect x="20" y="20" width="460" height="300" rx="18" fill="rgba(168,58,69,0.066)" stroke="rgba(168,58,69,0.45)"/><text x="250" y="50" text-anchor="middle" fill="#A83A45" font-size="18" font-weight="900" >건기(Harmattan)에 우산 가게</text><circle cx="420" cy="90" r="26" fill="#F5F0BB" fill-opacity=".8"/><path d="M150 150 h200 v110 h-200z" fill="#F6F9F4" stroke="#A83A45"/><path d="M140 150 L250 110 L360 150z" fill="rgba(168,58,69,0.385)"/><path d="M185 230 a20 20 0 0 1 40 0" fill="none" stroke="#A83A45" stroke-width="3"/><path d="M205 230 v20" stroke="#A83A45" stroke-width="3"/><path d="M235 230 a20 20 0 0 1 40 0" fill="none" stroke="#A83A45" stroke-width="3"/><path d="M255 230 v20" stroke="#A83A45" stroke-width="3"/><path d="M285 230 a20 20 0 0 1 40 0" fill="none" stroke="#A83A45" stroke-width="3"/><path d="M305 230 v20" stroke="#A83A45" stroke-width="3"/><text x="250" y="290" text-anchor="middle" fill="#A83A45" font-size="14" font-weight="800" >좋은 우산 · 멋진 가게 · 손님 0명</text><text x="250" y="310" text-anchor="middle" fill="#4A605A" font-size="13" font-weight="700" >“만들 수 있다” ≠ “원한다”</text><rect x="520" y="20" width="460" height="300" rx="18" fill="rgba(39,118,91,0.066)" stroke="rgba(39,118,91,0.45)"/><text x="750" y="50" text-anchor="middle" fill="#27765B" font-size="18" font-weight="900" >붐비는 버스 정류장의 물 가게</text><rect x="590" y="70" width="110" height="46" rx="10" fill="#F5F0BB" fill-opacity=".85"/><text x="645" y="99" text-anchor="middle" fill="#243B35" font-size="13" font-weight="900" >BUS PARK</text><path d="M560 150 h120 v110 h-120z" fill="#F6F9F4" stroke="#27765B"/><path d="M552 150 L620 120 L688 150z" fill="rgba(39,118,91,0.385)"/><rect x="574" y="190" width="22" height="50" rx="6" fill="rgba(43,92,166,0.5)"/><rect x="608" y="190" width="22" height="50" rx="6" fill="rgba(43,92,166,0.5)"/><rect x="642" y="190" width="22" height="50" rx="6" fill="rgba(43,92,166,0.5)"/><circle cx="720" cy="206" r="9" fill="#D2E0FB"/><path d="M706 236 q14 -26 28 0z" fill="#D2E0FB"/><circle cx="760" cy="206" r="9" fill="#D2E0FB"/><path d="M746 236 q14 -26 28 0z" fill="#D2E0FB"/><circle cx="800" cy="206" r="9" fill="#D2E0FB"/><path d="M786 236 q14 -26 28 0z" fill="#D2E0FB"/><circle cx="840" cy="206" r="9" fill="#D2E0FB"/><path d="M826 236 q14 -26 28 0z" fill="#D2E0FB"/><circle cx="880" cy="206" r="9" fill="#D2E0FB"/><path d="M866 236 q14 -26 28 0z" fill="#D2E0FB"/><circle cx="920" cy="206" r="9" fill="#D2E0FB"/><path d="M906 236 q14 -26 28 0z" fill="#D2E0FB"/><path d="M712 200 H690" stroke="#27765B" stroke-width="2" marker-end="url(#m1)"/><text x="750" y="290" text-anchor="middle" fill="#27765B" font-size="14" font-weight="800" >평범한 물 · 작은 가게 · 줄 선 손님</text><text x="750" y="310" text-anchor="middle" fill="#4A605A" font-size="13" font-weight="700" >“누가, 언제, 무엇이 필요한가”가 먼저</text></svg></div>
+            </div></article>
+
             <!-- 3 -->
-            <article class="slide" data-note="Simon Sinek의 골든 서클(Start with Why)을 제품 개발에 적용합니다. 바깥에서 안으로(How → What → Why) 생각하면 기술 중심의 평범한 제품이 되고, 안에서 바깥으로(Why → What → How) 생각해야 사용자에게 의미 있는 제품이 됩니다. 우리 프로젝트에서 Why는 '문제와 사용자', What은 'MVP 범위와 완료 기준', How는 '기술 스택과 AI 개발 프로세스'입니다. 오늘 오전은 Why/What, 오후는 How에 집중합니다."><div class="slide-inner">
+            <article class="slide dense" data-note="Simon Sinek의 골든 서클(Start with Why)을 제품 개발에 적용합니다. 바깥에서 안으로(How → What → Why) 생각하면 기술 중심의 평범한 제품이 되고, 안에서 바깥으로(Why → What → How) 생각해야 사용자에게 의미 있는 제품이 됩니다. 우리 프로젝트에서 Why는 '문제와 사용자', What은 'MVP 범위와 완료 기준', How는 '기술 스택과 AI 개발 프로세스'입니다. 오늘 오전은 Why/What, 오후는 How에 집중합니다."><div class="slide-inner">
               <span class="slide-kicker">Golden circle for products</span>
               <h2 class="sm">안에서 바깥으로: <span class="hl">Why → What → How</span></h2>
               <div class="golden">
@@ -386,34 +465,36 @@
             </div></article>
 
             <!-- 4 -->
-            <article class="slide" data-note="프로젝트를 만들 때 가장 중요한 5가지 원칙. 이 다섯 개가 이번 주 모든 판단의 기준입니다. 특히 4번(검증 가능한 기준)과 5번(판단은 사람)은 AI Native 개발에서 더 중요해집니다. AI는 '그럴듯한 완성'을 아주 빨리 보여 주기 때문에, 무엇이 진짜 완료인지 기준이 없으면 팀이 쉽게 속습니다."><div class="slide-inner">
+            <article class="slide dense" data-note="프로젝트를 만들 때 가장 중요한 5가지 원칙. 이 다섯 개가 이번 주 모든 판단의 기준입니다. 특히 4번(검증 가능한 기준)과 5번(판단은 사람)은 AI Native 개발에서 더 중요해집니다. AI는 '그럴듯한 완성'을 아주 빨리 보여 주기 때문에, 무엇이 진짜 완료인지 기준이 없으면 팀이 쉽게 속습니다."><div class="slide-inner">
               <span class="slide-kicker">What matters most</span>
               <h2 class="sm">프로젝트에서 <span class="hl">가장 중요한 5가지</span></h2>
               <div class="slide-grid cols-5">
-                <div class="slide-card"><span class="big">1</span><strong>문제 먼저</strong><span>기능이 아니라 사용자의 불편에서 출발</span></div>
-                <div class="slide-card"><span class="big">2</span><strong>좁은 사용자</strong><span>“모두”가 아니라 가장 절실한 한 사람</span></div>
-                <div class="slide-card"><span class="big">3</span><strong>작은 범위</strong><span>핵심 행동 하나가 끝까지 동작하는 MVP</span></div>
-                <div class="slide-card"><span class="big">4</span><strong>검증 가능한 기준</strong><span>“좋게”가 아니라 숫자와 수용 기준</span></div>
-                <div class="slide-card"><span class="big">5</span><strong>판단은 사람</strong><span>AI 제안의 채택·수정·거절과 이유를 기록</span></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="search" font-family="Pretendard,DM Sans,sans-serif" style="height:48px;width:48px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#2B5CA6" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></g></svg><span class="big">1</span><strong>문제 먼저</strong><span>기능이 아니라 사용자의 불편에서 출발</span></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="user" font-family="Pretendard,DM Sans,sans-serif" style="height:48px;width:48px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#856000" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></g></svg><span class="big">2</span><strong>좁은 사용자</strong><span>“모두”가 아니라 가장 절실한 한 사람</span></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="scissors" font-family="Pretendard,DM Sans,sans-serif" style="height:48px;width:48px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#2B5CA6" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="7" r="3"/><circle cx="6" cy="17" r="3"/><path d="M8.5 8.5L20 19M8.5 15.5L20 5"/></g></svg><span class="big">3</span><strong>작은 범위</strong><span>핵심 행동 하나가 끝까지 동작하는 MVP</span></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="check" font-family="Pretendard,DM Sans,sans-serif" style="height:48px;width:48px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#27765B" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#27765B" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></g></svg><span class="big">4</span><strong>검증 가능한 기준</strong><span>“좋게”가 아니라 숫자와 수용 기준</span></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="hand" font-family="Pretendard,DM Sans,sans-serif" style="height:48px;width:48px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#5D4AA8" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V5a1.5 1.5 0 0 1 3 0v5M10 10V3.5a1.5 1.5 0 0 1 3 0V10M13 10V4.5a1.5 1.5 0 0 1 3 0V11M16 11V7.5a1.5 1.5 0 0 1 3 0V14c0 4-3 7-7 7s-6-2-7.5-5L3 12.5a1.5 1.5 0 0 1 2.5-1.5L7 13"/></g></svg><span class="big">5</span><strong>판단은 사람</strong><span>AI 제안의 채택·수정·거절과 이유를 기록</span></div>
               </div>
               <div class="quote-box">화려한 기능 10개보다 <b>사용자 한 명의 문제를 끝까지 해결하는 흐름 1개</b>가 더 강한 데모이고, 더 좋은 제품입니다.</div>
             </div></article>
 
             <!-- 5 -->
-            <article class="slide" data-note="Why를 검증하는 방법. Y Combinator의 핵심 조언은 'Make something people want'와 'Talk to your users'. 사용자 인터뷰에서는 The Mom Test(Rob Fitzpatrick) 원칙을 씁니다: 내 아이디어를 설명하고 '좋아요?'라고 묻지 말고, 그 사람의 과거 행동과 실제 경험을 묻는다. 칭찬과 미래형 약속('쓸 것 같아요')은 증거가 아닙니다. 오늘 팀별로 최소 3명(같은 반 학생도 가능)에게 5분 인터뷰를 해 보세요."><div class="slide-inner">
+            <article class="slide dense" data-note="Why를 검증하는 방법. Y Combinator의 핵심 조언은 'Make something people want'와 'Talk to your users'. 사용자 인터뷰에서는 The Mom Test(Rob Fitzpatrick) 원칙을 씁니다: 내 아이디어를 설명하고 '좋아요?'라고 묻지 말고, 그 사람의 과거 행동과 실제 경험을 묻는다. 칭찬과 미래형 약속('쓸 것 같아요')은 증거가 아닙니다. 오늘 팀별로 최소 3명(같은 반 학생도 가능)에게 5분 인터뷰를 해 보세요."><div class="slide-inner">
               <span class="slide-kicker">Why · validate the problem</span>
               <h2 class="sm">문제는 <span class="hl">의견이 아니라 과거 행동</span>으로 검증합니다</h2>
               <div class="compare">
                 <div class="compare-col bad"><h4><i class="fa-solid fa-xmark"></i> 나쁜 질문 (칭찬을 부른다)</h4><ul><li>“이런 앱 있으면 쓸 것 같아요?”</li><li>“이 아이디어 어때요?”</li><li>“돈 내고 쓸 의향 있어요?”</li></ul><p class="mini">미래형 약속과 칭찬은 증거가 아닙니다.</p></div>
                 <div class="compare-col good"><h4><i class="fa-solid fa-check"></i> 좋은 질문 (사실을 부른다)</h4><ul><li>“마지막으로 이 문제를 겪은 게 언제예요? 어떻게 해결했어요?”</li><li>“그 과정에서 가장 시간이 오래 걸린 건 뭐예요?”</li><li>“그걸 해결하려고 이미 써 본 방법이나 돈이 있나요?”</li></ul></div>
               </div>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 132" role="img" aria-label="칭찬과 미래 약속은 약한 증거, 최근 경험·현재 대안·지출은 강한 증거" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><text x="0" y="14" text-anchor="start" fill="#4A605A" font-size="13" font-weight="900" >증거의 세기</text><rect x="60" y="70" width="12" height="10" rx="2" fill="#F6D5CF"/><rect x="76" y="62" width="12" height="18" rx="2" fill="rgba(255,255,255,0.85)"/><rect x="92" y="54" width="12" height="26" rx="2" fill="rgba(255,255,255,0.85)"/><rect x="108" y="46" width="12" height="34" rx="2" fill="rgba(255,255,255,0.85)"/><rect x="124" y="38" width="12" height="42" rx="2" fill="rgba(255,255,255,0.85)"/><text x="96" y="104" text-anchor="middle" fill="#A83A45" font-size="14" font-weight="900" >칭찬</text><text x="96" y="124" text-anchor="middle" fill="#243B35" font-size="11.5" font-weight="700" >“좋은 아이디어네요!”</text><rect x="260" y="70" width="12" height="10" rx="2" fill="#F6D5CF"/><rect x="276" y="62" width="12" height="18" rx="2" fill="rgba(255,255,255,0.85)"/><rect x="292" y="54" width="12" height="26" rx="2" fill="rgba(255,255,255,0.85)"/><rect x="308" y="46" width="12" height="34" rx="2" fill="rgba(255,255,255,0.85)"/><rect x="324" y="38" width="12" height="42" rx="2" fill="rgba(255,255,255,0.85)"/><text x="296" y="104" text-anchor="middle" fill="#A83A45" font-size="14" font-weight="900" >미래 약속</text><text x="296" y="124" text-anchor="middle" fill="#243B35" font-size="11.5" font-weight="700" >“나중에 쓸 것 같아요”</text><rect x="460" y="70" width="12" height="10" rx="2" fill="#F5F0BB"/><rect x="476" y="62" width="12" height="18" rx="2" fill="#F5F0BB"/><rect x="492" y="54" width="12" height="26" rx="2" fill="#F5F0BB"/><rect x="508" y="46" width="12" height="34" rx="2" fill="rgba(255,255,255,0.85)"/><rect x="524" y="38" width="12" height="42" rx="2" fill="rgba(255,255,255,0.85)"/><text x="496" y="104" text-anchor="middle" fill="#856000" font-size="14" font-weight="900" >최근 경험</text><text x="496" y="124" text-anchor="middle" fill="#243B35" font-size="11.5" font-weight="700" >“지난주에 이 문제로 1시간 날렸어요”</text><rect x="660" y="70" width="12" height="10" rx="2" fill="#D7EEDD"/><rect x="676" y="62" width="12" height="18" rx="2" fill="#D7EEDD"/><rect x="692" y="54" width="12" height="26" rx="2" fill="#D7EEDD"/><rect x="708" y="46" width="12" height="34" rx="2" fill="#D7EEDD"/><rect x="724" y="38" width="12" height="42" rx="2" fill="rgba(255,255,255,0.85)"/><text x="696" y="104" text-anchor="middle" fill="#27765B" font-size="14" font-weight="900" >현재 대안</text><text x="696" y="124" text-anchor="middle" fill="#243B35" font-size="11.5" font-weight="700" >“지금은 WhatsApp 그룹으로 버텨요”</text><rect x="860" y="70" width="12" height="10" rx="2" fill="#D7EEDD"/><rect x="876" y="62" width="12" height="18" rx="2" fill="#D7EEDD"/><rect x="892" y="54" width="12" height="26" rx="2" fill="#D7EEDD"/><rect x="908" y="46" width="12" height="34" rx="2" fill="#D7EEDD"/><rect x="924" y="38" width="12" height="42" rx="2" fill="#D7EEDD"/><text x="896" y="104" text-anchor="middle" fill="#27765B" font-size="14" font-weight="900" >돈 · 시간 지출</text><text x="896" y="124" text-anchor="middle" fill="#243B35" font-size="11.5" font-weight="700" >“이미 이걸 해결하려고 돈을 냈어요”</text></svg></div>
               <div class="quote-box">Make something people want. — <b>Y Combinator</b> · 상대의 삶에 대해 묻고, 내 아이디어는 묻지 마라. — <b>The Mom Test</b></div>
             </div></article>
 
             <!-- 6 -->
-            <article class="slide" data-note="What을 확정하는 3가지 도구. ① 3문장 정의(Project Day Phase 1): 사이트 목적 / 사용자 A의 핵심 행동 / 사용자 B의 핵심 행동. 팀원 모두가 같은 제품을 상상할 수 있어야 합니다. ② Must/Should/Out 범위표: 특히 Out(이번엔 안 만든다)을 명확히 써야 범위가 지켜집니다. ③ 성공 지표 2개 이상을 숫자로. 예시는 Project Day의 QR 출석 서비스입니다."><div class="slide-inner">
+            <article class="slide dense" data-note="What을 확정하는 3가지 도구. ① 3문장 정의(Project Day Phase 1): 사이트 목적 / 사용자 A의 핵심 행동 / 사용자 B의 핵심 행동. 팀원 모두가 같은 제품을 상상할 수 있어야 합니다. ② Must/Should/Out 범위표: 특히 Out(이번엔 안 만든다)을 명확히 써야 범위가 지켜집니다. ③ 성공 지표 2개 이상을 숫자로. 예시는 Project Day의 QR 출석 서비스입니다."><div class="slide-inner">
               <span class="slide-kicker">What · define the MVP</span>
               <h2 class="sm">What은 <span class="hl">3문장 · 범위표 · 성공 지표</span>로 고정합니다</h2>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 124" role="img" aria-label="Must, Should, Out 범위: Must가 가장 크고 Out은 이번에 만들지 않는다" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="4" width="520" height="32" rx="8" fill="#D7EEDD" fill-opacity="0.85" stroke="#27765B" /><text x="24" y="25" text-anchor="start" fill="#243B35" font-size="13" font-weight="900" >MUST</text><text x="100" y="25" text-anchor="start" fill="#243B35" font-size="13" font-weight="800" >출석 저장 · 현황 반영</text><text x="544" y="25" text-anchor="start" fill="#27765B" font-size="12.5" font-weight="800" >없으면 제품이 아니다</text><rect x="10" y="44" width="340" height="32" rx="8" fill="#F5F0BB" fill-opacity="0.25" stroke="#856000" /><text x="24" y="65" text-anchor="start" fill="#856000" font-size="13" font-weight="900" >SHOULD</text><text x="100" y="65" text-anchor="start" fill="#243B35" font-size="13" font-weight="800" >지각 표시 · 필터</text><text x="364" y="65" text-anchor="start" fill="#856000" font-size="12.5" font-weight="800" >시간이 남으면</text><rect x="10" y="84" width="320" height="32" rx="8" fill="#F6D5CF" fill-opacity="0.25" stroke="#A83A45" stroke-dasharray="5 4"/><text x="24" y="105" text-anchor="start" fill="#A83A45" font-size="13" font-weight="900" >OUT</text><text x="100" y="105" text-anchor="start" fill="#243B35" font-size="13" font-weight="800" >로그인 · 위치 인증 · 통계</text><text x="344" y="105" text-anchor="start" fill="#A83A45" font-size="12.5" font-weight="800" >이번엔 안 만든다 ✂</text></svg></div>
               <div class="slide-grid cols-3">
                 <div class="slide-card"><strong>3문장 정의</strong><span>① 목적: 학생이 QR로 출석하고 선생님이 실시간으로 확인한다<br />② 학생: 이름 검색 → 카드 선택 → QR 스캔 → 출석<br />③ 선생님: 대시보드 → 실시간 갱신 → 미출석 필터</span><em>팀 전원이 같은 제품을 상상하는가?</em></div>
                 <div class="slide-card"><strong>Must / Should / Out</strong><span>Must: 출석 저장, 현황 반영<br />Should: 지각 표시, 필터<br />Out: 로그인, 위치 인증, 통계 리포트</span><em>“만들지 않는 것”까지 말할 수 있는가?</em></div>
@@ -422,7 +503,7 @@
             </div></article>
 
             <!-- 7 -->
-            <article class="slide" data-note="MVP의 의미를 오해하지 않도록. MVP는 '대충 만든 전체'가 아니라 '핵심 가치를 증명하는 가장 작은 완성품'입니다. 케이크 비유: 층별로(DB만, API만, 화면만) 만들지 말고, 얇은 조각 하나에 모든 층이 다 들어가게. Day 4의 수직 슬라이스와 같은 개념입니다. Michael Seibel(YC)의 조언: 런치를 두려워하지 말고, 작게 빨리 내보내 사용자에게 배우라."><div class="slide-inner">
+            <article class="slide dense" data-note="MVP의 의미를 오해하지 않도록. MVP는 '대충 만든 전체'가 아니라 '핵심 가치를 증명하는 가장 작은 완성품'입니다. 케이크 비유: 층별로(DB만, API만, 화면만) 만들지 말고, 얇은 조각 하나에 모든 층이 다 들어가게. Day 4의 수직 슬라이스와 같은 개념입니다. Michael Seibel(YC)의 조언: 런치를 두려워하지 말고, 작게 빨리 내보내 사용자에게 배우라."><div class="slide-inner">
               <span class="slide-kicker">MVP = thinnest complete slice</span>
               <h2 class="sm">MVP는 <span class="hl">대충 만든 전체</span>가 아니라 <span class="hl">작지만 완성된 한 조각</span></h2>
               <div class="compare">
@@ -440,11 +521,18 @@
               <div class="quote-box">매일 저녁 <b>“지금 당장 시연할 수 있는 흐름”</b>이 하나 이상 있어야 합니다. 그것이 MVP 스프린트의 리듬입니다.</div>
             </div></article>
 
+            <!-- EXPLAIN -->
+            <article class="slide explain dense" data-note="MVP를 탈것으로 설명합니다(Henrik Kniberg의 유명한 그림을 나이지리아 버전으로). 위: 바퀴 → 차체 → 엔진 없는 차 → 자동차 순서로 만들면 마지막 날까지 아무도 탈 수 없습니다. 아래: 스케이트보드 → 자전거 → 오카다 → 자동차는 매 단계 사용자가 실제로 이동할 수 있고, 그때마다 피드백을 받습니다. '우리 프로젝트의 스케이트보드는 무엇인가?'를 팀마다 한 문장으로 말하게 하세요."><div class="slide-inner">
+              <span class="slide-kicker">Analogy · 스케이트보드에서 자동차까지</span>
+              <h2 class="sm">MVP = <span class="hl">매 단계 탈 수 있는</span> 탈것</h2>
+              <div class="viz-strip"><svg class="viz" viewBox="0 0 1000 352" role="img" aria-label="부품부터 만들면 마지막까지 쓸 수 없고, MVP는 스케이트보드부터 자동차까지 매 단계 쓸 수 있다" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="v1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#EEF4EC"/></marker></defs><text x="10" y="24" text-anchor="start" fill="#A83A45" font-size="15" font-weight="900" >✗ 부품부터 만들기 — 마지막 날까지 아무도 탈 수 없다</text><g stroke="#A83A45" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="110" cy="80" r="16"/><circle cx="110" cy="80" r="4"/></g><text x="110" y="140" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800" >바퀴만</text><text x="110" y="160" text-anchor="middle" fill="#A83A45" font-size="12.5" font-weight="800" >😞 사용 불가</text><path d="M170 80 H286" stroke="#4A605A" stroke-width="2" marker-end="url(#v1)"/><g stroke="#A83A45" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="324" cy="90" r="12"/><circle cx="376" cy="90" r="12"/><path d="M304 76 H396"/></g><text x="350" y="140" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800" >바퀴 + 차체</text><text x="350" y="160" text-anchor="middle" fill="#A83A45" font-size="12.5" font-weight="800" >😞 사용 불가</text><path d="M410 80 H526" stroke="#4A605A" stroke-width="2" marker-end="url(#v1)"/><g stroke="#A83A45" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="564" cy="94" r="11"/><circle cx="616" cy="94" r="11"/><path d="M542 94 v-16 h18 l12 -16 h36 l12 16 h18 v16"/><path d="M580 74 l20 0" stroke-dasharray="3 3"/></g><text x="590" y="140" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800" >엔진 없는 차</text><text x="590" y="160" text-anchor="middle" fill="#A83A45" font-size="12.5" font-weight="800" >😞 사용 불가</text><path d="M650 80 H766" stroke="#4A605A" stroke-width="2" marker-end="url(#v1)"/><g stroke="#27765B" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="804" cy="94" r="11"/><circle cx="856" cy="94" r="11"/><path d="M782 94 v-16 h18 l12 -16 h36 l12 16 h18 v16"/></g><text x="830" y="140" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800" >자동차</text><text x="830" y="160" text-anchor="middle" fill="#27765B" font-size="12.5" font-weight="800" >😀 드디어!</text><text x="10" y="206" text-anchor="start" fill="#27765B" font-size="15" font-weight="900" >✓ MVP — 매 단계 탈 수 있고, 사용자에게 배운다</text><g stroke="#27765B" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M70 262 H150"/><circle cx="84" cy="272" r="6"/><circle cx="136" cy="272" r="6"/></g><text x="110" y="322" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800" >스케이트보드</text><text x="110" y="342" text-anchor="middle" fill="#27765B" font-size="12.5" font-weight="800" >😀 이동 가능</text><path class="flow" d="M170 262 H286" stroke="#27765B" stroke-width="2" marker-end="url(#v1)"/><g stroke="#27765B" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="322" cy="270" r="14"/><circle cx="378" cy="270" r="14"/><path d="M322 270 L344 248 H366 L378 270 M344 248 L352 270 L322 270"/></g><text x="350" y="322" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800" >자전거</text><text x="350" y="342" text-anchor="middle" fill="#27765B" font-size="12.5" font-weight="800" >😀 이동 가능</text><path class="flow" d="M410 262 H526" stroke="#27765B" stroke-width="2" marker-end="url(#v1)"/><g stroke="#27765B" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="560" cy="272" r="14"/><circle cx="620" cy="272" r="14"/><path d="M560 272 L582 252 H606 L620 272 M606 252 l6 -12 h10"/><path d="M576 252 h20 v8 h-20z" fill="#D7EEDD" fill-opacity=".4"/></g><text x="590" y="322" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800" >오카다(오토바이)</text><text x="590" y="342" text-anchor="middle" fill="#27765B" font-size="12.5" font-weight="800" >😀 이동 가능</text><path class="flow" d="M650 262 H766" stroke="#27765B" stroke-width="2" marker-end="url(#v1)"/><g stroke="#27765B" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="804" cy="276" r="11"/><circle cx="856" cy="276" r="11"/><path d="M782 276 v-16 h18 l12 -16 h36 l12 16 h18 v16"/></g><text x="830" y="322" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800" >자동차</text><text x="830" y="342" text-anchor="middle" fill="#27765B" font-size="12.5" font-weight="800" >😀 이동 가능</text></svg></div>
+            </div></article>
+
             <!-- 8 -->
-            <article class="slide" data-note="How의 전체 순서. Project Day AI 강의실의 6개 페이즈가 곧 실제 서비스 개발의 표준 시퀀스입니다. 앞 단계의 산출물이 다음 단계의 입력이 됩니다. 아이디어 → 기획 문서 → 구현 → 테스트 → 변경 개선 → 회고 발표. 그리고 각 단계에 gstack의 Think·Plan·Build·Review·Test·Ship·Reflect 스킬을 '리뷰어'로 붙입니다. 2주차 5일 스프린트는 이 6페이즈를 팀 프로젝트 규모로 늘린 것입니다."><div class="slide-inner">
+            <article class="slide dense" data-note="How의 전체 순서. Project Day AI 강의실의 6개 페이즈가 곧 실제 서비스 개발의 표준 시퀀스입니다. 앞 단계의 산출물이 다음 단계의 입력이 됩니다. 아이디어 → 기획 문서 → 구현 → 테스트 → 변경 개선 → 회고 발표. 그리고 각 단계에 gstack의 Think·Plan·Build·Review·Test·Ship·Reflect 스킬을 '리뷰어'로 붙입니다. 2주차 5일 스프린트는 이 6페이즈를 팀 프로젝트 규모로 늘린 것입니다."><div class="slide-inner">
               <span class="slide-kicker">How · the real development sequence</span>
               <h2 class="sm">실제 서비스 개발은 <span class="hl">6개 페이즈</span>를 순서대로 지납니다</h2>
-              <p>Think → Plan → Build → Review → Test → Ship → Reflect. 앞 단계의 산출물이 다음 단계의 입력이 됩니다.</p>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 100" role="img" aria-label="Think, Plan, Build, Review, Test, Ship, Reflect 7단계" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="p1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#EEF4EC"/></marker></defs><path d="M60 34 H940" stroke="rgba(36,59,53,0.15)" stroke-width="6"/><circle cx="60.0" cy="34" r="22" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(50.0 24.0) scale(0.8333333333333334)" fill="none" stroke="#2B5CA6" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></g><text x="60.0" y="76" text-anchor="middle" fill="#2B5CA6" font-size="12.5" font-weight="900" >THINK</text><text x="60.0" y="94" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >아이디어</text><circle cx="206.7" cy="34" r="22" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(196.7 24.0) scale(0.8333333333333334)" fill="none" stroke="#5D4AA8" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4M9 11h7M9 15h7M9 19h4"/></g><text x="206.7" y="76" text-anchor="middle" fill="#5D4AA8" font-size="12.5" font-weight="900" >PLAN</text><text x="206.7" y="94" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >기획 문서</text><circle cx="353.4" cy="34" r="22" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(343.4 24.0) scale(0.8333333333333334)" fill="none" stroke="#2B5CA6" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></g><text x="353.4" y="76" text-anchor="middle" fill="#2B5CA6" font-size="12.5" font-weight="900" >BUILD</text><text x="353.4" y="94" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >구현</text><circle cx="500.09999999999997" cy="34" r="22" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(490.09999999999997 24.0) scale(0.8333333333333334)" fill="none" stroke="#5D4AA8" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g><text x="500.09999999999997" y="76" text-anchor="middle" fill="#5D4AA8" font-size="12.5" font-weight="900" >REVIEW</text><text x="500.09999999999997" y="94" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >리뷰</text><circle cx="646.8" cy="34" r="22" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(636.8 24.0) scale(0.8333333333333334)" fill="none" stroke="#856000" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4 19a1.5 1.5 0 0 0 1.3 2h13.4A1.5 1.5 0 0 0 20 19l-6-10V3"/><path d="M7 15h10"/></g><text x="646.8" y="76" text-anchor="middle" fill="#856000" font-size="12.5" font-weight="900" >TEST</text><text x="646.8" y="94" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >테스트</text><circle cx="793.5" cy="34" r="22" fill="#F6F9F4" stroke="#27765B" stroke-width="2.2"/><g transform="translate(783.5 24.0) scale(0.8333333333333334)" fill="none" stroke="#27765B" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c4 3 5 8 3 13H9C7 10 8 5 12 2z"/><path d="M9 15l-3 3 1 3 3-2M15 15l3 3-1 3-3-2"/><circle cx="12" cy="9" r="1.5"/></g><text x="793.5" y="76" text-anchor="middle" fill="#27765B" font-size="12.5" font-weight="900" >SHIP</text><text x="793.5" y="94" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >출시</text><circle cx="940.1999999999999" cy="34" r="22" fill="#F6F9F4" stroke="#27765B" stroke-width="2.2"/><g transform="translate(930.1999999999999 24.0) scale(0.8333333333333334)" fill="none" stroke="#27765B" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></g><text x="940.1999999999999" y="76" text-anchor="middle" fill="#27765B" font-size="12.5" font-weight="900" >REFLECT</text><text x="940.1999999999999" y="94" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >회고</text></svg></div>
               <div class="slide-grid cols-3">
                 <div class="slide-card"><strong>1 · 아이디어 구체화</strong><span>문제·사용자·핵심 행동 3문장, 범위표, 성공 지표</span><em>THINK</em></div>
                 <div class="slide-card"><strong>2 · 기획 문서화</strong><span>SITE_SPEC · USER_FLOWS · DATA_MODEL · IMPLEMENTATION_PLAN · CONVERSATION</span><em>PLAN</em></div>
@@ -456,7 +544,7 @@
             </div></article>
 
             <!-- 9 -->
-            <article class="slide" data-note="gstack은 YC CEO Garry Tan이 공개한 오픈소스 AI 코딩 스킬 모음입니다. CEO, 엔지니어링 매니저, 디자이너, QA, 릴리스 담당 같은 '역할'을 슬래시 명령으로 불러 쓰는 방식이며 Claude Code, Codex CLI 등 여러 AI 코딩 도구에서 동작합니다. 수업에서는 Codex 호스트로 설치합니다. 중요한 규칙: gstack은 대신 결정해 주는 도구가 아니라 각 페이즈의 결과물을 점검하는 '리뷰어'입니다. 결과는 그대로 채택하지 않고 CONVERSATION.md에 수용·수정·거절과 이유를 남깁니다."><div class="slide-inner">
+            <article class="slide dense" data-note="gstack은 YC CEO Garry Tan이 공개한 오픈소스 AI 코딩 스킬 모음입니다. CEO, 엔지니어링 매니저, 디자이너, QA, 릴리스 담당 같은 '역할'을 슬래시 명령으로 불러 쓰는 방식이며 Claude Code, Codex CLI 등 여러 AI 코딩 도구에서 동작합니다. 수업에서는 Codex 호스트로 설치합니다. 중요한 규칙: gstack은 대신 결정해 주는 도구가 아니라 각 페이즈의 결과물을 점검하는 '리뷰어'입니다. 결과는 그대로 채택하지 않고 CONVERSATION.md에 수용·수정·거절과 이유를 남깁니다."><div class="slide-inner">
               <span class="slide-kicker">gstack · AI team in slash commands</span>
               <h2 class="sm">gstack = <span class="hl">역할별 AI 리뷰어</span>를 명령 하나로 부르는 스킬 모음</h2>
               <div class="compare wide">
@@ -464,12 +552,12 @@
   https://github.com/garrytan/gstack.git \
   .agents/skills/gstack
 cd .agents/skills/gstack && ./setup --host codex</pre><p class="mini">Git과 Bun(v1.0+) 필요 · Windows는 Node.js도 필요. Day 4에서 배운 <code>.agents/skills</code> 폴더에 설치됩니다.</p></div>
-                <div class="compare-col"><h4 style="color:#67e8f9">역할로 생각하기</h4><ul><li><b>CEO</b>: /office-hours, /plan-ceo-review</li><li><b>엔지니어링 리드</b>: /plan-eng-review, /review</li><li><b>디자이너</b>: /design-consultation, /plan-design-review</li><li><b>QA</b>: /qa-only, /investigate, /qa</li><li><b>릴리스</b>: /document-release, /retro</li></ul><p class="mini">결과는 그대로 채택하지 않고 수용·수정·거절과 이유를 CONVERSATION.md에 남깁니다.</p></div>
+                <div class="compare-col"><h4 style="color:#2B5CA6">역할로 생각하기</h4><ul><li><b>CEO</b>: /office-hours, /plan-ceo-review</li><li><b>엔지니어링 리드</b>: /plan-eng-review, /review</li><li><b>디자이너</b>: /design-consultation, /plan-design-review</li><li><b>QA</b>: /qa-only, /investigate, /qa</li><li><b>릴리스</b>: /document-release, /retro</li></ul><p class="mini">결과는 그대로 채택하지 않고 수용·수정·거절과 이유를 CONVERSATION.md에 남깁니다.</p></div>
               </div>
             </div></article>
 
             <!-- 10 -->
-            <article class="slide" data-note="페이즈별 gstack 배치표. Project Day 상세 가이드의 표와 같습니다. 학생들이 '지금 어느 페이즈에 있고, 다음에 어떤 스킬을 부르며, 결과를 어느 문서에 반영하는지'를 항상 말할 수 있어야 합니다. 시간이 부족한 팀은 Plan 단계에서 /autoplan으로 리뷰를 한 번에 돌리고 사람이 결정할 항목만 받는 방식을 권장합니다."><div class="slide-inner">
+            <article class="slide dense" data-note="페이즈별 gstack 배치표. Project Day 상세 가이드의 표와 같습니다. 학생들이 '지금 어느 페이즈에 있고, 다음에 어떤 스킬을 부르며, 결과를 어느 문서에 반영하는지'를 항상 말할 수 있어야 합니다. 시간이 부족한 팀은 Plan 단계에서 /autoplan으로 리뷰를 한 번에 돌리고 사람이 결정할 항목만 받는 방식을 권장합니다."><div class="slide-inner">
               <span class="slide-kicker">gstack across the sequence</span>
               <h2 class="sm">페이즈마다 <span class="hl">부를 스킬과 반영할 문서</span>가 정해져 있습니다</h2>
               <div class="funnel flat tight">
@@ -483,35 +571,29 @@ cd .agents/skills/gstack && ./setup --host codex</pre><p class="mini">Git과 Bun
             </div></article>
 
             <!-- 11 -->
-            <article class="slide" data-note="/office-hours는 YC 오피스아워를 흉내 낸 스킬로, 코드를 쓰기 전에 아이디어의 전제를 6가지 강제 질문으로 압박합니다(Startup 모드). 수업 프로젝트·해커톤은 Builder 모드처럼 더 협력적인 브레인스토밍으로 진행될 수도 있습니다. 6가지 주제: 수요의 실재(Demand reality), 지금 사용자가 참고 있는 현재 방식(Status quo), 얼마나 절박한가(Desperate specificity), 가장 좁은 시작점(Narrowest wedge), 남들이 놓친 관찰(Observation & surprise), 미래 적합성(Future-fit). 결과 디자인 문서는 길 수 있으니 팀이 합의한 내용만 3문장 정의로 압축합니다."><div class="slide-inner">
+            <article class="slide dense" data-note="/office-hours는 YC 오피스아워를 흉내 낸 스킬로, 코드를 쓰기 전에 아이디어의 전제를 6가지 강제 질문으로 압박합니다(Startup 모드). 수업 프로젝트·해커톤은 Builder 모드처럼 더 협력적인 브레인스토밍으로 진행될 수도 있습니다. 6가지 주제: 수요의 실재(Demand reality), 지금 사용자가 참고 있는 현재 방식(Status quo), 얼마나 절박한가(Desperate specificity), 가장 좁은 시작점(Narrowest wedge), 남들이 놓친 관찰(Observation & surprise), 미래 적합성(Future-fit). 결과 디자인 문서는 길 수 있으니 팀이 합의한 내용만 3문장 정의로 압축합니다."><div class="slide-inner">
               <span class="slide-kicker">THINK · /office-hours</span>
               <h2 class="sm">/office-hours: 코드 전에 <span class="hl">6가지 강제 질문</span>으로 아이디어를 압박</h2>
               <p>결과 문서는 길고 넓습니다. 팀이 합의한 내용만 3문장 정의와 PROJECT_BRIEF.md로 압축하세요.</p>
-              <div class="slide-grid cols-3">
-                <div class="slide-card"><strong>Demand reality</strong><span>이 문제를 실제로 겪는 사람이 있다는 증거는?</span></div>
-                <div class="slide-card"><strong>Status quo</strong><span>지금 사용자는 이 문제를 어떻게 참고·해결하고 있나?</span></div>
-                <div class="slide-card"><strong>Desperate specificity</strong><span>누가 가장 절박한가? 구체적인 한 사람을 말할 수 있나?</span></div>
-                <div class="slide-card"><strong>Narrowest wedge</strong><span>가장 좁고 작은 시작점은 무엇인가?</span></div>
-                <div class="slide-card"><strong>Observation &amp; surprise</strong><span>직접 관찰해서 알게 된, 남들이 놓친 사실은?</span></div>
-                <div class="slide-card"><strong>Future-fit</strong><span>이 해결책은 앞으로 더 중요해지는가?</span></div>
-              </div>
+              <div class="viz-strip"><svg class="viz" viewBox="0 0 1000 345" role="img" aria-label="내 아이디어를 둘러싼 /office-hours 6가지 강제 질문" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><path d="M500 37 L611 101 L611 229 L500 293 L389 229 L389 101Z" fill="rgba(43,92,166,0.066)" stroke="rgba(43,92,166,0.4)" stroke-width="2"/><circle cx="500" cy="155" r="34" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(484.0 139.0) scale(1.3333333333333333)" fill="none" stroke="#856000" stroke-width="1.43" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/></g><text x="500" y="207" text-anchor="middle" fill="#243B35" font-size="15" font-weight="900" >내 아이디어</text><circle cx="500" cy="37" r="9" fill="#D2E0FB"/><text x="500.0" y="1.0" text-anchor="middle" fill="#2B5CA6" font-size="15" font-weight="900" >1. Demand reality</text><text x="500.0" y="21.0" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="700" >실제로 겪는 사람이 있나?</text><circle cx="611" cy="101" r="9" fill="#D2E0FB"/><text x="636.8320137979413" y="91.00000000000001" text-anchor="start" fill="#2B5CA6" font-size="15" font-weight="900" >2. Status quo</text><text x="636.8320137979413" y="111.00000000000001" text-anchor="start" fill="#243B35" font-size="13.5" font-weight="700" >지금은 어떻게 버티나?</text><circle cx="611" cy="229" r="9" fill="#F5F0BB"/><text x="636.8320137979413" y="239.0" text-anchor="start" fill="#856000" font-size="15" font-weight="900" >3. Desperate specificity</text><text x="636.8320137979413" y="259.0" text-anchor="start" fill="#243B35" font-size="13.5" font-weight="700" >가장 절박한 한 사람은?</text><circle cx="500" cy="293" r="9" fill="#D7EEDD"/><text x="500.0" y="343.0" text-anchor="middle" fill="#27765B" font-size="15" font-weight="900" >4. Narrowest wedge</text><text x="500.0" y="363.0" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="700" >가장 좁은 시작점은?</text><circle cx="389" cy="229" r="9" fill="#DFD8F6"/><text x="363.16798620205867" y="239.0" text-anchor="end" fill="#5D4AA8" font-size="15" font-weight="900" >5. Observation</text><text x="363.16798620205867" y="259.0" text-anchor="end" fill="#243B35" font-size="13.5" font-weight="700" >남들이 놓친 관찰은?</text><circle cx="389" cy="101" r="9" fill="#DFD8F6"/><text x="363.1679862020587" y="90.99999999999999" text-anchor="end" fill="#5D4AA8" font-size="15" font-weight="900" >6. Future-fit</text><text x="363.1679862020587" y="110.99999999999999" text-anchor="end" fill="#243B35" font-size="13.5" font-weight="700" >앞으로 더 중요해지나?</text></svg></div>
             </div></article>
 
             <!-- 12 -->
-            <article class="slide" data-note="PLAN 단계의 두 리뷰어. /plan-ceo-review는 범위를 4가지 모드로 다룹니다: Scope Expansion(크게 꿈꾸기), Selective Expansion(골라서 추가), Hold Scope(범위 고정·최대 엄격), Scope Reduction(핵심만 남기기). 5일 프로젝트에서는 Hold Scope 또는 Reduction을 기본으로 씁니다. /plan-eng-review는 아키텍처, 데이터 흐름, 예외 상황, 테스트 계획을 고정합니다. 여기서 만든 테스트 계획이 Phase 4의 /qa로 이어집니다. 시간이 없으면 /autoplan으로 CEO·디자인·엔지니어링 리뷰를 한 번에."><div class="slide-inner">
+            <article class="slide dense" data-note="PLAN 단계의 두 리뷰어. /plan-ceo-review는 범위를 4가지 모드로 다룹니다: Scope Expansion(크게 꿈꾸기), Selective Expansion(골라서 추가), Hold Scope(범위 고정·최대 엄격), Scope Reduction(핵심만 남기기). 5일 프로젝트에서는 Hold Scope 또는 Reduction을 기본으로 씁니다. /plan-eng-review는 아키텍처, 데이터 흐름, 예외 상황, 테스트 계획을 고정합니다. 여기서 만든 테스트 계획이 Phase 4의 /qa로 이어집니다. 시간이 없으면 /autoplan으로 CEO·디자인·엔지니어링 리뷰를 한 번에."><div class="slide-inner">
               <span class="slide-kicker">PLAN · scope &amp; engineering review</span>
               <h2 class="sm">계획은 <span class="hl">CEO 리뷰로 범위</span>를, <span class="hl">엔지니어링 리뷰로 구조</span>를 잠급니다</h2>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 112" role="img" aria-label="plan-ceo-review 4가지 모드를 범위 크기 다이얼로 표시" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="40" width="960" height="12" rx="6" fill="rgba(255,255,255,0.85)"/><rect x="500" y="40" width="480" height="12" rx="6" fill="#D7EEDD" fill-opacity=".5"/><circle cx="110" cy="46" r="13" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="3"/><text x="110" y="84" text-anchor="middle" fill="#5D4AA8" font-size="14" font-weight="900" >Scope Expansion</text><text x="110" y="104" text-anchor="middle" fill="#243B35" font-size="13" font-weight="700" >크게 꿈꾸기</text><circle cx="370" cy="46" r="13" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="3"/><text x="370" y="84" text-anchor="middle" fill="#2B5CA6" font-size="14" font-weight="900" >Selective Expansion</text><text x="370" y="104" text-anchor="middle" fill="#243B35" font-size="13" font-weight="700" >골라서 추가</text><circle cx="630" cy="46" r="13" fill="#F6F9F4" stroke="#27765B" stroke-width="3"/><text x="630" y="84" text-anchor="middle" fill="#27765B" font-size="14" font-weight="900" >Hold Scope</text><text x="630" y="104" text-anchor="middle" fill="#243B35" font-size="13" font-weight="700" >범위 고정 ← 기본</text><circle cx="890" cy="46" r="13" fill="#F6F9F4" stroke="#856000" stroke-width="3"/><text x="890" y="84" text-anchor="middle" fill="#856000" font-size="14" font-weight="900" >Scope Reduction</text><text x="890" y="104" text-anchor="middle" fill="#243B35" font-size="13" font-weight="700" >핵심만 ← 일정 빠듯</text><text x="20" y="24" text-anchor="start" fill="#4A605A" font-size="12" font-weight="700" >← 범위가 커짐</text><text x="980" y="24" text-anchor="end" fill="#4A605A" font-size="12" font-weight="700" >범위가 작아짐 →</text><text x="740" y="24" text-anchor="middle" fill="#27765B" font-size="13" font-weight="900" >5일 프로젝트는 여기</text></svg></div>
               <div class="compare">
-                <div class="compare-col"><h4 style="color:#67e8f9"><i class="fa-solid fa-crown"></i> /plan-ceo-review · 4가지 모드</h4><ul><li><b>Scope Expansion</b> — 크게 꿈꾸기</li><li><b>Selective Expansion</b> — 골라서 추가</li><li><b>Hold Scope</b> — 범위 고정, 최대 엄격 ← 기본</li><li><b>Scope Reduction</b> — 핵심만 남기기 ← 일정이 빠듯할 때</li></ul></div>
+                <div class="compare-col"><h4 style="color:#2B5CA6"><i class="fa-solid fa-crown"></i> /plan-ceo-review · 4가지 모드</h4><ul><li><b>Scope Expansion</b> — 크게 꿈꾸기</li><li><b>Selective Expansion</b> — 골라서 추가</li><li><b>Hold Scope</b> — 범위 고정, 최대 엄격 ← 기본</li><li><b>Scope Reduction</b> — 핵심만 남기기 ← 일정이 빠듯할 때</li></ul></div>
                 <div class="compare-col good"><h4><i class="fa-solid fa-gears"></i> /plan-eng-review</h4><ul><li>데이터 흐름과 아키텍처 확정</li><li>예외 상황과 숨은 가정 찾기 (중복, 만료, 저장 실패)</li><li>요구사항 ID별 테스트 계획 → Phase 4 /qa가 이어받음</li><li>문서 간 모순을 표로 정리</li></ul><p class="mini">시간이 부족하면 <code>/autoplan</code>: 리뷰를 한 번에 돌리고 사람이 결정할 항목만 받기</p></div>
               </div>
             </div></article>
 
             <!-- 13 -->
-            <article class="slide" data-note="BUILD부터 REFLECT까지. 구현 전에 /freeze로 수정 범위를 website/ 폴더에 묶어 기획 문서가 실수로 바뀌지 않게 합니다. 구현 자체는 Codex나 Antigravity로 '문서 먼저 읽기 → 계획 승인 → 작은 단위 구현'(Day 4 방식). 핵심 흐름이 돌아가면 /review로 실제 사용 시 터질 버그를 찾습니다. 테스트는 /qa-only(보고만) → /investigate(근본 원인) → /qa(수정·재검증) 순서. 마지막으로 /document-release로 문서를 최종 코드에 맞추고 /retro로 회고."><div class="slide-inner">
+            <article class="slide dense" data-note="BUILD부터 REFLECT까지. 구현 전에 /freeze로 수정 범위를 website/ 폴더에 묶어 기획 문서가 실수로 바뀌지 않게 합니다. 구현 자체는 Codex나 Antigravity로 '문서 먼저 읽기 → 계획 승인 → 작은 단위 구현'(Day 4 방식). 핵심 흐름이 돌아가면 /review로 실제 사용 시 터질 버그를 찾습니다. 테스트는 /qa-only(보고만) → /investigate(근본 원인) → /qa(수정·재검증) 순서. 마지막으로 /document-release로 문서를 최종 코드에 맞추고 /retro로 회고."><div class="slide-inner">
               <span class="slide-kicker">BUILD → REVIEW → TEST → SHIP → REFLECT</span>
               <h2 class="sm">만들고, 의심하고, 증명하고, <span class="hl">문서까지 맞춰서</span> 끝냅니다</h2>
-              <div class="slide-grid">
+              <div class="slide-grid steps">
                 <div class="slide-card"><strong>Build</strong><span><code>/freeze</code>로 수정 범위를 website/에 제한 → 문서 먼저 읽힌 뒤 작은 단위 구현</span><em>Day 4 방식 그대로</em></div>
                 <div class="slide-card"><strong>Review</strong><span><code>/review</code> — CI는 통과해도 실제로 터질 버그, 기획서와 다른 구현 찾기</span><em>자동 수정도 diff 확인</em></div>
                 <div class="slide-card"><strong>Test</strong><span><code>/qa-only</code> 보고 → <code>/investigate</code> 원인 → <code>/qa</code> 수정·재검증</span><em>실행 안 한 항목은 PASS 금지</em></div>
@@ -520,10 +602,10 @@ cd .agents/skills/gstack && ./setup --host codex</pre><p class="mini">Git과 Bun
             </div></article>
 
             <!-- 14 -->
-            <article class="slide alert" data-note="변경 요청이 들어왔을 때의 순서(Phase 5). 실전에서 가장 많이 무너지는 지점입니다. 멘토나 사용자가 '실시간으로 보여 주세요'라고 하면 바로 코드를 고치고 싶어집니다. 하지만 '실시간'이 새로고침인지, polling인지, WebSocket인지부터 합의해야 하고, 데이터와 테스트에 미치는 영향을 먼저 봐야 합니다. 순서: 문서 수정 → /plan-eng-review → 팀 승인 → 코드 수정 → /review → /qa. 프로젝트 목표를 벗어나는 요청은 다음 버전 백로그로."><div class="slide-inner">
+            <article class="slide dense alert" data-note="변경 요청이 들어왔을 때의 순서(Phase 5). 실전에서 가장 많이 무너지는 지점입니다. 멘토나 사용자가 '실시간으로 보여 주세요'라고 하면 바로 코드를 고치고 싶어집니다. 하지만 '실시간'이 새로고침인지, polling인지, WebSocket인지부터 합의해야 하고, 데이터와 테스트에 미치는 영향을 먼저 봐야 합니다. 순서: 문서 수정 → /plan-eng-review → 팀 승인 → 코드 수정 → /review → /qa. 프로젝트 목표를 벗어나는 요청은 다음 버전 백로그로."><div class="slide-inner">
               <span class="slide-kicker">Change request · Spec-First</span>
               <h2 class="sm">변경은 <span class="hl">문서 먼저</span>. 코드부터 고치면 Spec-First가 아닙니다</h2>
-              <div class="loop-flow"><span>CHANGE_REQUEST.md</span><b>→</b><span>문서 수정</span><b>→</b><span>/plan-eng-review</span><b>→</b><span>팀 승인</span><b>→</b><span>최소 diff 구현</span><b>→</b><span>/review</span><b>→</b><span>/qa 회귀</span></div>
+              <div class="viz-strip"><svg class="viz" viewBox="0 0 1000 166" role="img" aria-label="변경 요청은 문서 수정, 리뷰, 팀 승인 다음에 코드를 고친다. 코드부터 고치는 지름길은 금지" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="c1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#D7EEDD"/></marker><marker id="c2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#F6D5CF"/></marker></defs><circle cx="70" cy="96" r="24" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(59.0 85.0) scale(0.9166666666666666)" fill="none" stroke="#2B5CA6" stroke-width="2.07" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4M9 11h7M9 15h7M9 19h4"/></g><text x="70" y="140" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="900" >CHANGE_REQUEST</text><text x="70" y="158" text-anchor="middle" fill="#2B5CA6" font-size="12" font-weight="800" >요청 기록</text><path class="flow" d="M98 96 H183" stroke="#27765B" stroke-width="2" marker-end="url(#c1)"/><circle cx="213" cy="96" r="24" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(202.0 85.0) scale(0.9166666666666666)" fill="none" stroke="#856000" stroke-width="2.07" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></g><text x="213" y="140" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="900" >문서 수정</text><text x="213" y="158" text-anchor="middle" fill="#856000" font-size="12" font-weight="800" >먼저!</text><path class="flow" d="M241 96 H326" stroke="#27765B" stroke-width="2" marker-end="url(#c1)"/><circle cx="356" cy="96" r="24" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(345.0 85.0) scale(0.9166666666666666)" fill="none" stroke="#5D4AA8" stroke-width="2.07" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g><text x="356" y="140" text-anchor="middle" fill="#856000" font-size="12.5" font-weight="900" >/plan-eng-review</text><text x="356" y="158" text-anchor="middle" fill="#5D4AA8" font-size="12" font-weight="800" >영향 분석</text><path class="flow" d="M384 96 H469" stroke="#27765B" stroke-width="2" marker-end="url(#c1)"/><circle cx="499" cy="96" r="24" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(488.0 85.0) scale(0.9166666666666666)" fill="none" stroke="#856000" stroke-width="2.07" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-4 3-6 6.5-6s6 2 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4 1.8 4.5 5"/></g><text x="499" y="140" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="900" >팀 승인</text><text x="499" y="158" text-anchor="middle" fill="#856000" font-size="12" font-weight="800" >사람 결정</text><path class="flow" d="M527 96 H612" stroke="#27765B" stroke-width="2" marker-end="url(#c1)"/><circle cx="642" cy="96" r="24" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(631.0 85.0) scale(0.9166666666666666)" fill="none" stroke="#2B5CA6" stroke-width="2.07" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></g><text x="642" y="140" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="900" >최소 diff 구현</text><text x="642" y="158" text-anchor="middle" fill="#2B5CA6" font-size="12" font-weight="800" >작게</text><path class="flow" d="M670 96 H755" stroke="#27765B" stroke-width="2" marker-end="url(#c1)"/><circle cx="785" cy="96" r="24" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(774.0 85.0) scale(0.9166666666666666)" fill="none" stroke="#5D4AA8" stroke-width="2.07" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></g><text x="785" y="140" text-anchor="middle" fill="#856000" font-size="12.5" font-weight="900" >/review</text><text x="785" y="158" text-anchor="middle" fill="#5D4AA8" font-size="12" font-weight="800" >버그 찾기</text><path class="flow" d="M813 96 H898" stroke="#27765B" stroke-width="2" marker-end="url(#c1)"/><circle cx="928" cy="96" r="24" fill="#F6F9F4" stroke="#27765B" stroke-width="2.2"/><g transform="translate(917.0 85.0) scale(0.9166666666666666)" fill="none" stroke="#27765B" stroke-width="2.07" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></g><text x="928" y="140" text-anchor="middle" fill="#856000" font-size="12.5" font-weight="900" >/qa 회귀</text><text x="928" y="158" text-anchor="middle" fill="#27765B" font-size="12" font-weight="800" >다시 확인</text><path d="M70 66 C70 14 642 14 642 64" fill="none" stroke="#A83A45" stroke-width="2.2" stroke-dasharray="6 5" marker-end="url(#c2)"/><rect x="250" y="8" width="230" height="26" rx="13" fill="#F6F9F4" stroke="#A83A45"/><text x="365" y="26" text-anchor="middle" fill="#A83A45" font-size="13" font-weight="900" >✗ 코드부터 고치는 지름길</text></svg></div>
               <ul class="slide-list warn">
                 <li><i class="fa-solid fa-triangle-exclamation"></i>요청의 진짜 의미부터 합의 (“실시간” = 새로고침? polling? WebSocket?)</li>
                 <li><i class="fa-solid fa-triangle-exclamation"></i>화면·흐름·데이터·권한·테스트·일정 영향을 표로</li>
@@ -533,7 +615,7 @@ cd .agents/skills/gstack && ./setup --host codex</pre><p class="mini">Git과 Bun
             </div></article>
 
             <!-- 15 -->
-            <article class="slide" data-note="AI Native 개발이란? AI-assisted는 기존 방식 그대로 일하면서 코드 자동완성 정도로 AI를 쓰는 것. AI Native는 개발 프로세스 자체를 AI와 함께 일한다는 전제로 다시 설계하는 것입니다. Karpathy가 말한 Software 3.0처럼 자연어(문서)가 프로그램의 일부가 되고, 사람의 일은 '타이핑'에서 '정의·검토·판단'으로 이동합니다. 그래서 문서, 리뷰, 테스트, 기록이 오히려 더 중요해집니다."><div class="slide-inner">
+            <article class="slide dense" data-note="AI Native 개발이란? AI-assisted는 기존 방식 그대로 일하면서 코드 자동완성 정도로 AI를 쓰는 것. AI Native는 개발 프로세스 자체를 AI와 함께 일한다는 전제로 다시 설계하는 것입니다. Karpathy가 말한 Software 3.0처럼 자연어(문서)가 프로그램의 일부가 되고, 사람의 일은 '타이핑'에서 '정의·검토·판단'으로 이동합니다. 그래서 문서, 리뷰, 테스트, 기록이 오히려 더 중요해집니다."><div class="slide-inner">
               <span class="slide-kicker">What is AI Native development?</span>
               <h2 class="sm">AI Native = <span class="hl">AI와 함께 일한다는 전제로</span> 프로세스를 다시 설계</h2>
               <div class="compare">
@@ -543,15 +625,22 @@ cd .agents/skills/gstack && ./setup --host codex</pre><p class="mini">Git과 Bun
               <div class="quote-box">타이핑은 AI가 빨라졌습니다. 그래서 사람의 가치는 <b>무엇이 맞는지 정의하고, 결과가 맞는지 판단하는 능력</b>으로 옮겨갑니다.</div>
             </div></article>
 
+            <!-- EXPLAIN -->
+            <article class="slide explain dense" data-note="AI Native를 오케스트라로 설명합니다. AI-assisted는 더 좋은 악기를 든 혼자 연주자 — 빨라졌지만 여전히 혼자 다 합니다. AI Native는 사람이 지휘자가 되어 기획 리뷰·구현·코드 리뷰·QA·문서를 맡은 여러 AI 연주자를 이끌고, 모두가 같은 악보(MD 문서)를 봅니다. 지휘자가 연주를 직접 하지 않아도 음악의 책임은 지휘자에게 있다는 점을 강조하세요."><div class="slide-inner">
+              <span class="slide-kicker">Analogy · 오케스트라</span>
+              <h2 class="sm">AI Native = <span class="hl">사람이 지휘하는 AI 오케스트라</span></h2>
+              <div class="viz-strip"><svg class="viz" viewBox="0 10 1000 316" role="img" aria-label="AI-assisted는 더 좋은 악기를 든 혼자 연주자, AI Native는 사람이 지휘하고 여러 AI가 연주하는 오케스트라" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><defs><marker id="cd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#EEF4EC"/></marker></defs><rect x="20" y="20" width="400" height="300" rx="18" fill="rgba(168,58,69,0.055)" stroke="rgba(168,58,69,0.4)"/><text x="220" y="50" text-anchor="middle" fill="#A83A45" font-size="16" font-weight="900" >AI-assisted — 더 좋은 악기를 든 연주자</text><circle cx="220" cy="146" r="9" fill="#F5F0BB"/><path d="M206 176 q14 -26 28 0z" fill="#F5F0BB"/><g transform="translate(190 200) scale(2.4)" fill="none" stroke="#2B5CA6" stroke-width="0.79" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></g><text x="220" y="270" text-anchor="middle" fill="#A83A45" font-size="14" font-weight="800" >혼자 다 연주 · AI는 자동완성</text><text x="220" y="292" text-anchor="middle" fill="#4A605A" font-size="12.5" font-weight="700" >대화가 끝나면 맥락도 사라짐</text><rect x="460" y="20" width="520" height="300" rx="18" fill="rgba(39,118,91,0.055)" stroke="rgba(39,118,91,0.4)"/><text x="720" y="50" text-anchor="middle" fill="#27765B" font-size="16" font-weight="900" >AI Native — 사람은 지휘자, AI는 연주자들</text><circle cx="720" cy="116" r="9" fill="#F5F0BB"/><path d="M706 146 q14 -26 28 0z" fill="#F5F0BB"/><path d="M738 104 L780 70" stroke="#856000" stroke-width="3"/><text x="720" y="172" text-anchor="middle" fill="#856000" font-size="13" font-weight="900" >사람 = 지휘자</text><circle cx="540" cy="230" r="22" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(530.0 220.0) scale(0.8333333333333334)" fill="none" stroke="#5D4AA8" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9 17h6"/></g><text x="540" y="270" text-anchor="middle" fill="#5D4AA8" font-size="12.5" font-weight="800" >기획 리뷰</text><path d="M720 180 L540 205" stroke="#5D4AA8" stroke-opacity=".4" stroke-dasharray="3 4"/><circle cx="630" cy="230" r="22" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(620.0 220.0) scale(0.8333333333333334)" fill="none" stroke="#2B5CA6" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9 17h6"/></g><text x="630" y="270" text-anchor="middle" fill="#2B5CA6" font-size="12.5" font-weight="800" >구현</text><path d="M720 180 L630 205" stroke="#2B5CA6" stroke-opacity=".4" stroke-dasharray="3 4"/><circle cx="720" cy="230" r="22" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(710.0 220.0) scale(0.8333333333333334)" fill="none" stroke="#5D4AA8" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9 17h6"/></g><text x="720" y="270" text-anchor="middle" fill="#5D4AA8" font-size="12.5" font-weight="800" >코드 리뷰</text><path d="M720 180 L720 205" stroke="#5D4AA8" stroke-opacity=".4" stroke-dasharray="3 4"/><circle cx="810" cy="230" r="22" fill="#F6F9F4" stroke="#27765B" stroke-width="2.2"/><g transform="translate(800.0 220.0) scale(0.8333333333333334)" fill="none" stroke="#27765B" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9 17h6"/></g><text x="810" y="270" text-anchor="middle" fill="#27765B" font-size="12.5" font-weight="800" >QA</text><path d="M720 180 L810 205" stroke="#27765B" stroke-opacity=".4" stroke-dasharray="3 4"/><circle cx="900" cy="230" r="22" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(890.0 220.0) scale(0.8333333333333334)" fill="none" stroke="#2B5CA6" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9 17h6"/></g><text x="900" y="270" text-anchor="middle" fill="#2B5CA6" font-size="12.5" font-weight="800" >문서</text><path d="M720 180 L900 205" stroke="#2B5CA6" stroke-opacity=".4" stroke-dasharray="3 4"/><text x="720" y="300" text-anchor="middle" fill="#27765B" font-size="13" font-weight="800" >악보(MD 문서)를 모두가 함께 본다</text></svg></div>
+            </div></article>
+
             <!-- 16 -->
-            <article class="slide" data-note="AI Native 팀의 역할표. 팀원이 4명이라면 각자 '사람으로서 책임지는 결정'과 '짝이 되는 AI 역할'을 함께 맡습니다. 한 사람이 여러 역할을 겸해도 됩니다. 중요한 것은 '최종 결정권자'가 명확하다는 것. AI가 낸 결과를 누가 승인하는지 정해 두지 않으면 아무도 검토하지 않은 코드가 main에 들어갑니다."><div class="slide-inner">
+            <article class="slide dense" data-note="AI Native 팀의 역할표. 팀원이 4명이라면 각자 '사람으로서 책임지는 결정'과 '짝이 되는 AI 역할'을 함께 맡습니다. 한 사람이 여러 역할을 겸해도 됩니다. 중요한 것은 '최종 결정권자'가 명확하다는 것. AI가 낸 결과를 누가 승인하는지 정해 두지 않으면 아무도 검토하지 않은 코드가 main에 들어갑니다."><div class="slide-inner">
               <span class="slide-kicker">AI Native team roles</span>
               <h2 class="sm">팀원마다 <span class="hl">책임지는 결정</span>과 <span class="hl">짝이 되는 AI</span>를 정합니다</h2>
               <div class="slide-grid">
-                <div class="slide-card"><strong>PO · 기획</strong><span>Why/What 결정, 범위 승인, 변경 요청 판단</span><em>AI: /office-hours · /plan-ceo-review</em></div>
-                <div class="slide-card"><strong>디자인 · UX</strong><span>사용자 흐름, 화면 기준, 접근성 결정</span><em>AI: /design-consultation · /plan-design-review</em></div>
-                <div class="slide-card"><strong>개발 리드</strong><span>구조·데이터 결정, 코드 승인과 머지</span><em>AI: Codex · Antigravity · /plan-eng-review · /review</em></div>
-                <div class="slide-card"><strong>QA · 릴리스</strong><span>테스트 판정, 결함 우선순위, 데모 준비</span><em>AI: /qa-only · /qa · /document-release</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="crown" font-family="Pretendard,DM Sans,sans-serif" style="height:48px;width:48px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#856000" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l4 4 5-7 5 7 4-4-2 11H5z"/></g></svg><strong>PO · 기획</strong><span>Why/What 결정, 범위 승인, 변경 요청 판단</span><em>AI: /office-hours · /plan-ceo-review</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="brush" font-family="Pretendard,DM Sans,sans-serif" style="height:48px;width:48px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#5D4AA8" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3l3 3-9 9-3-3z"/><path d="M9 12c-3 0-5 2-5 5 0 2-1 3-2 3 2 1 6 1 8-1s2-5-1-7z"/></g></svg><strong>디자인 · UX</strong><span>사용자 흐름, 화면 기준, 접근성 결정</span><em>AI: /design-consultation · /plan-design-review</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="code" font-family="Pretendard,DM Sans,sans-serif" style="height:48px;width:48px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#2B5CA6" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></g></svg><strong>개발 리드</strong><span>구조·데이터 결정, 코드 승인과 머지</span><em>AI: Codex · Antigravity · /plan-eng-review · /review</em></div>
+                <div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="flask" font-family="Pretendard,DM Sans,sans-serif" style="height:48px;width:48px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#27765B" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#27765B" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4 19a1.5 1.5 0 0 0 1.3 2h13.4A1.5 1.5 0 0 0 20 19l-6-10V3"/><path d="M7 15h10"/></g></svg><strong>QA · 릴리스</strong><span>테스트 판정, 결함 우선순위, 데모 준비</span><em>AI: /qa-only · /qa · /document-release</em></div>
               </div>
               <ul class="slide-list">
                 <li><i class="fa-solid fa-check"></i>AI 결과의 최종 승인자를 역할마다 한 명으로 지정</li>
@@ -560,10 +649,10 @@ cd .agents/skills/gstack && ./setup --host codex</pre><p class="mini">Git과 Bun
             </div></article>
 
             <!-- 17 -->
-            <article class="slide" data-note="AI Native 팀의 하루. 아침 10분 스크럼에서 오늘 끝낼 요구사항 ID를 정하고, 각자 /plan(또는 Codex 계획 요청) → 승인 → 에이전트 구현 → /review → /qa-only → 커밋 → CONVERSATION.md 기록. 저녁에는 반드시 동작하는 데모를 서로 보여 줍니다. 작은 배치로 자주 통합하는 것이 AI 시대에도(오히려 더) 중요합니다. AI는 큰 변경을 한 번에 만들어 내기 쉬워서 리뷰가 불가능한 diff가 생기기 쉽습니다."><div class="slide-inner">
+            <article class="slide dense" data-note="AI Native 팀의 하루. 아침 10분 스크럼에서 오늘 끝낼 요구사항 ID를 정하고, 각자 /plan(또는 Codex 계획 요청) → 승인 → 에이전트 구현 → /review → /qa-only → 커밋 → CONVERSATION.md 기록. 저녁에는 반드시 동작하는 데모를 서로 보여 줍니다. 작은 배치로 자주 통합하는 것이 AI 시대에도(오히려 더) 중요합니다. AI는 큰 변경을 한 번에 만들어 내기 쉬워서 리뷰가 불가능한 diff가 생기기 쉽습니다."><div class="slide-inner">
               <span class="slide-kicker">A day in an AI Native team</span>
               <h2 class="sm">하루의 리듬: <span class="hl">작게 정하고, 작게 만들고, 매일 보여 준다</span></h2>
-              <div class="loop-flow"><span>09:00 스크럼 · 오늘의 REQ</span><b>→</b><span>계획 요청 · 승인</span><b>→</b><span>AI 구현</span><b>→</b><span>/review</span><b>→</b><span>/qa-only</span><b>→</b><span>커밋 · 기록</span><b>→</b><span class="back">17:00 데모</span></div>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 8 1000 100" role="img" aria-label="AI Native 팀의 하루: 9시 스크럼부터 17시 데모까지" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><path d="M40 40 H960" stroke="rgba(36,59,53,0.15)" stroke-width="6" stroke-linecap="round"/><circle cx="60.0" cy="40" r="22" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(50.0 30.0) scale(0.8333333333333334)" fill="none" stroke="#856000" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-4 3-6 6.5-6s6 2 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4 1.8 4.5 5"/></g><text x="60.0" y="82" text-anchor="middle" fill="#856000" font-size="13" font-weight="900" font-family="ui-monospace,Menlo,monospace">09:00</text><text x="60.0" y="100" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >스크럼 · 오늘의 REQ</text><circle cx="206.7" cy="40" r="22" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(196.7 30.0) scale(0.8333333333333334)" fill="none" stroke="#5D4AA8" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4M9 11h7M9 15h7M9 19h4"/></g><text x="206.7" y="82" text-anchor="middle" fill="#856000" font-size="13" font-weight="900" font-family="ui-monospace,Menlo,monospace">09:30</text><text x="206.7" y="100" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >계획 요청 · 승인</text><circle cx="353.4" cy="40" r="22" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(343.4 30.0) scale(0.8333333333333334)" fill="none" stroke="#2B5CA6" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9 17h6"/></g><text x="353.4" y="82" text-anchor="middle" fill="#856000" font-size="13" font-weight="900" font-family="ui-monospace,Menlo,monospace">10:00</text><text x="353.4" y="100" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >AI 구현</text><circle cx="500.09999999999997" cy="40" r="22" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(490.09999999999997 30.0) scale(0.8333333333333334)" fill="none" stroke="#5D4AA8" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g><text x="500.09999999999997" y="82" text-anchor="middle" fill="#856000" font-size="13" font-weight="900" font-family="ui-monospace,Menlo,monospace">13:00</text><text x="500.09999999999997" y="100" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >/review</text><circle cx="646.8" cy="40" r="22" fill="#F6F9F4" stroke="#27765B" stroke-width="2.2"/><g transform="translate(636.8 30.0) scale(0.8333333333333334)" fill="none" stroke="#27765B" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4 19a1.5 1.5 0 0 0 1.3 2h13.4A1.5 1.5 0 0 0 20 19l-6-10V3"/><path d="M7 15h10"/></g><text x="646.8" y="82" text-anchor="middle" fill="#856000" font-size="13" font-weight="900" font-family="ui-monospace,Menlo,monospace">14:30</text><text x="646.8" y="100" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >/qa-only</text><circle cx="793.5" cy="40" r="22" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(783.5 30.0) scale(0.8333333333333334)" fill="none" stroke="#2B5CA6" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v5h7V3M8 21v-7h8v7"/></g><text x="793.5" y="82" text-anchor="middle" fill="#856000" font-size="13" font-weight="900" font-family="ui-monospace,Menlo,monospace">16:00</text><text x="793.5" y="100" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >커밋 · 기록</text><circle cx="940.1999999999999" cy="40" r="22" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(930.1999999999999 30.0) scale(0.8333333333333334)" fill="none" stroke="#856000" stroke-width="2.28" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c4 3 5 8 3 13H9C7 10 8 5 12 2z"/><path d="M9 15l-3 3 1 3 3-2M15 15l3 3-1 3-3-2"/><circle cx="12" cy="9" r="1.5"/></g><text x="940.1999999999999" y="82" text-anchor="middle" fill="#856000" font-size="13" font-weight="900" font-family="ui-monospace,Menlo,monospace">17:00</text><text x="940.1999999999999" y="100" text-anchor="middle" fill="#243B35" font-size="12.5" font-weight="700" >데모!</text></svg></div>
               <div class="slide-grid cols-3">
                 <div class="slide-card"><strong>작은 배치</strong><span>REQ 하나 = 계획 하나 = 커밋 하나. 리뷰할 수 없는 큰 diff는 거절</span></div>
                 <div class="slide-card"><strong>매일 통합</strong><span>각자 브랜치를 오래 두지 않고 하루 1회 이상 합치기</span></div>
@@ -572,22 +661,22 @@ cd .agents/skills/gstack && ./setup --host codex</pre><p class="mini">Git과 Bun
             </div></article>
 
             <!-- 18 -->
-            <article class="slide" data-note="평가와 발표는 '무엇을 만들었나'보다 '왜 그렇게 판단했나'. CONVERSATION.md는 채팅 복사가 아니라 질문 → 핵심 제안 → 팀의 수용/수정/거절 → 이유. 5분 발표 구조(Project Day Phase 6): 문제 40초, 사용자·해결책 50초, 데모 2분, 판단·검증 1분, 회고·다음 단계 30초. AI 제안을 거절하거나 수정한 사례를 꼭 하나 이상 보여 주세요."><div class="slide-inner">
+            <article class="slide dense" data-note="평가와 발표는 '무엇을 만들었나'보다 '왜 그렇게 판단했나'. CONVERSATION.md는 채팅 복사가 아니라 질문 → 핵심 제안 → 팀의 수용/수정/거절 → 이유. 5분 발표 구조(Project Day Phase 6): 문제 40초, 사용자·해결책 50초, 데모 2분, 판단·검증 1분, 회고·다음 단계 30초. AI 제안을 거절하거나 수정한 사례를 꼭 하나 이상 보여 주세요."><div class="slide-inner">
               <span class="slide-kicker">Evidence over demo</span>
               <h2 class="sm">결과보다 <span class="hl">판단의 근거</span>를 남기고 보여 줍니다</h2>
               <div class="compare">
-                <div class="compare-col"><h4 style="color:#67e8f9"><i class="fa-solid fa-comments"></i> CONVERSATION.md 한 항목</h4><pre>## C-012 · Phase 4 · /qa-only
+                <div class="compare-col"><h4 style="color:#2B5CA6"><i class="fa-solid fa-comments"></i> CONVERSATION.md 한 항목</h4><pre>## C-012 · Phase 4 · /qa-only
 - 질문: 출석 시나리오 6개 테스트
 - 핵심 지적: 중복 클릭 시 2건 저장
 - 팀 판단: 수용 → FR-003 수정
 - 거절: "로그인 추가" 제안 → Out 범위
 - 증거: BUG-004, TEST-007 재검증 PASS</pre></div>
-                <div class="compare-col good"><h4><i class="fa-solid fa-person-chalkboard"></i> 5분 발표 구조</h4><ul><li>문제 · 40초</li><li>사용자 · 해결책 · 50초</li><li>핵심 데모 · 2분</li><li>판단 · 검증 증거 · 1분 (AI 제안 거절·수정 사례)</li><li>회고 · 다음 단계 · 30초</li></ul></div>
+                <div class="compare-col good"><h4><i class="fa-solid fa-person-chalkboard"></i> 5분 발표 구조</h4><svg class="viz" viewBox="0 0 440 106" role="img" aria-label="5분 발표 시간 배분: 문제 40초, 사용자와 해결책 50초, 데모 2분, 판단과 증거 1분, 회고 30초" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="10" width="57" height="46" rx="8" fill="#F6D5CF" fill-opacity=".8"/><text x="29.333333333333332" y="38" text-anchor="middle" fill="#243B35" font-size="14" font-weight="900" >40초</text><text x="29.333333333333332" y="76" text-anchor="middle" fill="#243B35" font-size="11.5" font-weight="700" >문제</text><rect x="60" y="10" width="71" height="46" rx="8" fill="#F5F0BB" fill-opacity=".8"/><text x="95.33333333333333" y="38" text-anchor="middle" fill="#243B35" font-size="14" font-weight="900" >50초</text><text x="95.33333333333333" y="76" text-anchor="middle" fill="#243B35" font-size="11.5" font-weight="700" >사용자 · 해결책</text><rect x="133" y="10" width="174" height="46" rx="8" fill="#D2E0FB" fill-opacity=".8"/><text x="220.0" y="38" text-anchor="middle" fill="#243B35" font-size="14" font-weight="900" >120초</text><text x="220.0" y="76" text-anchor="middle" fill="#243B35" font-size="11.5" font-weight="700" >핵심 데모</text><rect x="309" y="10" width="86" height="46" rx="8" fill="#DFD8F6" fill-opacity=".8"/><text x="352.0" y="38" text-anchor="middle" fill="#243B35" font-size="14" font-weight="900" >60초</text><text x="352.0" y="76" text-anchor="middle" fill="#243B35" font-size="11.5" font-weight="700" >판단 · 증거</text><rect x="397" y="10" width="42" height="46" rx="8" fill="#D7EEDD" fill-opacity=".8"/><text x="418.0" y="38" text-anchor="middle" fill="#243B35" font-size="14" font-weight="900" >30초</text><text x="418.0" y="76" text-anchor="middle" fill="#243B35" font-size="11.5" font-weight="700" >회고</text><text x="220" y="100" text-anchor="middle" fill="#4A605A" font-size="12.5" font-weight="700" >총 5분 · 데모가 가장 길게</text></svg><p class="mini" style="margin-top:10px">판단 · 증거 1분에는 <b>AI 제안을 거절 · 수정한 사례</b>를 꼭 하나 이상 보여 주세요.</p></div>
               </div>
             </div></article>
 
             <!-- 19 -->
-            <article class="slide" data-note="2주차 5일 스프린트. 10일 과정 커리큘럼의 Day 6~10과 6개 페이즈를 맞춘 계획입니다. Day 6: Think/Plan 착수 — Brief 확정. Day 7: Plan 완료 — 5대 문서·리뷰·중간 발표. Day 8: Build/Review — MVP 핵심 흐름 통합. Day 9: Test/Iterate — POC 발표와 피드백 반영(Spec-First). Day 10: Ship/Reflect — 최종 발표. 매일 저녁 데모 가능한 상태를 유지하세요."><div class="slide-inner">
+            <article class="slide dense" data-note="2주차 5일 스프린트. 10일 과정 커리큘럼의 Day 6~10과 6개 페이즈를 맞춘 계획입니다. Day 6: Think/Plan 착수 — Brief 확정. Day 7: Plan 완료 — 5대 문서·리뷰·중간 발표. Day 8: Build/Review — MVP 핵심 흐름 통합. Day 9: Test/Iterate — POC 발표와 피드백 반영(Spec-First). Day 10: Ship/Reflect — 최종 발표. 매일 저녁 데모 가능한 상태를 유지하세요."><div class="slide-inner">
               <span class="slide-kicker">Week 2 · 5-day sprint</span>
               <h2 class="sm">2주차 스프린트: <span class="hl">6페이즈를 5일에</span></h2>
               <div class="sprint">
@@ -600,14 +689,14 @@ cd .agents/skills/gstack && ./setup --host codex</pre><p class="mini">Git과 Bun
             </div></article>
 
             <!-- 20 -->
-            <article class="slide" data-note="오늘 제출할 산출물. 킥오프 발표는 팀별 3분: 3문장 정의 → 범위표(특히 Out) → 성공 지표 → 역할표 → 내일 할 일. 멘토는 범위가 너무 크면 이 자리에서 줄여 줍니다. 자세한 템플릿은 아래 실습 섹션에 있고, 6단계 상세 가이드는 Project Day 페이지에서 확인할 수 있습니다."><div class="slide-inner">
+            <article class="slide dense" data-note="오늘 제출할 산출물. 킥오프 발표는 팀별 3분: 3문장 정의 → 범위표(특히 Out) → 성공 지표 → 역할표 → 내일 할 일. 멘토는 범위가 너무 크면 이 자리에서 줄여 줍니다. 자세한 템플릿은 아래 실습 섹션에 있고, 6단계 상세 가이드는 Project Day 페이지에서 확인할 수 있습니다."><div class="slide-inner">
               <span class="slide-kicker">Day 6 mission</span>
               <h2 class="sm">오늘의 산출물과 <span class="hl">킥오프 발표</span></h2>
               <div class="slide-grid">
-                <div class="slide-card"><strong>산출물 1 · PROJECT_BRIEF</strong><span>3문장 정의 + 인터뷰 근거 3건 + /office-hours 결과 요약</span></div>
-                <div class="slide-card"><strong>산출물 2 · 범위 · 지표</strong><span>Must/Should/Out 범위표 + 숫자로 된 성공 지표 2개 이상</span></div>
-                <div class="slide-card"><strong>산출물 3 · 역할표</strong><span>사람 × AI 역할, 최종 승인자, 브랜치 규칙</span></div>
-                <div class="slide-card"><strong>산출물 4 · 스프린트 세팅</strong><span>저장소, AGENTS.md, gstack 설치, 5일 백로그</span></div>
+                <div class="slide-card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><strong>산출물 1 · PROJECT_BRIEF</strong><svg viewBox="0 0 54 54" aria-hidden="true" style="width:46px;height:46px;flex:none"><circle cx="27" cy="27" r="21" fill="none" stroke="rgba(36,59,53,0.1)" stroke-width="5"/><circle cx="27" cy="27" r="21" fill="none" stroke="#856000" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.9 131.9" transform="rotate(-90 27 27)"/><text x="27" y="28" text-anchor="middle" fill="#243B35" font-size="12" font-weight="900" font-family="Pretendard,DM Sans,sans-serif">3+3</text><text x="27" y="39" text-anchor="middle" fill="#856000" font-size="7.5" font-weight="700" font-family="Pretendard,DM Sans,sans-serif">문장·인터뷰</text></svg></div><span>3문장 정의 + 인터뷰 근거 3건 + /office-hours 결과 요약</span></div>
+                <div class="slide-card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><strong>산출물 2 · 범위 · 지표</strong><svg viewBox="0 0 54 54" aria-hidden="true" style="width:46px;height:46px;flex:none"><circle cx="27" cy="27" r="21" fill="none" stroke="rgba(36,59,53,0.1)" stroke-width="5"/><circle cx="27" cy="27" r="21" fill="none" stroke="#2B5CA6" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.9 131.9" transform="rotate(-90 27 27)"/><text x="27" y="28" text-anchor="middle" fill="#243B35" font-size="12" font-weight="900" font-family="Pretendard,DM Sans,sans-serif">2+</text><text x="27" y="39" text-anchor="middle" fill="#2B5CA6" font-size="7.5" font-weight="700" font-family="Pretendard,DM Sans,sans-serif">지표</text></svg></div><span>Must/Should/Out 범위표 + 숫자로 된 성공 지표 2개 이상</span></div>
+                <div class="slide-card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><strong>산출물 3 · 역할표</strong><svg viewBox="0 0 54 54" aria-hidden="true" style="width:46px;height:46px;flex:none"><circle cx="27" cy="27" r="21" fill="none" stroke="rgba(36,59,53,0.1)" stroke-width="5"/><circle cx="27" cy="27" r="21" fill="none" stroke="#5D4AA8" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.9 131.9" transform="rotate(-90 27 27)"/><text x="27" y="28" text-anchor="middle" fill="#243B35" font-size="12" font-weight="900" font-family="Pretendard,DM Sans,sans-serif">4</text><text x="27" y="39" text-anchor="middle" fill="#5D4AA8" font-size="7.5" font-weight="700" font-family="Pretendard,DM Sans,sans-serif">역할</text></svg></div><span>사람 × AI 역할, 최종 승인자, 브랜치 규칙</span></div>
+                <div class="slide-card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><strong>산출물 4 · 스프린트 세팅</strong><svg viewBox="0 0 54 54" aria-hidden="true" style="width:46px;height:46px;flex:none"><circle cx="27" cy="27" r="21" fill="none" stroke="rgba(36,59,53,0.1)" stroke-width="5"/><circle cx="27" cy="27" r="21" fill="none" stroke="#27765B" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.9 131.9" transform="rotate(-90 27 27)"/><text x="27" y="28" text-anchor="middle" fill="#243B35" font-size="12" font-weight="900" font-family="Pretendard,DM Sans,sans-serif">5</text><text x="27" y="39" text-anchor="middle" fill="#27765B" font-size="7.5" font-weight="700" font-family="Pretendard,DM Sans,sans-serif">일 백로그</text></svg></div><span>저장소, AGENTS.md, gstack 설치, 5일 백로그</span></div>
               </div>
               <ul class="slide-list">
                 <li><i class="fa-solid fa-check"></i>팀별 3분 킥오프: 정의 → 범위 → 지표 → 역할 → 내일 할 일</li>
@@ -618,10 +707,12 @@ cd .agents/skills/gstack && ./setup --host codex</pre><p class="mini">Git과 Bun
             </div></article>
 
             <!-- 21 -->
-            <article class="slide" data-note="마무리. 이번 주 내내 반복할 문장: What과 Why는 사람이, How는 사람과 AI가 함께. AI Native 개발자는 코드를 가장 빨리 치는 사람이 아니라, 올바른 문제를 고르고 AI 팀을 지휘해 증거로 완성하는 사람입니다."><div class="slide-inner">
+            <article class="slide dense" data-note="마무리. 이번 주 내내 반복할 문장: What과 Why는 사람이, How는 사람과 AI가 함께. AI Native 개발자는 코드를 가장 빨리 치는 사람이 아니라, 올바른 문제를 고르고 AI 팀을 지휘해 증거로 완성하는 사람입니다."><div class="slide-inner">
               <span class="slide-kicker">Takeaway</span>
+              <div class="viz-split"><div>
               <h2>Why와 What은 사람이,<br /><span class="hl">How는 사람과 AI가 함께.</span></h2>
               <p>AI Native 개발자는 코드를 가장 빨리 치는 사람이 아니라, 올바른 문제를 고르고 AI 팀을 지휘해 증거로 완성하는 사람입니다.</p>
+              </div><figure class="viz-fig"><svg class="viz" viewBox="0 20 460 270" role="img" aria-label="Why와 What은 사람이, How는 사람과 AI가 함께" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><circle cx="140" cy="140" r="105" fill="rgba(133,96,0,0.132)" stroke="#856000" stroke-width="2.5"/><circle cx="140" cy="105" r="30" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(126.0 91.0) scale(1.1666666666666667)" fill="none" stroke="#856000" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></g><text x="140" y="165" text-anchor="middle" fill="#243B35" font-size="17" font-weight="900" >사람</text><text x="140" y="188" text-anchor="middle" fill="#856000" font-size="15" font-weight="900" >Why · What</text><circle cx="320" cy="140" r="105" fill="rgba(43,92,166,0.11)" stroke="#2B5CA6" stroke-width="2.5"/><circle cx="300" cy="95" r="20" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(291.0 86.0) scale(0.75)" fill="none" stroke="#856000" stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></g><circle cx="345" cy="95" r="20" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(336.0 86.0) scale(0.75)" fill="none" stroke="#2B5CA6" stroke-width="2.53" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9 17h6"/></g><text x="330" y="165" text-anchor="middle" fill="#243B35" font-size="17" font-weight="900" >사람 + AI</text><text x="330" y="188" text-anchor="middle" fill="#2B5CA6" font-size="15" font-weight="900" >How</text><text x="230" y="275" text-anchor="middle" fill="#4A605A" font-size="13.5" font-weight="700" >고르는 일은 사람 · 만드는 일은 함께</text></svg></figure></div>
               <div class="slide-grid cols-3">
                 <div class="slide-card"><strong>고르는 힘</strong><span>절실한 사용자의 진짜 문제를 고른다</span></div>
                 <div class="slide-card"><strong>지휘하는 힘</strong><span>페이즈마다 맞는 AI 역할을 부르고 범위를 잠근다</span></div>
@@ -632,7 +723,7 @@ cd .agents/skills/gstack && ./setup --host codex</pre><p class="mini">Git과 Bun
           </div>
           <div class="slide-controls">
             <button class="slide-nav-btn" id="prevSlide" type="button" aria-label="이전 슬라이드"><i class="fa-solid fa-chevron-left"></i></button>
-            <div class="slide-progress-wrap"><span class="slide-counter" id="slideCounter">1 / 21</span><div class="slide-progress"><span id="slideProgress"></span></div></div>
+            <div class="slide-progress-wrap"><span class="slide-counter" id="slideCounter">1 / 24</span><div class="slide-progress"><span id="slideProgress"></span></div></div>
             <div class="slide-tools"><button class="slide-nav-btn" id="notesToggle" type="button" aria-label="강의 노트 보기" aria-pressed="false" title="강의 노트 (N)"><i class="fa-regular fa-comment-dots"></i></button><button class="slide-nav-btn fullscreen-btn" id="fullscreenSlide" type="button" aria-label="슬라이드 전체 화면"><i class="fa-solid fa-expand"></i></button><button class="slide-nav-btn" id="nextSlide" type="button" aria-label="다음 슬라이드"><i class="fa-solid fa-chevron-right"></i></button></div>
           </div>
           <div class="slide-notes" id="slideNotes"><strong>LECTURE NOTE</strong><span id="slideNoteText"></span></div>
@@ -1072,5 +1163,6 @@ AI 제안을 거절·수정한 사례, 다음 버전 개선 1가지를 정리해
       form.addEventListener("submit",function(event){event.preventDefault(); var value=input.value; input.value=""; submitQuestion(value);}); document.querySelectorAll(".quick-prompt").forEach(function(button){button.addEventListener("click",function(){submitQuestion(button.textContent);});});
     })();
   </script>
+  <script src="shared/header-auth.js?v=20261118-project-logout"></script>
 </body>
 </html>

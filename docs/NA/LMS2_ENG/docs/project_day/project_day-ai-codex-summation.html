@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser && window.location.pathname.indexOf('login.html') === -1) {
+        window.location.href = '../login/login.html';
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Day Spec Summary and Guide | LMS</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    body { font-family: 'Pretendard', sans-serif; background: #F6F9F4; color: #243B35; padding: 24px; max-width: 1000px; margin: 0 auto; line-height: 1.6; }
+    h1 { font-size: 1.8rem; margin-bottom: 8px; color: #2B5CA6; }
+    .nav-bar { display: flex; gap: 12px; margin-bottom: 24px; }
+    .btn { padding: 8px 16px; background: rgba(255,255,255,0.79); color: #243B35; border-radius: 8px; text-decoration: none; font-size: 0.9rem; }
+    .card { background: #F6F9F4; border: 1px solid rgba(36,59,53,0.09); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .card h3 { color: #A83A45; margin-bottom: 12px; }
+    pre { background: #F6F9F4; padding: 14px; border-radius: 8px; color: #856000; font-size: 0.88rem; overflow-x: auto; margin-top: 10px; }
+  </style>
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+  <div class="nav-bar">
+    <a href="project_day-ai-classroom.html" class="btn">← Back to Project Day AI Classroom</a>
+  </div>
+  <h1>Project Day Spec Summary and Prompt Guide</h1>
+  <p style="color: #4A605A; margin-bottom: 24px;">Summary of key patterns for Codex conversation-based development centered on Markdown specs</p>
+
+  <div class="card">
+    <h3>📌 5 planning doc structure guide</h3>
+    <pre>SITE_SPEC.md            # purpose, users, done checklist
+USER_FLOWS.md           # step-by-step paths for students &amp; teachers
+DATA_MODEL.md           # name, check-in time, status data structure
+IMPLEMENTATION_PLAN.md  # build order and test items
+CONVERSATION.md         # conversation prompts and decision history</pre>
+  </div>
+
+  <div class="card">
+    <h3>💡 Key prompt for asking Codex to build</h3>
+    <pre>"Read the 5 planning docs above carefully, and under the website/ folder build
+1) the student check-in card selection and QR generation screen
+2) the teacher's real-time attendance monitoring screen
+in HTML/CSS/JS. Include mobile layout and exception handling."</pre>
+  </div>
+  <div class="card" style="border-color: rgba(93,74,168,0.35); background: #F6F9F4;">
+    <h3 style="color: #5D4AA8;">🧰 Checking planning docs with gstack</h3>
+    <p style="color: #4A605A; font-size: 0.92rem;">After writing docs with Codex, review them with gstack skills. Don't accept the results as-is; put only what the team decided into the docs and record it in CONVERSATION.md.</p>
+    <pre style="color: #243B35;">/office-hours        → PROJECT_BRIEF.md   check problem·user·scope (before planning)
+/plan-ceo-review     → SITE_SPEC.md       check scope (Hold Scope / Reduction mode)
+/plan-eng-review     → USER_FLOWS.md      exception flows · hidden assumptions
+                       DATA_MODEL.md      data flow · fields · relationships
+                       IMPLEMENTATION_PLAN.md  build order · test plan
+/autoplan (optional) → run the reviews above at once, list only items a person must decide
+/document-release    → after building, update docs to match the final code
+(summary of all results) → CONVERSATION.md</pre>
+    <pre style="color: #243B35;">"/plan-eng-review
+Review the 5 planning docs and list in a table the contradictions between docs, missing handling of studentId·QR expiry·duplicate check-in,
+and a test plan for each requirement ID."</pre>
+  </div>
+  <footer class="site-footer" style="background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08); padding: 32px 20px; text-align: center; color: #4A605A; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company: Edunity Lab Co., Ltd.</span> | <span>CEO: Lee Gi-taek</span> | <span>Address: 2F Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul, Korea</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Phone: +82-2-6240-0053</span> | <span>Business Registration No.: 132-86-35644</span> | <span>Mail-Order Business Reg. No.: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

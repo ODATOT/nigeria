@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <script id="auth-guard">
+    (function () {
+      function getCookie(name) {
+        var prefix = name + '=';
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i += 1) {
+          var value = cookies[i].trim();
+          if (value.indexOf(prefix) === 0) return decodeURIComponent(value.substring(prefix.length));
+        }
+        return null;
+      }
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser) {
+        try {
+          var session = JSON.parse(localStorage.getItem('currentUserSession') || '{}');
+          if (Date.now() < session.expiresAt) loggedInUser = session.value;
+        } catch (error) { console.error(error); }
+      }
+      if (!loggedInUser) window.location.href = '../login/login.html';
+    })();
+  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A PBL where you make Markdown specs with Codex, then build and verify an ordering service in the Antigravity IDE">
+  <title>Doc-Driven Service Development PBL | ACE AI SW Startup Training</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="styles.css?v=20261102_03">
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+  <a class="skip-link" href="#mission-workspace">Skip to mission content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html" aria-label="Back to ACE AI SW Startup Training curriculum">
+        <span class="brand-mark" aria-hidden="true">DP</span>
+        <span>
+          <strong>DOC-DRIVEN BUILD</strong>
+          <small>Codex × Antigravity PBL</small>
+        </span>
+      </a>
+      <nav class="top-actions" aria-label="Page tools">
+        <a class="button button-secondary hide-mobile" href="service-implementation/index.html" target="_blank" rel="noopener">🚀 Run the built service</a>
+        <a class="button button-ghost hide-mobile" href="#project-files">Work files</a>
+        <a class="button button-ghost hide-mobile" href="#rubric">Grading criteria</a>
+        <a class="button button-muted" href="../index.html">← Curriculum</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">REAL PROJECT 02 · DOCUMENT-DRIVEN PBL</p>
+        <h1 id="page-title">Turn conversations into specs,<br><span>and specs into a working service.</span></h1>
+        <p class="hero-lead">
+          Turn your requirements conversation with Codex into a reviewable Markdown contract, then in the Antigravity IDE build
+          a <strong>mobile customer ordering screen and a PC admin screen</strong> based on it, and verify both the design and the service.
+        </p>
+        <div class="hero-actions">
+          <button class="button button-primary" type="button" data-jump-mission="1">Start Mission 1</button>
+          <a class="button button-secondary" href="service-implementation/index.html" target="_blank" rel="noopener">📱🖥️ Open mobile·PC demo ↗</a>
+          <a class="button button-ghost" href="resources/PBL_MISSIONS.md" download>Full guide MD ↓</a>
+        </div>
+        <ul class="hero-meta" aria-label="Key project info">
+          <li><strong>16–24h</strong><span>Suggested study time</span></li>
+          <li><strong>4 Missions</strong><span>Docs → Build → Verify</span></li>
+          <li><strong>100 pts</strong><span>Total score</span></li>
+          <li><strong>2 Views</strong><span>Mobile ordering · PC admin</span></li>
+        </ul>
+      </div>
+
+      <aside class="start-card" aria-labelledby="start-title">
+        <div class="start-card-head">
+          <div>
+            <p class="kicker">PROJECT SETUP</p>
+            <h2 id="start-title">My project setup</h2>
+          </div>
+          <span class="save-state" id="saveState" aria-live="polite">Auto-save</span>
+        </div>
+        <label class="field-label" for="projectName">Name or team name</label>
+        <input class="text-input" id="projectName" type="text" maxlength="32" placeholder="e.g. team-orderup" autocomplete="off">
+        <div class="scenario-card">
+          <article>
+            <strong>📱 Customer ordering (Mobile)</strong>
+            <span>Browse menu · Pick options · Cart · Order done (Fresh Route concept)</span>
+          </article>
+          <article>
+            <strong>🖥️ Store admin (PC)</strong>
+            <span>Live order intake · Status changes · Menu/sold-out management · Sales stats</span>
+          </article>
+        </div>
+        <div class="setup-output">
+          <span>Work path to create</span>
+          <code id="projectPath">teams/my-team/kiosk-pbl/</code>
+          <button type="button" id="copyCommand">Copy folder creation command</button>
+        </div>
+      </aside>
+    </section>
+
+    <section class="progress-shell" aria-labelledby="progress-title">
+      <div class="progress-summary">
+        <div>
+          <p class="kicker">YOUR PROGRESS</p>
+          <h2 id="progress-title"><span id="completedCount">0</span> / <span id="totalCount">32</span> checkpoints done</h2>
+        </div>
+        <strong id="progressPercent">0%</strong>
+      </div>
+      <div class="progress-track" role="progressbar" aria-label="Overall project progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <span id="progressBar"></span>
+      </div>
+      <div class="mission-map" role="list" aria-label="4-mission flow">
+        <button class="mission-node is-active" type="button" data-mission-tab="1" role="listitem">
+          <span>01</span><strong>Organize the talk</strong><small>25 pts · 3–4h</small>
+        </button>
+        <span class="map-arrow" aria-hidden="true">→</span>
+        <button class="mission-node" type="button" data-mission-tab="2" role="listitem">
+          <span>02</span><strong>Design specs</strong><small>25 pts · 4–6h</small>
+        </button>
+        <span class="map-arrow" aria-hidden="true">→</span>
+        <button class="mission-node" type="button" data-mission-tab="3" role="listitem">
+          <span>03</span><strong>Build the service</strong><small>30 pts · 6–9h</small>
+        </button>
+        <span class="map-arrow" aria-hidden="true">→</span>
+        <button class="mission-node" type="button" data-mission-tab="4" role="listitem">
+          <span>04</span><strong>Verify design·service</strong><small>20 pts · 3–5h</small>
+        </button>
+      </div>
+    </section>
+
+    <section class="workspace" id="mission-workspace">
+      <aside class="workspace-nav" aria-label="Project navigation">
+        <p class="nav-label">MISSION BOARD</p>
+        <button class="side-tab is-active" type="button" data-mission-tab="1">
+          <span>01</span>
+          <span><strong>Talk → Requirements</strong><small>FACT · QUESTION · DECISION</small></span>
+          <em data-mission-status="1">0/8</em>
+        </button>
+        <button class="side-tab" type="button" data-mission-tab="2">
+          <span>02</span>
+          <span><strong>MD spec package</strong><small>UX · DATA · API · QA</small></span>
+          <em data-mission-status="2">0/8</em>
+        </button>
+        <button class="side-tab" type="button" data-mission-tab="3">
+          <span>03</span>
+          <span><strong>Antigravity build</strong><small>BUILD · TRACE · TEST</small></span>
+          <em data-mission-status="3">0/8</em>
+        </button>
+        <button class="side-tab" type="button" data-mission-tab="4">
+          <span>04</span>
+          <span><strong>Verify design·service</strong><small>VERIFY · EVIDENCE · RETRO</small></span>
+          <em data-mission-status="4">0/8</em>
+        </button>
+        <a class="side-link" href="#project-files">
+          <span>⌘</span>
+          <span><strong>Project work files</strong><small>Plan · Analyze · Build · Verify</small></span>
+        </a>
+        <a class="side-link" href="#rubric">
+          <span>◆</span>
+          <span><strong>Grading rubric</strong><small>Pass rules · 100 pts</small></span>
+        </a>
+        <a class="side-link" href="#resources">
+          <span>↓</span>
+          <span><strong>Class resources</strong><small>MD downloads per mission</small></span>
+        </a>
+      </aside>
+
+      <div class="mission-content">
+        <!-- MISSION 1 -->
+        <article class="mission-panel is-active" data-mission-panel="1" aria-labelledby="mission1-title">
+          <header class="mission-header cyan">
+            <div>
+              <p class="eyebrow">MISSION 01 · FRAME</p>
+              <h2 id="mission1-title">Rebuild the conversation into project requirements</h2>
+              <p>Split the conversation's requests into facts, assumptions, questions and decisions, and set the build scope and success criteria yourself.</p>
+            </div>
+            <div class="mission-score"><strong>25</strong><span>POINTS</span></div>
+          </header>
+          <div class="mission-facts">
+            <span>Input <strong>Requirements conversation log</strong></span>
+            <span>Output <strong>PROJECT_BRIEF · DECISION_LOG</strong></span>
+            <span>Done signal <strong>Assumptions separated from final decisions</strong></span>
+          </div>
+
+          <section class="content-block">
+            <div class="section-index">01</div>
+            <div>
+              <h3>Write a one-sentence definition of the service yourself</h3>
+              <p>Starting from "Customers order sandwiches and drinks on their phones, and the admin manages menu, stock and order status on a PC," redefine the target users, problem to solve, key actions and out-of-scope items in your own words.</p>
+              <div class="evidence-note">
+                <strong>💡 Student-first rule:</strong> Before opening Codex, always write your own draft (users·key flow·out of scope) and 5 questions you can't answer yet.
+              </div>
+            </div>
+          </section>
+
+          <section class="content-block">
+            <div class="section-index">02</div>
+            <div>
+              <h3>Ask Codex to structure requirements and find counter-examples</h3>
+              <p>Set limits so AI can't invent features, and have it surface missing exceptions and data questions.</p>
+              <div class="code-card">
+                <div>
+                  <span>CODEX STRUCTURE PROMPT</span>
+                  <button type="button" data-copy-target="codexPrompt">Copy</button>
+                </div>
+                <pre id="codexPrompt">Structure the following conversation into a draft service spec.
+Don't invent new facts; clearly label [Fact], [Assumption], [Question] and [Decision].
+Separate the requirements for the customer mobile ordering screen and the PC admin screen,
+and suggest missing exceptions, data consistency and verification questions with priorities.</pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-block">
+            <div class="section-index">03</div>
+            <div>
+              <h3>The student, not AI, must own the decisions</h3>
+              <p>Separate facts stated in the conversation from AI guesses, and leave evidence and review criteria for every final decision.</p>
+              <div class="decision-strip">
+                <span><b>FACT</b>A requirement stated in the conversation</span>
+                <span><b>ASSUMPTION</b>A guess by AI or the team</span>
+                <span><b>QUESTION</b>Something that needs checking</span>
+                <span><b>DECISION</b>Reason · owner · criteria</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-block">
+            <div class="section-index">04</div>
+            <div>
+              <h3>Fix separate responsibilities for the four top-level folders</h3>
+              <p>Planning, analysis, building and verification are independent areas with different responsibilities. Keep the folders' roles from mixing.</p>
+              <div class="visual-folder-tree" role="tree" aria-label="kiosk-pbl project folder structure">
+                <div class="vtree-root">
+                  <span class="vtree-icon">📦</span>
+                  <strong class="vtree-name">kiosk-pbl/</strong>
+                  <span class="vtree-badge">PROJECT ROOT</span>
+                </div>
+                <div class="vtree-children">
+                  <div class="vtree-item is-folder">
+                    <div class="vtree-main">
+                      <span class="vtree-icon">📁</span>
+                      <strong class="vtree-name">service-planning/</strong>
+                      <span class="vtree-tag tag-cyan">Planning · Specs</span>
+                    </div>
+                    <p class="vtree-desc">Service requirements, shared policies, customer mobile/PC admin screen specs, design concept (Fresh Route)</p>
+                  </div>
+                  <div class="vtree-item is-folder">
+                    <div class="vtree-main">
+                      <span class="vtree-icon">📁</span>
+                      <strong class="vtree-name">service-analysis/</strong>
+                      <span class="vtree-tag tag-green">Metrics · Analysis</span>
+                    </div>
+                    <p class="vtree-desc">Key performance indicators (KPI), event taxonomy, data quality rules, analytics collection·query API policy</p>
+                  </div>
+                  <div class="vtree-item is-folder">
+                    <div class="vtree-main">
+                      <span class="vtree-icon">📁</span>
+                      <strong class="vtree-name">service-implementation/</strong>
+                      <span class="vtree-tag tag-violet">Service build</span>
+                    </div>
+                    <p class="vtree-desc">Antigravity IDE-based customer mobile ordering (customer) · PC admin (admin) · live store (shared) and AI work log</p>
+                  </div>
+                  <div class="vtree-item is-folder">
+                    <div class="vtree-main">
+                      <span class="vtree-icon">📁</span>
+                      <strong class="vtree-name">service-validation/</strong>
+                      <span class="vtree-tag tag-orange">Design · Service checks</span>
+                    </div>
+                    <p class="vtree-desc">Design verification plan·results, service run scenarios, standard test data, defect reports and retrospective</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="check-card">
+            <div class="check-head">
+              <div>
+                <p class="kicker">PASS GATE</p>
+                <h3>Mission 1 done checklist</h3>
+              </div>
+              <strong data-check-count="1">0 / 8</strong>
+            </div>
+            <div class="check-grid">
+              <label><input type="checkbox" data-check="m1-1"><span>I wrote my own draft and 5 questions before using AI.</span></label>
+              <label><input type="checkbox" data-check="m1-2"><span>I separated the problems of customers (mobile), admins (PC) and operators.</span></label>
+              <label><input type="checkbox" data-check="m1-3"><span>I split the conversation into facts, assumptions, questions and decisions.</span></label>
+              <label><input type="checkbox" data-check="m1-4"><span>I clearly defined what's in and out of the MVP.</span></label>
+              <label><input type="checkbox" data-check="m1-5"><span>I wrote success and failure conditions that can be observed and measured.</span></label>
+              <label><input type="checkbox" data-check="m1-6"><span>I recorded why I adopted, changed or rejected AI suggestions.</span></label>
+              <label><input type="checkbox" data-check="m1-7"><span>I defined the responsibilities and outputs of the four top-level folders.</span></label>
+              <label><input type="checkbox" data-check="m1-8"><span>I can explain the project goal and scope in my own words within 1 minute.</span></label>
+            </div>
+          </section>
+
+          <footer class="mission-footer">
+            <a href="resources/MISSION_1_CONVERSATION_TO_SPEC.md" data-preview-md="resources/MISSION_1_CONVERSATION_TO_SPEC.md">📄 See Mission 1 detailed guide</a>
+            <button class="button button-primary" type="button" data-next-mission="2">Go to Mission 2 →</button>
+          </footer>
+        </article>
+
+        <!-- MISSION 2 -->
+        <article class="mission-panel" data-mission-panel="2" aria-labelledby="mission2-title" hidden>
+          <header class="mission-header green">
+            <div>
+              <p class="eyebrow">MISSION 02 · SPECIFY</p>
+              <h2 id="mission2-title">Make a buildable Markdown spec package</h2>
+              <p>Link mobile customer ordering, the PC admin center, design concept, data·analytics·API and the verification plan into traceable docs.</p>
+            </div>
+            <div class="mission-score"><strong>25</strong><span>POINTS</span></div>
+          </header>
+          <div class="mission-facts">
+            <span>Input <strong>PROJECT_BRIEF · DECISIONS</strong></span>
+            <span>Output <strong>Planning·analysis·verification MD package</strong></span>
+            <span>Done signal <strong>REQ → UI → DATA → API → TEST linked</strong></span>
+          </div>
+
+          <section class="content-block">
+            <div class="section-index">01</div>
+            <div>
+              <h3>Define actions, states and done conditions for each screen in docs</h3>
+              <p>Click any doc to preview or download the real reference spec right away.</p>
+              <div class="document-grid">
+                <a href="service-planning/customer-order/mobile-screen-spec.md" data-preview-md="service-planning/customer-order/mobile-screen-spec.md">
+                  <em>MOBILE · Customer ordering</em>
+                  <strong>mobile-screen-spec.md</strong>
+                  <span>Browse menu · Pick options · Cart · Done · Exception states (8 screens)</span>
+                  <small>Preview spec →</small>
+                </a>
+                <a href="service-planning/admin/pc-screen-spec.md" data-preview-md="service-planning/admin/pc-screen-spec.md">
+                  <em>DESKTOP · Store admin</em>
+                  <strong>pc-screen-spec.md</strong>
+                  <span>Live order board · State transitions · Menu/sold-out management · Permissions (8 screens)</span>
+                  <small>Preview spec →</small>
+                </a>
+                <a href="service-analysis/analytics-api-definition.md" data-preview-md="service-analysis/analytics-api-definition.md">
+                  <em>POLICY · Analytics and API</em>
+                  <strong>analytics-api-definition.md</strong>
+                  <span>Key metrics · Event collection · API contract · Privacy boundaries</span>
+                  <small>Preview spec →</small>
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-block">
+            <div class="section-index">02</div>
+            <div>
+              <h3>Fix data contracts and requirement traceability before screens</h3>
+              <p>Define a unique ID, category, base price, option groups, sale status and stock count for 10+ sample menu items, and link everything from requirements to tests by ID.</p>
+              <div class="trace-row">
+                <span>REQ-001 (requirement)</span><b>→</b>
+                <span>UI-C02 (screen spec)</span><b>→</b>
+                <span>DATA-menu (data)</span><b>→</b>
+                <span>API-003 (interface)</span><b>→</b>
+                <span>TEST-005 (test scenario)</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-block">
+            <div class="section-index">03</div>
+            <div>
+              <h3>Take only the reference's UX principles; don't copy its assets</h3>
+              <p>Use fresh-ingredient colors (Fresh Route), the fun of step-by-step option picking and clear progress status as reference, but never copy any outside brand's logos, text or images.</p>
+            </div>
+          </section>
+
+          <section class="content-block">
+            <div class="section-index">04</div>
+            <div>
+              <h3>Cross-audit your docs with Codex for contradictions and gaps</h3>
+              <div class="code-card">
+                <div>
+                  <span>CROSS-DOC AUDIT PROMPT</span>
+                  <button type="button" data-copy-target="auditPrompt">Copy</button>
+                </div>
+                <pre id="auditPrompt">Cross-review the planning·analysis·verification docs below.
+Don't add new requirements; only find these:
+1. Mismatched terms · IDs · order status values between docs
+2. Features in screen specs that are missing data/API definitions
+3. Vague done criteria that can't be observed or measured
+4. Risks around personal data · payments · permissions · copyright, and questions a person must decide</pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="check-card">
+            <div class="check-head">
+              <div>
+                <p class="kicker">PASS GATE</p>
+                <h3>Mission 2 done checklist</h3>
+              </div>
+              <strong data-check-count="2">0 / 8</strong>
+            </div>
+            <div class="check-grid">
+              <label><input type="checkbox" data-check="m2-1"><span>I defined normal·empty·sold-out·error states for every customer mobile screen.</span></label>
+              <label><input type="checkbox" data-check="m2-2"><span>I defined order handling·menu management·permission policies for the admin PC screens.</span></label>
+              <label><input type="checkbox" data-check="m2-3"><span>I defined 10+ sample menu items with option groups and stock rules.</span></label>
+              <label><input type="checkbox" data-check="m2-4"><span>I recorded the design concept (Fresh Route) principles and the no-copying boundary.</span></label>
+              <label><input type="checkbox" data-check="m2-5"><span>I fully kept sensitive personal data out of analytics event definitions.</span></label>
+              <label><input type="checkbox" data-check="m2-6"><span>I defined API requests·responses·error codes and order state transition rules.</span></label>
+              <label><input type="checkbox" data-check="m2-7"><span>I wrote a REQ → UI → DATA → API → TEST traceability table.</span></label>
+              <label><input type="checkbox" data-check="m2-8"><span>A person reviewed and fixed the Codex doc audit results.</span></label>
+            </div>
+          </section>
+
+          <footer class="mission-footer">
+            <a href="resources/MISSION_2_MD_BLUEPRINT.md" data-preview-md="resources/MISSION_2_MD_BLUEPRINT.md">📄 See Mission 2 detailed guide</a>
+            <button class="button button-primary" type="button" data-next-mission="3">Go to Mission 3 →</button>
+          </footer>
+        </article>
+
+        <!-- MISSION 3 -->
+        <article class="mission-panel" data-mission-panel="3" aria-labelledby="mission3-title" hidden>
+          <header class="mission-header violet">
+            <div>
+              <p class="eyebrow">MISSION 03 · BUILD</p>
+              <h2 id="mission3-title">Build in the Antigravity IDE following the doc contract</h2>
+              <p>Use the approved Markdown specs as the only basis for building, and build the mobile customer and PC admin screens in vertical cycles.</p>
+            </div>
+            <div class="mission-score"><strong>30</strong><span>POINTS</span></div>
+          </header>
+          <div class="mission-facts">
+            <span>Input <strong>Approved planning·analysis·design MD</strong></span>
+            <span>Output <strong>Working service (2 Views) · AI_WORK_LOG</strong></span>
+            <span>Done signal <strong>Live mobile·PC sync demo</strong></span>
+          </div>
+
+          <section class="content-block">
+            <div class="section-index">01</div>
+            <div>
+              <h3>Declare a docs-first build contract to Antigravity</h3>
+              <p>Instead of asking for the whole app at once, lock the scope per requirement ID and repeat build·verify.</p>
+              <div class="code-card">
+                <div>
+                  <span>ANTIGRAVITY BUILD CONTRACT</span>
+                  <button type="button" data-copy-target="buildPrompt">Copy</button>
+                </div>
+                <pre id="buildPrompt">Use only the approved MD docs in service-planning and service-analysis as the basis for building.
+This build's scope is one item: [REQ-___ / screen ID].
+Before writing code, report the related doc paths, files to change and anything unclear,
+and after building, summarize the changed files, how to run it and results per acceptance criterion.</pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-block">
+            <div class="section-index">02</div>
+            <div>
+              <h3>Finish in three vertical cycles (Vertical Slices)</h3>
+              <ol class="step-list">
+                <li>
+                  <strong>Cycle 1 · Customer mobile flow</strong>
+                  <span>Browse menu → Details·pick options → Add to cart·adjust quantity → Order done and check order number (mobile 360px~430px)</span>
+                </li>
+                <li>
+                  <strong>Cycle 2 · Admin PC flow</strong>
+                  <span>Live new order alerts·list → View order details → Change status (received→cooking→ready for pickup→done) → Sold-out·menu management (PC 1280px+)</span>
+                </li>
+                <li>
+                  <strong>Cycle 3 · Exception and recovery flow</strong>
+                  <span>Prompt for missing required options, block sold-out items, prevent empty cart orders, retry recovery on network/save failure</span>
+                </li>
+              </ol>
+            </div>
+          </section>
+
+          <section class="content-block">
+            <div class="section-index">03</div>
+            <div>
+              <h3>Run the real integrated demo service to compare and check</h3>
+              <p>This workspace includes a <strong>live-synced customer mobile + PC admin service</strong> built from the doc contract and Fresh Route design concept.</p>
+              <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <a class="button button-primary" href="service-implementation/index.html" target="_blank" rel="noopener">🚀 Run mobile+PC launcher ↗</a>
+                <a class="button button-secondary" href="service-implementation/customer/index.html" target="_blank" rel="noopener">📱 Open customer mobile screen only ↗</a>
+                <a class="button button-ghost" href="service-implementation/admin/index.html" target="_blank" rel="noopener">🖥️ Open PC admin screen only ↗</a>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-block">
+            <div class="section-index">04</div>
+            <div>
+              <h3>If the build must differ from the docs, update the docs first</h3>
+              <p>Don't just patch code for changes found while building; update the decision record (DEC) and spec together to keep docs and code consistent.</p>
+              <div class="loop">
+                <span>Check doc ID</span><b>→</b>
+                <span>Build minimum scope</span><b>→</b>
+                <span>Run and test</span><b>→</b>
+                <span>Work log (AI_WORK_LOG)</span><b>→</b>
+                <span>Next requirement ID</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="check-card">
+            <div class="check-head">
+              <div>
+                <p class="kicker">PASS GATE</p>
+                <h3>Mission 3 done checklist</h3>
+              </div>
+              <strong data-check-count="3">0 / 8</strong>
+            </div>
+            <div class="check-grid">
+              <label><input type="checkbox" data-check="m3-1"><span>I recorded how to run·build·test in service-implementation/README.md.</span></label>
+              <label><input type="checkbox" data-check="m3-2"><span>The key customer ordering flow (browse→options→cart→done) works in mobile view.</span></label>
+              <label><input type="checkbox" data-check="m3-3"><span>Admin order checking·status changes·sold-out toggle work in PC view.</span></label>
+              <label><input type="checkbox" data-check="m3-4"><span>The customer and admin screens share the same menu·order data contract.</span></label>
+              <label><input type="checkbox" data-check="m3-5"><span>Sold-out·empty states·missing required options·error recovery flows work.</span></label>
+              <label><input type="checkbox" data-check="m3-6"><span>The built screens and features match the requirement IDs in the planning docs.</span></label>
+              <label><input type="checkbox" data-check="m3-7"><span>I recorded human review·change decisions in 5+ AI work log entries.</span></label>
+              <label><input type="checkbox" data-check="m3-8"><span>All key scenario tests pass with no console errors.</span></label>
+            </div>
+          </section>
+
+          <footer class="mission-footer">
+            <a href="resources/MISSION_3_ANTIGRAVITY_BUILD.md" data-preview-md="resources/MISSION_3_ANTIGRAVITY_BUILD.md">📄 See Mission 3 detailed guide</a>
+            <button class="button button-primary" type="button" data-next-mission="4">Go to Mission 4 →</button>
+          </footer>
+        </article>
+
+        <!-- MISSION 4 -->
+        <article class="mission-panel" data-mission-panel="4" aria-labelledby="mission4-title" hidden>
+          <header class="mission-header orange">
+            <div>
+              <p class="eyebrow">MISSION 04 · VERIFY</p>
+              <h2 id="mission4-title">Verify the design and the service against different criteria</h2>
+              <p>Check doc completeness (design verification) separately from the real app's behavior·usability (service verification), and record the gaps you find as defects and a learning retrospective.</p>
+            </div>
+            <div class="mission-score"><strong>20</strong><span>POINTS</span></div>
+          </header>
+          <div class="mission-facts">
+            <span>Input <strong>Specs · Built service · Work log</strong></span>
+            <span>Output <strong>Design·service verification report · Retro</strong></span>
+            <span>Done signal <strong>Evidence-based pass (0 critical defects)</strong></span>
+          </div>
+
+          <section class="content-block">
+            <div class="section-index">01</div>
+            <div>
+              <h3>Design Validation checks consistency between docs</h3>
+              <ul class="plain-list">
+                <li>Do terms, requirement IDs, order status values and data field names match in every doc?</li>
+                <li>Does every key requirement have observable Acceptance Criteria and a linked test scenario?</li>
+                <li>Does the data flow continue unbroken from creating an order on customer mobile to changing status on PC admin?</li>
+                <li>Are permission boundaries, personal data exclusion rules and exception/failure conditions all covered?</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="content-block">
+            <div class="section-index">02</div>
+            <div>
+              <h3>Service Validation checks real run evidence</h3>
+              <ul class="plain-list">
+                <li>Actually reproduce the main user flows at mobile (360px~430px) and PC (1280px+) sizes, and capture·record them.</li>
+                <li>Test not only normal orders but also empty carts, missing required options, blocked sold-out items and cancelled/rejected states.</li>
+                <li>Check that base price + option extras × quantity = final payment amount, and that order status changes match on both screens.</li>
+                <li>Check keyboard navigation, button labels, color contrast (Fresh Route accessibility) and loading/toast feedback.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="content-block">
+            <div class="section-index">03</div>
+            <div>
+              <h3>Attach reproduction steps and post-fix re-check evidence to every defect</h3>
+              <div class="code-card">
+                <div>
+                  <span>DEFECT REPORT TEMPLATE</span>
+                  <button type="button" data-copy-target="defectTemplate">Copy</button>
+                </div>
+                <pre id="defectTemplate">## DEF-001 — [defect title]
+- Linked requirement / test ID: REQ-___ / TEST-___
+- Test environment and reproduction steps:
+- Expected result (per docs):
+- Actual result (when found):
+- Screenshot · console log · related files:
+- Severity (Critical/High/Medium/Low) and status:
+- Cause and fix:
+- Re-check result after fix:</pre>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-block">
+            <div class="section-index">04</div>
+            <div>
+              <h3>Reflect on the differences between AI suggestions and human final decisions</h3>
+              <p>Summarize, with IDs, what Codex and Antigravity structured·built quickly, what AI missed or over-assumed, the design·code decisions a person stepped in to change, and the first question you'll check in your next project.</p>
+            </div>
+          </section>
+
+          <section class="check-card">
+            <div class="check-head">
+              <div>
+                <p class="kicker">PASS GATE</p>
+                <h3>Mission 4 done checklist</h3>
+              </div>
+              <strong data-check-count="4">0 / 8</strong>
+            </div>
+            <div class="check-grid">
+              <label><input type="checkbox" data-check="m4-1"><span>I wrote the design verification plan (design-validation-plan) and results.</span></label>
+              <label><input type="checkbox" data-check="m4-2"><span>I wrote the service verification plan (service-validation-plan) and run results.</span></label>
+              <label><input type="checkbox" data-check="m4-3"><span>I marked every requirement as PASS, FAIL or not verified.</span></label>
+              <label><input type="checkbox" data-check="m4-4"><span>I left reproduction steps and screen·log evidence for every defect.</span></label>
+              <label><input type="checkbox" data-check="m4-5"><span>I fixed and re-checked all Critical and High defects.</span></label>
+              <label><input type="checkbox" data-check="m4-6"><span>I verified both the main mobile·PC flows and the exception·recovery flows.</span></label>
+              <label><input type="checkbox" data-check="m4-7"><span>I explained, with cases, the differences between AI output and human judgment.</span></label>
+              <label><input type="checkbox" data-check="m4-8"><span>I can present the demo (7 min) and doc evidence·retro (5 min) in my own words.</span></label>
+            </div>
+          </section>
+
+          <footer class="mission-footer">
+            <a href="resources/MISSION_4_VALIDATION.md" data-preview-md="resources/MISSION_4_VALIDATION.md">📄 See Mission 4 detailed guide</a>
+            <a class="button button-primary" href="#rubric">Check grading criteria →</a>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <!-- PROJECT WORKSPACE FILES -->
+    <section class="resource-section" id="project-files" aria-labelledby="files-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">EDITOR WORKSPACE · 4 CORE DOMAINS</p>
+          <h2 id="files-title">Project work files and run environment</h2>
+          <p class="section-desc">The class page and the real sample project (planning·analysis·build·verification) are in the same folder. Click a card to open a doc or run the built app.</p>
+        </div>
+        <a class="button button-secondary" href="service-implementation/index.html" target="_blank" rel="noopener">🚀 Open built service launcher ↗</a>
+      </div>
+
+      <div class="resource-grid">
+        <a href="README.md" data-preview-md="README.md">
+          <span class="badge-pill">00 · OVERVIEW</span>
+          <strong>Full project guide (README.md)</strong>
+          <small>Editor check order, 4-folder structure and final checklist</small>
+        </a>
+        <a href="service-planning/README.md" data-preview-md="service-planning/README.md">
+          <span class="badge-pill">01 · PLANNING</span>
+          <strong>service-planning (service planning·specs)</strong>
+          <small>Shared policies, 8 customer mobile screens, 8 PC admin screens, Fresh Route design concept</small>
+        </a>
+        <a href="service-analysis/README.md" data-preview-md="service-analysis/README.md">
+          <span class="badge-pill">02 · ANALYSIS</span>
+          <strong>service-analysis (metrics·analysis·API)</strong>
+          <small>KPIs, event taxonomy, data quality and analytics API definitions</small>
+        </a>
+        <a href="service-implementation/index.html" target="_blank" rel="noopener" class="is-highlight-card">
+          <span class="badge-pill badge-live">03 · LIVE DEMO ↗</span>
+          <strong>service-implementation (integrated run screen)</strong>
+          <small>Run the live-synced customer mobile ordering (Fresh Route) + PC admin center launcher</small>
+        </a>
+        <a href="service-validation/README.md" data-preview-md="service-validation/README.md">
+          <span class="badge-pill">04 · VALIDATION</span>
+          <strong>service-validation (design·service verification)</strong>
+          <small>Verification strategy, design verification plan, service scenarios, test data and report templates</small>
+        </a>
+        <a href="service-implementation/README.md" data-preview-md="service-implementation/README.md">
+          <span class="badge-pill">05 · BUILD GUIDE</span>
+          <strong>Build architecture and run guide (README.md)</strong>
+          <small>Mobile·PC screen structure, LocalStorage live store sync and requirement mapping</small>
+        </a>
+      </div>
+
+      <div class="subfile-strip" aria-label="Detailed design and verification docs">
+        <span class="subfile-label">📂 Key detailed docs:</span>
+        <a href="service-planning/design-concept.md" data-preview-md="service-planning/design-concept.md">🎨 Fresh Route design concept</a>
+        <a href="service-planning/common/service-policies.md" data-preview-md="service-planning/common/service-policies.md">📋 Shared service policies</a>
+        <a href="service-planning/customer-order/order-flow.md" data-preview-md="service-planning/customer-order/order-flow.md">📱 Customer ordering flow</a>
+        <a href="service-planning/admin/admin-features.md" data-preview-md="service-planning/admin/admin-features.md">🖥️ Admin feature definitions</a>
+        <a href="service-validation/design-validation-plan.md" data-preview-md="service-validation/design-validation-plan.md">🔍 Design verification plan</a>
+        <a href="service-validation/service-validation-plan.md" data-preview-md="service-validation/service-validation-plan.md">✅ Service verification plan</a>
+        <a href="service-validation/test-data.md" data-preview-md="service-validation/test-data.md">🧪 Standard test data</a>
+      </div>
+    </section>
+
+    <!-- DOWNLOAD CENTER -->
+    <section class="resource-section" id="resources" aria-labelledby="resources-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">DOWNLOAD CENTER · MARKDOWN GUIDES</p>
+          <h2 id="resources-title">Class guides and mission guides</h2>
+          <p class="section-desc">Original Markdown files per mission that students can read and use as templates. Click to preview or download.</p>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+        <a href="resources/PBL_MISSIONS.md" data-preview-md="resources/PBL_MISSIONS.md">
+          <span class="badge-pill">GUIDE 01</span>
+          <strong>Full PBL guide (PBL_MISSIONS.md)</strong>
+          <small>Project scenario, starting folder structure, ID tracing rules and safety·ethics boundaries</small>
+        </a>
+        <a href="resources/MISSION_1_CONVERSATION_TO_SPEC.md" data-preview-md="resources/MISSION_1_CONVERSATION_TO_SPEC.md">
+          <span class="badge-pill">MISSION 01</span>
+          <strong>Talk → Requirements spec guide</strong>
+          <small>How to write PROJECT_BRIEF and DECISION_LOG, Codex structuring prompt</small>
+        </a>
+        <a href="resources/MISSION_2_MD_BLUEPRINT.md" data-preview-md="resources/MISSION_2_MD_BLUEPRINT.md">
+          <span class="badge-pill">MISSION 02</span>
+          <strong>MD design package guide</strong>
+          <small>Mobile·PC screen specs, sample menu data, API contract and trace table templates</small>
+        </a>
+        <a href="resources/MISSION_3_ANTIGRAVITY_BUILD.md" data-preview-md="resources/MISSION_3_ANTIGRAVITY_BUILD.md">
+          <span class="badge-pill">MISSION 03</span>
+          <strong>Antigravity IDE build guide</strong>
+          <small>3-step vertical cycle process, AI_WORK_LOG template and smoke tests</small>
+        </a>
+        <a href="resources/MISSION_4_VALIDATION.md" data-preview-md="resources/MISSION_4_VALIDATION.md">
+          <span class="badge-pill">MISSION 04</span>
+          <strong>Design·service verification and retro guide</strong>
+          <small>Design verification checklist, service run checks, defect report and retro templates</small>
+        </a>
+        <a href="resources/EVALUATION_RUBRIC.md" data-preview-md="resources/EVALUATION_RUBRIC.md">
+          <span class="badge-pill">RUBRIC</span>
+          <strong>100-point grading rubric details (EVALUATION_RUBRIC.md)</strong>
+          <small>Detailed points per mission, automatic fail conditions, self-assessment and presentation checklist</small>
+        </a>
+      </div>
+    </section>
+
+    <!-- EVALUATION RUBRIC -->
+    <section class="rubric-section" id="rubric" aria-labelledby="rubric-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">EVALUATION · 100 POINTS</p>
+          <h2 id="rubric-title">We grade traceability, working flows and human verification over looks</h2>
+          <p class="section-desc">Beyond the final screens, we grade student drafts, ID traceability across requirements-build-tests, run evidence and human judgment on AI suggestions.</p>
+        </div>
+        <a class="button button-ghost" href="resources/EVALUATION_RUBRIC.md" download>Download detailed rubric MD ↓</a>
+      </div>
+
+      <div class="rubric-grid">
+        <article>
+          <span>01 · 25 pts</span>
+          <h3>Requirements framing</h3>
+          <dl>
+            <div><dt>Student draft·questions first</dt><dd>5 pts</dd></div>
+            <div><dt>Separate facts · assumptions · questions · decisions</dt><dd>7 pts</dd></div>
+            <div><dt>MVP scope·success/failure criteria</dt><dd>7 pts</dd></div>
+            <div><dt>Reasons for adopting·changing·rejecting AI suggestions</dt><dd>6 pts</dd></div>
+          </dl>
+        </article>
+        <article>
+          <span>02 · 25 pts</span>
+          <h3>Markdown spec package</h3>
+          <dl>
+            <div><dt>Mobile·PC screen·state specs</dt><dd>7 pts</dd></div>
+            <div><dt>Menu data·API·analytics contract</dt><dd>7 pts</dd></div>
+            <div><dt>Design principles·safety/copyright boundaries</dt><dd>5 pts</dd></div>
+            <div><dt>REQ→UI→DATA→API→TEST traceability</dt><dd>6 pts</dd></div>
+          </dl>
+        </article>
+        <article>
+          <span>03 · 30 pts</span>
+          <h3>Antigravity service build</h3>
+          <dl>
+            <div><dt>Key customer mobile ordering flow</dt><dd>8 pts</dd></div>
+            <div><dt>PC admin order checking·status changes</dt><dd>7 pts</dd></div>
+            <div><dt>Exceptions·recovery·totals·status consistency</dt><dd>6 pts</dd></div>
+            <div><dt>Matches approved doc IDs</dt><dd>5 pts</dd></div>
+            <div><dt>AI work log·human judgment records</dt><dd>4 pts</dd></div>
+          </dl>
+        </article>
+        <article>
+          <span>04 · 20 pts</span>
+          <h3>Design·service verification and retro</h3>
+          <dl>
+            <div><dt>Design verification (doc consistency·gaps)</dt><dd>5 pts</dd></div>
+            <div><dt>Service verification (reproduce mobile·PC·exceptions)</dt><dd>6 pts</dd></div>
+            <div><dt>Defect records and re-check after fixes</dt><dd>5 pts</dd></div>
+            <div><dt>AI vs human judgment retro·presentation clarity</dt><dd>4 pts</dd></div>
+          </dl>
+        </article>
+      </div>
+
+      <div class="pass-rule">
+        <strong>Final pass criteria</strong>
+        <span>70+ total points (50%+ on each mission)</span>
+        <span>All 4 mission outputs submitted</span>
+        <span>Key customer mobile + PC admin flows run</span>
+        <span>0 Critical defects</span>
+        <span>A person verifies·explains AI output directly</span>
+      </div>
+
+      <details class="safety">
+        <summary>⚠️ Safety·ethics and AI accountability rules you must follow (violation = automatic fail)</summary>
+        <ul>
+          <li>Never store real personal data (names·phone numbers·addresses), real payment info or secret API keys in code or analytics events.</li>
+          <li>Don't copy logos, signature text, product images or source code from commercial services (like Subway); use your own design concept (Fresh Route) and sample menu data.</li>
+          <li>Write your own draft before opening AI, and don't let AI add requirements that weren't in the conversation as if they were facts.</li>
+          <li>Record at least 2 cases where you rejected or changed AI suggestions, and explain your architecture and verification evidence in your own words in the final presentation.</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- SAVE / EXPORT PROGRESS -->
+    <section class="action-section" aria-labelledby="save-title">
+      <div class="action-inner">
+        <div>
+          <p class="kicker">SAVE YOUR WORK</p>
+          <h2 id="save-title">Save your current progress as a Markdown file</h2>
+          <p>Checklist progress is saved in your browser automatically, and you can download it right away as a progress log for submission (DOC_DRIVEN_PBL_PROGRESS.md).</p>
+        </div>
+        <div class="action-buttons">
+          <button class="button button-primary" type="button" id="downloadProgress">Save progress log MD ↓</button>
+          <button class="button button-ghost" type="button" id="resetProgress">Reset progress</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Doc-Driven Service Development PBL (Codex × Antigravity) · ACE AI SW Startup Training</p>
+    <div>
+      <a href="service-implementation/index.html" target="_blank" rel="noopener">Open build demo launcher</a>
+      <a href="../index.html">Back to curriculum home</a>
+    </div>
+  </footer>
+
+  <!-- Markdown Preview Modal -->
+  <div class="doc-modal-backdrop" id="docModalBackdrop" hidden role="dialog" aria-modal="true" aria-labelledby="docModalTitle">
+    <div class="doc-modal-dialog">
+      <header class="doc-modal-header">
+        <div>
+          <span class="doc-modal-path" id="docModalPath">service-planning/README.md</span>
+          <h3 class="doc-modal-title" id="docModalTitle">Document preview</h3>
+        </div>
+        <div class="doc-modal-actions">
+          <a class="button button-secondary" id="docModalDownload" href="#" download>Download original MD ↓</a>
+          <button type="button" class="button button-ghost" id="docModalClose" aria-label="Close document preview">Close ✕</button>
+        </div>
+      </header>
+      <div class="doc-modal-body" id="docModalBody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js?v=20261102_03"></script>
+</body>
+</html>

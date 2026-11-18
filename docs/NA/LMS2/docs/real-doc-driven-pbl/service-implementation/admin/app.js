@@ -342,7 +342,7 @@
           <tr>
             <td style="padding:4px 0;">
               <strong>${it.menuName}</strong><br/>
-              <span style="font-size:0.75rem; color:#64748b;">${opts || '기본'}</span>
+              <span style="font-size:0.75rem; color:#6B7F79;">${opts || '기본'}</span>
             </td>
             <td style="text-align:center;">${it.quantity}</td>
             <td style="text-align:right;">${window.KioskStore.formatPrice(it.totalPrice)}</td>
@@ -352,8 +352,8 @@
       .join('');
 
     const html = `
-      <div style="font-family:monospace; border:1px dashed #334155; padding:16px; background:#f8fafc;">
-        <div style="text-align:center; border-bottom:1px dashed #94a3b8; padding-bottom:10px; margin-bottom:10px;">
+      <div style="font-family:monospace; border:1px dashed rgba(36,59,53,0.14); padding:16px; background:#FFFFFF;">
+        <div style="text-align:center; border-bottom:1px dashed rgba(36,59,53,0.14); padding-bottom:10px; margin-bottom:10px;">
           <strong style="font-size:1.15rem;">[영수증 / 주문서] ${storeState.store.name}</strong><br/>
           <span>연락처: ${storeState.store.phone} | ${storeState.store.address}</span><br/>
           <strong style="font-size:1.4rem; display:block; margin-top:6px;">주문번호: ${order.orderNumber} (${
@@ -366,7 +366,7 @@
         </div>
         <table style="width:100%; border-collapse:collapse; font-size:0.84rem; margin-bottom:10px;">
           <thead>
-            <tr style="border-bottom:1px solid #cbd5e1;">
+            <tr style="border-bottom:1px solid rgba(36,59,53,0.14);">
               <th style="text-align:left;">품명/옵션</th>
               <th style="text-align:center;">수량</th>
               <th style="text-align:right;">금액</th>
@@ -374,18 +374,18 @@
           </thead>
           <tbody>${itemsRows}</tbody>
         </table>
-        <div style="border-top:1px dashed #94a3b8; padding-top:8px; display:flex; justify-content:space-between; font-size:1rem; font-weight:900;">
+        <div style="border-top:1px dashed rgba(36,59,53,0.14); padding-top:8px; display:flex; justify-content:space-between; font-size:1rem; font-weight:900;">
           <span>총 결제금액</span>
           <span>${window.KioskStore.formatPrice(order.finalAmount)}</span>
         </div>
         ${
           order.customerRequest
-            ? `<div style="margin-top:8px; padding:6px; background:#fffbeb; border:1px solid #fde68a; font-size:0.8rem;">
+            ? `<div style="margin-top:8px; padding:6px; background:#F6F9F4; border:1px solid rgba(133,96,0,0.55); font-size:0.8rem;">
                 요청사항: ${order.customerRequest}
               </div>`
             : ''
         }
-        <div style="margin-top:12px; font-size:0.75rem; color:#64748b; text-align:center;">
+        <div style="margin-top:12px; font-size:0.75rem; color:#6B7F79; text-align:center;">
           ${storeState.store.receiptFooter}
         </div>
       </div>
@@ -627,7 +627,7 @@
           <strong class="kpi-value" style="color:var(--info);">${newCount}건</strong>
           <span class="kpi-sub">즉시 접수 확인 필요</span>
         </div>
-        <div class="kpi-card" style="border-left:4px solid #4f46e5;">
+        <div class="kpi-card" style="border-left:4px solid rgba(43,92,166,0.55);">
           <span class="kpi-label">📋 접수 완료 (조리대기)</span>
           <strong class="kpi-value">${acceptedCount}건</strong>
           <span class="kpi-sub">조리 시작 대기</span>
@@ -647,7 +647,7 @@
           <strong class="kpi-value" style="color:var(--danger);">${cancelledCount}건</strong>
           <span class="kpi-sub">환불액 ${window.KioskStore.formatPrice(totalRefund)}</span>
         </div>
-        <div class="kpi-card" style="border-left:4px solid #64748b;">
+        <div class="kpi-card" style="border-left:4px solid rgba(36,59,53,0.14);">
           <span class="kpi-label">⏳ 최장 대기 주문</span>
           <strong class="kpi-value">${oldestOrder ? oldestOrder.orderNumber : '없음'}</strong>
           <span class="kpi-sub">${oldestOrder ? `${maxWaitMins}분째 대기 중` : '대기 주문 없음'}</span>
@@ -955,14 +955,14 @@
               </div>
               ${
                 addOpts.length > 0
-                  ? `<div style="font-size:0.82rem; color:#065f46; font-weight:700; margin-top:2px;">
+                  ? `<div style="font-size:0.82rem; color:#27765B; font-weight:700; margin-top:2px;">
                       ➕ 추가 재료: ${addOpts.map((o) => o.itemName).join(', ')}
                     </div>`
                   : ''
               }
               ${
                 exclOpts.length > 0
-                  ? `<div style="font-size:0.82rem; color:#991b1b; font-weight:700; margin-top:2px;">
+                  ? `<div style="font-size:0.82rem; color:#A83A45; font-weight:700; margin-top:2px;">
                       ⛔ 제외 재료: ${exclOpts.map((o) => o.itemName).join(', ')}
                     </div>`
                   : ''
@@ -1405,7 +1405,7 @@
               price: 6500,
               description: '신선한 재료로 만든 신규 메뉴 설명을 입력해 주세요.',
               emoji: '🥖',
-              bgColor: '#f0fdf4',
+              bgColor: '#243B35',
               allergens: '밀, 우유, 대두 함유',
               originInfo: '국내산',
               saleHours: '08:00 ~ 20:30',
@@ -1597,7 +1597,7 @@
     main.innerHTML = `
       <div class="page-header">
         <h1 class="page-title">🚫 품절 관리 (메뉴 및 세부 옵션·재료 단위)</h1>
-        <label style="display:flex; align-items:center; gap:6px; background:#fff; padding:8px 12px; border-radius:8px; border:1px solid var(--border); font-weight:800; cursor:pointer;">
+        <label style="display:flex; align-items:center; gap:6px; background:#FFFFFF; padding:8px 12px; border-radius:8px; border:1px solid var(--border); font-weight:800; cursor:pointer;">
           <input type="checkbox" id="toggle-show-soldout-menus" ${storeState.store.ShowSoldOutMenus ? 'checked' : ''} />
           <span>품절 메뉴를 고객 화면에 [품절 배지]와 함께 노출 (체크 해제 시 목록에서 숨김)</span>
         </label>

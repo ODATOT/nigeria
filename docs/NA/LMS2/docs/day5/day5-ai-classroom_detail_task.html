@@ -1,6 +1,37 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
   <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
   <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
   <script id="auth-guard">
@@ -58,22 +89,22 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
     :root {
-      --primary-color: #3b82f6; /* Electric Blue */
-      --secondary-color: #06b6d4; /* Neon Cyan */
-      --bg-dark: #09090b; /* Primary Background: Deep Black */
-      --bg-charcoal: #111827; /* Secondary Background */
-      --bg-card: #1a1d24; /* Surface/Card: Dark Gray */
-      --text-main: #ffffff; /* Primary: White */
-      --text-muted: #e4e4e7; /* Secondary: Light Gray */
-      --text-desc: #71717a; /* Description: Gray */
-      --border-color: rgba(255, 255, 255, 0.08); /* Thin border with low opacity */
-      --accent-color: #06b6d4; /* Neon Cyan */
-      --accent-purple: #8b5cf6; /* Purple highlight */
+      --primary-color: #2B5CA6; /* Electric Blue */
+      --secondary-color: #2B5CA6; /* Neon Cyan */
+      --bg-dark: #F6F9F4; /* Primary Background: Deep Black */
+      --bg-charcoal: #F6F9F4; /* Secondary Background */
+      --bg-card: #F6F9F4; /* Surface/Card: Dark Gray */
+      --text-main: #243B35; /* Primary: White */
+      --text-muted: #243B35; /* Secondary: Light Gray */
+      --text-desc: #6B7F79; /* Description: Gray */
+      --border-color: rgba(36,59,53,0.08); /* Thin border with low opacity */
+      --accent-color: #2B5CA6; /* Neon Cyan */
+      --accent-purple: #5D4AA8; /* Purple highlight */
       --card-radius: 18px;
-      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
-      --shadow-md: 0 8px 30px rgba(59, 130, 246, 0.1), 0 0 1px rgba(255, 255, 255, 0.2);
-      --glow-blue: 0 0 15px rgba(59, 130, 246, 0.35);
-      --glow-cyan: 0 0 15px rgba(6, 182, 212, 0.35);
+      --shadow-sm: 0 4px 20px rgba(36,59,53,0.14), 0 0 1px rgba(36,59,53,0.035);
+      --shadow-md: 0 8px 30px rgba(36,59,53,0.035), 0 0 1px rgba(36,59,53,0.07);
+      --glow-blue: 0 0 15px rgba(43,92,166,0.35);
+      --glow-cyan: 0 0 15px rgba(43,92,166,0.35);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -84,9 +115,9 @@
       line-height: 1.65;
       background: var(--bg-dark);
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
-        linear-gradient(to bottom, #09090b 0%, #111827 100%);
+        radial-gradient(circle at 10% 20%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%);
       background-attachment: fixed;
     }
 
@@ -105,11 +136,11 @@
       top: 0;
       width: 100%;
       z-index: 1000;
-      background: rgba(9, 9, 11, 0.7);
+      background: rgba(36,59,53,0.08);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 1px 0 rgba(36,59,53,0.017);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
     }
 
     .nav-container {
@@ -122,7 +153,7 @@
     .logo {
       font-size: 1.25rem;
       font-weight: 800;
-      color: #ffffff;
+      color: #243B35;
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -150,33 +181,33 @@
       font-weight: 600;
       font-size: 0.9rem;
       transition: all 0.2s ease;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.7);
       padding: 8px 16px;
       border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(36,59,53,0.08);
     }
 
     .nav-links a:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.85);
       color: var(--secondary-color);
-      border-color: rgba(6, 182, 212, 0.3);
+      border-color: rgba(43,92,166,0.3);
     }
 
     .hero {
       margin-top: 70px;
       padding: 100px 0 70px;
-      background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08), transparent 60%), #09090b;
+      background: radial-gradient(circle at 50% 50%, rgba(43,92,166,0.088), transparent 60%), #F6F9F4;
       position: relative;
       overflow: hidden;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
     }
 
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-image: linear-gradient(rgba(255,255,255,0.61) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.61) 1px, transparent 1px);
       background-size: 40px 40px;
       pointer-events: none;
     }
@@ -200,10 +231,10 @@
       align-items: center;
       padding: 8px 16px;
       border-radius: 999px;
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.2);
+      background: rgba(43,92,166,0.11);
+      border: 1px solid rgba(43,92,166,0.2);
       font-size: 0.88rem;
-      color: #93c5fd;
+      color: #2B5CA6;
       font-weight: 700;
     }
 
@@ -212,7 +243,7 @@
       line-height: 1.2;
       margin-bottom: 20px;
       font-weight: 800;
-      background: linear-gradient(135deg, #ffffff 40%, #93c5fd 100%);
+      background: linear-gradient(135deg, #243B35 40%, #2B5CA6 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: -0.03em;
@@ -228,7 +259,7 @@
     .section-title {
       text-align: center;
       font-size: 2rem;
-      color: #ffffff;
+      color: #243B35;
       font-weight: 800;
       margin-bottom: 14px;
     }
@@ -259,10 +290,10 @@
     }
 
     .course-card {
-      background: rgba(26, 29, 36, 0.85);
+      background: rgba(246,249,244,0.85);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: var(--card-radius);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
@@ -275,20 +306,20 @@
 
     .course-card:hover {
       transform: translateY(-8px);
-      box-shadow: var(--shadow-md), 0 0 25px rgba(59, 130, 246, 0.2);
-      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: var(--shadow-md), 0 0 25px rgba(36,59,53,0.07);
+      border-color: rgba(43,92,166,0.3);
     }
 
     .course-card.mission-card:hover {
-      box-shadow: var(--shadow-md), 0 0 25px rgba(139, 92, 246, 0.25);
-      border-color: rgba(139, 92, 246, 0.3);
+      box-shadow: var(--shadow-md), 0 0 25px rgba(36,59,53,0.087);
+      border-color: rgba(93,74,168,0.3);
     }
 
     .course-thumb {
       height: 200px;
       background-size: cover;
       background-position: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
       position: relative;
       display: flex;
       align-items: center;
@@ -296,8 +327,8 @@
       font-size: 1.5rem;
       font-weight: 900;
       letter-spacing: 0.1em;
-      color: rgba(255, 255, 255, 0.9);
-      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      color: rgba(36,59,53,0.9);
+      text-shadow: 0 4px 10px rgba(36,59,53,0.14);
     }
 
     .course-content {
@@ -315,22 +346,22 @@
       border-radius: 999px;
       font-size: 0.78rem;
       font-weight: 700;
-      background: rgba(59, 130, 246, 0.15);
-      color: #93c5fd;
-      border: 1px solid rgba(59, 130, 246, 0.2);
+      background: rgba(43,92,166,0.165);
+      color: #2B5CA6;
+      border: 1px solid rgba(43,92,166,0.2);
     }
 
     .day-label.mission {
-      background: rgba(139, 92, 246, 0.15);
-      color: #c4b5fd;
-      border: 1px solid rgba(139, 92, 246, 0.2);
+      background: rgba(93,74,168,0.165);
+      color: #2B5CA6;
+      border: 1px solid rgba(93,74,168,0.2);
     }
 
     .course-title {
       font-size: 1.15rem;
       font-weight: 800;
       line-height: 1.35;
-      color: #ffffff;
+      color: #243B35;
       transition: color 0.2s ease;
     }
 
@@ -339,7 +370,7 @@
     }
 
     .course-card.mission-card:hover .course-title {
-      color: #c4b5fd;
+      color: #2B5CA6;
     }
 
     .course-subtitle {
@@ -350,11 +381,11 @@
     }
 
     .course-card.mission-card .course-subtitle {
-      color: #a78bfa;
+      color: #5D4AA8;
     }
 
     .course-desc {
-      color: #a1a1aa;
+      color: #4A605A;
       font-size: 0.88rem;
       line-height: 1.55;
     }
@@ -362,15 +393,15 @@
     .meta-grid {
       display: grid;
       gap: 8px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.04);
+      background: rgba(255,255,255,0.61);
+      border: 1px solid rgba(36,59,53,0.08);
       padding: 12px 14px;
       border-radius: 12px;
       font-size: 0.82rem;
     }
 
     .meta-item {
-      color: #e4e4e7;
+      color: #243B35;
       line-height: 1.5;
     }
 
@@ -380,7 +411,7 @@
     }
 
     .mission-card .meta-item strong {
-      color: #a78bfa;
+      color: #5D4AA8;
     }
 
     .time-list {
@@ -388,17 +419,17 @@
       flex-direction: column;
       gap: 6px;
       font-size: 0.82rem;
-      border-left: 2px solid rgba(255, 255, 255, 0.08);
+      border-left: 2px solid rgba(36,59,53,0.08);
       padding-left: 12px;
       margin: 4px 0;
     }
 
     .time-row {
-      color: #d4d4d8;
+      color: #4A605A;
     }
 
     .time-row strong {
-      color: #ffffff;
+      color: #243B35;
       margin-right: 4px;
     }
 
@@ -412,11 +443,11 @@
     .tag {
       padding: 4px 8px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.03);
-      color: #a1a1aa;
+      background: rgba(255,255,255,0.64);
+      color: #4A605A;
       font-size: 0.75rem;
       font-weight: 600;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(36,59,53,0.08);
     }
 
     .ai-class-btn {
@@ -426,11 +457,11 @@
       width: 100%;
       padding: 12px 18px;
       border-radius: 12px;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      color: #ffffff;
+      background: #27765B;
+      color: #FFFFFF;
       font-weight: 700;
       font-size: 0.9rem;
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 4px 15px rgba(36,59,53,0.07);
       transition: all 0.25s ease;
       margin-top: auto;
       text-decoration: none;
@@ -438,18 +469,18 @@
 
     .ai-class-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4), 0 0 10px rgba(6, 182, 212, 0.3);
-      background: linear-gradient(135deg, #2563eb, #0891b2);
+      box-shadow: 0 6px 20px rgba(36,59,53,0.14), 0 0 10px rgba(36,59,53,0.105);
+      background: linear-gradient(135deg, #D2E0FB, #D2E0FB);
     }
 
     .ai-class-btn.mission-btn {
-      background: linear-gradient(135deg, var(--accent-purple), #6d28d9);
-      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+      background: linear-gradient(135deg, var(--accent-purple), #DFD8F6);
+      box-shadow: 0 4px 15px rgba(36,59,53,0.07);
     }
 
     .ai-class-btn.mission-btn:hover {
-      box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4), 0 0 10px rgba(139, 92, 246, 0.3);
-      background: linear-gradient(135deg, #7c3aed, #5b21b6);
+      box-shadow: 0 6px 20px rgba(36,59,53,0.14), 0 0 10px rgba(36,59,53,0.105);
+      background: linear-gradient(135deg, #DFD8F6, #DFD8F6);
     }
 
     /* Section divider for missions */
@@ -465,7 +496,7 @@
       content: "";
       flex: 1;
       height: 1px;
-      background: rgba(139, 92, 246, 0.2);
+      background: rgba(93,74,168,0.22);
     }
 
     .mission-divider-label {
@@ -474,20 +505,20 @@
       gap: 8px;
       padding: 8px 20px;
       border-radius: 999px;
-      background: rgba(139, 92, 246, 0.1);
-      border: 1px solid rgba(139, 92, 246, 0.25);
-      color: #c4b5fd;
+      background: rgba(93,74,168,0.11);
+      border: 1px solid rgba(93,74,168,0.25);
+      color: #2B5CA6;
       font-size: 0.88rem;
       font-weight: 700;
       white-space: nowrap;
     }
 
     .footer-cta {
-      background: #09090b;
-      color: white;
+      background: #F6F9F4;
+      color: #243B35;
       text-align: center;
       padding: 60px 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-top: 1px solid rgba(36,59,53,0.08);
       margin-top: 40px;
     }
 
@@ -519,6 +550,7 @@
       section { padding: 50px 0; }
     }
   </style>
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
 </head>
 <body>
   <nav class="navbar">
@@ -526,7 +558,7 @@
       <a href="../index.html" class="logo">ACE AI SW Startup Training</a>
       <ul class="nav-links">
         <li><a href="day5-ai-classroom.html">← Day 5 강의실</a></li>
-        <li><a href="../homework_week1.html" style="color: #c084fc !important; font-weight: 700 !important; background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.3); padding: 6px 14px; border-radius: 8px;">📝 과제페이지</a></li>
+        <li><a href="../homework_week1.html" style="color: #5D4AA8 !important; font-weight: 700 !important; background: rgba(93,74,168,0.165); border: 1px solid rgba(93,74,168,0.3); padding: 6px 14px; border-radius: 8px;">📝 과제페이지</a></li>
         <li><a href="../index.html">← 전체 로드맵</a></li>
       </ul>
     </div>
@@ -581,7 +613,7 @@
             <span class="tag">UX Auditing</span>
           </div>
 
-          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
             <strong>예상 산출물</strong>
             <code>erd-schema.md</code> (데이터 명세 및 ERD)
           </div>
@@ -618,7 +650,7 @@
             <span class="tag">Design System</span>
           </div>
 
-          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
             <strong>예상 산출물</strong>
             <code>project-glossary.md</code> (표준 용어 사전)
           </div>
@@ -655,7 +687,7 @@
             <span class="tag">Journey Sync</span>
           </div>
 
-          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
             <strong>예상 산출물</strong>
             <code>change-impact-report.md</code> (변경 영향도 분석서)
           </div>
@@ -668,7 +700,7 @@
       <article class="course-card">
         <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(45deg); background-size: cover; background-position: center;">SKILL 1</div>
         <div class="course-content">
-          <span class="day-label" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4; border: 1px solid rgba(6, 182, 212, 0.3);">Skill Task 1</span>
+          <span class="day-label" style="background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);">Skill Task 1</span>
           <h3 class="course-title">Skill Task 1. Persona별 Information Architecture 설계</h3>
           <p class="course-subtitle">ADD-D05-T01: Viewer/Creator/Marketer IA 및 Screen Flow</p>
           <p class="course-desc">
@@ -692,7 +724,7 @@
             <span class="tag">TECH-UX</span>
           </div>
 
-          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
             <strong>예상 산출물</strong>
             <code>08_IA_SPEC.md</code>
           </div>
@@ -705,7 +737,7 @@
       <article class="course-card">
         <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(135deg); background-size: cover; background-position: center;">SKILL 2</div>
         <div class="course-content">
-          <span class="day-label" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4; border: 1px solid rgba(6, 182, 212, 0.3);">Skill Task 2</span>
+          <span class="day-label" style="background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);">Skill Task 2</span>
           <h3 class="course-title">Skill Task 2. Component와 UI State 정의</h3>
           <p class="course-subtitle">ADD-D05-T02: 공통 Component &amp; 6대 UI State 명세</p>
           <p class="course-desc">
@@ -729,7 +761,7 @@
             <span class="tag">UI State</span>
           </div>
 
-          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
             <strong>예상 산출물</strong>
             <code>08_COMPONENT_SPEC.md</code>
           </div>
@@ -742,7 +774,7 @@
       <article class="course-card">
         <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(225deg); background-size: cover; background-position: center;">SKILL 3</div>
         <div class="course-content">
-          <span class="day-label" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4; border: 1px solid rgba(6, 182, 212, 0.3);">Skill Task 3</span>
+          <span class="day-label" style="background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);">Skill Task 3</span>
           <h3 class="course-title">Skill Task 3. 초보 사용자 UX Walkthrough</h3>
           <p class="course-subtitle">ADD-D05-T03: 신규 유저 이탈 및 곤경 검증</p>
           <p class="course-desc">
@@ -766,7 +798,7 @@
             <span class="tag">Friction Audit</span>
           </div>
 
-          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
             <strong>예상 산출물</strong>
             <code>ux-walkthrough-report.md</code>
           </div>
@@ -786,7 +818,7 @@
       <article class="course-card mission-card">
         <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(270deg) saturate(0.6); background-size: cover; background-position: center;">MISSION 1</div>
         <div class="course-content">
-          <span class="day-label mission" style="background: rgba(139, 92, 246, 0.12); color: #d8b4fe; border: 1px solid rgba(139, 92, 246, 0.2);">Mission 1</span>
+          <span class="day-label mission" style="background: rgba(93,74,168,0.132); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.2);">Mission 1</span>
           <h3 class="course-title">Mission 1. 처음 사용하는 사용자 되어보기</h3>
           <p class="course-subtitle">Mission 01: 고연령/초보 페르소나 실시간 곤경 리뷰</p>
           <p class="course-desc">
@@ -809,12 +841,12 @@
             <span class="tag">Emotional Log</span>
           </div>
 
-          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
             <strong>예상 산출물</strong>
             <code>persona-feedback-log.md</code>
           </div>
 
-          <a href="day5-ai-codex-mission1.html" class="ai-class-btn mission-btn" style="background: linear-gradient(135deg, #8b5cf6, #d946ef);">과제실 입장</a>
+          <a href="day5-ai-codex-mission1.html" class="ai-class-btn mission-btn" style="background: linear-gradient(135deg, #DFD8F6, #DFD8F6);">과제실 입장</a>
         </div>
       </article>
 
@@ -822,7 +854,7 @@
       <article class="course-card mission-card">
         <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(300deg) saturate(0.6); background-size: cover; background-position: center;">MISSION 2</div>
         <div class="course-content">
-          <span class="day-label mission" style="background: rgba(139, 92, 246, 0.12); color: #d8b4fe; border: 1px solid rgba(139, 92, 246, 0.2);">Mission 2</span>
+          <span class="day-label mission" style="background: rgba(93,74,168,0.132); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.2);">Mission 2</span>
           <h3 class="course-title">Mission 2. AI와 함께 서비스 품질 평가하기</h3>
           <p class="course-subtitle">Mission 02: 종합 사용성 평점 및 서비스 품질 분석</p>
           <p class="course-desc">
@@ -846,7 +878,7 @@
             <span class="tag">Quality Audit</span>
           </div>
 
-          <div class="meta-item" style="font-size: 0.8rem; color: #a1a1aa; margin-top: 4px;">
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
             <strong>예상 산출물</strong>
             <code>edge-case-analysis.md</code> (예외 시나리오 리포트)
           </div>
@@ -865,7 +897,7 @@
       </p>
     </div>
   </footer>
-  <footer class="site-footer" style="background: #09090b; border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 32px 20px; text-align: center; color: #a1a1aa; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+  <footer class="site-footer" style="background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08); padding: 32px 20px; text-align: center; color: #4A605A; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
     <div style="max-width: 1200px; margin: 0 auto;">
       <div style="margin-bottom: 6px; word-break: keep-all;">
         <span>상호명: (주)에듀니티랩</span> | <span>대표자: 이기택</span> | <span>사업장주소: 서울 강남구 테헤란로21길 25 (역삼동, 태림빌딩) 태림빌딩 2층</span>
@@ -873,7 +905,7 @@
       <div style="margin-bottom: 10px; word-break: keep-all;">
         <span>연락처: (02)6240-0053</span> | <span>사업자등록번호: 132-86-35644</span> | <span>통신판매업신고번호: 제2024-서울강남-01134호</span> | <span>이메일: with@edunlab.kr</span>
       </div>
-      <div style="color: #71717a; font-size: 0.8rem; font-weight: 500;">
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
         Copyright ⓒ Eduniety Lab. All Rights Reserved.
       </div>
     </div>

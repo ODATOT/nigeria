@@ -4,21 +4,21 @@
   var APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwPNW10w782cWrajXBFC4f7X1vhC_Qf_gLIWWgnCvPoc0khX9WUKkjpt6grzBcqGqbs/exec";
   var SESSION_HOURS = 10;
   var students = [
-    { studentId: "AI-TOT-001", name: "Amina Bello", team: "Kano Digital Innovation Hub", avatar: "👩🏽‍💻" },
-    { studentId: "AI-TOT-002", name: "Chinedu Okafor", team: "Enugu Enterprise Centre", avatar: "👨🏾‍💻" },
-    { studentId: "AI-TOT-003", name: "Oluwaseun Adeyemi", team: "Lagos Startup Lab", avatar: "👨🏿‍💻" },
-    { studentId: "AI-TOT-004", name: "Fatima Musa", team: "Kaduna Innovation Network", avatar: "👩🏽‍💻" },
-    { studentId: "AI-TOT-005", name: "Ngozi Eze", team: "Abuja Skills Academy", avatar: "👩🏾‍💻" },
-    { studentId: "AI-TOT-006", name: "Ibrahim Sani", team: "Arewa Technology Centre", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-007", name: "Temilade Ogunleye", team: "Ibadan Entrepreneurship Hub", avatar: "👩🏿‍💻" },
-    { studentId: "AI-TOT-008", name: "Emeka Nwosu", team: "Owerri Digital Works", avatar: "👨🏾‍💻" },
-    { studentId: "AI-TOT-009", name: "Zainab Abdullahi", team: "Sokoto Learning Lab", avatar: "👩🏽‍💻" },
-    { studentId: "AI-TOT-010", name: "Tunde Balogun", team: "Ogun Business Incubator", avatar: "👨🏿‍💻" },
-    { studentId: "AI-TOT-011", name: "Ifeoma Obi", team: "Anambra Innovation Studio", avatar: "👩🏾‍💻" },
-    { studentId: "AI-TOT-012", name: "Yusuf Garba", team: "Bauchi Enterprise Hub", avatar: "👨🏾‍💻" },
-    { studentId: "AI-TOT-013", name: "Blessing Udo", team: "Uyo Technology Centre", avatar: "👩🏿‍💻" },
-    { studentId: "AI-TOT-014", name: "Samuel Edet", team: "Calabar Skills Network", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-015", name: "Kemi Afolayan", team: "Osun Startup Community", avatar: "👩🏽‍💻" }
+    { studentId: "AI-TOT-001", name: "Neksummi Hammadu Matthias", team: "Nekslove Web Solutions", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-002", name: "Umar Adam Ibrahim", team: "Nile University of Nigeria", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-003", name: "IDRIS ADEIZA ALIYU", team: "Drisa Engineering Solutions Limited", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-004", name: "Blessing Ozioma Iwuchukwu", team: "BiZmarrow Technologies", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-005", name: "FAKUNLE JOHN AREMU", team: "CEDRO ROYAL MULTIVENTURES LIMITED", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-006", name: "Joshua Ityover Mishi", team: "Jobberman Nigeria", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-007", name: "DUUNEBARI GOSPEL VAREBA", team: "ByteStreams Consulting Ltd", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-008", name: "Frank Onyekachi Uchehara", team: "Frankbotics Technologies Limited", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-009", name: "Oluwaseyi Adetunji Adebayo", team: "Coderina EdTech Foundation", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-010", name: "Ashley Sopuruchukwu Best", team: "Techbridge Foundation", avatar: "👩🏽‍💻" },
+    { studentId: "AI-TOT-011", name: "Archibong Effiong Nsa", team: "AUP Digital Africa", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-012", name: "Princess Elo Ahante", team: "HerCraft", avatar: "👩🏽‍💻" },
+    { studentId: "AI-TOT-013", name: "Kolawole Allen Akoni", team: "Goreel", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-014", name: "Ameerah Muhammad Ashir", team: "Faidhaa Innovation Hub", avatar: "👩🏽‍💻" },
+    { studentId: "AI-TOT-015", name: "Samira Abdulhamid Lawal", team: "Ummzie Nig Ltd", avatar: "👩🏽‍💻" }
   ];
   var isAuthenticating = false;
   var activeRequestController = null;

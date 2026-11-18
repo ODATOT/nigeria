@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 9 AI Classroom | ACE AI SW Startup Training</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary: #2B5CA6;      /* ACE AI SW Startup Training Electric Blue */
+      --primary-dark: #2B5CA6; /* ACE AI SW Startup Training Dark Blue */
+      --primary-soft: rgba(43,92,166,0.1);
+      --accent: #2B5CA6;       /* Neon Cyan */
+      --accent-soft: rgba(43,92,166,0.12);
+      --green: #5D4AA8;        /* Purple highlight - minimal use */
+      --bg: #F6F9F4;
+      --panel: #F6F9F4;
+      --text: #243B35;
+      --muted: #243B35;
+      --line: rgba(36,59,53,0.08);
+      --shadow: 0 12px 30px rgba(36,59,53,0.14);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      font-family: 'Pretendard', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(36,59,53,0.14);
+    }
+
+    .topbar-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 800;
+      box-shadow: 0 8px 18px rgba(36,59,53,0.056);
+    }
+
+    .brand-text h1 {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #243B35;
+      line-height: 1.2;
+    }
+
+    .brand-text p {
+      font-size: 0.78rem;
+      color: #6B7F79;
+      margin-top: 2px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: 1px solid var(--primary-soft);
+    }
+
+    .lecture-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: #27765B;
+      color: #FFFFFF !important;
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: none;
+      box-shadow: 0 4px 15px rgba(36,59,53,0.087);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .lecture-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(36,59,53,0.14);
+      background: linear-gradient(135deg, #D2E0FB, #D2E0FB);
+    }
+
+    .page-wrap {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px 20px 32px;
+    }
+
+    .hero-card {
+      background: linear-gradient(135deg, #F6F9F4, #FFFFFF);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .hero-meta {
+      display: inline-flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #F6F9F4;
+      color: var(--primary-dark);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .hero-card h2 {
+      font-size: 2rem;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      font-weight: 800;
+    }
+
+    .hero-card p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 900px;
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .hero-stat {
+      padding: 10px 14px;
+      background: #FFFFFF;
+      border: 1px solid rgba(36,59,53,0.14);
+      border-radius: 14px;
+      font-size: 0.92rem;
+      color: #243B35;
+      font-weight: 600;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .left-col,
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .right-col {
+      position: sticky;
+      top: 96px;
+      height: calc(100vh - 120px);
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid rgba(36,59,53,0.14);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-head {
+      padding: 20px 22px;
+      border-bottom: 1px solid rgba(36,59,53,0.14);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-head h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #243B35;
+    }
+
+    .video-wrap {
+      padding: 18px;
+    }
+
+    .video-frame {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #F6F9F4;
+      border: 1px solid rgba(36,59,53,0.14);
+      position: relative;
+    }
+
+    .video-frame iframe,
+    .video-frame video {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #F6F9F4;
+    }
+
+    .video-note {
+      padding: 0 18px 18px;
+      color: #6B7F79;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .note-body {
+      padding: 22px;
+    }
+
+    .note-body h4 {
+      font-size: 1rem;
+      color: var(--primary-dark);
+      margin-bottom: 12px;
+      font-weight: 800;
+    }
+
+    .note-body p {
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+
+    .note-body ul {
+      padding-left: 18px;
+      color: #243B35;
+      line-height: 1.8;
+      display: grid;
+      gap: 10px;
+    }
+
+    .tip-box {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: #F6F9F4;
+      border: 1px solid rgba(36,59,53,0.14);
+      color: #2B5CA6;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      font-weight: 600;
+    }
+
+    /* Playlist Styles */
+    .playlist-wrap {
+      border-top: 1px solid rgba(36,59,53,0.14);
+      background: #FFFFFF;
+    }
+
+    .playlist-header {
+      padding: 16px 22px;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #243B35;
+      background: #FFFFFF;
+      border-bottom: 1px solid rgba(36,59,53,0.14);
+    }
+
+    .playlist {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .playlist-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 22px;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(36,59,53,0.14);
+      transition: background 0.2s ease;
+    }
+
+    .playlist-item:last-child {
+      border-bottom: none;
+    }
+
+    .playlist-item:hover {
+      background: #FFFFFF;
+    }
+
+    .playlist-item.active {
+      background: #F6F9F4;
+      border-left: 4px solid var(--primary);
+      padding-left: 18px;
+    }
+
+    .play-icon {
+      color: #4A605A;
+      font-size: 1rem;
+    }
+
+    .playlist-item.active .play-icon {
+      color: var(--primary);
+    }
+
+    .playlist-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .playlist-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #243B35;
+    }
+
+    .playlist-item.active .playlist-title {
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+
+    .playlist-duration {
+      font-size: 0.82rem;
+      color: #6B7F79;
+    }
+
+    .assistant-panel {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wip-overlay {
+      position: absolute;
+      top: 72px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      border-radius: 0 0 20px 20px;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .wip-badge {
+      background: var(--primary);
+      color: #FFFFFF;
+      padding: 5px 12px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .wip-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #243B35;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .wip-desc {
+      font-size: 0.82rem;
+      color: #6B7F79;
+      line-height: 1.45;
+      max-width: 250px;
+      word-break: keep-all;
+    }
+
+    .assistant-head {
+      padding: 18px 20px;
+      background: #F6F9F4;
+      border-bottom: 1px solid rgba(36,59,53,0.14);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .assistant-head-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .assistant-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 1px solid rgba(43,92,166,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .assistant-head h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #243B35;
+    }
+
+    .assistant-head p {
+      font-size: 0.82rem;
+      color: #2B5CA6;
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    .online-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    .chat-area {
+      flex: 1;
+      min-height: 0;
+      background: #FFFFFF;
+      padding: 18px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .chat-area::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .chat-area::-webkit-scrollbar-track {
+      background: #F6F9F4;
+    }
+
+    .chat-area::-webkit-scrollbar-thumb {
+      background: #EEF4EC;
+      border-radius: 3px;
+    }
+
+    .chat-area::-webkit-scrollbar-thumb:hover {
+      background: #EEF4EC;
+    }
+
+    .message-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      max-width: 88%;
+    }
+
+    .message-row.user {
+      margin-left: auto;
+      flex-direction: row-reverse;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    .avatar.bot {
+      background: #FFFFFF;
+      border: 1px solid var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .avatar.user {
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+    }
+
+    .bubble {
+      padding: 13px 15px;
+      border-radius: 18px;
+      line-height: 1.7;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      word-break: keep-all;
+    }
+
+    .bubble.bot {
+      background: #FFFFFF;
+      border: 1px solid rgba(36,59,53,0.14);
+      color: #243B35;
+      border-top-left-radius: 6px;
+    }
+
+    .bubble.user {
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      color: #FFFFFF;
+      border-top-right-radius: 6px;
+      box-shadow: 0 10px 20px rgba(36,59,53,0.042);
+    }
+
+    .typing {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .typing span {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: inline-block;
+      animation: bounce 1s infinite;
+    }
+
+    .typing span:nth-child(2) { animation-delay: 0.15s; }
+    .typing span:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.7; }
+      40% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    .chat-input-wrap {
+      padding: 16px;
+      border-top: 1px solid rgba(36,59,53,0.14);
+      background: #FFFFFF;
+    }
+
+    .chat-form {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      background: #FFFFFF;
+      border: 1px solid rgba(36,59,53,0.14);
+      border-radius: 16px;
+      padding: 10px;
+    }
+
+    .chat-form:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(36,59,53,0.052);
+    }
+
+    .chat-textarea {
+      width: 100%;
+      border: none;
+      background: transparent;
+      resize: none;
+      min-height: 44px;
+      max-height: 140px;
+      outline: none;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: #243B35;
+      line-height: 1.5;
+      padding: 10px 8px;
+    }
+
+    .send-btn {
+      border: none;
+      background: #27765B;
+      color: #FFFFFF;
+      border-radius: 12px;
+      min-width: 48px;
+      height: 48px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(36,59,53,0.049);
+    }
+
+    .send-btn:disabled {
+      background: #D2E0FB;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .disclaimer {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #4A605A;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1100px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .assistant-panel {
+        height: 640px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar-inner,
+      .page-wrap {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .hero-card {
+        padding: 22px 18px;
+      }
+
+      .hero-card h2 {
+        font-size: 1.5rem;
+      }
+
+      .message-row {
+        max-width: 95%;
+      }
+    }
+
+    /* Cyber Modern AI Style Dark Theme Override */
+    body {
+      background: var(--bg) !important;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(43,92,166,0.055) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(43,92,166,0.055) 0%, transparent 40%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%) !important;
+      background-attachment: fixed !important;
+      color: #243B35 !important;
+    }
+    .topbar {
+      background: rgba(36,59,53,0.08) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      border-bottom: 1px solid rgba(36,59,53,0.08) !important;
+    }
+    .brand-text h1 { color: #243B35 !important; }
+    .brand-text p { color: #6B7F79 !important; }
+    .back-btn {
+      background: rgba(255,255,255,0.7) !important;
+      color: #243B35 !important;
+      border-color: rgba(36,59,53,0.08) !important;
+      transition: all 0.2s ease;
+    }
+    .back-btn:hover {
+      background: rgba(255,255,255,0.85) !important;
+      border-color: rgba(43,92,166,0.3) !important;
+    }
+    .hero-card {
+      background: rgba(246,249,244,0.8) !important;
+      border: 1px solid rgba(36,59,53,0.08) !important;
+      box-shadow: 0 8px 32px 0 rgba(36,59,53,0.105) !important;
+      color: #243B35 !important;
+    }
+    .hero-card h2 { color: #243B35 !important; }
+    .hero-card p { color: #243B35 !important; }
+    .hero-stat {
+      background: rgba(255,255,255,0.61) !important;
+      border: 1px solid rgba(36,59,53,0.08) !important;
+      color: #243B35 !important;
+    }
+    .chip {
+      background: rgba(43,92,166,0.165) !important;
+      color: #2B5CA6 !important;
+    }
+    .card {
+      background: rgba(246,249,244,0.85) !important;
+      border: 1px solid rgba(36,59,53,0.08) !important;
+      box-shadow: 0 8px 32px 0 rgba(36,59,53,0.105) !important;
+    }
+    .card-head {
+      border-bottom: 1px solid rgba(36,59,53,0.08) !important;
+    }
+    .card-head h3 {
+      color: #243B35 !important;
+    }
+    .video-frame {
+      border: 1px solid rgba(36,59,53,0.08) !important;
+      background: #F6F9F4 !important;
+    }
+    .video-note {
+      color: #4A605A !important;
+    }
+    .playlist-wrap {
+      border-top: 1px solid rgba(36,59,53,0.08) !important;
+      background: rgba(246,249,244,0.95) !important;
+    }
+    .playlist-header {
+      color: #243B35 !important;
+      background: rgba(246,249,244,0.8) !important;
+      border-bottom: 1px solid rgba(36,59,53,0.08) !important;
+    }
+    .playlist-item {
+      border-bottom: 1px solid rgba(36,59,53,0.08) !important;
+    }
+    .playlist-item:hover {
+      background: rgba(255,255,255,0.64) !important;
+    }
+    .playlist-item.active {
+      background: rgba(43,92,166,0.132) !important;
+      border-left-color: var(--primary) !important;
+    }
+    .playlist-item.active .playlist-title {
+      color: #243B35 !important;
+    }
+    .playlist-title {
+      color: #243B35 !important;
+    }
+    .playlist-duration {
+      color: #6B7F79 !important;
+    }
+    .tip-box {
+      background: rgba(43,92,166,0.066) !important;
+      border: 1px solid rgba(43,92,166,0.15) !important;
+      color: #2B5CA6 !important;
+    }
+    .note-body h4 {
+      color: var(--accent) !important;
+    }
+    .note-body p, .note-body ul {
+      color: #243B35 !important;
+    }
+    .assistant-head {
+      background: rgba(246,249,244,0.8) !important;
+      border-bottom: 1px solid rgba(36,59,53,0.08) !important;
+    }
+    .assistant-head h3 {
+      color: #243B35 !important;
+    }
+    .assistant-head p {
+      color: var(--accent) !important;
+    }
+    .assistant-icon {
+      background: rgba(255,255,255,0.7) !important;
+      border: 1px solid rgba(36,59,53,0.09) !important;
+      color: var(--primary) !important;
+    }
+    .chat-area {
+      background: rgba(36,59,53,0.08) !important;
+    }
+    .avatar.bot {
+      background: rgba(255,255,255,0.7) !important;
+      border: 1px solid rgba(36,59,53,0.09) !important;
+      color: var(--primary) !important;
+    }
+    .avatar.user {
+      background: rgba(43,92,166,0.22) !important;
+      color: #2B5CA6 !important;
+    }
+    .bubble.bot {
+      background: rgba(246,249,244,0.9) !important;
+      border: 1px solid rgba(36,59,53,0.08) !important;
+      color: #243B35 !important;
+    }
+    .bubble.user {
+      background: linear-gradient(135deg, var(--accent), var(--primary)) !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 4px 15px rgba(36,59,53,0.07) !important;
+    }
+    .chat-input-wrap {
+      border-top: 1px solid rgba(36,59,53,0.08) !important;
+      background: rgba(246,249,244,0.9) !important;
+    }
+    .chat-form {
+      background: rgba(36,59,53,0.08) !important;
+      border: 1px solid rgba(36,59,53,0.108) !important;
+    }
+    .chat-form:focus-within {
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 4px rgba(36,59,53,0.052) !important;
+    }
+    .chat-textarea {
+      color: #243B35 !important;
+    }
+    .send-btn {
+      background: linear-gradient(135deg, var(--accent), var(--primary)) !important;
+      box-shadow: 0 4px 15px rgba(36,59,53,0.07) !important;
+    }
+    .wip-overlay {
+      background: rgba(36,59,53,0.08) !important;
+    }
+    .wip-title {
+      color: #243B35 !important;
+    }
+    .wip-desc {
+      color: #6B7F79 !important;
+    }
+
+    /* Tasks Section Styles */
+    .tasks-section {
+      margin-top: 24px;
+    }
+
+    .tasks-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .tasks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .task-card {
+      background: rgba(246,249,244,0.85);
+      border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .task-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(43,92,166,0.3);
+      box-shadow: 0 8px 24px rgba(36,59,53,0.052);
+    }
+
+    .task-card-thumb {
+      height: 110px;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: rgba(36,59,53,0.9);
+      text-shadow: 0 2px 6px rgba(36,59,53,0.14);
+    }
+
+    .task-card-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-grow: 1;
+    }
+
+    .task-card-badge {
+      display: inline-block;
+      width: fit-content;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(43,92,166,0.132);
+      color: #2B5CA6;
+      border: 1px solid rgba(43,92,166,0.2);
+    }
+
+    .task-card-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #243B35;
+      line-height: 1.3;
+    }
+
+    .task-card-desc {
+      font-size: 0.76rem;
+      color: #4A605A;
+      line-height: 1.45;
+    }
+
+    .task-card-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: #27765B;
+      color: #FFFFFF;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: auto;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .task-card-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(36,59,53,0.087);
+      background: linear-gradient(135deg, #D2E0FB, #D2E0FB);
+    }
+
+    @media (max-width: 1200px) {
+      .tasks-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-badge">AI</div>
+        <div class="brand-text">
+          <h1>ACE AI SW Startup Training</h1>
+          <p>Designing a Payment Service</p>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <a href="../../../LECTURE/docs/index.html#slide-99" class="lecture-btn" target="_blank">📖 View Session 9 Lab Guide</a>
+        <a href="../index.html" class="back-btn">← Back to curriculum page</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-wrap">
+    <section class="hero-card">
+      <div class="hero-meta">
+        <span class="chip">Day 9</span>
+        <span class="chip">Designing a Payment Service</span>
+        <span class="chip">Videos + AI chatbot learning</span>
+      </div>
+      <h2>Payment System Design & External PG Integration with an AI Learning Helper</h2>
+      <p>
+        Day 9 learning content: understand the whole flow from choosing a product to creating an order, processing payment and saving the result, and design state management, external PG integration, exception handling and recovery strategies.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">For: students who built sign-up and authentication</div>
+        <div class="hero-stat">Bring: laptop, a payment PG test account (Paystack, Flutterwave, Stripe, etc.)</div>
+        <div class="hero-stat">Format: 2h theory / 3h lab / 1h sharing</div>
+        <a href="../../../LECTURE/docs/index.html#slide-99" class="lecture-btn" target="_blank">📖 Go to Session 9 guide</a>
+      </div>
+    </section>
+
+    
+    <section class="tasks-section" style="margin-bottom: 24px;">
+      <div class="tasks-header">
+        <h3 style="font-size: 1.35rem; font-weight: 800; color: #243B35; display: flex; align-items: center; gap: 8px;">
+          🚀 Day 9 Lab MVP Tasks Roadmap
+        </h3>
+        <a href="day9-ai-classroom_detail_task.html" class="back-btn"
+          style="padding: 8px 16px; font-size: 0.8rem; font-weight: 700; border-radius: 10px;">Go to full Task board →</a>
+      </div>
+
+      <div class="tasks-grid">
+        <!-- Task Checklist CTA Card -->
+        <article class="task-card"
+          style="background: rgba(43,92,166,0.088); border-color: rgba(43,92,166,0.2); box-shadow: 0 8px 24px rgba(36,59,53,0.052);">
+          <div class="task-card-thumb"
+            style="background: linear-gradient(135deg, rgba(43,92,166,0.22), rgba(43,92,166,0.22)); font-size: 2.2rem; display: flex; align-items: center; justify-content: center;">
+            🚀</div>
+          <div class="task-card-content"
+            style="padding: 16px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1;">
+            <span class="task-card-badge"
+              style="background: rgba(43,92,166,0.165); color: #2B5CA6; border-color: rgba(43,92,166,0.25);">Interactive Board</span>
+            <h4 class="task-card-title" style="color: var(--accent); font-size: 0.9rem; font-weight: 800;">Lab Task Checklist</h4>
+            <p class="task-card-desc" style="font-size: 0.76rem; color: #4A605A; line-height: 1.45;">Track progress on the required tasks and check the detailed lab guidelines.</p>
+            <a href="day9-ai-classroom_detail_task.html" class="task-card-btn"
+              style="background: linear-gradient(135deg, var(--accent), var(--primary)); margin-top: auto; display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 8px 12px; border-radius: 8px; color: #FFFFFF; font-size: 0.78rem; font-weight: 700; transition: all 0.2s ease;">👉 Go to detailed Task board</a>
+          </div>
+        </article>
+
+        <!-- Task 1 -->
+        <article class="task-card">
+          <div class="task-card-thumb"
+            style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(0deg); color: #243B35;">TASK 1</div>
+          <div class="task-card-content">
+            <span class="task-card-badge">Planning</span>
+            <h4 class="task-card-title">Task 1. Design the Payment Flow</h4>
+            <p class="task-card-desc">Cut the complex back-and-forth steps from product choice to payment and simplify into a 3-step overlay model.</p>
+            <a href="day9-ai-codex-1.html" class="task-card-btn">Enter Task 1 lab</a>
+          </div>
+        </article>
+
+        <!-- Task 2 -->
+        <article class="task-card">
+          <div class="task-card-thumb"
+            style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(90deg); color: #243B35;">TASK 2</div>
+          <div class="task-card-content">
+            <span class="task-card-badge">Exceptions</span>
+            <h4 class="task-card-title">Task 2. Review Payment Failure Scenarios</h4>
+            <p class="task-card-desc">Plan responses for each raw error like over-limit and network delay, and add a disabled lock that blocks double approvals.</p>
+            <a href="day9-ai-codex-2.html" class="task-card-btn">Enter Task 2 lab</a>
+          </div>
+        </article>
+
+        <!-- Task 3 -->
+        <article class="task-card">
+          <div class="task-card-thumb"
+            style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(180deg); color: #243B35;">TASK 3</div>
+          <div class="task-card-content">
+            <span class="task-card-badge">UX Audit</span>
+            <h4 class="task-card-title">Task 3. Improve the Payment Experience</h4>
+            <p class="task-card-desc">Add an itemized price receipt, reassuring security text and a refund policy anchor link to the payment window to ease phishing worries.</p>
+            <a href="day9-ai-codex-3.html" class="task-card-btn">Enter Task 3 lab</a>
+          </div>
+        </article>
+
+        <!-- Mission 1 -->
+        <article class="task-card">
+          <div class="task-card-thumb"
+            style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(270deg); color: #243B35;">MISSION 1</div>
+          <div class="task-card-content">
+            <span class="task-card-badge"
+              style="background: rgba(93,74,168,0.165); color: #2B5CA6; border-color: rgba(93,74,168,0.25);">Failure Guide</span>
+            <h4 class="task-card-title">Mission 1. Handle Payment Failures</h4>
+            <p class="task-card-desc">Build a message set that reassures users in money-scare situations like a force-closed PG window or maintenance outages.</p>
+            <a href="day9-ai-codex-mission1.html" class="task-card-btn">Enter Mission 1 lab</a>
+          </div>
+        </article>
+
+        <!-- Mission 2 -->
+        <article class="task-card">
+          <div class="task-card-thumb"
+            style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(320deg); color: #243B35;">MISSION 2</div>
+          <div class="task-card-content">
+            <span class="task-card-badge"
+              style="background: rgba(93,74,168,0.165); color: #2B5CA6; border-color: rgba(93,74,168,0.25);">Friction Audit</span>
+            <h4 class="task-card-title">Mission 2. Check Everything Through to Purchase</h4>
+            <p class="task-card-desc">Do a mock run from product choice to the done page and fix peak drop-off risks like forms resetting.</p>
+            <a href="day9-ai-codex-mission2.html" class="task-card-btn">Enter Mission 2 lab</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <main class="layout">
+      <section class="left-col">
+        <div class="card">
+          <div class="card-head">
+            <h3>Day 9 Lecture Videos</h3>
+            <span class="chip">Recommended YouTube lectures</span>
+          </div>
+
+          <div class="video-wrap">
+            <div class="video-frame">
+              <iframe id="mainVideo" src="https://www.youtube.com/embed/uNHzFcMC21s" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <div class="video-note">
+            A list of recommended YouTube lectures on the key Day 9 topics (payment flow, separating product/order/payment, PG integration, webhook handling, transactions). (All are free lecture videos that allow embedding and playback.)
+          </div>
+
+          <div class="playlist-wrap">
+            <div class="playlist-header">📚 All lectures (5)</div>
+            <ul class="playlist">
+              <li class="playlist-item active" data-src="https://www.youtube.com/embed/uNHzFcMC21s">
+                <span class="play-icon">▶</span>
+                <div class="playlist-info">
+                  <div class="playlist-title">1. PortOne's payment stories - PG glossary (PortOne, Korean)</div>
+                  <div class="playlist-duration">7:45</div>
+                </div>
+              </li>
+              <li class="playlist-item " data-src="https://www.youtube.com/embed/JsiTJlLitMI">
+                <span class="play-icon">▶</span>
+                <div class="playlist-info">
+                  <div class="playlist-title">2. Payment integration in 10 minutes, all explained at once! (PortOne, Korean)</div>
+                  <div class="playlist-duration">10:15</div>
+                </div>
+              </li>
+              <li class="playlist-item " data-src="https://www.youtube.com/embed/HtwLMwzTG5c">
+                <span class="play-icon">▶</span>
+                <div class="playlist-info">
+                  <div class="playlist-title">3. Toss Payments | Integrate payments in 5 minutes (Toss Payments, Korean)</div>
+                  <div class="playlist-duration">5:30</div>
+                </div>
+              </li>
+              <li class="playlist-item " data-src="https://www.youtube.com/embed/SutD7BssWeY">
+                <span class="play-icon">▶</span>
+                <div class="playlist-info">
+                  <div class="playlist-title">4. Building recurring (subscription) payments with PortOne (PortOne, Korean)</div>
+                  <div class="playlist-duration">8:20</div>
+                </div>
+              </li>
+              <li class="playlist-item " data-src="https://www.youtube.com/embed/sUq7K2-1k3E">
+                <span class="play-icon">▶</span>
+                <div class="playlist-info">
+                  <div class="playlist-title">5. Database - understanding Transactions (Korean)</div>
+                  <div class="playlist-duration">12:45</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Key Summary Notes</h3>
+            <span class="chip">Day 9 Summary</span>
+          </div>
+
+          <div class="note-body">
+            <h4>Today's key goals</h4>
+            <p>
+              On Day 9 you work with a Codex AI payment partner to analyze break points that cause users to drop off, and add calming wording for payment errors, double-payment blocking and trust badges.
+            </p>
+
+            <ul>
+              <li><strong>Order-payment business flow design:</strong> design state transitions like order pending, order done, payment pending and payment done</li>
+              <li><strong>External PG integration API:</strong> handle payment requests/approvals through the PG's SDK and API</li>
+              <li><strong>Webhook data checks:</strong> receive and compare server-to-server Webhooks to prevent tampering with payment results</li>
+              <li><strong>Transaction handling:</strong> roll back the DB and restore order status when an error happens during payment</li>
+              <li><strong>Payment failure recovery:</strong> prevent double payment (Idempotency) and handle network cancellations</li>
+            </ul>
+
+            <div class="tip-box">
+              Learning tip: ask the AI chatbot on the right questions like "Why use a Webhook when payment completes, and how do you verify it for security?" or "How do you guarantee data integrity when a network error happens during payment?"
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="right-col">
+        <div class="card assistant-panel">
+          <div class="assistant-head">
+            <div class="assistant-head-left">
+              <div class="assistant-icon">🤖</div>
+              <div>
+                <h3>AI Learning Helper</h3>
+                <p><span class="online-dot"></span>Online</p>
+              </div>
+            </div>
+            <span class="chip">en-NG</span>
+          </div>
+
+          <div class="chat-area" id="chatArea">
+          </div>
+
+          <div class="chat-input-wrap">
+            <form class="chat-form" id="chatForm">
+              <textarea
+                id="chatInput"
+                class="chat-textarea"
+                placeholder="Ask anything about the lecture..."
+                rows="1"
+              ></textarea>
+              <button type="submit" class="send-btn" id="sendBtn">➤</button>
+            </form>
+            <div class="disclaimer">
+              AI answers are for reference. Check important content against the lecture materials and guides.
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    // 운영 시에는 브라우저 직접 노출 대신 서버 프록시 사용 권장
+
+    const messages = [
+      {
+        role: "model",
+        text: "Hello! I'm the AI learning helper for Day 9 'Designing a Payment Service'. Feel free to ask about simplifying the payment flow, turning raw errors into reassuring plain messages, locks against double charges, security badges and itemized VAT UI, and auditing peak drop-off friction 😊"
+      }
+    ];
+
+    const chatArea = document.getElementById("chatArea");
+    const chatForm = document.getElementById("chatForm");
+    const chatInput = document.getElementById("chatInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+        function formatMessageText(str) {
+      let escaped = escapeHtml(str);
+      escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      escaped = escaped.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      escaped = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: #2B5CA6; text-decoration: underline;">$1</a>');
+      escaped = escaped.replace(/(^|[^"])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener noreferrer" style="color: #38bdf8; text-decoration: underline;">$2</a>');
+      return escaped.replace(/\n/g, "<br>");
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function renderMessages(isLoading = false) {
+      chatArea.innerHTML = "";
+
+      messages.forEach(msg => {
+        const row = document.createElement("div");
+        row.className = `message-row ${msg.role === "user" ? "user" : ""}`;
+
+        const avatar = document.createElement("div");
+        avatar.className = `avatar ${msg.role === "user" ? "user" : "bot"}`;
+        avatar.textContent = msg.role === "user" ? "Me" : "AI";
+
+        const bubble = document.createElement("div");
+        bubble.className = `bubble ${msg.role === "user" ? "user" : "bot"}`;
+        bubble.innerHTML = formatMessageText(msg.text);
+
+        row.appendChild(avatar);
+        row.appendChild(bubble);
+        chatArea.appendChild(row);
+      });
+
+      if (isLoading) {
+        const row = document.createElement("div");
+        row.className = "message-row";
+
+        const avatar = document.createElement("div");
+        avatar.className = "avatar bot";
+        avatar.textContent = "AI";
+
+        const bubble = document.createElement("div");
+        bubble.className = "bubble bot";
+        bubble.innerHTML = `
+          <div class="typing">
+            <span></span><span></span><span></span>
+          </div>
+        `;
+
+        row.appendChild(avatar);
+        row.appendChild(bubble);
+        chatArea.appendChild(row);
+      }
+
+      chatArea.scrollTop = chatArea.scrollHeight;
+    }
+
+        async function callGeminiAPI(userMessage, currentHistory) {
+      const formattedHistory = currentHistory.map(msg => ({
+        role: msg.role === "model" ? "model" : "user",
+        text: msg.text
+      }));
+
+      const backendApiUrl = "https://labs.edunlab.kr/chatbot/api/chat";
+
+      try {
+        const response = await fetch(backendApiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userMessage: userMessage,
+            currentHistory: formattedHistory,
+            day: 9,
+            lang: "ko"
+          })
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || `Server error (${response.status})`);
+        }
+
+        return data.text || "Couldn't generate an answer.";
+      } catch (error) {
+        console.error("AI Tutor Server Error:", error);
+        throw new Error(error.message || "Couldn't connect to the AI chatbot server. Please check your network.");
+      }
+    }
+
+    let isSending = false;
+
+    async function handleSendMessage(e) {
+      if (e) e.preventDefault();
+      const userMsg = chatInput.value.trim();
+      if (!userMsg || isSending) return;
+
+      isSending = true;
+      messages.push({ role: "user", text: userMsg });
+      chatInput.value = "";
+      chatInput.style.height = "auto";
+      sendBtn.disabled = true;
+      renderMessages(true);
+
+      try {
+        const responseText = await callGeminiAPI(userMsg, messages.slice(0, -1));
+        messages.push({ role: "model", text: responseText });
+      } catch (error) {
+        messages.push({
+          role: "model",
+          text: `⚠️ ${error.message || "Something went wrong. Please check the AI chatbot server connection."}`
+        });
+      } finally {
+        isSending = false;
+        sendBtn.disabled = false;
+        renderMessages(false);
+      }
+    }
+
+    chatForm.addEventListener("submit", handleSendMessage);
+
+    chatInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        if (e.isComposing) return;
+        e.preventDefault();
+        if (chatForm.requestSubmit) {
+          chatForm.requestSubmit();
+        } else {
+          handleSendMessage(e);
+        }
+      }
+    });
+
+    chatInput.addEventListener("input", function() {
+      this.style.height = "auto";
+      this.style.height = Math.min(this.scrollHeight, 140) + "px";
+    });
+
+    renderMessages(false);
+
+    // Video Playlist Logic (YouTube Embed Support)
+    const mainVideo = document.getElementById("mainVideo");
+    const playlistItems = document.querySelectorAll(".playlist-item");
+
+    playlistItems.forEach(item => {
+      item.addEventListener("click", function() {
+        // 모든 아이템에서 active 클래스 제거 후 클릭한 항목에 추가
+        playlistItems.forEach(el => el.classList.remove("active"));
+        this.classList.add("active");
+        
+        // 유튜브 임베드 소스 변경 및 자동 재생 추가
+        let newSrc = this.getAttribute("data-src");
+        if (newSrc.indexOf("?") > -1) {
+          newSrc += "&autoplay=1";
+        } else {
+          newSrc += "?autoplay=1";
+        }
+        mainVideo.src = newSrc;
+      });
+    });
+  </script>
+  <footer class="site-footer" style="background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08); padding: 32px 20px; text-align: center; color: #4A605A; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company: Edunity Lab Co., Ltd.</span> | <span>CEO: Lee Gi-taek</span> | <span>Address: 2F Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul, Korea</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Phone: +82-2-6240-0053</span> | <span>Business Registration No.: 132-86-35644</span> | <span>Mail-Order Business Reg. No.: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+  <script src="../shared/curriculum-content.js"></script>
+  <script src="../shared/curriculum-cards.js"></script>
+</body>
+</html>

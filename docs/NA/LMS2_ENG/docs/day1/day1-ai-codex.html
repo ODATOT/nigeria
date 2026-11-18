@@ -1,0 +1,2482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 1. Codex Requirements Definition Mission | ACE AI SW Startup Training</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary-color: #2B5CA6; /* Electric Blue */
+      --secondary-color: #2B5CA6; /* Neon Cyan */
+      --bg-dark: #F6F9F4; /* Primary Background */
+      --bg-charcoal: #F6F9F4; /* Secondary Background */
+      --bg-card: #F6F9F4; /* Card Surface */
+      --text-main: #243B35; /* Primary Text */
+      --text-muted: #243B35; /* Secondary Text */
+      --text-desc: #6B7F79; /* Description Text */
+      --border-color: rgba(36,59,53,0.08);
+      --accent-color: #2B5CA6;
+      --accent-purple: #5D4AA8;
+      --card-radius: 10px;
+      --shadow-sm: 0 4px 20px rgba(36,59,53,0.14), 0 0 1px rgba(36,59,53,0.035);
+      --glow-cyan: 0 0 15px rgba(43,92,166,0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 75px; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-main);
+      line-height: 1.5;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(43,92,166,0.044) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(43,92,166,0.044) 0%, transparent 40%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, p, li, span, strong, td, th { word-break: keep-all; }
+
+    .container {
+      max-width: 860px; /* 14인치 화면에 맞추고 슬라이드 메뉴 실제 너비 기준으로 축소 */
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(36,59,53,0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .nav-container {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #243B35;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .logo::before {
+      content: "";
+      width: 4px;
+      height: 12px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .logo-text p {
+      font-size: 0.58rem;
+      color: var(--text-desc);
+      margin-top: 1px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.75rem;
+      transition: all 0.2s ease;
+      background: rgba(255,255,255,0.7);
+      padding: 4px 8px;
+      border-radius: 5px;
+      border: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.85);
+      color: var(--secondary-color);
+      border-color: rgba(43,92,166,0.3);
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-top: 48px;
+      padding: 16px 0 10px;
+      background: radial-gradient(circle at 50% 50%, rgba(43,92,166,0.044), transparent 60%), #F6F9F4;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .hero-content {
+      max-width: 750px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-badge-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 5px;
+      border-radius: 999px;
+      background: rgba(43,92,166,0.11);
+      border: 1px solid rgba(43,92,166,0.15);
+      font-size: 0.65rem;
+      color: #2B5CA6;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      font-size: 1.25rem;
+      line-height: 1.25;
+      margin-bottom: 4px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #243B35 40%, #2B5CA6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.35;
+    }
+
+    /* Horizontal Scroll Step Slider Section */
+    .slider-section {
+      padding: 10px 0 2px;
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+      background: rgba(255,255,255,0.565);
+    }
+
+    .slider-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #243B35;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .slider-title::before {
+      content: "";
+      width: 2px;
+      height: 9px;
+      background: var(--primary-color);
+      border-radius: 1px;
+    }
+
+    .slider-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: calc(50% - 13px);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(246,249,244,0.95);
+      border: 1px solid rgba(36,59,53,0.135);
+      color: #243B35;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      z-index: 10;
+      box-shadow: var(--shadow-sm);
+      user-select: none;
+    }
+
+    .slider-btn:hover {
+      background: var(--bg-charcoal);
+      border-color: var(--secondary-color);
+    }
+
+    .slider-btn.prev { left: -10px; }
+    .slider-btn.next { right: -10px; }
+
+    .step-slider {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      padding: 2px 2px 8px;
+      width: 100%;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(43,92,166,0.33) rgba(255,255,255,0.61);
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+    }
+
+    .step-slider::-webkit-scrollbar {
+      height: 3px;
+    }
+
+    .step-slider::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.61);
+    }
+
+    .step-slider::-webkit-scrollbar-thumb {
+      background: rgba(43,92,166,0.22);
+      border-radius: 99px;
+    }
+
+    .step-card {
+      flex: 0 0 170px; /* 860px 레이아웃에 최적화된 카드 크기 */
+      scroll-snap-align: start;
+      background: rgba(246,249,244,0.7);
+      border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 8px;
+      padding: 8px 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      position: relative;
+    }
+
+    .step-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(43,92,166,0.3);
+      background: rgba(246,249,244,0.95);
+    }
+
+    .step-card.active {
+      background: rgba(43,92,166,0.11);
+      border-color: var(--secondary-color);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .step-card-badge {
+      font-size: 0.55rem;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 2px;
+      width: fit-content;
+      color: #FFFFFF;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .step-card.active .step-card-badge {
+      background: linear-gradient(135deg, var(--secondary-color), var(--accent-purple));
+    }
+
+    .step-card h3 {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #243B35;
+      line-height: 1.2;
+    }
+
+    .step-card p {
+      font-size: 0.62rem;
+      color: var(--text-desc);
+      line-height: 1.3;
+      margin-top: auto;
+    }
+
+    .step-card.active p {
+      color: var(--text-muted);
+    }
+
+    /* Detail Section Layout */
+    .layout-wrapper {
+      padding: 10px 0 35px;
+    }
+
+    .detail-container {
+      min-height: 380px;
+    }
+
+    .detail-panel {
+      display: none;
+      animation: panelFadeIn 0.25s ease forwards;
+    }
+
+    .detail-panel.active {
+      display: block; /* 1-Column 형태 */
+    }
+
+    @keyframes panelFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    /* Mission Detail Card */
+    .detail-card {
+      background: rgba(246,249,244,0.85);
+      border: 1px solid rgba(36,59,53,0.08);
+      border-radius: var(--card-radius);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .detail-card-head {
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+      padding-bottom: 6px;
+    }
+
+    .detail-card-head h2 {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #243B35;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .detail-card-head h2 .badge-inline {
+      font-size: 0.6rem;
+      padding: 1px 4px;
+      border-radius: 2px;
+      background: var(--primary-color);
+      color: #FFFFFF;
+    }
+
+    /* Sub-sections within Cards */
+    .card-section {
+      margin-bottom: 12px;
+    }
+
+    .card-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .card-section h3 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-section h3::before {
+      content: "";
+      width: 2px;
+      height: 8px;
+      background: var(--secondary-color);
+      border-radius: 1px;
+      display: inline-block;
+    }
+
+    .card-section p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    /* Lists */
+    ul {
+      list-style-position: inside;
+      padding-left: 2px;
+      margin-bottom: 4px;
+    }
+
+    li {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    li strong {
+      color: #243B35;
+    }
+
+    /* Check list */
+    .checklist-ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist-ul li {
+      position: relative;
+      padding-left: 14px;
+      margin-bottom: 3px;
+    }
+
+    .checklist-ul li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent-color);
+      font-weight: 800;
+      font-size: 0.72rem;
+    }
+
+    /* Code Block Styles (14인치 최적화 콤팩트 스크롤) */
+    pre {
+      background: #F6F9F4;
+      border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 6px;
+      padding: 10px;
+      overflow-x: auto;
+      max-height: 180px; 
+      overflow-y: auto;  
+      margin: 6px 0 10px;
+      position: relative;
+    }
+
+    pre::-webkit-scrollbar {
+      width: 3px;
+      height: 3px;
+    }
+
+    pre::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.58);
+    }
+
+    pre::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.85);
+      border-radius: 99px;
+    }
+
+    code {
+      font-family: 'Fira Code', 'Courier New', Courier, monospace;
+      font-size: 0.7rem;
+      color: #243B35;
+    }
+
+    .code-badge {
+      display: inline-block !important;
+      position: relative !important;
+      top: auto !important;
+      right: auto !important;
+      background: rgba(255,255,255,0.79);
+      color: var(--secondary-color, #2B5CA6);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 6px 0 10px;
+      background: rgba(36,59,53,0.06);
+      border-radius: 5px;
+      overflow: hidden;
+      border: 1px solid rgba(36,59,53,0.08);
+    }
+
+    th, td {
+      padding: 6px 8px;
+      font-size: 0.72rem;
+      text-align: left;
+    }
+
+    th {
+      background: rgba(43,92,166,0.088);
+      color: #2B5CA6;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    td {
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+      color: var(--text-muted);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Box styles */
+    .info-box {
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: rgba(43,92,166,0.066);
+      border-left: 3px solid var(--accent-color);
+      color: #2B5CA6;
+      font-size: 0.74rem;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .guide-box {
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: rgba(93,74,168,0.066);
+      border-left: 3px solid var(--accent-purple);
+      color: #243B35;
+      font-size: 0.74rem;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .guide-box h4 {
+      color: #5D4AA8;
+      margin-bottom: 3px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .criterion-box {
+      background: rgba(43,92,166,0.044);
+      border: 1px solid rgba(43,92,166,0.1);
+      border-radius: 6px;
+      padding: 6px 10px;
+      margin-bottom: 8px;
+    }
+
+    /* Inline Sidebar Box */
+    .inline-sidebar-box {
+      margin-top: 14px;
+      background: rgba(93,74,168,0.044);
+      border: 1px solid rgba(93,74,168,0.15);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .inline-sidebar-box h4 {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #5D4AA8;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Button utilities */
+    .action-btn-container {
+      margin: 4px 0 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      background: #27765B;
+      color: #FFFFFF;
+      font-size: 0.7rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(36,59,53,0.087);
+      transition: all 0.2s;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(135deg, #D2E0FB, #D2E0FB);
+    }
+
+    .btn-email-share {
+      background: linear-gradient(135deg, var(--accent-purple), #DFD8F6);
+      box-shadow: 0 2px 6px rgba(36,59,53,0.087);
+    }
+
+    .btn-email-share:hover {
+      background: linear-gradient(135deg, #DFD8F6, #DFD8F6);
+    }
+
+    .btn-copy {
+      background: rgba(255,255,255,0.79);
+      border: 1px solid rgba(36,59,53,0.108);
+      color: #243B35;
+      box-shadow: none;
+    }
+    
+    .btn-copy:hover {
+      background: rgba(255,255,255,0.92);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.1rem; }
+      .detail-card { padding: 10px 12px; }
+      .nav-links { display: none; }
+    }
+  </style>
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="logo">
+        <div class="logo-text">
+          <h1>ACE AI SW Startup Training</h1>
+          <p>Day 1 Codex AI Lecture</p>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="day1-textbook.html" target="_blank" style="background: linear-gradient(135deg, rgba(43,92,166,0.33), rgba(43,92,166,0.33)); color: #243B35; border: 1px solid rgba(43,92,166,0.5); font-weight: 700;">📘 Download Day 1 textbook (PDF)</a>
+        <a href="day1-ai-codex-summation.html" style="background: rgba(43,92,166,0.165); color: var(--secondary-color); border-color: rgba(43,92,166,0.3);">📊 View summary/diagrams</a>
+        <a href="../index.html">← Back to list</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-badge-wrap">
+        <span class="hero-badge">Day 1</span>
+        <span class="hero-badge">Codex AI</span>
+        <span class="hero-badge">Requirements</span>
+        <span class="hero-badge">Setup &amp; lab missions</span>
+      </div>
+      <h1>Codex-Based Requirements Definition Mission</h1>
+      <p>
+        Learn the full planning workflow: summarize (clean up) an unstructured meeting conversation, define feature specs and exception flows, build a decision question list, then combine the final docs &amp; share them by email.
+      </p>
+    </div>
+  </section>
+
+  <!-- Horizontal Scroll Step Slider Section -->
+  <section class="slider-section">
+    <div class="container">
+      <h2 class="slider-title">Choose a step</h2>
+      <div class="slider-wrapper">
+        <button class="slider-btn prev" aria-label="Previous step">‹</button>
+        <div class="step-slider">
+          
+          <!-- Step Prep Card -->
+          <!-- AI Agent Task 1 (Step 0) -->
+          <div class="step-card active" data-step="0">
+            <span class="step-card-badge">AI Task 1</span>
+            <h3>Clean up the conversation summary</h3>
+            <p>Pull key summary notes from the raw meeting transcript</p>
+          </div>
+          
+          <!-- AI Agent Task 2 (Step 1) -->
+          <div class="step-card" data-step="1">
+            <span class="step-card-badge">AI Task 2</span>
+            <h3>Analyze meeting notes</h3>
+            <p>Sort users, features and business policies from the meeting summary</p>
+          </div>
+
+          <!-- AI Agent Task 3 (Step 2) -->
+          <div class="step-card" data-step="2">
+            <span class="step-card-badge">AI Task 3</span>
+            <h3>Define functional requirements</h3>
+            <p>Turn feature candidates into testable, standard spec sentences</p>
+          </div>
+
+          <!-- AI Agent Task 4 (Step 3) -->
+          <div class="step-card" data-step="3">
+            <span class="step-card-badge">AI Task 4</span>
+            <h3>Normal and exception flows</h3>
+            <p>Add detail to user scenarios and exception cases (failure, duplicates, etc.)</p>
+          </div>
+
+          <!-- AI Agent Task 5 (Step 4) -->
+          <div class="step-card" data-step="4">
+            <span class="step-card-badge">AI Task 5</span>
+            <h3>Open planning questions</h3>
+            <p>Turn undecided items into a list of questions for stakeholders</p>
+          </div>
+
+          <!-- AI Agent Task 6 (Step 5) -->
+          <div class="step-card" data-step="5">
+            <span class="step-card-badge">AI Task 6</span>
+            <h3>Combine docs and share by email</h3>
+            <p>Finish docs with an AI lint check and send via the Gmail plugin</p>
+          </div>
+
+          <!-- Skill Task 1 (Step 6 / ADD-D01-T01) -->
+          <div class="step-card" data-step="6">
+            <span class="step-card-badge" style="background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);">Skill Task 1</span>
+            <h3>Define the service problem and Personas</h3>
+            <p>[ADD-D01-T01] Define goals and needed data for Viewer·Creator·Advertiser·Admin</p>
+          </div>
+
+          <!-- Skill Task 2 (Step 7 / ADD-D01-T02) -->
+          <div class="step-card" data-step="7">
+            <span class="step-card-badge" style="background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);">Skill Task 2</span>
+            <h3>Sort Features into Domains</h3>
+            <p>[ADD-D01-T02] Place key features like Members, Video, Playback into owning Domains</p>
+          </div>
+
+          <!-- Skill Task 3 (Step 8 / ADD-D01-T03) -->
+          <div class="step-card" data-step="8">
+            <span class="step-card-badge" style="background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);">Skill Task 3</span>
+            <h3>Review the Domain Map and responsibility boundaries</h3>
+            <p>[ADD-D01-T03] Visualize Domain dependencies and draft Bounded Contexts</p>
+          </div>
+
+          <!-- Mission 1 (Step 9) -->
+          <div class="step-card" data-step="9">
+            <span class="step-card-badge" style="background: rgba(93,74,168,0.165); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.3);">Mission 1</span>
+            <h3>Pet Care Matching</h3>
+            <p>[Assignment] Write planning docs from a pet sitter matching meeting transcript</p>
+          </div>
+
+          <!-- Mission 2 (Step 10) -->
+          <div class="step-card" data-step="10">
+            <span class="step-card-badge" style="background: rgba(93,74,168,0.165); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.3);">Mission 2</span>
+            <h3>Self-Service Study Room &amp; IoT</h3>
+            <p>[Assignment] Spec real-time space booking and smart device control</p>
+          </div>
+
+          <!-- Mission 3 (Step 11 - Skill Mission 1) -->
+          <div class="step-card" data-step="11">
+            <span class="step-card-badge" style="background: rgba(93,74,168,0.165); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.3);">Mission 3</span>
+            <h3>Short-Form &amp; Live Commerce Domains</h3>
+            <p>[Skill Assignment 1] Personas, Feature Domain placement and Bounded Contexts</p>
+          </div>
+
+          <!-- Mission 4 (Step 12 - Skill Mission 2) -->
+          <div class="step-card" data-step="12">
+            <span class="step-card-badge" style="background: rgba(93,74,168,0.165); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.3);">Mission 4</span>
+            <h3>Smart B2B Mobility Control</h3>
+            <p>[Skill Assignment 2] Data ownership and Domain boundaries for a company-vehicle control platform</p>
+          </div>
+
+        </div>
+        <button class="slider-btn next" aria-label="Next step">›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Layout Wrapper for Details -->
+  <div class="container layout-wrapper">
+    <div class="detail-container">
+
+      <!-- ==================== STEP 0 PANEL ==================== -->
+      <div class="detail-panel active" id="detail-0">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline">Step 0</span> Pull a key summary from a detailed transcript (cleanup)</h2>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.72rem; margin-bottom: 2px; display: flex; align-items: center; gap: 3px;">📥 Step input</h4>
+                <p style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0;">Raw 1st meeting transcript in back-and-forth chat form (<code>meeting-notes-raw.md</code>)</p>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.72rem; margin-bottom: 2px; display: flex; align-items: center; gap: 3px;">📤 Step output</h4>
+                <p style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0;">Key summary notes file (<code>meeting-notes.md</code>)</p>
+              </div>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Detailed follow-along guide</h4>
+              <ol style="padding-left: 14px; font-size: 0.72rem; line-height: 1.4;">
+                <li><strong>Get the raw notes</strong>: press the download button below to download <code>meeting-notes-raw.md</code>, the raw 1st meeting transcript, and put it in your work folder, or create the file content.</li>
+                <li><strong>Ask for cleanup</strong>: open your Codex/ChatGPT chat and send the <strong>Codex request example</strong> prompt below.</li>
+                <li><strong>Save the result</strong>: copy the clean summary notes AI pulled out of the raw chat and save them as <code>meeting-notes.md</code>. (This file is the Input for the next step 1 lab.)</li>
+              </ol>
+            </div>
+            
+            <div class="card-section">
+              <h3>Mission situation</h3>
+              <p style="font-size: 0.78rem;">
+                The raw notes from the planning meeting mix back-and-forth talk and small talk between team members (CEO, planner, developer, designer), so they're too messy to pull requirements from directly.
+                Learners must use Codex as a cleanup tool to produce planning notes that summarize only the key business requirements.
+              </p>
+            </div>
+
+            <div class="card-section">
+              <h3>Learner mission</h3>
+              <p style="font-size: 0.78rem; margin-bottom: 4px;">Write or download the following raw 1st meeting transcript as <code>meeting-notes-raw.md</code>.</p>
+              
+              <div class="action-btn-container">
+                <button onclick="downloadRawMeetingNotes()" class="btn-download">
+                  📥 Download meeting-notes-raw.md source file
+                </button>
+              </div>
+
+              <pre><span class="code-badge">meeting-notes-raw.md original (scroll)</span><code># 1st Kick-off Meeting Notes: Building an Expert Consultation Service
+
+**Date**: 2026-07-10 14:00 - 15:30
+**Attendees**: CEO, Planner (PM), Developer (Dev), Designer
+
+---
+
+**CEO**: Hello, everyone. Today's meeting is to discuss the basic requirements and set the direction for the "online expert consultation service" we're launching. The core is a process where users come to our platform, find experts in various fields, book a session and finish paying smoothly.
+
+**Planner**: Yes. Let's start with the basic sign-up process. Do users have to sign up to use the service?
+
+**CEO**: Yes, that's right. Users should finish signing up first before they can properly use features like expert search and booking. Without an account, they can only browse a little.
+
+**Designer**: After signing up they'll search for experts — how are you thinking about expert profile pages and categories?
+
+**CEO**: Experts should be grouped by field first. For example, categories like IT consulting, legal advice and design coaching. Users should be able to pick a category or type a search term to quickly find the expert they want.
+
+**Designer**: So search results show a list of experts, and you go into a detail page to pick a time. How do they choose the date and time?
+
+**CEO**: Yes, when a user picks an expert, the expert's available schedule should show as a calendar or timeline. Users should be able to freely pick the date and time they want and request a booking.
+
+**Developer**: How does payment work right after the booking request? Is the booking confirmed only when payment happens together with the request?
+
+**CEO**: The booking should move to "confirmed" only when payment is complete. If payment fails because of a card limit or another reason, of course that booking must not be completed — it should stay pending or be cancelled.
+
+**Developer**: So the business rule is that if payment fails, the booking isn't created or the slot is released. Where do experts check their booked schedule?
+
+**CEO**: Experts should have their own dashboard in our system, where they can watch and manage booking requests and confirmed schedules in real time.
+
+**Planner**: Expert sign-up must be different from regular sign-up — do we need a separate verification or approval process? We can't let just anyone work as an expert.
+
+**CEO**: Good point. Experts can't start right after applying. We'll require an admin approval policy: a site admin reviews their documents or qualifications and "approves" them, and only then do they appear in the expert list and join the booking system.
+
+**Planner**: When a booking is done, sending notifications to users and experts would help usability. Which notification channel do you prefer?
+
+**CEO**: We definitely need notifications, to tell people when a booking is confirmed or cancelled. But whether to send them by email or SMS — we need to look more at dev resources and cost. Let's not decide that yet.
+
+**Developer**: Do we need to set rules for cancellation fees or refunds now too?
+
+**CEO**: The cancellation fee policy needs legal review and talks with marketing too. It's hard to decide today, so let's leave it as an undecided item as well. We'll settle it at the 2nd meeting.
+
+**Planner**: Got it. I'll gather today's decided policies and pending items into cleaned-up meeting summary notes for the first spec draft.</code></pre>
+            </div>
+
+            <div class="card-section">
+              <h3>Codex request example (cleanup prompt)</h3>
+              <pre><span class="code-badge">Prompt</span><code>Read the raw meeting notes in meeting-notes-raw.md, remove unneeded conversation and context between speakers,
+and write compact, informal summary notes of about 15 lines covering service users, feature requirements, system policies and undecided items.
+Don't imagine and add anything that isn't in the original.</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🤖 Codex's role in this step</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                <strong>Summarizer and cleanup tool</strong>: removes small talk and speaker context from the conversation and pulls out key summary notes needed for detailed design.
+              </p>
+            </div>
+
+          </article>
+        </main>
+      </div>
+      
+      <!-- ==================== STEP 1 PANEL ==================== -->
+      <div class="detail-panel" id="detail-1">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline">Step 1</span> Find the key points in the meeting notes</h2>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Step input</h4>
+                <p style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">Summary planning notes file cleaned in step 0 (<code>meeting-notes.md</code>)</p>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Step output</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 1px;">• List of service user roles</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 1px;">• List of feature candidates</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 1px;">• List of business rules</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-0;">• List of undecided items</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Detailed follow-along guide</h4>
+              <ol style="padding-left: 14px; font-size: 0.75rem; line-height: 1.4;">
+                <li><strong>Prepare the meeting notes</strong>: place <code>meeting-notes.md</code>, the step 0 summary. You can also press the download button below to get a cleaned example file.</li>
+                <li><strong>Ask AI to analyze</strong>: continuing the step 0 chat, send the <strong>Codex request example</strong> prompt below.</li>
+                <li><strong>Review the sorting</strong>: check that the user list (Customer, Expert, Admin) and the decided/undecided policy sorting meet the <strong>learner checks</strong>.</li>
+              </ol>
+            </div>
+            
+            <div class="card-section">
+              <h3>Mission situation</h3>
+              <p style="font-size: 0.78rem;">
+                Now it's time to analyze the step 0 planning summary (`meeting-notes.md`) cleaned from the conversation between the CEO, planner, developer and others.
+                Based on this summary, learners must accurately categorize the service's main objects (user roles, features, business rules, policies).
+              </p>
+            </div>
+
+            <div class="card-section">
+              <h3>Learner mission</h3>
+              <p style="font-size: 0.78rem; margin-bottom: 4px;">Prepare the cleaned <code>meeting-notes.md</code> summary file or use the example download below.</p>
+              
+              <div class="action-btn-container">
+                <button onclick="downloadMeetingNotes()" class="btn-download">
+                  📥 Download meeting-notes.md summary
+                </button>
+              </div>
+
+              <pre><span class="code-badge">meeting-notes.md summary (scroll)</span><code>We want to build an online expert consultation service.
+
+Users can search for experts after signing up.
+Experts are grouped by field.
+Users can choose a session date and time.
+A booking is confirmed when payment is complete.
+If payment fails, the booking must not be completed.
+
+Experts can check their own bookings.
+Admins can approve expert sign-ups.
+
+A notification must be sent when a booking is complete.
+Whether to send notifications by email or SMS is not decided yet.
+The cancellation fee policy is not decided yet either.</code></pre>
+            </div>
+
+            <div class="card-section">
+              <h3>Codex request example</h3>
+              <pre><span class="code-badge">Prompt</span><code>Read meeting-notes.md and separate the following.
+
+1. Service users
+2. Features users perform
+3. Features the system performs
+4. Business rules
+5. Things not decided yet
+
+Don't add anything not in the meeting notes,
+and mark unclear items separately.
+
+Don't change any files yet; just show the analysis.</code></pre>
+            </div>
+
+            <div class="card-section">
+              <h3>Learner checks</h3>
+              <ul class="checklist-ul">
+                <li>Are users split into Customer, Expert and Admin?</li>
+                <li>Is the link between payment success and booking confirmation clear?</li>
+                <li>Are the notification method and cancellation policy separated as undecided items?</li>
+                <li>Did Codex avoid adding features not in the meeting notes?</li>
+              </ul>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🤖 Codex's role in this step</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                <strong>Analyst</strong>: logically identifies user role groups, spec candidates and business rules from the cleaned planning summary.
+              </p>
+            </div>
+
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 2 PANEL ==================== -->
+      <div class="detail-panel" id="detail-2">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline">Step 2</span> Write functional requirement sentences</h2>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Step input</h4>
+                <p style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">Step 1 outputs (user roles, feature candidates, business rules, undecided items)</p>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Step output</h4>
+                <p style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;"><code>functional-requirements.md</code> (standardized functional requirements table FR-001 ~ FR-004)</p>
+              </div>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Detailed follow-along guide</h4>
+              <ol style="padding-left: 14px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Create a requirements template</strong>: make a <code>functional-requirements.md</code> file in your work folder and paste in the table frame from the <strong>learner mission</strong> below.</li>
+                <li><strong>Send the prompt</strong>: continuing the step 1 chat, copy the <strong>Codex request example</strong> prompt below and send it.</li>
+                <li><strong>Copy &amp; save the result</strong>: copy the spec sentences AI made in table form (Markdown), paste them into <code>functional-requirements.md</code> and save.</li>
+                <li><strong>Filter vague wording</strong>: if finished sentences include vague words like "conveniently" or "quickly", ask AI again to make them measurable.</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Mission situation</h3>
+              <p style="font-size: 0.78rem;">
+                In step 1 you found the feature candidates the service needs.
+                In this step you turn them into real requirement sentences.
+                Write sentences that developers and planners understand the same way, not just feature names.
+              </p>
+            </div>
+
+            <div class="card-section">
+              <h3>How to write requirements</h3>
+              <div class="criterion-box">
+                <p style="margin: 0; font-size: 0.74rem; font-weight: 700; color: #2B5CA6; text-align: center;">
+                  [User or system] must be able to &nbsp;&nbsp; [do a feature or action] &nbsp;&nbsp; under [a specific condition].
+                </p>
+              </div>
+            </div>
+
+            <div class="card-section">
+              <h3>Learner mission</h3>
+              <p style="font-size: 0.78rem;">Change the feature candidates from step 1 into the following format.</p>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Requirement ID</th>
+                    <th>User</th>
+                    <th>Feature</th>
+                    <th>Requirement</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>FR-001</td>
+                    <td>Customer</td>
+                    <td>Sign-up</td>
+                    <td>(blank for learners to fill)</td>
+                  </tr>
+                  <tr>
+                    <td>FR-002</td>
+                    <td>Customer</td>
+                    <td>Expert search</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>FR-003</td>
+                    <td>Customer</td>
+                    <td>Choose session time</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>FR-004</td>
+                    <td>System</td>
+                    <td>Confirm booking</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="card-section">
+              <h3>Codex request example</h3>
+              <pre><span class="code-badge">Prompt</span><code>Write the feature candidates from step 1 as functional requirements.
+
+Apply these rules.
+
+1. Give requirement IDs in order from FR-001.
+2. Write only one feature per requirement.
+3. Clearly name who the user is.
+4. Include the condition under which the feature runs.
+5. Write sentences that can be tested.
+6. Don't use vague words like "conveniently", "appropriately" or "quickly".
+7. Don't add anything not in the meeting notes.
+
+Write the result as a Markdown table.</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🤖 Codex's role in this step</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                <strong>Technical Writer</strong>: produces measurable, checkable sentences based on templates and standard formulas.
+              </p>
+            </div>
+
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 3 PANEL ==================== -->
+      <div class="detail-panel" id="detail-3">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline">Step 3</span> Add normal and exception flows</h2>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Step input</h4>
+                <p style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">Step 2 output (<code>functional-requirements.md</code> table)</p>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Step output</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• Design doc with normal/exception flows added</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• List of requirement checks</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-0;">• List of policies needing more confirmation</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Detailed follow-along guide</h4>
+              <ol style="padding-left: 14px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Pick a requirement</strong>: find the <code>FR-004 Confirm booking</code> item to expand in the file.</li>
+                <li><strong>Run the prompt</strong>: continuing the step 2 chat, copy and enter the <strong>Codex request example</strong> prompt below.</li>
+                <li><strong>Add the flows</strong>: paste the detailed normal flow, exception flow and check text AI returns under that ID in <code>functional-requirements.md</code> and save the file.</li>
+                <li><strong>Filter made-up rules</strong>: check that AI didn't imagine exception policies not in the original, and left them as "needs confirmation".</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Mission situation</h3>
+              <p style="font-size: 0.78rem;">
+                You've written requirement sentences, but only the normal situation is defined.
+                In real services, exceptions like payment failure, no data and double bookings happen often.
+                In this step you add normal and exception flows to each requirement.
+              </p>
+            </div>
+
+            <div class="card-section">
+              <h3>Learner mission</h3>
+              <p style="font-size: 0.78rem;">Pick the following feature from the step 2 requirements and define its normal/exception flows.</p>
+              <ul>
+                <li>Expert search</li>
+                <li>Choose session time</li>
+                <li>Payment and booking confirmation</li>
+              </ul>
+              <pre><span class="code-badge">Template</span><code>### FR-004 Confirm booking
+
+- User:
+- Precondition:
+- Normal flow:
+- Exception flow:
+- Check:</code></pre>
+            </div>
+
+            <div class="card-section">
+              <h3>Codex request example</h3>
+              <pre><span class="code-badge">Prompt</span><code>Add a normal flow and an exception flow
+to each requirement in functional-requirements.md.
+
+Apply these rules.
+
+1. Write the normal flow step by step, from the user's first action to the final result.
+2. For exception flows, check failure, duplicate, no data and no permission cases.
+3. Don't decide exception policies that can't be confirmed from the meeting notes.
+4. Mark anything that needs a policy decision as "needs confirmation".
+5. Write at least one check for each requirement.</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🤖 Codex's role in this step</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                <strong>QC Explorer</strong>: reviews and suggests responses to design flaws and abnormal input errors (duplicates, timeouts, exception handling).
+              </p>
+            </div>
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 4 PANEL ==================== -->
+      <div class="detail-panel" id="detail-4">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline">Step 4</span> Write undecided items and planning questions</h2>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Step input</h4>
+                <p style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">From the step 3 output, the 'list of policies needing confirmation and undecided items'</p>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Step output</h4>
+                <p style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;"><code>open-questions.md</code> (decision planning question table)</p>
+              </div>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Detailed follow-along guide</h4>
+              <ol style="padding-left: 14px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Create the question file</strong>: make an <code>open-questions.md</code> file in your work folder.</li>
+                <li><strong>Send the prompt</strong>: continuing the step 3 chat, send the <strong>Codex request example</strong> prompt below to get the undecided items table.</li>
+                <li><strong>Record the questions</strong>: paste the table AI made into <code>open-questions.md</code> and save.</li>
+                <li><strong>Watch the role</strong>: check whether AI answered questions on its own, and make sure it kept the purpose (questions stay open for a decision).</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Mission situation</h3>
+              <p style="font-size: 0.78rem;">
+                While detailing the requirements, we found business policies that can't be decided right away.
+                We need to turn these undecided items into specific, organized questions to get planning feedback from stakeholders or decision makers.
+              </p>
+            </div>
+
+            <div class="card-section">
+              <h3>Codex request example</h3>
+              <pre><span class="code-badge">Prompt</span><code>Review the current requirements doc
+and find anything not decided or vague.
+
+Write each item as a question
+the planner can confirm with stakeholders.
+
+Include the following.
+
+1. Question ID
+2. Related requirement ID
+3. Question to confirm
+4. Why this decision is needed
+5. Features affected if not decided
+6. Priority
+7. Status
+
+Don't make up answers to the questions.</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🤖 Codex's role in this step</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                <strong>Question Maker</strong>: for pending policies, separates affected features and importance, and lists the questions needed to reach agreement in the right format.
+              </p>
+            </div>
+
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 5 PANEL ==================== -->
+      <div class="detail-panel" id="detail-5">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline">Step 5</span> Create the combined requirements doc and share by email (Gmail plugin)</h2>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Step input</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• Spec files such as <code>meeting-notes.md</code></li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• **Gmail Plugin** connected in Codex Client</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Step output</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>requirements-specification.md</code> (combined)</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• Real email sent through the Gmail plugin API</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Gmail Plugin Setup Accordion Panel -->
+            <div class="guide-box" style="background: rgba(43,92,166,0.055); border-left-color: var(--secondary-color);">
+              <h4 style="color: #243B35; font-size: 0.78rem; font-weight: 800;">🔌 [Key prep] Set up and connect the Codex Client Gmail plugin</h4>
+              <ol style="padding-left: 14px; font-size: 0.72rem; line-height: 1.45; margin-top: 4px; color: #2B5CA6;">
+                <li>Click the <strong>[Plugins (plugin store)]</strong> icon at the top right of Codex Client.</li>
+                <li>Find the <strong>`Gmail`</strong> plugin in the list and press **[Install]**.</li>
+                <li>After install, a Google sign-in window appears. **Sign in with your own Google/Gmail account**, then complete **OAuth email permission approval** so the AI agent can send email.</li>
+              </ol>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Detailed follow-along guide</h4>
+              <ol style="padding-left: 18px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Merge docs and first check</strong>: send the prompt from **Learner mission 1 (combine and AI check)** below in the AI chat to ask for the combined requirements doc <code>requirements-specification.md</code>.</li>
+                <li><strong>Fix vague wording</strong>: if the error results AI found include a <code>WARNING</code>, refine the spec with AI and build the final approved version.</li>
+                <li><strong>Tell AI to send with the Gmail plugin</strong>: to use the connected plugin, copy the **Learner mission 2 (Gmail plugin send)** prompt and send it in the AI chat.</li>
+                <li><strong>Check it was sent</strong>: open the recipient's inbox or your own 'Sent' folder to confirm the email really went out.</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Learner mission 1 (combine and AI check prompt)</h3>
+              <pre><span class="code-badge">Prompt 1</span><code>Read the following 3 files and write requirements-specification.md, a requirements doc that merges them.
+
+- meeting-notes.md
+- functional-requirements.md
+- open-questions.md
+
+At the same time, analyze errors in the requirements doc using the 6 rules below.
+
+[Check rules]
+1. Duplicate requirement IDs
+2. Missing requirement IDs
+3. Missing user roles
+4. Missing normal and exception flows
+5. Missing checks
+6. Vague wording (vague words: conveniently, quickly, as needed, appropriately, normally)
+
+Show the check results first in the output in the format below, then show the merged requirements-specification.md content under it.
+
+[Output format]
+PASS: no duplicate requirement IDs
+ERROR: FR-004 check missing
+WARNING: FR-007 uses vague word "conveniently"</code></pre>
+            </div>
+
+            <div class="card-section">
+              <h3>Learner mission 2 (Gmail plugin send prompt)</h3>
+              <pre><span class="code-badge">Prompt 2</span><code>Using the Gmail plugin, send an email that meets the conditions below, based on the just-checked requirements-specification.md
+and the undecided questions in open-questions.md.
+
+- To: [enter the email address of the CEO or decision maker who will give feedback]
+- Subject: [Approval request] Review of the expert consultation service requirements doc and settling undecided policies
+- Body:
+  - Report that combining and checking the planning docs is done
+  - The main open questions that urgently need planning decisions (summary of Q-001 ~ Q-004)
+  - Deadline for feedback replies</code></pre>
+            </div>
+
+            <div class="card-section">
+              <h3>[Alternative] Local mail client and sending by hand</h3>
+              <p style="font-size: 0.78rem; margin-bottom: 4px;">If sending with the plugin is hard because of Google account security limits, press the buttons below to write or copy the email.</p>
+              
+              <div class="action-btn-container">
+                <button onclick="shareViaEmail()" class="btn-download btn-email-share">
+                  📧 Open local mail (mailto)
+                </button>
+                <button onclick="copyEmailDraft()" class="btn-download btn-copy">
+                  📋 Copy email draft text
+                </button>
+              </div>
+            </div>
+
+            <!-- 병합된 사이드바 정보 박스 -->
+            <div class="inline-sidebar-box">
+              <h4>🤖 Codex's role in this step</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                <strong>Plugin Integrator</strong>: after finishing internal doc analysis, connects remotely to the Gmail plugin API and sends business emails on your behalf.
+              </p>
+            </div>
+
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 6 PANEL (MISSION 1) ==================== -->
+      <div class="detail-panel" id="detail-6">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline" style="background: linear-gradient(135deg, var(--accent-purple), #DFD8F6); color: #243B35;">Lab Assignment 1</span> Pet Home Care and Matching Service</h2>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Assignment input</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>pet-care-meeting-notes.md</code> meeting notes</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• The Codex prompts you learned in the step 1–5 labs</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Assignment output</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>pet-care-requirements.md</code> (feature and exception flow requirements doc)</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• An email approval request to settle undecided policies</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="guide-box" style="background: rgba(93,74,168,0.055); border-left-color: var(--accent-purple);">
+              <h4 style="color: #243B35; font-size: 0.78rem; font-weight: 800;">💡 Mission background and goal</h4>
+              <p style="font-size: 0.72rem; line-height: 1.45; margin-top: 4px; color: #5D4AA8;">
+                These are planning meeting notes for a platform that connects pet owners (customers) with professional pet sitters.
+                The goal is to clearly spec owner identity and pet info registration, pet sitter qualification review and admin approval, the payment deadline after a match is accepted, real-time care status updates, and exception handling for cancellations and pet sitter no-shows.
+              </p>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Self-guided lab</h4>
+              <ol style="padding-left: 18px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Download the notes</strong>: click the button below to download the original <code>pet-care-meeting-notes.md</code> file.</li>
+                <li><strong>Write requirements</strong>: based on the downloaded notes, tell Codex AI to spec in detail the user roles (regular user, pet sitter, admin), features (sign-up, search, booking, payment, status change) and exception flows (payment timeout, cancellation penalty, no-show handling).</li>
+                <li><strong>AI lint check</strong>: after writing the plan, use the step 5 check rules (duplicate/missing IDs, missing normal/exception flows, vague wording) to have AI review the requirements doc closely, and build the final requirements doc as the approved version.</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Learner self-lab materials</h3>
+              <p style="font-size: 0.78rem; margin-bottom: 10px;">Press the button below to download the raw meeting notes for Mission 1.</p>
+              <div class="action-btn-container">
+                <button onclick="downloadPetCareMeetingNotes()" class="btn-download" style="background: linear-gradient(135deg, var(--accent-purple), #DFD8F6);">
+                  📥 Download pet-care-meeting-notes.md
+                </button>
+              </div>
+            </div>
+
+            <div class="card-section">
+              <h3>Recommended AI lab prompt</h3>
+              <pre><span class="code-badge" style="background: var(--accent-purple);">Mission 1 Prompt</span><code>[Role: IT business analyst]
+Analyze the pet-care-meeting-notes.md file I just downloaded and write the requirements doc pet-care-requirements.md in this format.
+
+1. Overview and service structure
+2. User roles (owner, pet sitter, admin)
+3. Key functional requirements list (ID format: PCR-001, PCR-002...)
+4. Normal and exception flows (e.g. expiring after 1 hour without payment, 200% point compensation and a replacement pet sitter suggestion when a pet sitter no-shows, etc.)
+5. Open questions list
+
+Spec it in as much detail as possible, at a buildable level, and also apply the AI lint check rules from step 5 and show the self-check results at the top.</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🎯 Main assessment criteria</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                • Is the 'admin approval' condition after pet sitter registration clearly specified?<br>
+                • Are deadline exceptions like 'cancel if not paid within 1 hour' after a match request included?<br>
+                • Are the compensation policy and replacement suggestion flow for pet sitter no-shows properly written into the plan?
+              </p>
+            </div>
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 7 PANEL (MISSION 2) ==================== -->
+      <div class="detail-panel" id="detail-7">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline" style="background: linear-gradient(135deg, var(--accent-purple), #DFD8F6); color: #243B35;">Lab Assignment 2</span> Self-Service Study Café Booking and IoT Control Service</h2>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Assignment input</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>study-cafe-meeting-notes.md</code> meeting notes</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• The Codex prompts you learned in the step 1–5 labs</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Assignment output</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>study-cafe-requirements.md</code> (combined requirements doc with IoT exception handling)</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• Hardware-software control test scenario spec</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="guide-box" style="background: rgba(93,74,168,0.055); border-left-color: var(--accent-purple);">
+              <h4 style="color: #243B35; font-size: 0.78rem; font-weight: 800;">💡 Mission background and goal</h4>
+              <p style="font-size: 0.72rem; line-height: 1.45; margin-top: 4px; color: #5D4AA8;">
+                These are meeting notes for a service at a self-service study café: booking study rooms on mobile and remotely controlling offline hardware (door locks, smart power cut-off, thermostats, etc.).
+                You must build a complete IoT business spec by working out several safety processes: generating a PIN code when payment completes, syncing IoT device states and PIN limits at check-in/out, and emergency door opening and alarm alerts when IoT communication fails (e.g. door lock not working).
+              </p>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Self-guided lab</h4>
+              <ol style="padding-left: 18px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Download the notes</strong>: click the button below to download the original <code>study-cafe-meeting-notes.md</code> file.</li>
+                <li><strong>Write requirements</strong>: based on the downloaded notes, tell Codex AI to spec the user and hardware flows (activate 10 minutes before booking, notice 5 minutes before end, cut power at end).</li>
+                <li><strong>Detail failure handling</strong>: clearly write how to handle each possible scenario like IoT connection loss or a faulty door lock (server backup network, emergency alert to admin on send failure, emergency call, etc.) using fail-safe design.</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Learner self-lab materials</h3>
+              <p style="font-size: 0.78rem; margin-bottom: 10px;">Press the button below to download the raw meeting notes for Mission 2.</p>
+              <div class="action-btn-container">
+                <button onclick="downloadStudyCafeMeetingNotes()" class="btn-download" style="background: linear-gradient(135deg, var(--accent-purple), #DFD8F6);">
+                  📥 Download study-cafe-meeting-notes.md
+                </button>
+              </div>
+            </div>
+
+            <div class="card-section">
+              <h3>Recommended AI lab prompt</h3>
+              <pre><span class="code-badge" style="background: var(--accent-purple);">Mission 2 Prompt</span><code>[Role: IoT systems business analyst]
+Based on the downloaded study-cafe-meeting-notes.md, write study-cafe-requirements.md including the following.
+
+1. Normal flow for study room booking and payment
+2. Hardware control timing (activate PIN and turn on air conditioning 10 minutes before booking, audio notice 5 minutes before end, cut off immediately at end)
+3. Exception and failure recovery flows (Fail-safe):
+   - When the IoT door lock network goes offline, switch automatically to a backup wireless network and an emergency remote-open process
+   - When the PIN code fails to send, provide an emergency manual open button and rules for an instant admin dashboard alarm
+4. Requirement checks
+
+Organize the flow in great detail as a timeline so developers and HW engineers can connect things with no confusion.</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🎯 Main assessment criteria</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                • Are timeline conditions for hardware control (door lock, lights, air conditioning) before/after booking clearly stated?<br>
+                • Does the requirements doc cover a two-layer emergency procedure for physical failures like an IoT device losing network?<br>
+                • Are booking business rules like non-member booking limits and extension payment policy written as standard sentences?
+              </p>
+            </div>
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 6 PANEL (ADD-D01-T01) ==================== -->
+      <div class="detail-panel" id="detail-6">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline" style="background: linear-gradient(135deg, var(--secondary-color), #D2E0FB); color: #243B35;">Skill Task 1</span> ADD-D01-T01 — Define the Service Problem and Personas</h2>
+            </div>
+
+            <!-- Skill Marking -->
+            <div class="card-section" style="background: rgba(43,92,166,0.055); padding: 10px; border-radius: 6px; border: 1px solid rgba(43,92,166,0.2); margin-bottom: 12px;">
+              <h4 style="color: var(--secondary-color); font-size: 0.76rem; margin-bottom: 6px;">🏷️ Skill tags</h4>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; font-size: 0.7rem;">
+                <span style="background: rgba(255,255,255,0.79); padding: 2px 6px; border-radius: 4px;">Task area: <strong>HYBRID</strong></span>
+                <span style="background: rgba(43,92,166,0.22); color: #2B5CA6; padding: 2px 6px; border-radius: 4px;">Tech Skill: <code>TECH-BA</code> <code>TECH-DDD</code></span>
+                <span style="background: rgba(43,92,166,0.22); color: #2B5CA6; padding: 2px 6px; border-radius: 4px;">AI Skill: <code>AI-CTX</code> <code>AI-ANA</code> <code>AI-DOC</code></span>
+                <span style="background: rgba(93,74,168,0.22); color: #5D4AA8; padding: 2px 6px; border-radius: 4px;">AI role: Domain Analyst</span>
+              </div>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Input Context</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• Service idea and existing Day 1 requirements outputs</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• Candidate user data</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Output to submit</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>01_SERVICE_OVERVIEW.md</code></li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• <code>03_DOMAIN_MAP.md</code></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="guide-box" style="background: rgba(43,92,166,0.055); border-left-color: var(--secondary-color);">
+              <h4 style="color: #2B5CA6; font-size: 0.78rem; font-weight: 800;">💡 Task goal and background</h4>
+              <p style="font-size: 0.72rem; line-height: 1.45; margin-top: 4px; color: #2B5CA6;">
+                Define the goals, actions, features and data needed for Viewer·Creator·Advertiser·Admin. Give AI the Domain Analyst role and a service scenario, and find goal conflicts and missing items between Personas.
+              </p>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Steps</h4>
+              <ol style="padding-left: 18px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Prepare the Workspace</strong>: put the input docs from earlier Days or LMS Tasks into the project Workspace.</li>
+                <li><strong>Assign the role</strong>: separate decided items, assumptions and undecided items in the input docs, and give AI the Domain Analyst role.</li>
+                <li><strong>Define Personas</strong>: define the goals, actions, features and data needed for Viewer·Creator·Advertiser·Admin.</li>
+                <li><strong>Check results</strong>: don't take AI results as-is; check facts, structure and exceptions against the Tech Skill criteria (TECH-BA, TECH-DDD).</li>
+                <li><strong>Record outputs</strong>: record your final choices, what you changed, and AI suggestions you rejected and why in the output.</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Recommended AI prompt</h3>
+              <pre><span class="code-badge" style="background: var(--secondary-color);">ADD-D01-T01 Prompt</span><code>You are the Domain Analyst for this project.
+
+[Project Context]
+Service idea, existing Day 1 requirements outputs, candidate users
+
+[Task]
+Define the goals, actions, features and data needed for Viewer·Creator·Advertiser·Admin.
+
+[AI use]
+Give AI the Domain Analyst role and a service scenario, and ask it to find goal conflicts and gaps between Personas.
+
+[Output format]
+1. Facts confirmed in the current Context
+2. Suggested results and reasons
+3. Gaps, conflicts and risks
+4. Questions a person must decide
+5. A checkable done Checklist
+
+Don't present guesses as facts; always mark them as 'assumptions'.</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🎯 Main assessment criteria</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                • Are each Persona's goals, actions, features and data organized in a table and clearly separated?<br>
+                • Can technical outputs and AI review results be traced to each other?<br>
+                • Is at least one reason recorded for accepting, changing or rejecting an AI suggestion?<br>
+                • Can the next Task reuse the result as input Context without extra questions?
+              </p>
+            </div>
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 7 PANEL (ADD-D01-T02) ==================== -->
+      <div class="detail-panel" id="detail-7">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: #FFFFFF;">Skill Task 2</span> ADD-D01-T02 — Sort Features into Domains</h2>
+            </div>
+
+            <!-- Skill Marking -->
+            <div class="card-section" style="background: rgba(43,92,166,0.055); padding: 10px; border-radius: 6px; border: 1px solid rgba(43,92,166,0.2); margin-bottom: 12px;">
+              <h4 style="color: var(--primary-color); font-size: 0.76rem; margin-bottom: 6px;">🏷️ Skill tags</h4>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; font-size: 0.7rem;">
+                <span style="background: rgba(255,255,255,0.79); padding: 2px 6px; border-radius: 4px;">Task area: <strong>TECH</strong></span>
+                <span style="background: rgba(43,92,166,0.22); color: #2B5CA6; padding: 2px 6px; border-radius: 4px;">Tech Skill: <code>TECH-BA</code> <code>TECH-DDD</code></span>
+                <span style="background: rgba(43,92,166,0.22); color: #2B5CA6; padding: 2px 6px; border-radius: 4px;">AI Skill: <code>AI-ANA</code> <code>AI-REV</code></span>
+                <span style="background: rgba(93,74,168,0.22); color: #5D4AA8; padding: 2px 6px; border-radius: 4px;">AI role: Domain Analyst</span>
+              </div>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Input Context</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>ADD-D01-T01</code> output (Personas and functional requirements)</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Output to submit</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>01_SERVICE_OVERVIEW.md</code></li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• <code>03_DOMAIN_MAP.md</code></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="guide-box" style="background: rgba(43,92,166,0.055); border-left-color: var(--primary-color);">
+              <h4 style="color: #2B5CA6; font-size: 0.78rem; font-weight: 800;">💡 Task goal and background</h4>
+              <p style="font-size: 0.72rem; line-height: 1.45; margin-top: 4px; color: #2B5CA6;">
+                Place Members, Channel, Video, Playback, Engagement, Advertising, Ad Serving, Billing and Analytics features clearly in their owning Domains, and refine main and shared responsibilities.
+              </p>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Steps</h4>
+              <ol style="padding-left: 18px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Prepare Workspace input</strong>: prepare the step 1 output as the input doc.</li>
+                <li><strong>Assign the AI role</strong>: give AI the Domain Analyst role and ask for candidate owners and alternatives for each feature.</li>
+                <li><strong>Place in Domains</strong>: place Members, Channel, Video, Playback, Engagement, Advertising, Ad Serving, Billing and Analytics features in their owning Domains.</li>
+                <li><strong>Decide final boundaries</strong>: a person picks the final boundary from AI's alternatives and records the reason.</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Recommended AI prompt</h3>
+              <pre><span class="code-badge" style="background: var(--primary-color);">ADD-D01-T02 Prompt</span><code>You are the Domain Analyst for this project.
+
+[Project Context]
+Service idea, existing Day 1 requirements outputs, candidate users
+
+[Task]
+Place Members, Channel, Video, Playback, Engagement, Advertising, Ad Serving, Billing and Analytics features in their owning Domains.
+
+[AI use]
+Have AI suggest candidate owners and alternatives for each feature, then a person picks the final boundary and records the reason.
+
+[Output format]
+1. Facts confirmed in the current Context
+2. Suggested results and reasons
+3. Gaps, conflicts and risks
+4. Questions a person must decide
+5. A checkable done Checklist
+
+Don't present guesses as facts; always mark them as 'assumptions'.</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🎯 Main assessment criteria</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                • Does every key feature have one main owning Domain, with shared responsibilities marked separately?<br>
+                • Can technical outputs and AI review results be traced to each other?<br>
+                • Is at least one reason recorded for accepting, changing or rejecting an AI suggestion?
+              </p>
+            </div>
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 8 PANEL (ADD-D01-T03) ==================== -->
+      <div class="detail-panel" id="detail-8">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline" style="background: linear-gradient(135deg, var(--accent-purple), var(--secondary-color)); color: #FFFFFF;">Skill Task 3</span> ADD-D01-T03 — Review the Domain Map and Responsibility Boundaries</h2>
+            </div>
+
+            <!-- Skill Marking -->
+            <div class="card-section" style="background: rgba(93,74,168,0.055); padding: 10px; border-radius: 6px; border: 1px solid rgba(93,74,168,0.2); margin-bottom: 12px;">
+              <h4 style="color: var(--accent-purple); font-size: 0.76rem; margin-bottom: 6px;">🏷️ Skill tags</h4>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; font-size: 0.7rem;">
+                <span style="background: rgba(255,255,255,0.79); padding: 2px 6px; border-radius: 4px;">Task area: <strong>AI</strong></span>
+                <span style="background: rgba(43,92,166,0.22); color: #2B5CA6; padding: 2px 6px; border-radius: 4px;">Tech Skill: <code>TECH-DDD</code> <code>TECH-ARCH</code></span>
+                <span style="background: rgba(43,92,166,0.22); color: #2B5CA6; padding: 2px 6px; border-radius: 4px;">AI Skill: <code>AI-CTX</code> <code>AI-REV</code> <code>AI-DOC</code></span>
+                <span style="background: rgba(93,74,168,0.22); color: #5D4AA8; padding: 2px 6px; border-radius: 4px;">AI role: Domain Analyst</span>
+              </div>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Input Context</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>ADD-D01-T01</code>, <code>ADD-D01-T02</code> outputs</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Output to submit</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>01_SERVICE_OVERVIEW.md</code></li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• <code>03_DOMAIN_MAP.md</code></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="guide-box" style="background: rgba(93,74,168,0.055); border-left-color: var(--accent-purple);">
+              <h4 style="color: #5D4AA8; font-size: 0.78rem; font-weight: 800;">💡 Task goal and background</h4>
+              <p style="font-size: 0.72rem; line-height: 1.45; margin-top: 4px; color: #243B35;">
+                Visualize order, dependencies and data ownership between Domains, draft Bounded Contexts, and hand them over as input for system architecture.
+              </p>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Steps</h4>
+              <ol style="padding-left: 18px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Visualize and structure</strong>: visualize order, dependencies and data ownership between Domains and draft Bounded Contexts.</li>
+                <li><strong>Run an AI Review</strong>: run an AI review with the Review Prompt 'analyze Domains with duplicate or missing responsibilities' and keep before/after versions.</li>
+                <li><strong>Check</strong>: don't take AI results as-is; check them against the Tech Skill criteria (TECH-DDD, TECH-ARCH).</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Recommended AI prompt</h3>
+              <pre><span class="code-badge" style="background: var(--accent-purple);">ADD-D01-T03 Prompt</span><code>You are the Domain Analyst for this project.
+
+[Project Context]
+Service idea, existing Day 1 requirements outputs, candidate users
+
+[Task]
+Visualize order, dependencies and data ownership between Domains and draft Bounded Contexts.
+
+[AI use]
+Run an AI review with the Review Prompt 'analyze Domains with duplicate or missing responsibilities' and keep before/after versions.
+
+[Output format]
+1. Facts confirmed in the current Context
+2. Suggested results and reasons
+3. Gaps, conflicts and risks
+4. Questions a person must decide
+5. A checkable done Checklist
+
+Don't present guesses as facts; always mark them as 'assumptions'.</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🎯 Main assessment criteria</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                • Are the Domain Map, responsibility table, key Entity candidates and applied AI review notes kept?<br>
+                • Can technical outputs and AI review results be traced to each other?<br>
+                • Is at least one reason recorded for accepting, changing or rejecting an AI suggestion?
+              </p>
+            </div>
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 9 PANEL (MISSION 1) ==================== -->
+      <div class="detail-panel" id="detail-9">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline" style="background: linear-gradient(135deg, var(--accent-purple), #DFD8F6); color: #243B35;">Lab Assignment 1</span> Pet Home Care and Pet Sitter Matching Service</h2>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Assignment input</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>pet-care-meeting-notes.md</code> meeting notes</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• The Codex prompts you learned in the step 1–5 labs</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Assignment output</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>pet-care-requirements.md</code> (feature and exception flow requirements doc)</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• An email approval request to settle undecided policies</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="guide-box" style="background: rgba(93,74,168,0.055); border-left-color: var(--accent-purple);">
+              <h4 style="color: #243B35; font-size: 0.78rem; font-weight: 800;">💡 Mission background and goal</h4>
+              <p style="font-size: 0.72rem; line-height: 1.45; margin-top: 4px; color: #5D4AA8;">
+                These are planning meeting notes for a platform that connects pet owners (customers) with professional pet sitters.
+                The goal is to clearly spec owner identity and pet info registration, pet sitter qualification review and admin approval, the payment deadline after a match is accepted, real-time care status updates, and exception handling for cancellations and pet sitter no-shows.
+              </p>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Self-guided lab</h4>
+              <ol style="padding-left: 18px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Download the notes</strong>: click the button below to download the original <code>pet-care-meeting-notes.md</code> file.</li>
+                <li><strong>Write requirements</strong>: based on the downloaded notes, tell Codex AI to spec in detail the user roles (regular user, pet sitter, admin), features (sign-up, search, booking, payment, status change) and exception flows (payment timeout, cancellation penalty, no-show handling).</li>
+                <li><strong>AI lint check</strong>: after writing the plan, use the step 5 check rules (duplicate/missing IDs, missing normal/exception flows, vague wording) to have AI review the requirements doc closely, and build the final requirements doc as the approved version.</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Learner self-lab materials</h3>
+              <p style="font-size: 0.78rem; margin-bottom: 10px;">Press the button below to download the raw meeting notes for Mission 1.</p>
+              <div class="action-btn-container">
+                <button onclick="downloadPetCareMeetingNotes()" class="btn-download" style="background: linear-gradient(135deg, var(--accent-purple), #DFD8F6);">
+                  📥 Download pet-care-meeting-notes.md
+                </button>
+              </div>
+            </div>
+
+            <div class="card-section">
+              <h3>Recommended AI lab prompt</h3>
+              <pre><span class="code-badge" style="background: var(--accent-purple);">Mission 1 Prompt</span><code>[Role: IT business analyst]
+Analyze the pet-care-meeting-notes.md file I just downloaded and write the requirements doc pet-care-requirements.md in this format.
+
+1. Overview and service structure
+2. User roles (owner, pet sitter, admin)
+3. Key functional requirements list (ID format: PCR-001, PCR-002...)
+4. Normal and exception flows (e.g. expiring after 1 hour without payment, 200% point compensation and a replacement pet sitter suggestion when a pet sitter no-shows, etc.)
+5. Open questions list
+
+Spec it in as much detail as possible, at a buildable level, and also apply the AI lint check rules from step 5 and show the self-check results at the top.</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🎯 Main assessment criteria</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                • Is the 'admin approval' condition after pet sitter registration clearly specified?<br>
+                • Are deadline exceptions like 'cancel if not paid within 1 hour' after a match request included?<br>
+                • Are the compensation policy and replacement suggestion flow for pet sitter no-shows properly written into the plan?
+              </p>
+            </div>
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 10 PANEL (MISSION 2) ==================== -->
+      <div class="detail-panel" id="detail-10">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline" style="background: linear-gradient(135deg, var(--accent-purple), #DFD8F6); color: #243B35;">Lab Assignment 2</span> Self-Service Study Café Booking and IoT Control Service</h2>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Assignment input</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>study-cafe-meeting-notes.md</code> meeting notes</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• The Codex prompts you learned in the step 1–5 labs</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Assignment output</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>study-cafe-requirements.md</code> (combined requirements doc with IoT exception handling)</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• Hardware-software control test scenario spec</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="guide-box" style="background: rgba(93,74,168,0.055); border-left-color: var(--accent-purple);">
+              <h4 style="color: #243B35; font-size: 0.78rem; font-weight: 800;">💡 Mission background and goal</h4>
+              <p style="font-size: 0.72rem; line-height: 1.45; margin-top: 4px; color: #5D4AA8;">
+                These are meeting notes for a service at a self-service study café: booking study rooms on mobile and remotely controlling offline hardware (door locks, smart power cut-off, thermostats, etc.).
+                You must build a complete IoT business spec by working out several safety processes: generating a PIN code when payment completes, syncing IoT device states and PIN limits at check-in/out, and emergency door opening and alarm alerts when IoT communication fails (e.g. door lock not working).
+              </p>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Self-guided lab</h4>
+              <ol style="padding-left: 18px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Download the notes</strong>: click the button below to download the original <code>study-cafe-meeting-notes.md</code> file.</li>
+                <li><strong>Write requirements</strong>: based on the downloaded notes, tell Codex AI to spec the user and hardware flows (activate 10 minutes before booking, notice 5 minutes before end, cut power at end).</li>
+                <li><strong>Detail failure handling</strong>: clearly write how to handle each possible scenario like IoT connection loss or a faulty door lock (server backup network, emergency alert to admin on send failure, emergency call, etc.) using fail-safe design.</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Learner self-lab materials</h3>
+              <p style="font-size: 0.78rem; margin-bottom: 10px;">Press the button below to download the raw meeting notes for Mission 2.</p>
+              <div class="action-btn-container">
+                <button onclick="downloadStudyCafeMeetingNotes()" class="btn-download" style="background: linear-gradient(135deg, var(--accent-purple), #DFD8F6);">
+                  📥 Download study-cafe-meeting-notes.md
+                </button>
+              </div>
+            </div>
+
+            <div class="card-section">
+              <h3>Recommended AI lab prompt</h3>
+              <pre><span class="code-badge" style="background: var(--accent-purple);">Mission 2 Prompt</span><code>[Role: IoT systems business analyst]
+Based on the downloaded study-cafe-meeting-notes.md, write study-cafe-requirements.md including the following.
+
+1. Normal flow for study room booking and payment
+2. Hardware control timing (activate PIN and turn on air conditioning 10 minutes before booking, audio notice 5 minutes before end, cut off immediately at end)
+3. Exception and failure recovery flows (Fail-safe):
+   - When the IoT door lock network goes offline, switch automatically to a backup wireless network and an emergency remote-open process
+   - When the PIN code fails to send, provide an emergency manual open button and rules for an instant admin dashboard alarm
+4. Requirement checks
+
+Organize the flow in great detail as a timeline so developers and HW engineers can connect things with no confusion.</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🎯 Main assessment criteria</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                • Are timeline conditions for hardware control (door lock, lights, air conditioning) before/after booking clearly stated?<br>
+                • Does the requirements doc cover a two-layer emergency procedure for physical failures like an IoT device losing network?<br>
+                • Are booking business rules like non-member booking limits and extension payment policy written as standard sentences?
+              </p>
+            </div>
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 11 PANEL (MISSION 3 - SKILL MISSION 1) ==================== -->
+      <div class="detail-panel" id="detail-11">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline" style="background: linear-gradient(135deg, var(--accent-purple), #DFD8F6); color: #243B35;">Skill Assignment 1 (Mission 3)</span> Short-Form VOD &amp; Live Commerce Platform Domain Design</h2>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Assignment input</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>shortform-meeting-notes.md</code> meeting notes</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• Skill Tasks 1~3 (Persona, Domain, Bounded Context prompts)</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Assignment output</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>shortform-domain-specification.md</code></li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• Short-form/live commerce Bounded Context doc</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="guide-box" style="background: rgba(93,74,168,0.055); border-left-color: var(--accent-purple);">
+              <h4 style="color: #243B35; font-size: 0.78rem; font-weight: 800;">💡 Mission background and goal</h4>
+              <p style="font-size: 0.72rem; line-height: 1.45; margin-top: 4px; color: #5D4AA8;">
+                These are meeting notes for a platform that tightly combines global short-form streaming and live commerce.
+                Define the goals and actions of the 4 user types Viewer·Creator·Advertiser·Admin, place Members·Video·Playback·Engagement·Ad Serving·Billing features in owning Domains, then draft Bounded Contexts.
+              </p>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Self-guided lab</h4>
+              <ol style="padding-left: 18px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Apply Skill Task 1</strong>: work out the goals, actions and needed data of the 4 Personas Viewer·Creator·Advertiser·Admin.</li>
+                <li><strong>Apply Skill Task 2</strong>: split short-form VOD upload, streaming, targeted ads and payment features into 9 main owning Domains.</li>
+                <li><strong>Apply Skill Task 3</strong>: visualize data ownership and dependencies between Domains and submit a Bounded Context spec.</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Recommended AI lab prompt</h3>
+              <pre><span class="code-badge" style="background: var(--accent-purple);">Mission 3 Prompt</span><code>[Role: Domain Analyst &amp; Solution Architect]
+For a global short-form streaming and live commerce service, write shortform-domain-specification.md with these 3 sections.
+
+1. Viewer·Creator·Advertiser·Admin Personas and key needed data
+2. Owning Domain table for Members, Video, Playback, Engagement, Advertising, Ad Serving, Billing and Analytics features
+3. Visualized dependencies between Domains, a Bounded Context draft and a check Checklist</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🎯 Main assessment criteria</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                • Are the goals and data of the 4 user types (Viewer/Creator/Advertiser/Admin) separated?<br>
+                • Are playback and ad owning Domains for VOD and Live Streaming clearly mapped?<br>
+                • Are Bounded Context boundaries and reasons for judging AI results written?
+              </p>
+            </div>
+          </article>
+        </main>
+      </div>
+
+      <!-- ==================== STEP 12 PANEL (MISSION 4 - SKILL MISSION 2) ==================== -->
+      <div class="detail-panel" id="detail-12">
+        <main class="left-col">
+          <article class="detail-card">
+            <div class="detail-card-head">
+              <h2><span class="badge-inline" style="background: linear-gradient(135deg, var(--accent-purple), #DFD8F6); color: #243B35;">Skill Assignment 2 (Mission 4)</span> Smart B2B Mobility &amp; Vehicle Control Platform Domain Design</h2>
+            </div>
+
+            <!-- Input & Output definition -->
+            <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
+              <div>
+                <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 Assignment input</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>fleet-meeting-notes.md</code> meeting notes</li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• Skill Tasks 1~3 (Persona, Domain, Bounded Context prompts)</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="color: var(--accent-purple); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📤 Assignment output</h4>
+                <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px;">• <code>fleet-domain-specification.md</code></li>
+                  <li style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0;">• B2B vehicle control Bounded Context &amp; Responsibility Map</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="guide-box" style="background: rgba(93,74,168,0.055); border-left-color: var(--accent-purple);">
+              <h4 style="color: #243B35; font-size: 0.78rem; font-weight: 800;">💡 Mission background and goal</h4>
+              <p style="font-size: 0.72rem; line-height: 1.45; margin-top: 4px; color: #5D4AA8;">
+                These are meeting notes for a system covering company vehicle operations, real-time driver monitoring and commerce linked to fuel/maintenance.
+                Carefully structure the Personas of a complex setup — company (corporate Admin), driver (Driver) and maintenance partner (Vendor) — and the owning Domains for vehicle data monitoring and payment.
+              </p>
+            </div>
+
+            <div class="guide-box">
+              <h4>🛠️ Self-guided lab</h4>
+              <ol style="padding-left: 18px; font-size: 0.78rem; line-height: 1.45;">
+                <li><strong>Apply Skill Task 1</strong>: define the goals and needed data of the corporate admin, driver, partner garage and control Operator.</li>
+                <li><strong>Apply Skill Task 2</strong>: place real-time GPS monitoring, automatic trip logs, maintenance commerce and corporate billing features in owning Domains.</li>
+                <li><strong>Apply Skill Task 3</strong>: spec data ownership and a Bounded Context draft for connecting external maintenance/fuel network APIs.</li>
+              </ol>
+            </div>
+
+            <div class="card-section">
+              <h3>Recommended AI lab prompt</h3>
+              <pre><span class="code-badge" style="background: var(--accent-purple);">Mission 4 Prompt</span><code>[Role: B2B Enterprise Domain Analyst]
+Based on fleet-meeting-notes.md for a company-vehicle mobility control platform, write fleet-domain-specification.md.
+
+1. Personas and goals/needed data for Corporate Admin, Driver, Vendor and Dispatcher
+2. Owning Domain placement for GPS Telematics, Fleet Management, Maintenance, Billing &amp; Expense
+3. Bounded Contexts visualizing data ownership and dependencies between Domains</code></pre>
+            </div>
+
+            <div class="inline-sidebar-box">
+              <h4>🎯 Main assessment criteria</h4>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px;">
+                • Is data ownership separated between the B2B company organization and telematics (GPS monitoring)?<br>
+                • Are the external fuel/maintenance commerce area and the corporate billing Domain boundary separated?<br>
+                • Are Bounded Context dependencies and AI suggestions changed/rejected included?
+              </p>
+            </div>
+          </article>
+        </main>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JavaScript for Tab Management, Scroll, mailto and Clipboard -->
+  <script>
+    function shareViaEmail() {
+      const subject = encodeURIComponent("[Approval request] Review of the expert consultation service requirements spec and settling undecided policies");
+      const body = encodeURIComponent(`Hello, this is OOO from the planning team.
+
+I'm sharing the finished requirements doc (requirements-specification.md) for our new 'online expert consultation service'.
+
+While writing it, we ran an AI linter to filter out vague requirements and filled in normal/exception flows. However, there are some key undecided items that need your final decision before development starts, shared below.
+
+[Key undecided items needing a decision]
+1. Q-001: Up to how many hours before a session can users cancel a booking?
+2. Q-002: What cancellation fee and refund rate apply when a booking is cancelled?
+3. Q-003: Which booking confirmation notification method will we use? (email/SMS/app notification)
+4. Q-004: What is the exception policy if saving a booking fails after payment succeeds?
+
+I know you're busy, but these are core business rules directly tied to the development scope, so I'd be grateful for your feedback by next Tuesday.
+
+Please see the attachment (requirements-specification.md) for the full doc.
+
+Thank you.
+OOO, Planning Team`);
+      
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+
+    function copyEmailDraft() {
+      const emailDraftText = `Subject: [Approval request] Review of the expert consultation service requirements spec and settling undecided policies
+
+Hello, this is OOO from the planning team.
+
+I'm sharing the finished requirements doc (requirements-specification.md) for our new 'online expert consultation service'.
+
+While writing it, we ran an AI linter to filter out vague requirements and filled in normal/exception flows. However, there are some key undecided items that need your final decision before development starts, shared below.
+
+[Key undecided items needing a decision]
+1. Q-001: Up to how many hours before a session can users cancel a booking?
+2. Q-002: What cancellation fee and refund rate apply when a booking is cancelled?
+3. Q-003: Which booking confirmation notification method will we use? (email/SMS/app notification)
+4. Q-004: What is the exception policy if saving a booking fails after payment succeeds?
+
+I know you're busy, but these are core business rules directly tied to the development scope, so I'd be grateful for your feedback by next Tuesday.
+
+Please see the attachment (requirements-specification.md) for the full doc.
+
+Thank you.
+OOO, Planning Team`;
+
+      navigator.clipboard.writeText(emailDraftText).then(() => {
+        alert("The email report draft was copied to the clipboard! Paste it into your mail to share.");
+      }).catch(err => {
+        console.error("Clipboard copy failed: ", err);
+      });
+    }
+
+    function downloadRawMeetingNotes() {
+      const rawText = `# 1st Kick-off Meeting Notes: Building an Expert Consultation Service
+
+**Date**: 2026-07-10 14:00 - 15:30
+**Attendees**: CEO, Planner (PM), Developer (Dev), Designer
+
+---
+
+**CEO**: Hello, everyone. Today's meeting is to discuss the basic requirements and set the direction for the "online expert consultation service" we're launching. The core is a process where users come to our platform, find experts in various fields, book a session and finish paying smoothly.
+
+**Planner**: Yes. Let's start with the basic sign-up process. Do users have to sign up to use the service?
+
+**CEO**: Yes, that's right. Users should finish signing up first before they can properly use features like expert search and booking. Without an account, they can only browse a little.
+
+**Designer**: After signing up they'll search for experts — how are you thinking about expert profile pages and categories?
+
+**CEO**: Experts should be grouped by field first. For example, categories like IT consulting, legal advice and design coaching. Users should be able to pick a category or type a search term to quickly find the expert they want.
+
+**Designer**: So search results show a list of experts, and you go into a detail page to pick a time. How do they choose the date and time?
+
+**CEO**: Yes, when a user picks an expert, the expert's available schedule should show as a calendar or timeline. Users should be able to freely pick the date and time they want and request a booking.
+
+**Developer**: How does payment work right after the booking request? Is the booking confirmed only when payment happens together with the request?
+
+**CEO**: The booking should move to "confirmed" only when payment is complete. If payment fails because of a card limit or another reason, of course that booking must not be completed — it should stay pending or be cancelled.
+
+**Developer**: So the business rule is that if payment fails, the booking isn't created or the slot is released. Where do experts check their booked schedule?
+
+**CEO**: Experts should have their own dashboard in our system, where they can watch and manage booking requests and confirmed schedules in real time.
+
+**Planner**: Expert sign-up must be different from regular sign-up — do we need a separate verification or approval process? We can't let just anyone work as an expert.
+
+**CEO**: Good point. Experts can't start right after applying. We'll require an admin approval policy: a site admin reviews their documents or qualifications and "approves" them, and only then do they appear in the expert list and join the booking system.
+
+**Planner**: When a booking is done, sending notifications to users and experts would help usability. Which notification channel do you prefer?
+
+**CEO**: We definitely need notifications, to tell people when a booking is confirmed or cancelled. But whether to send them by email or SMS — we need to look more at dev resources and cost. Let's not decide that yet.
+
+**Developer**: Do we need to set rules for cancellation fees or refunds now too?
+
+**CEO**: The cancellation fee policy needs legal review and talks with marketing too. It's hard to decide today, so let's leave it as an undecided item as well. We'll settle it at the 2nd meeting.
+
+**Planner**: Got it. I'll gather today's decided policies and pending items into cleaned-up meeting summary notes for the first spec draft.`;
+
+      const blob = new Blob([rawText], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'meeting-notes-raw.md';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadMeetingNotes() {
+      const text = `We want to build an online expert consultation service.
+
+Users can search for experts after signing up.
+Experts are grouped by field.
+Users can choose a session date and time.
+A booking is confirmed when payment is complete.
+If payment fails, the booking must not be completed.
+
+Experts can check their own bookings.
+Admins can approve expert sign-ups.
+
+A notification must be sent when a booking is complete.
+Whether to send notifications by email or SMS is not decided yet.
+The cancellation fee policy is not decided yet either.`;
+      
+      const blob = new Blob([text], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'meeting-notes.md';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadPetCareMeetingNotes() {
+      const text = `# Pet Home Care and Matching Service: 1st Planning Meeting Notes
+
+**Date**: 2026-07-12 10:00 - 11:30
+**Attendees**: PM (planner), Dev (developer), CEO
+
+---
+
+**CEO**: The heart of our service is matching trustworthy pet sitters with pet owners. Identity checks and real-time monitoring are key so owners can trust us with their pets.
+
+**PM**: Yes, exactly. First, at sign-up users should be split into owners (regular members) and pet sitters (professional members). Pet sitters should appear in the list only after an admin reviews their certificates and identity and 'approves' them.
+
+**Dev**: How does payment work after a pet sitter match request?
+**CEO**: When an owner picks a schedule and pet sitter and applies, the payment window opens only after the pet sitter 'accepts'. If the owner doesn't pay within 1 hour after acceptance, the request is cancelled automatically.
+**Dev**: So when payment succeeds, the booking is confirmed and the care status can be updated in real time?
+**PM**: Right. On the booking day, each time the pet sitter visits and updates the status — 'care started', 'on a walk', 'fed', 'care ended' — the owner should get a push notification.
+
+**Dev**: How should we set the cancellation policy?
+**CEO**: Full refund up to 24 hours before the service, a 50% penalty for cancellations from 24 to 2 hours before, and no refund for cancellations less than 2 hours before. If a pet sitter no-shows, give the owner a 100% refund plus 200% points as compensation, and start a process to suggest a replacement pet sitter. This replacement flow needs specific policy discussion.`;
+      
+      const blob = new Blob([text], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'pet-care-meeting-notes.md';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadStudyCafeMeetingNotes() {
+      const text = `# Self-Service Study Café Booking and IoT Control Service: 1st Planning Meeting Notes
+
+**Date**: 2026-07-13 14:00 - 15:30
+**Attendees**: PM (planner), IoT Dev (hardware developer), Web Dev (web developer)
+
+---
+
+**PM**: The goal of the self-service study café is for users to book and pay on mobile, with on-site door locks and air conditioning fully automated.
+
+**IoT Dev**: When a booking is confirmed (payment done), the server must send a command to the IoT gateway to create a door lock password (PIN code). For security, the PIN will only be active from 10 minutes before the booking starts until it ends.
+**Web Dev**: So users get a one-time password by message or app push 10 minutes before the booking starts.
+**PM**: Yes. Also, when the booking starts, the air conditioning and room lights turn on automatically, and 5 minutes before the end the room speaker plays "You have 5 minutes left." At the end time, power and lights are cut immediately and the door lock stops working.
+
+**Web Dev**: What if a user wants to extend their time?
+**PM**: They can book and pay for an extension in units of at least 1 hour, only when there's no booking in the next slot.
+**IoT Dev**: What if an IoT communication failure means the door doesn't open at the booking time, or the PIN code fails to send?
+**PM**: That's a very important exception! If the PIN fails to send, a real-time failure alert must appear on the admin web dashboard right away, and when the user presses an 'emergency open' button, we need a fail-safe: the server opens the door remotely through a backup network, or connects an emergency call to the admin right away. This exception manual and the alert conditions need more design.`;
+      
+      const blob = new Blob([text], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'study-cafe-meeting-notes.md';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Skill Task 1~3은 메인/상세 보드의 Developer Skill 카드로 분리했고,
+      // 기존 Mission 1~4는 추가 Mission 5~8로 이전했다.
+      // 통합 Codex 실습실에는 AI Task 1~6만 남긴다.
+      ['6', '7', '8', '9', '10', '11', '12'].forEach(step => {
+        document.querySelector(`.step-card[data-step="${step}"]`)?.remove();
+        document.querySelectorAll(`#detail-${step}`).forEach(panel => panel.remove());
+      });
+
+      const cards = document.querySelectorAll('.step-card');
+      const panels = document.querySelectorAll('.detail-panel');
+
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          const stepNumber = card.getAttribute('data-step');
+
+          // Remove active class from all cards and panels
+          cards.forEach(c => c.classList.remove('active'));
+          panels.forEach(p => p.classList.remove('active'));
+
+          // Add active class to clicked card and relative panel
+          card.classList.add('active');
+          const targetPanel = document.getElementById(`detail-${stepNumber}`);
+          if (targetPanel) {
+            targetPanel.classList.add('active');
+          }
+
+          // Smoothly scroll the card inside the container to make it centered
+          card.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center'
+          });
+        });
+      });
+
+      // Slider navigation buttons
+      const slider = document.querySelector('.step-slider');
+      const prevBtn = document.querySelector('.slider-btn.prev');
+      const nextBtn = document.querySelector('.slider-btn.next');
+
+      if (slider && prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', () => {
+          slider.scrollBy({ left: -180, behavior: 'smooth' });
+        });
+
+        nextBtn.addEventListener('click', () => {
+          slider.scrollBy({ left: 180, behavior: 'smooth' });
+        });
+
+        const updateButtons = () => {
+          const scrollLeft = slider.scrollLeft;
+          const maxScroll = slider.scrollWidth - slider.clientWidth;
+          
+          prevBtn.style.opacity = scrollLeft <= 5 ? '0.3' : '1';
+          prevBtn.style.pointerEvents = scrollLeft <= 5 ? 'none' : 'auto';
+          
+          nextBtn.style.opacity = scrollLeft >= maxScroll - 5 ? '0.3' : '1';
+          nextBtn.style.pointerEvents = scrollLeft >= maxScroll - 5 ? 'none' : 'auto';
+        };
+
+        slider.addEventListener('scroll', updateButtons);
+        window.addEventListener('resize', updateButtons);
+        // Run once on load
+        setTimeout(updateButtons, 200);
+      }
+
+      // Auto select step based on query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const stepParam = urlParams.get('step');
+      if (stepParam !== null) {
+        const targetCard = document.querySelector(`.step-card[data-step="${stepParam}"]`);
+        if (targetCard) {
+          targetCard.click();
+        }
+      }
+    });
+  </script>
+
+  <footer class="site-footer" style="background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08); padding: 32px 20px; text-align: center; color: #4A605A; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company: Edunity Lab Co., Ltd.</span> | <span>CEO: Lee Gi-taek</span> | <span>Address: 2F Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul, Korea</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Phone: +82-2-6240-0053</span> | <span>Business Registration No.: 132-86-35644</span> | <span>Mail-Order Business Reg. No.: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+  <script src="../shared/pre-learning-log.js"></script>
+</body>
+</html>

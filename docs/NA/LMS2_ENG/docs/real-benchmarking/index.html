@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <script id="auth-guard">
+    (function () {
+      function getCookie(name) {
+        var prefix = name + '=';
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i += 1) {
+          var value = cookies[i].trim();
+          if (value.indexOf(prefix) === 0) return decodeURIComponent(value.substring(prefix.length));
+        }
+        return null;
+      }
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser) {
+        var sessionString = localStorage.getItem('currentUserSession');
+        if (sessionString) {
+          try {
+            var session = JSON.parse(sessionString);
+            if (Date.now() < session.expiresAt) loggedInUser = session.value;
+          } catch (error) { console.error(error); }
+        }
+      }
+      if (!loggedInUser) window.location.href = '../login/login.html';
+    })();
+  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A 4-step PBL workspace to analyze, document, build with AI and compare the growth structure of Jumia·YouTube·Jiji">
+  <title>Real Benchmarking PBL | ACE AI SW Startup Training</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="styles.css?v=20261027_02">
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+  <a class="skip-link" href="#mission-workspace">Skip to mission content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html" aria-label="Back to ACE AI SW Startup Training curriculum">
+        <span class="brand-mark" aria-hidden="true">RB</span>
+        <span><strong>REAL BENCHMARKING</strong><small>Growth Reverse Engineering Lab</small></span>
+      </a>
+      <nav class="top-actions" aria-label="Page tools">
+        <a class="button button-ghost" href="resources/리얼_벤치마킹_PBL_학생용_워크북.pdf" download>PDF workbook</a>
+        <a class="button button-ghost hide-mobile" href="#rubric">Grading criteria</a>
+        <a class="button button-muted" href="../index.html">← Curriculum</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">REAL PROJECT 01 · SELF-PACED PBL</p>
+        <h1 id="page-title">Take apart a successful service's growth<br><span>with evidence, then rebuild it.</span></h1>
+        <p class="hero-lead">Pick one of Jumia·YouTube·Jiji, observe it, reverse-engineer it into 3 docs, build with AI, then prove how it differs from the original. It's not copying screens — it's <strong>a project applying growth principles to a new context</strong>.</p>
+        <div class="hero-actions">
+          <button class="button button-primary" type="button" data-jump-mission="1">Start Mission 1</button>
+          <a class="button button-secondary" href="resources/PBL_MISSIONS.md" download>Full guide MD</a>
+        </div>
+        <ul class="hero-meta" aria-label="Project info">
+          <li><strong>18–27h</strong><span>Suggested study time</span></li>
+          <li><strong>4 Missions</strong><span>Done in order</span></li>
+          <li><strong>100 pts</strong><span>Total score</span></li>
+          <li><strong>1 Flow</strong><span>Main user flow</span></li>
+        </ul>
+      </div>
+      <aside class="start-card" aria-labelledby="start-title">
+        <div class="start-card-head">
+          <div><p class="kicker">PROJECT SETUP</p><h2 id="start-title">My project setup</h2></div>
+          <span class="save-state" id="saveState" aria-live="polite">Auto-save</span>
+        </div>
+        <label class="field-label" for="projectName">Name or team name</label>
+        <input class="text-input" id="projectName" type="text" maxlength="32" placeholder="e.g. team-spark" autocomplete="off">
+        <fieldset class="service-picker">
+          <legend>Service to benchmark</legend>
+          <button type="button" data-service="jumia"><span>01</span><strong>Jumia</strong><small>Browse → trust → purchase intent</small></button>
+          <button type="button" data-service="youtube"><span>02</span><strong>YouTube</strong><small>Discover → watch → return</small></button>
+          <button type="button" data-service="jiji"><span>03</span><strong>Jiji</strong><small>Local → trust → contact intent</small></button>
+        </fieldset>
+        <div class="setup-output">
+          <span>Work path to create</span>
+          <code id="projectPath">teams/my-name/service/</code>
+          <button type="button" id="copyCommand">Copy folder creation command</button>
+        </div>
+      </aside>
+    </section>
+
+    <section class="progress-shell" aria-labelledby="progress-title">
+      <div class="progress-summary">
+        <div><p class="kicker">YOUR PROGRESS</p><h2 id="progress-title"><span id="completedCount">0</span> / <span id="totalCount">32</span> checkpoints done</h2></div>
+        <strong id="progressPercent">0%</strong>
+      </div>
+      <div class="progress-track" role="progressbar" aria-label="Overall project progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progressBar"></span></div>
+      <div class="mission-map" role="list" aria-label="4-mission flow">
+        <button class="mission-node is-active" type="button" data-mission-tab="1" role="listitem"><span>01</span><strong>Observe</strong><small>25 pts · 4–6h</small></button>
+        <span class="map-arrow" aria-hidden="true">→</span>
+        <button class="mission-node" type="button" data-mission-tab="2" role="listitem"><span>02</span><strong>Document</strong><small>25 pts · 4–6h</small></button>
+        <span class="map-arrow" aria-hidden="true">→</span>
+        <button class="mission-node" type="button" data-mission-tab="3" role="listitem"><span>03</span><strong>Build</strong><small>30 pts · 6–10h</small></button>
+        <span class="map-arrow" aria-hidden="true">→</span>
+        <button class="mission-node" type="button" data-mission-tab="4" role="listitem"><span>04</span><strong>Compare</strong><small>20 pts · 3–5h</small></button>
+      </div>
+    </section>
+
+    <section class="workspace" id="mission-workspace">
+      <aside class="workspace-nav" aria-label="Project navigation">
+        <p class="nav-label">MISSION BOARD</p>
+        <button class="side-tab is-active" type="button" data-mission-tab="1"><span>01</span><span><strong>Observe growth structure</strong><small>OBS · AARRR · EXP</small></span><em data-mission-status="1">0/8</em></button>
+        <button class="side-tab" type="button" data-mission-tab="2"><span>02</span><span><strong>Reverse-engineer 3 docs</strong><small>PRD · BM · ADR</small></span><em data-mission-status="2">0/8</em></button>
+        <button class="side-tab" type="button" data-mission-tab="3"><span>03</span><span><strong>AI-based build</strong><small>BUILD · TEST · LOG</small></span><em data-mission-status="3">0/8</em></button>
+        <button class="side-tab" type="button" data-mission-tab="4"><span>04</span><span><strong>Compare and reflect</strong><small>CMP · LEARN · NEXT</small></span><em data-mission-status="4">0/8</em></button>
+        <a class="side-link" href="#rubric"><span>◆</span><span><strong>Grading rubric</strong><small>Pass conditions · 100 pts</small></span></a>
+        <a class="side-link" href="#resources"><span>↓</span><span><strong>Resources</strong><small>MD · PDF · official links</small></span></a>
+      </aside>
+
+      <div class="mission-content">
+        <article class="mission-panel is-active" data-mission-panel="1" aria-labelledby="mission1-title">
+          <header class="mission-header cyan">
+            <div><p class="eyebrow">MISSION 01 · DISCOVER</p><h2 id="mission1-title">Observe a Real Service's Growth Structure</h2><p>Find the features on public screens that drive users' next action, and explain the growth loop with observable evidence.</p></div>
+            <div class="mission-score"><strong>25</strong><span>POINTS</span></div>
+          </header>
+          <div class="mission-facts"><span>Input <strong>public screens·official sources</strong></span><span>Output <strong>OBS 10+ · EXP 5+</strong></span><span>Done signal <strong>evidence linked to every claim</strong></span></div>
+          <section class="content-block"><div class="section-index">01</div><div><h3>Fix what you'll observe</h3><p>Pick only one service, one main user and one main task. Internal algorithms or revenue are hypotheses, not facts, unless there's an official source.</p><div class="service-guide"><a href="https://www.jumia.com.ng/" target="_blank" rel="noopener"><strong>Jumia</strong><span>Discover products → browse details → check trust → purchase intent</span></a><a href="https://www.youtube.com/" target="_blank" rel="noopener"><strong>YouTube</strong><span>Discover content → watch → next video → return</span></a><a href="https://jiji.ng/" target="_blank" rel="noopener"><strong>Jiji</strong><span>Choose area → find listings → check trust → intent to contact seller</span></a></div></div></section>
+          <section class="content-block"><div class="section-index">02</div><div><h3>Do 3 observation sessions</h3><ol class="step-list"><li><strong>First visit · 30 min</strong><span>While logged out, record the value, choices, CTAs and your 5-second impression.</span></li><li><strong>Main task · 45 min</strong><span>Record clicks, scrolls and inputs, expected vs actual results, and trust/drop-off factors.</span></li><li><strong>Return features · 30 min</strong><span>Find where saving, subscribing, notifications, reviews and sharing lead to the next visit or value for others.</span></li></ol></div></section>
+          <section class="content-block"><div class="section-index">03</div><div><h3>Link evidence with IDs</h3><div class="code-card"><div><span>OBSERVATION TEMPLATE</span><button type="button" data-copy-target="obsTemplate">Copy</button></div><pre id="obsTemplate">## OBS-001 — [observation title]\n- Date / URL / environment:\n- User goal:\n- Fact observed:\n- My interpretation:\n- Effect on the next action:\n- AARRR stage:\n- Evidence file:\n- Uncertainty:</pre></div><p class="tip">Observation: "Product cards show ratings and review counts." / Interpretation: "This seems to reduce uncertainty before opening details." Don't mix the two.</p></div></section>
+          <section class="content-block"><div class="section-index">04</div><div><h3>Turn AARRR into a repeating growth loop</h3><div class="loop"><span>User action</span><b>→</b><span>Service value grows</span><b>→</b><span>Other users respond</span><b>→</b><span>Acquisition·return</span></div><p>Write the 3 strongest OBS, the hidden links, the conditions where the loop stops, the principles to borrow and the things you must not copy.</p></div></section>
+          <section class="check-card"><div class="check-head"><div><p class="kicker">PASS GATE</p><h3>Mission 1 done check</h3></div><strong data-check-count="1">0 / 8</strong></div><div class="check-grid">
+            <label><input type="checkbox" data-check="m1-1"><span>I defined the service, user and main task in one sentence.</span></label>
+            <label><input type="checkbox" data-check="m1-2"><span>I made the required project folder structure.</span></label>
+            <label><input type="checkbox" data-check="m1-3"><span>I did 3 observation sessions with different purposes.</span></label>
+            <label><input type="checkbox" data-check="m1-4"><span>10+ OBS have a date, URL, environment and screenshot.</span></label>
+            <label><input type="checkbox" data-check="m1-5"><span>I separated facts from interpretations in every record.</span></label>
+            <label><input type="checkbox" data-check="m1-6"><span>I marked an OBS or 'not observed' for each AARRR stage.</span></label>
+            <label><input type="checkbox" data-check="m1-7"><span>I explained the growth loop and when it stops.</span></label>
+            <label><input type="checkbox" data-check="m1-8"><span>I made 5 EXP hypotheses with metrics and success criteria.</span></label>
+          </div></section>
+          <footer class="mission-footer"><a href="resources/MISSION_1_GROWTH_BENCHMARK.md" download>Mission 1 detailed MD ↓</a><button type="button" class="button button-primary" data-next-mission="2">Go to Mission 2 →</button></footer>
+        </article>
+
+        <article class="mission-panel" data-mission-panel="2" aria-labelledby="mission2-title" hidden>
+          <header class="mission-header green"><div><p class="eyebrow">MISSION 02 · DEFINE</p><h2 id="mission2-title">Reverse-Engineer Your Observations into 3 Docs</h2><p>Turn Mission 1's evidence into actionable contracts: a product opportunity, a business model and a base engineering design.</p></div><div class="mission-score"><strong>25</strong><span>POINTS</span></div></header>
+          <div class="mission-facts"><span>Input <strong>OBS · GROWTH LOOP</strong></span><span>Output <strong>3 core MDs</strong></span><span>Done signal <strong>OBS→PRD→BM→ADR</strong></span></div>
+          <section class="content-block"><div class="section-index">01</div><div><h3>Start with an evidence trace table</h3><p>Trace in one line where each decision started. This is the central tool that stops the docs from describing different products.</p><div class="trace-row"><span>OBS-001</span><b>→</b><span>PRD-001</span><b>→</b><span>BM-001</span><b>→</b><span>ADR-001</span></div></div></section>
+          <section class="content-block"><div class="section-index">02</div><div><h3>Write the 3 docs in order</h3><div class="document-grid"><a href="resources/OPPORTUNITY_EXAMPLE.md" download><em>PRODUCT</em><strong>OPPORTUNITY.md</strong><span>Problem·journey·PRD·MVP scope·success metrics</span><small>Download example →</small></a><a href="resources/BUSINESS_MODEL_EXAMPLE.md" download><em>BUSINESS</em><strong>BUSINESS_MODEL.md</strong><span>Value exchange·AARRR·Canvas·BM hypotheses·risks</span><small>Download example →</small></a><a href="resources/BASE_ARCHITECTURE_EXAMPLE.md" download><em>ENGINEERING</em><strong>BASE_ARCHITECTURE.md</strong><span>Flow·data·events·quality·tests·ADR</span><small>Download example →</small></a></div></div></section>
+          <section class="content-block"><div class="section-index">03</div><div><h3>Cut the MVP to 1 flow and 1–3 screens</h3><ul class="plain-list"><li>Can a user experience it in one visit?</li><li>Does it show the top growth hypothesis?</li><li>Can it be built and tested in 6–10 hours?</li><li>Can it be demoed without real personal data, payments or outside services?</li></ul><p class="tip">Login, payment, live chat and recommendation algorithms can be replaced with mock data.</p></div></section>
+          <section class="content-block"><div class="section-index">04</div><div><h3>Give AI contradiction checks, not generation</h3><div class="code-card"><div><span>CROSS-DOC REVIEW PROMPT</span><button type="button" data-copy-target="reviewPrompt">Copy</button></div><pre id="reviewPrompt">The three docs below define the product, business and tech of the same service.\nDon't create new features or facts; find only these:\n1. PRD/BM/ADR items with no OBS evidence\n2. Places using the same term differently\n3. Conflicts between product scope and dev scope\n4. Success criteria that can't be measured\n5. Personal data, copyright and security risks</pre></div></div></section>
+          <section class="check-card"><div class="check-head"><div><p class="kicker">PASS GATE</p><h3>Mission 2 done check</h3></div><strong data-check-count="2">0 / 8</strong></div><div class="check-grid">
+            <label><input type="checkbox" data-check="m2-1"><span>All three docs describe the same user and main task.</span></label>
+            <label><input type="checkbox" data-check="m2-2"><span>I wrote the problem, journey and PRD in OPPORTUNITY.md.</span></label>
+            <label><input type="checkbox" data-check="m2-3"><span>I wrote the value exchange and BM hypotheses in BUSINESS_MODEL.md.</span></label>
+            <label><input type="checkbox" data-check="m2-4"><span>I wrote the flow, data and ADRs in BASE_ARCHITECTURE.md.</span></label>
+            <label><input type="checkbox" data-check="m2-5"><span>Every core PRD has OBS evidence and acceptance criteria.</span></label>
+            <label><input type="checkbox" data-check="m2-6"><span>I fixed the MVP in/out scope and 1 main flow.</span></label>
+            <label><input type="checkbox" data-check="m2-7"><span>I kept personal data out of analytics events.</span></label>
+            <label><input type="checkbox" data-check="m2-8"><span>I fixed broken links in the OBS→PRD→BM→ADR trace table.</span></label>
+          </div></section>
+          <footer class="mission-footer"><a href="resources/MISSION_2_DOCUMENTATION.md" download>Mission 2 detailed MD ↓</a><button type="button" class="button button-primary" data-next-mission="3">Go to Mission 3 →</button></footer>
+        </article>
+
+        <article class="mission-panel" data-mission-panel="3" aria-labelledby="mission3-title" hidden>
+          <header class="mission-header violet"><div><p class="eyebrow">MISSION 03 · BUILD</p><h2 id="mission3-title">Build the Site with AI Based on Your Docs</h2><p>Use the 3 docs as a build contract to make a main user flow with start, key action, done and failure states.</p></div><div class="mission-score"><strong>30</strong><span>POINTS</span></div></header>
+          <div class="mission-facts"><span>Input <strong>PRD · BM · ADR</strong></span><span>Output <strong>WEB · TEST · AI LOG</strong></span><span>Done signal <strong>LINT·BUILD pass</strong></span></div>
+          <section class="content-block"><div class="section-index">01</div><div><h3>Check the environment and build baseline first</h3><div class="terminal"><code>node --version<br>npm --version<br>git --version<br><br>npx create-next-app@latest development/apps/web</code></div><p>After installing, record the build target, linked IDs, how to confirm done and out-of-scope items in `development/README.md`. If the official Next.js requirements differ from this guide, follow the official docs and note why in an ADR.</p></div></section>
+          <section class="content-block"><div class="section-index">02</div><div><h3>Finish in 3 vertical cycles</h3><ol class="step-list"><li><strong>Understanding the value</strong><span>Make it possible to understand the audience and value and find the CTA within 5 seconds.</span></li><li><strong>Key action</strong><span>State changes through browsing or input, handling loading, empty results and wrong input.</span></li><li><strong>Done and next action</strong><span>Link done feedback to the growth hypothesis's next action, like saving, sharing or browsing more.</span></li></ol></div></section>
+          <section class="content-block"><div class="section-index">03</div><div><h3>Lock the scope and done criteria for every AI request</h3><div class="code-card"><div><span>AI BUILD PROMPT</span><button type="button" data-copy-target="buildPrompt">Copy</button></div><pre id="buildPrompt">Role: Next.js development partner\nGoal: [user result for this cycle]\nDocs you must follow: PRD-___ / BM-___ / ADR-___\nPaths you may change: [files or folders]\nDone criteria: screen conditions / failure states / mobile·accessibility / tests\nDon'ts: new features, copying original assets, secrets, unverified packages\nFirst suggest a work plan and the files to change.</pre></div><p>After each task, record the request, changed files, checks, AI errors and human change/reject decisions in `AI-###`.</p></div></section>
+          <section class="content-block"><div class="section-index">04</div><div><h3>Leave reproducible checks, not just what you saw</h3><div class="verify-grid"><div><strong>Features</strong><span>Normal·empty·error·done states</span></div><div><strong>Accessibility</strong><span>Keyboard·focus·WCAG</span></div><div><strong>Responsive</strong><span>360px / 1440px</span></div><div><strong>Code</strong><span>npm run lint / build</span></div><div><strong>Performance</strong><span>Lighthouse before·after</span></div><div><strong>Tests</strong><span>Reproduce the main flow or E2E</span></div></div></div></section>
+          <section class="check-card"><div class="check-head"><div><p class="kicker">PASS GATE</p><h3>Mission 3 done check</h3></div><strong data-check-count="3">0 / 8</strong></div><div class="check-grid">
+            <label><input type="checkbox" data-check="m3-1"><span>I can run the site in a new terminal using only the README.</span></label>
+            <label><input type="checkbox" data-check="m3-2"><span>The main flow's start, key action and done work.</span></label>
+            <label><input type="checkbox" data-check="m3-3"><span>I built the needed empty states, error states and recovery guidance.</span></label>
+            <label><input type="checkbox" data-check="m3-4"><span>The build and tests link to PRD/BM/ADR IDs.</span></label>
+            <label><input type="checkbox" data-check="m3-5"><span>I checked 360px·1440px and keyboard use.</span></label>
+            <label><input type="checkbox" data-check="m3-6"><span>npm run lint and npm run build pass.</span></label>
+            <label><input type="checkbox" data-check="m3-7"><span>I wrote 5+ AI-### work records.</span></label>
+            <label><input type="checkbox" data-check="m3-8"><span>I recorded 3 Lighthouse issues and compared before and after.</span></label>
+          </div></section>
+          <footer class="mission-footer"><a href="resources/MISSION_3_AI_BUILD.md" download>Mission 3 detailed MD ↓</a><button type="button" class="button button-primary" data-next-mission="4">Go to Mission 4 →</button></footer>
+        </article>
+
+        <article class="mission-panel" data-mission-panel="4" aria-labelledby="mission4-title" hidden>
+          <header class="mission-header orange"><div><p class="eyebrow">MISSION 04 · LEARN</p><h2 id="mission4-title">Prove the Differences Between the Original and Your Build</h2><p>Use the same task and conditions on both sites to prove where growth principles were kept, improved, lost or changed.</p></div><div class="mission-score"><strong>20</strong><span>POINTS</span></div></header>
+          <div class="mission-facts"><span>Input <strong>original·build·TEST</strong></span><span>Output <strong>CMP 10+ · EXP 3</strong></span><span>Done signal <strong>evidence for every conclusion</strong></span></div>
+          <section class="content-block"><div class="section-index">01</div><div><h3>Fix the same comparison baseline</h3><p>First record the original and build versions, measurement time, device, browser, screen size, login state and the shared task. Compare "how each reaches the same goal," not "are they similar."</p><div class="trace-row"><span>Same start</span><b>→</b><span>Same task</span><b>→</b><span>Same end</span><b>→</b><span>Same conditions</span></div></div></section>
+          <section class="content-block"><div class="section-index">02</div><div><h3>Repeat 3 times, switching the order</h3><p>Alternate between the original and your build, recording completion, time, clicks and inputs, blockers and errors. Also write the limit that testing alone doesn't represent all users.</p><div class="verify-grid"><div><strong>Understanding the value</strong><span>5-second record</span></div><div><strong>Task efficiency</strong><span>Time·steps·errors</span></div><div><strong>Growth structure</strong><span>Next action·return</span></div><div><strong>Trust</strong><span>Evidence of less worry</span></div><div><strong>BM link</strong><span>Value exchange</span></div><div><strong>Tech quality</strong><span>Accessibility·performance</span></div><div><strong>Originality</strong><span>Adapting the principle</span></div></div></div></section>
+          <section class="content-block"><div class="section-index">03</div><div><h3>Make CMP records your basis for judgment</h3><div class="code-card"><div><span>COMPARISON TEMPLATE</span><button type="button" data-copy-target="cmpTemplate">Copy</button></div><pre id="cmpTemplate">## CMP-001 — [comparison title]\n- Area / linked evidence:\n- What you saw in the original:\n- What you saw in your build:\n- Category: kept/improved/lost/intentional change\n- Evidence file or measurement:\n- Why the difference happened:\n- Effect on users:</pre></div></div></section>
+          <section class="content-block"><div class="section-index">04</div><div><h3>Close the project with 3 next experiments</h3><p>Each `EXP-NEXT-###` must have the CMP that revealed it, the one thing to change, primary and side-effect metrics, success/failure criteria, the smallest build scope and why it's prioritized.</p><p class="tip">"Improve the design" isn't an experiment. Make one change and one main metric at a time.</p></div></section>
+          <section class="check-card"><div class="check-head"><div><p class="kicker">PASS GATE</p><h3>Mission 4 done check</h3></div><strong data-check-count="4">0 / 8</strong></div><div class="check-grid">
+            <label><input type="checkbox" data-check="m4-1"><span>I fixed a shared task and conditions for the original and build.</span></label>
+            <label><input type="checkbox" data-check="m4-2"><span>I tested 3 times, switching the order.</span></label>
+            <label><input type="checkbox" data-check="m4-3"><span>10+ CMPs have measurements or screen evidence.</span></label>
+            <label><input type="checkbox" data-check="m4-4"><span>I classified differences as kept, improved, lost or intentional change.</span></label>
+            <label><input type="checkbox" data-check="m4-5"><span>I recorded Lighthouse under the same conditions, or why it was skipped.</span></label>
+            <label><input type="checkbox" data-check="m4-6"><span>I analyzed cases where AI judgments were adopted, changed or rejected.</span></label>
+            <label><input type="checkbox" data-check="m4-7"><span>The 3 next experiments have success/failure criteria.</span></label>
+            <label><input type="checkbox" data-check="m4-8"><span>I stated the limits of the comparison and possible overstatement.</span></label>
+          </div></section>
+          <footer class="mission-footer"><a href="resources/MISSION_4_COMPARISON.md" download>Mission 4 detailed MD ↓</a><button type="button" class="button button-primary" id="downloadProgress">Get progress log MD ↓</button></footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="rubric-section" id="rubric" aria-labelledby="rubric-title">
+      <div class="section-heading"><div><p class="eyebrow">EVALUATION · 100 POINTS</p><h2 id="rubric-title">We grade the links between evidence, more than results</h2></div><a href="resources/EVALUATION_RUBRIC.md" download>Full rubric MD ↓</a></div>
+      <div class="rubric-grid">
+        <article><span>01 · 25 pts</span><h3>Research and growth hypotheses</h3><dl><div><dt>Folder·record structure</dt><dd>5</dd></div><div><dt>Observation evidence</dt><dd>8</dd></div><div><dt>Growth loop</dt><dd>7</dd></div><div><dt>Experiment hypotheses</dt><dd>5</dd></div></dl></article>
+        <article><span>02 · 25 pts</span><h3>3 docs</h3><dl><div><dt>Product doc</dt><dd>8</dd></div><div><dt>BM doc</dt><dd>7</dd></div><div><dt>Engineering design</dt><dd>7</dd></div><div><dt>Traceability</dt><dd>3</dd></div></dl></article>
+        <article><span>03 · 30 pts</span><h3>AI-based build</h3><dl><div><dt>Main flow</dt><dd>10</dd></div><div><dt>Matches docs</dt><dd>6</dd></div><div><dt>Quality</dt><dd>6</dd></div><div><dt>Tests·AI accountability</dt><dd>8</dd></div></dl></article>
+        <article><span>04 · 20 pts</span><h3>Comparison and learning</h3><dl><div><dt>Comparison design</dt><dd>6</dd></div><div><dt>Comparison evidence</dt><dd>5</dd></div><div><dt>Critical reflection</dt><dd>5</dd></div><div><dt>Next experiments</dt><dd>4</dd></div></dl></article>
+      </div>
+      <div class="pass-rule"><strong>Final pass</strong><span>70+ total points</span><span>All 4 missions submitted</span><span>50%+ on each mission</span><span>Main flow runs</span><span>No safety rule violations</span></div>
+      <details class="safety"><summary>Safety and ethics rules you must follow</summary><ul><li>Use only public screens and official public material; no bypassing auth, private APIs or mass scraping.</li><li>Don't copy original logos, images, videos, text or source code; use a new name and legal assets.</li><li>Don't store or submit real personal data, locations, payment info or secrets.</li><li>People check AI-made claims and code, and keep usage records including rejected suggestions.</li></ul></details>
+    </section>
+
+    <section class="resource-section" id="resources" aria-labelledby="resources-title">
+      <div class="section-heading"><div><p class="eyebrow">RESOURCE LIBRARY</p><h2 id="resources-title">Materials so you can finish on your own</h2></div></div>
+      <div class="resource-columns">
+        <article><h3>Project docs</h3><a href="resources/리얼_벤치마킹_PBL_학생용_워크북.pdf" download><span>PDF</span>Full student workbook</a><a href="resources/PBL_MISSIONS.md" download><span>MD</span>Full PBL guide</a><a href="resources/EVALUATION_RUBRIC.md" download><span>MD</span>100-point grading rubric</a></article>
+        <article><h3>Official learning resources</h3><a href="https://nextjs.org/docs/app/getting-started/installation" target="_blank" rel="noopener"><span>↗</span>Installing and starting Next.js</a><a href="https://playwright.dev/docs/writing-tests" target="_blank" rel="noopener"><span>↗</span>Writing Playwright tests</a><a href="https://developer.chrome.com/docs/lighthouse" target="_blank" rel="noopener"><span>↗</span>Official Lighthouse guide</a><a href="https://www.w3.org/WAI/WCAG22/quickref/" target="_blank" rel="noopener"><span>↗</span>WCAG 2.2 Quick Reference</a></article>
+        <article><h3>Analysis frameworks</h3><a href="https://www.strategyzer.com/library/the-business-model-canvas" target="_blank" rel="noopener"><span>↗</span>Business Model Canvas</a><a href="https://support.google.com/analytics/answer/9322688" target="_blank" rel="noopener"><span>↗</span>Google Analytics events</a><a href="https://www.nngroup.com/articles/ten-usability-heuristics/" target="_blank" rel="noopener"><span>↗</span>10 usability heuristics</a><a href="https://web.dev/explore/learn-core-web-vitals" target="_blank" rel="noopener"><span>↗</span>Core Web Vitals</a></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><p>Real Benchmarking PBL · ACE AI SW Startup Training</p><div><button type="button" id="resetProgress">Reset progress</button><a href="../index.html">Back to curriculum</a></div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js?v=20261117_01"></script>
+</body>
+</html>

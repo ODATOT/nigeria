@@ -1,33 +1,64 @@
 <!DOCTYPE html>
 <html lang="ko"><head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
   <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
   <meta http-equiv="refresh" content="0; url=../thankyou.html" /> --><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Day 5 교재 | AI Prompt Architecture & System Prompt</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
 <style>
 :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --secondary: #0891b2;
-      --accent: #7c3aed;
-      --text-dark: #0f172a;
-      --text-muted: #475569;
-      --bg-page: #f8fafc;
-      --card-bg: #ffffff;
-      --border-color: #e2e8f0;
-      --code-bg: #1e293b;
-      --code-text: #f8fafc;
-      --success: #047857;
-      --warning: #b45309;
-      --danger: #b91c1c;
-      --paper-tint: #fffdf8;
+      --primary: #2B5CA6;
+      --primary-dark: #2B5CA6;
+      --secondary: #2B5CA6;
+      --accent: #5D4AA8;
+      --text-dark: #243B35;
+      --text-muted: #243B35;
+      --bg-page: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --border-color: rgba(36,59,53,0.14);
+      --code-bg: #FFFFFF;
+      --code-text: #243B35;
+      --success: #27765B;
+      --warning: #856000;
+      --danger: #A83A45;
+      --paper-tint: #FFFFFF;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-      background: #cbd5e1;
+      background: #EEF4EC;
       color: var(--text-dark);
       line-height: 1.55;
       word-break: keep-all;
@@ -40,26 +71,26 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(15, 23, 42, 0.95);
+      background: rgba(246,249,244,0.95);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(36,59,53,0.09);
       padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 20px rgba(36,59,53,0.105);
     }
 
     .no-print-bar .title-group {
       display: flex;
       align-items: center;
       gap: 12px;
-      color: #ffffff;
+      color: #243B35;
     }
 
     .no-print-bar .badge {
-      background: linear-gradient(135deg, #3b82f6, #06b6d4);
-      color: #ffffff;
+      background: linear-gradient(135deg, #D2E0FB, #D2E0FB);
+      color: #243B35;
       font-size: 0.75rem;
       font-weight: 700;
       padding: 4px 10px;
@@ -86,25 +117,25 @@
     }
 
     .btn-print {
-      background: linear-gradient(135deg, #2563eb, #0891b2);
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      background: #27765B;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(36,59,53,0.105);
     }
-    .btn-print:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4); }
+    .btn-print:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(36,59,53,0.14); }
     .btn-download {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      background: #27765B;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(36,59,53,0.105);
     }
-    .btn-download:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4); }
+    .btn-download:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(36,59,53,0.14); }
 
 
     .btn-back {
-      background: rgba(255, 255, 255, 0.1);
-      color: #e2e8f0;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255,255,255,0.85);
+      color: #243B35;
+      border: 1px solid rgba(36,59,53,0.135);
     }
-    .btn-back:hover { background: rgba(255, 255, 255, 0.2); }
+    .btn-back:hover { background: rgba(255,255,255,0.2); }
 
     /* A4 Book Page Container & True A4 Vertical Sheets */
     .book-container {
@@ -126,9 +157,9 @@
       min-height: 297mm;
       box-sizing: border-box;
       position: relative;
-      background: #ffffff;
+      background: #FFFFFF;
       border-radius: 3px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 3px 10px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 16px 40px rgba(36,59,53,0.122), 0 3px 10px rgba(36,59,53,0.063);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -141,8 +172,8 @@
 
     /* Cover Page */
     .cover-page {
-      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%) !important;
-      color: #ffffff;
+      background: linear-gradient(135deg, #F6F9F4 0%, #D2E0FB 50%, #F6F9F4 100%) !important;
+      color: #243B35;
       padding: 24mm 20mm 20mm 20mm;
       display: flex;
       flex-direction: column;
@@ -196,9 +227,9 @@
     }
 
     .cover-tag {
-      background: rgba(59, 130, 246, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      color: #60a5fa;
+      background: rgba(43,92,166,0.22);
+      border: 1px solid rgba(43,92,166,0.4);
+      color: #2B5CA6;
       padding: 6px 16px;
       border-radius: 999px;
       font-size: 0.85rem;
@@ -212,7 +243,7 @@
 
     .cover-subtitle {
       font-size: 1.25rem;
-      color: #94a3b8;
+      color: #4A605A;
       font-weight: 500;
       margin-bottom: 12px;
     }
@@ -221,7 +252,7 @@
       font-size: 2.75rem;
       font-weight: 800;
       line-height: 1.25;
-      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      background: linear-gradient(135deg, #243B35 0%, #4A605A 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 24px;
@@ -229,18 +260,18 @@
 
     .cover-desc {
       font-size: 1.05rem;
-      color: #cbd5e1;
+      color: #4A605A;
       max-width: 650px;
       line-height: 1.7;
     }
 
     .cover-footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      border-top: 1px solid rgba(36,59,53,0.135);
       padding-top: 24px;
       display: flex;
       justify-content: space-between;
       font-size: 0.9rem;
-      color: #94a3b8;
+      color: #4A605A;
     }
 
     /* Typography & Components */
@@ -266,25 +297,25 @@
     h2.section-title {
       font-size: 1.35rem;
       font-weight: 700;
-      color: #1e293b;
+      color: #243B35;
       margin: 32px 0 16px 0;
       padding-bottom: 8px;
-      border-bottom: 2px solid #f1f5f9;
+      border-bottom: 2px solid rgba(36,59,53,0.14);
     }
 
     h3.sub-title {
       font-size: 1.1rem;
       font-weight: 700;
-      color: #334155;
+      color: #243B35;
       margin: 20px 0 10px 0;
     }
 
-    p { margin-bottom: 14px; font-size: 0.98rem; color: #334155; }
+    p { margin-bottom: 14px; font-size: 0.98rem; color: #243B35; }
 
     .lead {
       font-size: 1.08rem;
       line-height: 1.8;
-      color: #1e293b;
+      color: #243B35;
       max-width: 70ch;
     }
 
@@ -297,12 +328,12 @@
 
     .learning-item {
       border-top: 3px solid var(--primary);
-      background: #ffffff;
+      background: #FFFFFF;
       padding: 16px;
-      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
+      box-shadow: 0 3px 12px rgba(36,59,53,0.021);
     }
 
-    .learning-item strong { display: block; margin-bottom: 5px; color: #0f172a; }
+    .learning-item strong { display: block; margin-bottom: 5px; color: #243B35; }
     .learning-item p { margin: 0; font-size: 0.9rem; }
 
     .study-meta {
@@ -313,9 +344,9 @@
     }
 
     .study-chip {
-      background: #eaf2ff;
-      color: #1e40af;
-      border: 1px solid #bfdbfe;
+      background: #F6F9F4;
+      color: #2B5CA6;
+      border: 1px solid rgba(43,92,166,0.55);
       padding: 6px 10px;
       font-size: 0.82rem;
       font-weight: 700;
@@ -324,26 +355,26 @@
     .check-point {
       margin: 22px 0;
       padding: 20px 22px;
-      border: 1px solid #f3d18b;
-      background: #fffbeb;
+      border: 1px solid rgba(133,96,0,0.55);
+      background: #F6F9F4;
     }
 
-    .check-point h3 { color: #92400e; font-size: 1rem; margin-bottom: 10px; }
+    .check-point h3 { color: #856000; font-size: 1rem; margin-bottom: 10px; }
     .check-point ol, .check-point ul, .practice-box ol { padding-left: 22px; }
-    .check-point li, .practice-box li { margin: 7px 0; color: #334155; }
+    .check-point li, .practice-box li { margin: 7px 0; color: #243B35; }
 
     .practice-box {
       margin: 24px 0;
       padding: 22px;
-      border: 2px solid #cbd5e1;
-      background: #ffffff;
+      border: 2px solid rgba(36,59,53,0.14);
+      background: #FFFFFF;
     }
 
     .practice-label {
       display: inline-block;
       margin-bottom: 10px;
-      color: #ffffff;
-      background: #334155;
+      color: #243B35;
+      background: #FFFFFF;
       padding: 4px 9px;
       font-weight: 800;
       font-size: 0.78rem;
@@ -352,8 +383,8 @@
 
     .answer-box {
       margin: 18px 0;
-      border: 1px solid #bbf7d0;
-      background: #f0fdf4;
+      border: 1px solid rgba(39,118,91,0.55);
+      background: #F6F9F4;
       padding: 18px 20px;
     }
 
@@ -372,17 +403,17 @@
       margin: 18px 0;
     }
 
-    .example-panel { padding: 16px; border: 1px solid var(--border-color); background: #fff; }
+    .example-panel { padding: 16px; border: 1px solid var(--border-color); background: #FFFFFF; }
     .example-panel.bad { border-top: 4px solid var(--danger); }
     .example-panel.good { border-top: 4px solid var(--success); }
     .example-panel h4 { margin-bottom: 8px; }
     .example-panel p { margin: 0; font-size: .9rem; }
 
     .rubric { counter-reset: rubric; list-style: none; }
-    .rubric li { position: relative; padding: 10px 10px 10px 42px; border-bottom: 1px solid #e2e8f0; }
-    .rubric li::before { counter-increment: rubric; content: counter(rubric); position: absolute; left: 6px; top: 9px; width: 24px; height: 24px; border-radius: 50%; background: #dbeafe; color: #1d4ed8; display: grid; place-items: center; font-weight: 800; }
+    .rubric li { position: relative; padding: 10px 10px 10px 42px; border-bottom: 1px solid rgba(36,59,53,0.14); }
+    .rubric li::before { counter-increment: rubric; content: counter(rubric); position: absolute; left: 6px; top: 9px; width: 24px; height: 24px; border-radius: 50%; background: #EEF4EC; color: #2B5CA6; display: grid; place-items: center; font-weight: 800; }
 
-    code { font-family: 'Menlo', 'Monaco', 'Courier New', monospace; background: #e2e8f0; padding: 1px 5px; border-radius: 3px; font-size: .88em; }
+    code { font-family: 'Menlo', 'Monaco', 'Courier New', monospace; background: #EEF4EC; padding: 1px 5px; border-radius: 3px; font-size: .88em; }
     .code-box code { background: transparent; padding: 0; color: inherit; }
 
     @media (max-width: 720px) {
@@ -404,19 +435,19 @@
 
     /* Callout Box */
     .callout {
-      background: #f8fafc;
+      background: #FFFFFF;
       border-left: 4px solid var(--primary);
       padding: 18px 22px;
       border-radius: 0 8px 8px 0;
       margin: 20px 0;
     }
-    .callout.cyan { border-left-color: var(--secondary); background: #ecfeff; }
-    .callout.purple { border-left-color: var(--accent); background: #f5f3ff; }
+    .callout.cyan { border-left-color: var(--secondary); background: #F6F9F4; }
+    .callout.purple { border-left-color: var(--accent); background: #FFFFFF; }
 
     .callout-title {
       font-weight: 700;
       font-size: 0.95rem;
-      color: #1e293b;
+      color: #243B35;
       margin-bottom: 6px;
     }
 
@@ -435,9 +466,9 @@
     }
 
     .book-table th {
-      background: #f1f5f9;
+      background: #F6F9F4;
       font-weight: 700;
-      color: #1e293b;
+      color: #243B35;
     }
 
     /* Code Blocks */
@@ -455,7 +486,7 @@
 
     .code-box-header {
       font-size: 0.78rem;
-      color: #94a3b8;
+      color: #4A605A;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 8px;
@@ -473,7 +504,7 @@
     .step-card {
       display: flex;
       gap: 16px;
-      background: #f8fafc;
+      background: #FFFFFF;
       border: 1px solid var(--border-color);
       border-radius: 10px;
       padding: 18px;
@@ -483,7 +514,7 @@
       width: 36px;
       height: 36px;
       background: var(--primary);
-      color: #ffffff;
+      color: #FFFFFF;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -496,13 +527,13 @@
     .step-body h4 {
       font-size: 1.05rem;
       font-weight: 700;
-      color: #1e293b;
+      color: #243B35;
       margin-bottom: 4px;
     }
 
     .step-body p {
       font-size: 0.92rem;
-      color: #64748b;
+      color: #6B7F79;
       margin: 0;
     }
 
@@ -522,7 +553,7 @@
 
     .toc-title {
       font-weight: 600;
-      color: #1e293b;
+      color: #243B35;
     }
 
     .toc-page {
@@ -533,7 +564,7 @@
     /* Standard A4 Screen & Print Styling */
     body {
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-      background: #cbd5e1 !important;
+      background: #EEF4EC !important;
       color: var(--text-dark);
       line-height: 1.55;
       word-break: keep-all;
@@ -548,11 +579,11 @@
     }
 
     .btn-download {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      background: #27765B;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(36,59,53,0.105);
     }
-    .btn-download:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4); }
+    .btn-download:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(36,59,53,0.14); }
 
     /* A4 Book Page Container & True A4 Vertical Sheets */
     .book-container {
@@ -574,9 +605,9 @@
       min-height: 297mm !important;
       box-sizing: border-box !important;
       position: relative !important;
-      background: #ffffff !important;
+      background: #FFFFFF !important;
       border-radius: 3px !important;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25), 0 3px 10px rgba(0, 0, 0, 0.12) !important;
+      box-shadow: 0 16px 40px rgba(36,59,53,0.087), 0 3px 10px rgba(36,59,53,0.042) !important;
       display: flex !important;
       flex-direction: column !important;
       justify-content: space-between !important;
@@ -588,8 +619,8 @@
     }
 
     .cover-page {
-      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%) !important;
-      color: #ffffff !important;
+      background: linear-gradient(135deg, #F6F9F4 0%, #D2E0FB 50%, #F6F9F4 100%) !important;
+      color: #243B35 !important;
       padding: 24mm 20mm 20mm 20mm !important;
       display: flex !important;
       flex-direction: column !important;
@@ -645,8 +676,8 @@
         width: 210mm !important;
         margin: 0 !important;
         padding: 0 !important;
-        background: #ffffff !important;
-        color: #000000 !important;
+        background: #FFFFFF !important;
+        color: #243B35 !important;
         font-size: 11.5px !important;
         line-height: 1.42 !important;
         -webkit-print-color-adjust: exact !important;
@@ -692,12 +723,12 @@
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
-        background: #ffffff !important;
+        background: #FFFFFF !important;
       }
 
       .cover-page {
-        background: #0f172a !important;
-        color: #ffffff !important;
+        background: #F6F9F4 !important;
+        color: #243B35 !important;
         padding: 26mm 16mm 18mm 16mm !important;
       }
 
@@ -725,7 +756,7 @@
       .book-footer-line {
         margin-top: auto !important;
         padding-top: 6px !important;
-        border-top: 1px solid #cbd5e1 !important;
+        border-top: 1px solid rgba(36,59,53,0.14) !important;
       }
 
       .book-table, .step-flow, .wrong-right, .code-box, .callout, .practice-box, .check-point, .answer-box {
@@ -759,7 +790,7 @@
         display: block !important;
         font-weight: 800 !important;
         margin-bottom: 4px !important;
-        color: #166534 !important;
+        color: #27765B !important;
       }
     }
 
@@ -774,8 +805,8 @@
     .concept-table th:nth-child(4) { width: 27%; }
     .concept-table td { vertical-align: top; line-height: 1.4; }
     .guided-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
-    .guided-panel { border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; background: #f8fafc; }
-    .guided-panel h3 { margin: 0 0 7px; font-size: .95rem; color: #1e3a8a; }
+    .guided-panel { border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; background: #FFFFFF; }
+    .guided-panel h3 { margin: 0 0 7px; font-size: .95rem; color: #2B5CA6; }
     .guided-panel ol, .guided-panel ul { margin: 0; padding-left: 19px; }
     .guided-panel li { margin-bottom: 5px; font-size: .84rem; }
     .diagnostic-table { table-layout: fixed; font-size: .8rem; }
@@ -791,7 +822,8 @@
       .diagnostic-table th, .diagnostic-table td { padding: 4px 6px !important; font-size: 8pt !important; }
     }
 
-  </style></head><body>
+  </style>  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head><body>
 <div class="no-print-bar"><div class="title-group"><span class="badge">ACE AI SW Startup Training</span><strong>Day 5: AI 프롬프트 아키텍처와 평가</strong></div><div class="action-btns"><a href="day5-ai-classroom.html" class="btn-action btn-back">← LMS 강의실</a><button id="btn-download-pdf" onclick="downloadPDF()" class="btn-action btn-download">📥 A4 PDF 다운로드</button>
       <button onclick="downloadPDF()" class="btn-action btn-download">PDF 저장 / 인쇄</button></div></div>
 <main class="book-container">
@@ -859,7 +891,7 @@
             useCORS: true,
             allowTaint: true,
             logging: false,
-            backgroundColor: isCover ? '#0f172a' : '#ffffff',
+            backgroundColor: isCover ? '#FFFFFF' : '#243B35',
             onclone: function(clonedDoc) {
               const cloneNav = clonedDoc.querySelector('.no-print-bar');
               if (cloneNav) cloneNav.style.display = 'none';
@@ -874,8 +906,8 @@
               coverTitles.forEach(function(el) {
                 el.style.webkitBackgroundClip = 'unset';
                 el.style.backgroundClip = 'unset';
-                el.style.webkitTextFillColor = '#ffffff';
-                el.style.color = '#ffffff';
+                el.style.webkitTextFillColor = '#243B35';
+                el.style.color = '#243B35';
                 el.style.background = 'none';
               });
             }

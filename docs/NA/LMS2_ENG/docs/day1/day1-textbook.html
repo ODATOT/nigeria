@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 1 Textbook | Codex Client Requirements Definition Standard Guidebook</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+:root {
+      --primary: #2B5CA6;
+      --primary-dark: #2B5CA6;
+      --secondary: #2B5CA6;
+      --accent: #5D4AA8;
+      --text-dark: #243B35;
+      --text-muted: #243B35;
+      --bg-page: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --border-color: rgba(36,59,53,0.14);
+      --code-bg: #FFFFFF;
+      --code-text: #243B35;
+      --success: #27765B;
+      --warning: #856000;
+      --danger: #A83A45;
+      --paper-tint: #FFFFFF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      background: #FFFFFF;
+      color: var(--text-dark);
+      line-height: 1.55;
+      word-break: keep-all;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Screen Navigation Bar */
+    .no-print-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(246,249,244,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(36,59,53,0.09);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(36,59,53,0.105);
+    }
+
+    .no-print-bar .title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #243B35;
+    }
+
+    .no-print-bar .badge {
+      background: linear-gradient(135deg, #D2E0FB, #D2E0FB);
+      color: #243B35;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .no-print-bar .action-btns {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-print {
+      background: #27765B;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(36,59,53,0.105);
+    }
+    .btn-print:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(36,59,53,0.14); }
+    .btn-download {
+      background: #27765B;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(36,59,53,0.105);
+    }
+    .btn-download:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(36,59,53,0.14); }
+
+
+    .btn-back {
+      background: rgba(255,255,255,0.85);
+      color: #243B35;
+      border: 1px solid rgba(36,59,53,0.135);
+    }
+    .btn-back:hover { background: rgba(255,255,255,0.2); }
+
+    /* A4 Book Page Container & Sheet Styling */
+    .book-container {
+      width: 100%;
+      max-width: 100%;
+      margin: 36px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      background: transparent;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    .cover-page,
+    .book-page {
+      width: 210mm;
+      min-height: 297mm;
+      box-sizing: border-box;
+      position: relative;
+      background: #FFFFFF;
+      border-radius: 4px;
+      box-shadow: 0 12px 35px rgba(36,59,53,0.087), 0 3px 10px rgba(36,59,53,0.042);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 18mm 18mm 16mm 18mm;
+      page-break-after: always;
+      break-after: page;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Responsive scaling on narrow viewports */
+    @media screen and (max-width: 840px) {
+      .cover-page,
+      .book-page {
+        width: 96vw;
+        height: auto;
+        min-height: auto;
+        max-height: none;
+        padding: 20px 16px;
+      }
+    }
+
+    /* Page Breaks for Print */
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+
+    /* Book Header / Footer */
+    .book-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      flex-shrink: 0;
+    }
+
+    .book-footer-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+      padding-top: 10px;
+      margin-top: auto;
+      flex-shrink: 0;
+    }
+
+    /* Cover Page */
+    .cover-page {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #F6F9F4 0%, #D2E0FB 50%, #F6F9F4 100%) !important;
+      color: #243B35;
+      padding: 26mm 20mm 20mm 20mm;
+    }
+
+    .cover-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cover-tag {
+      background: rgba(43,92,166,0.22);
+      border: 1px solid rgba(43,92,166,0.4);
+      color: #2B5CA6;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .cover-main {
+      margin: 80px 0;
+    }
+
+    .cover-subtitle {
+      font-size: 1.25rem;
+      color: #4A605A;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .cover-title {
+      font-size: 2.75rem;
+      font-weight: 800;
+      line-height: 1.25;
+      background: linear-gradient(135deg, #243B35 0%, #4A605A 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 24px;
+    }
+
+    .cover-desc {
+      font-size: 1.05rem;
+      color: #4A605A;
+      max-width: 650px;
+      line-height: 1.7;
+    }
+
+    .cover-footer {
+      border-top: 1px solid rgba(36,59,53,0.135);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: #4A605A;
+    }
+
+    /* Typography & Components */
+    h1.chapter-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chapter-number {
+      color: var(--primary);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    h2.section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #243B35;
+      margin: 32px 0 16px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(36,59,53,0.14);
+    }
+
+    h3.sub-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #243B35;
+      margin: 20px 0 10px 0;
+    }
+
+    p { margin-bottom: 14px; font-size: 0.98rem; color: #243B35; }
+
+    .lead {
+      font-size: 1.08rem;
+      line-height: 1.8;
+      color: #243B35;
+      max-width: 70ch;
+    }
+
+    .learning-map {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0;
+    }
+
+    .learning-item {
+      border-top: 3px solid var(--primary);
+      background: #FFFFFF;
+      padding: 16px;
+      box-shadow: 0 3px 12px rgba(36,59,53,0.021);
+    }
+
+    .learning-item strong { display: block; margin-bottom: 5px; color: #243B35; }
+    .learning-item p { margin: 0; font-size: 0.9rem; }
+
+    .study-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 24px;
+    }
+
+    .study-chip {
+      background: #F6F9F4;
+      color: #2B5CA6;
+      border: 1px solid rgba(43,92,166,0.55);
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .check-point {
+      margin: 22px 0;
+      padding: 20px 22px;
+      border: 1px solid rgba(133,96,0,0.55);
+      background: #F6F9F4;
+    }
+
+    .check-point h3 { color: #856000; font-size: 1rem; margin-bottom: 10px; }
+    .check-point ol, .check-point ul, .practice-box ol { padding-left: 22px; }
+    .check-point li, .practice-box li { margin: 7px 0; color: #243B35; }
+
+    .practice-box {
+      margin: 24px 0;
+      padding: 22px;
+      border: 2px solid rgba(36,59,53,0.14);
+      background: #FFFFFF;
+    }
+
+    .practice-label {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: #243B35;
+      background: #FFFFFF;
+      padding: 4px 9px;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: .04em;
+    }
+
+    .answer-box {
+      margin: 18px 0;
+      border: 1px solid rgba(39,118,91,0.55);
+      background: #F6F9F4;
+      padding: 18px 20px;
+    }
+
+    .answer-box summary {
+      cursor: pointer;
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    .answer-box p { margin: 12px 0 0; }
+
+    .wrong-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .example-panel { padding: 16px; border: 1px solid var(--border-color); background: #FFFFFF; }
+    .example-panel.bad { border-top: 4px solid var(--danger); }
+    .example-panel.good { border-top: 4px solid var(--success); }
+    .example-panel h4 { margin-bottom: 8px; }
+    .example-panel p { margin: 0; font-size: .9rem; }
+
+    .rubric { counter-reset: rubric; list-style: none; }
+    .rubric li { position: relative; padding: 10px 10px 10px 42px; border-bottom: 1px solid rgba(36,59,53,0.14); }
+    .rubric li::before { counter-increment: rubric; content: counter(rubric); position: absolute; left: 6px; top: 9px; width: 24px; height: 24px; border-radius: 50%; background: #EEF4EC; color: #2B5CA6; display: grid; place-items: center; font-weight: 800; }
+
+    code { font-family: 'Menlo', 'Monaco', 'Courier New', monospace; background: #EEF4EC; padding: 1px 5px; border-radius: 3px; font-size: .88em; }
+    .code-box code { background: transparent; padding: 0; color: inherit; }
+
+    @media (max-width: 720px) {
+      .no-print-bar { position: static; align-items: flex-start; gap: 12px; padding: 12px 14px; }
+      .no-print-bar .title-group strong { display: none; }
+      .action-btns { flex-wrap: wrap; justify-content: flex-end; }
+      .btn-action { min-height: 44px; padding: 9px 12px; }
+      .book-container { margin: 0; border-radius: 0; }
+      .book-page, .cover-page { padding: 42px 24px; }
+      .cover-title { font-size: 2.15rem; }
+      .learning-map, .wrong-right { grid-template-columns: 1fr; }
+      .book-table { display: block; overflow-x: auto; }
+      .toc-page { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* Callout Box */
+    .callout {
+      background: #FFFFFF;
+      border-left: 4px solid var(--primary);
+      padding: 18px 22px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+    .callout.cyan { border-left-color: var(--secondary); background: #F6F9F4; }
+    .callout.purple { border-left-color: var(--accent); background: #FFFFFF; }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #243B35;
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    .book-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.92rem;
+    }
+
+    .book-table th, .book-table td {
+      padding: 12px 16px;
+      border: 1px solid var(--border-color);
+      text-align: left;
+    }
+
+    .book-table th {
+      background: #F6F9F4;
+      font-weight: 700;
+      color: #243B35;
+    }
+
+    /* Code Blocks */
+    .code-box {
+      background: var(--code-bg);
+      color: var(--code-text);
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+      font-size: 0.88rem;
+      overflow-x: auto;
+      margin: 16px 0;
+      line-height: 1.5;
+    }
+
+    .code-box-header {
+      font-size: 0.78rem;
+      color: #4A605A;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    /* Step List */
+    .step-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .step-card {
+      display: flex;
+      gap: 16px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .step-num {
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .step-body h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #243B35;
+      margin-bottom: 4px;
+    }
+
+    .step-body p {
+      font-size: 0.92rem;
+      color: #6B7F79;
+      margin: 0;
+    }
+
+    /* TOC (Table of Contents) */
+    .toc-list {
+      list-style: none;
+      margin: 24px 0;
+    }
+
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--border-color);
+      font-size: 1rem;
+    }
+
+    .toc-title {
+      font-weight: 600;
+      color: #243B35;
+    }
+
+    .toc-page {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* Standard A4 Screen & Print Styling */
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      background: #EEF4EC !important;
+      color: var(--text-dark);
+      line-height: 1.55;
+      word-break: keep-all;
+      margin: 0;
+      padding: 0;
+    }
+
+    .no-print-bar .action-btns {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-download {
+      background: #27765B;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(36,59,53,0.105);
+    }
+    .btn-download:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(36,59,53,0.14); }
+
+    /* A4 Book Page Container & True A4 Vertical Sheets */
+    .book-container {
+      width: 210mm !important;
+      max-width: 100% !important;
+      margin: 36px auto 60px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 36px !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+    }
+
+    .cover-page,
+    .book-page {
+      width: 210mm !important;
+      min-height: 297mm !important;
+      box-sizing: border-box !important;
+      position: relative !important;
+      background: #FFFFFF !important;
+      border-radius: 3px !important;
+      box-shadow: 0 16px 40px rgba(36,59,53,0.087), 0 3px 10px rgba(36,59,53,0.042) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      padding: 18mm 18mm 16mm 18mm !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+
+    .cover-page {
+      background: linear-gradient(135deg, #F6F9F4 0%, #D2E0FB 50%, #F6F9F4 100%) !important;
+      color: #243B35 !important;
+      padding: 24mm 20mm 20mm 20mm !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+    }
+
+    @media screen and (max-width: 820px) {
+      .book-container {
+        width: 100% !important;
+      }
+      .cover-page,
+      .book-page {
+        width: 95vw !important;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        padding: 22px 18px !important;
+      }
+    }
+
+    .book-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .book-footer-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+      padding-top: 10px;
+      margin-top: auto;
+      flex-shrink: 0;
+    }
+
+    /* A4 Size & Print Styles */
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    @media print {
+      html, body {
+        width: 210mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #FFFFFF !important;
+        color: #243B35 !important;
+        font-size: 11.5px !important;
+        line-height: 1.42 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .no-print-bar {
+        display: none !important;
+      }
+
+      .book-container {
+        width: 210mm !important;
+        max-width: 210mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+
+      .page-break {
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+
+      .cover-page,
+      .book-page {
+        width: 210mm !important;
+        height: 297mm !important;
+        min-height: 297mm !important;
+        max-height: 297mm !important;
+        margin: 0 !important;
+        padding: 16mm 16mm 14mm 16mm !important;
+        box-sizing: border-box !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        border: none !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        background: #FFFFFF !important;
+      }
+
+      .cover-page {
+        background: #F6F9F4 !important;
+        color: #243B35 !important;
+        padding: 26mm 16mm 18mm 16mm !important;
+      }
+
+      .cover-title {
+        font-size: 2.1rem !important;
+        line-height: 1.25 !important;
+      }
+
+      .chapter-title {
+        font-size: 1.35rem !important;
+        margin-bottom: 6px !important;
+      }
+
+      .section-title {
+        font-size: 1.05rem !important;
+        margin-top: 10px !important;
+        margin-bottom: 6px !important;
+      }
+
+      .book-header-line {
+        margin-bottom: 10px !important;
+        padding-bottom: 5px !important;
+      }
+
+      .book-footer-line {
+        margin-top: auto !important;
+        padding-top: 6px !important;
+        border-top: 1px solid rgba(36,59,53,0.14) !important;
+      }
+
+      .book-table, .step-flow, .wrong-right, .code-box, .callout, .practice-box, .check-point, .answer-box {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin-top: 6px !important;
+        margin-bottom: 6px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .book-table th, .book-table td {
+        padding: 4px 7px !important;
+        font-size: 0.8rem !important;
+      }
+
+      .code-box {
+        padding: 6px 8px !important;
+        font-size: 0.75rem !important;
+        line-height: 1.3 !important;
+      }
+
+      .answer-box {
+        padding: 6px 10px !important;
+        margin: 6px 0 !important;
+      }
+
+      .answer-box summary {
+        display: block !important;
+        font-weight: 800 !important;
+        margin-bottom: 4px !important;
+        color: #27765B !important;
+      }
+    }
+
+  </style>
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+
+  <!-- Screen Header Control Bar -->
+  <div class="no-print-bar">
+    <div class="title-group">
+      <span class="badge">ACE AI SW Startup Training</span>
+      <strong style="font-size: 1.05rem;">Day 1 Textbook: Codex Requirements Definition Guidebook</strong>
+    </div>
+    <div class="action-btns">
+      <a href="day1-ai-classroom.html" class="btn-action btn-back">
+        ← Back to LMS AI Classroom
+      </a>
+      <button id="btn-download-pdf" onclick="downloadPDF()" class="btn-action btn-download">
+        📥 Download A4 PDF
+      </button>
+      <button onclick="downloadPDF()" class="btn-action btn-download">🖨️ Save as PDF / Print</button>
+    </div>
+  </div>
+
+  <!-- Main Booklet Wrapper -->
+  <div class="book-container">
+
+    <!-- COVER PAGE -->
+    <div class="cover-page page-break">
+      <div class="cover-top">
+        <span class="cover-tag">DAY 1 TEXTBOOK</span>
+        <span style="font-size: 0.85rem; letter-spacing: 1px; opacity: 0.8;">ACE AI SW Startup Training</span>
+      </div>
+
+      <div class="cover-main">
+        <div class="cover-subtitle">ACE AI SW Startup Training Textbook Series 01</div>
+        <h1 class="cover-title">Codex Client-Based<br/>Requirements Definition Textbook</h1>
+        <p class="cover-desc">
+          This textbook covers the practical process in generative AI and Codex Client, from cleaning up unstructured transcripts
+          to sorting user roles, writing functional requirement tables, designing normal/exception scenarios,
+          building open questions and an automated email pipeline.
+        </p>
+      </div>
+
+      <div class="cover-footer">
+        <div>Study time: about 6 hours · labs included</div>
+        <div>For: SW·planning beginners at about 3rd-year university level</div>
+      </div>
+    </div>
+
+    <!-- LEARNING GUIDE -->
+    <div class="book-page page-break">
+      <div class="book-header-line">
+        <span>ACE AI SW Startup Training | Day 1 Textbook</span>
+        <span>Study guide</span>
+      </div>
+      <div class="chapter-number">HOW TO STUDY</div>
+      <h1 class="chapter-title">How to study this textbook on your own</h1>
+      <p class="lead">The goal of this textbook is not to ask AI for a "plausible-looking document." It's to turn facts confirmed in the meeting source into traceable requirements, and to make specs developers can use for building and testing.</p>
+
+      <div class="study-meta">
+        <span class="study-chip">Prerequisites: basic file and folder use</span>
+        <span class="study-chip">Suggested time: concepts 60 min</span>
+        <span class="study-chip">Lab 90 min</span>
+        <span class="study-chip">Review 30 min</span>
+      </div>
+
+      <h2 class="section-title">What you can do after studying</h2>
+      <div class="learning-map">
+        <div class="learning-item"><strong>01. Context design</strong><p>Explain the difference between one-off chat and Workspace-based work.</p></div>
+        <div class="learning-item"><strong>02. Sorting information</strong><p>Separate roles, features, rules and undecided items from meeting notes.</p></div>
+        <div class="learning-item"><strong>03. Writing requirements</strong><p>Write functional requirements in a checkable format.</p></div>
+        <div class="learning-item"><strong>04. Scenario design</strong><p>Design the normal flow together with key exception flows.</p></div>
+        <div class="learning-item"><strong>05. Checking AI results</strong><p>Check for source evidence, gaps, contradictions and made-up content.</p></div>
+        <div class="learning-item"><strong>06. Finishing the final spec</strong><p>Combine outputs, get human approval, then share.</p></div>
+      </div>
+
+      <div class="check-point">
+        <h3>Suggested study routine</h3>
+        <ol>
+          <li>Read each section's concepts and sum up the key word in one sentence in your own words.</li>
+          <li>Before copying a prompt as-is, check the input files and output conditions.</li>
+          <li>In example results, separate "sentences with source evidence" from "sentences needing confirmation."</li>
+          <li>Solve the end-of-chapter problems first, then check the folded model answers.</li>
+        </ol>
+      </div>
+      <div class="book-footer-line"><span>ACE AI SW Startup Training</span><span>2</span></div>
+    </div>
+
+    <!-- TABLE OF CONTENTS PAGE -->
+    <div class="book-page page-break">
+      <div class="book-header-line">
+        <span>ACE AI SW Startup Training | Day 1 Textbook</span>
+        <span>Table of Contents</span>
+      </div>
+
+      <div class="chapter-number">CONTENTS</div>
+      <h1 class="chapter-title">Table of Contents</h1>
+
+      <ul class="toc-list" style="margin-top: 36px;">
+        <li class="toc-item"><span class="toc-title">Study guide · goals · suggested routine</span><span class="toc-page">Page 02</span></li>
+        <li class="toc-item">
+          <span class="toc-title">Chapter 1. Codex Client Overview and Understanding the Workspace (LECTURE session1)</span>
+          <span class="toc-page">Page 04</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;1.1 ChatGPT questions vs Codex Workspace design</span>
+          <span class="toc-page">Page 04</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;1.2 The 3-stage pipeline for business requirements</span>
+          <span class="toc-page">Page 04</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;1.3 Workspace context and multi-file sync</span>
+          <span class="toc-page">Page 05</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">Chapter 2. 6-Step Lab Guide to Codex-Based Requirements</span>
+          <span class="toc-page">Page 06</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;2.1 [Step 0] Clean up a meeting summary (`meeting-notes.md`)</span>
+          <span class="toc-page">Page 06</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;2.2 [Step 1] Sort planning objects from meeting notes</span>
+          <span class="toc-page">Page 06</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;2.3 [Step 2] Write standard functional requirement sentences</span>
+          <span class="toc-page">Page 07</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;2.4 [Step 3] Design the Happy Path and Edge Cases</span>
+          <span class="toc-page">Page 07</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;2.5 [Step 4] Build Open Questions</span>
+          <span class="toc-page">Page 08</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;2.6 [Step 5] Create the combined requirements spec and share by email</span>
+          <span class="toc-page">Page 08</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">Chapter 3. Lab Assignments and Planning Self-Check</span>
+          <span class="toc-page">Page 09</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;3.1 [Lab 1] Pet care matching service</span>
+          <span class="toc-page">Page 09</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;3.2 [Lab 2] Self-service study café IoT system</span>
+          <span class="toc-page">Page 09</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-title">&nbsp;&nbsp;3.3 4-point planning review self-check list</span>
+          <span class="toc-page">Page 09</span>
+        </li>
+        <li class="toc-item"><span class="toc-title">Chapter 4. Combined Lab · Model Answers · Key Terms</span><span class="toc-page">Page 10</span></li>
+      </ul>
+
+      <div class="callout cyan" style="margin-top: 40px;">
+        <div class="callout-title">💡 How to use this textbook</div>
+        <p style="margin: 0; font-size: 0.92rem;">
+          This textbook includes lab code and prompt text.
+          Use the <strong>[🖨️ Save as PDF / Print]</strong> button at the top to keep it as a clean A4 book-style PDF.
+        </p>
+      </div>
+
+      <div class="book-footer-line">
+        <span>ACE AI SW Startup Training</span>
+        <span>3</span>
+      </div>
+    </div>
+
+    <!-- CHAPTER 1 -->
+    <div class="book-page page-break">
+      <div class="book-header-line">
+        <span>Chapter 1. Codex Client Overview and Understanding the Workspace</span>
+        <span>Day 1 Textbook</span>
+      </div>
+
+      <div class="chapter-number">CHAPTER 01</div>
+      <h1 class="chapter-title">Codex Client Overview and Understanding the Workspace</h1>
+
+      <div class="study-meta"><span class="study-chip">Key question: what do we give AI, and what do we check?</span><span class="study-chip">Study time: 35 min</span></div>
+
+      <h2 class="section-title">1.1 ChatGPT questions vs Codex Workspace design</h2>
+      <p>
+        In typical generative AI use, people type a one-off prompt into the chat each time and get a short answer.
+        But when building real business software and agent systems, you need more than quick questions and answers:
+        you need <strong>'system design'</strong> that keeps the many related files and rules in a project consistent.
+      </p>
+
+      <table class="book-table">
+        <thead>
+          <tr>
+            <th style="width: 30%;">Type</th>
+            <th style="width: 35%;">ChatGPT prompt questions</th>
+            <th style="width: 35%;">Codex Workspace system design</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Kind of work</strong></td>
+            <td>One-off Q&A (single conversation)</td>
+            <td>Continuous project watching and file sync</td>
+          </tr>
+          <tr>
+            <td><strong>Keeping Context</strong></td>
+            <td>Depends on each person's prompt skills</td>
+            <td>Automatic caching and mapping of context across files</td>
+          </tr>
+          <tr>
+            <td><strong>Output form</strong></td>
+            <td>Simple text answer</td>
+            <td>Detailed markdown (MD) files in a local folder</td>
+          </tr>
+          <tr>
+            <td><strong>Outside connections</strong></td>
+            <td>Not possible (just chat)</td>
+            <td>Pipelines connected to outside APIs (Gmail, etc.)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout cyan">
+        <div class="callout-title">Key idea: Context is not just "memory"</div>
+        <p style="margin:0;">Context is the bundle of material and rules AI uses for its current judgment. Just because a file is in the Workspace doesn't mean it's all understood correctly. Make file names, latest versions, priorities and forbidden rules clear to reduce conflicts.</p>
+      </div>
+
+      <h2 class="section-title">1.2 The 3-stage pipeline for business requirements</h2>
+      <p>
+        For an AI agent to handle business requirements precisely, beyond simple chat, it must go through this 3-stage pipeline.
+      </p>
+
+      <div class="step-flow">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Context Alignment</h4>
+            <p>The stage where all docs in the project (meeting notes, feature specs, business rules) are synced under one set of rules.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Execution Power</h4>
+            <p>Goes beyond writing docs to actually connect with outside APIs and modules (e.g. automatic email).</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Structured Output</h4>
+            <p>Produces a detailed markdown doc (`requirements-specification.md`) that makes testing and code generation easy.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="practice-box">
+        <span class="practice-label">Concept check 1</span>
+        <p><strong>Situation:</strong> a teammate edited the meeting notes, but AI kept using the old requirements. What should you check first?</p>
+        <ol><li>Was the latest file saved in the Workspace?</li><li>Does a similar old file name cause a conflict?</li><li>Is there a rule for which doc takes priority?</li></ol>
+        <details class="answer-box" open><summary>Show model answer and explanation</summary><p>You need to check all three. In particular, first writing a rule like "use the latest file, and ask the user if there's a conflict" reduces the risk of AI picking a version on its own.</p></details>
+      </div>
+
+      <div class="book-footer-line">
+        <span>ACE AI SW Startup Training</span>
+        <span>4</span>
+      </div>
+    </div>
+
+    <!-- CHAPTER 1 CONTINUED -->
+    <div class="book-page page-break">
+      <div class="book-header-line">
+        <span>Chapter 1. Codex Client Overview and Understanding the Workspace</span>
+        <span>Day 1 Textbook</span>
+      </div>
+
+      <h2 class="section-title">1.3 Workspace context and multi-file sync</h2>
+      <p>
+        Simply put, a Workspace is a <strong>'local shared planning folder'</strong> you give AI.
+        When you make a lab folder (`automation/`) on your desktop and put related files in it,
+        Codex Client treats the whole folder as its working memory (Context).
+      </p>
+
+      <div class="callout purple">
+        <div class="callout-title">🔍 Multi-file caching & reasoning structure</div>
+        <p style="margin-bottom: 6px;">
+          • <strong>Watching</strong>: watches all docs in the folder, like <code>meeting-notes.md</code> and <code>open-questions.md</code><br/>
+          • <strong>Updating together</strong>: when one spec changes, updates all linked docs at once without data conflicts<br/>
+          • <strong>Consistent reasoning</strong>: applies Anti-Hallucination so it doesn't invent content not in the source docs
+        </p>
+      </div>
+
+      <h3 class="sub-title">📌 Why cleanup (step 0) and object sorting (step 1) are needed</h3>
+      <p>
+        The raw meeting transcript (`meeting-notes-raw.md`) mixes in small talk and noise, so developers and designers can't use it directly as a spec.
+        So it's essential to first make a plain-sentence key summary of 15 lines or fewer (`step 0`), then catalog it into user roles and feature objects (`step 1`).
+      </p>
+
+      <table class="book-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Step 0. Clean up the meeting summary</th>
+            <th>Step 1. Sort planning objects</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Main purpose</strong></td>
+            <td>Filter back-and-forth chat and noise</td>
+            <td>Catalog cleaned info by type</td>
+          </tr>
+          <tr>
+            <td><strong>Action</strong></td>
+            <td>Informal summary in 15 plain sentences or fewer</td>
+            <td>Separate user roles, features, rules and undecided items</td>
+          </tr>
+          <tr>
+            <td><strong>Output file</strong></td>
+            <td>Create <code>meeting-notes.md</code></td>
+            <td>Define 4 kinds of planning component objects</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub-title">Suggested lab folder structure</h3>
+      <div class="code-box"><div class="code-box-header">automation/</div>automation/
+├── 00-source/meeting-notes-raw.md     # original, never edited
+├── 01-working/meeting-notes.md        # cleaned working doc
+├── 02-spec/open-questions.md          # undecided items
+├── 02-spec/requirements-specification.md
+└── AGENTS.md                          # work rules and don'ts</div>
+
+      <div class="check-point"><h3>What a person must always check when using AI</h3><ul><li>Were users, features or policies added that aren't in the source?</li><li>Are "possible" and "decided" mixed up?</li><li>Are personal data, recipient addresses and outgoing content correct?</li><li>Is the same term used with the same meaning across docs?</li></ul></div>
+
+      <div class="book-footer-line">
+        <span>ACE AI SW Startup Training</span>
+        <span>5</span>
+      </div>
+    </div>
+
+    <!-- CHAPTER 2 -->
+    <div class="book-page page-break">
+      <div class="book-header-line">
+        <span>Chapter 2. 6-Step Lab Guide to Codex-Based Requirements</span>
+        <span>Day 1 Textbook</span>
+      </div>
+
+      <div class="chapter-number">CHAPTER 02</div>
+      <h1 class="chapter-title">6-Step Lab Guide to Codex-Based Requirements</h1>
+
+      <div class="study-meta"><span class="study-chip">Bring: raw meeting notes</span><span class="study-chip">Output: 3 Markdown files</span><span class="study-chip">Study time: 70 min</span></div>
+
+      <p>
+        This chapter explains the 6-step lab process from an unstructured customer consultation transcript to the final email sharing pipeline, with the prompt and expected output for each step.
+      </p>
+
+      <h2 class="section-title">2.1 [Step 0] Clean up a meeting summary (`meeting-notes.md`)</h2>
+      <p>
+        Read the raw transcript (`meeting-notes-raw.md`), remove greetings and small talk, and create clean meeting notes of 15 plain sentences or fewer focused on business requirements.
+      </p>
+
+      <div class="code-box">
+        <div class="code-box-header">Prompt template: step 0 cleanup instruction</div>
+Read the raw meeting notes in meeting-notes-raw.md, remove unneeded conversation and context between speakers,
+and write compact, informal summary notes of about 15 lines covering service users, feature requirements, system policies and undecided items.
+Don't imagine and add anything that isn't in the original.
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">📥 Input / 📤 Output</div>
+        <p style="margin: 0;">
+          <strong>Input:</strong> <code>meeting-notes-raw.md</code> (raw transcript of about an hour of consultation)<br/>
+          <strong>Output:</strong> <code>meeting-notes.md</code> (cleaned key planning summary of 15 lines or fewer)
+        </p>
+      </div>
+
+      <div class="wrong-right">
+        <div class="example-panel bad"><h4>A summary to avoid</h4><p>"For user convenience, provide easy login and recommendations." Adding features not in the source because they seem like common sense distorts the requirements.</p></div>
+        <div class="example-panel good"><h4>A good summary</h4><p>"Customers view experts' available times and book a session. The login method was not decided in the meeting." It separates facts from undecided items.</p></div>
+      </div>
+
+      <h2 class="section-title">2.2 [Step 1] Sort planning objects from meeting notes</h2>
+      <p>
+        Based on the cleaned `meeting-notes.md`, separate the service's main user roles, features users perform, features the system performs, business rules and undecided items.
+      </p>
+
+      <div class="code-box">
+        <div class="code-box-header">Prompt template: step 1 planning element analysis</div>
+Read meeting-notes.md and separate the following.
+1. Service users (User Roles)
+2. Features users perform (User Actions)
+3. Features the system performs (System Actions)
+4. Business rules (Business Rules)
+5. Things not decided yet (Open Questions)
+
+Don't add anything not in the meeting notes, and mark unclear items separately.
+      </div>
+
+      <h3 class="sub-title">Example sorting result</h3>
+      <table class="book-table"><thead><tr><th>Category</th><th>Example</th><th>Reason</th></tr></thead><tbody><tr><td>User roles</td><td>Customer, expert, admin</td><td>Who acts or holds permissions</td></tr><tr><td>User features</td><td>Choose session time</td><td>Done directly by the user</td></tr><tr><td>System features</td><td>Send booking confirmation notice</td><td>Done automatically when conditions are met</td></tr><tr><td>Business rules</td><td>Booking confirmed after payment succeeds</td><td>Conditions and limits of the work</td></tr><tr><td>Undecided</td><td>Cancellation fee rate</td><td>Needs approval or more discussion</td></tr></tbody></table>
+
+      <div class="check-point"><h3>Step 1 done criteria</h3><p>Don't put the same item in two categories, and leave a meeting-notes sentence or line number as evidence next to every item. If there's no evidence, move it to "undecided", not "guess".</p></div>
+
+      <div class="book-footer-line">
+        <span>ACE AI SW Startup Training</span>
+        <span>6</span>
+      </div>
+    </div>
+
+    <!-- CHAPTER 2 CONTINUED -->
+    <div class="book-page page-break">
+      <div class="book-header-line">
+        <span>Chapter 2. 6-Step Lab Guide to Codex-Based Requirements</span>
+        <span>Day 1 Textbook</span>
+      </div>
+
+      <h2 class="section-title">2.3 [Step 2] Write standard functional requirement sentences</h2>
+      <p>
+        Using the sorted objects, write clear, short sentences that fit the requirements spec table format.
+      </p>
+
+      <div class="callout cyan">
+        <div class="callout-title">✍️ 4 rules for writing requirement sentences</div>
+        <p style="margin: 0;">
+          1. <strong>Name the subject</strong>: write the subject clearly, like '[The Customer]' or '[The system]'.<br/>
+          2. <strong>Clear object</strong>: say what data is handled (e.g. expert list, payment method).<br/>
+          3. <strong>Same ending</strong>: use the same style, like 'must be able to ~' or 'must ~'.<br/>
+          4. <strong>Short sentences</strong>: put only one feature in each sentence.
+        </p>
+      </div>
+
+      <div class="code-box">
+        <div class="code-box-header">Prompt template: step 2 requirements table sentences</div>
+Based on the planning elements analyzed in step 1, write a Functional Requirements Table.
+Include: ID, type (user/system), subject, feature description, business rule
+Sentence form: "[Subject] must be able to [feature] when [condition]."
+      </div>
+
+      <div class="wrong-right">
+        <div class="example-panel bad"><h4>A bad requirement</h4><p>"The system must handle bookings well, quickly and conveniently." Fast, convenient and well can't be measured.</p></div>
+        <div class="example-panel good"><h4>An improved requirement</h4><p>"When payment is approved, the system must change the booking status to 'confirmed' and send a notice to the customer and expert." The condition, state change and recipients are visible.</p></div>
+      </div>
+
+      <div class="callout purple"><div class="callout-title">Formula for a checkable requirement</div><p style="margin:0;"><strong>[Actor] must [action] on [input/target] when [precondition], and provide [an observable result].</strong><br/>Developers and testers reading the sentence should picture the same screen and data state.</p></div>
+
+      <h2 class="section-title">2.4 [Step 3] Design the Happy Path and Edge Cases</h2>
+      <p>
+        Design the basic steps that complete normally when users use the service, and the handling flow when exceptions happen, like a card payment failure or server error.
+      </p>
+
+      <table class="book-table">
+        <thead>
+          <tr>
+            <th style="width: 20%;">Flow type</th>
+            <th style="width: 40%;">Normal flow (Happy Path)</th>
+            <th style="width: 40%;">Exception flow (Edge Case)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Session booking scenario</strong></td>
+            <td>Choose expert ➔ choose time ➔ payment succeeds ➔ booking confirmation sent</td>
+            <td>Card over limit/error ➔ failure message pop-up ➔ prompt to retry payment</td>
+          </tr>
+          <tr>
+            <td><strong>Expert approval scenario</strong></td>
+            <td>Submit documents ➔ admin review ➔ approved ➔ profile goes live</td>
+            <td>Required documents missing ➔ write rejection reason ➔ email asking expert to resubmit</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub-title">5 questions for finding exception flows</h3>
+      <ol class="rubric"><li>What if required input is missing or in the wrong format?</li><li>What if a user without permission tries?</li><li>What if two users pick the same resource at the same time?</li><li>What if an outside payment, email or IoT device doesn't respond?</li><li>What if the network drops or the user cancels mid-task?</li></ol>
+
+      <div class="practice-box"><span class="practice-label">Mini lab 2</span><p>Turn "the user books a seat" into 1 checkable requirement and 2 exception flows.</p><details class="answer-box" open><summary>Show example answer</summary><p><strong>Requirement:</strong> while logged in, a user must be able to pick an available seat and time and submit a payment request.<br/><strong>Exception 1:</strong> if another user pays first and takes the seat, show the latest seat list.<br/><strong>Exception 2:</strong> if payment approval fails, don't confirm the booking; show the reason and how to retry.</p></details></div>
+
+      <div class="book-footer-line">
+        <span>ACE AI SW Startup Training</span>
+        <span>7</span>
+      </div>
+    </div>
+
+    <!-- CHAPTER 2 CONTINUED -->
+    <div class="book-page page-break">
+      <div class="book-header-line">
+        <span>Chapter 2. 6-Step Lab Guide to Codex-Based Requirements</span>
+        <span>Day 1 Textbook</span>
+      </div>
+
+      <h2 class="section-title">2.5 [Step 4] Build Open Questions</h2>
+      <p>
+        Organize items not clearly decided in the meeting, like fee policies, refund rules and notification methods,
+        and write a question list doc (`open-questions.md`) you can use right away when interviewing the client.
+      </p>
+
+      <div class="code-box">
+        <div class="code-box-header">Prompt for writing open-questions.md</div>
+Pull the undecided items from meeting-notes.md and create an open-questions.md file.
+For each item, include the question, possible options (A/B/C), and how leaving it undecided affects the business.
+      </div>
+
+      <table class="book-table"><thead><tr><th>What makes a good open question</th><th>Example</th></tr></thead><tbody><tr><td>What to decide</td><td>What is the refund rate for same-day booking cancellations?</td></tr><tr><td>Options</td><td>A. No refund / B. 50% / C. Operator's choice</td></tr><tr><td>Impact</td><td>Affects billing logic, terms and customer messages</td></tr><tr><td>Decision maker · deadline</td><td>Service lead · before development starts</td></tr></tbody></table>
+
+      <h2 class="section-title">2.6 [Step 5] Create the combined requirements spec and share by email</h2>
+      <p>
+        Merge all the markdown docs from steps 0–4 into the final combined spec `requirements-specification.md`,
+        and automatically send a report email to the approver through Codex Client's Gmail API connection.
+      </p>
+
+      <div class="code-box">
+        <div class="code-box-header">Instruction for creating the combined doc and sending email automatically</div>
+Combine meeting-notes.md, the functional requirements, the normal/exception flows and open-questions.md written so far
+into a finished requirements-specification.md file.
+When it's done, write an approval request email with a summary and send it.
+      </div>
+
+      <div class="callout purple">
+        <div class="callout-title">📧 Checks for the Gmail lab</div>
+        <p style="margin: 0;">
+          Check that the Gmail plugin at the top right of Codex Client is turned on.
+          Before sending, do a final check that the recipient address (`to`), subject (`subject`) and attachment name in the body are correct.
+        </p>
+      </div>
+
+      <div class="check-point"><h3>Automate sending, but don't automate approval</h3><p>Create the email as a <strong>draft</strong> first; a person checks the recipient, attachments, personal data and undecided markers before sending. During the lab, use your own test address instead of a real customer's.</p></div>
+
+      <h3 class="sub-title">Suggested table of contents for the final spec</h3>
+      <ol class="rubric"><li>Purpose and scope of the doc</li><li>Terms and user roles</li><li>Functional requirements and sources</li><li>Normal·exception scenarios</li><li>Business rules and non-functional requirements</li><li>Open questions, decision makers, deadlines</li><li>Change history and approval status</li></ol>
+
+      <div class="book-footer-line">
+        <span>ACE AI SW Startup Training</span>
+        <span>8</span>
+      </div>
+    </div>
+
+    <!-- CHAPTER 3 -->
+    <div class="book-page page-break">
+      <div class="book-header-line">
+        <span>Chapter 3. Lab Assignments and Planning Self-Check</span>
+        <span>Day 1 Textbook</span>
+      </div>
+
+      <div class="chapter-number">CHAPTER 03</div>
+      <h1 class="chapter-title">Lab Assignments and Planning Self-Check</h1>
+
+      <h2 class="section-title">3.1 [Lab 1] Pet care matching service</h2>
+      <p>
+        An assignment to define requirements for a platform that connects pet owners with pet sitters.
+      </p>
+      
+      <div class="callout">
+        <div class="callout-title">🐾 Key planning mission requirements</div>
+        <p style="margin: 0;">
+          • <strong>User roles</strong>: owner (Customer), pet sitter (Sitter), admin (Admin)<br/>
+          • <strong>Key features</strong>: view care schedules, request a match, pay a deposit, write a care log<br/>
+          • <strong>Undecided</strong>: same-day refund rate for cancelled care, whether to require pet sitter identity insurance
+        </p>
+      </div>
+
+      <h2 class="section-title">3.2 [Lab 2] Self-service study café IoT system</h2>
+      <p>
+        An assignment to define requirements for an IoT system for study room seat booking and door access control via kiosk and mobile app.
+      </p>
+
+      <div class="callout cyan">
+        <div class="callout-title">🚪 Key planning mission requirements</div>
+        <p style="margin: 0;">
+          • <strong>User roles</strong>: user (Student), store owner (Owner)<br/>
+          • <strong>Key features</strong>: QR code entry/exit control, remaining seat time alerts, study room light/air conditioning control<br/>
+          • <strong>Exception flow</strong>: automatic late fee and warning alert when check-out time is exceeded
+        </p>
+      </div>
+
+      <h2 class="section-title">3.3 4-point planning review self-check list</h2>
+      <table class="book-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Review item</th>
+            <th style="width: 55%;">Detailed self-check criteria</th>
+            <th style="width: 20%;">Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Roles</strong></td>
+            <td>Are users clearly split into Customer, Expert/Sitter and Admin?</td>
+            <td>[ &nbsp; ] Pass</td>
+          </tr>
+          <tr>
+            <td><strong>2. Cause and effect</strong></td>
+            <td>Is the flow from payment success to booking confirmation and notification clear?</td>
+            <td>[ &nbsp; ] Pass</td>
+          </tr>
+          <tr>
+            <td><strong>3. Undecided items separated</strong></td>
+            <td>Are pending items like refunds/fees separated out as undecided items?</td>
+            <td>[ &nbsp; ] Pass</td>
+          </tr>
+          <tr>
+            <td><strong>4. Fact check</strong></td>
+            <td>Were unrelated features not in the source transcript left out?</td>
+            <td>[ &nbsp; ] Pass</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="practice-box"><span class="practice-label">What to submit</span><p>Pick one of the two topics and write the following files.</p><ol><li><code>meeting-notes.md</code>: 10–15 fact-based lines</li><li><code>open-questions.md</code>: at least 3 questions, with options and impact</li><li><code>requirements-specification.md</code>: at least 6 functional requirements and at least 4 exception flows</li></ol></div>
+
+      <div class="check-point"><h3>Grading · 100 points</h3><ul><li>Faithful to source, 25 pts: no features or policies without evidence</li><li>Clarity, 25 pts: actor, condition, action and result are specific</li><li>Completeness, 25 pts: normal, exception and undecided items all present</li><li>Traceability, 15 pts: requirement IDs linked to source evidence</li><li>Doc quality, 10 pts: consistent terms and format, easy to read</li></ul></div>
+
+      <div class="book-footer-line">
+        <span>ACE AI SW Startup Training</span>
+        <span>9</span>
+      </div>
+    </div>
+
+    <!-- CHAPTER 4 -->
+    <div class="book-page page-break">
+      <div class="book-header-line"><span>Chapter 4. Combined Lab and Model Answers</span><span>Day 1 Textbook</span></div>
+      <div class="chapter-number">CHAPTER 04</div>
+      <h1 class="chapter-title">Combined lab: turn meeting notes into requirements</h1>
+      <p class="lead">Write requirements using only the notes below. The key skill at work isn't filling blanks with imagination; it's separating facts from undecided items.</p>
+
+      <div class="code-box"><div class="code-box-header">Sample meeting notes</div>Students check remaining seats in the app and book in 2-hour blocks.
+A booking is confirmed only when payment is approved.
+On entry, students show the app's QR code to the door device.
+The owner can mark broken seats as not bookable.
+The payment method and cancellation fee are not decided yet.
+How to handle entry during a network outage also needs more discussion.</div>
+
+      <div class="practice-box"><span class="practice-label">Combined questions</span><ol><li>Find all the user roles.</li><li>Write 5 functional requirements with IDs.</li><li>Write 1 normal flow and 3 exception flows.</li><li>Write 3 open questions with priorities.</li></ol></div>
+
+      <details class="answer-box" open><summary>Show model answer</summary><p><strong>Roles:</strong> student, owner. The door device can be noted separately as an external system that acts.<br/><strong>FR-01</strong> Students must be able to view bookable seats. <strong>FR-02</strong> Students must be able to choose a seat in 2-hour blocks. <strong>FR-03</strong> The system must confirm only bookings whose payment is approved. <strong>FR-04</strong> The system must allow entry when a valid QR code is checked. <strong>FR-05</strong> The owner must be able to change a broken seat to not bookable.<br/><strong>Normal flow:</strong> view seats → choose time → payment approved → booking confirmed → QR issued → entry.<br/><strong>Exceptions:</strong> payment failure, seat taken while choosing, QR check failure. Network outage handling has no policy yet, so don't decide it yourself.<br/><strong>Undecided:</strong> P1 entry policy during network outage, P1 payment method, P2 cancellation fee. The first two block building the core flow, so they're high priority.</p></details>
+
+      <div class="book-footer-line"><span>ACE AI SW Startup Training</span><span>10</span></div>
+    </div>
+
+    <div class="book-page page-break">
+      <div class="book-header-line"><span>Day 1 wrap-up</span><span>Key terms and final check</span></div>
+      <div class="chapter-number">REVIEW</div>
+      <h1 class="chapter-title">Key Terms and Pre-Submission Checklist</h1>
+      <table class="book-table"><thead><tr><th>Term</th><th>In plain words</th></tr></thead><tbody><tr><td>Context</td><td>The range of files, chats and rules AI refers to when making a judgment now</td></tr><tr><td>Workspace</td><td>A workspace that manages related material and outputs as one project</td></tr><tr><td>Functional Requirement</td><td>An observable feature a user or system must perform</td></tr><tr><td>Business Rule</td><td>The conditions, limits and policies under which a feature works</td></tr><tr><td>Happy Path</td><td>The main normal flow that reaches the goal without errors</td></tr><tr><td>Edge Case</td><td>The handling needed at boundary conditions or in failures</td></tr><tr><td>Open Question</td><td>An unsettled item a responsible person must decide before building</td></tr><tr><td>Traceability</td><td>Being able to trace which source and decision a requirement came from</td></tr></tbody></table>
+
+      <h2 class="section-title">Final 10-question check</h2>
+      <ol class="rubric"><li>Does every requirement have a unique ID?</li><li>Does each sentence have an actor and an observable result?</li><li>Does each sentence contain only one feature?</li><li>Can you find the source in the meeting notes or a decision record?</li><li>Did you separate business rules from features?</li><li>Does the core normal flow connect from start to finish?</li><li>Did you check permission, input, duplicate and external failure exceptions?</li><li>Did you write the impact and decision maker for undecided items?</li><li>Did you remove guesses added by AI?</li><li>Did a person give final approval before sharing outside?</li></ol>
+
+      <div class="callout cyan"><div class="callout-title">Day 1 in one sentence</div><p style="margin:0;"><strong>Good AI use isn't about making nice sentences fast; it's about building a structure where facts and decisions can be traced.</strong></p></div>
+      <div class="book-footer-line"><span>ACE AI SW Startup Training</span><span>11</span></div>
+    </div>
+
+  </div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    async function downloadPDF() {
+      const btn = document.getElementById('btn-download-pdf');
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.innerHTML = '⏳ Creating PDF...';
+        btn.disabled = true;
+      }
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'portrait'
+        });
+
+        const pages = document.querySelectorAll('.cover-page, .book-page');
+        const A4_WIDTH_MM = 210;
+        const A4_HEIGHT_MM = 297;
+
+        // Temporarily hide the nav bar for rendering
+        const navBar = document.querySelector('.no-print-bar');
+        if (navBar) navBar.style.display = 'none';
+
+        for (let i = 0; i < pages.length; i++) {
+          const page = pages[i];
+          const isCover = page.classList.contains('cover-page');
+
+          const canvas = await html2canvas(page, {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            logging: false,
+            backgroundColor: isCover ? '#FFFFFF' : '#243B35',
+            onclone: function(clonedDoc) {
+              const cloneNav = clonedDoc.querySelector('.no-print-bar');
+              if (cloneNav) cloneNav.style.display = 'none';
+              const allPages = clonedDoc.querySelectorAll('.cover-page, .book-page');
+              allPages.forEach(function(p) {
+                p.style.overflow = 'visible';
+                p.style.boxShadow = 'none';
+              });
+              // Fix: html2canvas cannot render -webkit-background-clip:text
+              // Replace gradient text with solid white on cover title
+              const coverTitles = clonedDoc.querySelectorAll('.cover-title');
+              coverTitles.forEach(function(el) {
+                el.style.webkitBackgroundClip = 'unset';
+                el.style.backgroundClip = 'unset';
+                el.style.webkitTextFillColor = '#243B35';
+                el.style.color = '#243B35';
+                el.style.background = 'none';
+              });
+            }
+          });
+
+          if (i > 0) doc.addPage();
+
+          const imgData = canvas.toDataURL('image/jpeg', 0.98);
+          const canvasRatio = canvas.height / canvas.width;
+          const imgHeightMM = A4_WIDTH_MM * canvasRatio;
+
+          doc.addImage(imgData, 'JPEG', 0, 0, A4_WIDTH_MM, Math.min(imgHeightMM, A4_HEIGHT_MM));
+        }
+
+        if (navBar) navBar.style.display = '';
+        doc.save('Day1_Textbook_A4.pdf');
+
+      } catch (err) {
+        console.error('PDF error:', err);
+        const navBar = document.querySelector('.no-print-bar');
+        if (navBar) navBar.style.display = '';
+        alert('Couldn\'t create the PDF. Please save it as a PDF with your browser\'s print (Ctrl+P).');
+      } finally {
+        if (btn) {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }
+      }
+    }
+  </script>
+</body>
+</html>

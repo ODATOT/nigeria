@@ -1,0 +1,2137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=thankyou.html" /> -->
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = 'index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACE AI SW Startup Training | Week 2 Individual Homework</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="shared/notice-modal.css" />
+  <style>
+    :root {
+      --primary-color: #2B5CA6;
+      --secondary-color: #2B5CA6;
+      --bg-dark: #F6F9F4;
+      --bg-charcoal: #F6F9F4;
+      --bg-card: #F6F9F4;
+      --text-main: #243B35;
+      --text-muted: #243B35;
+      --text-desc: #4A605A;
+      --border-color: rgba(36,59,53,0.08);
+      --accent-color: #2B5CA6;
+      --accent-purple: #5D4AA8;
+      --card-radius: 18px;
+      --shadow-sm: 0 4px 20px rgba(36,59,53,0.14), 0 0 1px rgba(36,59,53,0.035);
+      --shadow-md: 0 8px 30px rgba(36,59,53,0.035), 0 0 1px rgba(36,59,53,0.07);
+      --glow-blue: 0 0 15px rgba(43,92,166,0.35);
+      --glow-cyan: 0 0 15px rgba(43,92,166,0.35);
+      --glow-purple: 0 0 15px rgba(93,74,168,0.35);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 70px;
+    }
+
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-main);
+      line-height: 1.65;
+      background: var(--bg-dark);
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(93,74,168,0.088) 0%, transparent 40%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, p, li, span, strong { word-break: keep-all; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      background: rgba(36,59,53,0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .nav-container {
+      height: 70px; display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.25rem; font-weight: 800; color: #243B35; text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .logo::before {
+      content: ""; width: 8px; height: 20px;
+      background: linear-gradient(135deg, var(--accent-purple), var(--secondary-color));
+      border-radius: 999px; display: inline-block;
+    }
+
+    .nav-links { list-style: none; display: flex; gap: 12px; align-items: center; }
+
+    .nav-links a {
+      text-decoration: none; color: var(--text-muted); font-weight: 600; font-size: 0.92rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary-color); text-shadow: var(--glow-cyan);
+    }
+
+    .nav-hw-btn {
+      color: #5D4AA8 !important; font-weight: 700 !important;
+      background: rgba(93,74,168,0.165); border: 1px solid rgba(93,74,168,0.3);
+      padding: 6px 12px; border-radius: 8px; transition: all 0.2s ease; font-size: 0.88rem !important;
+    }
+
+    .nav-hw-btn:hover {
+      background: rgba(93,74,168,0.275); text-shadow: var(--glow-purple);
+      box-shadow: 0 0 12px rgba(36,59,53,0.105);
+    }
+
+    .nav-hw-btn.active {
+      background: linear-gradient(135deg, rgba(93,74,168,0.33), rgba(43,92,166,0.33));
+      border-color: rgba(93,74,168,0.6);
+      color: #243B35 !important;
+    }
+
+    .user-badge-main {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(43,92,166,0.11); border: 1px solid rgba(43,92,166,0.25);
+      border-radius: 50px; padding: 5px 14px; font-size: 0.88rem; font-weight: 700;
+      color: var(--secondary-color); cursor: pointer; transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .user-badge-main:hover {
+      background: rgba(43,92,166,0.22); border-color: rgba(43,92,166,0.45);
+      box-shadow: 0 0 12px rgba(36,59,53,0.087);
+    }
+
+    .user-logout-tag {
+      font-size: 0.72rem; font-weight: 600; color: #A83A45;
+      background: rgba(168,58,69,0.165); border: 1px solid rgba(168,58,69,0.25);
+      padding: 2px 6px; border-radius: 6px; margin-left: 2px;
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-top: 96px; padding: 70px 0 50px;
+      background: radial-gradient(circle at 50% 30%, rgba(43,92,166,0.132), transparent 70%), #F6F9F4;
+      position: relative; overflow: hidden; border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .hero-center { text-align: center; max-width: 900px; margin: 0 auto; }
+
+    .hero-badge-wrap { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+
+    .hero-badge {
+      display: inline-block; padding: 5px 14px; border-radius: 999px;
+      font-size: 0.8rem; font-weight: 700; background: rgba(43,92,166,0.165);
+      color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);
+    }
+
+    .hero h1 {
+      font-size: 2.5rem; font-weight: 900; line-height: 1.25; margin-bottom: 16px;
+      background: linear-gradient(135deg, #243B35 30%, #2B5CA6 70%, #5D4AA8 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.05rem; color: var(--text-muted); margin-bottom: 28px; line-height: 1.7;
+    }
+
+    .stats-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px;
+      background: rgba(246,249,244,0.6); backdrop-filter: blur(12px);
+      border: 1px solid rgba(36,59,53,0.08); border-radius: 16px; padding: 20px;
+    }
+
+    .stat-card { text-align: center; }
+    .stat-val { font-size: 1.35rem; font-weight: 800; color: #2B5CA6; margin-bottom: 4px; }
+    .stat-lbl { font-size: 0.82rem; color: var(--text-desc); font-weight: 600; }
+
+    /* Day Navigation Filter */
+    .day-filter-wrap {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 40px 0 10px;
+    }
+
+    .filter-btn {
+      background: rgba(255,255,255,0.67); border: 1px solid rgba(36,59,53,0.08);
+      color: var(--text-muted); padding: 8px 18px; border-radius: 10px;
+      font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: linear-gradient(135deg, rgba(43,92,166,0.275), rgba(93,74,168,0.275));
+      color: #243B35; border-color: rgba(43,92,166,0.5);
+      box-shadow: 0 0 15px rgba(36,59,53,0.087);
+    }
+
+    /* Section Styling */
+    .section-header {
+      margin-bottom: 30px; margin-top: 50px;
+    }
+
+    .section-tag {
+      font-size: 0.8rem; font-weight: 700; color: #2B5CA6; text-transform: uppercase;
+      letter-spacing: 0.08em; display: inline-block; margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-size: 1.8rem; font-weight: 800; color: #243B35;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .section-title::after {
+      content: ""; flex: 1; height: 1px; background: linear-gradient(to right, rgba(43,92,166,0.33), transparent);
+    }
+
+    /* Card Grid */
+    .curriculum-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 50px;
+    }
+
+    .course-card {
+      background: rgba(246,249,244,0.7); backdrop-filter: blur(12px);
+      border: 1px solid rgba(36,59,53,0.08); border-radius: var(--card-radius);
+      overflow: hidden; display: flex; flex-direction: column; transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .course-card:hover {
+      transform: translateY(-4px); border-color: rgba(43,92,166,0.35);
+      box-shadow: var(--shadow-md), 0 0 20px rgba(36,59,53,0.052);
+    }
+
+    .course-thumb {
+      height: 110px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 900; letter-spacing: 0.08em; color: rgba(36,59,53,0.9);
+      position: relative; text-shadow: 0 2px 8px rgba(36,59,53,0.14);
+      background-size: cover; background-position: center;
+    }
+
+    .course-thumb::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(36,59,53,0.04), rgba(246,249,244,0.95));
+    }
+
+    .course-thumb span { position: relative; z-index: 2; }
+
+    .course-content { padding: 24px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+
+    .card-meta-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+    .day-label {
+      font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+      background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);
+    }
+
+    .score-badge {
+      font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 999px;
+      background: rgba(93,74,168,0.165); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.3);
+    }
+
+    .course-title { font-size: 1.18rem; font-weight: 800; color: #243B35; line-height: 1.4; }
+
+    .course-desc { color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; }
+
+    .meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+    .meta-item {
+      background: rgba(255,255,255,0.64); border-radius: 10px;
+      border: 1px solid rgba(36,59,53,0.08); padding: 10px 12px; font-size: 0.82rem; color: var(--text-muted);
+    }
+
+    .meta-item strong { color: #2B5CA6; display: block; font-size: 0.75rem; margin-bottom: 2px; }
+
+    .tag-list { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .tag {
+      font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 6px;
+      background: rgba(255,255,255,0.7); color: var(--text-desc); border: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .outcome-box {
+      background: rgba(36,59,53,0.08); border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 10px; padding: 12px 14px; font-size: 0.82rem; color: var(--text-muted);
+    }
+
+    .outcome-box strong { color: var(--secondary-color); margin-right: 6px; }
+
+    .ai-class-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 12px 20px; border-radius: 10px; font-size: 0.88rem; font-weight: 700;
+      text-decoration: none; color: #FFFFFF;
+      background: #27765B;
+      border: none; cursor: pointer; transition: all 0.2s ease; margin-top: auto;
+      box-shadow: 0 4px 15px rgba(36,59,53,0.07);
+    }
+
+    .ai-class-btn:hover {
+      transform: translateY(-2px); box-shadow: 0 6px 20px rgba(36,59,53,0.122);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(36,59,53,0.08); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+      opacity: 0; visibility: hidden; transition: all 0.25s ease; z-index: 2000;
+    }
+
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+
+    .modal-card {
+      background: #F6F9F4; border: 1px solid rgba(36,59,53,0.108);
+      border-radius: 20px; width: 100%; max-width: 760px; max-height: 85vh;
+      overflow-y: auto; padding: 32px; position: relative;
+      box-shadow: 0 20px 50px rgba(36,59,53,0.14);
+    }
+
+    .modal-close {
+      position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.79);
+      border: none; color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%;
+      cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+    }
+
+    .modal-close:hover { background: rgba(255,255,255,0.92); color: #243B35; }
+
+    .modal-body h3 { font-size: 1.25rem; font-weight: 800; color: #243B35; margin-bottom: 12px; }
+    .modal-body p { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6; }
+
+    .prompt-box {
+      background: rgba(36,59,53,0.08); border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 10px; padding: 16px; position: relative; margin: 12px 0 16px;
+    }
+
+    .prompt-box pre {
+      padding-right: 70px; margin: 0; white-space: pre-wrap; word-wrap: break-word;
+      font-family: 'Fira Code', monospace; font-size: 0.82rem; color: var(--text-muted); line-height: 1.55;
+    }
+
+    .copy-btn {
+      z-index: 10; position: absolute; top: 12px; right: 12px;
+      background: rgba(255,255,255,0.79); border: 1px solid rgba(36,59,53,0.135);
+      color: var(--text-muted); padding: 4px 10px; border-radius: 6px;
+      font-size: 0.74rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover { background: rgba(43,92,166,0.275); color: #2B5CA6; border-color: rgba(43,92,166,0.4); }
+
+    /* Modal Enhanced Styles */
+    .modal-mission-badge {
+      display: inline-block; padding: 4px 12px; border-radius: 999px;
+      background: rgba(43,92,166,0.165); border: 1px solid rgba(43,92,166,0.3);
+      color: #2B5CA6; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+
+    .scenario-block {
+      background: rgba(36,59,53,0.08); border: 1px solid rgba(36,59,53,0.08);
+      border-left: 3px solid rgba(43,92,166,0.55); border-radius: 10px; padding: 16px 18px; margin: 14px 0;
+    }
+    .scenario-label {
+      font-size: 0.78rem; font-weight: 800; color: #2B5CA6; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 8px;
+    }
+    .scenario-block p { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.6; }
+    .scenario-list { list-style: none; padding: 0; margin: 8px 0 0; }
+    .scenario-list li { font-size: 0.85rem; color: var(--text-muted); padding: 4px 0; line-height: 1.5; }
+
+    .conflict-table { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+    .conflict-row { display: grid; grid-template-columns: 1fr 1.2fr 1.5fr; gap: 8px; font-size: 0.8rem; padding: 6px 8px; border-radius: 6px; }
+    .conflict-row.header-row { background: rgba(43,92,166,0.132); color: #2B5CA6; font-weight: 700; }
+    .conflict-row:not(.header-row) { background: rgba(255,255,255,0.64); color: var(--text-muted); }
+
+    .thinking-block {
+      background: rgba(93,74,168,0.066); border: 1px solid rgba(93,74,168,0.2);
+      border-radius: 10px; padding: 14px 18px; margin: 12px 0;
+    }
+    .thinking-label {
+      font-size: 0.78rem; font-weight: 800; color: #5D4AA8; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 8px;
+    }
+    .thinking-list { list-style: none; padding: 0; margin: 0; }
+    .thinking-list li {
+      font-size: 0.86rem; color: var(--text-muted); padding: 5px 0;
+      padding-left: 16px; position: relative; line-height: 1.55;
+    }
+    .thinking-list li::before { content: '→'; position: absolute; left: 0; color: #5D4AA8; font-size: 0.8rem; top: 5px; }
+
+    .example-prompt-section { margin: 16px 0; }
+    .example-prompt-label {
+      font-size: 0.78rem; font-weight: 800; color: #2B5CA6; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 4px;
+    }
+    .example-note {
+      background: rgba(43,92,166,0.088); border: 1px solid rgba(43,92,166,0.2);
+      border-radius: 6px; padding: 8px 12px; font-size: 0.8rem; color: #2B5CA6; margin-bottom: 8px; line-height: 1.5;
+    }
+
+    .real-mission-block {
+      background: rgba(43,92,166,0.066); border: 1px solid rgba(43,92,166,0.25);
+      border-radius: 12px; padding: 16px 18px; margin: 14px 0;
+    }
+    .real-mission-label {
+      font-size: 0.78rem; font-weight: 800; color: #2B5CA6; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 12px;
+    }
+    .mission-steps { display: flex; flex-direction: column; gap: 12px; }
+    .mission-step { display: flex; gap: 12px; align-items: flex-start; }
+    .step-num {
+      flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+      background: linear-gradient(135deg, #D2E0FB, #DFD8F6); color: #243B35;
+      font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; justify-content: center;
+    }
+    .mission-step div { font-size: 0.86rem; color: var(--text-muted); line-height: 1.6; }
+    .mission-step strong { color: #243B35; display: block; margin-bottom: 4px; }
+
+    .eval-block {
+      background: rgba(36,59,53,0.08); border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 10px; padding: 12px 16px; margin-top: 14px;
+      font-size: 0.83rem; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    }
+    .eval-block strong { color: #2B5CA6; white-space: nowrap; }
+    .eval-item {
+      background: rgba(43,92,166,0.11); border: 1px solid rgba(43,92,166,0.2);
+      border-radius: 6px; padding: 3px 10px; font-size: 0.78rem; white-space: nowrap;
+    }
+
+    .db-problem-box {
+      background: rgba(168,58,69,0.066); border: 1px solid rgba(168,58,69,0.2);
+      border-radius: 8px; padding: 10px 14px; margin: 8px 0; font-family: 'Fira Code', monospace;
+      font-size: 0.8rem; color: #A83A45; line-height: 1.8;
+    }
+
+    .api-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+    .api-item {
+      background: rgba(43,92,166,0.088); border: 1px solid rgba(43,92,166,0.15);
+      border-radius: 6px; padding: 6px 12px; font-size: 0.83rem; color: var(--text-muted);
+    }
+
+    .breaking-changes-box { display: flex; flex-direction: column; gap: 6px; margin: 12px 0; }
+    .change-item { padding: 7px 12px; border-radius: 6px; font-size: 0.83rem; }
+    .change-item.bad { background: rgba(168,58,69,0.088); border: 1px solid rgba(168,58,69,0.2); color: #A83A45; }
+
+    .policy-change-box { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+    .policy-old { background: rgba(168,58,69,0.088); border: 1px solid rgba(168,58,69,0.2); border-radius: 6px; padding: 8px 14px; font-size: 0.85rem; color: #A83A45; }
+    .policy-new { background: rgba(39,118,91,0.088); border: 1px solid rgba(39,118,91,0.2); border-radius: 6px; padding: 8px 14px; font-size: 0.85rem; color: #27765B; }
+
+    .persona-box {
+      background: rgba(93,74,168,0.066); border: 1px solid rgba(93,74,168,0.2);
+      border-radius: 8px; padding: 10px 14px; margin: 10px 0;
+    }
+    .persona-name { font-weight: 700; color: #5D4AA8; font-size: 0.88rem; margin-bottom: 4px; }
+    .persona-detail { font-size: 0.83rem; color: var(--text-muted); line-height: 1.5; }
+
+    .feedback-list { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+    .feedback-item {
+      background: rgba(255,255,255,0.64); border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;
+    }
+    .feedback-item em { color: #243B35; font-style: normal; }
+
+    /* Rules Banner */
+    .rules-banner {
+      background: rgba(246,249,244,0.6); border: 1px solid rgba(43,92,166,0.25);
+      border-radius: 18px; padding: 28px; margin-bottom: 40px;
+    }
+
+    .rules-banner h3 { font-size: 1.2rem; color: #2B5CA6; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .rules-list { list-style-position: inside; color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; }
+    .rules-list li strong { color: #243B35; }
+
+    /* Footer */
+    .site-footer {
+      background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08);
+      padding: 32px 20px; text-align: center; color: var(--text-desc); font-size: 0.82rem; line-height: 1.8;
+    }
+
+    @media (max-width: 960px) {
+      .nav-container { height: auto; padding: 10px 0; flex-wrap: wrap; gap: 10px; }
+      .nav-links { gap: 8px; flex-wrap: wrap; }
+      .hero { margin-top: 100px; }
+      .curriculum-grid { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: 1.9rem; }
+    }
+  </style>
+  <script src="./shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+
+  <!-- Navbar Header -->
+  <header class="navbar navbar-tworow">
+    <div class="container nav-container">
+      <!-- Row 1: Brand Logo & Core Quick Actions -->
+      <div class="nav-row-top">
+        <div class="logo-group">
+          <a href="index.html" class="logo">ACE AI SW Startup Training</a>
+        </div>
+        <div class="nav-top-right">
+          <a href="index.html" class="nav-home-btn"><i class="fa-solid fa-house"></i> Course Home</a>
+          <a href="notice.html" class="nav-notice-btn" title="Notices">
+            <span class="notice-icon-anim">📢</span> Notices
+            <span class="notice-badge">1</span>
+          </a>
+          <div id="nav-user-item" class="nav-auth-slot">
+            <a href="login/login.html" class="nav-login-btn">Log in</a>
+          </div>
+        </div>
+      </div>
+      <!-- Row 2: Secondary Menu Links -->
+      <div class="nav-row-sub">
+        <ul class="subnav-links">
+          <li><a href="notice.html" class="subnav-link">📢 Notices</a></li>
+          <li><a href="homework_week1.html" class="subnav-link nav-hw1">📝 Day 1–5 Homework</a></li>
+          <li><a href="homework_week2.html" class="subnav-link nav-hw2 active">⚡ Day 5–10 Homework</a></li>
+          <li><a href="homework_codex_field.html" class="subnav-link nav-codex">💼 Codex Field Assignments</a></li>
+          <li><a href="attendance_qr.html" class="subnav-link nav-qr">📱 Offline Attendance QR</a></li>
+          <li><a href="qr_resources.html" class="subnav-link">🔗 Student QR Links</a></li>
+          <li><a href="index.html#overview" class="subnav-link">💡 Program Overview</a></li>
+          <li><a href="index.html#curriculum" class="subnav-link">📚 10-Day Curriculum</a></li>
+          <li><a href="index.html#final" class="subnav-link">🏆 Final Results</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-center">
+      <div class="hero-badge-wrap">
+        <span class="hero-badge">WEEK 2 ASSIGNMENTS</span>
+        <span class="hero-badge">Day 6 ~ Day 10</span>
+        <span class="hero-badge">Video &amp; Advertising Platform (Advanced)</span>
+      </div>
+      <h1>Week 2 Individual Homework Missions</h1>
+      <p>
+        Building on the domains and data model you designed in Week 1, implement front-end integration, back-end business logic and idempotency,<br />
+        member/auth security audits, payment transactions and global launch monitoring yourself, and complete your <code>ai_review.md</code> decision evidence.
+      </p>
+
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-val">10 assignments</div>
+          <div class="stat-lbl">2 per day / 10 problems total</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">50 pts / 100 pts</div>
+          <div class="stat-lbl">50 pts per problem (100 pts per day)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">90–120 min</div>
+          <div class="stat-lbl">Suggested time per day</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">ZIP submission</div>
+          <div class="stat-lbl">Submit StudentID_Name_DayNN.zip</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container" style="padding-top: 10px; padding-bottom: 80px;">
+
+    <!-- Day Navigation Filter -->
+    <div class="day-filter-wrap">
+      <button class="filter-btn active" onclick="filterDay('all')">All assignments (10)</button>
+      <button class="filter-btn" onclick="filterDay('day6')">Day 6 (2)</button>
+      <button class="filter-btn" onclick="filterDay('day7')">Day 7 (2)</button>
+      <button class="filter-btn" onclick="filterDay('day8')">Day 8 (2)</button>
+      <button class="filter-btn" onclick="filterDay('day9')">Day 9 (2)</button>
+      <button class="filter-btn" onclick="filterDay('day10')">Day 10 (2)</button>
+    </div>
+
+    <!-- Submission Rules Banner -->
+    <div class="rules-banner">
+      <h3>📌 Day 5–10 homework submission and grading rules</h3>
+      <ul class="rules-list">
+        <li><strong>File structure:</strong> inside the <code>StudentID_Name_DayNN.zip</code> file, create <code>HW-DNN-01</code> and <code>HW-DNN-02</code> folders and submit the required source code, design docs and <code>ai_review.md</code></li>
+        <li><strong>AI review record (ai_review.md required):</strong> must include the check questions you wrote, AI's key feedback and your reasons for accepting, rejecting or changing (simply copy-pasting AI answers gets 0 points)</li>
+        <li><strong>In-depth assignment rule:</strong> the example prompts are only for reference. You must write your own code that solves business exceptions and edge cases yourself.</li>
+        <li><strong>Grading:</strong> 2 problems per day (50 pts each, 100 total); your Week 2 final grade is the average of the 5 days' scores.</li>
+      </ul>
+    </div>
+
+    <!-- DAY 6 SECTION -->
+    <div class="day-section" id="day6">
+      <div class="section-header">
+        <span class="section-tag">DAY 06 ASSIGNMENTS</span>
+        <h2 class="section-title">Day 6. Front-End Development and API Integration</h2>
+      </div>
+
+      <div class="curriculum-grid">
+        <!-- HW-D06-01 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(180deg);">
+            <span>HW-D06-01</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 6 • HW-D06-01</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D06-01. Live Video Player &amp; State Binding UI</h3>
+            <p class="course-desc">
+              Build a UI state machine and event binding for the VidAce player that renders video metadata, an ad countdown (skip after 5 sec) and live viewing stats at the same time during HLS streaming.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-FE, TECH-STATE</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CODE, AI-REV, AI-TEST</div>
+              <div class="meta-item"><strong>Lab area</strong>CODE</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Video Player</span>
+              <span class="tag">State Machine</span>
+              <span class="tag">Throttling</span>
+              <span class="tag">API Binding</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>player_state_machine.md</code>, <code>VideoPlayer.js</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d06-01')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+
+        <!-- HW-D06-02 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(220deg);">
+            <span>HW-D06-02</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 6 • HW-D06-02</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D06-02. Fallback UX for AdBlock and Network Drops</h3>
+            <p class="course-desc">
+              Design a resilient UX where the player doesn't freeze and falls back to a replacement banner or safe mode when the ad API is blocked by the browser's ad blocker (AdBlock) or network delays.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-FE, TECH-UX</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CTX, AI-DEBUG, AI-REV</div>
+              <div class="meta-item"><strong>Lab area</strong>CODE / UX</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">AdBlock Detection</span>
+              <span class="tag">Graceful Fallback</span>
+              <span class="tag">Error UX</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>fallback_flow.md</code>, <code>ad_fallback_handler.js</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d06-02')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- DAY 7 SECTION -->
+    <div class="day-section" id="day7">
+      <div class="section-header">
+        <span class="section-tag">DAY 07 ASSIGNMENTS</span>
+        <h2 class="section-title">Day 7. Connecting Features and Completing User Scenarios</h2>
+      </div>
+
+      <div class="curriculum-grid">
+        <!-- HW-D07-01 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(260deg);">
+            <span>HW-D07-01</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 7 • HW-D07-01</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D07-01. Async Pipeline for Large Video Upload and Encoding</h3>
+            <p class="course-desc">
+              Complete idempotency logic so that network retries don't cause duplicate encoding during chunked upload of a 2GB video and state changes in the async encoding queue.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-BE, TECH-ASYNC</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CODE, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>CODE</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Chunk Upload</span>
+              <span class="tag">Idempotency</span>
+              <span class="tag">Encoding Pipeline</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>upload_state_spec.md</code>, <code>UploadService.js</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d07-01')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+
+        <!-- HW-D07-02 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(300deg);">
+            <span>HW-D07-02</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 7 • HW-D07-02</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D07-02. Abuse Detection (FDS) and Correcting Transactions</h3>
+            <p class="course-desc">
+              Block abnormal playback and fake ad clicks by macro bots in real time, and build business rules that issue negative correction entries for already wrongly billed records without damaging the ledger.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-DDD, TECH-FDS</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-REV, AI-AUDIT, AI-LOGIC</div>
+              <div class="meta-item"><strong>Lab area</strong>CODE / LOGIC</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Abuse Detection</span>
+              <span class="tag">Compensating Tx</span>
+              <span class="tag">FDS Filter</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>fds_business_rules.md</code>, <code>ViewValidator.js</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d07-02')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- DAY 8 SECTION -->
+    <div class="day-section" id="day8">
+      <div class="section-header">
+        <span class="section-tag">DAY 08 ASSIGNMENTS</span>
+        <h2 class="section-title">Day 8. Member Services and the Onboarding Experience</h2>
+      </div>
+
+      <div class="curriculum-grid">
+        <!-- HW-D08-01 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(340deg);">
+            <span>HW-D08-01</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 8 • HW-D08-01</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D08-01. Multi-Tenant Permission (RBAC/ABAC) Matrix and Guards</h3>
+            <p class="course-desc">
+              Define a permission matrix per role — viewer, creator (owner/editor), advertiser, admin — and design authorization middleware that completely blocks deleting others' videos or channel takeover (IDOR).
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-SEC, TECH-AUTH</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CODE, AI-REV, AI-SEC</div>
+              <div class="meta-item"><strong>Lab area</strong>CODE / ARCH</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">RBAC / ABAC</span>
+              <span class="tag">Auth Guard</span>
+              <span class="tag">IDOR Prevention</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>role_permission_matrix.md</code>, <code>auth_guard.js</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d08-01')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+
+        <!-- HW-D08-02 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(20deg);">
+            <span>HW-D08-02</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 8 • HW-D08-02</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D08-02. Preventing OAuth2 Token Theft and a Session Security Audit</h3>
+            <p class="course-desc">
+              To defend against token theft through XSS/CSRF in social login and SPA setups, set up HttpOnly cookie-based Refresh Token Rotation (RTR) and immediate session expiry.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-SEC, TECH-OAUTH</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-AUDIT, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>CODE / AUDIT</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">OAuth2 / OIDC</span>
+              <span class="tag">Token Rotation</span>
+              <span class="tag">Security Audit</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>security_audit_report.md</code>, <code>token_service.js</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d08-02')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- DAY 9 SECTION -->
+    <div class="day-section" id="day9">
+      <div class="section-header">
+        <span class="section-tag">DAY 09 ASSIGNMENTS</span>
+        <h2 class="section-title">Day 9. Payment Services and the Checkout Experience</h2>
+      </div>
+
+      <div class="curriculum-grid">
+        <!-- HW-D09-01 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(60deg);">
+            <span>HW-D09-01</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 9 • HW-D09-01</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D09-01. Advertiser Campaign Budget Top-Up &amp; PG Payment Pipeline</h3>
+            <p class="course-desc">
+              When advertisers top up large budgets, check for tampered amounts between the payment window and back-end approval, and build an idempotent checkout pipeline that blocks double payments from double clicks or network delays.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-PAY, TECH-TX</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CODE, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>CODE</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">PG Integration</span>
+              <span class="tag">Tamper-proof</span>
+              <span class="tag">Checkout Pipeline</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>payment_pipeline.md</code>, <code>CheckoutService.js</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d09-01')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+
+        <!-- HW-D09-02 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(100deg);">
+            <span>HW-D09-02</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 9 • HW-D09-02</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D09-02. Payment Timeout Compensating Transactions (Saga) and Settlement Reconciliation</h3>
+            <p class="course-desc">
+              Build a system that automatically and fully recovers 'ghost payment' mismatches — the card was approved after a PG approval timeout but the system balance wasn't credited — with batch Reconciliation and Saga compensating cancellation.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-PAY, TECH-DIST</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-REV, AI-AUDIT, AI-LOGIC</div>
+              <div class="meta-item"><strong>Lab area</strong>CODE / ARCH</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Saga Pattern</span>
+              <span class="tag">Reconciliation</span>
+              <span class="tag">Ghost Transaction</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>payment_recovery_state.md</code>, <code>PaymentReconciliationWorker.js</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d09-02')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- DAY 10 SECTION -->
+    <div class="day-section" id="day10">
+      <div class="section-header">
+        <span class="section-tag">DAY 10 ASSIGNMENTS</span>
+        <h2 class="section-title">Day 10. Service Launch and Final Presentation</h2>
+      </div>
+
+      <div class="curriculum-grid">
+        <!-- HW-D10-01 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(140deg);">
+            <span>HW-D10-01</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 10 • HW-D10-01</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D10-01. Company-Wide Core E2E Integration QA and Launch Readiness Review</h3>
+            <p class="course-desc">
+              Automate tests for E2E scenarios of the whole business loop linking viewers, creators and advertisers, and finish a Go/No-Go checklist to decide production deployment on launch day.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-QA, TECH-E2E</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-TEST, AI-DOC, AI-REV</div>
+              <div class="meta-item"><strong>Lab area</strong>TEST / QA</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">E2E Automation</span>
+              <span class="tag">Launch Readiness</span>
+              <span class="tag">Go/No-Go Gate</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>e2e_test_scenarios.md</code>, <code>launch_readiness_checklist.md</code>, <code>e2e_core_flow.spec.js</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d10-01')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+
+        <!-- HW-D10-02 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(170deg);">
+            <span>HW-D10-02</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 10 • HW-D10-02</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D10-02. Circuit Breaker &amp; Zero-Downtime Rollback for Large Traffic Failures</h3>
+            <p class="course-desc">
+              Build circuit breaker middleware that prevents Cascading Failure when traffic surges 20x right after launch, and a rollback runbook that recovers without loss within 1 minute when a deployment defect is found.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-SRE, TECH-RESIL</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CODE, AI-REV, AI-AUDIT</div>
+              <div class="meta-item"><strong>Lab area</strong>CODE / SRE</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Circuit Breaker</span>
+              <span class="tag">Zero Downtime</span>
+              <span class="tag">Rollback Runbook</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>circuit_breaker_architecture.md</code>, <code>CircuitBreaker.js</code>, <code>zero_downtime_rollback_runbook.md</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d10-02')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==================== MODALS (10 ASSIGNMENTS) ==================== -->
+
+  <!-- Modal HW-D06-01 -->
+  <div id="modal-hw-d06-01" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d06-01')">&times;</button>
+      <div class="modal-body">
+        <span class="modal-mission-badge">DAY 6 • Assignment 1 (HW-D06-01)</span>
+        <h3>HW-D06-01. Live Video Player &amp; State Binding UI</h3>
+        
+        <div class="scenario-block">
+          <div class="scenario-label">🚨 Real business situation (Production Context)</div>
+          <p>
+            You're building the core video player UI component that streams 4K/FHD video on the VidAce web platform. Beyond simple play/pause, the player must handle these complex async states on one screen:
+          </p>
+          <ul class="scenario-list">
+            <li><strong>Playback lifecycle:</strong> IDLE &rarr; LOADING &rarr; PLAYING &rarr; BUFFERING &rarr; ERROR &rarr; ENDED</li>
+            <li><strong>Ad display states:</strong> pre-roll ad ('Skip ad' enabled after a 5-second countdown); pause the player and switch to an ad-only progress bar when a mid-roll ad is inserted</li>
+            <li><strong>Viewing stats and communication:</strong> sending the <code>timeupdate</code> event that fires every second straight to the server risks overload from thousands of concurrent users per second &rarr; <strong>5-second Throttling</strong> and async batch sending are required</li>
+          </ul>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">💡 Self-Reflection Questions</div>
+          <ul class="thinking-list">
+            <li>When managing with simple React <code>useState</code> or global variables, ad and video playback states get tangled and cause a black screen. How will you prevent this with a Finite State Machine?</li>
+            <li>When buffering lasts 3+ seconds because of network delay, how will you bind UI feedback (skeleton, spinner, notice of auto-switch to lower quality) to prevent users leaving?</li>
+            <li>How should you use <code>navigator.sendBeacon</code> to send the last watched position without loss when the browser tab goes to the background or the user closes the window (beforeunload)?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">🤖 Example AI question (reference prompt)</div>
+          <div class="example-note">
+            ⚠️ <strong>This is a reference example:</strong> copying the prompt below as-is for your answer loses points. Ask questions reflecting the business situation above and your own design, and leave a critical evaluation of AI's answers and your final reasons in <code>ai_review.md</code>.
+          </div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('p-hw-d06-01')">Copy example</button>
+            <pre id="p-hw-d06-01">I'm writing a video streaming web player component.
+Design a finite state machine (FSM) structure in JavaScript that safely manages playback states (IDLE, LOADING, PLAYING, BUFFERING, ERROR) and ad states (AD_PREROLL, AD_MIDROLL).
+Throttle the timeupdate event that fires every second to every 5 seconds to send viewing records to the server,
+and include logic that enables the 'Skip' button after 5 seconds of an ad.</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 Real Mission Tasks</div>
+          <div class="mission-steps">
+            <div class="mission-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Write the player state machine diagram (<code>player_state_machine.md</code>)</strong>
+                Write transition rules between main video states and ad states (State Transition Table &amp; Mermaid diagram), and state the blocking conditions for invalid transitions (e.g. clicking skip ad while buffering).
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Build the core video player controller (<code>VideoPlayer.js</code>)</strong>
+                Build working code that controls the HTML5 Video element, with event listeners for play/pause/buffering detection, a 5-second skip countdown and batch sending of viewing data every 5 seconds.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Sync viewing history when the screen closes abnormally</strong>
+                Include <code>visibilitychange</code> and <code>navigator.sendBeacon</code> exception handling that keeps the current playback position when the user closes the browser window.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">4</span>
+              <div>
+                <strong>AI review and self-critique report (<code>ai_review.md</code>)</strong>
+                Check the state management code AI wrote for concurrency flaws or possible memory leaks (Event Listeners not removed), and record what you fixed yourself.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">FSM state transition integrity 15 pts</span>
+          <span class="eval-item">Throttling and Beacon sync code 15 pts</span>
+          <span class="eval-item">5-second ad skip UI binding 10 pts</span>
+          <span class="eval-item">Evidence of AI judgment and review 10 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal HW-D06-02 -->
+  <div id="modal-hw-d06-02" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d06-02')">&times;</button>
+      <div class="modal-body">
+        <span class="modal-mission-badge">DAY 6 • Assignment 2 (HW-D06-02)</span>
+        <h3>HW-D06-02. Fallback UX for AdBlock and Network Drops</h3>
+        
+        <div class="scenario-block">
+          <div class="scenario-label">🚨 Real business situation (Production Context)</div>
+          <p>
+            In the VidAce launch beta test, about 35% of users turned out to use browser extensions like uBlock Origin and AdGuard. Because of this, every API call to the ad server (ad.vidace.com) was forcibly stopped at browser level with <code>net::ERR_BLOCKED_BY_CLIENT</code>.
+          </p>
+          <div class="db-problem-box">
+// A critical failure!
+AdService.fetchAd() &rarr; Error: net::ERR_BLOCKED_BY_CLIENT
+Result: Promise.all() rejects, stopping even the main video stream loader!
+User screen: frozen forever on a black screen!
+          </div>
+          <p>
+            Business team requirement: we can't lose paying viewers just because ads are blocked, so if an ad fails to load, within 3 seconds either replace it with our own house ad (public service ad or a VidAce original teaser) or go smoothly straight to the main video.
+          </p>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">💡 Self-Reflection Questions</div>
+          <ul class="thinking-list">
+            <li>Without an ad-blocker detection library, how will you separate a plain fetch error (Failed to fetch) from other network errors?</li>
+            <li>When an ad fails, will you show a banner asking users to turn off their blocker, or quietly show your own replacement ad and keep playing? (Business vs UX trade-off)</li>
+            <li>How should you design a UX where, if the connection drops briefly during chunked streaming, the player doesn't crash and tries to reconnect automatically with Exponential Backoff?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">🤖 Example AI question (reference prompt)</div>
+          <div class="example-note">
+            ⚠️ <strong>This is a reference example:</strong> don't just copy the prompt below; talk with AI including the Fallback scenarios and error classification rules you thought of.
+          </div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('p-hw-d06-02')">Copy example</button>
+            <pre id="p-hw-d06-02">When an ad server fetch request in a web video player is blocked by AdBlock (ERR_BLOCKED_BY_CLIENT),
+write a safe async error handler and retry logic so the main video doesn't stop,
+and instead falls back to a local replacement ad or starts the main video right away.</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 Real Mission Tasks</div>
+          <div class="mission-steps">
+            <div class="mission-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Write a Fallback flowchart (<code>fallback_flow.md</code>)</strong>
+                Write a decision tree and UI state diagram for 4 states: normal ad &rarr; AdBlock blocked &rarr; network down &rarr; CDN failure.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Ad failure isolation and replacement ad renderer (<code>ad_fallback_handler.js</code>)</strong>
+                Isolate the <code>catch</code> block so ad API errors don't stop the whole player Promise, and write resilient code that guarantees a local replacement banner or immediate ad-free playback.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Build offline detection and a notice UI</strong>
+                Build a recovery UI linked to the <code>window.navigator.onLine</code> event that pauses playback and shows a 'Retrying network connection...' toast.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">4</span>
+              <div>
+                <strong>Revenue vs user experience trade-off analysis (<code>ai_review.md</code>)</strong>
+                Discuss with AI the drop-off from blocking AdBlock users (Anti-Adblock) versus the business pros and cons of switching to house ads, and record your final decision.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Async error isolation and no-freeze playback 15 pts</span>
+          <span class="eval-item">Complete Fallback branch flow 15 pts</span>
+          <span class="eval-item">Network retry backoff logic 10 pts</span>
+          <span class="eval-item">Evidence of business judgment and AI review 10 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal HW-D07-01 -->
+  <div id="modal-hw-d07-01" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d07-01')">&times;</button>
+      <div class="modal-body">
+        <span class="modal-mission-badge">DAY 7 • Assignment 1 (HW-D07-01)</span>
+        <h3>HW-D07-01. Async Pipeline for Large Video Upload and Encoding</h3>
+        
+        <div class="scenario-block">
+          <div class="scenario-label">🚨 Real business situation (Production Context)</div>
+          <p>
+            You must build a system in VidAce's creator studio to upload large 4K video files of 2–5GB. A single HTTP POST must restart from the beginning on browser timeout (30 sec) or network drop, so you chose <strong>5MB Chunk multipart upload</strong>.
+          </p>
+          <div class="db-problem-box">
+// Upload and encoding concurrency failures!
+1. A creator clicked upload 3 times in a row, creating the same video 3 times
+2. Mobile Wi-Fi dropped, Chunk #12 was sent twice and the file broke
+3. The encoding-complete Webhook arrived twice because of network delay, so encoding was billed twice!
+          </div>
+          <p>
+            Task: introduce an <code>Idempotency-Key</code> to prevent duplicate requests, and build back-end business logic that checks a SHA-256 checksum after all chunks arrive and safely hands off to a background encoding worker.
+          </p>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">💡 Self-Reflection Questions</div>
+          <ul class="thinking-list">
+            <li>How will you atomically check the client-generated <code>upload_session_id</code> and chunk number (<code>chunk_index</code>) in a database or in-memory store?</li>
+            <li>If the user closes the tab or the computer turns off during chunk upload, how will you automatically clean up (Garbage Collection) unfinished temporary chunk files after 24 hours?</li>
+            <li>How will you defend against race conditions that move backward to an earlier state in the encoding state transitions (<code>UPLOAD_INIT &rarr; UPLOADING &rarr; COMPLETE &rarr; ENCODING &rarr; READY / FAILED</code>)?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">🤖 Example AI question (reference prompt)</div>
+          <div class="example-note">
+            ⚠️ <strong>This is a reference example:</strong> don't copy the prompt below as-is; ask specifically, reflecting your language stack and idempotency store (Redis, PostgreSQL, etc.).
+          </div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('p-hw-d07-01')">Copy example</button>
+            <pre id="p-hw-d07-01">Design a back-end service class for a large video Chunk upload pipeline.
+Check the Idempotency-Key and chunk_index sent by the client to prevent duplicate receipt,
+and write logic that assembles the final file when all chunks arrive and queues the async encoding job only once.</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 Real Mission Tasks</div>
+          <div class="mission-steps">
+            <div class="mission-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Upload pipeline state transition spec (<code>upload_state_spec.md</code>)</strong>
+                Describe HTTP API specs, state transition conditions and idempotency header rules for each step: session creation, chunk sending, assembly and encoding done.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Build the upload domain service (<code>UploadService.js</code> or <code>.py</code>)</strong>
+                Write service code that stores chunks, identifies duplicate chunks, atomically increments the chunk count and guarantees a single encoding queue publish when the last chunk arrives.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Write file integrity checksum (SHA-256) logic</strong>
+                Write a function that, after merging all chunks, compares the hash given when the upload session started with the final file's hash.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">4</span>
+              <div>
+                <strong>Concurrency and idempotency report (<code>ai_review.md</code>)</strong>
+                Analyze with AI the Race Condition defects that can happen when the same chunk is sent many times at once, and record your reasons for the fix.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Chunk assembly and idempotency 15 pts</span>
+          <span class="eval-item">State machine transition integrity 15 pts</span>
+          <span class="eval-item">Checksum integrity code 10 pts</span>
+          <span class="eval-item">AI review and exception defense logic 10 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal HW-D07-02 -->
+  <div id="modal-hw-d07-02" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d07-02')">&times;</button>
+      <div class="modal-body">
+        <span class="modal-mission-badge">DAY 7 • Assignment 2 (HW-D07-02)</span>
+        <h3>HW-D07-02. Abuse Detection (FDS) and Correcting Transactions</h3>
+        
+        <div class="scenario-block">
+          <div class="scenario-label">🚨 Real business situation (Production Context)</div>
+          <p>
+            A VidAce settlement audit found suspicious signs: certain malicious creators ran headless browser (Puppeteer) botnets to repeatedly visit their own videos and watch ads, fraudulently collecting <strong>₦15 million a month in payouts</strong>.
+          </p>
+          <div class="conflict-table">
+            <div class="conflict-row header-row">
+              <span>Check item</span>
+              <span>Normal user pattern</span>
+              <span>Macro bot abuse pattern</span>
+            </div>
+            <div class="conflict-row">
+              <span>Minimum watch time</span>
+              <span>Ad shown after 15+ seconds of real playback</span>
+              <span>Ad impression event sent 1.2 seconds after entering the page</span>
+            </div>
+            <div class="conflict-row">
+              <span>Repeat views from the same IP</span>
+              <span>Re-watching the same video within 10 minutes isn't counted</span>
+              <span>60 refreshes in a row in 1 minute from one IP</span>
+            </div>
+            <div class="conflict-row">
+              <span>Mouse/touch interaction</span>
+              <span>Interactions like volume changes and mouse moves recorded</span>
+              <span>0 interaction events, requests at an unnaturally fixed interval</span>
+            </div>
+          </div>
+          <p>
+            Platform accounting rule: if data already billed to advertisers or recorded in the creator payout ledger is removed with <code>DELETE</code>, it can't pass an audit. You must issue a negative entry through a <strong>Compensating Transaction</strong>.
+          </p>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">💡 Self-Reflection Questions</div>
+          <ul class="thinking-list">
+            <li>How will you separate lag from regular users on slow networks from abnormal requests by malicious bots without False Positives?</li>
+            <li>How will you apply an in-memory Sliding Window algorithm so the FDS filter doesn't become a bottleneck on a real-time event stream (thousands per second)?</li>
+            <li>When fraud is confirmed, how should the accounting data model deduct (Clawback) already-paid payouts from next month's settlement?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">🤖 Example AI question (reference prompt)</div>
+          <div class="example-note">
+            ⚠️ <strong>This is a reference example:</strong> don't use the prompt below as-is; write in-depth questions including the bot detection parameters and accounting correction logic you thought of.
+          </div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('p-hw-d07-02')">Copy example</button>
+            <pre id="p-hw-d07-02">Write fraud detection (FDS) and accounting correction transaction code for a video ad platform.
+1) Filtering that voids ad billing events for a 10-minute cooldown per IP and views under 15 seconds
+2) For already-approved fraudulent payouts, build domain service and transaction logic
+that issues negative correction entries without deleting ledger data.</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 Real Mission Tasks</div>
+          <div class="mission-steps">
+            <div class="mission-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Write FDS business rules and a detection matrix (<code>fds_business_rules.md</code>)</strong>
+                Specify normal viewing criteria (minimum watch time, interaction checks, cooldown) and a formula for a suspicion Risk Score (0–100).
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Build a view validation engine (<code>ViewValidator.js</code> or <code>.py</code>)</strong>
+                Build validation middleware that receives playback request metadata, judges risk, and immediately blocks billing for abnormal requests.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Write a Compensating Transaction issuer</strong>
+                Build transaction code that creates an <code>ADJUSTMENT_NEGATIVE</code> entry for fraudulent payouts found in a later audit, while keeping the original ledger records.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">4</span>
+              <div>
+                <strong>Accounting integrity and AI audit report (<code>ai_review.md</code>)</strong>
+                Argue against the legal and accounting risks of the simple Hard Delete model AI suggested, and record the reasoning for finally choosing a double-entry correction model.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Precise FDS detection rules 15 pts</span>
+          <span class="eval-item">Integrity of ledger correction transactions 15 pts</span>
+          <span class="eval-item">Preventing false positives and handling exceptions 10 pts</span>
+          <span class="eval-item">Critical AI audit and decisions 10 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal HW-D08-01 -->
+  <div id="modal-hw-d08-01" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d08-01')">&times;</button>
+      <div class="modal-body">
+        <span class="modal-mission-badge">DAY 8 • Assignment 1 (HW-D08-01)</span>
+        <h3>HW-D08-01. Multi-Tenant Permission (RBAC/ABAC) Matrix and Guards</h3>
+        
+        <div class="scenario-block">
+          <div class="scenario-label">🚨 Real business situation (Production Context)</div>
+          <p>
+            VidAce grew from a single-user service into a multi-tenant platform serving business MCN channels and agency advertisers. Now one user can belong to several channels, and permissions are split further within a channel:
+          </p>
+          <div class="persona-box">
+            <div class="persona-name">Channel permission personas (Creator Team)</div>
+            <div class="persona-detail">
+              • <strong>OWNER (channel owner):</strong> delete the channel, change the payout account, invite members, full CRUD on all videos<br />
+              • <strong>EDITOR (video editor):</strong> can edit/delete only videos they uploaded or are assigned (can't delete other editors' videos)<br />
+              • <strong>ANALYST (data analyst):</strong> can only view viewing stats and ad revenue (no editing/deleting videos at all)
+            </div>
+          </div>
+          <p>
+            Security warning: if you only do a simple Role check (<code>user.role === 'EDITOR'</code>), you're wide open to <strong>BOLA (Broken Object Level Authorization / IDOR)</strong> attacks, where an attacker changes the <code>video_id</code> in the request body to another channel's video ID and deletes it without permission.
+          </p>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">💡 Self-Reflection Questions</div>
+          <ul class="thinking-list">
+            <li>How will you combine simple role-based access control (RBAC) with attribute-based access control (ABAC), which also checks resource ownership and channel membership, into a single guard middleware?</li>
+            <li>If every API request queries the DB to check permissions, how will you ease the DB bottleneck with caching (Redis, JWT Claims) while still reflecting revoked permissions immediately?</li>
+            <li>How should security responsibility be split between hiding unauthorized buttons in the client UI (Frontend Guard) and returning 403 Forbidden from the back end?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">🤖 Example AI question (reference prompt)</div>
+          <div class="example-note">
+            ⚠️ <strong>This is a reference example:</strong> make your question specific with a middleware format for your back-end framework (Express, NestJS, FastAPI, etc.) and BOLA defense scenarios.
+          </div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('p-hw-d08-01')">Copy example</button>
+            <pre id="p-hw-d08-01">Design back-end Authorization guard middleware for a multi-tenant video platform.
+Write complete code that defends against BOLA (IDOR) attacks by checking not only the user's global Role
+but also their role within a specific channel (OWNER, EDITOR, ANALYST)
+and the video resource's ownership (resource.channel_id === request.channel_id).</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 Real Mission Tasks</div>
+          <div class="mission-steps">
+            <div class="mission-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Role-Permission Matrix doc (<code>role_permission_matrix.md</code>)</strong>
+                Write an allow/deny matrix for 15 core API endpoints for the 4 roles (VIEWER, CREATOR, ADVERTISER, ADMIN) and the 3 channel member sub-roles.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Build RBAC + ABAC authorization middleware (<code>auth_guard.js</code> or <code>.py</code>)</strong>
+                Build a guard function that parses the user ID from the JWT, checks the channel ID and ownership of the target resource (video, payout account, etc.) in the DB/cache, and controls permissions.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Write 5 BOLA (IDOR) penetration test cases</strong>
+                Write 5 unauthorized attack scenarios — like an editor trying to delete another channel's video, or an analyst trying to change the payout account — and code that checks for a 403 response.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">4</span>
+              <div>
+                <strong>AI security review and privilege theft defense report (<code>ai_review.md</code>)</strong>
+                Point out parameter tampering blind spots easy to miss in AI's draft, and record the check rules you added.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Complete RBAC/ABAC matrix 15 pts</span>
+          <span class="eval-item">BOLA (IDOR) defense guard code 15 pts</span>
+          <span class="eval-item">5 unauthorized access test cases 10 pts</span>
+          <span class="eval-item">AI security audit and design judgment 10 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal HW-D08-02 -->
+  <div id="modal-hw-d08-02" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d08-02')">&times;</button>
+      <div class="modal-body">
+        <span class="modal-mission-badge">DAY 8 • Assignment 2 (HW-D08-02)</span>
+        <h3>HW-D08-02. Preventing OAuth2 Token Theft and a Session Security Audit</h3>
+        
+        <div class="scenario-block">
+          <div class="scenario-label">🚨 Real business situation (Production Context)</div>
+          <p>
+            After VidAce introduced Google and Facebook social login, an outside security audit reported these critical session weaknesses:
+          </p>
+          <div class="breaking-changes-box">
+            <div class="change-item bad">
+              <strong>[CRITICAL 1] JWT Refresh Token stored in LocalStorage:</strong> one line of XSS attack script can leak a user's long-lived token to a hacker's C2 server.
+            </div>
+            <div class="change-item bad">
+              <strong>[CRITICAL 2] No Refresh Token reuse detection:</strong> even if a hacker uses a leaked token to get a new Access Token, the real user never learns the session was hijacked.
+            </div>
+            <div class="change-item bad">
+              <strong>[HIGH 3] Weak OAuth2 CSRF defense:</strong> missing <code>state</code> parameter checks when exchanging the Auth Code allow account linking to be hijacked.
+            </div>
+          </div>
+          <p>
+            Fix required: use <strong>HttpOnly, Secure, SameSite=Strict cookies</strong>, discard the old token each time a Refresh Token is renewed, and if an already-used token is submitted again, treat it as a breach and <strong>force-expire all sessions for that account (Family Invalidation)</strong> — an RTR (Refresh Token Rotation) architecture.
+          </p>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">💡 Self-Reflection Questions</div>
+          <ul class="thinking-list">
+            <li>When the SPA and back-end API server are on different domains (api.vidace.com vs www.vidace.com), how must SameSite cookies and CORS be set so cookies aren't lost?</li>
+            <li>How do you handle a grace period (10 seconds) so a normal client that accidentally sends the previous token twice due to mobile network delay during rotation doesn't get its session cut by a false positive?</li>
+            <li>When storing a session revocation list in Redis, what technique matches the token's remaining expiry (TTL) to reduce wasted memory?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">🤖 Example AI question (reference prompt)</div>
+          <div class="example-note">
+            ⚠️ <strong>This is a reference example:</strong> don't copy and submit the prompt below. Build your own prompt that covers token family management and anomaly detection in detail.
+          </div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('p-hw-d08-02')">Copy example</button>
+            <pre id="p-hw-d08-02">Build security-hardened JWT Refresh Token Rotation (RTR) service code.
+1) Issue tokens with HttpOnly/Secure cookies
+2) On renewal, invalidate the old Refresh Token and issue a new token family (Family ID)
+3) Include logic that detects a breach when an already-used, discarded token is resent, and immediately invalidates all of that user's active sessions.</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 Real Mission Tasks</div>
+          <div class="mission-steps">
+            <div class="mission-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Security audit and threat modeling report (<code>security_audit_report.md</code>)</strong>
+                Write a comparison table of security weaknesses by token storage location (LocalStorage vs Memory vs HttpOnly Cookie) and attack vector scenarios.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Build the Refresh Token Rotation service (<code>token_service.js</code> or <code>.py</code>)</strong>
+                Write back-end code that manages Token Families, rotates tokens, and revokes all of an account's sessions (Session Revocation) when reuse is detected.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Build OAuth2 State / PKCE authorization checks</strong>
+                Write <code>state</code> and PKCE hash check routines that block CSRF attacks and auth code theft when handling social login callbacks.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">4</span>
+              <div>
+                <strong>AI security review and final architecture decision (<code>ai_review.md</code>)</strong>
+                Evaluate the performance/operations limits (like Redis memory load) of AI's suggested token security methods for real production, and describe the reasons for your adjustments.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Depth of threat modeling report 15 pts</span>
+          <span class="eval-item">RTR and token family expiry code 15 pts</span>
+          <span class="eval-item">CSRF/PKCE defense logic 10 pts</span>
+          <span class="eval-item">Checking AI security advice and judgment 10 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal HW-D09-01 -->
+  <div id="modal-hw-d09-01" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d09-01')">&times;</button>
+      <div class="modal-body">
+        <span class="modal-mission-badge">DAY 9 • Assignment 1 (HW-D09-01)</span>
+        <h3>HW-D09-01. Advertiser Campaign Budget Top-Up &amp; PG Payment Pipeline</h3>
+        
+        <div class="scenario-block">
+          <div class="scenario-label">🚨 Real business situation (Production Context)</div>
+          <p>
+            You must build a checkout system for VidAce where business advertisers top up a ₦10 million video ad campaign budget by credit card. Payments tie directly to company revenue, so not a single error is allowed.
+          </p>
+          <div class="db-problem-box">
+// Possible payment incidents!
+1. [Amount tampering]: in the client's developer tools, change the payment amount from ₦10,000,000 to ₦1,000, then open the PG payment pop-up
+2. [Double payment]: clicking approve repeatedly causes 2 card approvals for the same order
+3. [Missing payment]: PG approval succeeded, but the network dropped right before saving to the server DB, leaving the advertiser balance at ₦0 and stopping the ads
+          </div>
+          <p>
+            System requirements: complete a pipeline that 1) records the expected payment amount on the back end when the order is created, 2) checks payment amount integrity server-to-server when requesting PG approval, and 3) completely blocks double payments with an <code>Idempotency-Key</code>.
+          </p>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">💡 Self-Reflection Questions</div>
+          <ul class="thinking-list">
+            <li>Why must you never trust the payment amount sent by the client, and how should you compare it with the order amount in the server DB right before calling the PG approval API?</li>
+            <li>When the same advertiser sends duplicate requests for the same order within 1 second, how will you combine a DB-level Unique constraint and a Redis lock?</li>
+            <li>If payment approval finished but publishing the advertiser balance top-up event failed, will you roll back the transaction or hand it to a retry queue?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">🤖 Example AI question (reference prompt)</div>
+          <div class="example-note">
+            ⚠️ <strong>This is a reference example:</strong> don't just ask for PG payment code; include detailed conditions that force amount tampering checks and idempotency.
+          </div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('p-hw-d09-01')">Copy example</button>
+            <pre id="p-hw-d09-01">Write a checkout back-end service that prevents amount tampering and guarantees idempotency when integrating PG payments.
+1) Create the order and amount on the server before client payment (Order Create)
+2) Before calling PG approval (Confirm), check that the server order ledger amount matches the PG request amount
+3) Include preventing duplicate approval with an Idempotency-Key and topping up the balance inside a transaction.</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 Real Mission Tasks</div>
+          <div class="mission-steps">
+            <div class="mission-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Write a checkout sequence diagram (<code>payment_pipeline.md</code>)</strong>
+                Fully visualize the payment request, amount check, approval and balance update flow between the browser, VidAce back end and PG server as a Mermaid sequence diagram.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Build the core checkout service class (<code>CheckoutService.js</code> or <code>.py</code>)</strong>
+                Write code that handles payment Prepare, amount check and approval (Confirm), and ad budget ledger recording (Credit Deposit) as an atomic transaction.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Write test cases against amount tampering and double payment</strong>
+                Build test code that immediately rejects requests with the amount changed by even ₦1, and duplicate approval attempts with the same idempotency key.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">4</span>
+              <div>
+                <strong>AI review of financial transaction reliability (<code>ai_review.md</code>)</strong>
+                Check the transaction Isolation Level and deadlock risk of AI's suggested payment code, and describe how you improved it.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Sequence diagram and design completeness 15 pts</span>
+          <span class="eval-item">Amount tampering prevention and idempotency code 15 pts</span>
+          <span class="eval-item">Transaction atomicity and exception tests 10 pts</span>
+          <span class="eval-item">Evidence of AI payment review and decisions 10 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal HW-D09-02 -->
+  <div id="modal-hw-d09-02" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d09-02')">&times;</button>
+      <div class="modal-body">
+        <span class="modal-mission-badge">DAY 9 • Assignment 2 (HW-D09-02)</span>
+        <h3>HW-D09-02. Payment Timeout Compensating Transactions (Saga) and Settlement Reconciliation</h3>
+        
+        <div class="scenario-block">
+          <div class="scenario-label">🚨 Real business situation (Production Context)</div>
+          <p>
+            On a big promotion day, a sudden traffic surge hit the PG network, and after VidAce's server called the PG approval API it got <strong>HTTP 504 Gateway Timeout</strong>. Not knowing whether it was approved, VidAce marked the order 'failed', but in reality ₦5 million was successfully charged to the advertiser's card — a <strong>Ghost Transaction</strong>.
+          </p>
+          <div class="conflict-table">
+            <div class="conflict-row header-row">
+              <span>State</span>
+              <span>VidAce database</span>
+              <span>PG's real ledger</span>
+            </div>
+            <div class="conflict-row">
+              <span>Timed-out transaction</span>
+              <span>Order status: PAYMENT_PENDING or FAILED</span>
+              <span>Payment status: SUCCESS (card approved)</span>
+            </div>
+            <div class="conflict-row">
+              <span>What the advertiser sees</span>
+              <span>"Payment failed" screen shown</span>
+              <span>SMS on their phone: "₦5,000,000 payment complete"</span>
+            </div>
+          </div>
+          <p>
+            Recovery requirement: since two-phase commit (2PC) isn't possible in a distributed setup, build <strong>Saga compensating transactions</strong> and a <strong>Reconciliation Worker</strong> running every 5 minutes that automatically detects mismatches and either cancels the payment or safely credits the balance.
+          </p>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">💡 Self-Reflection Questions</div>
+          <ul class="thinking-list">
+            <li>When a timeout happens, should you request card approval cancellation right away, or first call the PG status lookup API to check the state?</li>
+            <li>What 'confirming approval' state will you show on screen to stop the advertiser complaining to support or paying again before the reconciliation batch runs?</li>
+            <li>When the network to the PG is completely down and even the cancel API fails, how will you design a fallback that puts it in a Dead Letter Queue (DLQ) and sends an operator alert (Slack/SMS)?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">🤖 Example AI question (reference prompt)</div>
+          <div class="example-note">
+            ⚠️ <strong>This is a reference example:</strong> ask AI including the distributed transaction recovery algorithm and Reconciliation interval conditions you came up with.
+          </div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('p-hw-d09-02')">Copy example</button>
+            <pre id="p-hw-d09-02">Design Saga compensating transactions and a reconciliation worker that recover ghost payment mismatches when payment approval times out.
+1) Periodically check PENDING payments with the PG transaction lookup API
+2) Auto-top-up the ad budget for approved payments; confirm unapproved ones as failed
+3) Write logic that runs a PG automatic cancellation (Compensating Cancel) for cases that can't be processed due to system errors.</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 Real Mission Tasks</div>
+          <div class="mission-steps">
+            <div class="mission-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Write a payment recovery state machine (<code>payment_recovery_state.md</code>)</strong>
+                Describe a state transition diagram for PENDING, CONFIRMING, TIMEOUT, AUTO_RECONCILED and COMPENSATING_CANCELLED, and a timeout threshold policy.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Build the reconciliation worker (<code>PaymentReconciliationWorker.js</code> or <code>.py</code>)</strong>
+                Write batch code that looks up payments PENDING for 5+ minutes, compares them with the PG status lookup API, and auto-tops-up or compensates-cancels depending on whether they match.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Write a DLQ (Dead Letter Queue) and failure alert handler</strong>
+                Build an exception handler that sends the error payload to the admin dashboard for manual action after 3 failed retries.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">4</span>
+              <div>
+                <strong>AI audit report on distributed transaction consistency (<code>ai_review.md</code>)</strong>
+                Point out the blind spots of the simple Retry approach AI suggested, and argue by comparison why adopting Saga compensating transactions is justified.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Consistent recovery state machine design 15 pts</span>
+          <span class="eval-item">Reconciliation worker and compensating cancel code 15 pts</span>
+          <span class="eval-item">DLQ and exception alert system 10 pts</span>
+          <span class="eval-item">Critical AI review of distributed transactions 10 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal HW-D10-01 -->
+  <div id="modal-hw-d10-01" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d10-01')">&times;</button>
+      <div class="modal-body">
+        <span class="modal-mission-badge">DAY 10 • Assignment 1 (HW-D10-01)</span>
+        <h3>HW-D10-01. Company-Wide Core E2E Integration QA and Launch Readiness Review</h3>
+        
+        <div class="scenario-block">
+          <div class="scenario-label">🚨 Real business situation (Production Context)</div>
+          <p>
+            VidAce global launch, D-3. Every team's individual features (FE screens, upload encoding, member permissions, PG payment) are done, but the <strong>company-wide End-to-End business loop</strong> where they all connect hasn't been checked yet.
+          </p>
+          <div class="scenario-list">
+            <li><strong>Core business loop (Core Loop):</strong><br />
+            [Advertiser] sign up &rarr; top up a ₦10 million budget &rarr; create a video ad campaign &rarr;<br />
+            [Creator] upload a 4K video and finish encoding &rarr; turn on ad monetization &rarr;<br />
+            [Viewer] play the video &rarr; skip after 5 seconds of ad &rarr; publish a view-complete event &rarr;<br />
+            [Platform] deduct one impression fee (₦200) from the advertiser budget &rarr; credit the share (₦140) to the creator payout ledger</li>
+          </div>
+          <p>
+            Launch decision responsibility: to pass the <strong>Go / No-Go Decision Gate</strong> that gives final approval for production deployment on launch day, set criteria for zero Blocker / Critical defects and automated E2E test scripts.
+          </p>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">💡 Self-Reflection Questions</div>
+          <ul class="thinking-list">
+            <li>Even with 100% of Unit Tests passing, why might things fail in a real browser because of payment pop-up blocking or third-party cookie policies?</li>
+            <li>Where is the line between 'P0 (Blocker)' scenarios that must pass on launch day and 'P2 (Minor)' defects that can be hotfixed after launch?</li>
+            <li>How will you switch between Sandbox mode and Mock payments so running E2E tests doesn't charge the real PG?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">🤖 Example AI question (reference prompt)</div>
+          <div class="example-note">
+            ⚠️ <strong>This is a reference example:</strong> design your question specifically, reflecting your E2E automation tool (Playwright, Cypress, etc.) and launch criteria.
+          </div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('p-hw-d10-01')">Copy example</button>
+            <pre id="p-hw-d10-01">Write company-wide core E2E integration test scenarios and a Launch Readiness checklist for launching a video and ad platform.
+Write the core flow of a Playwright automated test script for the whole business loop,
+from advertiser budget top-up to creator video upload, viewer playback and ad cost deduction/payout.</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 Real Mission Tasks</div>
+          <div class="mission-steps">
+            <div class="mission-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Company-wide E2E test scenario spec (<code>e2e_test_scenarios.md</code>)</strong>
+                State 5 critical user journeys where viewer, creator, advertiser and admin roles interact, with preconditions, test steps and expected results.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Launch Readiness Checklist &amp; Go/No-Go table (<code>launch_readiness_checklist.md</code>)</strong>
+                Write 20 check items covering features, security, performance and operations, and a launch approve/hold decision matrix.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Core business loop E2E automation script (<code>e2e_core_flow.spec.js</code>)</strong>
+                Build an automation script with Playwright/Cypress or a similar framework that checks video playback &rarr; ad impression &rarr; payout event publishing.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">4</span>
+              <div>
+                <strong>AI QA feedback and launch risk assessment (<code>ai_review.md</code>)</strong>
+                Record the results of further checking real-world edge cases missing from AI's optimistic test scenarios (cookie blocking, network throttling, etc.).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Complete E2E business loop scenarios 15 pts</span>
+          <span class="eval-item">Clear Launch Readiness criteria 15 pts</span>
+          <span class="eval-item">Runnable E2E automation script 10 pts</span>
+          <span class="eval-item">Checking AI QA advice and risk analysis 10 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal HW-D10-02 -->
+  <div id="modal-hw-d10-02" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d10-02')">&times;</button>
+      <div class="modal-body">
+        <span class="modal-mission-badge">DAY 10 • Assignment 2 (HW-D10-02)</span>
+        <h3>HW-D10-02. Circuit Breaker &amp; Zero-Downtime Rollback for Large Traffic Failures</h3>
+        
+        <div class="scenario-block">
+          <div class="scenario-label">🚨 Real business situation (Production Context)</div>
+          <p>
+            At 8 p.m. on launch day, a big creator's exclusive new video was released and concurrent users spiked to 150,000. The AI personalized recommendation server and targeted ad server response times shot past 8 seconds, the back-end API thread pool ran out, and you faced a blackout where <strong>even the core video streaming API went down in a chain (Cascading Failure)</strong>.
+          </p>
+          <div class="db-problem-box">
+// A cascading failure architecture flaw!
+Video detail page call &rarr; AdService.getAd() waits 8 sec &rarr; RecommendationService waits 8 sec
+Result: all API threads that return video playback URLs are stuck waiting on Timeouts,
+so users can't play videos at all — the whole service is down!
+          </div>
+          <p>
+            Operations recovery requirement: when a subsystem's (ads/recommendations) error rate goes over 50% or responses exceed 1 second, immediately open the <strong>Circuit Breaker</strong> to block ad calls and do <strong>Graceful Degradation</strong> to default cached videos. You also need a <strong>zero-downtime rollback runbook</strong> to return to the previous version within 1 minute without DB loss when a bug is found in a new version.
+          </p>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">💡 Self-Reflection Questions</div>
+          <ul class="thinking-list">
+            <li>In the circuit breaker's 3 states (Closed, Open, Half-Open), what share of trial requests will you let through when switching to the recovery state (Half-Open)?</li>
+            <li>When rolling back a version that includes a database schema migration (e.g. dropping or changing a column), what Expand/Contract deployment strategy keeps backward compatibility so the old app doesn't break?</li>
+            <li>How should you set automated Health Check probe criteria so the ops team can roll back within 3 minutes of a failure on launch day without panicking?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">🤖 Example AI question (reference prompt)</div>
+          <div class="example-note">
+            ⚠️ <strong>This is a reference example:</strong> don't copy the prompt below; ask specifically, reflecting your architecture stack and circuit breaker Failure Threshold.
+          </div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('p-hw-d10-02')">Copy example</button>
+            <pre id="p-hw-d10-02">Write circuit breaker (Closed, Open, Half-Open) middleware code that stops outside ad/recommendation API failures
+from spreading to main video streaming during a big traffic surge.
+Include Fallback logic that returns default cached data right away if there's no response within 1 second,
+and an SRE runbook that does a zero-downtime rollback within 1 minute when a canary deployment fails.</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 Real Mission Tasks</div>
+          <div class="mission-steps">
+            <div class="mission-step">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Circuit breaker &amp; isolation architecture doc (<code>circuit_breaker_architecture.md</code>)</strong>
+                Describe the structure that blocks failure spread, the circuit state machine (Closed &rarr; Open &rarr; Half-Open), failure rate thresholds and the Fallback default policy.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Build circuit breaker middleware (<code>CircuitBreaker.js</code> or <code>.py</code>)</strong>
+                Write resilient code that measures failure rate/timeout frequency in a set time window, opens the circuit, and immediately returns local default cached data when an outside service is blocked.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Write a zero-downtime rollback runbook (<code>zero_downtime_rollback_runbook.md</code>)</strong>
+                Write rollback steps that immediately switch traffic to the previous stable version in Kubernetes/cloud when Health Checks fail, and a guide to keeping DB backward compatibility.
+              </div>
+            </div>
+            <div class="mission-step">
+              <span class="step-num">4</span>
+              <div>
+                <strong>AI check of SRE resilience and chaos engineering analysis (<code>ai_review.md</code>)</strong>
+                Have AI simulate a scenario where the ad server is forced down, and record the results confirming main streaming continues without interruption.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Circuit breaker architecture and Fallback 15 pts</span>
+          <span class="eval-item">Resilience implementation code 15 pts</span>
+          <span class="eval-item">Effectiveness of the zero-downtime rollback runbook 10 pts</span>
+          <span class="eval-item">AI chaos test checks and judgment 10 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company: Edunity Lab Co., Ltd.</span> | <span>CEO: Lee Gi-taek</span> | <span>Address: 2F Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul, Korea</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Phone: +82-2-6240-0053</span> | <span>Business Registration No.: 132-86-35644</span> | <span>Mail-Order Business Reg. No.: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function filterDay(day) {
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const sections = document.querySelectorAll('.day-section');
+      sections.forEach(sec => {
+        if (day === 'all') {
+          sec.style.display = 'block';
+        } else {
+          if (sec.id === day) {
+            sec.style.display = 'block';
+          } else {
+            sec.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function copyPrompt(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Prompt copied to clipboard.');
+      });
+    }
+
+    // Modal background click to close
+    window.addEventListener('click', function(e) {
+      if (e.target.classList.contains('modal-overlay')) {
+        e.target.classList.remove('active');
+      }
+    });
+
+    // Helper to get cookie
+    function getCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+      }
+      return null;
+    }
+
+    // Helper to delete cookie
+    function eraseCookie(name) {
+      document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    // Dynamic User Auth State in Navbar
+    (function initNavbarAuth() {
+      let loggedInUser = getCookie('currentUser');
+
+      if (!loggedInUser) {
+        const sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            const session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+
+      const userSlot = document.getElementById('nav-user-item') || document.querySelector('.nav-links li:last-child');
+      if (loggedInUser && userSlot) {
+        try {
+          const user = JSON.parse(loggedInUser);
+          userSlot.innerHTML = `
+            <div class="user-badge-main" onclick="logoutUser()" title="Click to log out">
+              <span>${user.avatar || '👤'}</span>
+              <span>${user.name || 'User'}</span>
+              <span class="user-logout-tag">Log out</span>
+            </div>
+          `;
+        } catch (e) {
+          console.error('Error parsing user data:', e);
+        }
+      }
+    })();
+
+    window.logoutUser = function() {
+      if (confirm('Do you want to log out?')) {
+        eraseCookie('currentUser');
+        localStorage.removeItem('currentUserSession');
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login/login.html';
+      }
+    };
+  </script>
+  <script src="homework-log.js?v=20260930-session-check"></script>
+  <script src="shared/notice-modal.js"></script>
+</body>
+</html>

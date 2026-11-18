@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 6 Data Structure & Collaboration Tasks | ACE AI SW Startup Training</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary-color: #2B5CA6; /* Electric Blue */
+      --secondary-color: #2B5CA6; /* Neon Cyan */
+      --bg-dark: #F6F9F4; /* Primary Background: Deep Black */
+      --bg-charcoal: #F6F9F4; /* Secondary Background */
+      --bg-card: #F6F9F4; /* Surface/Card: Dark Gray */
+      --text-main: #243B35; /* Primary: White */
+      --text-muted: #243B35; /* Secondary: Light Gray */
+      --text-desc: #6B7F79; /* Description: Gray */
+      --border-color: rgba(36,59,53,0.08); /* Thin border with low opacity */
+      --accent-color: #2B5CA6; /* Neon Cyan */
+      --accent-purple: #5D4AA8; /* Purple highlight */
+      --card-radius: 18px;
+      --shadow-sm: 0 4px 20px rgba(36,59,53,0.14), 0 0 1px rgba(36,59,53,0.035);
+      --shadow-md: 0 8px 30px rgba(36,59,53,0.035), 0 0 1px rgba(36,59,53,0.07);
+      --glow-blue: 0 0 15px rgba(43,92,166,0.35);
+      --glow-cyan: 0 0 15px rgba(43,92,166,0.35);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-main);
+      line-height: 1.65;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, p, li, span, strong { word-break: keep-all; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section { padding: 60px 0; }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(36,59,53,0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(36,59,53,0.017);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .nav-container {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #243B35;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .logo::before {
+      content: "";
+      width: 8px;
+      height: 20px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      background: rgba(255,255,255,0.7);
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.85);
+      color: var(--secondary-color);
+      border-color: rgba(43,92,166,0.3);
+    }
+
+    .hero {
+      margin-top: 70px;
+      padding: 100px 0 70px;
+      background: radial-gradient(circle at 50% 50%, rgba(43,92,166,0.088), transparent 60%), #F6F9F4;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.61) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.61) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .hero-center {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(43,92,166,0.11);
+      border: 1px solid rgba(43,92,166,0.2);
+      font-size: 0.88rem;
+      color: #2B5CA6;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #243B35 40%, #2B5CA6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      color: #243B35;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      margin: 12px auto 0;
+      border-radius: 999px;
+    }
+
+    .section-desc {
+      max-width: 860px;
+      margin: 0 auto 48px;
+      text-align: center;
+      color: var(--text-desc);
+      font-size: 1.02rem;
+    }
+
+    /* Grid Layout */
+    .curriculum-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .course-card {
+      background: rgba(246,249,244,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(36,59,53,0.08);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 520px;
+    }
+
+    .course-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-md), 0 0 25px rgba(36,59,53,0.07);
+      border-color: rgba(43,92,166,0.3);
+    }
+
+    .course-card.mission-card:hover {
+      box-shadow: var(--shadow-md), 0 0 25px rgba(36,59,53,0.087);
+      border-color: rgba(93,74,168,0.3);
+    }
+
+    .course-thumb {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: rgba(36,59,53,0.9);
+      text-shadow: 0 4px 10px rgba(36,59,53,0.14);
+    }
+
+    .course-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex-grow: 1;
+    }
+
+    .day-label {
+      display: inline-block;
+      width: fit-content;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: rgba(43,92,166,0.165);
+      color: #2B5CA6;
+      border: 1px solid rgba(43,92,166,0.2);
+    }
+
+    .day-label.mission {
+      background: rgba(93,74,168,0.165);
+      color: #2B5CA6;
+      border: 1px solid rgba(93,74,168,0.2);
+    }
+
+    .course-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.35;
+      color: #243B35;
+      transition: color 0.2s ease;
+    }
+
+    .course-card:hover .course-title {
+      color: var(--secondary-color);
+    }
+
+    .course-card.mission-card:hover .course-title {
+      color: #2B5CA6;
+    }
+
+    .course-subtitle {
+      font-size: 0.88rem;
+      color: var(--secondary-color);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .course-card.mission-card .course-subtitle {
+      color: #5D4AA8;
+    }
+
+    .course-desc {
+      color: #4A605A;
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .meta-grid {
+      display: grid;
+      gap: 8px;
+      background: rgba(255,255,255,0.61);
+      border: 1px solid rgba(36,59,53,0.08);
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+    }
+
+    .meta-item {
+      color: #243B35;
+      line-height: 1.5;
+    }
+
+    .meta-item strong {
+      color: var(--primary-color);
+      margin-right: 6px;
+    }
+
+    .mission-card .meta-item strong {
+      color: #5D4AA8;
+    }
+
+    .time-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.82rem;
+      border-left: 2px solid rgba(36,59,53,0.08);
+      padding-left: 12px;
+      margin: 4px 0;
+    }
+
+    .time-row {
+      color: #4A605A;
+    }
+
+    .time-row strong {
+      color: #243B35;
+      margin-right: 4px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.64);
+      color: #4A605A;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .ai-class-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: #27765B;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 15px rgba(36,59,53,0.07);
+      transition: all 0.25s ease;
+      margin-top: auto;
+      text-decoration: none;
+    }
+
+    .ai-class-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(36,59,53,0.14), 0 0 10px rgba(36,59,53,0.105);
+      background: linear-gradient(135deg, #D2E0FB, #D2E0FB);
+    }
+
+    .ai-class-btn.mission-btn {
+      background: linear-gradient(135deg, var(--accent-purple), #DFD8F6);
+      box-shadow: 0 4px 15px rgba(36,59,53,0.07);
+    }
+
+    .ai-class-btn.mission-btn:hover {
+      box-shadow: 0 6px 20px rgba(36,59,53,0.14), 0 0 10px rgba(36,59,53,0.105);
+      background: linear-gradient(135deg, #DFD8F6, #DFD8F6);
+    }
+
+    /* Section divider for missions */
+    .mission-divider {
+      margin: 50px 0 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mission-divider::before,
+    .mission-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(93,74,168,0.22);
+    }
+
+    .mission-divider-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      border-radius: 999px;
+      background: rgba(93,74,168,0.11);
+      border: 1px solid rgba(93,74,168,0.25);
+      color: #2B5CA6;
+      font-size: 0.88rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .footer-cta {
+      background: #F6F9F4;
+      color: #243B35;
+      text-align: center;
+      padding: 60px 20px;
+      border-top: 1px solid rgba(36,59,53,0.08);
+      margin-top: 40px;
+    }
+
+    .footer-cta h3 {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    .footer-cta p {
+      max-width: 760px;
+      margin: 0 auto;
+      opacity: 0.8;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 1024px) {
+      .curriculum-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .curriculum-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 { font-size: 2.2rem; }
+      section { padding: 50px 0; }
+    }
+  </style>
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="logo">ACE AI SW Startup Training</a>
+      <ul class="nav-links">
+        <li><a href="day6-ai-classroom.html">← Day 6 Classroom</a></li>
+        <li><a href="../homework_week1.html" style="color: #5D4AA8 !important; font-weight: 700 !important; background: rgba(93,74,168,0.165); border: 1px solid rgba(93,74,168,0.3); padding: 6px 14px; border-radius: 8px;">📝 Homework</a></li>
+        <li><a href="../index.html">← Full roadmap</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container hero-center">
+      <div class="hero-badge-wrap">
+        <span class="hero-badge">Day 6 Data Structure</span>
+        <span class="hero-badge">Codex AI Architect</span>
+      </div>
+      <h1>Codex Client Workspace Data Design Tasks</h1>
+      <p>
+        A hands-on AI teamwork Task board that uses Codex to automatically analyze and fix the data structure misunderstandings, scattered terms and change ripple problems startups face during MVP development.<br />
+      </p>
+    </div>
+  </section>
+
+  <section class="container">
+    <h2 class="section-title">Day 6 Startup MVP Tasks</h2>
+    <p class="section-desc">
+      From prototyping on a blank screen to debugging errors and refactoring for readability — experience a dev workflow that uses Codex as a capable pair programmer.
+    </p>
+
+    <div class="curriculum-grid">
+      <!-- Task 1 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(200deg); background-size: cover; background-position: center;">TASK 1</div>
+        <div class="course-content">
+          <span class="day-label">Task 1</span>
+          <h3 class="course-title">Task 1. Resolve Data Structure Misunderstandings Lab</h3>
+          <p class="course-subtitle">Task 01: Align Data Structure Understanding Between Planning and Dev (Data Structure Alignment)</p>
+          <p class="course-desc">
+            Derive key entities and relationships (Mermaid ERD) from planning meeting notes written in natural language, and use AI to close the gap in how planners and developers understand the data model.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>ERD schema and data structure doc</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client Workspace</div>
+            <div class="meta-item"><strong>Lab scope</strong>Data Structure Alignment</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📂 Prepare the meeting notes file (day6_meeting_notes.md) and upload to Codex</div>
+            <div class="time-row"><strong>Step 2</strong> 🔍 Ask Codex to derive entities and generate a Mermaid ERD</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">ERD</span>
+            <span class="tag">Entity Mapping</span>
+            <span class="tag">Data Alignment</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>erd-schema.md</code> (data spec and ERD)
+          </div>
+
+          <a href="day6-ai-codex-1.html" class="ai-class-btn">Enter Task 1 lab</a>
+        </div>
+      </article>
+
+      <!-- Task 2 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(260deg); background-size: cover; background-position: center;">TASK 2</div>
+        <div class="course-content">
+          <span class="day-label">Task 2</span>
+          <h3 class="course-title">Task 2. Error-Fixing Helper Lab</h3>
+          <p class="course-subtitle">Task 02: Read Console Logs and Build Guard Code (AI Debug Assistant)</p>
+          <p class="course-desc">
+            Pinpoint the exact line of an undefined property crash that freezes browser rendering, and add guard code in advance.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Error-causing logic debugged</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client Workspace</div>
+            <div class="meta-item"><strong>Lab scope</strong>Asynchronous Debugging</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Prepare the error file (day6_debug_source.js) and compare with the error log</div>
+            <div class="time-row"><strong>Step 2</strong> 🔍 Ask Codex to find the cause and apply a conditional guard patch</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">TypeError</span>
+            <span class="tag">Optional Chaining</span>
+            <span class="tag">Stack Trace</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>day6_debug_solution.js</code> (stable script)
+          </div>
+
+          <a href="day6-ai-codex-2.html" class="ai-class-btn">Enter Task 2 lab</a>
+        </div>
+      </article>
+
+      <!-- Task 3 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(320deg); background-size: cover; background-position: center;">TASK 3</div>
+        <div class="course-content">
+          <span class="day-label">Task 3</span>
+          <h3 class="course-title">Task 3. Improve the Code Lab</h3>
+          <p class="course-subtitle">Task 03: Shrink Duplicate Code and Fix Naming (Code Refactoring)</p>
+          <p class="course-desc">
+            Turn messy copy-pasted HTML binding code into a shared template function, and rename vague temporary variables with real-world words.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Duplicate markup turned into a shared utility</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client Workspace</div>
+            <div class="meta-item"><strong>Lab scope</strong>Code Refactoring & Convention</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📂 Prepare and upload the messy source (day6_dirty_code.js)</div>
+            <div class="time-row"><strong>Step 2</strong> 🔄 Tell Codex to remove duplicates and refactor to readable names</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Refactoring</span>
+            <span class="tag">Clean Code</span>
+            <span class="tag">Naming standard</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>day6_clean_code.js</code> (more readable source code)
+          </div>
+
+          <a href="day6-ai-codex-3.html" class="ai-class-btn">Enter lab</a>
+        </div>
+      </article>
+
+      <!-- Skill Task 1 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(45deg); background-size: cover; background-position: center;">SKILL 1</div>
+        <div class="course-content">
+          <span class="day-label" style="background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);">Skill Task 1</span>
+          <h3 class="course-title">Skill Task 1. Screen–API Binding</h3>
+          <p class="course-subtitle">ADD-D06-T01: Viewer/Advertiser screens using the API Contract</p>
+          <p class="course-desc">
+            Bind the front-end UI of the Viewer or Advertiser Flow to the real API Contract and wire up working interactions.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>End-to-End API Binding built</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Skill Task (TECH)</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Prepare the API Contract spec and UI template</div>
+            <div class="time-row"><strong>Step 2</strong> ⚙️ Connect fetch/axios and build event handlers</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Skill Task</span>
+            <span class="tag">API Binding</span>
+            <span class="tag">TECH-FE</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>09_BOUND_UI.html</code>
+          </div>
+
+          <a href="day6-ai-codex-1.html" class="ai-class-btn">Enter lab</a>
+        </div>
+      </article>
+
+      <!-- Skill Task 2 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(135deg); background-size: cover; background-position: center;">SKILL 2</div>
+        <div class="course-content">
+          <span class="day-label" style="background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);">Skill Task 2</span>
+          <h3 class="course-title">Skill Task 2. State Management and Failure UX</h3>
+          <p class="course-subtitle">ADD-D06-T02: 6 UI states &amp; user recovery actions</p>
+          <p class="course-desc">
+            Build 6 failure states — Loading, Empty, Validation, Unauthorized, Timeout, Server Error — and user recovery actions.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>6 failure UX states &amp; retry actions</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Skill Task (HYBRID)</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Create E2E failure scenario cases</div>
+            <div class="time-row"><strong>Step 2</strong> ⚙️ Toast/modal recovery actions and exception binding</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Skill Task</span>
+            <span class="tag">Failure UX</span>
+            <span class="tag">State Management</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>09_FE_STATES.js</code>
+          </div>
+
+          <a href="day6-ai-codex-2.html" class="ai-class-btn">Enter lab</a>
+        </div>
+      </article>
+
+      <!-- Skill Task 3 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(225deg); background-size: cover; background-position: center;">SKILL 3</div>
+        <div class="course-content">
+          <span class="day-label" style="background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);">Skill Task 3</span>
+          <h3 class="course-title">Skill Task 3. Front-End Debugging &amp; Refactoring</h3>
+          <p class="course-subtitle">ADD-D06-T03: Clean up console errors/global pollution and encapsulate</p>
+          <p class="course-desc">
+            Fix console errors, duplicate code, global state pollution and accessibility problems, and write a record of review decisions.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Debug report &amp; refactored code</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Skill Task (AI)</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Trace console reports and performance bottlenecks</div>
+            <div class="time-row"><strong>Step 2</strong> 🛡️ Record accept/change/reject decisions and patch the code</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Skill Task</span>
+            <span class="tag">FE Debugging</span>
+            <span class="tag">Refactoring</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>fe-debug-report.md</code>
+          </div>
+
+          <a href="day6-ai-codex-3.html" class="ai-class-btn">Enter lab</a>
+        </div>
+      </article>
+    </div>
+
+    <!-- Mission Divider -->
+    <div class="mission-divider">
+      <span class="mission-divider-label">🚀 Advanced Missions — AI-Based Software Development Course</span>
+    </div>
+
+    <div class="curriculum-grid" style="grid-template-columns: repeat(2, 1fr);">
+      <!-- Mission 1 -->
+      <article class="course-card mission-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(270deg) saturate(0.6); background-size: cover; background-position: center;">MISSION 1</div>
+        <div class="course-content">
+          <span class="day-label mission" style="background: rgba(93,74,168,0.132); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.2);">Mission 1</span>
+          <h3 class="course-title">Mission 1. Fix Errors with AI</h3>
+          <p class="course-subtitle">Mission 01: Debug CORS/JSON garbage parsing errors</p>
+          <p class="course-desc">
+            Get a diagnosis of CORS and async parsing errors and write a prevention report.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Debugging result report</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client Workspace</div>
+            <div class="meta-item"><strong>Lab scope</strong>Interactive Troubleshooting</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📂 Prepare the error console log</div>
+            <div class="time-row"><strong>Step 2</strong> 🔍 Ask Codex to analyze the cause</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Troubleshooting</span>
+            <span class="tag">Debugging</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>debug-report.md</code>
+          </div>
+
+          <a href="day6-ai-codex-mission1.html" class="ai-class-btn mission-btn" style="background: linear-gradient(135deg, #DFD8F6, #DFD8F6);">Enter assignment room</a>
+        </div>
+      </article>
+
+      <!-- Mission 2 -->
+      <article class="course-card mission-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(300deg) saturate(0.6); background-size: cover; background-position: center;">MISSION 2</div>
+        <div class="course-content">
+          <span class="day-label mission" style="background: rgba(93,74,168,0.132); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.2);">Mission 2</span>
+          <h3 class="course-title">Mission 2. Get an AI Code Review</h3>
+          <p class="course-subtitle">Mission 02: Audit and improve dashboard booking control logic</p>
+          <p class="course-desc">
+            Have Codex fully audit your code and finish refactoring it with structural improvements into clean code.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Code review feedback &amp; refactoring summary</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client Workspace</div>
+            <div class="meta-item"><strong>Lab scope</strong>AI-Assisted Code Quality Review</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📂 Prepare the source code and review request</div>
+            <div class="time-row"><strong>Step 2</strong> 🛡️ Accept Codex audit results / refactor</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Edge Cases</span>
+            <span class="tag">Code Review</span>
+            <span class="tag">Refactoring</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>day6_code_review.md</code>
+          </div>
+
+          <a href="day6-ai-codex-mission2.html" class="ai-class-btn mission-btn" style="background: linear-gradient(135deg, #DFD8F6, #DFD8F6);">Enter assignment room</a>
+        </div>
+      </article>
+
+      <!-- Mission 3 (Skill Mission 1) -->
+      <article class="course-card mission-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(140deg) saturate(0.6); background-size: cover; background-position: center;">MISSION 3</div>
+        <div class="course-content">
+          <span class="day-label mission" style="background: rgba(93,74,168,0.132); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.2);">Mission 3</span>
+          <h3 class="course-title">[Assignment] Mission 3. Real-Time WebSocket Chat Screen-API Binding</h3>
+          <p class="course-subtitle">Skill Mission 1: WebSocket &amp; REST API data binding</p>
+          <p class="course-desc">
+            Bind the front-end UI of a real-time multi-room chat app to WebSocket/REST API formats, and build reconnect and retry UX.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>WebSocket/REST chat web app code</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Skill Task Mission (Level 1)</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Build REST API binding and the WebSocket connection</div>
+            <div class="time-row"><strong>Step 2</strong> ⚙️ Add an auto-reconnect toast feedback UI when the socket drops</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Skill Mission</span>
+            <span class="tag">WebSocket</span>
+            <span class="tag">API Binding</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>chat-binding-app.html</code>
+          </div>
+
+          <a href="day6-ai-codex-mission3.html" class="ai-class-btn mission-btn" style="background: linear-gradient(135deg, #DFD8F6, #DFD8F6);">Enter assignment room</a>
+        </div>
+      </article>
+
+      <!-- Mission 4 (Skill Mission 2) -->
+      <article class="course-card mission-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(180deg) saturate(0.6); background-size: cover; background-position: center;">MISSION 4</div>
+        <div class="course-content">
+          <span class="day-label mission" style="background: rgba(93,74,168,0.132); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.2);">Mission 4</span>
+          <h3 class="course-title">[Assignment] Mission 4. Fintech Asset Dashboard FE Debugging</h3>
+          <p class="course-subtitle">Skill Mission 2: Front-End Debugging &amp; Refactoring</p>
+          <p class="course-desc">
+            Debug memory leaks, infinite render loops and console errors in a fintech dashboard web app, and refactor to add the 6 failure UX states.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Refactored code and debugging report</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Skill Task Mission (Level 2)</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Debug infinite loops and global variable pollution</div>
+            <div class="time-row"><strong>Step 2</strong> ⚙️ Build recovery for 6 failures incl. Loading, Timeout, Server Error</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Skill Mission</span>
+            <span class="tag">FE Debugging</span>
+            <span class="tag">Refactoring</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>asset-dashboard-refactored.js</code>
+          </div>
+
+          <a href="day6-ai-codex-mission4.html" class="ai-class-btn mission-btn" style="background: linear-gradient(135deg, #DFD8F6, #DFD8F6);">Enter assignment room</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <footer class="footer-cta">
+    <div class="container">
+      <h3>ACE AI SW Startup Training</h3>
+      <p style="margin-top: 10px;">
+        © 2026 ACE AI SW Startup Training &amp; ACE Ministry. All Rights Reserved. This is a hands-on MVP project course built around real development kits.
+      </p>
+    </div>
+  </footer>
+  <footer class="site-footer" style="background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08); padding: 32px 20px; text-align: center; color: #4A605A; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company: Edunity Lab Co., Ltd.</span> | <span>CEO: Lee Gi-taek</span> | <span>Address: 2F Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul, Korea</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Phone: +82-2-6240-0053</span> | <span>Business Registration No.: 132-86-35644</span> | <span>Mail-Order Business Reg. No.: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+  <script src="../shared/curriculum-content.js"></script>
+  <script src="../shared/curriculum-cards.js"></script>
+</body>
+</html>

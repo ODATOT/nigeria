@@ -9,28 +9,28 @@
 
 /* 13. 구현용 핵심 토큰 (Fresh Route 디자인 콘셉트) */
 :root {
-  --color-primary: #147D4E;
-  --color-primary-hover: #0F653E;
-  --color-primary-light: #EAF5EF;
-  --color-primary-dark: #0B4F35;
-  --color-accent: #F4C542;
-  --color-accent-light: #FEF7DC;
-  --color-secondary: #F28C28;
-  --color-secondary-light: #FFF1E2;
-  --color-background: #FFF9ED;
+  --color-primary: #27765B;
+  --color-primary-hover: #27765B;
+  --color-primary-light: #F6F9F4;
+  --color-primary-dark: #243B35;
+  --color-accent: #856000;
+  --color-accent-light: #F5F0BB;
+  --color-secondary: #856000;
+  --color-secondary-light: #F5F0BB;
+  --color-background: #F6F9F4;
   --color-surface: #FFFFFF;
-  --color-surface-subtle: #F8F4EA;
-  --color-text: #202620;
-  --color-text-muted: #667066;
-  --color-border: #E6E1D5;
-  --color-success: #18864B;
-  --color-info: #2878B8;
-  --color-info-light: #EBF4FA;
-  --color-warning: #D97706;
-  --color-warning-light: #FEF3C7;
-  --color-error: #C83D3D;
-  --color-error-light: #FDECEC;
-  --color-disabled: #A7ADA7;
+  --color-surface-subtle: #F6F9F4;
+  --color-text: #243B35;
+  --color-text-muted: #6B7F79;
+  --color-border: rgba(36,59,53,0.14);
+  --color-success: #27765B;
+  --color-info: #2B5CA6;
+  --color-info-light: #D2E0FB;
+  --color-warning: #856000;
+  --color-warning-light: #856000;
+  --color-error: #A83A45;
+  --color-error-light: #F6D5CF;
+  --color-disabled: #4A605A;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -48,7 +48,7 @@
   --radius-cut-card: 14px 14px 32px 14px;
   --radius-pill: 999px;
 
-  --shadow-floating: 0 8px 24px rgba(32, 38, 32, 0.10);
+  --shadow-floating: 0 8px 24px rgba(36,59,53,0.035);
 
   --font-display: 'Gmarket Sans', 'Pretendard', 'Noto Sans KR', sans-serif;
   --font-body: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -81,7 +81,7 @@ body {
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: 1.5;
-  background-color: #EFE9DC;
+  background-color: #EEF4EC;
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
 }
@@ -151,7 +151,7 @@ body {
   background: var(--color-primary-dark);
   color: var(--color-surface);
   font-size: var(--text-caption);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(36,59,53,0.126);
 }
 .sim-toolbar-header {
   display: flex;
@@ -167,9 +167,9 @@ body {
   color: var(--color-accent);
 }
 .sim-toggle-btn {
-  background: rgba(255, 255, 255, 0.12);
-  color: var(--color-surface);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255,255,255,0.91);
+  color: #243B35;
+  border: 1px solid rgba(36,59,53,0.225);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-sm);
   font-size: 12px;
@@ -179,7 +179,7 @@ body {
 }
 .sim-panel {
   padding: var(--space-3) var(--space-4);
-  background: #073824;
+  background: #F6F9F4;
 }
 .sim-grid {
   display: grid;
@@ -211,7 +211,7 @@ body {
 .sim-select {
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(36,59,53,0.27);
   background: var(--color-primary-dark);
   color: var(--color-surface);
   font-size: var(--text-caption);
@@ -241,7 +241,7 @@ body {
 .alert-error {
   background: var(--color-error-light);
   color: var(--color-error);
-  border-color: #F5C2C2;
+  border-color: rgba(168,58,69,0.55);
 }
 .alert-banner-text {
   flex: 1;
@@ -429,8 +429,8 @@ body {
   align-items: center;
   gap: var(--space-2);
   background: var(--color-warning-light);
-  color: #78350F;
-  border: 1px solid #F59E0B;
+  color: #FFFFFF;
+  border: 1px solid rgba(133,96,0,0.55);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
   font-size: var(--text-caption);
@@ -521,7 +521,7 @@ body {
 .btn-danger {
   background: var(--color-error-light);
   color: var(--color-error);
-  border-color: #F5C2C2;
+  border-color: rgba(168,58,69,0.55);
 }
 
 /* 카드 및 컷 코너 카드 (좌상단 14px, 우상단 14px, 우하단 32px, 좌하단 14px) */
@@ -580,18 +580,18 @@ body {
 .badge-success {
   background: var(--color-primary-light);
   color: var(--color-primary-dark);
-  border: 1px solid #B7DEC9;
+  border: 1px solid rgba(36,59,53,0.14);
 }
 /* 추천 메뉴: Harvest Yellow (#F4C542) */
 .badge-recommend {
   background: var(--color-accent);
-  color: var(--color-text);
+  color: #FFFFFF;
   font-weight: 700;
 }
 /* 신메뉴/강조: Citrus Orange (#F28C28) */
 .badge-new {
   background: var(--color-secondary-light);
-  color: #9A4D06;
+  color: #856000;
   border: 1px solid var(--color-secondary);
   font-weight: 700;
 }
@@ -611,7 +611,7 @@ body {
 .badge-warning,
 .badge-paused {
   background: var(--color-warning-light);
-  color: #92400E;
+  color: #FFFFFF;
 }
 .badge-error,
 .badge-closed,
@@ -827,8 +827,8 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(32, 38, 32, 0.86);
-  color: var(--color-surface);
+  background: rgba(246,249,244,0.86);
+  color: #243B35;
   padding: 6px 14px;
   border-radius: var(--radius-pill);
   font-size: var(--text-caption);
@@ -935,7 +935,7 @@ body {
 .option-error-msg {
   background: var(--color-error-light);
   color: var(--color-error);
-  border: 1px solid #F5C2C2;
+  border: 1px solid rgba(168,58,69,0.55);
   border-radius: var(--radius-sm);
   padding: var(--space-2) var(--space-3);
   font-size: var(--text-caption);
@@ -1122,8 +1122,8 @@ body {
   padding: var(--space-3);
   border-radius: var(--radius-md);
   background: var(--color-warning-light);
-  border: 1px solid #F59E0B;
-  color: #78350F;
+  border: 1px solid rgba(133,96,0,0.55);
+  color: #FFFFFF;
   font-size: var(--text-caption);
   font-weight: 500;
 }
@@ -1207,7 +1207,7 @@ body {
 }
 .ingredient-layer.is-done {
   background: var(--color-primary-light);
-  border-color: #B7DEC9;
+  border-color: rgba(36,59,53,0.14);
   color: var(--color-primary-dark);
 }
 .ingredient-layer.is-current {

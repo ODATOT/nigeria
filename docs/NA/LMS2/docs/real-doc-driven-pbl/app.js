@@ -351,7 +351,7 @@
     titleEl.textContent = labelText || path;
     downloadEl.href = path;
     downloadEl.setAttribute('download', path.split('/').pop());
-    bodyEl.innerHTML = '<p style="color:#94a3b8;">문서를 불러오는 중입니다...</p>';
+    bodyEl.innerHTML = '<p style="color:#4A605A;">문서를 불러오는 중입니다...</p>';
     backdrop.hidden = false;
     document.body.style.overflow = 'hidden';
 

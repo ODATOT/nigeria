@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Determine if this is the login.html page
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 1 Figma Wireframing Tasks | ACE AI SW Startup Training</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary-color: #2B5CA6; /* Electric Blue */
+      --secondary-color: #2B5CA6; /* Neon Cyan */
+      --bg-dark: #F6F9F4; /* Primary Background: Deep Black */
+      --bg-charcoal: #F6F9F4; /* Secondary Background */
+      --bg-card: #F6F9F4; /* Surface/Card: Dark Gray */
+      --text-main: #243B35; /* Primary: White */
+      --text-muted: #243B35; /* Secondary: Light Gray */
+      --text-desc: #6B7F79; /* Description: Gray */
+      --border-color: rgba(36,59,53,0.08); /* Thin border with low opacity */
+      --accent-color: #2B5CA6; /* Neon Cyan */
+      --accent-purple: #5D4AA8; /* Purple highlight */
+      --card-radius: 18px;
+      --shadow-sm: 0 4px 20px rgba(36,59,53,0.14), 0 0 1px rgba(36,59,53,0.035);
+      --shadow-md: 0 8px 30px rgba(36,59,53,0.035), 0 0 1px rgba(36,59,53,0.07);
+      --glow-blue: 0 0 15px rgba(43,92,166,0.35);
+      --glow-cyan: 0 0 15px rgba(43,92,166,0.35);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-main);
+      line-height: 1.65;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, p, li, span, strong { word-break: keep-all; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section { padding: 60px 0; }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(36,59,53,0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(36,59,53,0.017);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .nav-container {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #243B35;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .logo::before {
+      content: "";
+      width: 8px;
+      height: 20px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      background: rgba(255,255,255,0.7);
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.85);
+      color: var(--secondary-color);
+      border-color: rgba(43,92,166,0.3);
+    }
+
+    .hero {
+      margin-top: 70px;
+      padding: 100px 0 70px;
+      background: radial-gradient(circle at 50% 50%, rgba(43,92,166,0.088), transparent 60%), #F6F9F4;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.61) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.61) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .hero-center {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(43,92,166,0.11);
+      border: 1px solid rgba(43,92,166,0.2);
+      font-size: 0.88rem;
+      color: #2B5CA6;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #243B35 40%, #2B5CA6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      color: #243B35;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      margin: 12px auto 0;
+      border-radius: 999px;
+    }
+
+    .section-desc {
+      max-width: 860px;
+      margin: 0 auto 48px;
+      text-align: center;
+      color: var(--text-desc);
+      font-size: 1.02rem;
+    }
+
+    /* Grid Layout */
+    .curriculum-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .course-card {
+      background: rgba(246,249,244,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(36,59,53,0.08);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 520px;
+    }
+
+    .course-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-md), 0 0 25px rgba(36,59,53,0.07);
+      border-color: rgba(43,92,166,0.3);
+    }
+
+    .course-thumb {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: rgba(36,59,53,0.9);
+      text-shadow: 0 4px 10px rgba(36,59,53,0.14);
+    }
+
+    .course-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex-grow: 1;
+    }
+
+    .day-label {
+      display: inline-block;
+      width: fit-content;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: rgba(43,92,166,0.165);
+      color: #2B5CA6;
+      border: 1px solid rgba(43,92,166,0.2);
+    }
+
+    .course-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.35;
+      color: #243B35;
+      transition: color 0.2s ease;
+    }
+
+    .course-card:hover .course-title {
+      color: var(--secondary-color);
+    }
+
+    .course-subtitle {
+      font-size: 0.88rem;
+      color: var(--secondary-color);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .course-desc {
+      color: #4A605A;
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .meta-grid {
+      display: grid;
+      gap: 8px;
+      background: rgba(255,255,255,0.61);
+      border: 1px solid rgba(36,59,53,0.08);
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+    }
+
+    .meta-item {
+      color: #243B35;
+      line-height: 1.5;
+    }
+
+    .meta-item strong {
+      color: var(--primary-color);
+      margin-right: 6px;
+    }
+
+    .time-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.82rem;
+      border-left: 2px solid rgba(36,59,53,0.08);
+      padding-left: 12px;
+      margin: 4px 0;
+    }
+
+    .time-row {
+      color: #4A605A;
+    }
+
+    .time-row strong {
+      color: #243B35;
+      margin-right: 4px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.64);
+      color: #4A605A;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .ai-class-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: #27765B;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 15px rgba(36,59,53,0.07);
+      transition: all 0.25s ease;
+      margin-top: auto;
+    }
+
+    .ai-class-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(36,59,53,0.14), 0 0 10px rgba(36,59,53,0.105);
+      background: linear-gradient(135deg, #D2E0FB, #D2E0FB);
+    }
+
+    .footer-cta {
+      background: #F6F9F4;
+      color: #243B35;
+      text-align: center;
+      padding: 60px 20px;
+      border-top: 1px solid rgba(36,59,53,0.08);
+      margin-top: 40px;
+    }
+
+    .footer-cta h3 {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    .footer-cta p {
+      max-width: 760px;
+      margin: 0 auto;
+      opacity: 0.8;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 1024px) {
+      .curriculum-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .curriculum-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 { font-size: 2.2rem; }
+      section { padding: 50px 0; }
+    }
+  </style>
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="logo">ACE AI SW Startup Training</a>
+      <ul class="nav-links">
+        <li><a href="day1-ai-classroom.html">← Day 1 Classroom</a></li>
+        <li><a href="../homework_week1.html" style="color: #5D4AA8 !important; font-weight: 700 !important; background: rgba(93,74,168,0.165); border: 1px solid rgba(93,74,168,0.3); padding: 6px 14px; border-radius: 8px;">📝 Homework</a></li>
+        <li><a href="../index.html">← Full roadmap</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container hero-center">
+      <div class="hero-badge-wrap">
+        <span class="hero-badge">Day 1 Requirements</span>
+        <span class="hero-badge">Startup MVP Validation</span>
+      </div>
+      <h1>Codex Client Startup MVP Required Lab Tasks</h1>
+      <p>
+        These are the key hands-on AI planning tasks startups should do first when testing business hypotheses, gathering user requirements and moving fast on specs (High-Velocity Specification).<br />
+      </p>
+    </div>
+  </section>
+
+  <section class="container">
+    <h2 class="section-title">Day 1 Startup MVP Tasks</h2>
+    <p class="section-desc">
+      See everything at a glance: from cleaning up unstructured transcripts to building structured specs, a responsive landing grid and a high-converting hero block.
+    </p>
+
+    <div class="curriculum-grid">
+      <!-- AI Agent Task 1 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(0deg); background-size: cover; background-position: center;">AI TASK 1</div>
+        <div class="course-content">
+          <span class="day-label">AI Agent Task 1</span>
+          <h3 class="course-title">Task 1. Transcript Summary Lab</h3>
+          <p class="course-subtitle">Step 0: Summarize an unstructured meeting transcript</p>
+          <p class="course-desc">
+            Analyze a raw, spoken-style meeting transcript and produce fact-based summary notes, the step before writing specs.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Summary notes of key transcript issues</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Text Summarization</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Create <code>meeting-notes-raw.md</code> and add the conversation</div>
+            <div class="time-row"><strong>Step 2</strong> 📄 Summarize key topics and pull out decided/open items</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Codex Client</span>
+            <span class="tag">Summarization</span>
+            <span class="tag">Fact Extraction</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>meeting-notes.md</code> (meeting summary notes)
+          </div>
+
+          <a href="day1-ai-codex.html?step=0" class="ai-class-btn">Enter Task 1 lab</a>
+        </div>
+      </article>
+
+      <!-- AI Agent Task 2 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(45deg); background-size: cover; background-position: center;">AI TASK 2</div>
+        <div class="course-content">
+          <span class="day-label">AI Agent Task 2</span>
+          <h3 class="course-title">Task 2. Meeting Notes Analysis Lab</h3>
+          <p class="course-subtitle">Step 1: Sort user roles and feature candidates</p>
+          <p class="course-desc">
+            From the meeting summary, separate out the system actors (Customer, Expert, Admin, etc.) and the list of features to build.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Roles defined and rules listed</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Domain Object Classification</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 👤 Separate user roles and permissions</div>
+            <div class="time-row"><strong>Step 2</strong> ⚙️ Sort key feature candidates and business rules</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Codex Client</span>
+            <span class="tag">Domain Model</span>
+            <span class="tag">Classification</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>requirements-draft.md</code> (feature candidate list)
+          </div>
+
+          <a href="day1-ai-codex.html?step=1" class="ai-class-btn">Enter Task 2 lab</a>
+        </div>
+      </article>
+
+      <!-- AI Agent Task 3 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(90deg); background-size: cover; background-position: center;">AI TASK 3</div>
+        <div class="course-content">
+          <span class="day-label">AI Agent Task 3</span>
+          <h3 class="course-title">Task 3. Functional Requirements Lab</h3>
+          <p class="course-subtitle">Step 2: Structure testable, standard requirements</p>
+          <p class="course-desc">
+            Turn feature candidates from the planning notes into clear sentences in the form "who can do what, under which conditions" and build a requirements doc.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Standardized FR requirements table</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Requirements Engineering</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📝 Convert feature specs into FR-001 ~ FR-004</div>
+            <div class="time-row"><strong>Step 2</strong> 🔍 Map to concrete, checkable, testable conditions</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Codex Client</span>
+            <span class="tag">FR</span>
+            <span class="tag">Specification</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>functional-requirements.md</code> (requirements doc)
+          </div>
+
+          <a href="day1-ai-codex.html?step=2" class="ai-class-btn">Enter Task 3 lab</a>
+        </div>
+      </article>
+
+      <!-- AI Agent Task 4 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(135deg); background-size: cover; background-position: center;">AI TASK 4</div>
+        <div class="course-content">
+          <span class="day-label">AI Agent Task 4</span>
+          <h3 class="course-title">Task 4. Normal and Exception Flows Lab</h3>
+          <p class="course-subtitle">Step 3: Design user scenarios and exception cases</p>
+          <p class="course-desc">
+            Design the normal route users take through the service (Happy Path), plus how the system responds to exceptions like double bookings and payment failures.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Normal/failure user scenarios specified</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Scenario &amp; Exception Design</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 🛣️ Spec the normal flow from login to booking done</div>
+            <div class="time-row"><strong>Step 2</strong> ⚠️ Add exceptions for payment failures like over-limit</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">User Flow</span>
+            <span class="tag">Exception Handling</span>
+            <span class="tag">Edge Cases</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>user-scenarios.md</code> (detailed scenario doc)
+          </div>
+
+          <a href="day1-ai-codex.html?step=3" class="ai-class-btn">Enter Task 4 lab</a>
+        </div>
+      </article>
+
+      <!-- AI Agent Task 5 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(180deg); background-size: cover; background-position: center;">AI TASK 5</div>
+        <div class="course-content">
+          <span class="day-label">AI Agent Task 5</span>
+          <h3 class="course-title">Task 5. Open Planning Questions Lab</h3>
+          <p class="course-subtitle">Step 4: Organize open issues to settle with the business side</p>
+          <p class="course-desc">
+            Gather the issues not yet settled while writing the plan, and turn them into a question doc to agree with the client.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Options drafted for open issues</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Stakeholder Alignment</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> ❓ Collect open issues and design logical options</div>
+            <div class="time-row"><strong>Step 2</strong> 📋 Prepare a question board to take to the business meeting</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Open Questions</span>
+            <span class="tag">Decision Making</span>
+            <span class="tag">Stakeholder</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>open-questions.md</code> (open questions doc)
+          </div>
+
+          <a href="day1-ai-codex.html?step=4" class="ai-class-btn">Enter Task 5 lab</a>
+        </div>
+      </article>
+
+      <!-- AI Agent Task 6 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(225deg); background-size: cover; background-position: center;">AI TASK 6</div>
+        <div class="course-content">
+          <span class="day-label">AI Agent Task 6</span>
+          <h3 class="course-title">Task 6. Combine Planning Docs and Email Report Lab</h3>
+          <p class="course-subtitle">Step 5: AI lint check and automatic Gmail send</p>
+          <p class="course-desc">
+            Combine the 5 docs from earlier steps into a final plan, lint it, then turn on the Gmail plugin (OAuth) to share it with the dev team by email automatically.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Combined plan sent with 0 lint errors</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client &amp; Gmail Plugin</div>
+            <div class="meta-item"><strong>Lab scope</strong>Document Synthesis &amp; Sharing</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 🔗 Combine the 5 markdown docs into one plan</div>
+            <div class="time-row"><strong>Step 2</strong> 📧 Fix AI linter errors and send the email</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Gmail Integration</span>
+            <span class="tag">Linting</span>
+            <span class="tag">Document Assembly</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>requirements-specification.md</code> and sent email
+          </div>
+
+          <a href="day1-ai-codex.html?step=5" class="ai-class-btn">Enter Task 6 lab</a>
+        </div>
+      </article>
+
+      <!-- Skill Task 1 (ADD-D01-T01) -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(160deg); background-size: cover; background-position: center;">SKILL 1</div>
+        <div class="course-content">
+          <span class="day-label" style="background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);">Skill Task 1</span>
+          <h3 class="course-title">Skill Task 1. Define the Service Problem and Personas</h3>
+          <p class="course-subtitle">ADD-D01-T01: Define Viewer·Creator·Advertiser·Admin goals/data</p>
+          <p class="course-desc">
+            Define the goals, actions, features and data needed for Viewer·Creator·Advertiser·Admin, give AI the Domain Analyst role, and find goal conflicts and gaps between Personas.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Personas and service overview spec</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Task area</strong>HYBRID</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Analyze input Context and give AI the Domain Analyst role</div>
+            <div class="time-row"><strong>Step 2</strong> ⚙️ Define Persona goals/actions/features and check AI suggestions</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">TECH-BA</span>
+            <span class="tag">TECH-DDD</span>
+            <span class="tag">AI-CTX</span>
+            <span class="tag">AI-ANA</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>01_SERVICE_OVERVIEW.md</code>, <code>03_DOMAIN_MAP.md</code>
+          </div>
+
+          <a href="day1-ai-codex.html?step=6" class="ai-class-btn">Enter Skill Task 1 lab</a>
+        </div>
+      </article>
+
+      <!-- Skill Task 2 (ADD-D01-T02) -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(200deg); background-size: cover; background-position: center;">SKILL 2</div>
+        <div class="course-content">
+          <span class="day-label" style="background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);">Skill Task 2</span>
+          <h3 class="course-title">Skill Task 2. Sort Features into Domains</h3>
+          <p class="course-subtitle">ADD-D01-T02: Place key features like Members, Video, Playback and Billing in owning Domains</p>
+          <p class="course-desc">
+            Place Members, Channel, Video, Playback, Engagement, Advertising, Ad Serving, Billing and Analytics features clearly in their main owning Domain, and analyze alternative boundaries.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>100% of features mapped to an owning Domain</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Task area</strong>TECH</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Clean up the functional requirements list as input</div>
+            <div class="time-row"><strong>Step 2</strong> ⚙️ Assign owning Domains and check for overlaps</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">TECH-BA</span>
+            <span class="tag">TECH-DDD</span>
+            <span class="tag">AI-ANA</span>
+            <span class="tag">AI-REV</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>01_SERVICE_OVERVIEW.md</code>, <code>03_DOMAIN_MAP.md</code>
+          </div>
+
+          <a href="day1-ai-codex.html?step=7" class="ai-class-btn">Enter Skill Task 2 lab</a>
+        </div>
+      </article>
+
+      <!-- Skill Task 3 (ADD-D01-T03) -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(240deg); background-size: cover; background-position: center;">SKILL 3</div>
+        <div class="course-content">
+          <span class="day-label" style="background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);">Skill Task 3</span>
+          <h3 class="course-title">Skill Task 3. Review the Domain Map and Responsibility Boundaries</h3>
+          <p class="course-subtitle">ADD-D01-T03: Visualize Domain dependencies and draft Bounded Contexts</p>
+          <p class="course-desc">
+            Visualize order, dependencies and data ownership between Domains, draft Bounded Contexts, and complete an architecture doc for the next handover.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Bounded Context and dependency design</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Task area</strong>AI</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Visualize dependencies and data ownership between Domains</div>
+            <div class="time-row"><strong>Step 2</strong> ⚙️ Run an AI Review to check for missing/duplicate responsibilities</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">TECH-DDD</span>
+            <span class="tag">TECH-ARCH</span>
+            <span class="tag">AI-CTX</span>
+            <span class="tag">AI-REV</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>01_SERVICE_OVERVIEW.md</code>, <code>03_DOMAIN_MAP.md</code>
+          </div>
+
+          <a href="day1-ai-codex.html?step=8" class="ai-class-btn">Enter Skill Task 3 lab</a>
+        </div>
+      </article>
+
+      <!-- Mission 1 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(270deg); background-size: cover; background-position: center;">MISSION 1</div>
+        <div class="course-content">
+          <span class="day-label" style="background: rgba(93,74,168,0.132); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.2);">Mission 1</span>
+          <h3 class="course-title">[Assignment] Mission 1. Plan a Pet Matching Service</h3>
+          <p class="course-subtitle">Write a plan for a pet sitter grooming/health care matching service</p>
+          <p class="course-desc">
+            Analyze the raw meeting transcript and, with an AI planning assistant, write everything from the summary to requirements and exception scenarios, producing a pet care matching requirements doc.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Pet sitter matching spec completed</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Independent Mission (Level 1)</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Download and summarize the pet care meeting notes</div>
+            <div class="time-row"><strong>Step 2</strong> ⚙️ Design matching exceptions and define features</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Assignment</span>
+            <span class="tag">Petcare</span>
+            <span class="tag">Matching</span>
+            <span class="tag">Happy Path</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>petcare-specification.md</code> (pet care plan)
+          </div>
+
+          <a href="day1-ai-codex.html?step=9" class="ai-class-btn" style="background: linear-gradient(135deg, #DFD8F6, #DFD8F6);">Enter assignment room</a>
+        </div>
+      </article>
+
+      <!-- Mission 2 -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(315deg); background-size: cover; background-position: center;">MISSION 2</div>
+        <div class="course-content">
+          <span class="day-label" style="background: rgba(93,74,168,0.132); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.2);">Mission 2</span>
+          <h3 class="course-title">[Assignment] Mission 2. Plan IoT Control for a Self-Service Study Café</h3>
+          <p class="course-subtitle">Spec smart room rental and real-time device control</p>
+          <p class="course-desc">
+            Write an exception spec for the room booking process and IoT control of study room door locks, lights and air conditioning based on the booking schedule.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>IoT device control scenarios specified</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Independent Mission (Level 2)</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Download the study café transcript and define booking rules</div>
+            <div class="time-row"><strong>Step 2</strong> 🔌 Design device flows before check-in and cancellation exceptions</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Assignment</span>
+            <span class="tag">IoT Control</span>
+            <span class="tag">Smart Room</span>
+            <span class="tag">Booking</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>studycafe-specification.md</code> (study room plan)
+          </div>
+
+          <a href="day1-ai-codex.html?step=10" class="ai-class-btn" style="background: linear-gradient(135deg, #DFD8F6, #DFD8F6);">Enter assignment room</a>
+        </div>
+      </article>
+
+      <!-- Mission 3 (Skill Mission 1) -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(140deg); background-size: cover; background-position: center;">MISSION 3</div>
+        <div class="course-content">
+          <span class="day-label" style="background: rgba(93,74,168,0.132); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.2);">Mission 3</span>
+          <h3 class="course-title">[Assignment] Mission 3. Short-Form &amp; Live Commerce Domain Design</h3>
+          <p class="course-subtitle">Skill Mission 1: Personas, Feature Domain placement and Bounded Contexts</p>
+          <p class="course-desc">
+            Write Personas, a Feature Domain placement table and Bounded Contexts for a global short-form streaming and live commerce platform.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>Short-form/live Domain Map completed</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Skill Task Mission (Level 1)</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Analyze short-form meeting notes and define 4 Persona goals</div>
+            <div class="time-row"><strong>Step 2</strong> ⚙️ Map VOD/Playback/Ad/Billing to owning Domains</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Skill Mission</span>
+            <span class="tag">Shortform</span>
+            <span class="tag">Commerce</span>
+            <span class="tag">Bounded Context</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>shortform-domain-specification.md</code>
+          </div>
+
+          <a href="day1-ai-codex.html?step=11" class="ai-class-btn" style="background: linear-gradient(135deg, #DFD8F6, #DFD8F6);">Enter assignment room</a>
+        </div>
+      </article>
+
+      <!-- Mission 4 (Skill Mission 2) -->
+      <article class="course-card">
+        <div class="course-thumb" style="background-image: url('../img/day2_dataflow.png'); filter: hue-rotate(180deg); background-size: cover; background-position: center;">MISSION 4</div>
+        <div class="course-content">
+          <span class="day-label" style="background: rgba(93,74,168,0.132); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.2);">Mission 4</span>
+          <h3 class="course-title">[Assignment] Mission 4. Smart B2B Mobility Control Domain Design</h3>
+          <p class="course-subtitle">Skill Mission 2: Spec B2B vehicle control ownership and Domain boundaries</p>
+          <p class="course-desc">
+            Analyze data ownership and dependencies for a B2B company-vehicle control platform and derive a Domain Map.
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item"><strong>Target</strong>B2B vehicle control Bounded Context design</div>
+            <div class="meta-item"><strong>Key tool</strong>Codex Client</div>
+            <div class="meta-item"><strong>Lab scope</strong>Skill Task Mission (Level 2)</div>
+          </div>
+
+          <div class="time-list">
+            <div class="time-row"><strong>Step 1</strong> 📁 Analyze company-vehicle meeting notes and define data ownership</div>
+            <div class="time-row"><strong>Step 2</strong> 🔌 Visualize boundaries between the control center and maintenance/commerce</div>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag">Skill Mission</span>
+            <span class="tag">B2B Mobility</span>
+            <span class="tag">Fleet</span>
+            <span class="tag">Domain Boundary</span>
+          </div>
+
+          <div class="meta-item" style="font-size: 0.8rem; color: #4A605A; margin-top: 4px;">
+            <strong>Expected output</strong>
+            <code>fleet-domain-specification.md</code>
+          </div>
+
+          <a href="day1-ai-codex.html?step=12" class="ai-class-btn" style="background: linear-gradient(135deg, #DFD8F6, #DFD8F6);">Enter assignment room</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <footer class="footer-cta">
+    <div class="container">
+      <h3>ACE AI SW Startup Training</h3>
+      <p style="margin-top: 10px;">
+        © 2026 ACE AI SW Startup Training &amp; ACE Ministry. All Rights Reserved. This is a hands-on MVP project course built around real development kits.
+      </p>
+    </div>
+  </footer>
+  <footer class="site-footer" style="background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08); padding: 32px 20px; text-align: center; color: #4A605A; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company: Edunity Lab Co., Ltd.</span> | <span>CEO: Lee Gi-taek</span> | <span>Address: 2F Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul, Korea</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Phone: +82-2-6240-0053</span> | <span>Business Registration No.: 132-86-35644</span> | <span>Mail-Order Business Reg. No.: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+  <script src="../shared/curriculum-content.js"></script>
+  <script src="../shared/curriculum-cards.js"></script>
+</body>
+</html>

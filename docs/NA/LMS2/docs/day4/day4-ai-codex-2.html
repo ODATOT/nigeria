@@ -1,6 +1,37 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
   <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
   <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
   <script id="auth-guard">
@@ -58,20 +89,20 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
     :root {
-      --primary-color: #3b82f6; /* Electric Blue */
-      --secondary-color: #06b6d4; /* Neon Cyan */
-      --bg-dark: #09090b; /* Primary Background */
-      --bg-charcoal: #111827; /* Secondary Background */
-      --bg-card: #1a1d24; /* Card Surface */
-      --text-main: #ffffff; /* Primary Text */
-      --text-muted: #e4e4e7; /* Secondary Text */
-      --text-desc: #71717a; /* Description Text */
-      --border-color: rgba(255, 255, 255, 0.08);
-      --accent-color: #06b6d4;
-      --accent-purple: #8b5cf6;
+      --primary-color: #2B5CA6; /* Electric Blue */
+      --secondary-color: #2B5CA6; /* Neon Cyan */
+      --bg-dark: #F6F9F4; /* Primary Background */
+      --bg-charcoal: #F6F9F4; /* Secondary Background */
+      --bg-card: #F6F9F4; /* Card Surface */
+      --text-main: #243B35; /* Primary Text */
+      --text-muted: #243B35; /* Secondary Text */
+      --text-desc: #6B7F79; /* Description Text */
+      --border-color: rgba(36,59,53,0.08);
+      --accent-color: #2B5CA6;
+      --accent-purple: #5D4AA8;
       --card-radius: 10px;
-      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
-      --glow-cyan: 0 0 15px rgba(6, 182, 212, 0.25);
+      --shadow-sm: 0 4px 20px rgba(36,59,53,0.14), 0 0 1px rgba(36,59,53,0.035);
+      --glow-cyan: 0 0 15px rgba(43,92,166,0.25);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -82,9 +113,9 @@
       line-height: 1.5;
       background: var(--bg-dark);
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.04) 0%, transparent 40%),
-        linear-gradient(to bottom, #09090b 0%, #111827 100%);
+        radial-gradient(circle at 10% 20%, rgba(43,92,166,0.044) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(43,92,166,0.044) 0%, transparent 40%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%);
       background-attachment: fixed;
     }
 
@@ -102,10 +133,10 @@
       top: 0;
       width: 100%;
       z-index: 1000;
-      background: rgba(9, 9, 11, 0.85);
+      background: rgba(36,59,53,0.08);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
     }
 
     .nav-container {
@@ -120,7 +151,7 @@
     .logo {
       font-size: 0.9rem;
       font-weight: 800;
-      color: #ffffff;
+      color: #243B35;
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -155,26 +186,26 @@
       font-weight: 600;
       font-size: 0.72rem;
       transition: all 0.2s ease;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.7);
       padding: 4px 8px;
       border-radius: 5px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(36,59,53,0.08);
     }
 
     .nav-links a:hover, .nav-links a.active {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.85);
       color: var(--secondary-color);
-      border-color: rgba(6, 182, 212, 0.3);
+      border-color: rgba(43,92,166,0.3);
     }
 
     /* Hero Section */
     .hero {
       margin-top: 120px;
       padding: 16px 0 10px;
-      background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.04), transparent 60%), #09090b;
+      background: radial-gradient(circle at 50% 50%, rgba(43,92,166,0.044), transparent 60%), #F6F9F4;
       position: relative;
       overflow: hidden;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
     }
 
     .hero-content {
@@ -196,10 +227,10 @@
       align-items: center;
       padding: 1px 5px;
       border-radius: 999px;
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.15);
+      background: rgba(43,92,166,0.11);
+      border: 1px solid rgba(43,92,166,0.15);
       font-size: 0.65rem;
-      color: #93c5fd;
+      color: #2B5CA6;
       font-weight: 700;
     }
 
@@ -208,7 +239,7 @@
       line-height: 1.25;
       margin-bottom: 4px;
       font-weight: 800;
-      background: linear-gradient(135deg, #ffffff 40%, #93c5fd 100%);
+      background: linear-gradient(135deg, #243B35 40%, #2B5CA6 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: -0.02em;
@@ -228,8 +259,8 @@
     }
 
     .detail-card {
-      background: rgba(26, 29, 36, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(246,249,244,0.85);
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: var(--card-radius);
       padding: 14px 16px;
       box-shadow: var(--shadow-sm);
@@ -237,14 +268,14 @@
 
     .detail-card-head {
       margin-bottom: 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
       padding-bottom: 6px;
     }
 
     .detail-card-head h2 {
       font-size: 0.98rem;
       font-weight: 800;
-      color: #ffffff;
+      color: #243B35;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -255,7 +286,7 @@
       padding: 1px 4px;
       border-radius: 2px;
       background: var(--primary-color);
-      color: #fff;
+      color: #FFFFFF;
     }
 
     .card-section {
@@ -306,8 +337,8 @@
 
     /* Code Block Styles */
     pre {
-      background: #0d0f14;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: #F6F9F4;
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: 6px;
       padding: 10px;
       overflow-x: auto;
@@ -323,18 +354,18 @@
     }
 
     pre::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.01);
+      background: rgba(255,255,255,0.58);
     }
 
     pre::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.85);
       border-radius: 99px;
     }
 
     code {
       font-family: 'Fira Code', 'Courier New', Courier, monospace;
       font-size: 0.7rem;
-      color: #e4e4e7;
+      color: #243B35;
     }
 
     .code-badge {
@@ -342,8 +373,8 @@
       position: relative !important;
       top: auto !important;
       right: auto !important;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--secondary-color, #06b6d4);
+      background: rgba(255,255,255,0.79);
+      color: var(--secondary-color, #2B5CA6);
       padding: 3px 8px;
       border-radius: 4px;
       font-size: 0.68rem;
@@ -358,10 +389,10 @@
       width: 100%;
       border-collapse: collapse;
       margin: 6px 0 10px;
-      background: rgba(9, 9, 11, 0.3);
+      background: rgba(36,59,53,0.06);
       border-radius: 5px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(36,59,53,0.08);
     }
 
     th, td {
@@ -371,14 +402,14 @@
     }
 
     th {
-      background: rgba(59, 130, 246, 0.08);
-      color: #93c5fd;
+      background: rgba(43,92,166,0.088);
+      color: #2B5CA6;
       font-weight: 700;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
     }
 
     td {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
       color: var(--text-muted);
     }
 
@@ -390,9 +421,9 @@
     .info-box {
       padding: 8px 12px;
       border-radius: 6px;
-      background: rgba(6, 182, 212, 0.06);
+      background: rgba(43,92,166,0.066);
       border-left: 3px solid var(--accent-color);
-      color: #a5f3fc;
+      color: #2B5CA6;
       font-size: 0.74rem;
       margin-bottom: 10px;
       line-height: 1.4;
@@ -401,16 +432,16 @@
     .guide-box {
       padding: 8px 12px;
       border-radius: 6px;
-      background: rgba(139, 92, 246, 0.06);
+      background: rgba(93,74,168,0.066);
       border-left: 3px solid var(--accent-purple);
-      color: #e9d5ff;
+      color: #243B35;
       font-size: 0.74rem;
       margin-bottom: 10px;
       line-height: 1.4;
     }
 
     .guide-box h4 {
-      color: #d8b4fe;
+      color: #5D4AA8;
       margin-bottom: 3px;
       font-size: 0.78rem;
       font-weight: 800;
@@ -422,8 +453,8 @@
     /* Inline Sidebar Box */
     .inline-sidebar-box {
       margin-top: 14px;
-      background: rgba(139, 92, 246, 0.04);
-      border: 1px solid rgba(139, 92, 246, 0.15);
+      background: rgba(93,74,168,0.044);
+      border: 1px solid rgba(93,74,168,0.15);
       border-radius: 8px;
       padding: 10px 12px;
     }
@@ -431,7 +462,7 @@
     .inline-sidebar-box h4 {
       font-size: 0.78rem;
       font-weight: 800;
-      color: #d8b4fe;
+      color: #5D4AA8;
       margin-bottom: 4px;
       display: flex;
       align-items: center;
@@ -452,20 +483,20 @@
       gap: 4px;
       padding: 5px 10px;
       border-radius: 4px;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      color: #ffffff;
+      background: #27765B;
+      color: #FFFFFF;
       font-size: 0.7rem;
       font-weight: 700;
       border: none;
       cursor: pointer;
       text-decoration: none;
-      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.25);
+      box-shadow: 0 2px 6px rgba(36,59,53,0.087);
       transition: all 0.2s;
     }
 
     .btn-download:hover {
       transform: translateY(-1px);
-      background: linear-gradient(135deg, #2563eb, #0891b2);
+      background: linear-gradient(135deg, #D2E0FB, #D2E0FB);
     }
 
     @media (max-width: 768px) {
@@ -483,8 +514,8 @@
 
     /* Prompt Copy Box Styles */
     .prompt-box {
-      background: rgba(9, 9, 11, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(36,59,53,0.08);
+      border: 1px solid rgba(36,59,53,0.08);
       border-radius: 8px;
       padding: 16px;
       position: relative;
@@ -508,8 +539,8 @@
       position: absolute;
       top: 12px;
       right: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(36,59,53,0.09);
       color: var(--text-muted);
       padding: 4px 10px;
       border-radius: 6px;
@@ -520,11 +551,12 @@
     }
 
     .copy-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.85);
       color: var(--secondary-color);
-      border-color: rgba(6, 182, 212, 0.3);
+      border-color: rgba(43,92,166,0.3);
     }
   </style>
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
 </head>
 <body>
 
@@ -541,7 +573,7 @@
         <a href="day4-ai-codex-1.html">Task 1 (데이터구조)</a>
         <a href="day4-ai-codex-2.html" class="active">Task 2 (용어표준화)</a>
         <a href="day4-ai-codex-3.html">Task 3 (변경영향)</a>
-        <a href="day4-ai-codex-summation.html" class="summation-btn" style="background: rgba(6, 182, 212, 0.15); color: var(--secondary-color); border-color: rgba(6, 182, 212, 0.3);">📊 요약 보기</a>
+        <a href="day4-ai-codex-summation.html" class="summation-btn" style="background: rgba(43,92,166,0.165); color: var(--secondary-color); border-color: rgba(43,92,166,0.3);">📊 요약 보기</a>
         <a href="day4-ai-classroom.html">← 강의실</a>
       </div>
     </div>
@@ -570,7 +602,7 @@
           <h2><span class="badge-inline">Task 02</span> API 불일치 검출 실습 가이드</h2>
         </div>
 
-        <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(9, 9, 11, 0.4); padding: 10px; border-radius: 6px; border: 1px dashed rgba(255, 255, 255, 0.1);">
+        <div class="card-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(36,59,53,0.08); padding: 10px; border-radius: 6px; border: 1px dashed rgba(36,59,53,0.09);">
           <div>
             <h4 style="color: var(--accent-color); font-size: 0.74rem; margin-bottom: 2px; display: flex; align-items: center; gap: 4px;">📥 실습 입력 (Input)</h4>
             <ul style="list-style-type: none; margin-bottom: 0; padding-left: 0;">
@@ -609,7 +641,7 @@
           </ul>
         </div>
 
-        <div class="guide-box" style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.15); padding: 12px; border-radius: 6px; margin-bottom: 20px;">
+        <div class="guide-box" style="background: rgba(43,92,166,0.055); border: 1px solid rgba(43,92,166,0.15); padding: 12px; border-radius: 6px; margin-bottom: 20px;">
           <h4 style="color: var(--primary-color); font-size: 0.82rem; margin-bottom: 6px;">🛠️ 실제 따라 하기 실습 가이드</h4>
           <ol style="padding-left: 18px; font-size: 0.78rem; line-height: 1.45;">
             <li><strong>실습용 파일 생성</strong>: 아래 다운로드 버튼들을 눌러 기획 문서 및 API 명세서 초안을 다운로드하여 <code>automation/</code> 폴더 내에 저장합니다.</li>
@@ -624,7 +656,7 @@
             <button onclick="downloadDay4Requirements()" class="btn-download">📥 day4_requirements.md 다운로드</button>
             <button onclick="downloadDay4ScreenDefinition()" class="btn-download">📥 day4_screen_definition.md 다운로드</button>
             <button onclick="downloadDay4ApiSpecV1()" class="btn-download">📥 day4_api_specification_v1.md 다운로드</button>
-            <button onclick="downloadAllDay4Task02Files()" class="btn-download" style="background: var(--primary-color, #3b82f6); color: #fff;">📦 3개 파일 전체 다운로드</button>
+            <button onclick="downloadAllDay4Task02Files()" class="btn-download" style="background: var(--primary-color, #D2E0FB); color: #243B35;">📦 3개 파일 전체 다운로드</button>
           </div>
         </div>
 
@@ -696,10 +728,10 @@
         const copyBtn = document.querySelector('.copy-btn');
         copyBtn.textContent = 'Copied!';
         copyBtn.style.background = 'var(--secondary-color)';
-        copyBtn.style.color = '#000000';
+        copyBtn.style.color = '#FFFFFF';
         setTimeout(() => {
           copyBtn.textContent = 'Copy';
-          copyBtn.style.background = 'rgba(255, 255, 255, 0.05)';
+          copyBtn.style.background = 'rgba(36,59,53,0.05)';
           copyBtn.style.color = 'var(--text-muted)';
         }, 2000);
       }).catch(err => {
@@ -824,7 +856,7 @@
       URL.revokeObjectURL(url);
     }
   </script>
-  <footer class="site-footer" style="background: #09090b; border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 32px 20px; text-align: center; color: #a1a1aa; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+  <footer class="site-footer" style="background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08); padding: 32px 20px; text-align: center; color: #4A605A; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
     <div style="max-width: 1200px; margin: 0 auto;">
       <div style="margin-bottom: 6px; word-break: keep-all;">
         <span>상호명: (주)에듀니티랩</span> | <span>대표자: 이기택</span> | <span>사업장주소: 서울 강남구 테헤란로21길 25 (역삼동, 태림빌딩) 태림빌딩 2층</span>
@@ -832,7 +864,7 @@
       <div style="margin-bottom: 10px; word-break: keep-all;">
         <span>연락처: (02)6240-0053</span> | <span>사업자등록번호: 132-86-35644</span> | <span>통신판매업신고번호: 제2024-서울강남-01134호</span> | <span>이메일: with@edunlab.kr</span>
       </div>
-      <div style="color: #71717a; font-size: 0.8rem; font-weight: 500;">
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
         Copyright ⓒ Eduniety Lab. All Rights Reserved.
       </div>
     </div>

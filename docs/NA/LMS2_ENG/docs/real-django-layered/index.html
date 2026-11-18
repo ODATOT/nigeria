@@ -1,0 +1,2466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <script id="auth-guard">
+    (function () {
+      function getCookie(name) {
+        var prefix = name + '=';
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          if (cookie.indexOf(prefix) === 0) return decodeURIComponent(cookie.substring(prefix.length));
+        }
+        return null;
+      }
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) loggedInUser = session.value;
+            else localStorage.removeItem('currentUserSession');
+          } catch (e) { console.error(e); }
+        }
+      }
+      if (!loggedInUser) window.location.href = '../login/login.html';
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Real Project 3: a layered architecture design lecture that extends Django's basic structure to separate API·Business·Infrastructure, add an external payment Adapter, and set development rules for AI agents" />
+  <title>Real Project 3 · Django Layered Architecture Design | ACE AI SW Startup Training</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --bg: #F6F9F4;
+      --surface: #F6F9F4;
+      --surface-2: #F6F9F4;
+      --line: rgba(36,59,53,0.081);
+      --text: #243B35;
+      --muted: #4A605A;
+      --emerald: #27765B;
+      --emerald-soft: #27765B;
+      --cyan: #2B5CA6;
+      --cyan-soft: #2B5CA6;
+      --blue: #2B5CA6;
+      --amber: #856000;
+      --rose: #A83A45;
+      --purple: #5D4AA8;
+      --radius: 20px;
+      --shadow: 0 24px 70px rgba(36,59,53,0.133);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 86px; }
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      background:
+        radial-gradient(circle at 12% 4%, rgba(39,118,91,0.132), transparent 28%),
+        radial-gradient(circle at 88% 28%, rgba(43,92,166,0.121), transparent 30%),
+        var(--bg);
+    }
+
+    a { color: inherit; }
+    button { font-family: inherit; }
+    .container { width: min(1200px, calc(100% - 40px)); margin: 0 auto; }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--line);
+      background: rgba(36,59,53,0.08);
+      backdrop-filter: blur(18px);
+    }
+    .nav-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #243B35;
+      text-decoration: none;
+      font-size: 1.02rem;
+      font-weight: 850;
+    }
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: #243B35;
+      background: linear-gradient(135deg, #D7EEDD, var(--cyan));
+      font-weight: 950;
+      font-size: 0.9rem;
+      letter-spacing: -0.04em;
+    }
+    .nav-links { display: flex; align-items: center; gap: 6px; list-style: none; flex-wrap: wrap; }
+    .nav-links a, .nav-links button {
+      padding: 8px 12px;
+      color: #4A605A;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 750;
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.18s ease;
+    }
+    .nav-links a:hover, .nav-links button:hover { color: var(--emerald-soft); background: rgba(255,255,255,0.67); }
+    .nav-links .nav-cta {
+      border: 1px solid rgba(39,118,91,0.42);
+      border-radius: 9px;
+      color: var(--emerald-soft);
+      background: rgba(39,118,91,0.154);
+    }
+    .nav-links .nav-cta:hover {
+      background: rgba(39,118,91,0.308);
+      border-color: var(--emerald);
+      color: #243B35;
+    }
+
+    /* Hero */
+    .hero { position: relative; overflow: hidden; padding: 82px 0 68px; border-bottom: 1px solid var(--line); }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.4;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(39,118,91,0.061) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(43,92,166,0.061) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, #F6F9F4, transparent 92%);
+    }
+    .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr); gap: 52px; align-items: center; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: #27765B; font-size: 0.8rem; font-weight: 900; letter-spacing: 0.13em; }
+    .eyebrow::before { content: ''; width: 28px; height: 2px; background: #D7EEDD; box-shadow: 0 0 14px rgba(36,59,53,0.14); }
+    h1 { margin: 16px 0 18px; font-size: clamp(2rem, 3.6vw, 3.15rem); line-height: 1.16; letter-spacing: -0.04em; word-break: keep-all; }
+    h1 span { display: block; background: linear-gradient(110deg, #243B35 10%, #27765B 50%, #2B5CA6); -webkit-background-clip: text; color: transparent; }
+    .hero-copy { max-width: 740px; color: #4A605A; font-size: 1.05rem; word-break: keep-all; }
+    .hero-copy strong { color: #243B35; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 11px 18px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: #243B35;
+      text-decoration: none;
+      font-size: 0.93rem;
+      font-weight: 850;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .button:hover { transform: translateY(-2px); border-color: rgba(39,118,91,0.5); }
+    .button.primary { color: #FFFFFF; border-color: transparent; background: #27765B; box-shadow: 0 14px 34px rgba(36,59,53,0.084); }
+    .button.secondary { background: rgba(255,255,255,0.685); }
+
+    /* Hero Architecture Stack Preview */
+    .arch-terminal {
+      overflow: hidden;
+      border: 1px solid rgba(39,118,91,0.28);
+      border-radius: 22px;
+      background: rgba(246,249,244,0.94);
+      box-shadow: var(--shadow), 0 0 60px rgba(36,59,53,0.042);
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+    .arch-terminal:hover {
+      transform: translateY(-4px);
+      border-color: rgba(39,118,91,0.6);
+    }
+    .terminal-bar { display: flex; align-items: center; gap: 7px; padding: 13px 16px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,0.64); }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: #F6D5CF; }
+    .dot:nth-child(2) { background: #F5F0BB; }
+    .dot:nth-child(3) { background: #D7EEDD; }
+    .terminal-title { margin-left: auto; color: #4A605A; font: 0.73rem var(--mono); }
+    .arch-stack-body { padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+    .arch-layer-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(36,59,53,0.081);
+      background: rgba(246,249,244,0.85);
+      font-size: 0.84rem;
+    }
+    .arch-layer-pill strong { font-family: var(--mono); color: #243B35; font-size: 0.83rem; }
+    .arch-layer-pill span { color: #4A605A; font-size: 0.76rem; }
+    .arch-layer-pill.l-api { border-left: 3px solid rgba(43,92,166,0.55); }
+    .arch-layer-pill.l-wf { border-left: 3px solid rgba(39,118,91,0.55); }
+    .arch-layer-pill.l-biz { border-left: 3px solid rgba(39,118,91,0.55); background: rgba(39,118,91,0.121); border-color: rgba(39,118,91,0.35); }
+    .arch-layer-pill.l-port { border-left: 3px solid rgba(133,96,0,0.55); }
+    .arch-layer-pill.l-infra { border-left: 3px solid rgba(93,74,168,0.55); }
+    .arch-arrow-down { text-align: center; color: #27765B; font: 800 0.75rem var(--mono); line-height: 1; }
+
+    .stats { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 44px; }
+    .stat { padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: rgba(246,249,244,0.72); }
+    .stat strong { display: block; color: #27765B; font-size: 1.18rem; }
+    .stat span { color: var(--muted); font-size: 0.8rem; }
+
+    /* Sections */
+    section.content-section { padding: 74px 0; }
+    section.alt { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(246,249,244,0.42); }
+    .section-header-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+    .section-kicker { color: #27765B; font-size: 0.76rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
+    .section-title { margin: 6px 0 10px; font-size: clamp(1.75rem, 3.6vw, 2.5rem); line-height: 1.18; letter-spacing: -0.035em; }
+    .section-copy { max-width: 780px; color: var(--muted); word-break: keep-all; }
+    .slide-jump-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(39,118,91,0.132);
+      border: 1px solid rgba(39,118,91,0.35);
+      color: var(--emerald-soft);
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .slide-jump-pill:hover {
+      background: rgba(39,118,91,0.275);
+      border-color: var(--emerald);
+      color: #243B35;
+    }
+
+    /* Cards & Grids */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+
+    .card {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(246,249,244,0.92), rgba(246,249,244,0.94));
+    }
+    .card.emerald { border-color: rgba(39,118,91,0.34); background: linear-gradient(145deg, rgba(39,118,91,0.11), rgba(246,249,244,0.95)); }
+    .card.cyan { border-color: rgba(43,92,166,0.34); background: linear-gradient(145deg, rgba(43,92,166,0.11), rgba(246,249,244,0.95)); }
+    .card.amber { border-color: rgba(133,96,0,0.34); background: linear-gradient(145deg, rgba(133,96,0,0.099), rgba(246,249,244,0.95)); }
+    .card.danger { border-color: rgba(168,58,69,0.36); background: linear-gradient(145deg, rgba(168,58,69,0.11), rgba(246,249,244,0.95)); }
+
+    .card h3 { font-size: 1.12rem; margin-bottom: 10px; color: #243B35; display: flex; align-items: center; gap: 8px; }
+    .card p { color: #4A605A; font-size: 0.9rem; }
+    .badge-num {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #D7EEDD, var(--cyan));
+      color: #243B35;
+      font: 900 0.76rem var(--mono);
+      flex-shrink: 0;
+    }
+
+    .check-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-top: 12px; }
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 0.9rem;
+      color: #243B35;
+      line-height: 1.55;
+    }
+    .check-list li::before {
+      content: '✓';
+      color: #27765B;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .check-list.danger-list li::before {
+      content: '✕';
+      color: var(--rose);
+    }
+
+    /* Code Block with Copy */
+    .code-box {
+      position: relative;
+      margin: 12px 0;
+      padding: 16px 70px 16px 18px;
+      border-radius: 13px;
+      background: #F6F9F4;
+      border: 1px solid rgba(39,118,91,0.22);
+      overflow-x: auto;
+    }
+    .code-box.danger-code { border-color: rgba(168,58,69,0.35); }
+    .code-box code {
+      font: 0.82rem/1.68 var(--mono);
+      color: #27765B;
+      white-space: pre;
+      display: block;
+    }
+    .code-box.danger-code code { color: #243B35; }
+    .copy-code-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      border-radius: 7px;
+      border: 1px solid rgba(36,59,53,0.144);
+      background: rgba(255,255,255,0.73);
+      color: #4A605A;
+      font-size: 0.72rem;
+      font-weight: 750;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+    .copy-code-btn:hover { border-color: rgba(39,118,91,0.55); color: #243B35; }
+    .copy-code-btn.copied { background: #27765B; border-color: rgba(39,118,91,0.55); color: #FFFFFF; }
+
+    /* Tables */
+    .arch-table-wrap {
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(246,249,244,0.85);
+    }
+    .arch-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .arch-table th, .arch-table td {
+      padding: 13px 16px;
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+      font-size: 0.88rem;
+    }
+    .arch-table th {
+      background: rgba(255,255,255,0.67);
+      color: var(--emerald-soft);
+      font-size: 0.78rem;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .arch-table tr:last-child td { border-bottom: none; }
+    .arch-table code {
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(39,118,91,0.154);
+      border: 1px solid rgba(39,118,91,0.3);
+      color: #27765B;
+      font: 700 0.8rem var(--mono);
+    }
+
+    /* Interactive 20-Chapter Roadmap Grid */
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .chapter-card {
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(246,249,244,0.78);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      text-align: left;
+    }
+    .chapter-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(39,118,91,0.5);
+      background: rgba(39,118,91,0.11);
+    }
+    .chapter-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .chapter-no {
+      font: 900 0.74rem var(--mono);
+      color: #27765B;
+    }
+    .chapter-open-tag {
+      font-size: 0.68rem;
+      color: #4A605A;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.7);
+    }
+    .chapter-card h4 {
+      font-size: 0.94rem;
+      color: #243B35;
+      margin-bottom: 4px;
+    }
+    .chapter-card p {
+      font-size: 0.78rem;
+      color: #4A605A;
+      line-height: 1.45;
+    }
+
+    /* CTA & Footer */
+    .cta { padding: 72px 0; text-align: center; }
+    .cta-box {
+      padding: 48px 28px;
+      border: 1px solid rgba(39,118,91,0.32);
+      border-radius: 24px;
+      background: radial-gradient(circle at 50% 0%, rgba(39,118,91,0.176), transparent 45%), #F6F9F4;
+      box-shadow: var(--shadow);
+    }
+    .cta h2 { margin-bottom: 10px; font-size: clamp(1.8rem, 4vw, 2.7rem); }
+    .cta p { color: var(--muted); max-width: 680px; margin: 0 auto; }
+    .cta .actions { justify-content: center; }
+    footer { padding: 30px 20px; text-align: center; color: #6B7F79; border-top: 1px solid var(--line); font-size: 0.8rem; }
+
+    /* ==========================================================================
+       SLIDESHARE LAYER POPUP MODAL (#djangoSlideModal)
+       ========================================================================== */
+    .slideshare-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(36,59,53,0.08);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .slideshare-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .slideshare-player {
+      width: min(1420px, 100%);
+      height: min(92vh, 940px);
+      display: flex;
+      flex-direction: column;
+      background: #F6F9F4;
+      border: 1px solid rgba(39,118,91,0.32);
+      border-radius: 22px;
+      box-shadow: 0 32px 90px rgba(36,59,53,0.14), 0 0 40px rgba(36,59,53,0.049);
+      overflow: hidden;
+      transform: translateY(14px) scale(0.985);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .slideshare-backdrop.active .slideshare-player {
+      transform: translateY(0) scale(1);
+    }
+    .slideshare-player:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      border: none;
+    }
+    .ss-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 20px;
+      background: rgba(246,249,244,0.96);
+      border-bottom: 1px solid rgba(36,59,53,0.081);
+      flex-shrink: 0;
+    }
+    .ss-brand-group { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .ss-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      background: rgba(39,118,91,0.198);
+      border: 1px solid rgba(39,118,91,0.4);
+      color: var(--emerald-soft);
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .ss-deck-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #243B35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ss-top-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .ss-select {
+      padding: 7px 12px;
+      border-radius: 9px;
+      border: 1px solid rgba(36,59,53,0.126);
+      background: #F6F9F4;
+      color: #243B35;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      max-width: 270px;
+    }
+    .ss-tool-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 9px;
+      border: 1px solid rgba(36,59,53,0.108);
+      background: rgba(255,255,255,0.67);
+      color: #4A605A;
+      font-size: 0.8rem;
+      font-weight: 750;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+    .ss-tool-btn:hover, .ss-tool-btn.active {
+      background: rgba(39,118,91,0.176);
+      border-color: rgba(39,118,91,0.45);
+      color: #243B35;
+    }
+    .ss-tool-btn.close-btn {
+      background: rgba(168,58,69,0.154);
+      border-color: rgba(168,58,69,0.35);
+      color: #A83A45;
+    }
+    .ss-tool-btn.close-btn:hover { background: rgba(168,58,69,0.308); color: #243B35; }
+
+    .ss-body {
+      position: relative;
+      flex: 1;
+      display: flex;
+      min-height: 0;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(39,118,91,0.077), transparent 35%),
+        radial-gradient(circle at 85% 80%, rgba(43,92,166,0.077), transparent 35%),
+        #F6F9F4;
+    }
+    .ss-toc-drawer {
+      width: 280px;
+      border-right: 1px solid rgba(36,59,53,0.08);
+      background: rgba(246,249,244,0.96);
+      overflow-y: auto;
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-shrink: 0;
+      transition: margin-left 0.25s ease, opacity 0.25s ease;
+    }
+    .ss-toc-drawer.collapsed {
+      margin-left: -280px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .ss-toc-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: rgba(255,255,255,0.61);
+      color: #4A605A;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+    .ss-toc-item:hover { background: rgba(255,255,255,0.73); color: #243B35; }
+    .ss-toc-item.active {
+      background: rgba(39,118,91,0.165);
+      border-color: rgba(39,118,91,0.42);
+      color: #243B35;
+    }
+    .ss-toc-num {
+      display: inline-grid;
+      place-items: center;
+      min-width: 26px;
+      height: 24px;
+      padding: 0 6px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.76);
+      color: #27765B;
+      font: 800 0.72rem var(--mono);
+      flex-shrink: 0;
+    }
+    .ss-toc-item.active .ss-toc-num { background: #D7EEDD; color: #243B35; }
+    .ss-toc-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .ss-toc-text strong { font-size: 0.81rem; font-weight: 750; line-height: 1.3; color: inherit; }
+    .ss-toc-text span { font-size: 0.7rem; color: #6B7F79; }
+
+    .ss-stage {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px 64px;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .ss-nav-paddle {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 44px;
+      height: 68px;
+      border-radius: 12px;
+      border: 1px solid rgba(36,59,53,0.108);
+      background: rgba(246,249,244,0.82);
+      color: #243B35;
+      font-size: 1.5rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s ease;
+    }
+    .ss-nav-paddle:hover:not(:disabled) {
+      background: rgba(39,118,91,0.242);
+      border-color: rgba(39,118,91,0.55);
+      color: #243B35;
+    }
+    .ss-nav-paddle:disabled { opacity: 0.25; cursor: not-allowed; }
+    .ss-nav-paddle.prev { left: 12px; }
+    .ss-nav-paddle.next { right: 12px; }
+
+    .ss-slide-viewport {
+      width: 100%;
+      height: 100%;
+      max-width: 1180px;
+      background: linear-gradient(165deg, #F6F9F4 0%, #F6F9F4 100%);
+      border: 1px solid rgba(36,59,53,0.09);
+      border-radius: 20px;
+      box-shadow: 0 24px 60px rgba(36,59,53,0.14);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .ss-slide {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      overflow-y: auto;
+      padding: 32px 40px;
+      animation: ssFadeIn 0.22s ease;
+    }
+    .ss-slide.active { display: flex; }
+    @keyframes ssFadeIn {
+      from { opacity: 0; transform: translateX(10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .slide-meta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+      flex-shrink: 0;
+    }
+    .slide-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #27765B;
+      font: 900 0.76rem var(--mono);
+      letter-spacing: 0.1em;
+    }
+    .slide-kicker span {
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(39,118,91,0.176);
+      border: 1px solid rgba(39,118,91,0.32);
+      color: var(--emerald-soft);
+    }
+    .slide-page-tag { color: #6B7F79; font: 700 0.78rem var(--mono); }
+    .slide-headline {
+      font-size: clamp(1.5rem, 2.5vw, 2.15rem);
+      font-weight: 850;
+      line-height: 1.22;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+      color: #243B35;
+    }
+    .slide-subcopy {
+      color: #4A605A;
+      font-size: 0.95rem;
+      max-width: 900px;
+      margin-bottom: 20px;
+    }
+
+    /* Bottom Progress Bar */
+    .ss-bottombar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 20px;
+      background: rgba(246,249,244,0.96);
+      border-top: 1px solid rgba(36,59,53,0.081);
+      flex-shrink: 0;
+    }
+    .ss-progress-wrap { flex: 1; display: flex; align-items: center; gap: 12px; max-width: 540px; }
+    .ss-progress-track {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.79);
+      overflow: hidden;
+    }
+    .ss-progress-fill {
+      height: 100%;
+      width: 5%;
+      background: linear-gradient(90deg, #D7EEDD, var(--cyan));
+      transition: width 0.22s ease;
+    }
+    .ss-counter { font: 800 0.8rem var(--mono); color: #4A605A; min-width: 68px; }
+    .ss-bottom-actions { display: flex; align-items: center; gap: 8px; }
+
+    @media (max-width: 980px) {
+      .hero-grid, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .chapter-grid, .stats { grid-template-columns: repeat(2, 1fr); }
+      .ss-toc-drawer { position: absolute; left: 0; top: 0; bottom: 0; z-index: 20; box-shadow: 16px 0 40px rgba(36,59,53,0.14); }
+      .ss-stage { padding: 14px 48px; }
+      .ss-slide { padding: 24px 22px; }
+    }
+    @media (max-width: 680px) {
+      .chapter-grid, .stats { grid-template-columns: 1fr; }
+      .slideshare-backdrop { padding: 0; }
+      .slideshare-player { height: 100vh; border-radius: 0; }
+      .ss-stage { padding: 10px; }
+      .ss-nav-paddle { display: none; }
+    }
+  </style>
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="../index.html" class="brand"><span class="brand-mark">DJ</span>ACE AI SW Startup Training · Real Project 3</a>
+      <ul class="nav-links">
+        <li><a href="#overview">1. Overview·problems</a></li>
+        <li><a href="#architecture">2. Target architecture</a></li>
+        <li><a href="#business-layer">3. Business layer</a></li>
+        <li><a href="#cafe-example">4. Café order API</a></li>
+        <li><a href="#billing-module">5. Billing·payment extension</a></li>
+        <li><a href="#ai-spec">6. Tests·AI rules</a></li>
+        <li><a href="../index.html">← Course home</a></li>
+        <li><button type="button" class="nav-cta" data-open-slides="0">📑 Open 20-lecture slides</button></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">REAL PROJECT 03 · DJANGO LAYERED ARCHITECTURE</div>
+            <h1>Beyond a backend framework's basic structure,<span>design a layered architecture (Django example)</span></h1>
+            <p class="hero-copy">
+              Split <strong>API·business logic·database·external payment API</strong> into layers by responsibility,
+              and complete a practical back-end architecture and development rules where several developers and <strong>AI development agents</strong>
+              can write code in consistent places without conflicts.
+            </p>
+            <div class="actions">
+              <button type="button" class="button primary" data-open-slides="0">📑 Start the full 20-lecture slide share →</button>
+              <a href="#cafe-example" class="button secondary">☕ See the café order API case</a>
+              <a href="#billing-module" class="button secondary">💳 Billing·payment Adapter design</a>
+              <a href="#ai-spec" class="button secondary">🤖 AI dev rules &amp; placement table</a>
+            </div>
+          </div>
+
+          <div class="arch-terminal" data-open-slides="4" role="button" tabindex="0" title="Click to open the dependency direction slide">
+            <div class="terminal-bar">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span class="terminal-title">dependency-flow.py (click to open slide)</span>
+            </div>
+            <div class="arch-stack-body">
+              <div class="arch-layer-pill l-api">
+                <strong>apps / API (View · Serializer)</strong>
+                <span>Validate HTTP requests · call Workflow</span>
+              </div>
+              <div class="arch-arrow-down">↓ calls</div>
+              <div class="arch-layer-pill l-wf">
+                <strong>business / Workflow</strong>
+                <span>Coordinate the whole use case order</span>
+              </div>
+              <div class="arch-arrow-down">↓ orchestrates</div>
+              <div class="arch-layer-pill l-biz">
+                <strong>business / Rule · Policy · Calculator</strong>
+                <span>Pure business rules · policy decisions · amount calculation (no Django dependency)</span>
+              </div>
+              <div class="arch-arrow-down">↓ depends on interface ↑ implements</div>
+              <div class="arch-layer-pill l-port">
+                <strong>business / Port (Protocol)</strong>
+                <span>OrderRepository · PaymentGateway interfaces</span>
+              </div>
+              <div class="arch-arrow-down">↑ implements</div>
+              <div class="arch-layer-pill l-infra">
+                <strong>infrastructure / Repository · Adapter</strong>
+                <span>Django ORM · Toss payment API · Outbox implementations</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><strong>20 Chapters</strong><span>From theory through payments and AI rules</span></div>
+          <div class="stat"><strong>5 core layers</strong><span>config · apps · business · infra · tests</span></div>
+          <div class="stat"><strong>2 real domains</strong><span>Café order API + billing·payment module</span></div>
+          <div class="stat"><strong>12-Step AI rules</strong><span>Standard for consistent AI agents</span></div>
+        </div>
+
+        <!-- 20-Chapter Quick Slide Launcher -->
+        <div style="margin-top: 36px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+            <span class="section-kicker">INTERACTIVE 20-SLIDE DECK · CLICK TO OPEN</span>
+            <span style="font-size: 0.8rem; color: #4A605A;">Click a card to open that chapter's slides right away</span>
+          </div>
+          <div class="chapter-grid" id="chapterQuickGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1~3: 강의 개요 & 왜 필요한가 & Django 기본 구조 -->
+    <section class="content-section" id="overview">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <div class="section-kicker">CHAPTER 01 – 03 · OVERVIEW &amp; PROBLEM STATEMENT</div>
+            <h2 class="section-title">1. Lecture Overview: Why Do We Need a Layered Architecture?</h2>
+            <p class="section-copy">Keep Django's fast productivity while solving the Fat View, duplicate rules, untestable code and scattered AI code that come with growing service size.</p>
+          </div>
+          <button type="button" class="slide-jump-pill" data-open-slides="0">📑 See Ch 01~03 slides ↗</button>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 24px;">
+          <div class="card emerald">
+            <h3><span class="badge-num">01</span> Lecture topic: 6 key design requirements</h3>
+            <p>Extend Django's basic structure to design a layered architecture that meets these requirements.</p>
+            <ul class="check-list">
+              <li><strong>Separate API and business logic</strong> — so the View doesn't do everything</li>
+              <li><strong>Separate database access logic</strong> — wrap ORM queries behind a Repository</li>
+              <li><strong>Turn frequently changing business rules into a library</strong> — modularize Rule·Policy·Calculator</li>
+              <li><strong>A structure where many developers can work at once</strong> — minimize Git conflicts by splitting responsibility per file</li>
+              <li><strong>Structure external payment API and third-party integrations</strong> — loose coupling with Port &amp; Adapter</li>
+              <li><strong>Set development rules so AI development agents write code consistently</strong></li>
+            </ul>
+          </div>
+
+          <div class="card cyan">
+            <h3><span class="badge-num">02</span> 7 learning goals</h3>
+            <p>After the lecture, students should be able to explain and build the following themselves.</p>
+            <ul class="check-list">
+              <li><strong>1.</strong> Understand the limits of Django's basic structure (bloated <code>models.py</code>, <code>views.py</code>).</li>
+              <li><strong>2.</strong> Tell the Model, API, Business and Infrastructure layers apart.</li>
+              <li><strong>3.</strong> Tell the roles of <code>Rule</code>, <code>Policy</code>, <code>Calculator</code> and <code>Workflow</code> apart.</li>
+              <li><strong>4.</strong> Separate DB and external system dependencies using <code>Repository</code> and <code>Port</code>.</li>
+              <li><strong>5.</strong> Build a café order API with a layered architecture.</li>
+              <li><strong>6.</strong> Add an external payment provider as an <code>Adapter</code>.</li>
+              <li><strong>7.</strong> Write project development rules for AI to follow.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card danger">
+            <h3>⚠️ Anti-pattern: one View doing too much (Ch 02)</h3>
+            <p>A structure mixing HTTP request handling, DB lookup, availability checks, amount calculation, saving the order and calling external payment in one View.</p>
+            <div class="code-box danger-code">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>class OrderCreateView(APIView):
+    def post(self, request):
+        menu = Menu.objects.get(id=request.data["menu_id"])
+
+        if not menu.is_available:
+            raise ValidationError("This menu item is not on sale.")
+
+        total_price = menu.price * request.data["quantity"]
+
+        order = Order.objects.create(
+            user=request.user,
+            total_price=total_price,
+        )
+
+        PaymentAPI.confirm(...)
+
+        return Response({"order_id": order.id})</code>
+            </div>
+            <ul class="check-list danger-list">
+              <li>The same business rule is duplicated across several APIs.</li>
+              <li>Business logic is hard to unit test without a DB.</li>
+              <li>Several developers edit the same file at once and conflict.</li>
+              <li>A change in an external API affects the whole service.</li>
+              <li>It's hard for AI to judge consistently where to write code.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>📁 Django's basic structure and file bloat (Ch 03)</h3>
+            <p>Fine for small projects, but as features grow, <code>models.py</code>, <code>views.py</code>, <code>serializers.py</code> and <code>tests.py</code> bloat to thousands of lines.</p>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>backend/
+├── manage.py
+├── config/
+│   ├── settings.py
+│   ├── urls.py
+│   ├── asgi.py
+│   └── wsgi.py
+└── cafe/
+    ├── migrations/
+    ├── admin.py
+    ├── apps.py
+    ├── models.py        # ⚠️ bloated to thousands of lines
+    ├── serializers.py   # ⚠️ validation + business mixed
+    ├── tests.py         # ⚠️ slow DB-dependent tests
+    └── views.py         # ⚠️ HTTP + queries + payment mixed</code>
+            </div>
+            <p style="margin-top: 10px; color: var(--emerald-soft); font-weight: 700;">
+              💡 Solution: split the files inside the Django app by responsibility, and add a pure <code>business</code> layer and an <code>infrastructure</code> layer.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4~5: 목표 아키텍처 & 의존성 방향 -->
+    <section class="content-section alt" id="architecture">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <div class="section-kicker">CHAPTER 04 – 05 · TARGET ARCHITECTURE &amp; DEPENDENCY RULE</div>
+            <h2 class="section-title">2. Target Architecture and the One-Way Dependency Rule</h2>
+            <p class="section-copy">Split responsibilities into 5 top-level directories, and set Port interfaces as the boundary so the Business layer doesn't depend directly on the Django ORM or external APIs.</p>
+          </div>
+          <button type="button" class="slide-jump-pill" data-open-slides="3">📑 See Ch 04~05 slides ↗</button>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 22px;">
+          <div class="card">
+            <h3>🏗️ 4.1 Full target architecture directory structure</h3>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>backend/
+├── manage.py
+├── pyproject.toml
+├── config/                       # Django global settings
+├── apps/                         # Django and HTTP layer
+│   ├── cafe/
+│   └── billing/
+├── business/                     # pure business logic (no Django imports)
+│   ├── core/
+│   ├── cafe/
+│   └── billing/
+├── infrastructure/               # DB and external system implementations (Port implementations)
+│   ├── repositories/
+│   ├── transactions/
+│   ├── payment_gateways/
+│   ├── notifications/
+│   └── outbox/
+└── tests/                        # 3-level test suite
+    ├── unit/
+    ├── integration/
+    └── contract/</code>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>📋 4.2 Key responsibilities per layer</h3>
+            <div class="arch-table-wrap" style="margin-top: 10px;">
+              <table class="arch-table">
+                <thead>
+                  <tr><th>Layer</th><th>Responsibility</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>config</code></td><td>Overall Django project settings (settings, urls, wsgi/asgi)</td></tr>
+                  <tr><td><code>apps</code></td><td>HTTP request/response (DRF API), Django Model definitions, Admin and <code>container.py</code></td></tr>
+                  <tr><td><code>business</code></td><td>Pure business rules (Rule), policies (Policy), calculations (Calculator), procedures (Workflow), interfaces (Port)</td></tr>
+                  <tr><td><code>infrastructure</code></td><td>Django ORM Repository, transactions (UoW), external payment API Adapter, messages/email, Outbox</td></tr>
+                  <tr><td><code>tests</code></td><td>Unit (no DB) · Integration (DB/ORM) · Contract (external Adapter) tests</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="margin-top: 16px; padding: 14px 16px; border-radius: 12px; background: rgba(39,118,91,0.11); border: 1px solid rgba(39,118,91,0.3);">
+              <strong style="color: var(--emerald-soft); font-size: 0.88rem;">🧭 5. Key dependency rules</strong>
+              <p style="font-size: 0.84rem; color: #243B35; margin-top: 4px;">
+                API → Workflow → Rule·Policy·Calculator → <strong>Port</strong> ← Infrastructure Adapter → DB / External API.<br>
+                <strong>The Business layer never imports Django or DRF.</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card danger">
+            <h3>🚫 Forbidden dependency (calling the ORM directly from Business)</h3>
+            <div class="code-box danger-code">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code># ❌ never allowed in the business layer!
+from django.db import transaction
+from apps.cafe.models import Order
+
+Order.objects.create(...)</code>
+            </div>
+          </div>
+          <div class="card emerald">
+            <h3>✅ Allowed dependency (injecting a Port interface)</h3>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code># ✅ The Workflow doesn't know which DB it uses
+class CreateOrderWorkflow:
+    def __init__(self, order_repository: OrderRepository):
+        self.order_repository = order_repository</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: Business 계층의 세부 구조 -->
+    <section class="content-section" id="business-layer">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <div class="section-kicker">CHAPTER 06 · PURE BUSINESS LAYER COMPONENTS</div>
+            <h2 class="section-title">3. The 6 Building Blocks of the Business Layer</h2>
+            <p class="section-copy">Inside <code>business/cafe/</code> is split into <code>dto</code>, <code>rules</code>, <code>policies</code>, <code>calculators</code>, <code>workflows</code> and <code>ports</code>, each with a single responsibility.</p>
+          </div>
+          <button type="button" class="slide-jump-pill" data-open-slides="5">📑 See Ch 06 slides ↗</button>
+        </div>
+
+        <div class="grid-2">
+          <!-- 6.1 DTO -->
+          <div class="card">
+            <h3><span class="badge-num">6.1</span> DTO (Data Transfer Object)</h3>
+            <p>Immutable objects that pass data between layers. <strong>DTOs don't use Django Models.</strong></p>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class OrderItemCommand:
+    menu_id: int
+    quantity: int
+
+@dataclass(frozen=True)
+class CreateOrderCommand:
+    customer_id: int
+    items: tuple[OrderItemCommand, ...]</code>
+            </div>
+          </div>
+
+          <!-- 6.2 Rule -->
+          <div class="card">
+            <h3><span class="badge-num">6.2</span> Rule (checks a single condition)</h3>
+            <p>Checks just one business condition (e.g. order quantity, whether on sale, order hours, discount eligibility).</p>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>class OrderQuantityRule:
+    def evaluate(self, quantity: int) -> RuleResult:
+        if quantity < 1:
+            return RuleResult.reject(
+                code="INVALID_QUANTITY",
+                message="Order quantity must be at least 1.",
+            )
+
+        return RuleResult.accept()</code>
+            </div>
+          </div>
+
+          <!-- 6.3 Policy -->
+          <div class="card">
+            <h3><span class="badge-num">6.3</span> Policy (decides with combined rules)</h3>
+            <p>Combines several Rules to make a final decision (e.g. order acceptance, cancellation, discount and refund policies).</p>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>class OrderAcceptancePolicy:
+    def __init__(self, rules):
+        self.rules = rules
+
+    def evaluate(self, context):
+        for rule in self.rules:
+            result = rule.evaluate(context)
+            if not result.passed:
+                return result
+
+        return RuleResult.accept()</code>
+            </div>
+          </div>
+
+          <!-- 6.4 Calculator -->
+          <div class="card">
+            <h3><span class="badge-num">6.4</span> Calculator (pure calculator)</h3>
+            <p>Always returns the same result for the same input, doesn't call the DB or external APIs, and doesn't use <code>float</code> for money.</p>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>class OrderPriceCalculator:
+    def calculate(self, items):
+        return sum(
+            item.unit_price * item.quantity
+            for item in items
+        )</code>
+            </div>
+          </div>
+
+          <!-- 6.5 Workflow -->
+          <div class="card emerald">
+            <h3><span class="badge-num">6.5</span> Workflow (coordinates the use case steps)</h3>
+            <p>Manages the full processing order a use case needs, combining Rules, Policies and Calculators rather than calculating or deciding itself.</p>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>class CreateOrderWorkflow:
+    def __init__(
+        self,
+        menu_repository,
+        order_repository,
+        acceptance_policy,
+        price_calculator,
+        unit_of_work,
+    ):
+        self.menu_repository = menu_repository
+        self.order_repository = order_repository
+        self.acceptance_policy = acceptance_policy
+        self.price_calculator = price_calculator
+        self.unit_of_work = unit_of_work
+
+    def execute(self, command):
+        menus = self.menu_repository.get_available_menus(
+            menu_ids=[item.menu_id for item in command.items]
+        )
+        self.acceptance_policy.validate(menus=menus, items=command.items)
+        total_price = self.price_calculator.calculate(items=command.items, menus=menus)
+
+        with self.unit_of_work:
+            return self.order_repository.create_order(
+                customer_id=command.customer_id,
+                items=command.items,
+                total_price=total_price,
+            )</code>
+            </div>
+          </div>
+
+          <!-- 6.6 Port -->
+          <div class="card cyan">
+            <h3><span class="badge-num">6.6</span> Port (external feature interface)</h3>
+            <p>A <code>Protocol</code> interface for features the Business layer needs from outer layers. The real implementation lives in <code>infrastructure</code>.</p>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>from typing import Protocol
+
+
+class OrderRepository(Protocol):
+    def create_order(self, order_data):
+        ...
+
+    def get_order(self, order_id: int):
+        ...</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7~8: 카페 주문 API 적용 사례 & 의존성 조립 -->
+    <section class="content-section alt" id="cafe-example">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <div class="section-kicker">CHAPTER 07 – 08 · CAFE ORDER API &amp; DEPENDENCY INJECTION</div>
+            <h2 class="section-title">4. Real Case 1: Café Order API &amp; Wiring Dependencies</h2>
+            <p class="section-copy">Map 7 order requirement steps to the folder structure and pipeline, then inject the implementations (DI) in <code>container.py</code>.</p>
+          </div>
+          <button type="button" class="slide-jump-pill" data-open-slides="6">📑 See Ch 07~08 slides ↗</button>
+        </div>
+
+        <div class="grid-3" style="margin-bottom: 20px;">
+          <div class="card">
+            <h3>☕ 7.1 Requirements &amp; 7.3 Processing flow</h3>
+            <ol style="padding-left: 18px; color: #243B35; font-size: 0.88rem; line-height: 1.8;">
+              <li>Validate request data (<code>CreateOrderSerializer</code>)</li>
+              <li>Create the <code>CreateOrderCommand</code> DTO</li>
+              <li>Look up menu items (<code>MenuRepository</code>)</li>
+              <li>Check availability + quantity (<code>OrderAcceptancePolicy</code>)</li>
+              <li>Calculate the total (<code>OrderPriceCalculator</code>)</li>
+              <li>Save order and items in a transaction (<code>OrderRepository</code>)</li>
+              <li>Return the order result (<code>201 Created</code>)</li>
+            </ol>
+            <div class="code-box" style="margin-top: 12px;">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>// POST /api/v1/cafe/orders request
+{
+  "items": [
+    { "menu_id": 1, "quantity": 2 },
+    { "menu_id": 3, "quantity": 1 }
+  ]
+}
+
+// response
+{
+  "order_id": 1042,
+  "status": "RECEIVED",
+  "total_price": 13500
+}</code>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>📂 7.2 Café domain folder structure</h3>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>apps/cafe/
+├── models/ (menu.py, order.py, order_item.py)
+├── api/ (serializers.py, views.py, urls.py)
+└── container.py
+
+business/cafe/
+├── dto/ (order_command.py, order_result.py)
+├── rules/ (menu_available_rule.py, order_quantity_rule.py)
+├── policies/ (order_acceptance_policy.py)
+├── calculators/ (order_price_calculator.py)
+├── workflows/ (create_order_workflow.py)
+└── ports/ (menu_repository.py, order_repository.py, unit_of_work.py)
+
+infrastructure/
+├── repositories/ (django_menu_repository.py, django_order_repository.py)
+└── transactions/ (django_unit_of_work.py)</code>
+            </div>
+          </div>
+
+          <div class="card emerald">
+            <h3>🧩 8. Wiring dependencies (container.py)</h3>
+            <p>Instead of creating <code>DjangoOrderRepository()</code> directly inside the Workflow, wire it up in <code>container.py</code>.</p>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code># apps/cafe/container.py
+def create_order_workflow() -> CreateOrderWorkflow:
+    return CreateOrderWorkflow(
+        menu_repository=DjangoMenuRepository(),
+        order_repository=DjangoOrderRepository(),
+        acceptance_policy=OrderAcceptancePolicy(...),
+        price_calculator=OrderPriceCalculator(),
+        unit_of_work=DjangoUnitOfWork(),
+    )</code>
+            </div>
+            <ul class="check-list">
+              <li>Inject a <code>FakeRepository</code> right away in unit tests</li>
+              <li>Easy to swap DB and external API implementations</li>
+              <li>The Workflow doesn't depend on technical details</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 9~16: 빌링·결제 모듈 확장 -->
+    <section class="content-section" id="billing-module">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <div class="section-kicker">CHAPTER 09 – 16 · BILLING, PORT &amp; ADAPTER, IDEMPOTENCY, WEBHOOK &amp; OUTBOX</div>
+            <h2 class="section-title">5. Real Case 2: Extending the Architecture with a Billing·Payment Module</h2>
+            <p class="section-copy">Isolate external payment provider integration, network Timeouts, duplicate-approval prevention (Idempotency), webhook verification and Outbox event publishing with the Port &amp; Adapter pattern.</p>
+          </div>
+          <button type="button" class="slide-jump-pill" data-open-slides="8">📑 See Ch 09~16 slides ↗</button>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 20px;">
+          <div class="card cyan">
+            <h3>🔌 10. PaymentGateway Port &amp; Toss Adapter</h3>
+            <p>The Business layer knows nothing of the name Toss or its response format; it only sees the <code>PaymentGateway</code> Protocol.</p>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>class PaymentGateway(Protocol):
+    provider_code: str
+    def confirm(self, command) -> PaymentResult: ...
+    def get_payment(self, provider_payment_id) -> PaymentResult: ...
+    def cancel(self, command) -> RefundResult: ...
+    def verify_webhook(self, raw_body, headers) -> bool: ...
+
+class TossPaymentGateway:
+    provider_code = "TOSS"
+    def __init__(self, client, mapper):
+        self.client = client
+        self.mapper = mapper
+
+    def confirm(self, command):
+        response = self.client.confirm_payment(
+            payment_key=command.payment_key,
+            order_id=command.order_id,
+            amount=command.amount,
+        )
+        return self.mapper.to_payment_result(response)</code>
+            </div>
+            <p style="font-size: 0.82rem; color: #4A605A; margin-top: 6px;">
+              📌 6 files inside the Adapter: <code>adapter.py</code> · <code>client.py</code> · <code>mapper.py</code> · <code>schemas.py</code> · <code>signature.py</code> · <code>exceptions.py</code>
+            </p>
+          </div>
+
+          <div class="card emerald">
+            <h3>🗂️ 11. Payment provider Registry &amp; 12. State machine</h3>
+            <p>Pick the payment provider with a <code>PaymentGatewayRegistry</code> instead of an <code>if provider == "TOSS":</code> branch, so adding a new provider changes 0 lines of existing Workflow.</p>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>class PaymentGatewayRegistry:
+    def __init__(self, gateways):
+        self._gateways = {g.provider_code: g for g in gateways}
+
+    def get(self, provider_code):
+        return self._gateways[provider_code]</code>
+            </div>
+            <div style="margin-top: 10px; padding: 12px 14px; border-radius: 12px; background: rgba(36,59,53,0.07); border: 1px solid rgba(36,59,53,0.08); font-size: 0.83rem;">
+              <strong style="color: #27765B;">✅ Allowed state transitions:</strong> <code>READY → PENDING → PAID / FAILED</code>, <code>PAID → PARTIAL_REFUND → REFUNDED</code>, <code>PAID → CANCELLED</code><br>
+              <strong style="color: var(--rose);">🚫 Forbidden state transitions:</strong> <code>FAILED → REFUNDED</code>, <code>READY → CANCELLED</code>, <code>REFUNDED → PAID</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="card">
+            <h3>⚡ 13. Splitting the approval transaction</h3>
+            <p>Don't hold a DB transaction open while calling an external API.</p>
+            <ul class="check-list">
+              <li>Short TX 1: change to <code>PENDING</code></li>
+              <li>Outside TX: call the provider's approval API</li>
+              <li>Short TX 2: save payment result + Outbox</li>
+              <li>On Timeout, don't confirm failure right away (check by lookup/webhook)</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>🛡️ 14. Idempotency</h3>
+            <p>Blocks duplicate payments caused by network retries at the source.</p>
+            <ul class="check-list">
+              <li><code>Idempotency-Key</code> header required</li>
+              <li>Same Key + same request → return the existing result</li>
+              <li>Same Key + different amount → <code>409 Conflict</code></li>
+              <li><code>provider_payment_id</code> Unique constraint</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>🔔 15. Webhook principles</h3>
+            <p>Must be safe against duplicate delivery and out-of-order events.</p>
+            <ul class="check-list">
+              <li>Verify the Signature with the Raw Body</li>
+              <li>External <code>event_id</code> Unique constraint</li>
+              <li>Stop old events from overwriting the latest state</li>
+              <li>A structure that can reprocess failed events</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>📦 16. Outbox pattern</h3>
+            <p>Separates follow-up tasks so their failures don't roll back payment approval.</p>
+            <ul class="check-list">
+              <li>Save <code>Payment</code> and the <code>PAYMENT_COMPLETED</code> Outbox event in the same TX</li>
+              <li>After Commit, the Outbox Publisher asynchronously publishes order status changes, receipts and notifications</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 17~20: 테스트 전략, AI 개발 규격, 파일 배치 판단법, 핵심 정리 -->
+    <section class="content-section alt" id="ai-spec">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <div class="section-kicker">CHAPTER 17 – 20 · TEST STRATEGY, AI SPEC &amp; FILE PLACEMENT</div>
+            <h2 class="section-title">6. 3-Level Test Strategy · AI Dev Rules · Deciding File Placement</h2>
+            <p class="section-copy">Define clear rules and a matrix for where AI agents write which code and how they verify it.</p>
+          </div>
+          <button type="button" class="slide-jump-pill" data-open-slides="16">📑 See Ch 17~20 slides ↗</button>
+        </div>
+
+        <div class="grid-3" style="margin-bottom: 22px;">
+          <div class="card">
+            <h3>🧪 17.1 Unit tests</h3>
+            <p><code>tests/unit/business/</code> — verify the pure Business layer in milliseconds, <strong>without a DB</strong>.</p>
+            <ul class="check-list">
+              <li>Order quantity·availability·total calculation</li>
+              <li>Payment state transitions·partial refund limits</li>
+              <li>Duplicate payment·Timeout·out-of-order webhook handling</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>🔗 17.2 Integration tests</h3>
+            <p><code>tests/integration/</code> — verify real Django models, transactions and DB constraints.</p>
+            <ul class="check-list">
+              <li>Atomic save and Rollback of order + order items</li>
+              <li>Saving payment + payment attempt history + Outbox together</li>
+              <li>Guarantee duplicate webhook events are handled once</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>📜 17.3 Adapter contract tests</h3>
+            <p><code>tests/contract/payment_gateways/</code> — verify every payment Adapter follows the same contract.</p>
+            <ul class="check-list">
+              <li>Consistent DTO conversion for approval success/rejection</li>
+              <li>Classifying Timeout·unknown response exceptions</li>
+              <li>Webhook signature verification and state mapping</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 22px;">
+          <div class="card emerald">
+            <h3>🤖 18. 12-step build order for AI dev agents</h3>
+            <ol style="padding-left: 20px; color: #243B35; font-size: 0.89rem; line-height: 1.78;">
+              <li>Read the existing project rules.</li>
+              <li>Search existing code in the related domain.</li>
+              <li>Define the <code>DTO</code> and error codes.</li>
+              <li>Implement the <code>Rule</code>, <code>Policy</code> and <code>Calculator</code>.</li>
+              <li>Write <strong>unit tests</strong>.</li>
+              <li>Define the <code>Port</code> interface.</li>
+              <li>Implement the <code>Workflow</code>.</li>
+              <li>Write the Django <code>Model</code> and <code>Migration</code>.</li>
+              <li>Implement the <code>Repository</code> or <code>Adapter</code>.</li>
+              <li>Implement the <code>API (Serializer · View · URL)</code>.</li>
+              <li>Wire dependencies in <code>container.py</code>.</li>
+              <li>Run all tests and static checks.</li>
+            </ol>
+          </div>
+
+          <div class="card danger">
+            <h3>⛔ 18. 9 things AI must never do</h3>
+            <ul class="check-list danger-list">
+              <li>Write complex business logic in a View</li>
+              <li>Use the Django ORM directly in the Business layer</li>
+              <li>Copy code without checking existing shared Rules</li>
+              <li>Return the payment provider's raw response straight from the API</li>
+              <li>Fixing a bug with a quick if-statement and no failing test</li>
+              <li>Change existing Migration files freely</li>
+              <li>Hardcode payment Secret Keys in code</li>
+              <li>Do large refactors nobody asked for</li>
+              <li>Falsely report that unrun tests passed</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Chapter 19 & 20 -->
+        <div class="grid-2">
+          <div class="card">
+            <h3>🧭 19. File placement decision matrix</h3>
+            <p style="margin-bottom: 10px; color: var(--emerald-soft); font-weight: 700;">
+              Question: "Is this code a business rule that can run without Django and a DB?" → If Yes, it always goes in <code>business/</code>!
+            </p>
+            <div class="arch-table-wrap">
+              <table class="arch-table">
+                <thead>
+                  <tr><th>Code type</th><th>Where to write it</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>DB table definitions</td><td><code>apps/&lt;domain&gt;/models</code></td></tr>
+                  <tr><td>Request·response validation (HTTP)</td><td><code>apps/&lt;domain&gt;/api</code></td></tr>
+                  <tr><td>A single business condition</td><td><code>business/&lt;domain&gt;/rules</code></td></tr>
+                  <tr><td>A combination of conditions</td><td><code>business/&lt;domain&gt;/policies</code></td></tr>
+                  <tr><td>Amount·score·period calculation</td><td><code>business/&lt;domain&gt;/calculators</code></td></tr>
+                  <tr><td>Business process steps</td><td><code>business/&lt;domain&gt;/workflows</code></td></tr>
+                  <tr><td>External feature interface</td><td><code>business/&lt;domain&gt;/ports</code></td></tr>
+                  <tr><td>Django ORM implementation</td><td><code>infrastructure/repositories</code></td></tr>
+                  <tr><td>A specific payment provider implementation</td><td><code>infrastructure/payment_gateways</code></td></tr>
+                  <tr><td>Wiring dependencies</td><td><code>apps/&lt;domain&gt;/container.py</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card cyan">
+            <h3>🎯 20. Lecture summary: a structure that contains the impact of change</h3>
+            <p>The goal of a layered architecture isn't making lots of folders, but <strong>limiting the impact of a change to one area</strong>.</p>
+            <div class="code-box">
+              <button type="button" class="copy-code-btn">Copy</button>
+              <code>API spec change           → change only apps/api
+Business rule change      → change only business/rules or policies
+Price formula change      → change only business/calculators
+DB access change          → change only infrastructure/repositories
+Add/change payment vendor → change only the infrastructure/payment_gateways adapter</code>
+            </div>
+            <h4 style="margin: 14px 0 8px; color: #243B35; font-size: 0.96rem;">🔥 5 key principles to remember</h4>
+            <ul class="check-list">
+              <li><strong>1.</strong> The View receives the request and calls the Workflow.</li>
+              <li><strong>2.</strong> The Workflow manages the order of business steps.</li>
+              <li><strong>3.</strong> Rule, Policy and Calculator handle pure business logic.</li>
+              <li><strong>4.</strong> The DB and external systems connect through Ports and Adapters.</li>
+              <li><strong>5.</strong> The Business layer doesn't depend on Django or specific external services.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOTTOM CTA -->
+    <section class="cta">
+      <div class="container">
+        <div class="cta-box">
+          <div class="section-kicker" style="margin-bottom: 8px;">READY TO ARCHITECT WITH AI</div>
+          <h2>Review the full design process with the 20-lecture slide share</h2>
+          <p>Flip through all the code and architecture diagrams from chapters 1 to 20 in the slide share popup and practice along.</p>
+          <div class="actions">
+            <button type="button" class="button primary" data-open-slides="0">📑 Open Real Project 3 slide share →</button>
+            <a href="../index.html" class="button secondary">← Back to LMS course home</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      Copyright ⓒ Eduniety Lab. All Rights Reserved. · ACE AI SW Startup Training Real Project 3 (Django Layered Architecture)
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       SLIDESHARE LAYER POPUP MODAL (20 SLIDES)
+       ========================================================================== -->
+  <div class="slideshare-backdrop" id="djangoSlideModal" role="dialog" aria-modal="true" aria-labelledby="ssModalTitle">
+    <div class="slideshare-player" id="djangoSlidePlayer">
+      <div class="ss-topbar">
+        <div class="ss-brand-group">
+          <span class="ss-badge">REAL PROJECT 3 · SLIDESHARE</span>
+          <span class="ss-deck-title" id="ssModalTitle">Django Layered Architecture Design Lectures (20 total)</span>
+        </div>
+        <div class="ss-top-controls">
+          <button type="button" class="ss-tool-btn active" id="ssToggleTocBtn">☰ Contents</button>
+          <select class="ss-select" id="ssSlideSelect" aria-label="Jump to slide"></select>
+          <button type="button" class="ss-tool-btn" id="ssFullscreenBtn">⛶ Full screen</button>
+          <button type="button" class="ss-tool-btn close-btn" id="ssCloseBtn">✕ Close (ESC)</button>
+        </div>
+      </div>
+
+      <div class="ss-body">
+        <aside class="ss-toc-drawer" id="ssTocDrawer"></aside>
+        <div class="ss-stage">
+          <button type="button" class="ss-nav-paddle prev" id="ssPaddlePrev" aria-label="Previous slide">‹</button>
+          <div class="ss-slide-viewport" id="ssSlideViewport"></div>
+          <button type="button" class="ss-nav-paddle next" id="ssPaddleNext" aria-label="Next slide">›</button>
+        </div>
+      </div>
+
+      <div class="ss-bottombar">
+        <div class="ss-progress-wrap">
+          <span class="ss-counter" id="ssCounterText">01 / 20</span>
+          <div class="ss-progress-track">
+            <div class="ss-progress-fill" id="ssProgressFill"></div>
+          </div>
+        </div>
+        <div class="ss-bottom-actions">
+          <button type="button" class="ss-tool-btn" id="ssBottomPrev">‹ Prev</button>
+          <button type="button" class="ss-tool-btn" id="ssBottomNext">Next ›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const SLIDES = [
+        {
+          no: "01",
+          kicker: "CHAPTER 01 · LECTURE OVERVIEW",
+          title: "Lecture overview and 7 learning goals",
+          sub: "Extend Django's basic structure to design a layered architecture optimized for teamwork and AI agent development.",
+          html: `
+            <div class="grid-2">
+              <div class="card emerald">
+                <h3>🎯 6 key design requirements</h3>
+                <ul class="check-list">
+                  <li>Separate API and business logic</li>
+                  <li>Separate database access logic</li>
+                  <li>Turn frequently changing business rules into a library</li>
+                  <li>A structure where many developers can work at once</li>
+                  <li>Structure external payment API and third-party integrations</li>
+                  <li>Set dev rules so AI development agents write code consistently</li>
+                </ul>
+              </div>
+              <div class="card cyan">
+                <h3>🏆 7 learning goals after the course</h3>
+                <ul class="check-list">
+                  <li>1. Understand the limits of Django's basic structure.</li>
+                  <li>2. Tell the Model, API, Business and Infrastructure layers apart.</li>
+                  <li>3. Tell the roles of Rule, Policy, Calculator and Workflow apart.</li>
+                  <li>4. Separate DB and external system dependencies using Repository and Port.</li>
+                  <li>5. Build a café order API with a layered architecture.</li>
+                  <li>6. Add an external payment provider as an Adapter.</li>
+                  <li>7. Write project development rules for AI to follow.</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "02",
+          kicker: "CHAPTER 02 · WHY LAYERED ARCHITECTURE",
+          title: "Why do we need a layered architecture?",
+          sub: "If one View does too much, you must edit the whole View whenever a rule changes or the payment provider is swapped.",
+          html: `
+            <div class="grid-2">
+              <div class="card danger">
+                <h3>⚠️ Typical Fat View problem code</h3>
+                <div class="code-box danger-code"><code>class OrderCreateView(APIView):
+    def post(self, request):
+        menu = Menu.objects.get(id=request.data["menu_id"])
+        if not menu.is_available:
+            raise ValidationError("This menu item is not on sale.")
+        total_price = menu.price * request.data["quantity"]
+        order = Order.objects.create(
+            user=request.user, total_price=total_price,
+        )
+        PaymentAPI.confirm(...)
+        return Response({"order_id": order.id})</code></div>
+              </div>
+              <div class="card">
+                <h3>💥 5 structural problems that arise</h3>
+                <ul class="check-list danger-list">
+                  <li>The same business rule is duplicated across several APIs.</li>
+                  <li>Business logic is hard to test without a DB.</li>
+                  <li>Several developers edit the same file at once.</li>
+                  <li>A change in an external API affects the whole service.</li>
+                  <li>It's hard for AI to judge consistently where to write code.</li>
+                </ul>
+                <p style="margin-top:12px; color:#27765B; font-weight:700;">→ Solution: split code into layers by responsibility (Layered Architecture).</p>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "03",
+          kicker: "CHAPTER 03 · DEFAULT DJANGO STRUCTURE",
+          title: "Limits of Django's basic structure",
+          sub: "Fine for small projects, but as features grow, models.py, views.py, serializers.py and tests.py bloat.",
+          html: `
+            <div class="grid-2">
+              <div class="card">
+                <h3>📁 Django's default generated structure</h3>
+                <div class="code-box"><code>backend/
+├── manage.py
+├── config/
+│   ├── settings.py
+│   ├── urls.py
+│   ├── asgi.py
+│   └── wsgi.py
+└── cafe/
+    ├── migrations/
+    ├── admin.py
+    ├── apps.py
+    ├── models.py
+    ├── tests.py
+    └── views.py</code></div>
+              </div>
+              <div class="card amber">
+                <h3>⚠️ 4 files that bloat as you scale</h3>
+                <div class="code-box danger-code"><code>models.py
+views.py
+serializers.py
+tests.py</code></div>
+                <p style="margin-top:10px;">So split files inside the Django app by responsibility, and add a pure <strong>business layer (business)</strong> and an <strong>infrastructure layer (infrastructure)</strong>.</p>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "04",
+          kicker: "CHAPTER 04 · TARGET ARCHITECTURE",
+          title: "Target architecture (full structure and per-layer responsibilities)",
+          sub: "Redesign the project's top-level structure into 5 areas: config, apps, business, infrastructure and tests.",
+          html: `
+            <div class="grid-2">
+              <div class="card">
+                <h3>🏗️ 4.1 Full structure</h3>
+                <div class="code-box"><code>backend/
+├── manage.py
+├── pyproject.toml
+├── config/                       # Django global settings
+├── apps/                         # Django and HTTP layer (cafe, billing)
+├── business/                     # pure business logic (core, cafe, billing)
+├── infrastructure/               # DB and external system implementations
+│   ├── repositories/
+│   ├── transactions/
+│   ├── payment_gateways/
+│   ├── notifications/
+│   └── outbox/
+└── tests/                        # unit / integration / contract</code></div>
+              </div>
+              <div class="card emerald">
+                <h3>📋 4.2 Per-layer responsibilities</h3>
+                <ul class="check-list">
+                  <li><code>config</code> : overall Django project settings</li>
+                  <li><code>apps</code> : HTTP, Django Models, admin features</li>
+                  <li><code>business</code> : business rules, calculations, policies, process steps</li>
+                  <li><code>infrastructure</code> : Django ORM, external APIs, messages, email</li>
+                  <li><code>tests</code> : unit·integration·contract tests</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "05",
+          kicker: "CHAPTER 05 · DEPENDENCY DIRECTION",
+          title: "Dependency direction and key principles",
+          sub: "The Business layer depends only on Port interfaces and never imports Django or DRF.",
+          html: `
+            <div class="grid-2">
+              <div class="card cyan">
+                <h3>🧭 One-way dependency flow</h3>
+                <div class="code-box"><code>HTTP Request
+     ↓
+API
+     ↓
+Workflow
+     ↓
+Rule · Policy · Calculator
+     ↓
+Port
+     ↑
+Infrastructure Adapter
+     ↓
+Database · External API</code></div>
+              </div>
+              <div class="card">
+                <h3>🚫 Forbidden vs ✅ allowed code</h3>
+                <div class="code-box danger-code"><code># ❌ forbidden in the business layer
+from django.db import transaction
+from apps.cafe.models import Order
+Order.objects.create(...)</code></div>
+                <div class="code-box"><code># ✅ allowed dependency (Port injection)
+class CreateOrderWorkflow:
+    def __init__(self, order_repository: OrderRepository):
+        self.order_repository = order_repository</code></div>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "06",
+          kicker: "CHAPTER 06 · BUSINESS LAYER DETAILS",
+          title: "Business layer details (DTO · Rule · Policy · Calculator · Workflow · Port)",
+          sub: "6 core components written only in pure Python, so they can be verified right away without a DB.",
+          html: `
+            <div class="grid-3">
+              <div class="card">
+                <h3>6.1 DTO &amp; 6.2 Rule</h3>
+                <div class="code-box"><code>@dataclass(frozen=True)
+class OrderItemCommand:
+    menu_id: int
+    quantity: int
+
+class OrderQuantityRule:
+    def evaluate(self, quantity: int):
+        if quantity < 1:
+            return RuleResult.reject(...)
+        return RuleResult.accept()</code></div>
+              </div>
+              <div class="card">
+                <h3>6.3 Policy &amp; 6.4 Calculator</h3>
+                <div class="code-box"><code>class OrderAcceptancePolicy:
+    def evaluate(self, context):
+        for rule in self.rules:
+            res = rule.evaluate(context)
+            if not res.passed: return res
+        return RuleResult.accept()
+
+class OrderPriceCalculator:
+    def calculate(self, items):
+        return sum(i.unit_price * i.quantity for i in items)</code></div>
+              </div>
+              <div class="card emerald">
+                <h3>6.5 Workflow &amp; 6.6 Port</h3>
+                <div class="code-box"><code>class OrderRepository(Protocol):
+    def create_order(self, order_data): ...
+    def get_order(self, order_id: int): ...
+
+# The Workflow combines Rule·Policy·Calculator·Port
+# to run the full use case steps</code></div>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "07",
+          kicker: "CHAPTER 07 · CAFE ORDER API CASE STUDY",
+          title: "Café order API case (folder structure & processing flow)",
+          sub: "Split the whole pipeline, from the POST /api/v1/cafe/orders request to saving in the DB, by layer.",
+          html: `
+            <div class="grid-2">
+              <div class="card">
+                <h3>📂 7.2 Folder structure &amp; 7.3 Processing flow</h3>
+                <div class="code-box"><code>POST /api/v1/cafe/orders
+  ↓ CreateOrderSerializer
+  ↓ CreateOrderCommand (DTO)
+  ↓ CreateOrderWorkflow
+  ↓ OrderAcceptancePolicy (Rules)
+  ↓ OrderPriceCalculator
+  ↓ OrderRepository (Port)
+  ↓ Django ORM → Database</code></div>
+              </div>
+              <div class="card emerald">
+                <h3>📨 7.4 API request &amp; 7.5 Response spec</h3>
+                <div class="code-box"><code>// Request
+{
+  "items": [
+    { "menu_id": 1, "quantity": 2 },
+    { "menu_id": 3, "quantity": 1 }
+  ]
+}
+
+// Response
+{
+  "order_id": 1042,
+  "status": "RECEIVED",
+  "total_price": 13500
+}</code></div>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "08",
+          kicker: "CHAPTER 08 · DEPENDENCY INJECTION",
+          title: "Wiring dependencies (container.py)",
+          sub: "Each class doesn't create concrete dependencies itself; they're wired and injected (DI) in container.py.",
+          html: `
+            <div class="grid-2">
+              <div class="card danger">
+                <h3>🚫 Code to avoid (tight coupling)</h3>
+                <div class="code-box danger-code"><code>class CreateOrderWorkflow:
+    def __init__(self):
+        self.repository = DjangoOrderRepository()</code></div>
+                <p>Tightly coupled to a concrete ORM Repository, so Fake tests are impossible.</p>
+              </div>
+              <div class="card emerald">
+                <h3>✅ Recommended code (wired in container.py)</h3>
+                <div class="code-box"><code>def create_order_workflow() -> CreateOrderWorkflow:
+    return CreateOrderWorkflow(
+        menu_repository=DjangoMenuRepository(),
+        order_repository=DjangoOrderRepository(),
+        acceptance_policy=OrderAcceptancePolicy(...),
+        price_calculator=OrderPriceCalculator(),
+        unit_of_work=DjangoUnitOfWork(),
+    )</code></div>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "09",
+          kicker: "CHAPTER 09 · BILLING MODULE EXPANSION",
+          title: "Billing·payment module extension requirements and folder structure",
+          sub: "A folder structure covering external provider calls, approval·cancel·partial refund, Timeout, duplicate-approval prevention, webhooks and Outbox.",
+          html: `
+            <div class="grid-2">
+              <div class="card">
+                <h3>💳 8 key requirements for the payment module</h3>
+                <ul class="check-list">
+                  <li>Call external payment provider APIs for approval·cancel·partial refund</li>
+                  <li>Handle network Timeouts and prevent duplicate approvals</li>
+                  <li>Verify·handle webhooks and manage payment status</li>
+                  <li>Keep payment attempt history and protect sensitive data</li>
+                </ul>
+              </div>
+              <div class="card cyan">
+                <h3>📂 9.1 Payment module folder structure</h3>
+                <div class="code-box"><code>apps/billing/ (models, api, container.py)
+business/billing/
+├── workflows/ (prepare, confirm, cancel, refund, handle_webhook)
+└── ports/ (payment_gateway, payment_repository, webhook_repository, event_publisher)
+infrastructure/payment_gateways/
+├── registry.py
+├── common/ (http_client.py, retry_policy.py)
+├── toss/ (adapter, client, mapper, schemas, signature, exceptions)
+└── another_provider/</code></div>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "10",
+          kicker: "CHAPTER 10 · PORT & ADAPTER PATTERN",
+          title: "Port and Adapter pattern (PaymentGateway & TossPaymentGateway)",
+          sub: "The Business layer doesn't know the name Toss or its response format; it only calls the shared PaymentGateway interface.",
+          html: `
+            <div class="grid-2">
+              <div class="card">
+                <h3>10.1 Port &amp; 10.2 Toss Adapter</h3>
+                <div class="code-box"><code>class PaymentGateway(Protocol):
+    provider_code: str
+    def confirm(self, command) -> PaymentResult: ...
+    def get_payment(self, provider_payment_id) -> PaymentResult: ...
+    def cancel(self, command) -> RefundResult: ...
+    def verify_webhook(self, raw_body, headers) -> bool: ...
+
+class TossPaymentGateway:
+    provider_code = "TOSS"
+    def confirm(self, command):
+        res = self.client.confirm_payment(...)
+        return self.mapper.to_payment_result(res)</code></div>
+              </div>
+              <div class="card emerald">
+                <h3>10.3 Responsibility of each Adapter file</h3>
+                <ul class="check-list">
+                  <li><code>adapter.py</code> : implements the PaymentGateway Port</li>
+                  <li><code>client.py</code> : makes the real HTTP API calls</li>
+                  <li><code>mapper.py</code> : converts between external responses and internal DTOs</li>
+                  <li><code>schemas.py</code> : external request·response structures</li>
+                  <li><code>signature.py</code> : verifies webhook signatures</li>
+                  <li><code>exceptions.py</code> : classifies provider errors</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "11",
+          kicker: "CHAPTER 11 · PAYMENT GATEWAY REGISTRY",
+          title: "Payment provider Registry (add providers without edits)",
+          sub: "Don't write if/elif provider branches in the Workflow; look providers up by provider_code in the Registry.",
+          html: `
+            <div class="grid-2">
+              <div class="card">
+                <h3>🗂️ PaymentGatewayRegistry implementation</h3>
+                <div class="code-box"><code>class PaymentGatewayRegistry:
+    def __init__(self, gateways):
+        self._gateways = {
+            gateway.provider_code: gateway
+            for gateway in gateways
+        }
+
+    def get(self, provider_code):
+        return self._gateways[provider_code]</code></div>
+              </div>
+              <div class="card emerald">
+                <h3>➕ 4 steps to add a new provider (0 lines of Workflow changed)</h3>
+                <ul class="check-list">
+                  <li>1. Create a new Adapter folder</li>
+                  <li>2. Implement the <code>PaymentGateway</code> Port</li>
+                  <li>3. Write Adapter Contract Tests</li>
+                  <li>4. Register it in <code>PaymentGatewayRegistry</code></li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "12",
+          kicker: "CHAPTER 12 · PAYMENT STATE MACHINE",
+          title: "Payment status management and state transition rules",
+          sub: "Don't use the provider's status values directly; control them with internal standard states and transition rules.",
+          html: `
+            <div class="grid-2">
+              <div class="card emerald">
+                <h3>✅ Internal standard states &amp; allowed transitions</h3>
+                <div class="code-box"><code># 7 internal standard states
+READY · PENDING · PAID · FAILED
+CANCELLED · PARTIAL_REFUND · REFUNDED
+
+# Allowed state transitions
+READY → PENDING → PAID
+READY → PENDING → FAILED
+PAID → PARTIAL_REFUND → REFUNDED
+PAID → CANCELLED</code></div>
+              </div>
+              <div class="card danger">
+                <h3>🚫 Examples of forbidden state transitions</h3>
+                <div class="code-box danger-code"><code>FAILED → REFUNDED   # ❌ rejected
+READY → CANCELLED   # ❌ rejected
+REFUNDED → PAID     # ❌ rejected</code></div>
+                <p style="margin-top:10px;">Manage state transition rules in one place: a <strong>Policy</strong> or a <strong>Model method</strong>.</p>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "13",
+          kicker: "CHAPTER 13 · PAYMENT CONFIRMATION FLOW",
+          title: "Payment approval flow and the short transaction principle",
+          sub: "Don't hold a DB transaction for long while calling an external API; split it into 2 short transactions.",
+          html: `
+            <div class="grid-2">
+              <div class="card">
+                <h3>🔄 ConfirmPaymentWorkflow flow</h3>
+                <div class="code-box"><code>Client → Confirm Payment API
+  ↓ ConfirmPaymentWorkflow
+    ├─ Check order and payment amount
+    ├─ Check payment status
+    ├─ Select provider Adapter
+    ├─ Call external approval API (outside TX!)
+    ├─ Save payment result
+    └─ Save Outbox Event</code></div>
+              </div>
+              <div class="card cyan">
+                <h3>⚡ 5 recommended transaction-splitting steps</h3>
+                <ul class="check-list">
+                  <li>1. Change the payment to <code>PENDING</code> in a short transaction</li>
+                  <li>2. Call the provider API <strong>outside the transaction</strong></li>
+                  <li>3. Save the result in a new short transaction</li>
+                  <li>4. On Timeout, don't confirm failure (<code>FAILED</code>) right away</li>
+                  <li>5. Confirm the final state with the payment lookup API or a webhook</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "14",
+          kicker: "CHAPTER 14 · IDEMPOTENCY & DUPLICATE PREVENTION",
+          title: "Idempotency and preventing duplicate payments",
+          sub: "Even if a user retries after a network Timeout while the response is in transit, the same order is never charged twice.",
+          html: `
+            <div class="grid-2">
+              <div class="card danger">
+                <h3>⚠️ Network Timeout retry scenario</h3>
+                <div class="code-box danger-code"><code>User request
+  ↓ External payment approval succeeds
+  ↓ Network Timeout while sending the response!
+  ↓ User requests payment again</code></div>
+              </div>
+              <div class="card emerald">
+                <h3>🛡️ 6 rules to prevent duplicate payments</h3>
+                <ul class="check-list">
+                  <li>Use an <code>Idempotency Key</code> on the payment approval API</li>
+                  <li>Same Key + same request → return the existing result</li>
+                  <li>Same Key + different amount → return <code>409 Conflict</code></li>
+                  <li>Set a Unique Constraint on <code>provider_payment_id</code></li>
+                  <li>Also use the provider's own idempotency feature</li>
+                  <li>Don't blindly call the approval API again after a Timeout</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "15",
+          kicker: "CHAPTER 15 · WEBHOOK PROCESSING",
+          title: "Webhook handling principles",
+          sub: "Have signature verification, duplicate event defense, out-of-order event defense and a structure to reprocess failed events.",
+          html: `
+            <div class="grid-2">
+              <div class="card">
+                <h3>🔔 Webhook processing pipeline</h3>
+                <div class="code-box"><code>External payment provider
+  ↓ Webhook Endpoint
+  ↓ Verify signature (Raw Body)
+  ↓ Check duplicate event (Unique Event ID)
+  ↓ Convert to standard DTO
+  ↓ HandleWebhookWorkflow
+  ↓ Apply payment status</code></div>
+              </div>
+              <div class="card cyan">
+                <h3>📌 7 webhook principles</h3>
+                <ul class="check-list">
+                  <li>Verify the signature using the Raw Body.</li>
+                  <li>If signature verification fails, don't run business logic.</li>
+                  <li>Put a Unique Constraint on the external Event ID.</li>
+                  <li>Assume the same event can arrive several times.</li>
+                  <li>Assume events can arrive out of order.</li>
+                  <li>Don't let old events roll back the latest state.</li>
+                  <li>Failed events must be reprocessable.</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "16",
+          kicker: "CHAPTER 16 · TRANSACTIONAL OUTBOX PATTERN",
+          title: "Outbox pattern (separating payment follow-up tasks)",
+          sub: "Split transactions so failures in order status changes, receipts, notifications or point rewards don't fail payment approval.",
+          html: `
+            <div class="grid-2">
+              <div class="card emerald">
+                <h3>📦 Outbox pattern architecture</h3>
+                <div class="code-box"><code>[same DB transaction]
+Save Payment + save PAYMENT_COMPLETED Outbox Event
+        ↓ commit
+Outbox Publisher (async publishing)
+        ├─ Change order status
+        ├─ Issue receipt
+        └─ Send user notification</code></div>
+              </div>
+              <div class="card">
+                <h3>💡 Why use the Outbox pattern?</h3>
+                <ul class="check-list">
+                  <li>If the Workflow calls follow-up tasks synchronously, a notification server outage spreads into a payment outage</li>
+                  <li>Save the payment result and Outbox event in the same transaction to prevent loss (At-least-once)</li>
+                  <li>Design event Consumers to be idempotent too, so repeated runs are safe</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "17",
+          kicker: "CHAPTER 17 · THREE-TIER TEST STRATEGY",
+          title: "3-level test strategy (unit · integration · Adapter contract tests)",
+          sub: "Guarantee quality with Business unit tests (no DB), Django/DB integration tests and provider Adapter contract tests.",
+          html: `
+            <div class="grid-3">
+              <div class="card">
+                <h3>17.1 Unit tests</h3>
+                <p><code>tests/unit/business/</code> (runs without a DB)</p>
+                <ul class="check-list">
+                  <li>Order quantity·on-sale status·total calculation</li>
+                  <li>Payment state transitions·partial refund limits</li>
+                  <li>Duplicate payment·Timeout·out-of-order webhooks</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h3>17.2 Integration tests</h3>
+                <p>Verify real Django models and the DB connection</p>
+                <ul class="check-list">
+                  <li>Atomic save of order+order items</li>
+                  <li>Save payment+attempt history together</li>
+                  <li>Full Rollback when a transaction fails</li>
+                  <li>Handle duplicate webhook events once</li>
+                </ul>
+              </div>
+              <div class="card emerald">
+                <h3>17.3 Contract tests</h3>
+                <p><code>tests/contract/payment_gateways/</code></p>
+                <ul class="check-list">
+                  <li>Consistent conversion of approval success/rejection</li>
+                  <li>Handling Timeouts and unknown responses</li>
+                  <li>Webhook signature verification and state mapping</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "18",
+          kicker: "CHAPTER 18 · AI AGENT DEVELOPMENT SPECIFICATION",
+          title: "AI dev rules (12-step build order & 9 forbidden tasks)",
+          sub: "Clearly instruct AI agents on work order and forbidden boundaries so they build features with consistent quality.",
+          html: `
+            <div class="grid-2">
+              <div class="card emerald">
+                <h3>🤖 12-step standard order for AI feature builds</h3>
+                <div class="code-box"><code>1. Read the existing project rules.
+2. Search existing code in the related domain.
+3. Define the DTO and error codes.
+4. Implement Rule, Policy and Calculator.
+5. Write unit tests.
+6. Define the Port.
+7. Implement the Workflow.
+8. Write the Django Model and Migration.
+9. Implement the Repository or Adapter.
+10. Implement the API.
+11. Wire dependencies in the Container.
+12. Run all tests and static checks.</code></div>
+              </div>
+              <div class="card danger">
+                <h3>⛔ 9 things AI must not do</h3>
+                <ul class="check-list danger-list">
+                  <li>Write complex business logic in a View</li>
+                  <li>Use the Django ORM directly in Business</li>
+                  <li>Copy code without checking existing shared Rules</li>
+                  <li>Return provider responses straight from the API</li>
+                  <li>Fixing a bug with a quick if-statement and no failing test</li>
+                  <li>Change existing Migrations freely</li>
+                  <li>Write payment Secrets in code</li>
+                  <li>Large refactors nobody asked for</li>
+                  <li>Report unrun tests as passed</li>
+                </ul>
+              </div>
+            </div>
+          `
+        },
+        {
+          no: "19",
+          kicker: "CHAPTER 19 · FILE PLACEMENT DECISION MATRIX",
+          title: "Deciding file placement",
+          sub: "Decide a file's location right away with one question: \"Is this code a business rule that can run without Django and a DB?\"",
+          html: `
+            <div class="arch-table-wrap">
+              <table class="arch-table">
+                <thead>
+                  <tr><th>Code type</th><th>Where to write it</th><th>Key decision criteria</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>DB tables</td><td><code>apps/&lt;domain&gt;/models</code></td><td>Django ORM model fields·table meta definitions</td></tr>
+                  <tr><td>Request·response validation</td><td><code>apps/&lt;domain&gt;/api</code></td><td>HTTP status codes, DRF Serializer, View</td></tr>
+                  <tr><td>A single business condition</td><td><code>business/&lt;domain&gt;/rules</code></td><td>A single condition check that runs without Django/DB</td></tr>
+                  <tr><td>A combination of conditions</td><td><code>business/&lt;domain&gt;/policies</code></td><td>Combine several Rules to approve/reject</td></tr>
+                  <tr><td>Amount calculation</td><td><code>business/&lt;domain&gt;/calculators</code></td><td>Pure functional amount·fee·period calculation (no float)</td></tr>
+                  <tr><td>Business process steps</td><td><code>business/&lt;domain&gt;/workflows</code></td><td>Coordinate use case run order</td></tr>
+                  <tr><td>External feature interface</td><td><code>business/&lt;domain&gt;/ports</code></td><td>Protocol-based Repository/Gateway abstraction</td></tr>
+                  <tr><td>Django ORM implementation</td><td><code>infrastructure/repositories</code></td><td>Real QuerySet lookup·save implementations</td></tr>
+                  <tr><td>A specific payment provider implementation</td><td><code>infrastructure/payment_gateways</code></td><td>HTTP calls·mapping for external providers like Toss</td></tr>
+                  <tr><td>Wiring dependencies</td><td><code>apps/&lt;domain&gt;/container.py</code></td><td>Inject real implementations into the Workflow</td></tr>
+                </tbody>
+              </table>
+            </div>
+          `
+        },
+        {
+          no: "20",
+          kicker: "CHAPTER 20 · KEY TAKEAWAYS",
+          title: "Lecture summary: a structure that limits the impact of change",
+          sub: "Good architecture doesn't stop change from happening; it makes it clear where to edit when change happens.",
+          html: `
+            <div class="grid-2">
+              <div class="card">
+                <h3>🎯 Isolating the scope of change</h3>
+                <div class="code-box"><code>API change          → change only apps/api
+Business rule change → change only business/rules or policies
+Price calc change    → change only calculators
+DB access change     → change only repositories
+Provider change      → change only the payment gateway adapter</code></div>
+              </div>
+              <div class="card emerald">
+                <h3>🌟 The 5 most important principles</h3>
+                <ul class="check-list">
+                  <li><strong>1.</strong> The View receives the request and calls the Workflow.</li>
+                  <li><strong>2.</strong> The Workflow manages the order of business steps.</li>
+                  <li><strong>3.</strong> Rule, Policy and Calculator handle pure business logic.</li>
+                  <li><strong>4.</strong> The DB and external systems connect through Ports and Adapters.</li>
+                  <li><strong>5.</strong> The Business layer doesn't depend on Django or specific external services.</li>
+                </ul>
+              </div>
+            </div>
+          `
+        }
+      ];
+
+      // Render 20-chapter quick launcher on main page
+      const quickGrid = document.getElementById('chapterQuickGrid');
+      if (quickGrid) {
+        quickGrid.innerHTML = SLIDES.map((s, idx) => `
+          <button type="button" class="chapter-card" data-open-slides="${idx}">
+            <div class="chapter-card-top">
+              <span class="chapter-no">CH ${s.no}</span>
+              <span class="chapter-open-tag">Slides ↗</span>
+            </div>
+            <h4>${s.title}</h4>
+            <p>${s.sub}</p>
+          </button>
+        `).join('');
+      }
+
+      // Render SlideShare Modal DOM
+      const modal = document.getElementById('djangoSlideModal');
+      const player = document.getElementById('djangoSlidePlayer');
+      const tocDrawer = document.getElementById('ssTocDrawer');
+      const slideSelect = document.getElementById('ssSlideSelect');
+      const viewport = document.getElementById('ssSlideViewport');
+      const counterText = document.getElementById('ssCounterText');
+      const progressFill = document.getElementById('ssProgressFill');
+      const paddlePrev = document.getElementById('ssPaddlePrev');
+      const paddleNext = document.getElementById('ssPaddleNext');
+      const bottomPrev = document.getElementById('ssBottomPrev');
+      const bottomNext = document.getElementById('ssBottomNext');
+      const toggleTocBtn = document.getElementById('ssToggleTocBtn');
+      const fullscreenBtn = document.getElementById('ssFullscreenBtn');
+      const closeBtn = document.getElementById('ssCloseBtn');
+
+      let currentIdx = 0;
+
+      tocDrawer.innerHTML = SLIDES.map((s, idx) => `
+        <button type="button" class="ss-toc-item ${idx === 0 ? 'active' : ''}" data-slide-idx="${idx}">
+          <span class="ss-toc-num">${s.no}</span>
+          <span class="ss-toc-text">
+            <strong>${s.title}</strong>
+            <span>${s.kicker}</span>
+          </span>
+        </button>
+      `).join('');
+
+      slideSelect.innerHTML = SLIDES.map((s, idx) => `
+        <option value="${idx}">${s.no}. ${s.title}</option>
+      `).join('');
+
+      viewport.innerHTML = SLIDES.map((s, idx) => `
+        <article class="ss-slide ${idx === 0 ? 'active' : ''}" data-slide-panel="${idx}">
+          <div class="slide-meta-bar">
+            <div class="slide-kicker"><span>CH ${s.no}</span> ${s.kicker}</div>
+            <div class="slide-page-tag">SLIDE ${s.no} OF 20</div>
+          </div>
+          <h2 class="slide-headline">${s.title}</h2>
+          <p class="slide-subcopy">${s.sub}</p>
+          <div>${s.html}</div>
+        </article>
+      `).join('');
+
+      function bindCopyButtons(root = document) {
+        root.querySelectorAll('.code-box').forEach((box) => {
+          let btn = box.querySelector('.copy-code-btn');
+          if (!btn) {
+            btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'copy-code-btn';
+            btn.textContent = 'Copy';
+            box.prepend(btn);
+          }
+          if (!btn.dataset.bound) {
+            btn.dataset.bound = 'true';
+            btn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const codeEl = box.querySelector('code');
+              if (!codeEl) return;
+              navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                btn.textContent = '✓ Copied';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                  btn.textContent = 'Copy';
+                  btn.classList.remove('copied');
+                }, 1500);
+              });
+            });
+          }
+        });
+      }
+      bindCopyButtons(document);
+
+      function goToSlide(idx) {
+        if (idx < 0) idx = 0;
+        if (idx >= SLIDES.length) idx = SLIDES.length - 1;
+        currentIdx = idx;
+
+        viewport.querySelectorAll('.ss-slide').forEach((el, i) => {
+          el.classList.toggle('active', i === currentIdx);
+          if (i === currentIdx) el.scrollTop = 0;
+        });
+
+        tocDrawer.querySelectorAll('.ss-toc-item').forEach((el, i) => {
+          el.classList.toggle('active', i === currentIdx);
+          if (i === currentIdx) el.scrollIntoView({ block: 'nearest' });
+        });
+
+        slideSelect.value = String(currentIdx);
+        const numStr = String(currentIdx + 1).padStart(2, '0');
+        counterText.textContent = `${numStr} / ${SLIDES.length}`;
+        progressFill.style.width = `${((currentIdx + 1) / SLIDES.length) * 100}%`;
+
+        const isFirst = currentIdx === 0;
+        const isLast = currentIdx === SLIDES.length - 1;
+        paddlePrev.disabled = isFirst;
+        bottomPrev.disabled = isFirst;
+        paddleNext.disabled = isLast;
+        bottomNext.disabled = isLast;
+      }
+
+      function openSlides(idx = 0) {
+        goToSlide(idx);
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeSlides() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('[data-open-slides]');
+        if (trigger) {
+          e.preventDefault();
+          const idx = parseInt(trigger.getAttribute('data-open-slides'), 10) || 0;
+          openSlides(idx);
+        }
+      });
+
+      tocDrawer.addEventListener('click', (e) => {
+        const item = e.target.closest('[data-slide-idx]');
+        if (item) goToSlide(parseInt(item.getAttribute('data-slide-idx'), 10));
+      });
+
+      slideSelect.addEventListener('change', () => {
+        goToSlide(parseInt(slideSelect.value, 10));
+      });
+
+      paddlePrev.addEventListener('click', () => goToSlide(currentIdx - 1));
+      bottomPrev.addEventListener('click', () => goToSlide(currentIdx - 1));
+      paddleNext.addEventListener('click', () => goToSlide(currentIdx + 1));
+      bottomNext.addEventListener('click', () => goToSlide(currentIdx + 1));
+
+      toggleTocBtn.addEventListener('click', () => {
+        tocDrawer.classList.toggle('collapsed');
+        toggleTocBtn.classList.toggle('active', !tocDrawer.classList.contains('collapsed'));
+      });
+
+      fullscreenBtn.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          player.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      });
+
+      closeBtn.addEventListener('click', closeSlides);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeSlides();
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (!modal.classList.contains('active')) return;
+        if (e.key === 'Escape') closeSlides();
+        if (e.key === 'ArrowLeft') goToSlide(currentIdx - 1);
+        if (e.key === 'ArrowRight') goToSlide(currentIdx + 1);
+      });
+    })();
+  </script>
+</body>
+</html>
+

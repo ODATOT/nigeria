@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../../thankyou.html" /> -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A hands-on course on installing gstack with Codex and Claude Code and going through planning, building and QA">
+  <title>gstack Hands-on Classroom</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="../../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Back to gstack Hands-on Classroom home">
+      <span class="brand-mark">g/</span>
+      <span>gstack Hands-on Classroom</span>
+    </a>
+    <nav aria-label="Main menu">
+      <a href="#roadmap">Schedule</a>
+      <a href="#install">install</a>
+      <a href="#windows-guide">Windows</a>
+      <a href="#practice">Labs</a>
+      <a href="#lifecycle">Full course</a>
+      <a class="nav-download" href="downloads/gstack-3hour-lecture-notes.pdf" download>Lecture notes PDF</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="kicker"><span>3 HOURS</span> HANDS-ON LECTURE</p>
+        <h1>Before you ask for code,<br><em>design your dev team.</em></h1>
+        <p class="hero-lead">An intro course where you install gstack in Codex and Claude Code, then plan, review and QA the same project to compare AI development workflows yourself.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#install">Start with install</a>
+          <a class="button secondary" href="downloads/gstack-3hour-lecture-notes.pdf" download>Download PDF notes (Korean)</a>
+        </div>
+        <ul class="hero-meta" aria-label="Course info">
+          <li><strong>For</strong><span>Git beginners</span></li>
+          <li><strong>Tools</strong><span>Codex · Claude Code</span></li>
+          <li><strong>Result</strong><span>10-step lab outputs</span></li>
+        </ul>
+      </div>
+      <div class="hero-visual" aria-label="gstack development flow">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="core-card">
+          <span class="terminal-dot"></span>
+          <p>gstack workflow</p>
+          <strong>Think → Plan<br>→ Review → Test</strong>
+          <div class="status-line"><span></span> ready to practice</div>
+        </div>
+        <span class="role role-one">CEO</span>
+        <span class="role role-two">ENG</span>
+        <span class="role role-three">QA</span>
+        <span class="role role-four">REVIEW</span>
+      </div>
+    </section>
+
+    <section class="signal-band" aria-label="Key message">
+      <p>gstack isn't a coding model; it's a <strong>development workflow that gives AI roles, order and quality standards</strong>.</p>
+    </section>
+
+    <section class="section intro-grid" id="overview">
+      <div class="section-heading">
+        <p class="section-number">01 / ORIENTATION</p>
+        <h2>Today you'll learn<br><em>a way of working</em> more than commands.</h2>
+      </div>
+      <div class="principles">
+        <article>
+          <span>01</span>
+          <h3>Don't build right away</h3>
+          <p>Check the user's problem and scope, and surface assumptions before building.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Split roles</h3>
+          <p>Run product, tech, review and QA views as separate skills.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Verify results</h3>
+          <p>AI output isn't the answer. Check it with files, Git diff and real behavior.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section dark-section" id="roadmap">
+      <div class="section-heading compact">
+        <p class="section-number">02 / 180-MINUTE ROADMAP</p>
+        <h2>From install to QA,<br>one complete loop</h2>
+      </div>
+      <div class="timeline">
+        <article><time>00–15</time><div><h3>Getting oriented</h3><p>Understand gstack and the differences between the two run environments.</p></div></article>
+        <article><time>15–30</time><div><h3>Environment check</h3><p>Check Git, Bun, accounts and your terminal setup.</p></div></article>
+        <article><time>30–80</time><div><h3>Install Codex · Claude</h3><p>Install each tool and do a first read task in the project.</p></div></article>
+        <article><time>80–90</time><div><h3>Install gstack</h3><p>Register the skills in your chosen host and check the status.</p></div></article>
+        <article class="break"><time>90–100</time><div><h3>Break</h3><p>Learners with install problems catch up during this time.</p></div></article>
+        <article><time>100–145</time><div><h3>Problem and plan</h3><p>Run office-hours and plan-eng-review.</p></div></article>
+        <article><time>145–165</time><div><h3>Review and QA</h3><p>Experience the difference between a code view and a user behavior view.</p></div></article>
+        <article><time>165–180</time><div><h3>Compare and reflect</h3><p>Compare the two tools' results and write a plan to apply them to your PBL.</p></div></article>
+      </div>
+    </section>
+
+    <section class="section" id="install">
+      <div class="section-heading split-heading">
+        <div>
+          <p class="section-number">03 / SETUP</p>
+          <h2>Same gstack,<br>different ways to call it</h2>
+        </div>
+        <p>Learners pick one track and follow along. The instructor demos both environments side by side.</p>
+      </div>
+
+      <div class="notice warning">
+        <strong>Beginner class standard</strong>
+        <p>Windows learners first follow the <b>Windows native install</b>. WSL2 is an optional track for learners who need a Linux environment. Either way, install Codex·Claude·gstack in the same environment.</p>
+      </div>
+
+      <div class="beginner-guide" id="windows-guide">
+        <div class="beginner-title">
+          <p class="mini-kicker">WINDOWS · START FROM ZERO</p>
+          <h3>The full Windows process<br>for first-time installers</h3>
+          <p>Go through the steps below one by one from the top. Don't type text like <code>PS C:\Users\...</code> before a command; type only what's inside the gray command box.</p>
+        </div>
+
+        <div class="glossary-grid">
+          <article><strong>Terminal</strong><p>A window where you give the computer commands as text.</p></article>
+          <article><strong>PowerShell</strong><p>The terminal built into Windows.</p></article>
+          <article><strong>Commands</strong><p>Copy it, paste it into PowerShell and press Enter.</p></article>
+          <article><strong>WSL</strong><p>An optional feature that runs Ubuntu Linux inside Windows.</p></article>
+        </div>
+
+        <div class="path-choice">
+          <article class="recommended-path">
+            <span>Class default</span>
+            <h4>Windows native</h4>
+            <p>Install right from PowerShell without learning another operating system.</p>
+          </article>
+          <article>
+            <span>Optional track</span>
+            <h4>WSL2 Ubuntu</h4>
+            <p>Use this when you need a uniform Linux dev environment or the native install is blocked.</p>
+          </article>
+        </div>
+
+        <details class="install-accordion" open>
+          <summary><span>PATH A</span> Windows native install - default beginner track</summary>
+          <div class="accordion-body">
+            <ol class="beginner-steps">
+              <li>
+                <div class="step-copy"><h4>Open PowerShell</h4><p>Press the Windows key, search for <b>PowerShell</b> and run it. If you see <code>PS C:\Users\username&gt;</code> in the window, you're good.</p></div>
+              </li>
+              <li>
+                <div class="step-copy"><h4>Install Git and Node.js</h4><p>Paste the commands below one line at a time and press Enter.</p><div class="code-block multi"><code>winget install --id Git.Git -e
+winget install OpenJS.NodeJS.LTS</code><button class="copy" type="button">Copy</button></div><p class="expected">Expected result · After the install-complete message, close and reopen PowerShell.</p></div>
+              </li>
+              <li>
+                <div class="step-copy"><h4>Install Bun</h4><div class="code-block"><code>powershell -c "irm bun.sh/install.ps1|iex"</code><button class="copy" type="button">Copy</button></div><p class="expected">Open a new PowerShell and type <code>bun --version</code>; if a number appears, it worked.</p></div>
+              </li>
+              <li>
+                <div class="step-copy"><h4>Install and log in to Codex</h4><div class="code-block"><code>powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"</code><button class="copy" type="button">Copy</button></div><div class="code-block multi"><code>codex --version
+codex</code><button class="copy" type="button">Copy</button></div><p class="expected">On first run, follow the on-screen steps to log in with one of the offered options, like a ChatGPT account.</p></div>
+              </li>
+              <li>
+                <div class="step-copy"><h4>Install and log in to Claude Code</h4><div class="code-block"><code>winget install Anthropic.ClaudeCode</code><button class="copy" type="button">Copy</button></div><div class="code-block multi"><code>claude --version
+claude doctor
+claude</code><button class="copy" type="button">Copy</button></div><p class="expected">You need an account that can use Claude Code. If you only use one tool, you can skip this step.</p></div>
+              </li>
+              <li>
+                <div class="step-copy"><h4>Check all install results at once</h4><div class="code-block multi"><code>git --version
+node --version
+npm --version
+bun --version
+codex --version
+claude --version</code><button class="copy" type="button">Copy</button></div><p class="expected">If each line shows a version number, go to the next step.</p></div>
+              </li>
+              <li>
+                <div class="step-copy"><h4>Download gstack</h4><div class="code-block multi"><code>git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git "$HOME\gstack"
+cd "$HOME\gstack"</code><button class="copy" type="button">Copy</button></div></div>
+              </li>
+              <li>
+                <div class="step-copy"><h4>Register gstack in Codex·Claude Code</h4><div class="code-block multi"><code>.\setup.ps1 --host codex
+.\setup.ps1 --host claude
+.\setup.ps1 --status</code><button class="copy" type="button">Copy</button></div><p class="expected">If you only use one tool, run only that host's command. If codex or claude appears in the status table, it worked.</p></div>
+              </li>
+              <li>
+                <div class="step-copy"><h4>Open PowerShell in the ZIP lab folder</h4><p>Right-click the ZIP and choose <b>Extract All</b>. Open the extracted <code>project</code> folder, type <code>powershell</code> in File Explorer's address bar and press Enter.</p><div class="code-block multi"><code>git init
+git add .
+git commit -m "Lab start state"
+git status</code><button class="copy" type="button">Copy</button></div></div>
+              </li>
+              <li>
+                <div class="step-copy"><h4>Start the first lab</h4><div class="code-block multi"><code># If you chose Codex
+codex
+
+# If you chose Claude Code
+claude</code><button class="copy" type="button">Copy</button></div><p class="expected">Always check <code>git status</code> and <code>git diff</code> before and after AI work.</p></div>
+              </li>
+            </ol>
+          </div>
+        </details>
+
+        <details class="install-accordion">
+          <summary><span>PATH B</span> WSL2 Ubuntu install - optional track</summary>
+          <div class="accordion-body">
+            <div class="wsl-explain">
+              <h4>What is WSL?</h4>
+              <p>WSL stands for Windows Subsystem for Linux. It lets you run an Ubuntu terminal and Linux dev tools inside Windows. It isn't required to use gstack.</p>
+            </div>
+            <ol class="beginner-steps compact-steps">
+              <li><div class="step-copy"><h4>Install WSL from an admin PowerShell</h4><div class="code-block"><code>wsl --install</code><button class="copy" type="button">Copy</button></div><p>When the install finishes, restart your computer.</p></div></li>
+              <li><div class="step-copy"><h4>First Ubuntu run</h4><p>Run Ubuntu from the Start menu and create a Linux username and password. It's normal that no characters show while you type the password.</p></div></li>
+              <li><div class="step-copy"><h4>Install required tools in Ubuntu</h4><div class="code-block multi"><code>sudo apt update
+sudo apt install -y git curl unzip
+curl -fsSL https://bun.com/install | bash
+source ~/.bashrc</code><button class="copy" type="button">Copy</button></div></div></li>
+              <li><div class="step-copy"><h4>Install Codex and Claude Code inside Ubuntu</h4><div class="code-block multi"><code>curl -fsSL https://chatgpt.com/codex/install.sh | sh
+curl -fsSL https://claude.ai/install.sh | bash</code><button class="copy" type="button">Copy</button></div></div></li>
+              <li><div class="step-copy"><h4>Install gstack inside Ubuntu too</h4><div class="code-block multi"><code>git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/gstack
+cd ~/gstack
+./setup --host codex
+./setup --host claude
+./setup --status</code><button class="copy" type="button">Copy</button></div></div></li>
+            </ol>
+            <div class="notice danger"><strong>Don't mix environments</strong><p>If you install only Codex on Windows and gstack in WSL, they use different home folders. Install everything on Windows or everything in WSL2 Ubuntu.</p></div>
+          </div>
+        </details>
+
+        <div class="troubleshooting">
+          <h4>Check these first when stuck</h4>
+          <div class="trouble-grid">
+            <article><strong>Command not found</strong><p>Close PowerShell completely, open a new one and try again.</p></article>
+            <article><strong>setup.ps1 is blocked</strong><p>Run it like <code>powershell -ExecutionPolicy Bypass -File .\setup.ps1 --host codex</code>.</p></article>
+            <article><strong>Git commit name error</strong><p>Set <code>git config user.name "student"</code> and a local email.</p></article>
+            <article><strong>gstack skills don't show up</strong><p>Quit Codex·Claude, open a new session and check <code>.\setup.ps1 --status</code>.</p></article>
+            <article><strong>Bun isn't recognized</strong><p>Open a new PowerShell and check <code>bun --version</code> again.</p></article>
+            <article><strong>Windows security blocks it</strong><p>Don't turn off security settings; tell the instructor and switch to the WSL2 track.</p></article>
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-columns">
+        <article class="setup-card codex-card">
+          <div class="card-label">TRACK A · EXPERIMENTAL HOST</div>
+          <h3>OpenAI Codex</h3>
+          <p>Read and edit the project in the terminal, and name gstack skills in plain language.</p>
+          <h4>macOS · Linux · WSL</h4>
+          <div class="code-block"><code>curl -fsSL https://chatgpt.com/codex/install.sh | sh</code><button class="copy" type="button">Copy</button></div>
+          <h4>npm alternative</h4>
+          <div class="code-block"><code>npm install -g @openai/codex</code><button class="copy" type="button">Copy</button></div>
+          <h4>Check install and log in</h4>
+          <div class="code-block multi"><code>codex --version
+codex</code><button class="copy" type="button">Copy</button></div>
+          <a class="text-link" href="https://developers.openai.com/codex/cli" target="_blank" rel="noreferrer">Codex official install docs ↗</a>
+        </article>
+
+        <article class="setup-card claude-card">
+          <div class="card-label">TRACK B · FULL HOST</div>
+          <h3>Claude Code</h3>
+          <p>gstack's officially supported environment; call the main skills with slash commands.</p>
+          <h4>Homebrew</h4>
+          <div class="code-block"><code>brew install --cask claude-code</code><button class="copy" type="button">Copy</button></div>
+          <h4>npm alternative</h4>
+          <div class="code-block"><code>npm install -g @anthropic-ai/claude-code</code><button class="copy" type="button">Copy</button></div>
+          <h4>Check install and log in</h4>
+          <div class="code-block multi"><code>claude --version
+claude doctor
+claude</code><button class="copy" type="button">Copy</button></div>
+          <a class="text-link" href="https://code.claude.com/docs/en/getting-started" target="_blank" rel="noreferrer">Claude Code official install docs ↗</a>
+        </article>
+      </div>
+
+      <div class="gstack-install">
+        <div>
+          <p class="mini-kicker">COMMON STEP</p>
+          <h3>Install gstack</h3>
+          <p>Get the gstack source from the official Git repository and register it in your chosen AI tool's skills folder.</p>
+        </div>
+        <div class="install-steps">
+          <article>
+            <span>1</span>
+            <div><h4>Get the official repository</h4><div class="code-block multi"><code>git clone --single-branch --depth 1 \
+  https://github.com/garrytan/gstack.git ~/gstack
+cd ~/gstack</code><button class="copy" type="button">Copy</button></div></div>
+          </article>
+          <article>
+            <span>2</span>
+            <div><h4>Register in your chosen environment</h4><div class="code-block multi"><code># Codex
+./setup --host codex
+
+# Claude Code
+./setup --host claude</code><button class="copy" type="button">Copy</button></div></div>
+          </article>
+          <article>
+            <span>3</span>
+            <div><h4>Check status</h4><div class="code-block"><code>./setup --status</code><button class="copy" type="button">Copy</button></div></div>
+          </article>
+        </div>
+      </div>
+
+      <div class="codex-assisted-install" id="codex-prompt-install">
+        <div class="assisted-heading">
+          <div><p class="mini-kicker">METHOD B · PROMPT-DRIVEN SETUP</p><h3>Instead of typing commands yourself,<br>ask Codex to install it</h3></div>
+          <p>Codex can check your current environment and suggest·run the needed commands. If it needs to write files or access the network, it asks you for permission based on the approval policy.</p>
+        </div>
+
+        <div class="notice assisted-warning"><strong>What you need first</strong><p>Codex can't install itself. Finish <b>installing and logging in to Codex CLI</b> with the official install command above before starting this.</p></div>
+
+        <ol class="assisted-steps">
+          <li>
+            <div class="assisted-step-copy"><h4>Start Codex in your lab folder</h4><p>Open a terminal in an empty folder or the extracted lab folder and run Codex.</p><div class="code-block multi"><code># Windows PowerShell
+mkdir "$HOME\gstack-class" -ErrorAction SilentlyContinue
+cd "$HOME\gstack-class"
+codex
+
+# macOS · Linux · WSL
+mkdir -p ~/gstack-class
+cd ~/gstack-class
+codex</code><button class="copy" type="button">Copy</button></div></div>
+          </li>
+          <li>
+            <div class="assisted-step-copy"><h4>Prompt 1 — check the environment only, don't install</h4><p>First, read-only, check the OS, shell, required tools and any existing install.</p><div class="prompt-copy-block"><div class="prompt-copy-title"><span>PROMPT 01</span><b>Environment check</b></div><pre><code>I'm getting ready to install gstack.
+First check the current operating system and shell,
+and check the Git, Bun and Codex versions and whether gstack is already installed.
+
+Don't install anything or change files yet;
+just show me the facts you found, what's missing, the install path to use
+and the plan of commands to run.</code></pre><button class="copy copy-prompt" type="button">Copy prompt</button></div></div>
+          </li>
+          <li>
+            <div class="assisted-step-copy"><h4>Check the results</h4><p>Check that the OS and install path Codex shows match your real environment. Don't put passwords, API keys or auth codes in prompts.</p><div class="assistant-output"><span>CODEX · Sample check result</span><p><b>Environment</b> Windows 11 / PowerShell 7</p><p><b>Found</b> Git 2.x, Bun 1.x, Codex CLI logged in</p><p><b>Missing</b> gstack not installed</p><p><b>Plan</b> Clone the official repository to <code>C:\Users\student\gstack</code>, then register the Codex host and check status</p></div></div>
+          </li>
+          <li>
+            <div class="assisted-step-copy"><h4>Prompt 2 — run the install while approving</h4><p>If the check looks right, send the next prompt. When a network access or home folder write approval appears, read the command and path before allowing it.</p><div class="prompt-copy-block"><div class="prompt-copy-title"><span>PROMPT 02</span><b>Install gstack</b></div><pre><code>Based on the check you just did, install gstack for the Codex host.
+
+Conditions:
+1. Use only the official repository https://github.com/garrytan/gstack.
+2. On Windows native, use $HOME\gstack and setup.ps1;
+   on macOS·Linux·WSL, use ~/gstack and ./setup.
+3. If a gstack folder already exists, don't overwrite or delete it; stop and tell me.
+4. Don't run destructive commands.
+5. If you need network access or to write to the home folder, ask for approval first.
+6. After installing, run the --host codex registration and the --status check.
+7. At the end, summarize the commands you ran, the install path and the status result.</code></pre><button class="copy copy-prompt" type="button">Copy prompt</button></div></div>
+          </li>
+          <li>
+            <div class="assisted-step-copy"><h4>What to check in the approval window</h4><div class="approval-grid"><span><b>Command</b><small>Is it git clone or setup?</small></span><span><b>Source</b><small>Is it the official garrytan/gstack address?</small></span><span><b>Path</b><small>Is it the gstack folder in my home?</small></span><span><b>Scope</b><small>No deletes or forced resets?</small></span></div><p class="approval-note">If you see a command you don't know, don't approve it; ask "Explain what this command changes."</p></div>
+          </li>
+          <li>
+            <div class="assisted-step-copy"><h4>Check the install result</h4><div class="assistant-output success"><span>CODEX · Sample done result</span><p><b>Install path</b> <code>C:\Users\student\gstack</code></p><p><b>Registered host</b> codex</p><p><b>Status</b> installed / skills linked</p><p><b>Next step</b> Quit Codex and run a gstack skill in a new session</p></div><div class="code-block multi"><code># After leaving Codex, in a new terminal
+cd "$HOME\gstack-class"
+codex</code><button class="copy" type="button">Copy</button></div></div>
+          </li>
+          <li>
+            <div class="assisted-step-copy"><h4>First gstack prompt</h4><div class="prompt-copy-block"><div class="prompt-copy-title"><span>PROMPT 03</span><b>Check install and first run</b></div><pre><code>First check whether you can use the gstack-office-hours skill.
+If you can, read this project and summarize:
+
+1. Target users
+2. The problem users face
+3. The smallest core feature
+4. Unverified assumptions
+
+Don't change any files yet.</code></pre><button class="copy copy-prompt" type="button">Copy prompt</button></div><p class="expected">Expected result · office-hours questions start, or users·problem·assumptions are summarized. If it says it can't find the skill, fully quit Codex and run it again in a new session.</p></div>
+          </li>
+        </ol>
+
+        <div class="assisted-footer"><strong>Why split it into two prompts?</strong><p>Separating the environment check from the actual install lets you catch wrong OS commands, overwriting existing folders and unexpected install paths before they run.</p><a href="https://learn.chatgpt.com/docs/prompting#how-to-read-these-examples" target="_blank" rel="noreferrer">Codex official prompting docs ↗</a></div>
+      </div>
+    </section>
+
+    <section class="section practice-section" id="practice">
+      <div class="section-heading split-heading">
+        <div>
+          <p class="section-number">04 / DOWNLOAD & PRACTICE</p>
+          <h2>Get one step at a time,<br>and record results.</h2>
+        </div>
+        <p>We don't use a GitHub lab repository. Download the ZIP, extract it and create a local Git repository.</p>
+      </div>
+
+      <div class="local-git-flow">
+        <div class="flow-step"><span>ZIP</span><p>Download lab files</p></div>
+        <i>→</i>
+        <div class="flow-step"><span>DIR</span><p>Extract and move in</p></div>
+        <i>→</i>
+        <div class="flow-step"><span>GIT</span><p>Create a local baseline</p></div>
+        <i>→</i>
+        <div class="flow-step"><span>AI</span><p>Run Codex or Claude</p></div>
+      </div>
+
+      <div class="code-block multi wide-code"><code>cd downloaded-lab-folder/project
+git init
+git add .
+git commit -m "Lab start state"
+git status</code><button class="copy" type="button">Copy</button></div>
+
+      <div class="download-grid">
+        <article class="download-card">
+          <div class="download-index">01</div>
+          <p class="download-time">15 MIN · Setup</p>
+          <h3>Environment check</h3>
+          <p>Scripts to check Git, Bun, Codex and Claude versions, plus a learner checklist.</p>
+          <ul><li>Environment check script</li><li>Install results checklist</li><li>Issue notes</li></ul>
+          <a href="downloads/01-environment-check.zip" download>Download Step 1 ZIP <span>↓</span></a>
+        </article>
+
+        <article class="download-card featured">
+          <div class="download-index">02</div>
+          <p class="download-time">20 MIN · First run</p>
+          <h3>First gstack skill</h3>
+          <p>Run office-hours on the Focus List app, which has built-in problems on purpose.</p>
+          <ul><li>Static web lab project</li><li>Codex·Claude prompts</li><li>Results sheet</li></ul>
+          <a href="downloads/02-first-gstack-skill.zip" download>Download Step 2 ZIP <span>↓</span></a>
+        </article>
+
+        <article class="download-card">
+          <div class="download-index">03</div>
+          <p class="download-time">25 MIN · Plan</p>
+          <h3>Tech plan review</h3>
+          <p>Review components, data flow, exceptions and tests with plan-eng-review.</p>
+          <ul><li>Same project baseline</li><li>Tech plan prompt</li><li>Plan review worksheet</li></ul>
+          <a href="downloads/03-plan-review.zip" download>Download Step 3 ZIP <span>↓</span></a>
+        </article>
+
+        <article class="download-card">
+          <div class="download-index">04</div>
+          <p class="download-time">20 MIN · Verify</p>
+          <h3>Code review and QA</h3>
+          <p>See the difference between review and qa-only views and write a reproducible report.</p>
+          <ul><li>Project with built-in defects</li><li>Review·QA run guide</li><li>QA report template</li></ul>
+          <a href="downloads/04-review-and-qa.zip" download>Download Step 4 ZIP <span>↓</span></a>
+        </article>
+      </div>
+
+      <div class="all-pack">
+        <div>
+          <p class="mini-kicker">INSTRUCTOR & OFFLINE PACK</p>
+          <h3>Get all lab materials at once</h3>
+          <p>The 10-step materials, sample app and worksheets in one ZIP.</p>
+        </div>
+        <a class="button primary" href="downloads/gstack-complete-practice-pack.zip" download>Download full lab pack</a>
+      </div>
+    </section>
+
+    <section class="section prompt-lab" id="prompts">
+      <div class="section-heading compact">
+        <p class="section-number">05 / PROMPT LAB</p>
+        <h2>The tools differ,<br>but the review standards are the same.</h2>
+      </div>
+      <div class="prompt-tabs" role="tablist" aria-label="Prompts by tool">
+        <button class="tab active" type="button" role="tab" aria-selected="true" data-target="codex-prompt">Codex</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-target="claude-prompt">Claude Code</button>
+      </div>
+      <div class="prompt-panel active" id="codex-prompt" role="tabpanel">
+        <div class="terminal-title"><span></span><span></span><span></span><b>Codex prompt</b></div>
+        <pre><code>Use the gstack-office-hours skill to review this project.
+
+1. Target users
+2. The problem to solve
+3. Core value
+4. The smallest core feature
+5. Unverified assumptions
+
+Don't change the code yet.</code></pre>
+      </div>
+      <div class="prompt-panel" id="claude-prompt" role="tabpanel" hidden>
+        <div class="terminal-title"><span></span><span></span><span></span><b>Claude Code</b></div>
+        <pre><code>/office-hours
+
+Summarize this project's target users, the problem it solves,
+core value, smallest core feature and unverified assumptions.
+Don't change the code yet.</code></pre>
+      </div>
+      <div class="prompt-rule">
+        <strong>Shared lab rules</strong>
+        <p>Check <code>git status</code> and <code>git diff</code> before and after work, and verify AI's explanations with the real files and run results.</p>
+      </div>
+    </section>
+
+    <section class="section lifecycle-section" id="lifecycle">
+      <div class="section-heading split-heading">
+        <div><p class="section-number">06 / FULL LIFECYCLE LAB</p><h2>From planning to QA,<br><em>connected in one project.</em></h2></div>
+        <p>If the 3-hour intro course above is about install and first experience, this course is a follow-up lab applying it to your PBL. Each step ends with commands, human decisions, outputs and pass conditions.</p>
+      </div>
+
+      <div class="lifecycle-notice"><strong>Lab project</strong><p>Assume you're adding empty-input prevention, duplicate prevention and long-title handling to the Focus List app. Don't change code in the planning and plan stages; changes start at the build stage.</p></div>
+      <div class="example-guide"><strong>How to read the sample results</strong><p>The green result boxes below are <b>examples</b> of what you might get when you run the commands. They aren't answer keys to copy; use them to check your own result isn't missing users, evidence or verification conditions.</p></div>
+
+      <div class="phase-map" aria-label="gstack full development process">
+        <article><span>01</span><b>DISCOVER</b><p>Problem·users</p></article><i>→</i>
+        <article><span>02</span><b>SPEC</b><p>Requirements·done criteria</p></article><i>→</i>
+        <article><span>03</span><b>PLAN</b><p>Product·design·tech</p></article><i>→</i>
+        <article><span>04</span><b>BUILD</b><p>Build small</p></article><i>→</i>
+        <article><span>05</span><b>VERIFY</b><p>Review·debug·QA</p></article><i>→</i>
+        <article><span>06</span><b>SHIP</b><p>Docs·release·retro</p></article>
+      </div>
+
+      <div class="lifecycle-steps">
+        <article class="lifecycle-step">
+          <div class="step-rail"><span>01</span><b>Problem discovery</b></div>
+          <div class="step-main">
+            <div><p class="stage-label">DISCOVER · no edits</p><h3>Check why it's needed before what to build</h3><p>Find the target users, how they solve it now, the most urgent problem and unverified assumptions. AI's suggestions are candidates; a person decides the final product direction.</p></div>
+            <div class="command-pair">
+              <div><strong>Codex</strong><div class="code-block multi"><code>Use the gstack-office-hours skill to summarize Focus List's<br>target users, current alternatives, core problem and minimum feature to test.<br>Don't change any files yet.</code><button class="copy" type="button">Copy</button></div></div>
+              <div><strong>Claude Code</strong><div class="code-block multi"><code>/office-hours<br><br>Summarize Focus List's user problem and minimum feature to test.<br>Don't change any files yet.</code><button class="copy" type="button">Copy</button></div></div>
+            </div>
+            <div class="stage-gate"><b>Output</b><span>1-sentence problem · 1 user · 3 assumptions</span><b>Pass condition</b><span>You can explain it as a user pain, not a feature.</span></div>
+            <div class="result-example" id="example-output-01">
+              <div class="result-title"><span>EXAMPLE OUTPUT 01</span><strong>Sample office-hours result</strong></div>
+              <div class="result-body"><p><b>Target user</b> A student managing classes and assignments at the same time</p><p><b>Core problem</b> Even after writing down tasks, it's hard to quickly see the one thing to do now.</p><p><b>Minimum feature to test</b> Add a task and change its done status within 3 seconds.</p><p><b>Assumption to test</b> Users want fast input more than categories.</p></div>
+              <p class="result-check">Human check → Did it reveal a real pain and an assumption to test, not just a feature name like "a to-do app for students"?</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="lifecycle-step">
+          <div class="step-rail"><span>02</span><b>Write the spec</b></div>
+          <div class="step-main">
+            <div><p class="stage-label">SPEC · no edits</p><h3>Turn the idea into testable requirements</h3><p>Fix the scope, user scenarios, normal·exception flows and acceptance criteria. Write observable done criteria instead of "it works well."</p></div>
+            <div class="command-pair">
+              <div><strong>Codex</strong><div class="code-block multi"><code>Use the gstack-spec skill to write normal/exception scenarios and acceptance criteria<br>for empty input, duplicate items and long titles.<br>Don't build anything yet.</code><button class="copy" type="button">Copy</button></div></div>
+              <div><strong>Claude Code</strong><div class="code-block multi"><code>/spec<br><br>Write scenarios and acceptance criteria for the three features.<br>Don't build anything yet.</code><button class="copy" type="button">Copy</button></div></div>
+            </div>
+            <div class="stage-gate"><b>Output</b><span>Feature scope · Out of scope · Acceptance criteria</span><b>Pass condition</b><span>A third person judges success/failure by the same standard.</span></div>
+            <div class="result-example" id="example-output-02">
+              <div class="result-title"><span>EXAMPLE OUTPUT 02</span><strong>Sample spec result</strong></div>
+              <div class="result-body result-code"><p><b>Given</b> the input box contains only spaces</p><p><b>When</b> the "Add" button is pressed</p><p><b>Then</b> the item count doesn't increase and "Please enter something" is shown.</p><p><b>Out of scope</b> Login, server storage and categories aren't covered in this lab.</p></div>
+              <p class="result-check">Human check → Can you tell success from failure on screen, without vague phrases like "handles it properly"?</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="lifecycle-step">
+          <div class="step-rail"><span>03</span><b>Plan review</b></div>
+          <div class="step-main">
+            <div><p class="stage-label">PLAN · no edits</p><h3>Lock the product, design and tech views in turn</h3><p>Review separately what to leave out, how it looks to users, and how code and data flow. To move fast, run all three views in a row with <code>autoplan</code>.</p></div>
+            <div class="plan-command-grid">
+              <div><strong>Product scope</strong><code>gstack-plan-ceo-review</code><small>Claude: /plan-ceo-review</small></div>
+              <div><strong>User experience</strong><code>gstack-plan-design-review</code><small>Claude: /plan-design-review</small></div>
+              <div><strong>Tech structure</strong><code>gstack-plan-eng-review</code><small>Claude: /plan-eng-review</small></div>
+              <div><strong>All at once</strong><code>gstack-autoplan</code><small>Claude: /autoplan</small></div>
+            </div>
+            <div class="code-block multi"><code>Use the gstack-plan-eng-review skill to review the current spec.<br>Include files to change, data flow, failure paths, tests and build order,<br>and don't build anything yet.</code><button class="copy" type="button">Copy</button></div>
+            <div class="stage-gate"><b>Output</b><span>Product decisions · Screen states · Tech plan</span><b>Pass condition</b><span>Files·failure paths·tests are specific and the scope is realistic.</span></div>
+            <div class="result-example" id="example-output-03">
+              <div class="result-title"><span>EXAMPLE OUTPUT 03</span><strong>Sample plan review result</strong></div>
+              <div class="result-body"><p><b>Files to change</b> <code>app.js</code> input validation·duplicate check, <code>styles.css</code> error·long title states</p><p><b>Data flow</b> Input → trim → empty check → duplicate check → add to array → re-render</p><p><b>Failure paths</b> Spaces, duplicates differing only by case, titles of 100+ characters, fast repeated clicks</p><p><b>Build order</b> Input validation → duplicate rule → screen states → regression tests</p></div>
+              <p class="result-check">Human check → Open the project yourself to confirm the files and functions AI suggested really exist.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="lifecycle-step build-step">
+          <div class="step-rail"><span>04</span><b>Build</b></div>
+          <div class="step-main">
+            <div><p class="stage-label">BUILD · edits allowed from here</p><h3>Split the plan into small changes and build</h3><p>Build with the agent's basic features. Ask for one feature at a time, and check the run result and Git diff after each change. gstack strengthens the planning·verification roles before and after building.</p></div>
+            <div class="command-pair">
+              <div><strong>Build request</strong><div class="code-block multi"><code>Based on the approved spec and tech plan,<br>first build only empty-input prevention.<br>Run the checks and don't touch other features.</code><button class="copy" type="button">Copy</button></div></div>
+              <div><strong>Git checkpoint</strong><div class="code-block multi"><code>git status<br>git diff<br>git add .<br>git commit -m "feat: prevent blank tasks"</code><button class="copy" type="button">Copy</button></div></div>
+            </div>
+            <div class="stage-gate"><b>Output</b><span>Small diff · Run result · Commit per feature</span><b>Pass condition</b><span>No changes outside the spec, and a person reproduced the feature in the app.</span></div>
+            <div class="result-example terminal-result" id="example-output-04">
+              <div class="result-title"><span>EXAMPLE OUTPUT 04</span><strong>Sample Git·browser check after building</strong></div>
+              <div class="terminal-output"><code>$ git diff --stat<br> app.js | 12 ++++++++++--<br> 1 file changed, 10 insertions(+), 2 deletions(-)<br><br>$ git status --short<br> M app.js<br><br>Browser check<br>✓ Spaces only: stays at 0 items, notice shown<br>✓ Normal input: 1 item added<br>✓ Existing done button: works</code></div>
+              <p class="result-check">Human check → Were no unplanned files changed, and does the normal flow still work?</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="lifecycle-step">
+          <div class="step-rail"><span>05</span><b>Review·debug</b></div>
+          <div class="step-main">
+            <div><p class="stage-label">REVIEW & DEBUG</p><h3>Find change risks and fix causes, not symptoms</h3><p><code>review</code> finds bugs·gaps·structural risks in the diff, and <code>investigate</code> narrows down causes in the order reproduce → evidence → hypothesis → fix. When you only want a report, say "Don't fix anything."</p></div>
+            <div class="command-pair">
+              <div><strong>Review</strong><div class="code-block multi"><code>Use the gstack-review skill to review the current diff.<br>Report only severity, file evidence and how to reproduce; don't fix anything.<br><br>Claude: /review</code><button class="copy" type="button">Copy</button></div></div>
+              <div><strong>Root cause investigation</strong><div class="code-block multi"><code>Use the gstack-investigate skill to find the cause of duplicate items.<br>Show the reproduction and evidence first, and don't fix anything before approval.<br><br>Claude: /investigate</code><button class="copy" type="button">Copy</button></div></div>
+            </div>
+            <div class="stage-gate"><b>Output</b><span>Review by severity · Reproduction steps · Root cause</span><b>Pass condition</b><span>Every point has file/behavior evidence, and guesses are separated from facts.</span></div>
+            <div class="result-example" id="example-output-05">
+              <div class="result-title"><span>EXAMPLE OUTPUT 05</span><strong>Sample review·investigate result</strong></div>
+              <div class="finding"><b>P1 · User input can run as HTML</b><p><code>app.js</code> inserts the title with <code>innerHTML</code>. It can be reproduced with malicious HTML input; a text node or <code>textContent</code> is needed.</p></div>
+              <div class="finding"><b>Root cause</b><p>The duplicate check runs after rendering, so a fast second click reads the same array state. The cause is the check order, not button disabling.</p></div>
+              <p class="result-check">Human check → Are severity, file location, reproduction conditions and user impact tied to one piece of evidence?</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="lifecycle-step">
+          <div class="step-rail"><span>06</span><b>QA</b></div>
+          <div class="step-main">
+            <div><p class="stage-label">QA · User behavior checks</p><h3>Separate report-only QA from QA with fixes</h3><p><code>qa-only</code> actually uses the app and makes only a reproducible report, while <code>qa</code> fixes approved problems and checks again. Do the first run as report-only.</p></div>
+            <div class="command-pair">
+              <div><strong>Report only</strong><div class="code-block multi"><code>Use the gstack-qa-only skill to test normal/empty/duplicate/long input,<br>repeated clicks, refresh and mobile.<br>Don't fix anything; write expected/actual results.<br><br>Claude: /qa-only</code><button class="copy" type="button">Copy</button></div></div>
+              <div><strong>Fix after approval</strong><div class="code-block multi"><code>Use the gstack-qa skill to fix only the approved defects<br>and re-check with the same user flow.<br><br>Claude: /qa</code><button class="copy" type="button">Copy</button></div></div>
+            </div>
+            <div class="stage-gate"><b>Output</b><span>QA report · Screenshots · Before/after results</span><b>Pass condition</b><span>Every key acceptance criterion has reproducible evidence.</span></div>
+            <div class="result-example" id="example-output-06">
+              <div class="result-title"><span>EXAMPLE OUTPUT 06</span><strong>Sample qa-only report</strong></div>
+              <div class="result-table" role="table" aria-label="Sample QA run results">
+                <div class="result-row head"><span>test</span><span>Expected</span><span>Actual</span><span>Verdict</span></div>
+                <div class="result-row"><span>Spaces only</span><span>Not added</span><span>Empty item added</span><span class="fail">FAIL</span></div>
+                <div class="result-row"><span>Duplicate input</span><span>Notice, then block</span><span>2 added</span><span class="fail">FAIL</span></div>
+                <div class="result-row"><span>Long title·mobile</span><span>Keeps line breaks</span><span>Button pushed</span><span class="fail">FAIL</span></div>
+                <div class="result-row"><span>Normal input</span><span>1 item added</span><span>1 item added</span><span class="pass">PASS</span></div>
+              </div>
+              <p class="result-check">Sample reproduction → 375px screen → enter 120 characters → add → check whether the done button is pushed off screen.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="lifecycle-step">
+          <div class="step-rail"><span>07</span><b>Release prep</b></div>
+          <div class="step-main">
+            <div><p class="stage-label">HARDEN & DOCUMENT</p><h3>Check that security·performance·docs match the build</h3><p>If there's user input or auth, use <code>cso</code>; if web performance matters, use <code>benchmark</code>; when changes are done, sync docs with <code>document-release</code>.</p></div>
+            <div class="plan-command-grid three">
+              <div><strong>Security</strong><code>gstack-cso</code><small>Claude: /cso</small></div>
+              <div><strong>Performance</strong><code>gstack-benchmark</code><small>Claude: /benchmark</small></div>
+              <div><strong>Docs</strong><code>gstack-document-release</code><small>Claude: /document-release</small></div>
+            </div>
+            <div class="stage-gate"><b>Output</b><span>Security/performance results · Latest README · Change notes</span><b>Pass condition</b><span>No serious unresolved risks or doc mismatches.</span></div>
+            <div class="result-example" id="example-output-07">
+              <div class="result-title"><span>EXAMPLE OUTPUT 07</span><strong>Sample release prep result</strong></div>
+              <div class="result-body"><p><b>Security</b> 1 P1 user input rendering issue → fixed with <code>textContent</code> and re-checked</p><p><b>Performance</b> Rendering 100 items 18ms → 20ms, under the 50ms limit: PASS</p><p><b>Docs</b> Added how to run, the duplicate rule and the limit that data disappears after refresh to the README</p><p><b>Decision</b> No serious unresolved risks → release candidate</p></div>
+              <p class="result-check">Human check → Did you avoid concluding "safe·fast" without measurements or file evidence?</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="lifecycle-step">
+          <div class="step-rail"><span>08</span><b>Release·retro</b></div>
+          <div class="step-main">
+            <div><p class="stage-label">SHIP & LEARN</p><h3>Deliver only verified changes and leave lessons for the next project</h3><p><code>ship</code> bundles tests·review·changelog·PR prep. Use <code>land-and-deploy</code> only when a real deploy environment is ready, and finish with a retrospective.</p></div>
+            <div class="plan-command-grid three">
+              <div><strong>PR prep</strong><code>gstack-ship</code><small>Claude: /ship</small></div>
+              <div><strong>Deploy check</strong><code>gstack-land-and-deploy</code><small>Claude: /land-and-deploy</small></div>
+              <div><strong>Retro</strong><code>gstack-retro · gstack-learn</code><small>Claude: /retro · /learn</small></div>
+            </div>
+            <div class="stage-gate"><b>Output</b><span>PR checklist · Deploy check · Retro</span><b>Pass condition</b><span>Others understand what changed, why, and how it was verified.</span></div>
+            <div class="result-example" id="example-output-08">
+              <div class="result-title"><span>EXAMPLE OUTPUT 08</span><strong>Sample ship·retro result</strong></div>
+              <div class="result-body"><p><b>Change summary</b> Blocked empty input·duplicates and improved the mobile layout for long titles.</p><p><b>Verification</b> 4 acceptance criteria and 8 QA scenarios PASS. Security P1 re-checked.</p><p><b>Remaining limits</b> Data lives only in browser memory, so it disappears after refresh.</p><p><b>Retro</b> If we'd fixed the definition of a duplicate before building, we'd have saved 1 round of rework.</p></div>
+              <p class="result-check">Human check → Can the next person understand the reason for changes, verification evidence and remaining risks without asking?</p>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="human-checkpoints"><p class="mini-kicker">HUMAN CHECKPOINTS</p><h3>Four points where AI stops and a person decides</h3><div><span><b>① Approve the problem</b>Whose problem is it</span><span><b>② Approve the scope</b>What to leave out</span><span><b>③ Approve defects</b>What to fix</span><span><b>④ Approve release</b>Whether to accept remaining risks</span></div></div>
+    </section>
+
+    <section class="section extension-downloads" id="lifecycle-downloads">
+      <div class="section-heading split-heading">
+        <div><p class="section-number">07 / EXTENSION DOWNLOADS</p><h2>The full course is also<br>practiced with step-by-step ZIPs.</h2></div>
+        <p>Each ZIP has the same Focus List project, a step README and a worksheet to fill in. Carry each step's results into the next step's worksheet.</p>
+      </div>
+      <div class="extension-grid">
+        <article><span>05</span><h3>Problem discovery and spec</h3><p>office-hours · spec</p><a href="downloads/05-discovery-and-spec.zip" download>Download ZIP ↓</a></article>
+        <article><span>06</span><h3>Product·design·tech plan</h3><p>plan-ceo · plan-design · plan-eng</p><a href="downloads/06-product-design-engineering-plan.zip" download>Download ZIP ↓</a></article>
+        <article><span>07</span><h3>Build and Git checkpoints</h3><p>Small builds · diff · commit per feature</p><a href="downloads/07-implementation-and-git.zip" download>Download ZIP ↓</a></article>
+        <article><span>08</span><h3>Review·debug·QA</h3><p>review · investigate · qa-only · qa</p><a href="downloads/08-review-debug-qa.zip" download>Download ZIP ↓</a></article>
+        <article><span>09</span><h3>Security·performance·docs</h3><p>cso · benchmark · document-release</p><a href="downloads/09-security-performance-docs.zip" download>Download ZIP ↓</a></article>
+        <article><span>10</span><h3>Release and retro</h3><p>ship · land-and-deploy · retro · learn</p><a href="downloads/10-ship-and-retro.zip" download>Download ZIP ↓</a></article>
+      </div>
+    </section>
+
+    <section class="section assessment">
+      <div class="section-heading split-heading">
+        <div>
+          <p class="section-number">08 / COMPLETION</p>
+          <h2>Done doesn't mean<br>"I ran it."</h2>
+        </div>
+        <p>Grading centers on whether each result has evidence and whether a person made the important decisions.</p>
+      </div>
+      <div class="rubric">
+        <article><strong>20</strong><h3>Environment setup</h3><p>Checked the tools and gstack status.</p></article>
+        <article><strong>20</strong><h3>Skill choice</h3><p>Chose the role that fits the goal.</p></article>
+        <article><strong>20</strong><h3>Evidence check</h3><p>Verified AI output with files and behavior.</p></article>
+        <article><strong>20</strong><h3>Quality report</h3><p>Left reproducible review·QA results.</p></article>
+        <article><strong>20</strong><h3>Human judgment</h3><p>Separated assumptions from final decisions.</p></article>
+      </div>
+    </section>
+
+    <section class="closing">
+      <p class="kicker"><span>NEXT</span> PBL PROJECT</p>
+      <h2>Now it's time to apply<br>one loop to a real project.</h2>
+      <p>Problem definition → Tech plan → Build → Review → QA → Retro</p>
+      <div class="hero-actions center">
+        <a class="button primary" href="downloads/gstack-complete-practice-pack.zip" download>Full lab pack</a>
+        <a class="button secondary light" href="downloads/gstack-3hour-lecture-notes.pdf" download>PDF notes (Korean)</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>gstack Hands-on Classroom · Codex & Claude Code</p>
+    <p>Check install commands again in the official docs right before class.</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

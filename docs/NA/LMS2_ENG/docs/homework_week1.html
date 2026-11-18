@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=thankyou.html" /> -->
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = 'index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          if (window.location.pathname.indexOf('/day') !== -1) {
+            redirectPath = '../login/login.html';
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACE AI SW Startup Training | Week 1 Individual Homework</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="shared/notice-modal.css" />
+  <style>
+    :root {
+      --primary-color: #2B5CA6;
+      --secondary-color: #2B5CA6;
+      --bg-dark: #F6F9F4;
+      --bg-charcoal: #F6F9F4;
+      --bg-card: #F6F9F4;
+      --text-main: #243B35;
+      --text-muted: #243B35;
+      --text-desc: #4A605A;
+      --border-color: rgba(36,59,53,0.08);
+      --accent-color: #2B5CA6;
+      --accent-purple: #5D4AA8;
+      --card-radius: 18px;
+      --shadow-sm: 0 4px 20px rgba(36,59,53,0.14), 0 0 1px rgba(36,59,53,0.035);
+      --shadow-md: 0 8px 30px rgba(36,59,53,0.035), 0 0 1px rgba(36,59,53,0.07);
+      --glow-blue: 0 0 15px rgba(43,92,166,0.35);
+      --glow-cyan: 0 0 15px rgba(43,92,166,0.35);
+      --glow-purple: 0 0 15px rgba(93,74,168,0.35);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 70px;
+    }
+
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-main);
+      line-height: 1.65;
+      background: var(--bg-dark);
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(43,92,166,0.088) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(93,74,168,0.088) 0%, transparent 40%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%);
+      background-attachment: fixed;
+    }
+
+    h1, h2, h3, h4, p, li, span, strong { word-break: keep-all; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      background: rgba(36,59,53,0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .nav-container {
+      height: 70px; display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.25rem; font-weight: 800; color: #243B35; text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .logo::before {
+      content: ""; width: 8px; height: 20px;
+      background: linear-gradient(135deg, var(--accent-purple), var(--secondary-color));
+      border-radius: 999px; display: inline-block;
+    }
+
+    .nav-links { list-style: none; display: flex; gap: 12px; align-items: center; }
+
+    .nav-links a {
+      text-decoration: none; color: var(--text-muted); font-weight: 600; font-size: 0.92rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary-color); text-shadow: var(--glow-cyan);
+    }
+
+    .nav-hw-btn {
+      color: #5D4AA8 !important; font-weight: 700 !important;
+      background: rgba(93,74,168,0.165); border: 1px solid rgba(93,74,168,0.3);
+      padding: 6px 12px; border-radius: 8px; transition: all 0.2s ease; font-size: 0.88rem !important;
+    }
+
+    .nav-hw-btn:hover {
+      background: rgba(93,74,168,0.275); text-shadow: var(--glow-purple);
+      box-shadow: 0 0 12px rgba(36,59,53,0.105);
+    }
+
+    .nav-hw-btn.active {
+      background: linear-gradient(135deg, rgba(93,74,168,0.33), rgba(43,92,166,0.33));
+      border-color: rgba(93,74,168,0.6);
+      color: #243B35 !important;
+    }
+
+    .user-badge-main {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(43,92,166,0.11); border: 1px solid rgba(43,92,166,0.25);
+      border-radius: 50px; padding: 5px 14px; font-size: 0.88rem; font-weight: 700;
+      color: var(--secondary-color); cursor: pointer; transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .user-badge-main:hover {
+      background: rgba(43,92,166,0.22); border-color: rgba(43,92,166,0.45);
+      box-shadow: 0 0 12px rgba(36,59,53,0.087);
+    }
+
+    .user-logout-tag {
+      font-size: 0.72rem; font-weight: 600; color: #A83A45;
+      background: rgba(168,58,69,0.165); border: 1px solid rgba(168,58,69,0.25);
+      padding: 2px 6px; border-radius: 6px; margin-left: 2px;
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-top: 96px; padding: 70px 0 50px;
+      background: radial-gradient(circle at 50% 30%, rgba(93,74,168,0.132), transparent 70%), #F6F9F4;
+      position: relative; overflow: hidden; border-bottom: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .hero-center { text-align: center; max-width: 900px; margin: 0 auto; }
+
+    .hero-badge-wrap { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+
+    .hero-badge {
+      display: inline-block; padding: 5px 14px; border-radius: 999px;
+      font-size: 0.8rem; font-weight: 700; background: rgba(93,74,168,0.165);
+      color: #5D4AA8; border: 1px solid rgba(93,74,168,0.3);
+    }
+
+    .hero h1 {
+      font-size: 2.5rem; font-weight: 900; line-height: 1.25; margin-bottom: 16px;
+      background: linear-gradient(135deg, #243B35 30%, #5D4AA8 70%, #2B5CA6 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.05rem; color: var(--text-muted); margin-bottom: 28px; line-height: 1.7;
+    }
+
+    .stats-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px;
+      background: rgba(246,249,244,0.6); backdrop-filter: blur(12px);
+      border: 1px solid rgba(36,59,53,0.08); border-radius: 16px; padding: 20px;
+    }
+
+    .stat-card { text-align: center; }
+    .stat-val { font-size: 1.35rem; font-weight: 800; color: #5D4AA8; margin-bottom: 4px; }
+    .stat-lbl { font-size: 0.82rem; color: var(--text-desc); font-weight: 600; }
+
+    /* Day Navigation Filter */
+    .day-filter-wrap {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 40px 0 10px;
+    }
+
+    .filter-btn {
+      background: rgba(255,255,255,0.67); border: 1px solid rgba(36,59,53,0.08);
+      color: var(--text-muted); padding: 8px 18px; border-radius: 10px;
+      font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: linear-gradient(135deg, rgba(93,74,168,0.275), rgba(43,92,166,0.275));
+      color: #243B35; border-color: rgba(93,74,168,0.5);
+      box-shadow: 0 0 15px rgba(36,59,53,0.087);
+    }
+
+    /* Section Styling */
+    .section-header {
+      margin-bottom: 30px; margin-top: 50px;
+    }
+
+    .section-tag {
+      font-size: 0.8rem; font-weight: 700; color: #5D4AA8; text-transform: uppercase;
+      letter-spacing: 0.08em; display: inline-block; margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-size: 1.8rem; font-weight: 800; color: #243B35;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .section-title::after {
+      content: ""; flex: 1; height: 1px; background: linear-gradient(to right, rgba(93,74,168,0.33), transparent);
+    }
+
+    /* Card Grid */
+    .curriculum-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 50px;
+    }
+
+    .course-card {
+      background: rgba(246,249,244,0.7); backdrop-filter: blur(12px);
+      border: 1px solid rgba(36,59,53,0.08); border-radius: var(--card-radius);
+      overflow: hidden; display: flex; flex-direction: column; transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .course-card:hover {
+      transform: translateY(-4px); border-color: rgba(93,74,168,0.35);
+      box-shadow: var(--shadow-md), 0 0 20px rgba(36,59,53,0.052);
+    }
+
+    .course-thumb {
+      height: 110px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 900; letter-spacing: 0.08em; color: rgba(36,59,53,0.9);
+      position: relative; text-shadow: 0 2px 8px rgba(36,59,53,0.14);
+      background-size: cover; background-position: center;
+    }
+
+    .course-thumb::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(36,59,53,0.04), rgba(246,249,244,0.95));
+    }
+
+    .course-thumb span { position: relative; z-index: 2; }
+
+    .course-content { padding: 24px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+
+    .card-meta-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+    .day-label {
+      font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+      background: rgba(93,74,168,0.165); color: #5D4AA8; border: 1px solid rgba(93,74,168,0.3);
+    }
+
+    .score-badge {
+      font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 999px;
+      background: rgba(43,92,166,0.165); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3);
+    }
+
+    .course-title { font-size: 1.18rem; font-weight: 800; color: #243B35; line-height: 1.4; }
+
+    .course-desc { color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; }
+
+    .meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+    .meta-item {
+      background: rgba(255,255,255,0.64); border-radius: 10px;
+      border: 1px solid rgba(36,59,53,0.08); padding: 10px 12px; font-size: 0.82rem; color: var(--text-muted);
+    }
+
+    .meta-item strong { color: #5D4AA8; display: block; font-size: 0.75rem; margin-bottom: 2px; }
+
+    .tag-list { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .tag {
+      font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 6px;
+      background: rgba(255,255,255,0.7); color: var(--text-desc); border: 1px solid rgba(36,59,53,0.08);
+    }
+
+    .outcome-box {
+      background: rgba(36,59,53,0.08); border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 10px; padding: 12px 14px; font-size: 0.82rem; color: var(--text-muted);
+    }
+
+    .outcome-box strong { color: var(--secondary-color); margin-right: 6px; }
+
+    .ai-class-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 12px 20px; border-radius: 10px; font-size: 0.88rem; font-weight: 700;
+      text-decoration: none; color: #FFFFFF;
+      background: #27765B;
+      border: none; cursor: pointer; transition: all 0.2s ease; margin-top: auto;
+      box-shadow: 0 4px 15px rgba(36,59,53,0.07);
+    }
+
+    .ai-class-btn:hover {
+      transform: translateY(-2px); box-shadow: 0 6px 20px rgba(36,59,53,0.122);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(36,59,53,0.08); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+      opacity: 0; visibility: hidden; transition: all 0.25s ease; z-index: 2000;
+    }
+
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+
+    .modal-card {
+      background: #F6F9F4; border: 1px solid rgba(36,59,53,0.108);
+      border-radius: 20px; width: 100%; max-width: 720px; max-height: 85vh;
+      overflow-y: auto; padding: 32px; position: relative;
+      box-shadow: 0 20px 50px rgba(36,59,53,0.14);
+    }
+
+    .modal-close {
+      position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.79);
+      border: none; color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%;
+      cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+    }
+
+    .modal-close:hover { background: rgba(255,255,255,0.92); color: #243B35; }
+
+    .modal-body h3 { font-size: 1.25rem; font-weight: 800; color: #243B35; margin-bottom: 12px; }
+    .modal-body p { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6; }
+
+    .prompt-box {
+      background: rgba(36,59,53,0.08); border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 10px; padding: 16px; position: relative; margin: 12px 0 16px;
+    }
+
+    .prompt-box pre {
+      padding-right: 70px; margin: 0; white-space: pre-wrap; word-wrap: break-word;
+      font-family: 'Fira Code', monospace; font-size: 0.82rem; color: var(--text-muted); line-height: 1.55;
+    }
+
+    .copy-btn {
+      z-index: 10; position: absolute; top: 12px; right: 12px;
+      background: rgba(255,255,255,0.79); border: 1px solid rgba(36,59,53,0.135);
+      color: var(--text-muted); padding: 4px 10px; border-radius: 6px;
+      font-size: 0.74rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover { background: rgba(93,74,168,0.275); color: #5D4AA8; border-color: rgba(93,74,168,0.4); }
+
+    /* Modal Enhanced Styles */
+    .modal-mission-badge {
+      display: inline-block; padding: 4px 12px; border-radius: 999px;
+      background: rgba(93,74,168,0.165); border: 1px solid rgba(93,74,168,0.3);
+      color: #5D4AA8; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+
+    .scenario-block {
+      background: rgba(36,59,53,0.08); border: 1px solid rgba(36,59,53,0.08);
+      border-left: 3px solid rgba(43,92,166,0.55); border-radius: 10px; padding: 16px 18px; margin: 14px 0;
+    }
+    .scenario-label {
+      font-size: 0.78rem; font-weight: 800; color: #2B5CA6; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 8px;
+    }
+    .scenario-block p { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.6; }
+    .scenario-list { list-style: none; padding: 0; margin: 8px 0 0; }
+    .scenario-list li { font-size: 0.85rem; color: var(--text-muted); padding: 4px 0; line-height: 1.5; }
+
+    .conflict-table { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+    .conflict-row { display: grid; grid-template-columns: 1fr 1.2fr 1.5fr; gap: 8px; font-size: 0.8rem; padding: 6px 8px; border-radius: 6px; }
+    .conflict-row.header-row { background: rgba(43,92,166,0.11); color: #2B5CA6; font-weight: 700; }
+    .conflict-row:not(.header-row) { background: rgba(255,255,255,0.64); color: var(--text-muted); }
+
+    .thinking-block {
+      background: rgba(43,92,166,0.066); border: 1px solid rgba(43,92,166,0.2);
+      border-radius: 10px; padding: 14px 18px; margin: 12px 0;
+    }
+    .thinking-label {
+      font-size: 0.78rem; font-weight: 800; color: #2B5CA6; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 8px;
+    }
+    .thinking-list { list-style: none; padding: 0; margin: 0; }
+    .thinking-list li {
+      font-size: 0.86rem; color: var(--text-muted); padding: 5px 0;
+      padding-left: 16px; position: relative; line-height: 1.55;
+    }
+    .thinking-list li::before { content: '→'; position: absolute; left: 0; color: #2B5CA6; font-size: 0.8rem; top: 5px; }
+
+    .example-prompt-section { margin: 16px 0; }
+    .example-prompt-label {
+      font-size: 0.78rem; font-weight: 800; color: #5D4AA8; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 4px;
+    }
+    .example-note {
+      background: rgba(93,74,168,0.088); border: 1px solid rgba(93,74,168,0.2);
+      border-radius: 6px; padding: 8px 12px; font-size: 0.8rem; color: #5D4AA8; margin-bottom: 8px; line-height: 1.5;
+    }
+
+    .real-mission-block {
+      background: rgba(93,74,168,0.066); border: 1px solid rgba(93,74,168,0.25);
+      border-radius: 12px; padding: 16px 18px; margin: 14px 0;
+    }
+    .real-mission-label {
+      font-size: 0.78rem; font-weight: 800; color: #5D4AA8; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 12px;
+    }
+    .mission-steps { display: flex; flex-direction: column; gap: 12px; }
+    .mission-step { display: flex; gap: 12px; align-items: flex-start; }
+    .step-num {
+      flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+      background: linear-gradient(135deg, #DFD8F6, #D2E0FB); color: #243B35;
+      font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; justify-content: center;
+    }
+    .mission-step div { font-size: 0.86rem; color: var(--text-muted); line-height: 1.6; }
+    .mission-step strong { color: #243B35; display: block; margin-bottom: 4px; }
+
+    .eval-block {
+      background: rgba(36,59,53,0.08); border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 10px; padding: 12px 16px; margin-top: 14px;
+      font-size: 0.83rem; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    }
+    .eval-block strong { color: #5D4AA8; white-space: nowrap; }
+    .eval-item {
+      background: rgba(93,74,168,0.11); border: 1px solid rgba(93,74,168,0.2);
+      border-radius: 6px; padding: 3px 10px; font-size: 0.78rem; white-space: nowrap;
+    }
+
+    .db-problem-box {
+      background: rgba(168,58,69,0.066); border: 1px solid rgba(168,58,69,0.2);
+      border-radius: 8px; padding: 10px 14px; margin: 8px 0; font-family: 'Fira Code', monospace;
+      font-size: 0.8rem; color: #A83A45; line-height: 1.8;
+    }
+
+    .api-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+    .api-item {
+      background: rgba(43,92,166,0.088); border: 1px solid rgba(43,92,166,0.15);
+      border-radius: 6px; padding: 6px 12px; font-size: 0.83rem; color: var(--text-muted);
+    }
+
+    .breaking-changes-box { display: flex; flex-direction: column; gap: 6px; margin: 12px 0; }
+    .change-item { padding: 7px 12px; border-radius: 6px; font-size: 0.83rem; }
+    .change-item.bad { background: rgba(168,58,69,0.088); border: 1px solid rgba(168,58,69,0.2); color: #A83A45; }
+
+    .policy-change-box { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+    .policy-old { background: rgba(168,58,69,0.088); border: 1px solid rgba(168,58,69,0.2); border-radius: 6px; padding: 8px 14px; font-size: 0.85rem; color: #A83A45; }
+    .policy-new { background: rgba(39,118,91,0.088); border: 1px solid rgba(39,118,91,0.2); border-radius: 6px; padding: 8px 14px; font-size: 0.85rem; color: #27765B; }
+
+    .persona-box {
+      background: rgba(43,92,166,0.066); border: 1px solid rgba(43,92,166,0.2);
+      border-radius: 8px; padding: 10px 14px; margin: 10px 0;
+    }
+    .persona-name { font-weight: 700; color: #2B5CA6; font-size: 0.88rem; margin-bottom: 4px; }
+    .persona-detail { font-size: 0.83rem; color: var(--text-muted); line-height: 1.5; }
+
+    .feedback-list { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+    .feedback-item {
+      background: rgba(255,255,255,0.64); border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;
+    }
+    .feedback-item em { color: #243B35; font-style: normal; }
+
+    /* Rules Banner */
+    .rules-banner {
+      background: rgba(246,249,244,0.6); border: 1px solid rgba(93,74,168,0.25);
+      border-radius: 18px; padding: 28px; margin-bottom: 40px;
+    }
+
+    .rules-banner h3 { font-size: 1.2rem; color: #5D4AA8; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .rules-list { list-style-position: inside; color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; }
+    .rules-list li strong { color: #243B35; }
+
+    /* Footer */
+    .site-footer {
+      background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08);
+      padding: 32px 20px; text-align: center; color: var(--text-desc); font-size: 0.82rem; line-height: 1.8;
+    }
+
+    @media (max-width: 960px) {
+      .nav-container { height: auto; padding: 10px 0; flex-wrap: wrap; gap: 10px; }
+      .nav-links { gap: 8px; flex-wrap: wrap; }
+      .hero { margin-top: 100px; }
+      .curriculum-grid { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: 1.9rem; }
+    }
+  </style>
+  <script src="./shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+
+  <!-- Navbar Header -->
+  <header class="navbar navbar-tworow">
+    <div class="container nav-container">
+      <!-- Row 1: Brand Logo & Core Quick Actions -->
+      <div class="nav-row-top">
+        <div class="logo-group">
+          <a href="index.html" class="logo">ACE AI SW Startup Training</a>
+        </div>
+        <div class="nav-top-right">
+          <a href="index.html" class="nav-home-btn"><i class="fa-solid fa-house"></i> Course Home</a>
+          <a href="notice.html" class="nav-notice-btn" title="Notices">
+            <span class="notice-icon-anim">📢</span> Notices
+            <span class="notice-badge">1</span>
+          </a>
+          <div id="nav-user-item" class="nav-auth-slot">
+            <a href="login/login.html" class="nav-login-btn">Log in</a>
+          </div>
+        </div>
+      </div>
+      <!-- Row 2: Secondary Menu Links -->
+      <div class="nav-row-sub">
+        <ul class="subnav-links">
+          <li><a href="notice.html" class="subnav-link">📢 Notices</a></li>
+          <li><a href="homework_week1.html" class="subnav-link nav-hw1 active">📝 Day 1–5 Homework</a></li>
+          <li><a href="homework_week2.html" class="subnav-link nav-hw2">⚡ Day 5–10 Homework</a></li>
+          <li><a href="homework_codex_field.html" class="subnav-link nav-codex">💼 Codex Field Assignments</a></li>
+          <li><a href="attendance_qr.html" class="subnav-link nav-qr">📱 Offline Attendance QR</a></li>
+          <li><a href="qr_resources.html" class="subnav-link">🔗 Student QR Links</a></li>
+          <li><a href="index.html#overview" class="subnav-link">💡 Program Overview</a></li>
+          <li><a href="index.html#curriculum" class="subnav-link">📚 10-Day Curriculum</a></li>
+          <li><a href="index.html#final" class="subnav-link">🏆 Final Results</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-center">
+      <div class="hero-badge-wrap">
+        <span class="hero-badge">WEEK 1 ASSIGNMENTS</span>
+        <span class="hero-badge">Day 1 ~ Day 5</span>
+        <span class="hero-badge">Video &amp; Advertising Platform</span>
+      </div>
+      <h1>Week 1 Individual Homework Missions</h1>
+      <p>
+        Apply the AI-Native SW design ideas you learned directly to a real business scenario (Video &amp; Advertising Platform),<br />
+        complete requirements definition, user flows, data integrity, API contracts and UI/UX checks, and record your decision evidence in <code>ai_review.md</code>.
+      </p>
+
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-val">10 assignments</div>
+          <div class="stat-lbl">2 per day / 10 problems total</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">50 pts / 100 pts</div>
+          <div class="stat-lbl">50 pts per problem (100 pts per day)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">90–120 min</div>
+          <div class="stat-lbl">Suggested time per day</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">ZIP submission</div>
+          <div class="stat-lbl">Submit StudentID_Name_DayNN.zip</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container" style="padding-top: 10px; padding-bottom: 80px;">
+
+    <!-- Day Navigation Filter -->
+    <div class="day-filter-wrap">
+      <button class="filter-btn active" onclick="filterDay('all')">All assignments (10)</button>
+      <button class="filter-btn" onclick="filterDay('day1')">Day 1 (2)</button>
+      <button class="filter-btn" onclick="filterDay('day2')">Day 2 (2)</button>
+      <button class="filter-btn" onclick="filterDay('day3')">Day 3 (2)</button>
+      <button class="filter-btn" onclick="filterDay('day4')">Day 4 (2)</button>
+      <button class="filter-btn" onclick="filterDay('day5')">Day 5 (2)</button>
+    </div>
+
+    <!-- Submission Rules Banner -->
+    <div class="rules-banner">
+      <h3>📌 Day 1–5 homework submission and grading rules</h3>
+      <ul class="rules-list">
+        <li><strong>File structure:</strong> inside the <code>StudentID_Name_DayNN.zip</code> file, create <code>HW-DNN-01</code> and <code>HW-DNN-02</code> folders and submit the required docs and <code>ai_review.md</code></li>
+        <li><strong>AI review record (ai_review.md required):</strong> must include the questions you used, AI's key answers and your reasons for accepting, changing or rejecting (simply copying AI answers loses points)</li>
+        <li><strong>Grading:</strong> 2 problems per day (50 pts each, 100 total); your Week 1 final grade is the average of the 5 days' scores.</li>
+      </ul>
+    </div>
+
+    <!-- DAY 1 SECTION -->
+    <div class="day-section" id="day1">
+      <div class="section-header">
+        <span class="section-tag">DAY 01 ASSIGNMENTS</span>
+        <h2 class="section-title">Day 1. Requirements and Domain Responsibility</h2>
+      </div>
+
+      <div class="curriculum-grid">
+        <!-- HW-D01-01 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(0deg);">
+            <span>HW-D01-01</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 1 • HW-D01-01</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D01-01. Decide Between Conflicting Service Needs</h3>
+            <p class="course-desc">
+              Resolve conflicting needs of 4 roles — Viewer (watch without account), Creator (keep private), Advertiser (show ads everywhere), Admin (show only approved) — and write a requirements doc (requirements.md).
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-BA, TECH-DDD</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CTX, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>HYBRID</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Requirements</span>
+              <span class="tag">Conflict Resolution</span>
+              <span class="tag">FR ID</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>requirements.md</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d01-01')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+
+        <!-- HW-D01-02 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(45deg);">
+            <span>HW-D01-02</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 1 • HW-D01-02</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D01-02. Who Owns View Counts and Ad Costs?</h3>
+            <p class="course-desc">
+              Clearly separate the events of playback request, actual viewing, ad impression and cost, and work out ownership across 5+ Domains and responsibility for preventing double charges.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-DDD, TECH-ARCH</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CTX, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>HYBRID</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Domain Boundary</span>
+              <span class="tag">Data Ownership</span>
+              <span class="tag">Event Deduplication</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>domain_map.md</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d01-02')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- DAY 2 SECTION -->
+    <div class="day-section" id="day2">
+      <div class="section-header">
+        <span class="section-tag">DAY 02 ASSIGNMENTS</span>
+        <h2 class="section-title">Day 2. Flows and Design Changes</h2>
+      </div>
+
+      <div class="curriculum-grid">
+        <!-- HW-D02-01 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(90deg);">
+            <span>HW-D02-01</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 2 • HW-D02-01</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D02-01. Explain the Playback Experience Even If the Ad Server Stops</h3>
+            <p class="course-desc">
+              Design a Mermaid Sequence Diagram and a user wait policy so viewing never freezes forever, even with ad response delays, no candidates or the user leaving before playback.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-FLOW, TECH-ARCH</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CTX, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>HYBRID</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Sequence Diagram</span>
+              <span class="tag">Exception Flow</span>
+              <span class="tag">Timeout Policy</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>playback_flow.md</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d02-01')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+
+        <!-- HW-D02-02 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(135deg);">
+            <span>HW-D02-02</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 2 • HW-D02-02</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D02-02. Find the Docs Broken by a Policy Change</h3>
+            <p class="course-desc">
+              When policy v2 changes to "at most 3 impressions per user per day," find 4+ mismatches between existing screen/sequence/data docs, and write an impact analysis and Decision Log.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-FLOW, TECH-BA, TECH-QA</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CTX, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>HYBRID</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Consistency Audit</span>
+              <span class="tag">Impact Sync</span>
+              <span class="tag">Decision Log</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>change_review.md</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d02-02')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- DAY 3 SECTION -->
+    <div class="day-section" id="day3">
+      <div class="section-header">
+        <span class="section-tag">DAY 03 ASSIGNMENTS</span>
+        <h2 class="section-title">Day 3. Data Models and Integrity</h2>
+      </div>
+
+      <div class="curriculum-grid">
+        <!-- HW-D03-01 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(180deg);">
+            <span>HW-D03-01</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 3 • HW-D03-01</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D03-01. Design a Data Model That Separates Views, Impressions and Charges</h3>
+            <p class="course-desc">
+              Design a 3NF ERD with 6+ Entities like Campaign, Ad, Impression and Charge, and prove normalization integrity with past charge history and 8 sample records.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-DATA, TECH-DDD</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CTX, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>HYBRID</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">3NF ERD</span>
+              <span class="tag">Data Dictionary</span>
+              <span class="tag">Sample Data</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>data_model.md</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d03-01')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+
+        <!-- HW-D03-02 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(225deg);">
+            <span>HW-D03-02</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 3 • HW-D03-02</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D03-02. Resolve the Conflict Between an Ad Deletion Request and Past Charges</h3>
+            <p class="course-desc">
+              Resolve the conflict between an advertiser's request to delete creatives and the operator's need to keep past charges with a Soft Delete / de-identification model, and write before/after data examples and check cases.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-DATA, TECH-QA</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CTX, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>HYBRID</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Soft Delete</span>
+              <span class="tag">Integrity Guard</span>
+              <span class="tag">Validation Cases</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>data_change_review.md</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d03-02')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- DAY 4 SECTION -->
+    <div class="day-section" id="day4">
+      <div class="section-header">
+        <span class="section-tag">DAY 04 ASSIGNMENTS</span>
+        <h2 class="section-title">Day 4. API Contracts and Review</h2>
+      </div>
+
+      <div class="curriculum-grid">
+        <!-- HW-D04-01 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(270deg);">
+            <span>HW-D04-01</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 4 • HW-D04-01</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D04-01. Submit an API Contract Another Team Can Build From</h3>
+            <p class="course-desc">
+              Write OpenAPI 3.0 specs for 4 endpoints — video lookup, playback, campaign creation and ad request — and define success/failure Payload examples and ownership conditions.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-API, TECH-DDD</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CTX, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>HYBRID</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">OpenAPI 3.0</span>
+              <span class="tag">API Contract</span>
+              <span class="tag">Payload Spec</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>api_contract.md</code>, <code>openapi.yaml</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d04-01')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+
+        <!-- HW-D04-02 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(315deg);">
+            <span>HW-D04-02</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 4 • HW-D04-02</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D04-02. Restore Compatibility of a Broken Contract</h3>
+            <p class="course-desc">
+              Identify 4+ consumer impacts from a new API response change (a Breaking Change like returning failures as HTTP 200), and set a backward-compatibility recovery strategy and test cases.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-API, TECH-QA</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CTX, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>HYBRID</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">Breaking Change</span>
+              <span class="tag">Backward Compatibility</span>
+              <span class="tag">Contract Test</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>api_review.md</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d04-02')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- DAY 5 SECTION -->
+    <div class="day-section" id="day5">
+      <div class="section-header">
+        <span class="section-tag">DAY 05 ASSIGNMENTS</span>
+        <h2 class="section-title">Day 5. UI/UX and User Checks</h2>
+      </div>
+
+      <div class="curriculum-grid">
+        <!-- HW-D05-01 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(340deg);">
+            <span>HW-D05-01</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 5 • HW-D05-01</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D05-01. Design the Screens for a First-Time Ad Creator</h3>
+            <p class="course-desc">
+              Design 3 mobile campaign creation screens for a beginner local trader, the 6 UI states (Loading/Error, etc.), recovery actions and an API mapping table.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-UX, TECH-FE</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CTX, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>HYBRID</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">User Journey</span>
+              <span class="tag">UI States</span>
+              <span class="tag">Screen Flow</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>ui_design.md</code>, <code>screen images/prototype</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d05-01')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+
+        <!-- HW-D05-02 -->
+        <article class="course-card">
+          <div class="course-thumb" style="background-image: url('img/day2_dataflow.png'); filter: hue-rotate(20deg);">
+            <span>HW-D05-02</span>
+          </div>
+          <div class="course-content">
+            <div class="card-meta-top">
+              <span class="day-label">Day 5 • HW-D05-02</span>
+              <span class="score-badge">50 pts</span>
+            </div>
+            <h3 class="course-title">HW-D05-02. Challenge and Improve Your Own Screens</h3>
+            <p class="course-desc">
+              Critically review the screens from assignment 1, judge 5 pieces of mock user feedback like "mistaking it for waiting for approval" and "hard to find retry," and produce before/after screens and recheck criteria.
+            </p>
+
+            <div class="meta-grid">
+              <div class="meta-item"><strong>Tech Skill</strong>TECH-UX, TECH-QA</div>
+              <div class="meta-item"><strong>AI Skill</strong>AI-CTX, AI-REV, AI-DOC</div>
+              <div class="meta-item"><strong>Lab area</strong>HYBRID</div>
+              <div class="meta-item"><strong>Suggested time</strong>45–60 min</div>
+            </div>
+
+            <div class="tag-list">
+              <span class="tag">UX Audit</span>
+              <span class="tag">Before/After</span>
+              <span class="tag">Re-validation</span>
+            </div>
+
+            <div class="outcome-box">
+              <strong>Output:</strong> <code>ux_review.md</code>, <code>Before/After images</code>, <code>ai_review.md</code>
+            </div>
+
+            <button onclick="openModal('modal-hw-d05-02')" class="ai-class-btn">View detailed spec and prompts →</button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODALS FOR TASKS -->
+
+  <!-- HW-D01-01 Modal -->
+  <div class="modal-overlay" id="modal-hw-d01-01">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d01-01')">✕</button>
+      <div class="modal-body">
+        <div class="modal-mission-badge">DAY 1 · HW-D01-01 · 50 pts</div>
+        <h3>🔥 Decide Between Conflicting Service Needs</h3>
+
+        <div class="scenario-block">
+          <div class="scenario-label">📌 Business scenario</div>
+          <p>You're the first planner at <strong>"VidAce"</strong>, a Nigeria-Korea joint video ad platform. Two weeks before launch, the CEO drops the requirement lists from 4 stakeholder teams on your desk.</p>
+          <div class="conflict-table">
+            <div class="conflict-row header-row"><span>Role</span><span>Key need</span><span>Conflict point</span></div>
+            <div class="conflict-row"><span>🧑‍💻 Viewer (no account)</span><span>Watch right away without logging in</span><span>Conflicts with Creator's need for privacy</span></div>
+            <div class="conflict-row"><span>🎬 Creator</span><span>Private by default right after upload</span><span>Conflicts with Advertiser's need for instant ad display</span></div>
+            <div class="conflict-row"><span>💼 Advertiser</span><span>Insert ads in every public video</span><span>Conflicts with Admin's limit on posting before approval</span></div>
+            <div class="conflict-row"><span>🛡️ Admin</span><span>Allow only reviewed videos to be public</span><span>Conflicts with Viewer's need to watch right away</span></div>
+          </div>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">🧠 Questions to think about</div>
+          <ul class="thinking-list">
+            <li>How could you define the boundary between videos a Viewer can and can't watch without an account?</li>
+            <li>If a Creator sets a video private but an Advertiser wants ads on it, whose need should come first? Why?</li>
+            <li>When should Admin review happen? Right after upload? When publishing is requested? Which timing makes business sense?</li>
+            <li>What is a "checkable requirement"? What's the difference between "must load fast" and "the first frame must show within 2 seconds"?</li>
+            <li>Is this platform's main revenue ads or creator subscriptions? How does that affect requirement priorities?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">💡 Example prompt (for reference — don't use it as-is)</div>
+          <div class="example-note">Below is an example to help you understand how to use AI. In the real assignment, you must analyze the scenario yourself first and write a more specific prompt that fits the situation.</div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('prompt_hw_d01_01')">📋 Copy example</button>
+            <pre id="prompt_hw_d01_01"><span class="code-badge">Example prompt — HW-D01-01</span>
+[Role] You are a Business Analyst.
+[Context] The 4 roles (Viewer, Creator, Advertiser, Admin) of the video ad platform VidAce
+each have different needs, and some directly conflict with each other.
+[Request]
+1) Summarize each of the 4 roles' goals in 1–2 sentences
+2) Identify 2 clearly conflicting pairs of needs, and explain the policy adopted and the reason for giving up the other for each
+3) Write 8 checkable requirements from FR-001 in requirements.md format
+   (each: ID, role, requirement, acceptance condition, exception condition)
+[Output format] Use Markdown tables and section headers</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 The real assignment — do it yourself</div>
+          <div class="mission-steps">
+            <div class="mission-step"><span class="step-num">1</span><div><strong>List requirements by role</strong><br>For each of the 4 roles, separate <em>explicit needs</em> and <em>implicit needs</em> and derive at least 12 items.</div></div>
+            <div class="mission-step"><span class="step-num">2</span><div><strong>Write 8 checkable requirements with FR IDs</strong><br>Write each requirement in the form <code>FR-001: [role] must be able to [action] when [condition]</code>, with 2+ testable acceptance criteria (AC).</div></div>
+            <div class="mission-step"><span class="step-num">3</span><div><strong>Record conflict resolution decisions</strong><br>For 2 conflicting pairs, write ① the policy adopted, ② the alternative given up, ③ the business reason for giving it up, ④ affected roles and how to make up for it.</div></div>
+            <div class="mission-step"><span class="step-num">4</span><div><strong>Sort out-of-scope features and open questions</strong><br>Write 3 features excluded from the v1.0 release and 3 open questions, explaining each reason in one sentence.</div></div>
+            <div class="mission-step"><span class="step-num">5</span><div><strong>Write ai_review.md</strong><br>Record at least 1 each of AI suggestions you ① accepted, ② changed (with reason) and ③ rejected (with reason).</div></div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Checkable requirements 20 pts</span>
+          <span class="eval-item">Logical conflict resolution reasons 15 pts</span>
+          <span class="eval-item">Clear separation of scope and assumptions 10 pts</span>
+          <span class="eval-item">Evidence of AI judgment and self-critique 5 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HW-D01-02 Modal -->
+  <div class="modal-overlay" id="modal-hw-d01-02">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d01-02')">✕</button>
+      <div class="modal-body">
+        <div class="modal-mission-badge">DAY 1 · HW-D01-02 · 50 pts</div>
+        <h3>🔥 Who Owns View Counts and Ad Costs?</h3>
+
+        <div class="scenario-block">
+          <div class="scenario-label">📌 Business scenario</div>
+          <p>VidAce's data team released a shocking report: <strong>ad impression events are being recorded 2.3 times more than real impressions</strong>, and advertisers are being overcharged at month end. Every team says, "It's not our fault."</p>
+          <ul class="scenario-list">
+            <li>🔴 A Viewer pressed play but closed it after 3 seconds → was it counted as a view?</li>
+            <li>🔴 The ad was called twice but the Viewer saw it once → what's the billing basis?</li>
+            <li>🔴 A network error sent the playback signal to the server twice → who's responsible for preventing double records?</li>
+            <li>🔴 The user watched 25 seconds of a 30-second ad, then closed the app → counted as completed? Partial?</li>
+          </ul>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">🧠 Questions to think about</div>
+          <ul class="thinking-list">
+            <li><strong>Events vs facts:</strong> are "clicking play" and "actually starting to watch" the same event? By what criteria can you separate them?</li>
+            <li><strong>What ownership means:</strong> which data should be stored in which team's DB? What problems happen if two teams each store the same data?</li>
+            <li><strong>Preventing double processing:</strong> when the same event comes in twice, what's the difference between "use the first" and "use the last"?</li>
+            <li><strong>Billing responsibility:</strong> who should bill the Advertiser for ad costs? Should recording billing events and billing be handled in the same Domain?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">💡 Example prompt (for reference — don't use it as-is)</div>
+          <div class="example-note">For Domain analysis, sort the event list and scenarios yourself first, then ask AI to review.</div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('prompt_hw_d01_02')">📋 Copy example</button>
+            <pre id="prompt_hw_d01_02"><span class="code-badge">Example prompt — HW-D01-02</span>
+[Role] You are a Domain-Driven Design expert.
+[Context] On a video ad platform, playback request, actual viewing, ad impression and billing
+are different events, and there's currently a double-recording problem.
+[Domains to analyze] Video, Playback, Ad, Impression, Charge, User
+[Request]
+1) Define each Domain's Primary Responsibility and source data ownership in one line
+2) Compare 2 alternative ways of splitting responsibility for "playback request → start watching → ad impression → billing"
+3) Suggest a policy for handling duplicate events (e.g. Idempotency Key)</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 The real assignment — do it yourself</div>
+          <div class="mission-steps">
+            <div class="mission-step"><span class="step-num">1</span><div><strong>Event type table</strong><br>Define at least 8 event types and mark each as "counted? / billed? / double-processing risk?" with Yes/No and a reason.</div></div>
+            <div class="mission-step"><span class="step-num">2</span><div><strong>Domain responsibility map (domain_map.md)</strong><br>Define at least 5 Domains and state for each ① main responsibility, ② data it owns, ③ events/data to share, ④ data it must never write directly.</div></div>
+            <div class="mission-step"><span class="step-num">3</span><div><strong>Design a double-processing prevention policy</strong><br>Compare the pros and cons of 2+ technical strategies (Idempotency Key, Redis distributed lock, etc.) to prevent double ad impression records, and describe your chosen strategy and why.</div></div>
+            <div class="mission-step"><span class="step-num">4</span><div><strong>Decide how to handle 4 boundary scenarios</strong><br>For each of 4 scenarios (leaving after 3 sec, ad called twice, network double send, closing after 25 sec), decide the handling policy and how data is recorded, with reasons.</div></div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Consistent Domain responsibility and ownership 20 pts</span>
+          <span class="eval-item">Precise event separation 15 pts</span>
+          <span class="eval-item">Feasible double-processing prevention 10 pts</span>
+          <span class="eval-item">Evidence of AI judgment and self-critique 5 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HW-D02-01 Modal -->
+  <div class="modal-overlay" id="modal-hw-d02-01">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d02-01')">✕</button>
+      <div class="modal-body">
+        <div class="modal-mission-badge">DAY 2 · HW-D02-01 · 50 pts</div>
+        <h3>🔥 Guarantee Playback Even If the Ad Server Stops</h3>
+
+        <div class="scenario-block">
+          <div class="scenario-label">📌 Business scenario</div>
+          <p>At 3 p.m., a surge of VidAce users pushes ad server response time past 8 seconds. Thousands of Viewers pressed play, but are waiting with <strong>a frozen screen and no message</strong>.</p>
+          <ul class="scenario-list">
+            <li>⚡ <strong>Ad server timeout:</strong> no response in 3 seconds — just play the video? Keep waiting?</li>
+            <li>⚡ <strong>No ad candidates:</strong> inventory for that time/region is used up — how do you tell the Viewer?</li>
+            <li>⚡ <strong>Leaving right before playback:</strong> the ad request finished but the Viewer closed it — bill the ad?</li>
+            <li>⚡ <strong>Partial success:</strong> the ad server responded but the creative URL failed to load — play right away?</li>
+          </ul>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">🧠 Questions to think about</div>
+          <ul class="thinking-list">
+            <li><strong>Choosing the timeout:</strong> what if the ad server wait is 1 second? 10 seconds? Who should decide the best value, and how?</li>
+            <li><strong>Fallback strategy:</strong> how much business is lost when playing without an ad? And how many users leave when the video isn't shown? Which loss is bigger?</li>
+            <li><strong>User communication:</strong> in the same situation, how do "Preparing your ad" and "Your video will start shortly" feel different?</li>
+            <li><strong>Billing boundary:</strong> should an ad that was requested but not shown be billed? Who should make this decision?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">💡 Example prompt (for reference — don't use it as-is)</div>
+          <div class="example-note">If this is your first Mermaid Sequence Diagram, learn the basic format from the example below. The real assignment must include all 4 exception cases.</div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('prompt_hw_d02_01')">📋 Copy example</button>
+            <pre id="prompt_hw_d02_01"><span class="code-badge">Example prompt — HW-D02-01</span>
+[Role] You are a distributed systems architect.
+[Context] Video playback needs an ad server call, but the ad server can fail for many reasons,
+like timeout/no inventory/creative loading failure.
+[Request]
+1) Write the normal sequence as a Mermaid sequenceDiagram
+2) Add a sequence for the "ad server 3-second timeout" exception, including the Fallback policy and user message
+3) Organize in a table whether each exception is billed, and why</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 The real assignment — do it yourself</div>
+          <div class="mission-steps">
+            <div class="mission-step"><span class="step-num">1</span><div><strong>Normal flow sequence diagram</strong><br>Write the normal case of the Viewer → VideoService → AdService → CDN → Viewer flow in Mermaid. Include 5+ Actors, 10+ messages and timing notes.</div></div>
+            <div class="mission-step"><span class="step-num">2</span><div><strong>Sequences and policies for 4 exception cases</strong><br>For each of the 4 exceptions, make a separate Mermaid diagram and a table of ① detection condition, ② Fallback behavior, ③ exact message, ④ whether it's billed.</div></div>
+            <div class="mission-step"><span class="step-num">3</span><div><strong>Timeout Policy decision doc</strong><br>Decide the ad server wait limit and explain your reasoning logically in terms of the trade-off between Viewer drop-off and ad revenue. Include a table comparing 2 alternatives.</div></div>
+            <div class="mission-step"><span class="step-num">4</span><div><strong>Decide whether to use a Circuit Breaker</strong><br>Give the pros and cons of opening a Circuit Breaker after 5 straight ad server failures, and conclude whether to use it on this platform.</div></div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Diagram accuracy and completeness 15 pts</span>
+          <span class="eval-item">Handling of 4 exception cases 20 pts</span>
+          <span class="eval-item">Logical reasons for the Timeout policy 10 pts</span>
+          <span class="eval-item">Evidence of AI judgment and self-critique 5 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HW-D02-02 Modal -->
+  <div class="modal-overlay" id="modal-hw-d02-02">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d02-02')">✕</button>
+      <div class="modal-body">
+        <div class="modal-mission-badge">DAY 2 · HW-D02-02 · 50 pts</div>
+        <h3>🔥 Find and Fix the Docs Broken by a Policy Change</h3>
+
+        <div class="scenario-block">
+          <div class="scenario-label">📌 Business scenario</div>
+          <p>3 months after VidAce launched, user drop-off surged because of ad fatigue. The ad team decided on an urgent policy change.</p>
+          <div class="policy-change-box">
+            <div class="policy-old">❌ Old policy v1: "same user, same ad — unlimited impressions"</div>
+            <div class="policy-new">✅ New policy v2: "same user, same ad — at most 3 impressions per day"</div>
+          </div>
+          <p>The policy changed, but these 5 docs are still based on v1: the ad playback screen spec, ad request sequence diagram, Impression DB table design, ad billing policy doc and QA test cases.</p>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">🧠 Questions to think about</div>
+          <ul class="thinking-list">
+            <li><strong>Predict the ripple effect:</strong> how many changes across the whole system will one rule change, "max 3 per day," require? List them first.</li>
+            <li><strong>Data model change:</strong> which column is likely missing from the Impression table? If you add it, what happens to existing data?</li>
+            <li><strong>Real-time check:</strong> how can you quickly look up "how many times did this user see this ad today"? Is a DB query enough?</li>
+            <li><strong>Policy boundary cases:</strong> what if the 3rd ad was seen right before midnight? Is "a day" based on UTC or the user's local time?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">💡 Example prompt (for reference — don't use it as-is)</div>
+          <div class="example-note">People must think about doc mismatches first. Analyze each of the 5 docs, then hand the review to AI.</div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('prompt_hw_d02_02')">📋 Copy example</button>
+            <pre id="prompt_hw_d02_02"><span class="code-badge">Example prompt — HW-D02-02</span>
+[Role] You are a QA Lead and Technical Writer.
+[Context] The ad impression policy changed from "unlimited" to "max 3 per day."
+The existing 5 docs were written based on the v1 policy.
+[Request]
+1) Identify 2 items in each doc that need fixing because of the policy change (10+ total)
+2) For each mismatch, organize: original | correct content after the change | impact, in a table
+3) Write 5 Decision Log entries for the policy change</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 The real assignment — do it yourself</div>
+          <div class="mission-steps">
+            <div class="mission-step"><span class="step-num">1</span><div><strong>Find mismatches per doc (at least 4)</strong><br>For each mismatch, describe ① doc name and location, ② current v1 content, ③ correct v2 content, ④ the specific problem if not fixed.</div></div>
+            <div class="mission-step"><span class="step-num">2</span><div><strong>DB Schema change design</strong><br>Based on the Impression table, include columns to add/change, an index strategy, an aggregation query example (pseudo-SQL) and a migration strategy for existing data.</div></div>
+            <div class="mission-step"><span class="step-num">3</span><div><strong>Updated ad request sequence diagram</strong><br>Write a new Mermaid sequence adding a "check whether over 3 per day" step, including the branches for under/over 3 and the Viewer message when over.</div></div>
+            <div class="mission-step"><span class="step-num">4</span><div><strong>Document the Decision Log and assumptions</strong><br>Record 3 clearly decided items and 3 undecided items needing more discussion separately. For undecided items, write the options and the impact of each.</div></div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Evidence-based mismatch detection 20 pts</span>
+          <span class="eval-item">Specific DB schema changes 15 pts</span>
+          <span class="eval-item">Clear separation of decided/undecided 10 pts</span>
+          <span class="eval-item">Evidence of AI judgment and self-critique 5 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HW-D03-01 Modal -->
+  <div class="modal-overlay" id="modal-hw-d03-01">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d03-01')">✕</button>
+      <div class="modal-body">
+        <div class="modal-mission-badge">DAY 3 · HW-D03-01 · 50 pts</div>
+        <h3>🔥 Design a Data Model That Separates Views, Impressions and Charges</h3>
+
+        <div class="scenario-block">
+          <div class="scenario-label">📌 Business scenario</div>
+          <p>A serious problem came up in VidAce's month-end settlement: <strong>changing an ad campaign's budget midway also changed the previous month's billed amount</strong>. Advertiser complaints are pouring in.</p>
+          <div class="db-problem-box">
+            Campaign(id, budget_per_day, ...)<br>
+            Impression(id, campaign_id, user_id, timestamp)<br>
+            Charge(id, impression_id, amount = campaign.budget_per_day / expected_impressions)
+          </div>
+          <p style="color:#A83A45; font-size: 0.85rem;">❌ Problem: Charge.amount looks up Campaign.budget_per_day live, so past charges change automatically when the budget changes</p>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">🧠 Questions to think about</div>
+          <ul class="thinking-list">
+            <li><strong>Why normalize:</strong> why is 3NF needed? What specific anomalies happen in this scenario if 3NF is broken?</li>
+            <li><strong>History vs normalization:</strong> to keep past billed amounts, you may ironically need to store some data twice. How will you resolve this trade-off?</li>
+            <li><strong>Video and Impression relationship:</strong> if one video can show many ads, and one ad can show in many videos, what kind of relationship is it?</li>
+            <li><strong>Aggregated vs raw data:</strong> which is more useful — a table storing total daily impressions, or one recording each impression?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">💡 Example prompt (for reference — don't use it as-is)</div>
+          <div class="example-note">For data model design, always draw the ERD yourself first, then ask AI to check it.</div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('prompt_hw_d03_01')">📋 Copy example</button>
+            <pre id="prompt_hw_d03_01"><span class="code-badge">Example prompt — HW-D03-01</span>
+[Role] You are a data architect.
+[Context] There's a design flaw where Campaign budget changes affect past Charge history.
+[Entities] Campaign, CampaignBudgetHistory, Ad, Video, Impression, Charge, User, Advertiser
+[Request]
+1) Define each Entity's PK, FK, main attributes and relationships
+2) Explain a design that keeps past Charge history unchanged when the budget changes
+3) Prove "billed amounts stay consistent before and after a campaign budget change" with 8 sample records</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 The real assignment — do it yourself</div>
+          <div class="mission-steps">
+            <div class="mission-step"><span class="step-num">1</span><div><strong>3NF ERD design (at least 6 Entities)</strong><br>Write the ERD as a Mermaid erDiagram or text table. Include PK, FK, required attributes and data types for each Entity. Use a separate Entity for Campaign budget history.</div></div>
+            <div class="mission-step"><span class="step-num">2</span><div><strong>Data dictionary</strong><br>For each of the 6 Entities, describe in one sentence each ① the Entity's purpose, ② each column and its constraints, ③ related business rules.</div></div>
+            <div class="mission-step"><span class="step-num">3</span><div><strong>Prove integrity — sample data scenario</strong><br>Build the scenario "Campaign A starts in January with a daily budget of ₦100,000 → changes to ₦80,000 on January 15 → January invoice issued" with 8 sample records.</div></div>
+            <div class="mission-step"><span class="step-num">4</span><div><strong>Design a duplicate impression query</strong><br>Write logic in pseudo-SQL that judges a duplicate when the same user requests the same ad twice in the same session, and explain why you chose the time window.</div></div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Correct relationships and constraints 20 pts</span>
+          <span class="eval-item">Complete history-keeping design 15 pts</span>
+          <span class="eval-item">Consistent sample data 10 pts</span>
+          <span class="eval-item">Evidence of AI judgment and self-critique 5 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HW-D03-02 Modal -->
+  <div class="modal-overlay" id="modal-hw-d03-02">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d03-02')">✕</button>
+      <div class="modal-body">
+        <div class="modal-mission-badge">DAY 3 · HW-D03-02 · 50 pts</div>
+        <h3>🔥 Resolve the Conflict Between an Ad Deletion Request and Keeping Past Charges</h3>
+
+        <div class="scenario-block">
+          <div class="scenario-label">📌 Business scenario</div>
+          <p>An urgent request came from the legal team. Advertiser X demands their ad (confirmed as an illegal medicine ad) be <strong>deleted immediately along with all past impression records</strong>. But the finance team pushes back: the ad's past billing records are subject to tax audit and <strong>must be kept for 5 years</strong>.</p>
+          <ul class="scenario-list">
+            <li>❌ Delete Ad record → Impression.ad_id FK violation cascades to delete Impressions</li>
+            <li>❌ Delete Impression → Charge.impression_id FK violation cascades to delete Charges</li>
+            <li>❌ Past billing records lost → fail tax audit, legal liability</li>
+            <li>❌ Advertiser's personal data deletion request (GDPR/NDPA) conflicts with the duty to keep billing records</li>
+          </ul>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">🧠 Questions to think about</div>
+          <ul class="thinking-list">
+            <li><strong>Limits of Soft Delete:</strong> even with is_deleted=true, the data stays in the DB. If the advertiser exercises the right to erasure, is a simple Soft Delete enough?</li>
+            <li><strong>Scope of de-identification:</strong> what info in the ad creative can you erase so it counts as "personal data deleted" while billing records stay?</li>
+            <li><strong>FK constraints and archives:</strong> to stop cascading deletes, which fits better — ON DELETE SET NULL or ON DELETE RESTRICT?</li>
+            <li><strong>Priority of legal requirements:</strong> when the right to erasure conflicts with local tax retention duties, which law takes priority?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">💡 Example prompt (for reference — don't use it as-is)</div>
+          <div class="example-note">The key is balancing technical solutions with legal requirements. Analyze the 4 conflict scenarios yourself.</div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('prompt_hw_d03_02')">📋 Copy example</button>
+            <pre id="prompt_hw_d03_02"><span class="code-badge">Example prompt — HW-D03-02</span>
+[Role] You are a data governance expert.
+[Context] When an ad deletion is requested, foreign key cascading deletes destroy past billing records.
+The right to erasure (GDPR/NDPA) conflicts with tax retention duties.
+[Request]
+1) Design a model combining Soft Delete + personal data de-identification, with record examples before/after deletion
+2) State 2 problems this model solves and 2 it doesn't
+3) Evaluate a separate data archive table strategy as an alternative
+[Note] Mark legal judgments as "needs review by a legal expert"</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 The real assignment — do it yourself</div>
+          <div class="mission-steps">
+            <div class="mission-step"><span class="step-num">1</span><div><strong>Detail 3 cascading delete problems</strong><br>Explain step by step, from the SQL FK constraint view, how an Ad Hard Delete cascades Impression → Charge → tax report. Include the error type and business impact at each step.</div></div>
+            <div class="mission-step"><span class="step-num">2</span><div><strong>Design a Soft Delete + de-identification model</strong><br>Design the columns to add to the Ad table and how deletion requests are handled. Write a Before/After table of records before and after (de-identified), and check that billing can still be calculated after de-identification.</div></div>
+            <div class="mission-step"><span class="step-num">3</span><div><strong>Write 4 check cases</strong><br>① Charges remain after normal deletion, ② advertiser info can't be looked up after de-identification, ③ billing totals stay accurate, ④ reactivation (undoing deletion) isn't possible. Include expected input, steps and expected result for each.</div></div>
+            <div class="mission-step"><span class="step-num">4</span><div><strong>Resolve the right-to-erasure vs tax retention conflict</strong><br>Suggest 2 technically possible solutions and clearly separate what each solves and doesn't.</div></div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Meets deletion request and retention duty together 20 pts</span>
+          <span class="eval-item">Technical completeness of the de-identification model 15 pts</span>
+          <span class="eval-item">Specific check cases 10 pts</span>
+          <span class="eval-item">Evidence of AI judgment and self-critique 5 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HW-D04-01 Modal -->
+  <div class="modal-overlay" id="modal-hw-d04-01">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d04-01')">✕</button>
+      <div class="modal-body">
+        <div class="modal-mission-badge">DAY 4 · HW-D04-01 · 50 pts</div>
+        <h3>🔥 Write an API Contract Another Team Can Build From Right Away</h3>
+
+        <div class="scenario-block">
+          <div class="scenario-label">📌 Business scenario</div>
+          <p>VidAce's back-end team (Lagos) and front-end team (Seoul) must start development at the same time. The back end won't be done for 2 weeks, but the front end must start tomorrow using a Mock server. <strong>A clear API Contract is needed right now.</strong></p>
+          <div class="api-list">
+            <div class="api-item"><code>GET /videos</code> — video list (filters: category, approval status, page)</div>
+            <div class="api-item"><code>POST /videos/{id}/play</code> — record playback start (auth required, triggers ad request)</div>
+            <div class="api-item"><code>POST /campaigns</code> — create an ad campaign (Advertiser only)</div>
+            <div class="api-item"><code>GET /ads/request</code> — request ad candidates (targeting by Video ID, User ID)</div>
+          </div>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">🧠 Questions to think about</div>
+          <ul class="thinking-list">
+            <li><strong>What a contract means:</strong> how is an API contract different from a simple doc? What must it include to be a "contract"?</li>
+            <li><strong>Auth scope:</strong> for POST /videos/{id}/play, does a "video viewable without an account" need auth? How is playback recorded?</li>
+            <li><strong>Error code design:</strong> when there are no ad candidates, which is better — HTTP 200 with an empty array or HTTP 404? How does it affect client code?</li>
+            <li><strong>Idempotency:</strong> how should POST /videos/{id}/play be handled when called twice for the same request?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">💡 Example prompt (for reference — don't use it as-is)</div>
+          <div class="example-note">If OpenAPI 3.0 YAML is new to you, learn the structure from the example below. In the real assignment, all 4 endpoints must be designed to fit the exact business rules.</div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('prompt_hw_d04_01')">📋 Copy example</button>
+            <pre id="prompt_hw_d04_01"><span class="code-badge">Example prompt — HW-D04-01</span>
+[Role] You are an API design expert.
+[Context] Front end and back end need an API contract to develop in parallel.
+[APIs] GET /videos, POST /videos/{id}/play, POST /campaigns, GET /ads/request
+[Include for each API]
+1) OpenAPI 3.0 YAML spec (path, method, parameters, requestBody, responses)
+2) JSON Payload examples for success (200/201) and failure (400/401/403/404/409/500)
+3) Auth method and access conditions per role
+4) Whether and how idempotency is handled</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 The real assignment — do it yourself</div>
+          <div class="mission-steps">
+            <div class="mission-step"><span class="step-num">1</span><div><strong>Write OpenAPI 3.0 YAML (4 endpoints)</strong><br>Fully write path, method, summary, parameters/requestBody (with schema) and responses (at least 3 status codes) for each endpoint. Make it match the ERD you designed on Day 3.</div></div>
+            <div class="mission-step"><span class="step-num">2</span><div><strong>Error code system reflecting business rules</strong><br>Design an error code system for the response Body (e.g. VIDACE_ERR_001: ad inventory used up). Define at least 8 error codes and the action the client should take for each.</div></div>
+            <div class="mission-step"><span class="step-num">3</span><div><strong>Ownership and access control spec</strong><br>For each API, clearly define ① which roles can call it, ② how to check access when only your own resources are allowed, ③ the response when accessing someone else's resource.</div></div>
+            <div class="mission-step"><span class="step-num">4</span><div><strong>Write a Mock server guide</strong><br>Based on the OpenAPI spec above, write Mock response examples (success/failure) in JSON, pick one Mock server tool and briefly explain how to set it up.</div></div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Complete and accurate API contract 20 pts</span>
+          <span class="eval-item">Consistency between ERD and API schema 15 pts</span>
+          <span class="eval-item">Error handling and ownership policy 10 pts</span>
+          <span class="eval-item">Evidence of AI judgment and self-critique 5 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HW-D04-02 Modal -->
+  <div class="modal-overlay" id="modal-hw-d04-02">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d04-02')">✕</button>
+      <div class="modal-body">
+        <div class="modal-mission-badge">DAY 4 · HW-D04-02 · 50 pts</div>
+        <h3>🔥 Fix the Front End Broken by Back-End Breaking Changes</h3>
+
+        <div class="scenario-block">
+          <div class="scenario-label">📌 Business scenario</div>
+          <p>The back-end team deployed these 5 changes <strong>without notice</strong>. The front-end app stopped working at once and user reports are coming in.</p>
+          <div class="breaking-changes-box">
+            <div class="change-item bad">💥 Change 1: <code>video_id</code> → <code>videoId</code> (snake_case → camelCase)</div>
+            <div class="change-item bad">💥 Change 2: no ads changed from <code>HTTP 404</code> → <code>HTTP 200 + empty array</code></div>
+            <div class="change-item bad">💥 Change 3: campaign creation success changed from <code>HTTP 200</code> → <code>HTTP 201</code></div>
+            <div class="change-item bad">💥 Change 4: auth token header changed from <code>Authorization: Bearer</code> → <code>X-VidAce-Token</code></div>
+            <div class="change-item bad">💥 Change 5: method changed from <code>GET /ads/request</code> → <code>POST /ads/request</code></div>
+          </div>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">🧠 Questions to think about</div>
+          <ul class="thinking-list">
+            <li><strong>Defining Breaking Changes:</strong> which of the 5 changes are true Breaking Changes, and which are acceptable?</li>
+            <li><strong>Immediate response vs transition period:</strong> should you roll back right away, or build an Adapter Layer to support both versions?</li>
+            <li><strong>HTTP 200 vs 404:</strong> why did changing no ads from 404 to 200 + empty array break the front end? Is it actually the "more correct" design?</li>
+            <li><strong>Why contract tests:</strong> what tests or process should have existed beforehand to prevent this?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">💡 Example prompt (for reference — don't use it as-is)</div>
+          <div class="example-note">Think about Breaking Change impact from the Consumer's view. Analyze the impact of each of the 5 changes specifically.</div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('prompt_hw_d04_02')">📋 Copy example</button>
+            <pre id="prompt_hw_d04_02"><span class="code-badge">Example prompt — HW-D04-02</span>
+[Role] You are an API integration engineer.
+[Context] The back-end team deployed 5 Breaking Changes without notice.
+[Request]
+1) For each of the 5 changes, analyze where front-end code breaks, the symptoms and an urgent fix
+2) Compare the pros and cons of an immediate rollback vs an Adapter Layer
+3) Explain a Consumer-Driven Contract Testing process to prevent this
+4) Write 5 contract test cases (Given-When-Then format)</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 The real assignment — do it yourself</div>
+          <div class="mission-steps">
+            <div class="mission-step"><span class="step-num">1</span><div><strong>Impact table for 5 Breaking Changes</strong><br>For each change, organize ① the front-end code/logic that breaks, ② user experience symptoms, ③ urgent fix, ④ scope of a permanent fix, in a table.</div></div>
+            <div class="mission-step"><span class="step-num">2</span><div><strong>Choose and build a backward-compatibility recovery strategy</strong><br>Choose one of ① immediate rollback, ② API Versioning, ③ Adapter/Gateway Layer, and write the reason and a list of real implementation changes.</div></div>
+            <div class="mission-step"><span class="step-num">3</span><div><strong>Write 5 contract test cases</strong><br>Write 5 contract tests in Given-When-Then format. Each test must be able to detect a specific Breaking Change.</div></div>
+            <div class="mission-step"><span class="step-num">4</span><div><strong>Suggest an API change management process</strong><br>Write an "API Breaking Change pre-review checklist" of at least 8 items, explaining in one line why each must be checked.</div></div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Specific Consumer impact analysis 20 pts</span>
+          <span class="eval-item">Feasible recovery strategy 15 pts</span>
+          <span class="eval-item">Observable contract tests 10 pts</span>
+          <span class="eval-item">Evidence of AI judgment and self-critique 5 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HW-D05-01 Modal -->
+  <div class="modal-overlay" id="modal-hw-d05-01">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d05-01')">✕</button>
+      <div class="modal-body">
+        <div class="modal-mission-badge">DAY 5 · HW-D05-01 · 50 pts</div>
+        <h3>🔥 Design the Screens for a Local Trader Making Their First Ad</h3>
+
+        <div class="scenario-block">
+          <div class="scenario-label">📌 Business scenario</div>
+          <p>VidAce decided to bring small local traders in Lagos on as new advertisers. The target user is <strong>"a local trader running a digital ad for the first time."</strong></p>
+          <div class="persona-box">
+            <div class="persona-name">👤 Persona: Amina (45, runs a food shop in Lagos)</div>
+            <div class="persona-detail">Uses a smartphone but doesn't use apps much. Ad budget ₦50,000 a month. Doesn't know ad terms ("What's CTR?"). Uses it where the network is unstable.</div>
+          </div>
+          <ul class="scenario-list">
+            <li>😟 Doesn't know the word "campaign" → how do you guide her?</li>
+            <li>😟 Network drops while entering the budget → is the input lost?</li>
+            <li>😟 File too big while uploading the ad creative → how do you tell her and what help do you give?</li>
+            <li>😟 3-day review wait → is there a reason to come back to the app during this time?</li>
+          </ul>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">🧠 Questions to think about</div>
+          <ul class="thinking-list">
+            <li><strong>Word choice:</strong> what words can you use instead of industry terms like "campaign," "inventory" and "CTR"?</li>
+            <li><strong>Kinds of UI states:</strong> besides Loading, Empty, Error, Disabled and Success, does this platform need its own UI states? What about "under review"?</li>
+            <li><strong>Quality of error messages:</strong> how do "An error occurred" and "The file is too big. Only 10MB or less. [See how to compress a file]" feel different?</li>
+            <li><strong>Handling unstable networks:</strong> what UX patterns are needed so input isn't lost? (Auto-save? Offline mode?)</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">💡 Example prompt (for reference — don't use it as-is)</div>
+          <div class="example-note">For UI design, first draw the user's journey yourself. Sketch every step from Amina opening the app to making an ad on paper, then look at the example below.</div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('prompt_hw_d05_01')">📋 Copy example</button>
+            <pre id="prompt_hw_d05_01"><span class="code-badge">Example prompt — HW-D05-01</span>
+[Role] You are a UX designer and front-end architect.
+[Context] Design mobile campaign creation screens for Amina (45),
+a local trader with no digital ad experience.
+[Request]
+1) Describe in text the wireframe structure of each of 4 screens: "Start campaign" → "Upload creative" → "Set budget" → "Submitted"
+2) Write 6 UI states that can happen on each screen and a user message for each
+3) Write a mapping table of the API endpoints and Request/Response fields linked to each UI component
+[Note] Use language a local trader understands, without technical terms</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 The real assignment — do it yourself</div>
+          <div class="mission-steps">
+            <div class="mission-step"><span class="step-num">1</span><div><strong>User Journey Map</strong><br>List the steps of Amina making her first ad. For each step, organize in a table ① what she does, ② how she feels (hope/worry/confusion, etc.), ③ possible problems, ④ what good design should give.</div></div>
+            <div class="mission-step"><span class="step-num">2</span><div><strong>Wireframe spec for 3 screens</strong><br>Describe the UI components each screen needs as a hierarchy. Write all text in Amina's language, without technical terms.</div></div>
+            <div class="mission-step"><span class="step-num">3</span><div><strong>Full spec of 6 UI states</strong><br>For each screen's main states (Loading, Error, Disabled, Empty, Success, Pending-under review), specify ① the exact message, ② the next action the user can take (recovery button), ③ how long the state lasts or how to leave it.</div></div>
+            <div class="mission-step"><span class="step-num">4</span><div><strong>API-UI mapping table</strong><br>Write a table linking the APIs designed on Day 4 to these screens: which API each UI event calls, the Request fields used, and the UI response to each Response status.</div></div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Complete journey design from the user's view 20 pts</span>
+          <span class="eval-item">Specific UI states and recovery actions 15 pts</span>
+          <span class="eval-item">Accurate API links 10 pts</span>
+          <span class="eval-item">Evidence of AI judgment and self-critique 5 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HW-D05-02 Modal -->
+  <div class="modal-overlay" id="modal-hw-d05-02">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('modal-hw-d05-02')">✕</button>
+      <div class="modal-body">
+        <div class="modal-mission-badge">DAY 5 · HW-D05-02 · 50 pts</div>
+        <h3>🔥 Critique Your Own Screen Design and Make It Better</h3>
+
+        <div class="scenario-block">
+          <div class="scenario-label">📌 Business scenario</div>
+          <p>VidAce's UX researcher ran a usability test with 5 local traders on the campaign creation screens designed in HW-D05-01. The results were shocking.</p>
+          <div class="feedback-list">
+            <div class="feedback-item">🗣️ Participant A: <em>"I don't know what 'under review' means. Was my ad rejected?"</em></div>
+            <div class="feedback-item">🗣️ Participant B: <em>"I got a phone call while entering the budget, and when I opened the app again I had to start over."</em></div>
+            <div class="feedback-item">🗣️ Participant C: <em>"The upload failed, but there's no explanation of what file I should upload."</em></div>
+            <div class="feedback-item">🗣️ Participant D: <em>"I pressed Submit and nothing happened. When I pressed it again it said 'This campaign was already submitted.'"</em></div>
+            <div class="feedback-item">🗣️ Participant E: <em>"I want to see how much of my ad money was spent, but I don't know how to check after making it."</em></div>
+          </div>
+        </div>
+
+        <div class="thinking-block">
+          <div class="thinking-label">🧠 Questions to think about</div>
+          <ul class="thinking-list">
+            <li><strong>Direction of critique:</strong> which design principle does each piece of feedback break? Which of Nielsen's 10 heuristics does it relate to?</li>
+            <li><strong>Tech vs UX problem:</strong> is Participant B's problem (lost progress) a UX problem or a technical one? What must change to fix it?</li>
+            <li><strong>The real problem in feedback:</strong> Participant A said they didn't know the word "under review," but is the real problem the word, or the way the state is explained?</li>
+            <li><strong>Checking improvements:</strong> how can you confirm the improved screen is really better? What measures should you use?</li>
+          </ul>
+        </div>
+
+        <div class="example-prompt-section">
+          <div class="example-prompt-label">💡 Example prompt (for reference — don't use it as-is)</div>
+          <div class="example-note">Critique must be specific. First read the 5 pieces of feedback and find each root cause yourself. Then talk with AI.</div>
+          <div class="prompt-box">
+            <button class="copy-btn" onclick="copyPrompt('prompt_hw_d05_02')">📋 Copy example</button>
+            <pre id="prompt_hw_d05_02"><span class="code-badge">Example prompt — HW-D05-02</span>
+[Role] You are a UX Auditor.
+[Context] 5 pieces of feedback were collected in a usability test of the campaign creation screens.
+[Feedback to analyze] (paste the 5 feedback items)
+[Request]
+1) Classify the root cause of each feedback (UX principle broken or technical implementation problem)
+2) Give an improvement for each in Before/After format
+3) Write 3 usability test criteria to check the improvements</pre>
+          </div>
+        </div>
+
+        <div class="real-mission-block">
+          <div class="real-mission-label">🎯 The real assignment — do it yourself</div>
+          <div class="mission-steps">
+            <div class="mission-step"><span class="step-num">1</span><div><strong>Root cause analysis of 5 pieces of feedback</strong><br>For each, write ① the screen/component where the problem happened, ② the UX principle broken (with evidence like Nielsen's heuristics), ③ severity (1–5, by business impact), ④ whether the cause is technical or UX.</div></div>
+            <div class="mission-step"><span class="step-num">2</span><div><strong>Before/After screen spec</strong><br>For each of the 5 pieces of feedback, write the improved screen design in Before/After format. Explain how component structure, user flow and information hierarchy changed, based on UX principles.</div></div>
+            <div class="mission-step"><span class="step-num">3</span><div><strong>3 usability recheck criteria</strong><br>Write 3 measurable criteria to confirm the improved screens are really better. Each must include a measurement method (observation, survey, completion rate, etc.) and a success threshold (number).</div></div>
+            <div class="mission-step"><span class="step-num">4</span><div><strong>Design decision record</strong><br>Record separately the feedback you ① accepted, ② partly accepted (reason for not fully accepting), ③ didn't accept (reason). For ones not accepted, also write the recheck condition.</div></div>
+          </div>
+        </div>
+
+        <div class="eval-block">
+          <strong>📊 Grading (50 pts):</strong>
+          <span class="eval-item">Evidence-based problem judgment and cause analysis 20 pts</span>
+          <span class="eval-item">Specific Before/After improvements 15 pts</span>
+          <span class="eval-item">Measurable recheck criteria 10 pts</span>
+          <span class="eval-item">Evidence of AI judgment and self-critique 5 pts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company: Edunity Lab Co., Ltd.</span> | <span>CEO: Lee Gi-taek</span> | <span>Address: 2F Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul, Korea</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Phone: +82-2-6240-0053</span> | <span>Business Registration No.: 132-86-35644</span> | <span>Mail-Order Business Reg. No.: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function filterDay(day) {
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const sections = document.querySelectorAll('.day-section');
+      sections.forEach(sec => {
+        if (day === 'all') {
+          sec.style.display = 'block';
+        } else {
+          if (sec.id === day) {
+            sec.style.display = 'block';
+          } else {
+            sec.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function copyPrompt(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Prompt copied to clipboard.');
+      });
+    }
+
+    // Modal background click to close
+    window.addEventListener('click', function(e) {
+      if (e.target.classList.contains('modal-overlay')) {
+        e.target.classList.remove('active');
+      }
+    });
+
+    // Helper to get cookie
+    function getCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+      }
+      return null;
+    }
+
+    // Helper to delete cookie
+    function eraseCookie(name) {
+      document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    // Dynamic User Auth State in Navbar
+    (function initNavbarAuth() {
+      let loggedInUser = getCookie('currentUser');
+
+      if (!loggedInUser) {
+        const sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            const session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+
+      const userSlot = document.getElementById('nav-user-item') || document.querySelector('.nav-links li:last-child');
+      if (loggedInUser && userSlot) {
+        try {
+          const user = JSON.parse(loggedInUser);
+          userSlot.innerHTML = `
+            <div class="user-badge-main" onclick="logoutUser()" title="Click to log out">
+              <span>${user.avatar || '👤'}</span>
+              <span>${user.name || 'User'}</span>
+              <span class="user-logout-tag">Log out</span>
+            </div>
+          `;
+        } catch (e) {
+          console.error('Error parsing user data:', e);
+        }
+      }
+    })();
+
+    window.logoutUser = function() {
+      if (confirm('Do you want to log out?')) {
+        eraseCookie('currentUser');
+        localStorage.removeItem('currentUserSession');
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login/login.html';
+      }
+    };
+  </script>
+  <script src="homework-log.js?v=20260930-session-check"></script>
+  <script src="shared/notice-modal.js"></script>
+</body>
+</html>

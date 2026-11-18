@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser && window.location.pathname.indexOf('login.html') === -1) {
+        window.location.href = '../login/login.html';
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Day Detailed Lab Guide | LMS</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root { --bg:#F6F9F4; --panel:#F6F9F4; --panel2:#F6F9F4; --line:rgba(36,59,53,0.09); --text:#243B35; --muted:#4A605A; --blue:#2B5CA6; --cyan:#2B5CA6; --purple:#5D4AA8; --amber:#856000; --green:#27765B; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body { font-family: 'Pretendard', sans-serif; background: radial-gradient(circle at 12% 2%,rgba(43,92,166,0.132),transparent 26%),var(--bg); color: var(--text); line-height: 1.68; }
+    a { color: inherit; }
+    code { color:#2B5CA6; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+    .top-nav { position:sticky; top:0; z-index:30; background:rgba(36,59,53,0.08); backdrop-filter:blur(16px); border-bottom:1px solid var(--line); }
+    .top-nav-in { width:min(1160px,calc(100% - 32px)); margin:auto; min-height:66px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .nav-bar { display:flex; gap:8px; flex-wrap:wrap; }
+    .btn { padding:8px 13px; background:rgba(255,255,255,0.76); border:1px solid var(--line); color:#243B35; border-radius:8px; text-decoration:none; font-size:.86rem; font-weight:700; }
+    .btn:hover { background:rgba(43,92,166,0.242); border-color:rgba(43,92,166,0.45); }
+    .brand { font-weight:850; color:#243B35; white-space:nowrap; }
+    .page { width:min(1160px,calc(100% - 32px)); margin:0 auto; padding:44px 0 80px; }
+    .hero { padding:32px; background:linear-gradient(135deg,#F6F9F4,#F6F9F4); border:1px solid var(--line); border-radius:20px; }
+    .eyebrow { color:var(--cyan); font-size:.78rem; font-weight:900; letter-spacing:.12em; margin-bottom:10px; }
+    h1 { font-size:clamp(2rem,5vw,3rem); line-height:1.2; margin-bottom:12px; }
+    .hero > p { color:var(--muted); max-width:880px; }
+    .journey { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; margin-top:22px; }
+    .journey a { padding:10px 8px; text-align:center; text-decoration:none; color:#2B5CA6; background:rgba(43,92,166,0.099); border:1px solid rgba(43,92,166,0.2); border-radius:9px; font-size:.78rem; font-weight:800; }
+    .journey a:hover { color:#FFFFFF; background:var(--cyan); }
+    .section-title { margin:38px 0 16px; font-size:1.45rem; }
+    .intro-note { padding:18px 20px; color:var(--muted); background:rgba(43,92,166,0.066); border:1px solid rgba(43,92,166,0.2); border-radius:12px; }
+    .legacy-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px; }
+    .card h3 { color:#2B5CA6; font-size:1rem; margin-bottom:10px; }
+    .card p,.card li { color:var(--muted); font-size:.88rem; }
+    .card ul { padding-left:20px; }
+    pre { white-space:pre-wrap; overflow-wrap:anywhere; background:#F6F9F4; border:1px solid var(--line); padding:14px; border-radius:8px; color:#2B5CA6; font-size:.82rem; overflow-x:auto; margin-top:10px; }
+    .phase { margin-top:28px; border:1px solid var(--line); border-radius:20px; overflow:hidden; background:linear-gradient(145deg,rgba(246,249,244,0.98),rgba(246,249,244,0.98)); }
+    .phase-head { padding:25px 26px; border-bottom:1px solid var(--line); background:rgba(43,92,166,0.061); }
+    .phase-label { display:inline-block; color:#2B5CA6; background:rgba(43,92,166,0.143); border:1px solid rgba(43,92,166,0.28); border-radius:999px; padding:4px 10px; font-size:.75rem; font-weight:850; margin-bottom:8px; }
+    .phase-head h2 { font-size:1.5rem; line-height:1.35; margin-bottom:7px; }
+    .phase-head p { color:var(--muted); font-size:.92rem; }
+    .phase-body { padding:26px; }
+    .summary-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:18px; }
+    .summary-box { padding:16px; background:rgba(255,255,255,0.655); border:1px solid var(--line); border-radius:11px; }
+    .summary-box h3 { color:var(--cyan); font-size:.86rem; margin-bottom:7px; }
+    .summary-box p,.summary-box li { color:#4A605A; font-size:.84rem; }
+    .summary-box ul { padding-left:18px; }
+    .guide-grid { display:grid; grid-template-columns:1.1fr .9fr; gap:14px; }
+    .guide-block { padding:20px; background:rgba(255,255,255,0.625); border:1px solid var(--line); border-radius:12px; margin-bottom:14px; }
+    .guide-block h3 { color:var(--purple); font-size:1rem; margin-bottom:10px; }
+    .guide-block ul,.guide-block ol { padding-left:21px; color:var(--muted); font-size:.89rem; }
+    .guide-block li + li { margin-top:7px; }
+    .steps { list-style:none!important; padding:0!important; counter-reset:step; }
+    .steps li { counter-increment:step; position:relative; padding:10px 8px 10px 42px; border-bottom:1px solid var(--line); }
+    .steps li:last-child { border-bottom:0; }
+    .steps li::before { content:counter(step); position:absolute; left:4px; top:9px; width:26px; height:26px; display:grid; place-items:center; border-radius:50%; color:#FFFFFF; background:var(--cyan); font-weight:900; }
+    .steps strong { color:#243B35; }
+    .warning { border-color:rgba(133,96,0,0.25); background:rgba(133,96,0,0.05); }
+    .warning h3 { color:var(--amber); }
+    .done { border-color:rgba(39,118,91,0.25); background:rgba(39,118,91,0.05); }
+    .done h3 { color:var(--green); }
+    .prompt h3 { color:var(--cyan); }
+    .artifact { display:flex; flex-wrap:wrap; gap:7px; margin-top:8px; }
+    .artifact span { padding:5px 8px; color:#27765B; background:rgba(39,118,91,0.088); border:1px solid rgba(39,118,91,0.2); border-radius:6px; font-size:.76rem; font-weight:750; }
+    .sub-link { display:inline-flex; margin-top:10px; padding:8px 11px; color:#2B5CA6; background:rgba(43,92,166,0.11); border:1px solid rgba(43,92,166,0.25); border-radius:8px; text-decoration:none; font-size:.82rem; font-weight:750; }
+    footer { padding:30px; text-align:center; color:#6B7F79; border-top:1px solid var(--line); font-size:.8rem; }
+    @media(max-width:850px){.journey{grid-template-columns:repeat(3,1fr)}.summary-grid{grid-template-columns:1fr}.guide-grid,.legacy-grid{grid-template-columns:1fr}.top-nav-in{padding:10px 0;align-items:flex-start;flex-direction:column}}
+    @media(max-width:520px){.page{width:min(100% - 22px,1160px);padding-top:24px}.hero,.phase-body,.phase-head{padding:20px}.journey{grid-template-columns:1fr 1fr}}
+    .gstack { border-color:rgba(93,74,168,0.3); background:rgba(93,74,168,0.066); }
+    .gstack h3 { color:#243B35; }
+    .gstack > p { color:var(--muted); font-size:.88rem; margin-bottom:10px; }
+    .gs-table { width:100%; border-collapse:collapse; font-size:.85rem; margin:6px 0 4px; }
+    .gs-table th { text-align:left; color:#5D4AA8; font-weight:800; padding:8px 10px; border-bottom:1px solid rgba(93,74,168,0.3); white-space:nowrap; }
+    .gs-table td { color:var(--muted); padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+    .gs-table tr:last-child td { border-bottom:0; }
+    .cmd { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.8rem; padding:2px 7px; background:rgba(93,74,168,0.198); color:#5D4AA8; border-radius:5px; white-space:nowrap; }
+    .gstack pre { color:#243B35; }
+    .gs-note { margin-top:10px; color:#2B5CA6; font-size:.83rem; }
+    @media(max-width:850px){.gs-table thead{display:none}.gs-table tr{display:block;padding:8px 0;border-bottom:1px solid var(--line)}.gs-table td{display:block;border:0;padding:3px 4px}}
+  </style>
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+  <header class="top-nav">
+    <div class="top-nav-in">
+      <div class="brand">ACE AI SW Startup Training · Project Day</div>
+      <nav class="nav-bar">
+        <a href="project_day-ai-classroom.html" class="btn">← AI Classroom</a>
+        <a href="project_day-ai-codex-summation.html" class="btn">Spec summary guide</a>
+        <a href="../index.html" class="btn">Full curriculum</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">PROJECT DAY · SIX PHASE GUIDE</div>
+      <h1>Project Day Detailed Lab Guide</h1>
+      <p>A guide to running the Markdown-spec website build like a real project. For each phase, check "what you do," "why it's needed" and "what output to leave," and move to the next step after meeting the done criteria.</p>
+      <nav class="journey" aria-label="Jump to the 6 phases">
+        <a href="#phase1">1. Idea</a><a href="#phase2">2. Specs</a><a href="#phase3">3. Build</a>
+        <a href="#phase4">4. Testing</a><a href="#phase5">5. Change</a><a href="#phase6">6. Retro talk</a>
+      </nav>
+      <p style="margin-top:14px;color:#5D4AA8;font-size:.88rem;">🧰 Check the <strong>gstack tips</strong> at the bottom of each phase for the gstack skills to use and their order.</p>
+    </section>
+
+    <h2 class="section-title">Original Task specs</h2>
+    <p class="intro-note">The original Task requirements are unchanged. Do the Tasks below as the base assignment, and use the 6-phase detailed guide that follows to improve the quality of your outputs and project process.</p>
+    <section class="legacy-grid" aria-label="Original Tasks">
+      <div class="card">
+        <h3>Task 01. Idea Definition and 3-Sentence Statement (Phase 1)</h3>
+        <p>Write the project purpose and user roles to give Codex in the 3-sentence format below.</p>
+        <pre>1. Site purpose: a system where students pick their card and check in with a QR code, and the teacher sees it in real time.
+2. Student role: search name ➔ click ID card ➔ scan QR on mobile ➔ click check-in button
+3. Teacher role: attendance monitoring dashboard ➔ check live updates ➔ filter present/absent</pre>
+      </div>
+      <div class="card">
+        <h3>Task 02. Write the 5 Markdown Spec Docs (Phase 2)</h3>
+        <p>Ask Codex to create these 5 files and review the done criteria.</p>
+        <ul>
+          <li><code>SITE_SPEC.md</code>: screens, features, design, done/acceptance criteria</li>
+          <li><code>USER_FLOWS.md</code>: step-by-step paths for each user</li>
+          <li><code>DATA_MODEL.md</code>: student and attendance data model</li>
+          <li><code>IMPLEMENTATION_PLAN.md</code>: build order</li>
+          <li><code>CONVERSATION.md</code>: conversation record</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Task 03. Codex Code Generation and Testing (Phase 3 &amp; 4)</h3>
+        <p>Have Codex read the specs, then ask it to create the <code>website/</code> folder.</p>
+        <pre>Prompt: "Read the spec docs first, then finish the student QR check-in page and teacher monitoring page under the website/ folder."</pre>
+      </div>
+      <div class="card">
+        <h3>Task 04. Requirement Change and Presentation Prep (Phase 5 &amp; 6)</h3>
+        <p>Change the planning docs first, then revise the code, organize the conversation history in CONVERSATION.md and present.</p>
+      </div>
+    </section>
+
+    <h2 class="section-title">🧰 Getting ready to use gstack</h2>
+    <section class="guide-block gstack">
+      <h3>What is gstack?</h3>
+      <p>gstack is an open-source collection of AI coding skills released by Garry Tan. With one command you can call roles like product review (office hours), planning/design review, code review, browser QA, doc cleanup and retros, and it works in Codex CLI too. In this class we use gstack <strong>not as a replacement for talking with Codex, but as a reviewer that checks each phase's output</strong>.</p>
+      <pre># Install inside the project folder (for Codex · needs Git, Bun v1.0+ / Windows also needs Node.js)
+git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git .agents/skills/gstack
+cd .agents/skills/gstack &amp;&amp; ./setup --host codex</pre>
+      <table class="gs-table">
+        <thead><tr><th>Phase</th><th>gstack stage</th><th>Main skills</th><th>Linked outputs</th></tr></thead>
+        <tbody>
+          <tr><td>1. Idea</td><td>Think</td><td><span class="cmd">/office-hours</span></td><td>PROJECT_BRIEF.md</td></tr>
+          <tr><td>2. Specs</td><td>Plan</td><td><span class="cmd">/plan-ceo-review</span> <span class="cmd">/plan-eng-review</span> <span class="cmd">/autoplan</span></td><td>5 spec docs, test plan</td></tr>
+          <tr><td>3. Build</td><td>Build · Review</td><td><span class="cmd">/freeze</span> <span class="cmd">/design-consultation</span> <span class="cmd">/review</span></td><td>website/, README.md, build log</td></tr>
+          <tr><td>4. Testing</td><td>Test</td><td><span class="cmd">/qa-only</span> <span class="cmd">/investigate</span> <span class="cmd">/qa</span></td><td>TEST_PLAN.md, BUG_LOG.md</td></tr>
+          <tr><td>5. Change</td><td>Plan · Review · Test</td><td><span class="cmd">/plan-eng-review</span> <span class="cmd">/review</span> <span class="cmd">/qa</span></td><td>CHANGE_REQUEST.md, regression results</td></tr>
+          <tr><td>6. Retro talk</td><td>Reflect</td><td><span class="cmd">/document-release</span> <span class="cmd">/retro</span></td><td>README.md, RETROSPECTIVE.md</td></tr>
+        </tbody>
+      </table>
+      <p class="gs-note">✅ Shared rule: don't accept gstack results as-is either. Record the command you ran, key findings, and the team's accept/change/reject and reasons in CONVERSATION.md every time.</p>
+    </section>
+
+    <h2 class="section-title">Detailed 6-Phase Project Guide</h2>
+
+    <article class="phase" id="phase1">
+      <header class="phase-head"><span class="phase-label">PHASE 1 · DISCOVER</span><h2>Idea Definition: defining the problem before building</h2><p>In this phase the team agrees, before picturing screens and features, on whose pain you'll solve and how much you'll build this time.</p></header>
+      <div class="phase-body">
+        <div class="summary-grid">
+          <section class="summary-box"><h3>What you do in this phase</h3><p>Imagine user interviews to narrow down the problem, users, situation of use, key actions and success conditions.</p></section>
+          <section class="summary-box"><h3>Required outputs</h3><div class="artifact"><span>PROJECT_BRIEF.md</span><span>3-sentence definition</span><span>Scope table</span><span>Success metrics</span></div></section>
+          <section class="summary-box"><h3>Most important criterion</h3><p>Teammates and Codex must picture the same user and be able to explain even "what we won't build."</p></section>
+        </div>
+        <div class="guide-grid">
+          <section class="guide-block"><h3>Student steps</h3><ol class="steps">
+            <li><strong>Observe the problem.</strong> Write 3 pain points each that students and teachers have with checking attendance.</li>
+            <li><strong>Pick the key users.</strong> Don't try to satisfy everyone; set each of the student's and teacher's most important goals in one sentence.</li>
+            <li><strong>Connect the key actions.</strong> Write a start-action-result flow from entering class to confirming check-in.</li>
+            <li><strong>Split the scope.</strong> Sort features into Must, Should (if possible) and Out (not this time).</li>
+            <li><strong>Put numbers on success.</strong> E.g. students check in within 30 seconds and the teacher finds absent students within 10 seconds.</li>
+          </ol></section>
+          <div>
+            <section class="guide-block warning"><h3>Real-project considerations</h3><ul><li>Decide how to handle proxy check-in (sharing the QR with a friend) and duplicate check-ins.</li><li>Collect only essential personal data like name, student number, location or IP, and set the purpose and how long it's kept.</li><li>Write down situations outside the ideal flow in advance, like unstable internet, camera permission denied and students with the same name.</li><li>Cut scope based on time and team skills so it can be built in one day.</li></ul></section>
+            <section class="guide-block done"><h3>Done Checklist</h3><ul><li>User, problem and key action are each clear in one sentence.</li><li>Must features and excluded features are separated.</li><li>There are at least 2 measures to check success.</li><li>Every team member agreed on the same 3-sentence definition.</li></ul></section>
+          </div>
+        </div>
+        <section class="guide-block prompt"><h3>Codex tips</h3><pre>Critically review our team's attendance service idea. Don't add features right away; give me, as questions, ① vague wording ② unchecked assumptions ③ the riskiest exceptions ④ scope to exclude from a one-day project. After I answer, organize only what we agreed on into a PROJECT_BRIEF.md structure.</pre></section>
+        <section class="guide-block gstack"><h3>🧰 gstack tips</h3>
+          <table class="gs-table">
+            <thead><tr><th>Order</th><th>skill</th><th>When · what</th><th>Where results go</th></tr></thead>
+            <tbody>
+          <tr><td>1</td><td><span class="cmd">/office-hours</span></td><td>Run right after drafting the 3-sentence definition. Answer 6 key questions to check whether the problem is real, the key users and the narrowest starting scope.</td><td>Problem·user·scope in PROJECT_BRIEF.md</td></tr>
+          <tr><td>2</td><td><span class="cmd">/plan-ceo-review</span> (optional)</td><td>Check scope in <em>Reduction</em> mode so only Must features buildable in a day remain.</td><td>Scope table (Must / Should / Out)</td></tr>
+            </tbody>
+          </table>
+          <pre>/office-hours
+We want to build, in one day, an attendance service where students check in with QR and the teacher sees it in real time.
+Ask us questions based on the 3-sentence definition below, and point out risky assumptions like proxy and duplicate check-ins.
+[paste 3-sentence definition]</pre>
+          <p class="gs-note">⚠️ The design doc from /office-hours can be long and broad. Compress only what the team agreed on into PROJECT_BRIEF.md and the 3-sentence definition, and keep dropped suggestions under Out with reasons.</p>
+        </section>
+      </div>
+    </article>
+
+    <article class="phase" id="phase2">
+      <header class="phase-head"><span class="phase-label">PHASE 2 · DEFINE</span><h2>Writing specs: turning ideas into buildable promises</h2><p>Split the idea into screens, user flows, data, build order and done criteria to make one shared standard for the team and Codex.</p></header>
+      <div class="phase-body">
+        <div class="summary-grid">
+          <section class="summary-box"><h3>What you do in this phase</h3><p>Detail requirement IDs, flows, data fields and test criteria so the 5 Markdown docs connect to each other.</p></section>
+          <section class="summary-box"><h3>Required outputs</h3><div class="artifact"><span>SITE_SPEC.md</span><span>USER_FLOWS.md</span><span>DATA_MODEL.md</span><span>IMPLEMENTATION_PLAN.md</span><span>CONVERSATION.md</span></div></section>
+          <section class="summary-box"><h3>Most important criterion</h3><p>Instead of words like "nice," "fast" or "real-time," use done criteria anyone can check.</p></section>
+        </div>
+        <div class="guide-grid">
+          <section class="guide-block"><h3>Student steps</h3><ol class="steps">
+            <li><strong>Write SITE_SPEC.</strong> List screens, functional requirement IDs, design principles, responsive conditions and done criteria.</li>
+            <li><strong>Write USER_FLOWS.</strong> Separate the normal flows of students and teachers from exception flows like QR expired, duplicate check-in and no search results.</li>
+            <li><strong>Write DATA_MODEL.</strong> Define fields, types, required-ness, relationships and status values for Student, ClassSession and Attendance.</li>
+            <li><strong>Write IMPLEMENTATION_PLAN.</strong> Split small tasks in the order base screens → data → core features → exception handling → tests.</li>
+            <li><strong>Check for contradictions between docs.</strong> Use a requirement trace table to confirm each screen feature exists in both the flows and data.</li>
+          </ol></section>
+          <div>
+            <section class="guide-block warning"><h3>Real-project considerations</h3><ul><li>"Checked in" shown in the UI must match the Attendance status actually saved.</li><li>Don't use the student name as a unique key; use a separate studentId.</li><li>State the date/time zone, the late cutoff, QR expiry time and the teacher's permission to edit manually.</li><li>Make a glossary so docs don't use different names for the same idea.</li></ul></section>
+            <section class="guide-block done"><h3>Done Checklist</h3><ul><li>Every core feature has a requirement ID and acceptance criteria.</li><li>There is a normal flow and 3+ exception flows.</li><li>Data field types, required-ness and relationships are defined.</li><li>The build order and each task's done condition are clear.</li></ul><a class="sub-link" href="project_day-ai-codex-summation.html">See the original 5-doc spec summary guide →</a></section>
+          </div>
+        </div>
+        <section class="guide-block prompt"><h3>Codex tips</h3><pre>Write the 5 planning docs based on PROJECT_BRIEF.md. Ask the questions you need first, and mark anything unanswered as [Undecided]. Give each feature an ID in FR-001 format with Given-When-Then acceptance criteria, and at the end review contradictions and gaps between the five docs in a separate table.</pre></section>
+        <section class="guide-block gstack"><h3>🧰 gstack tips</h3>
+          <table class="gs-table">
+            <thead><tr><th>Order</th><th>skill</th><th>When · what</th><th>Where results go</th></tr></thead>
+            <tbody>
+          <tr><td>1</td><td><span class="cmd">/plan-ceo-review</span></td><td>After drafting SITE_SPEC, run in <em>Hold Scope</em> mode to check the scope didn't grow and no core value is missing.</td><td>SITE_SPEC.md feature list·done criteria</td></tr>
+          <tr><td>2</td><td><span class="cmd">/plan-eng-review</span></td><td>Run after all 5 docs are written. Settle data flow, exceptions, hidden assumptions and the test plan.</td><td>DATA_MODEL.md, USER_FLOWS.md exception flows, IMPLEMENTATION_PLAN.md test items</td></tr>
+          <tr><td>3</td><td><span class="cmd">/plan-design-review</span> (optional)</td><td>Score the screen design item by item and turn vague design wording into concrete criteria.</td><td>SITE_SPEC.md design principles</td></tr>
+          <tr><td>4</td><td><span class="cmd">/autoplan</span> (optional)</td><td>Run the reviews above at once and get only the items a person must decide. Recommended for teams short on time.</td><td>List of [Undecided] items</td></tr>
+            </tbody>
+          </table>
+          <pre>/plan-eng-review
+Review SITE_SPEC, USER_FLOWS, DATA_MODEL and IMPLEMENTATION_PLAN.
+Especially check studentId uniqueness, QR expiry time, duplicate check-ins and save failure handling,
+and make a test plan for each requirement ID (FR-xxx). List contradictions between docs in a separate table.</pre>
+          <p class="gs-note">⚠️ The test plan from /plan-eng-review carries over to /qa in Phase 4. Link it to requirement IDs and save it in IMPLEMENTATION_PLAN.md or TEST_PLAN.md.</p>
+        </section>
+      </div>
+    </article>
+
+    <article class="phase" id="phase3">
+      <header class="phase-head"><span class="phase-label">PHASE 3 · BUILD</span><h2>Building with Codex: turning docs into a working product</h2><p>Don't let Codex make product decisions on its own; review the work plan and change scope against the planning docs and build in small units.</p></header>
+      <div class="phase-body">
+        <div class="summary-grid">
+          <section class="summary-box"><h3>What you do in this phase</h3><p>Set up the project structure and build the student check-in screen and teacher dashboard by priority.</p></section>
+          <section class="summary-box"><h3>Required outputs</h3><div class="artifact"><span>website/</span><span>README.md</span><span>running screens</span><span>build log</span></div></section>
+          <section class="summary-box"><h3>Most important criterion</h3><p>More important than lots of code: the spec's acceptance criteria actually work and others can run it.</p></section>
+        </div>
+        <div class="guide-grid">
+          <section class="guide-block"><h3>Student steps</h3><ol class="steps">
+            <li><strong>Have Codex read the docs first.</strong> Have it summarize the requirements it understood, undecided items and build order, and get team approval.</li>
+            <li><strong>Fix the runtime environment.</strong> Write the tech stack, folder structure, run commands, supported browsers and data storage method in the README.</li>
+            <li><strong>Build the core flow first.</strong> Finish the vertical flow first: choose student → check QR → save check-in → update teacher status.</li>
+            <li><strong>Run after every small change.</strong> Check the browser and console each time you build a feature before moving on.</li>
+            <li><strong>Compare docs and build.</strong> Mark in IMPLEMENTATION_PLAN where each requirement ID is built and how to check it.</li>
+          </ol></section>
+          <div>
+            <section class="guide-block warning"><h3>Real-project considerations</h3><ul><li>Don't put API keys or passwords directly in code or push them to the repository.</li><li>Before adding a new library, check it's really needed and teammates can install it in the same environment.</li><li>When AI tries to change existing files a lot, review the diff and impact first.</li><li>Clearly separate temporary demo data from real saved data.</li><li>For the mobile QR screen, consider touch areas, loading and camera permission denial.</li></ul></section>
+            <section class="guide-block done"><h3>Done Checklist</h3><ul><li>Another teammate can run it with just the README commands.</li><li>The student and teacher core flows are connected and working.</li><li>There are no unresolved errors in the browser console.</li><li>No features were added that aren't in the spec.</li></ul></section>
+          </div>
+        </div>
+        <section class="guide-block prompt"><h3>Codex tips</h3><pre>Read the 5 planning docs first and summarize requirement IDs, undecided items and build order. Don't write code yet; suggest which files to create or change and why. After I check the plan, build under website/ starting from the smallest runnable unit, and tell me how to run it and which acceptance criteria to check at each step.</pre></section>
+        <section class="guide-block gstack"><h3>🧰 gstack tips</h3>
+          <table class="gs-table">
+            <thead><tr><th>Order</th><th>skill</th><th>When · what</th><th>Where results go</th></tr></thead>
+            <tbody>
+          <tr><td>1</td><td><span class="cmd">/freeze</span></td><td>Before starting the build, limit edits to the <code>website/</code> folder so planning docs don't change by mistake. (<span class="cmd">/guard</span> also adds warnings for risky commands)</td><td>Record the allowed edit scope in the build log</td></tr>
+          <tr><td>2</td><td><span class="cmd">/design-consultation</span> (optional)</td><td>If there are no design rules like colors, typography and spacing, set a simple design system first.</td><td>SITE_SPEC.md design principles, README.md</td></tr>
+          <tr><td>3</td><td>Codex build</td><td>Use the original "Codex tips" prompt: read docs → approve plan → build in small units.</td><td>website/, IMPLEMENTATION_PLAN.md</td></tr>
+          <tr><td>4</td><td><span class="cmd">/review</span></td><td>Run after the core flow works. Finds bugs that run but could blow up in real use, and builds that differ from the spec.</td><td>Build log, fix commits</td></tr>
+            </tbody>
+          </table>
+          <pre>/review
+Review the code in website/ against the requirement IDs and acceptance criteria in SITE_SPEC.md.
+Look first for features not in the spec, and unhandled check-in save failures and double clicks.
+Tell me separately what you auto-fixed and what needs a decision.</pre>
+          <p class="gs-note">⚠️ Check the diff of anything /review auto-fixed too. If a fix adds a feature not in the spec, revert it and record why.</p>
+        </section>
+      </div>
+    </article>
+
+    <article class="phase" id="phase4">
+      <header class="phase-head"><span class="phase-label">PHASE 4 · VERIFY</span><h2>Feature and scenario testing: turning "it seems to work" into evidence</h2><p>Check that the product behaves predictably not only in normal use but also with mistakes, duplicates, expiry, permission denial and different screen sizes.</p></header>
+      <div class="phase-body">
+        <div class="summary-grid">
+          <section class="summary-box"><h3>What you do in this phase</h3><p>Run test scenarios for each requirement and record actual results, evidence, defects and recheck results.</p></section>
+          <section class="summary-box"><h3>Required outputs</h3><div class="artifact"><span>TEST_PLAN.md</span><span>test results table</span><span>error screenshots</span><span>BUG_LOG.md</span></div></section>
+          <section class="summary-box"><h3>Most important criterion</h3><p>More important than the number of passing tests: failures were reproduced and rechecked after fixing.</p></section>
+        </div>
+        <div class="guide-grid">
+          <section class="guide-block"><h3>Student steps</h3><ol class="steps">
+            <li><strong>Turn acceptance criteria into tests.</strong> Make items for precondition, action, expected result, actual result and evidence.</li>
+            <li><strong>Check the normal scenario.</strong> Run the whole flow of student check-in and teacher status update from start to finish.</li>
+            <li><strong>Run exception scenarios.</strong> Try empty search, same names, double clicks, expired QR, network failure and permission denial.</li>
+            <li><strong>Check different environments.</strong> Check mobile, tablet and desktop, keyboard use, long names and lots of student data.</li>
+            <li><strong>Fix defects and regression test.</strong> Record the cause and fix, and rerun related existing features too.</li>
+          </ol></section>
+          <div>
+            <section class="guide-block warning"><h3>Minimum test scenarios</h3><ul><li>After a normal check-in, the dashboard count and student status match right away.</li><li>Even if the same student submits twice, only one counts.</li><li>Expired QR codes and QR codes for the wrong class are rejected with a reason.</li><li>With no search results or same names, the wrong student isn't selected.</li><li>On save failure, no success message is shown and how to retry is explained.</li><li>Core features work on a 375px mobile screen with no horizontal scrolling.</li></ul></section>
+            <section class="guide-block done"><h3>Done Checklist</h3><ul><li>Test results are linked to each requirement ID.</li><li>Normal, exception, responsive and accessibility tests were done.</li><li>Failed items have reproduction steps and evidence.</li><li>Fixed defects were tested again and confirmed passing.</li></ul></section>
+          </div>
+        </div>
+        <section class="guide-block prompt"><h3>Codex tips</h3><pre>Make a test table based on the acceptance criteria in the planning docs. Don't write only the normal path; include duplicate check-in, expired QR, same names, network errors, mobile layout and keyboard access scenarios. For each test, write the precondition, steps, expected result and how to collect evidence, and don't mark anything not yet run as PASS.</pre></section>
+        <section class="guide-block gstack"><h3>🧰 gstack tips</h3>
+          <table class="gs-table">
+            <thead><tr><th>Order</th><th>skill</th><th>When · what</th><th>Where results go</th></tr></thead>
+            <tbody>
+          <tr><td>1</td><td><span class="cmd">/qa-only</span></td><td>First run in report mode without fixing code. Run the student check-in and teacher dashboard scenarios in a real browser and get a defect list and screen evidence.</td><td>Test results table, BUG_LOG.md, error screenshots</td></tr>
+          <tr><td>2</td><td><span class="cmd">/investigate</span></td><td>For defects with an unclear cause, investigate the root cause before fixing. If it isn't solved after 3 tries, stop and let the team decide.</td><td>BUG_LOG.md cause analysis</td></tr>
+          <tr><td>3</td><td><span class="cmd">/qa</span></td><td>Run after the team settles what to fix. Fixes defects, rechecks and creates regression tests.</td><td>BUG_LOG.md fix/recheck results</td></tr>
+          <tr><td>4</td><td><span class="cmd">/benchmark</span> (optional)</td><td>Measure the loading speed of the mobile QR screen and use it to check success measures like "check in within 30 seconds."</td><td>Success measure results</td></tr>
+            </tbody>
+          </table>
+          <pre>/qa-only
+Run website/ and test the TEST_PLAN.md scenarios in the browser.
+Be sure to include normal check-in, duplicate submit, expired QR, same names, save failure and a 375px mobile screen,
+don't change code, and leave reproduction steps and a screenshot for each defect.</pre>
+          <p class="gs-note">⚠️ In /qa-only and /qa results, don't record anything not actually run as PASS. Link each defect to a requirement ID.</p>
+        </section>
+      </div>
+    </article>
+
+    <article class="phase" id="phase5">
+      <header class="phase-head"><span class="phase-label">PHASE 5 · ITERATE</span><h2>Improving site and docs together: applying changes safely</h2><p>Don't put new requirements straight into code; first check the impact on specs, user flows, data and tests, then build.</p></header>
+      <div class="phase-body">
+        <div class="summary-grid">
+          <section class="summary-box"><h3>What you do in this phase</h3><p>Analyze the change request, update the planning docs first, and improve with minimal code changes and regression tests.</p></section>
+          <section class="summary-box"><h3>Required outputs</h3><div class="artifact"><span>CHANGE_REQUEST.md</span><span>Impact analysis table</span><span>Doc diff</span><span>Code diff</span><span>Regression results</span></div></section>
+          <section class="summary-box"><h3>Most important criterion</h3><p>Even after adding a new feature, the docs and code must describe the same product, and existing core flows must keep working.</p></section>
+        </div>
+        <div class="guide-grid">
+          <section class="guide-block"><h3>Student steps</h3><ol class="steps">
+            <li><strong>Rewrite the change request in one sentence.</strong> Confirm the requester, reason, expected result and done criteria.</li>
+            <li><strong>Analyze the impact.</strong> Make a table of the impact on screens, flows, data model, permissions, tests and schedule.</li>
+            <li><strong>Change the docs first.</strong> Update related requirement IDs and versions, and have the team approve the before/after differences.</li>
+            <li><strong>Build with minimal scope.</strong> Ask Codex to show the files to change and the expected diff first, then change the code.</li>
+            <li><strong>Regression test.</strong> Recheck the new acceptance criteria and all affected existing scenarios.</li>
+          </ol></section>
+          <div>
+            <section class="guide-block warning"><h3>Real-project considerations</h3><ul><li>Agree on whether adding "real-time status" means refresh, polling or WebSocket.</li><li>When data fields change, think about migration so existing data and screens don't break.</li><li>Prefer a small diff over rebuilding all the code for one request.</li><li>If a change request goes beyond the project's time and goals, send it to the next version's backlog instead of building it.</li><li>If the requester's words conflict with real user value, ask and record the reason for the decision.</li></ul></section>
+            <section class="guide-block done"><h3>Done Checklist</h3><ul><li>The reason for the change and done criteria are documented.</li><li>You can explain which docs and code files are affected.</li><li>The doc change was approved before the code change.</li><li>New tests and related regression tests are all recorded.</li></ul></section>
+          </div>
+        </div>
+        <section class="guide-block prompt"><h3>Codex tips</h3><pre>Don't build the change request right away; analyze its impact on SITE_SPEC, USER_FLOWS, DATA_MODEL, IMPLEMENTATION_PLAN and existing tests. Show in a table the doc items and code files that need changing, the risk of breaking existing features, and regression tests to add. After I approve, change the docs first and build with a minimal diff.</pre></section>
+        <section class="guide-block gstack"><h3>🧰 gstack tips</h3>
+          <table class="gs-table">
+            <thead><tr><th>Order</th><th>skill</th><th>When · what</th><th>Where results go</th></tr></thead>
+            <tbody>
+          <tr><td>1</td><td><span class="cmd">/plan-eng-review</span></td><td>Review CHANGE_REQUEST.md together with the changed planning docs to check the impact on data, flows and tests. Run before touching code (Spec-First).</td><td>Impact analysis table, doc diff</td></tr>
+          <tr><td>2</td><td><span class="cmd">/plan-ceo-review</span> (optional)</td><td>Check in <em>Hold Scope</em> mode whether the change request goes beyond the project goal. If it does, send it to the next version's backlog.</td><td>CHANGE_REQUEST.md decision reasons</td></tr>
+          <tr><td>3</td><td><span class="cmd">/review</span></td><td>Run after building with a minimal diff to find effects on existing features and missing handling.</td><td>Code diff, build log</td></tr>
+          <tr><td>4</td><td><span class="cmd">/qa</span></td><td>Test the new acceptance criteria and all affected existing scenarios again.</td><td>Regression test results</td></tr>
+            </tbody>
+          </table>
+          <pre>/plan-eng-review
+Analyze the impact of the "teacher dashboard real-time status" change in CHANGE_REQUEST.md
+on SITE_SPEC, USER_FLOWS, DATA_MODEL, IMPLEMENTATION_PLAN and existing tests.
+Suggest whether polling or WebSocket fits a one-day project, with reasons, and list the regression tests to add in a table.</pre>
+          <p class="gs-note">⚠️ Keep the order: fix docs → /plan-eng-review → team approval → fix code → /review → /qa. If you fixed code first, it's not Spec-First.</p>
+        </section>
+      </div>
+    </article>
+
+    <article class="phase" id="phase6">
+      <header class="phase-head"><span class="phase-label">PHASE 6 · SHARE</span><h2>Work history·retro·presentation: turning project decisions into shareable knowledge</h2><p>Don't just demo the finished screens; organize the problem, decisions, failures, improvements and evidence so they can be understood in 5 minutes.</p></header>
+      <div class="phase-body">
+        <div class="summary-grid">
+          <section class="summary-box"><h3>What you do in this phase</h3><p>Organize the Codex conversations and team decisions, and present how to reproduce it, the demo, limits and next steps.</p></section>
+          <section class="summary-box"><h3>Required outputs</h3><div class="artifact"><span>CONVERSATION.md</span><span>README.md</span><span>5-min slides</span><span>DEMO_SCRIPT.md</span><span>RETROSPECTIVE.md</span></div></section>
+          <section class="summary-box"><h3>Most important criterion</h3><p>More than flashy screens, show the reasons behind the team's choices and how you reviewed AI's suggestions.</p></section>
+        </div>
+        <div class="guide-grid">
+          <section class="guide-block"><h3>Student steps</h3><ol class="steps">
+            <li><strong>Edit the conversation history.</strong> Don't copy every chat; keep questions, key suggestions, and the team's accept/change/reject and reasons.</li>
+            <li><strong>Finish how to reproduce it.</strong> Check install, run, test, demo accounts and known limits in the README.</li>
+            <li><strong>Build a 5-minute talk flow.</strong> Problem 40 sec, user and solution 50 sec, demo 2 min, decisions and checks 1 min, retro and next steps 30 sec.</li>
+            <li><strong>Prepare a demo ready for failure.</strong> Set reset data, demo order, backup screenshots and presenter roles.</li>
+            <li><strong>Write a team retro.</strong> Write specifically what went well, what was hard, AI errors, what you'd change and the next experiment.</li>
+          </ol></section>
+          <div>
+            <section class="guide-block warning"><h3>Must show in the talk</h3><ul><li>The real user problem you're solving and the project scope</li><li>A core demo from student check-in to teacher confirmation</li><li>The hardest decision and the reason for your choice</li><li>A case where you changed or rejected a Codex suggestion instead of using it as-is</li><li>Test evidence and limits not yet solved</li><li>The one thing to improve first in the next version</li></ul></section>
+            <section class="guide-block done"><h3>Done Checklist</h3><ul><li>We really rehearsed a talk under 5 minutes.</li><li>We have backup material we can explain even without a network.</li><li>Every team member can explain their contribution and decisions.</li><li>How to run it, test results and limits are saved in the repository.</li></ul></section>
+          </div>
+        </div>
+        <section class="guide-block prompt"><h3>Codex tips</h3><pre>Make a 5-minute talk draft based on CONVERSATION.md and the project docs. Structure it as problem-user-key decisions-demo-evidence-limits-next steps, not a feature list. Separate cases where the team accepted, changed or rejected AI suggestions, and don't add results without evidence.</pre></section>
+        <section class="guide-block gstack"><h3>🧰 gstack tips</h3>
+          <table class="gs-table">
+            <thead><tr><th>Order</th><th>skill</th><th>When · what</th><th>Where results go</th></tr></thead>
+            <tbody>
+          <tr><td>1</td><td><span class="cmd">/document-release</span></td><td>Update README.md and the planning docs to match the final code so docs and site describe the same product.</td><td>README.md, final 5 planning docs</td></tr>
+          <tr><td>2</td><td><span class="cmd">/retro</span></td><td>From the work history, sum up what went well, what was hard and what to improve next.</td><td>RETROSPECTIVE.md, retro slide for the talk</td></tr>
+          <tr><td>3</td><td>Tidy CONVERSATION.md</td><td>Sum up the gstack skills used in each phase, key findings and the team's accept/change/reject cases, and use them in the talk's "decisions·checks" part.</td><td>CONVERSATION.md, 5-min slides</td></tr>
+            </tbody>
+          </table>
+          <pre>/retro
+Write a retro based on this Project Day's work history and CONVERSATION.md.
+Separate what went well, what was hard, cases where we rejected or changed AI (Codex·gstack) suggestions, and the one thing to improve first in the next version.
+Don't add results without evidence.</pre>
+          <p class="gs-note">⚠️ In the talk, show at least one case of "which gstack skill pointed out what, and why the team accepted or rejected it."</p>
+        </section>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer" style="background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08); padding: 32px 20px; text-align: center; color: #4A605A; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company: Edunity Lab Co., Ltd.</span> | <span>CEO: Lee Gi-taek</span> | <span>Address: 2F Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul, Korea</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Phone: +82-2-6240-0053</span> | <span>Business Registration No.: 132-86-35644</span> | <span>Mail-Order Business Reg. No.: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

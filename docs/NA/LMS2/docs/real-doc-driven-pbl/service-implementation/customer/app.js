@@ -60,17 +60,17 @@
 
     // 메뉴별 고유 식재료 단면 컬러 구성
     const palettes = {
-      'menu-sw-1': { bread: '#D99B52', lettuce: '#2E9E5B', filling1: '#86C96A', filling2: '#F3E5AB', tomato: '#E04F3E' }, // 바질 치킨 아보카도
-      'menu-sw-2': { bread: '#D48C46', lettuce: '#288E50', filling1: '#C84B31', filling2: '#F4C542', tomato: '#D93829' }, // 이탈리안 비엠티 클럽
-      'menu-sw-3': { bread: '#DF9A4F', lettuce: '#35A463', filling1: '#F4C542', filling2: '#A84432', tomato: '#FFF3B0' }, // 트러플 에그마요 베이컨
-      'menu-sw-4': { bread: '#C67D3B', lettuce: '#257D47', filling1: '#7A3E3E', filling2: '#E8D8C8', tomato: '#D14836' }, // 로스트 비프
-      'menu-sw-5': { bread: '#CFA063', lettuce: '#2E9E5B', filling1: '#F28C28', filling2: '#FAF6F0', tomato: '#8E5431' }, // 구운 단호박 & 리코타
-      'menu-sw-6': { bread: '#D7A45E', lettuce: '#46A768', filling1: '#F3B8A2', filling2: '#FFF4C7', tomato: '#DDEB77' }, // 레몬 딜 쉬림프
-      'menu-bev-1': { type: 'bev', liquid: '#3B2314', top: '#C89D66', garnish: '#6F4E37' }, // 아메리카노
-      'menu-bev-2': { type: 'bev', liquid: '#D7B38C', top: '#FFFDF9', garnish: '#F4C542' }, // 바닐라 빈 라떼
-      'menu-bev-3': { type: 'bev', liquid: '#F26B5B', top: '#FDE2DC', garnish: '#F28C28' }, // 자몽 에이드
-      'menu-bev-4': { type: 'bev', liquid: '#E86F88', top: '#FFF5F7', garnish: '#C83D3D' }, // 생딸기 요거트 스무디
-      'menu-bev-5': { type: 'bev', liquid: '#D9ED77', top: '#F7FEE7', garnish: '#63A94F' }  // 시트러스 민트 콤부차
+      'menu-sw-1': { bread: '#856000', lettuce: '#27765B', filling1: '#27765B', filling2: '#856000', tomato: '#A83A45' }, // 바질 치킨 아보카도
+      'menu-sw-2': { bread: '#856000', lettuce: '#27765B', filling1: '#A83A45', filling2: '#856000', tomato: '#A83A45' }, // 이탈리안 비엠티 클럽
+      'menu-sw-3': { bread: '#856000', lettuce: '#27765B', filling1: '#856000', filling2: '#A83A45', tomato: '#856000' }, // 트러플 에그마요 베이컨
+      'menu-sw-4': { bread: '#856000', lettuce: '#27765B', filling1: '#A83A45', filling2: '#4A605A', tomato: '#A83A45' }, // 로스트 비프
+      'menu-sw-5': { bread: '#856000', lettuce: '#27765B', filling1: '#856000', filling2: '#243B35', tomato: '#856000' }, // 구운 단호박 & 리코타
+      'menu-sw-6': { bread: '#856000', lettuce: '#27765B', filling1: '#856000', filling2: '#856000', tomato: '#3E762B' }, // 레몬 딜 쉬림프
+      'menu-bev-1': { type: 'bev', liquid: '#243B35', top: '#856000', garnish: '#856000' }, // 아메리카노
+      'menu-bev-2': { type: 'bev', liquid: '#856000', top: '#243B35', garnish: '#856000' }, // 바닐라 빈 라떼
+      'menu-bev-3': { type: 'bev', liquid: '#A83A45', top: '#243B35', garnish: '#856000' }, // 자몽 에이드
+      'menu-bev-4': { type: 'bev', liquid: '#A83A45', top: '#243B35', garnish: '#A83A45' }, // 생딸기 요거트 스무디
+      'menu-bev-5': { type: 'bev', liquid: '#3E762B', top: '#243B35', garnish: '#27765B' }  // 시트러스 민트 콤부차
     };
 
     const p = palettes[id] || (menu && menu.category === 'BEVERAGE' ? palettes['menu-bev-1'] : palettes['menu-sw-1']);
@@ -78,19 +78,19 @@
     if (p.type === 'bev') {
       return `
         <svg viewBox="0 0 320 240" role="img" aria-label="${label}">
-          <rect width="320" height="240" fill="#FFF9ED" />
-          <circle cx="160" cy="126" r="84" fill="#FFFFFF" stroke="#E6E1D5" stroke-width="2" />
+          <rect width="320" height="240" fill="#243B35" />
+          <circle cx="160" cy="126" r="84" fill="#243B35" stroke="#243B35" stroke-width="2" />
           <!-- 컵 몸체 -->
           <path d="M116 78 h88 l-10 112 a12 12 0 0 1 -12 10 h-44 a12 12 0 0 1 -12 -10 z" fill="${p.liquid}" />
           <!-- 크림/거품 층 -->
           <path d="M114 78 q46 -18 92 0 v18 h-92 z" fill="${p.top}" />
           <!-- 얼음 큐브 질감 -->
-          <rect x="130" y="102" width="22" height="20" rx="4" fill="#FFFFFF" fill-opacity="0.45" />
-          <rect x="164" y="108" width="24" height="20" rx="4" fill="#FFFFFF" fill-opacity="0.4" />
-          <rect x="145" y="134" width="22" height="20" rx="4" fill="#FFFFFF" fill-opacity="0.35" />
+          <rect x="130" y="102" width="22" height="20" rx="4" fill="#243B35" fill-opacity="0.45" />
+          <rect x="164" y="108" width="24" height="20" rx="4" fill="#243B35" fill-opacity="0.4" />
+          <rect x="145" y="134" width="22" height="20" rx="4" fill="#243B35" fill-opacity="0.35" />
           <!-- 돔 리드 & 스트로우 -->
-          <path d="M110 78 a50 34 0 0 1 100 0 z" fill="#FFFFFF" fill-opacity="0.55" stroke="#E6E1D5" stroke-width="2" />
-          <path d="M168 32 l-12 72" stroke="#147D4E" stroke-width="7" stroke-linecap="round" />
+          <path d="M110 78 a50 34 0 0 1 100 0 z" fill="#243B35" fill-opacity="0.55" stroke="#243B35" stroke-width="2" />
+          <path d="M168 32 l-12 72" stroke="#27765B" stroke-width="7" stroke-linecap="round" />
           <circle cx="188" cy="76" r="10" fill="${p.garnish}" />
         </svg>
       `;
@@ -98,9 +98,9 @@
 
     return `
       <svg viewBox="0 0 320 240" role="img" aria-label="${label}">
-        <rect width="320" height="240" fill="#FFF9ED" />
+        <rect width="320" height="240" fill="#243B35" />
         <!-- 자연광 플레이트 배경 도형 -->
-        <ellipse cx="160" cy="176" rx="118" ry="26" fill="#FFFFFF" stroke="#E6E1D5" stroke-width="2" />
+        <ellipse cx="160" cy="176" rx="118" ry="26" fill="#243B35" stroke="#243B35" stroke-width="2" />
         <!-- 하단 브레드 베이스 -->
         <path d="M62 152 q98 22 196 0 l-8 20 q-90 18 -180 0 z" fill="${p.bread}" />
         <!-- 메인 속재료 층 (치즈/에그/치킨/아보카도) -->
@@ -113,11 +113,11 @@
         <path d="M58 104 q16 -16 32 0 t32 0 t32 0 t32 0 t32 0 t32 0 l-6 12 h-180 z" fill="${p.lettuce}" />
         <!-- 상단 브리오슈/위트 브레드 & 참깨/귀리 씨앗 디테일 -->
         <path d="M60 98 C60 52, 260 52, 260 98 Z" fill="${p.bread}" />
-        <ellipse cx="122" cy="72" rx="5" ry="2.5" fill="#FFF9ED" />
-        <ellipse cx="156" cy="66" rx="5" ry="2.5" fill="#FFF9ED" />
-        <ellipse cx="192" cy="73" rx="5" ry="2.5" fill="#FFF9ED" />
-        <ellipse cx="140" cy="82" rx="4" ry="2" fill="#FFF9ED" />
-        <ellipse cx="176" cy="81" rx="4" ry="2" fill="#FFF9ED" />
+        <ellipse cx="122" cy="72" rx="5" ry="2.5" fill="#243B35" />
+        <ellipse cx="156" cy="66" rx="5" ry="2.5" fill="#243B35" />
+        <ellipse cx="192" cy="73" rx="5" ry="2.5" fill="#243B35" />
+        <ellipse cx="140" cy="82" rx="4" ry="2" fill="#243B35" />
+        <ellipse cx="176" cy="81" rx="4" ry="2" fill="#243B35" />
       </svg>
     `;
   }
@@ -1180,7 +1180,7 @@
             <p class="option-rule-text">${ruleDesc}</p>
             ${
               grp.id === 'opt-ice' && isHotBeverage
-                ? `<div class="option-error-msg" style="background:var(--color-info-light); color:var(--color-info); border-color:#B6D4EE;">
+                ? `<div class="option-error-msg" style="background:var(--color-info-light); color:var(--color-info); border-color:rgba(43,92,166,0.55);">
                     ${getFilledStatusIcon('info')}
                     <span>따뜻한 음료(HOT)는 얼음 없음이 기본으로 선택됩니다.</span>
                   </div>`
@@ -1642,7 +1642,7 @@
     } else if (session.paymentState === 'UNCERTAIN') {
       statusPanelHtml = `
         <div class="card" style="border:2px solid var(--color-warning); background:var(--color-warning-light);" role="alert">
-          <div style="display:flex; align-items:center; gap:6px; color:#92400E; margin-bottom:6px;">
+          <div style="display:flex; align-items:center; gap:6px; color:#856000; margin-bottom:6px;">
             ${getFilledStatusIcon('warning')}
             <strong style="font-size:var(--text-card-title);">결제 결과를 확인하고 있어요</strong>
           </div>
@@ -1808,28 +1808,28 @@
         step: 1,
         label: '1단계 · 결제 완료',
         desc: '따뜻한 브레드 베이스를 준비합니다',
-        svg: `<svg class="layer-graphic" viewBox="0 0 48 28" aria-hidden="true"><path d="M4 18 q20 6 40 0 l-3 6 h-34 z" fill="#D99B52"/></svg>`
+        svg: `<svg class="layer-graphic" viewBox="0 0 48 28" aria-hidden="true"><path d="M4 18 q20 6 40 0 l-3 6 h-34 z" fill="#856000"/></svg>`
       },
       {
         code: 'ACCEPTED',
         step: 2,
         label: '2단계 · 주문 접수',
         desc: '매장에서 주문을 확인하고 신선 채소를 담습니다',
-        svg: `<svg class="layer-graphic" viewBox="0 0 48 28" aria-hidden="true"><path d="M4 16 q6 -8 12 0 t12 0 t12 0 l-2 6 h-32 z" fill="#18864B"/></svg>`
+        svg: `<svg class="layer-graphic" viewBox="0 0 48 28" aria-hidden="true"><path d="M4 16 q6 -8 12 0 t12 0 t12 0 l-2 6 h-32 z" fill="#27765B"/></svg>`
       },
       {
         code: 'PREPARING',
         step: 3,
         label: '3단계 · 준비 중',
         desc: '선택하신 메인 토핑과 소스로 상품을 만들고 있어요',
-        svg: `<svg class="layer-graphic" viewBox="0 0 48 28" aria-hidden="true"><rect x="6" y="10" width="36" height="8" rx="4" fill="#F4C542"/><rect x="10" y="16" width="28" height="6" rx="3" fill="#F28C28"/></svg>`
+        svg: `<svg class="layer-graphic" viewBox="0 0 48 28" aria-hidden="true"><rect x="6" y="10" width="36" height="8" rx="4" fill="#856000"/><rect x="10" y="16" width="28" height="6" rx="3" fill="#856000"/></svg>`
       },
       {
         code: 'READY',
         step: 4,
         label: '4단계 · 준비 완료',
         desc: '주문번호를 확인하고 픽업대에서 수령해 주세요',
-        svg: `<svg class="layer-graphic" viewBox="0 0 48 28" aria-hidden="true"><path d="M6 18 C6 6, 42 6, 42 18 Z" fill="#D99B52"/><path d="M6 18 h36 v4 h-36 z" fill="#18864B"/></svg>`
+        svg: `<svg class="layer-graphic" viewBox="0 0 48 28" aria-hidden="true"><path d="M6 18 C6 6, 42 6, 42 18 Z" fill="#856000"/><path d="M6 18 h36 v4 h-36 z" fill="#27765B"/></svg>`
       }
     ];
 

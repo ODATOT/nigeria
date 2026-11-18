@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
+  <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      if (!isLoginPage && !loggedInUser) {
+        window.location.href = '../login/login.html';
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Day AI Classroom | ACE AI SW Startup Training</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --primary: #2B5CA6;
+      --primary-dark: #2B5CA6;
+      --primary-soft: rgba(43,92,166,0.1);
+      --accent: #2B5CA6;
+      --accent-soft: rgba(43,92,166,0.12);
+      --bg: #F6F9F4;
+      --panel: #F6F9F4;
+      --text: #243B35;
+      --muted: #243B35;
+      --line: rgba(36,59,53,0.08);
+      --shadow: 0 12px 30px rgba(36,59,53,0.14);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    a { text-decoration: none; }
+    .topbar { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(36,59,53,0.14); }
+    .topbar-in { max-width: 1200px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-logo { width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #FFFFFF; }
+    .brand-text h1 { font-size: 1.15rem; font-weight: 800; color: #243B35; }
+    .brand-text p { font-size: 0.82rem; color: #6B7F79; }
+    .top-actions { display: flex; gap: 10px; }
+    .lecture-btn { padding: 8px 16px; background: #27765B; color: #FFFFFF; border-radius: 8px; font-weight: 600; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px; }
+    .back-btn { padding: 8px 16px; background: #F6F9F4; color: #243B35; border-radius: 8px; font-weight: 600; font-size: 0.88rem; }
+    
+    .page-wrap { max-width: 1200px; margin: 24px auto; padding: 0 20px; }
+    .hero-card { background: linear-gradient(135deg, #FFFFFF, #F6F9F4); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow); }
+    .hero-meta { display: flex; gap: 8px; margin-bottom: 12px; }
+    .chip { padding: 4px 10px; background: rgba(255,255,255,0.79); border-radius: 20px; font-size: 0.8rem; color: #2B5CA6; }
+    .hero-card h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; color: #243B35; }
+    .hero-card p { font-size: 1rem; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+    
+    .phase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; margin-top: 24px; }
+    .task-card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; }
+    .task-badge { padding: 4px 10px; background: rgba(43,92,166,0.165); color: #2B5CA6; border-radius: 6px; font-size: 0.8rem; font-weight: 700; display: inline-block; margin-bottom: 10px; }
+    .task-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: #243B35; }
+    .task-desc { font-size: 0.92rem; color: #4A605A; line-height: 1.5; margin-bottom: 16px; }
+    .task-guide { border-top: 1px solid var(--line); padding-top: 14px; margin: 4px 0 16px; display: grid; gap: 8px; }
+    .task-guide p { color: #4A605A; font-size: 0.84rem; line-height: 1.5; }
+    .task-guide strong { color: #2B5CA6; display: inline-block; min-width: 70px; }
+    .task-btn { display: block; width: 100%; padding: 10px; text-align: center; background: rgba(255,255,255,0.73); color: #2B5CA6; border: 1px solid rgba(43,92,166,0.3); border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
+    .task-btn:hover { background: #27765B; color: #FFFFFF; }
+    .project-guide { margin-top: 24px; padding: 22px 24px; background: rgba(43,92,166,0.077); border: 1px solid rgba(43,92,166,0.22); border-radius: 14px; }
+    .project-guide h3 { color: #2B5CA6; font-size: 1.05rem; margin-bottom: 10px; }
+    .project-guide ol { padding-left: 20px; color: #4A605A; font-size: 0.9rem; line-height: 1.75; }
+    .project-guide strong { color: #243B35; }
+    .gstack-box { margin-top: 10px; padding: 14px 16px; background: rgba(93,74,168,0.088); border: 1px solid rgba(93,74,168,0.28); border-radius: 12px; }
+    .gstack-box h5 { font-size: 0.86rem; font-weight: 800; color: #5D4AA8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .gstack-box ul { list-style: none; display: grid; gap: 6px; }
+    .gstack-box li { color: #4A605A; font-size: 0.83rem; line-height: 1.5; }
+    .gstack-box .tip { margin-top: 8px; color: #2B5CA6; font-size: 0.8rem; line-height: 1.5; }
+    .cmd { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8rem; padding: 1px 6px; background: rgba(93,74,168,0.198); color: #5D4AA8; border-radius: 5px; white-space: nowrap; }
+    .gstack-guide { margin-top: 16px; padding: 22px 24px; background: rgba(93,74,168,0.077); border: 1px solid rgba(93,74,168,0.25); border-radius: 14px; }
+    .gstack-guide h3 { color: #5D4AA8; font-size: 1.05rem; margin-bottom: 10px; }
+    .gstack-guide p, .gstack-guide li { color: #4A605A; font-size: 0.9rem; line-height: 1.7; }
+    .gstack-guide ul { padding-left: 20px; margin-top: 6px; }
+    .gstack-guide pre { margin: 10px 0; padding: 12px 14px; background: #F6F9F4; border: 1px solid var(--line); border-radius: 10px; color: #243B35; font-size: 0.8rem; overflow-x: auto; }
+    .gstack-flow { margin-top: 8px; color: #5D4AA8; font-weight: 700; font-size: 0.88rem; }
+  </style>
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-in">
+      <div class="brand">
+        <div class="brand-logo">P</div>
+        <div class="brand-text">
+          <h1>ACE AI SW Startup Training</h1>
+          <p>Project Day AI Lecture Classroom</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <a href="../../../LECTURE/docs/index.html#slide-119" class="lecture-btn" target="_blank">📖 View Project Day Lab Guide</a>
+        <a href="../index.html" class="back-btn">← Back to curriculum page</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-wrap">
+    <section class="hero-card">
+      <div class="hero-meta">
+        <span class="chip">Project Day</span>
+        <span class="chip">Building a Website from Markdown Specs</span>
+        <span class="chip">Codex AI conversation lab</span>
+        <span class="chip">Using gstack skills</span>
+      </div>
+      <h2>Website Project Built Through Conversation with Codex</h2>
+      <p>
+        Instead of asking Codex straight away to "make a website,"
+        this lab has you complete the proper 6-step project process: from idea conversation to Markdown specs, code generation, testing and history tracking.
+      </p>
+    </section>
+
+    <section class="project-guide">
+      <h3>How student projects work</h3>
+      <ol>
+        <li><strong>Finish one phase at a time.</strong> Each step's output becomes the input for the next.</li>
+        <li><strong>Don't accept Codex's results as-is.</strong> Separate facts, assumptions, decisions and open questions, and record the team's reasons.</li>
+        <li><strong>Check each card's detailed guide.</strong> It gives the phase goal, steps, required outputs, real-world considerations and a done checklist.</li>
+        <li><strong>A checkable process matters more than a finished product.</strong> You must be able to explain why you designed it that way with docs and test evidence.</li>
+      </ol>
+    </section>
+
+    <section class="gstack-guide">
+      <h3>🧰 Running each phase with gstack</h3>
+      <p>gstack is an open-source collection of AI coding skills released by Garry Tan. You can call roles like idea review, design review, code review, QA and retros with slash commands, and it works in Codex CLI too. The <strong>purple box</strong> on each phase card below lists the gstack skills to use at that step.</p>
+      <div class="gstack-flow">Think → Plan → Build → Review → Test → Ship → Reflect</div>
+      <pre># Install inside the project folder (for Codex)
+git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git .agents/skills/gstack
+cd .agents/skills/gstack &amp;&amp; ./setup --host codex</pre>
+      <ul>
+        <li>Install needs Git and Bun (v1.0 or later). Windows also needs Node.js.</li>
+        <li>Treat gstack skill results the same as Codex results. Don't accept them as-is; record the team's reasons in the Markdown docs and CONVERSATION.md.</li>
+        <li>Record the gstack commands you used and a summary of results in CONVERSATION.md every time.</li>
+      </ul>
+    </section>
+
+    <div style="margin-top: 32px;">
+      <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 16px; color: #243B35;">🚀 Project Day: 6 Key Phases (Tasks)</h3>
+      <div class="phase-grid">
+        
+        <div class="task-card">
+          <div>
+            <span class="task-badge">Phase 1</span>
+            <h4 class="task-title">Idea Definition</h4>
+            <p class="task-desc">State the site's purpose, user roles (student/teacher) and key actions clearly in 3 sentences or fewer.</p>
+            <div class="task-guide"><p><strong>Key output</strong>A project definition showing the problem, users and key actions</p><p><strong>Key criterion</strong>Can every team member picture the same product?</p></div>
+            <div class="gstack-box">
+              <h5>🧰 Using gstack · Think</h5>
+              <ul>
+                <li><span class="cmd">/office-hours</span> Check the idea's assumptions with 6 key questions, restate whose problem you solve, and make a design doc.</li>
+              </ul>
+              <p class="tip">💡 Don't use the resulting design doc as-is; compress it into a 3-sentence "problem·user·key action" definition. This becomes the input for Phase 2.</p>
+            </div>
+          </div>
+          <a href="project_day-ai-classroom_detail_task.html#phase1" class="task-btn">See detailed lab guide</a>
+        </div>
+
+        <div class="task-card">
+          <div>
+            <span class="task-badge">Phase 2</span>
+            <h4 class="task-title">Markdown Specs</h4>
+            <p class="task-desc">Write the doc pack: SITE_SPEC, USER_FLOWS, DATA_MODEL, IMPLEMENTATION_PLAN, CONVERSATION.</p>
+            <div class="task-guide"><p><strong>Key output</strong>5 Markdown planning docs that connect with no contradictions</p><p><strong>Key criterion</strong>Can a developer start the first build without extra questions?</p></div>
+            <div class="gstack-box">
+              <h5>🧰 Using gstack · Plan</h5>
+              <ul>
+                <li><span class="cmd">/plan-ceo-review</span> Check the scope. Since it must be done in a day, use <em>Hold Scope</em> or <em>Reduction</em> mode to keep only essential features.</li>
+                <li><span class="cmd">/plan-eng-review</span> Settle data flow, exceptions and the test plan, and reflect them in DATA_MODEL·IMPLEMENTATION_PLAN.</li>
+                <li><span class="cmd">/autoplan</span> (optional) Run CEO·design·engineering reviews at once and get only the items a person must decide.</li>
+              </ul>
+              <p class="tip">💡 Record in CONVERSATION.md which of the 5 docs each review decision and held item went into.</p>
+            </div>
+          </div>
+          <a href="project_day-ai-classroom_detail_task.html#phase2" class="task-btn">Spec summary guide</a>
+        </div>
+
+        <div class="task-card">
+          <div>
+            <span class="task-badge">Phase 3</span>
+            <h4 class="task-title">Building the Website with Codex</h4>
+            <p class="task-desc">Have Codex read the docs first, then ask it to generate responsive website code under the website/ folder.</p>
+            <div class="task-guide"><p><strong>Key output</strong>A runnable website and build/check records</p><p><strong>Key criterion</strong>Are the docs' done criteria really reflected in the code?</p></div>
+            <div class="gstack-box">
+              <h5>🧰 Using gstack · Build · Review</h5>
+              <ul>
+                <li><span class="cmd">/freeze</span> Limit edits to the <code>website/</code> folder so planning docs don't change by mistake.</li>
+                <li><span class="cmd">/design-consultation</span> (optional) Set simple design rules like colors and typography first.</li>
+                <li><span class="cmd">/review</span> After building, review the code to find bugs that could blow up in real use.</li>
+              </ul>
+              <p class="tip">💡 Keep the build request order as before: "read docs first → generate code". Use gstack before and after it to limit scope and review.</p>
+            </div>
+          </div>
+          <a href="project_day-ai-classroom_detail_task.html#phase3" class="task-btn">Example build request prompt</a>
+        </div>
+
+        <div class="task-card">
+          <div>
+            <span class="task-badge">Phase 4</span>
+            <h4 class="task-title">Feature and Scenario Testing</h4>
+            <p class="task-desc">Test student QR generation/scan check-in, the teacher dashboard's live status, and exception handling.</p>
+            <div class="task-guide"><p><strong>Key output</strong>Normal/exception scenario test results and a defect list</p><p><strong>Key criterion</strong>Does it handle failures safely, not just success screens?</p></div>
+            <div class="gstack-box">
+              <h5>🧰 Using gstack · Test</h5>
+              <ul>
+                <li><span class="cmd">/qa-only</span> Test the QR check-in and dashboard scenarios in a real browser and get only a defect list, without changing code.</li>
+                <li><span class="cmd">/investigate</span> For defects with an unclear cause, investigate the root cause before fixing.</li>
+                <li><span class="cmd">/qa</span> After checking the defect list, hand over fixing, rechecking and creating regression tests.</li>
+              </ul>
+              <p class="tip">💡 QA continues the test plan made with <span class="cmd">/plan-eng-review</span> in Phase 2. Organize normal and exception results in a table.</p>
+            </div>
+          </div>
+          <a href="project_day-ai-classroom_detail_task.html#phase4" class="task-btn">See test scenarios</a>
+        </div>
+
+        <div class="task-card">
+          <div>
+            <span class="task-badge">Phase 5</span>
+            <h4 class="task-title">Improving Site and Docs Together</h4>
+            <p class="task-desc">Apply change requests to the planning docs first (Spec-First), then improve the site through Codex.</p>
+            <div class="task-guide"><p><strong>Key output</strong>Change spec, impact analysis, fixed code and regression tests</p><p><strong>Key criterion</strong>Did you prove the change didn't break existing features?</p></div>
+            <div class="gstack-box">
+              <h5>🧰 Using gstack · Plan · Review · Test</h5>
+              <ul>
+                <li><span class="cmd">/plan-eng-review</span> Review the planning docs again with the change applied and analyze the impact (Spec-First).</li>
+                <li><span class="cmd">/review</span> Review the changed code and check its effect on existing features.</li>
+                <li><span class="cmd">/qa</span> Run regression tests again to prove existing features didn't break.</li>
+              </ul>
+              <p class="tip">💡 Keep the order: fix docs → review → fix code → regression test. Fixing code first isn't Spec-First.</p>
+            </div>
+          </div>
+          <a href="project_day-ai-classroom_detail_task.html#phase5" class="task-btn">See improvement guide</a>
+        </div>
+
+        <div class="task-card">
+          <div>
+            <span class="task-badge">Phase 6</span>
+            <h4 class="task-title">Work History and Retro Presentation</h4>
+            <p class="task-desc">Record prompts and decision history in CONVERSATION.md and give a 5-minute final presentation.</p>
+            <div class="task-guide"><p><strong>Key output</strong>A reproducible work record and a 5-minute project talk</p><p><strong>Key criterion</strong>Do you explain why you made decisions, more than what you built?</p></div>
+            <div class="gstack-box">
+              <h5>🧰 Using gstack · Reflect</h5>
+              <ul>
+                <li><span class="cmd">/document-release</span> Update the planning docs and README to match the final code so docs and site agree.</li>
+                <li><span class="cmd">/retro</span> From the work history, sum up what went well, what fell short and what to improve next, and use it for your slides.</li>
+              </ul>
+              <p class="tip">💡 In the talk, explain which gstack skills you used in each phase, which results you accepted or rejected, and why.</p>
+            </div>
+          </div>
+          <a href="project_day-ai-classroom_detail_task.html#phase6" class="task-btn">Retro and presentation guide</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer" style="background: #F6F9F4; border-top: 1px solid rgba(36,59,53,0.08); padding: 32px 20px; text-align: center; color: #4A605A; font-size: 0.82rem; line-height: 1.8; position: relative; z-index: 10;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>Company: Edunity Lab Co., Ltd.</span> | <span>CEO: Lee Gi-taek</span> | <span>Address: 2F Taerim Building, 25 Teheran-ro 21-gil, Gangnam-gu, Seoul, Korea</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>Phone: +82-2-6240-0053</span> | <span>Business Registration No.: 132-86-35644</span> | <span>Mail-Order Business Reg. No.: 2024-Seoul Gangnam-01134</span> | <span>Email: with@edunlab.kr</span>
+      </div>
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

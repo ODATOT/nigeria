@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ACE AI SW Startup Training · AI Real Project Day 10 · Final presentation and graduation" />
+  <title>Day 10 · Final Presentation & Graduation | ACE AI SW</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script>
+    (function () {
+      var savedTheme = localStorage.getItem("lmsStudentHomeTheme");
+      document.documentElement.dataset.theme = "light";
+    })();
+  </script>
+  <style>
+    :root {
+      --ink:#243B35; --muted:#4A605A; --faint:#6B7F79; --base:#F6F9F4; --surface:#F6F9F4; --surface-2:#F6F9F4;
+      --line:rgba(36,59,53,0.144); --blue:#2B5CA6; --cyan:#27765B; --violet:#5D4AA8; --amber:#856000; --green:#27765B; --red:#A83A45;
+      --shadow:0 24px 75px rgba(36,59,53,0.112);
+    }
+    html[data-theme="light"] {
+      --ink:#243B35; --muted:#243B35; --faint:#6B7F79; --base:#FFFFFF; --surface:#FFFFFF; --surface-2:#F6F9F4;
+      --line:rgba(43,92,166,0.14); --blue:#2B5CA6; --cyan:#27765B; --violet:#5D4AA8; --amber:#856000; --green:#27765B; --red:#856000;
+      --shadow:0 22px 65px rgba(36,59,53,0.045); color-scheme:light;
+    }
+    html[data-theme="dark"] { color-scheme:dark; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:90px; }
+    body {
+      margin:0; color:var(--ink); font-family:"DM Sans",sans-serif; line-height:1.6;
+      background:radial-gradient(circle at 8% 3%,rgba(43,92,166,0.121),transparent 30rem),radial-gradient(circle at 90% 24%,rgba(93,74,168,0.088),transparent 30rem),var(--base);
+    }
+    html[data-theme="light"] body { background:radial-gradient(circle at 8% 3%,rgba(43,92,166,0.132),transparent 30rem),radial-gradient(circle at 90% 24%,rgba(93,74,168,0.088),transparent 30rem),#FFFFFF; }
+    a { color:inherit; text-decoration:none; }
+    button,input { font:inherit; }
+    button,a { -webkit-tap-highlight-color:transparent; }
+    :focus-visible { outline:3px solid rgba(43,92,166,0.72); outline-offset:4px; }
+    .shell { width:min(1180px,calc(100% - 40px)); margin:0 auto; }
+    .eyebrow { margin:0 0 9px; color:var(--blue); font-family:"Manrope",sans-serif; font-size:.72rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+    .section-title { margin:0; font-family:"Manrope",sans-serif; font-size:clamp(1.65rem,3.4vw,2.6rem); line-height:1.15; letter-spacing:-.04em; }
+    .section-lead { max-width:680px; margin:12px 0 0; color:var(--muted); }
+
+    .topbar { position:sticky; top:0; z-index:100; border-bottom:1px solid var(--line); background:rgba(36,59,53,0.08); backdrop-filter:blur(20px); }
+    html[data-theme="light"] .topbar { background:rgba(255,255,255,0.92); box-shadow:0 8px 30px rgba(36,59,53,0.021); }
+    .topbar-inner { min-height:70px; display:flex; align-items:center; gap:18px; }
+    .brand { display:flex; align-items:center; gap:10px; font-family:"Manrope",sans-serif; font-weight:800; }
+    .brand-mark { width:36px; height:36px; display:grid; place-items:center; border-radius:11px; color:#FFFFFF; background:linear-gradient(145deg,var(--blue),var(--cyan)); }
+    .breadcrumb { display:flex; align-items:center; gap:8px; margin-left:14px; color:var(--muted); font-size:.8rem; }
+    .breadcrumb i { font-size:.6rem; color:var(--faint); }
+    .top-actions { display:flex; align-items:center; gap:8px; margin-left:auto; }
+    .icon-btn { width:41px; height:41px; display:grid; place-items:center; border:1px solid var(--line); border-radius:12px; color:var(--muted); background:var(--surface); cursor:pointer; }
+    .profile { display:flex; align-items:center; gap:8px; padding:5px 10px 5px 5px; border:1px solid var(--line); border-radius:999px; background:var(--surface); }
+    .profile-avatar { width:31px; height:31px; display:grid; place-items:center; border-radius:50%; background:var(--surface-2); }
+    .profile-copy { line-height:1.1; }
+    .profile-copy strong,.profile-copy span { display:block; }
+    .profile-copy strong { font-size:.75rem; }
+    .profile-copy span { margin-top:4px; color:var(--faint); font-size:.61rem; }
+
+    .day-hero { padding:46px 0 30px; }
+    .hero-grid { display:grid; grid-template-columns:1.3fr .7fr; gap:26px; align-items:stretch; }
+    .hero-copy,.day-summary { padding:clamp(27px,4.5vw,50px); border:1px solid var(--line); border-radius:25px; background:var(--surface); box-shadow:var(--shadow); }
+    .hero-copy { position:relative; overflow:hidden; background:linear-gradient(135deg,rgba(43,92,166,0.121),transparent 55%),var(--surface); }
+    .hero-copy::after { content:"02"; position:absolute; right:18px; bottom:-54px; color:rgba(43,92,166,0.08); font-family:"Manrope",sans-serif; font-size:13rem; font-weight:800; line-height:1; pointer-events:none; }
+    .day-chip { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; color:var(--cyan); background:rgba(39,118,91,0.11); font-size:.7rem; font-weight:800; letter-spacing:.05em; }
+    .hero-copy h1 { position:relative; z-index:1; margin:20px 0 15px; font-family:"Manrope",sans-serif; font-size:clamp(2.2rem,4.8vw,4.2rem); line-height:1.06; letter-spacing:-.06em; }
+    .hero-copy > p { position:relative; z-index:1; max-width:700px; margin:0; color:var(--muted); font-size:1rem; }
+    .hero-quote { position:relative; z-index:1; margin-top:20px; padding:14px 16px; border-left:3px solid var(--amber); border-radius:0 12px 12px 0; background:rgba(133,96,0,0.088); color:var(--ink); font-size:.9rem; font-weight:600; }
+    .hero-actions { position:relative; z-index:1; display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+    .btn { display:inline-flex; align-items:center; gap:8px; min-height:42px; padding:0 16px; border-radius:12px; font-size:.82rem; font-weight:800; }
+    .btn-primary { color:#FFFFFF; background:#27765B; }
+    .btn-ghost { border:1px solid var(--line); color:var(--ink); background:var(--surface); }
+    .day-summary { display:flex; flex-direction:column; justify-content:center; }
+    .summary-label { color:var(--blue); font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+    .summary-list { display:grid; gap:12px; margin:19px 0 0; padding:0; list-style:none; }
+    .summary-list li { display:flex; gap:10px; color:var(--muted); font-size:.84rem; }
+    .summary-list i { margin-top:5px; color:var(--green); }
+    .deliverable { margin-top:19px; padding:14px; border-left:3px solid var(--amber); border-radius:0 11px 11px 0; background:rgba(133,96,0,0.077); }
+    .deliverable strong,.deliverable span { display:block; }
+    .deliverable strong { font-size:.78rem; }
+    .deliverable span { margin-top:3px; color:var(--muted); font-size:.75rem; }
+
+    .slides-section { padding:62px 0 72px; }
+    .section-head { display:flex; justify-content:space-between; gap:24px; align-items:end; margin-bottom:25px; }
+    .slide-deck { border:1px solid var(--line); border-radius:24px; overflow:hidden; background:#F6F9F4; box-shadow:var(--shadow); }
+    .slide-deck:fullscreen { display:flex; flex-direction:column; border-radius:0; }
+    .slide-deck:fullscreen .slide-stage { flex:1; aspect-ratio:auto; }
+    .slide-deck:fullscreen .slide-notes { display:none; }
+    .slide-stage { position:relative; aspect-ratio:16/9; min-height:360px; overflow:hidden; }
+    .slide { position:absolute; inset:0; display:none; overflow-y:auto; padding:clamp(28px,5vw,64px); color:#243B35; background:linear-gradient(135deg,#F6F9F4,#F6F9F4); }
+    .slide.active { display:flex; animation:slideIn 260ms ease; }
+    @keyframes slideIn { from { opacity:0; transform:translateX(18px); } to { opacity:1; transform:none; } }
+    .slide::before { content:""; position:absolute; inset:0; opacity:.4; background-image:linear-gradient(rgba(43,92,166,0.077) 1px,transparent 1px),linear-gradient(90deg,rgba(43,92,166,0.077) 1px,transparent 1px); background-size:42px 42px; pointer-events:none; }
+    .slide.alert { background:linear-gradient(135deg,#F6F9F4,#F6F9F4); }
+    .slide-inner { position:relative; z-index:1; width:100%; margin:auto 0; display:flex; flex-direction:column; justify-content:center; }
+    .slide-kicker { color:#2B5CA6; font-size:.72rem; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+    .slide.alert .slide-kicker { color:#856000; }
+    .slide h2 { max-width:900px; margin:16px 0; font-family:"Manrope",sans-serif; font-size:clamp(2rem,5vw,4.7rem); line-height:1.03; letter-spacing:-.06em; }
+    .slide h2.sm { max-width:1000px; margin:12px 0 10px; font-size:clamp(1.55rem,3.3vw,2.9rem); line-height:1.1; letter-spacing:-.045em; }
+    .slide h2 .hl { color:#2B5CA6; }
+    .slide.alert h2 .hl { color:#856000; }
+    .slide p { max-width:820px; margin:0; color:#4A605A; font-size:clamp(.88rem,1.5vw,1.18rem); }
+    .slide-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:13px; margin-top:24px; }
+    .slide-grid.cols-3 { grid-template-columns:repeat(3,1fr); }
+    .slide-grid.cols-5 { grid-template-columns:repeat(5,1fr); }
+    .slide-card { padding:16px; border:1px solid rgba(36,59,53,0.117); border-radius:15px; background:rgba(255,255,255,0.685); }
+    .slide-card strong { display:block; color:#2B5CA6; font-size:.85rem; }
+    .slide-card span { display:block; margin-top:6px; color:#4A605A; font-size:.73rem; line-height:1.5; }
+    .slide-card em { display:block; margin-top:9px; color:#856000; font-style:normal; font-size:.68rem; font-weight:700; }
+    .slide-card .big { display:block; color:#243B35; font-family:"Manrope",sans-serif; font-size:1.7rem; font-weight:800; line-height:1.1; }
+    .slide-list { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; max-width:960px; margin:22px 0 0; padding:0; list-style:none; }
+    .slide-list li { padding:13px 16px; border:1px solid rgba(36,59,53,0.108); border-radius:13px; background:rgba(255,255,255,0.67); color:#4A605A; font-size:.82rem; }
+    .slide-list i { margin-right:8px; color:#27765B; }
+    .slide-list.warn i { color:#856000; }
+    .compare { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:22px; }
+    .compare-col { padding:18px 20px; border:1px solid rgba(36,59,53,0.117); border-radius:15px; background:rgba(255,255,255,0.67); }
+    .compare-col.bad { border-color:rgba(168,58,69,0.38); background:rgba(168,58,69,0.077); }
+    .compare-col.good { border-color:rgba(39,118,91,0.38); background:rgba(39,118,91,0.077); }
+    .compare-col h4 { margin:0 0 10px; font-family:"Manrope",sans-serif; font-size:.95rem; }
+    .compare-col.bad h4 { color:#A83A45; }
+    .compare-col.good h4 { color:#27765B; }
+    .compare-col ul { margin:0; padding-left:18px; color:#4A605A; font-size:.8rem; }
+    .compare-col li + li { margin-top:5px; }
+    .compare-col pre { margin:0; white-space:pre-wrap; color:#243B35; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.74rem; line-height:1.55; }
+    .funnel { display:grid; gap:7px; margin-top:20px; }
+    .funnel-row { display:grid; grid-template-columns:170px 1.1fr 1fr; gap:14px; align-items:center; padding:10px 15px; border-left:3px solid rgba(39,118,91,0.55); border-radius:0 11px 11px 0; background:rgba(255,255,255,0.685); font-size:.78rem; color:#4A605A; }
+    .funnel-row strong { color:#243B35; font-family:"Manrope",sans-serif; font-size:.86rem; }
+    .funnel-row strong small { display:block; color:#2B5CA6; font-size:.66rem; letter-spacing:.06em; }
+    .funnel-row span:last-child { color:#856000; }
+    .funnel-row:nth-child(1) { margin-right:0; } .funnel-row:nth-child(2) { margin-right:3%; } .funnel-row:nth-child(3) { margin-right:6%; } .funnel-row:nth-child(4) { margin-right:9%; } .funnel-row:nth-child(5) { margin-right:12%; }
+    .loop-flow { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:22px; }
+    .loop-flow span { padding:12px 16px; border:1px solid rgba(43,92,166,0.32); border-radius:12px; background:rgba(39,118,91,0.099); color:#243B35; font-size:.84rem; font-weight:700; }
+    .loop-flow b { color:#2B5CA6; font-size:1.1rem; }
+    .loop-flow .back { border-style:dashed; color:#856000; border-color:rgba(133,96,0,0.45); background:rgba(133,96,0,0.077); }
+    .quote-box { max-width:900px; margin-top:22px; padding:16px 20px; border-left:4px solid rgba(133,96,0,0.55); border-radius:0 14px 14px 0; background:rgba(133,96,0,0.099); color:#856000; font-size:clamp(.9rem,1.5vw,1.12rem); }
+    .quote-box small { display:block; margin-top:6px; color:#856000; font-size:.72rem; }
+    .iceberg { display:grid; gap:10px; margin-top:20px; }
+    .ice-top { padding:14px 18px; border:1px solid rgba(43,92,166,0.35); border-radius:14px; background:rgba(39,118,91,0.099); color:#243B35; font-size:.82rem; }
+    .ice-top b { color:#2B5CA6; margin-right:8px; }
+    .ice-bottom { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .ice-bottom div { padding:13px 15px; border:1px solid rgba(36,59,53,0.18); border-radius:13px; background:rgba(36,59,53,0.08); font-size:.74rem; color:#4A605A; }
+    .ice-bottom strong { display:block; margin-bottom:4px; color:#856000; font-size:.8rem; }
+    .slide-controls { min-height:68px; display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center; padding:0 18px; border-top:1px solid rgba(36,59,53,0.09); background:#F6F9F4; color:#243B35; }
+    .slide-nav-btn { width:42px; height:42px; border:1px solid rgba(36,59,53,0.126); border-radius:11px; color:#243B35; background:rgba(255,255,255,0.7); cursor:pointer; }
+    .slide-nav-btn:disabled { opacity:.35; cursor:not-allowed; }
+    .slide-nav-btn.on { color:#243B35; background:#D7EEDD; }
+    .slide-progress-wrap { display:flex; align-items:center; gap:13px; }
+    .slide-counter { min-width:48px; color:#4A605A; font-size:.76rem; font-weight:800; }
+    .slide-progress { flex:1; height:5px; overflow:hidden; border-radius:20px; background:rgba(255,255,255,0.82); }
+    .slide-progress span { display:block; width:5%; height:100%; background:linear-gradient(90deg,#D2E0FB,#D2E0FB); transition:width 220ms ease; }
+    .slide-tools { display:flex; gap:8px; }
+    .slide-notes { display:none; padding:16px 20px 18px; border-top:1px solid rgba(36,59,53,0.09); background:#F6F9F4; color:#4A605A; font-size:.84rem; }
+    .slide-notes.open { display:block; }
+    .slide-notes strong { display:block; margin-bottom:5px; color:#856000; font-size:.7rem; letter-spacing:.12em; }
+
+    .lab-section { padding:10px 0 72px; }
+    .lab-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:24px; }
+    .lab-step { position:relative; padding:20px; border:1px solid var(--line); border-radius:18px; background:var(--surface); }
+    .lab-step .num { color:var(--blue); font-family:"Manrope",sans-serif; font-size:.72rem; font-weight:800; letter-spacing:.12em; }
+    .lab-step h3 { margin:6px 0 6px; font-family:"Manrope",sans-serif; font-size:1.02rem; }
+    .lab-step p { margin:0; color:var(--muted); font-size:.8rem; }
+    .lab-step code { display:inline-block; margin-top:10px; padding:3px 8px; border-radius:7px; color:var(--cyan); background:rgba(39,118,91,0.11); font-size:.7rem; font-weight:700; }
+    .lab-step.key { border-color:rgba(133,96,0,0.55); background:linear-gradient(135deg,rgba(133,96,0,0.11),transparent 60%),var(--surface); }
+    .lab-step.key .num { color:var(--amber); }
+    .gap-box { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px; }
+    .gap-card { padding:20px; border:1px solid var(--line); border-radius:18px; background:var(--surface); }
+    .gap-card h3 { margin:0 0 8px; font-family:"Manrope",sans-serif; font-size:1rem; }
+    .gap-card p { margin:0 0 10px; color:var(--muted); font-size:.8rem; }
+    .gap-card pre { margin:0; padding:14px; overflow-x:auto; border-radius:12px; color:var(--ink); background:var(--surface-2); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.72rem; line-height:1.6; white-space:pre-wrap; }
+    .copy-btn { float:right; margin-top:-4px; padding:4px 10px; border:1px solid var(--line); border-radius:8px; color:var(--blue); background:transparent; font-size:.68rem; font-weight:800; cursor:pointer; }
+
+    .day-nav-section { padding:0 0 72px; }
+    .day-nav { display:grid; grid-template-columns:repeat(10,1fr); gap:8px; padding:14px; border:1px solid var(--line); border-radius:18px; background:var(--surface); }
+    .day-link { min-height:64px; display:flex; flex-direction:column; align-items:center; justify-content:center; border:1px solid transparent; border-radius:12px; color:var(--faint); background:transparent; font-size:.65rem; font-weight:800; cursor:pointer; transition:150ms ease; }
+    .day-link strong { font-size:.85rem; color:inherit; }
+    .day-link.active { color:#243B35; background:linear-gradient(135deg,#D2E0FB,#D2E0FB); box-shadow:0 8px 20px rgba(36,59,53,0.077); }
+    .day-link:not(.active):hover { color:var(--blue); border-color:var(--line); background:var(--surface-2); }
+    .day-notice { min-height:26px; margin:9px 0 0; color:var(--muted); text-align:center; font-size:.74rem; }
+
+    .learning-workspace { padding:72px 0 90px; border-top:1px solid var(--line); }
+    .workspace-grid { display:grid; grid-template-columns:1.45fr .75fr; gap:18px; align-items:start; margin-top:26px; }
+    .video-panel,.chat-panel { border:1px solid var(--line); border-radius:21px; background:var(--surface); overflow:hidden; box-shadow:0 10px 35px rgba(36,59,53,0.017); }
+    .panel-head { min-height:61px; display:flex; align-items:center; justify-content:space-between; gap:14px; padding:0 19px; border-bottom:1px solid var(--line); }
+    .panel-head strong { font-family:"Manrope",sans-serif; font-size:.92rem; }
+    .panel-head span { color:var(--faint); font-size:.69rem; }
+    .player { position:relative; aspect-ratio:16/9; background:#F6F9F4; }
+    .player iframe { width:100%; height:100%; border:0; }
+    .playlist-filter { display:flex; gap:6px; overflow-x:auto; padding:12px 15px; border-bottom:1px solid var(--line); }
+    .filter-btn { flex:0 0 auto; min-height:31px; padding:0 11px; border:1px solid var(--line); border-radius:999px; color:var(--muted); background:transparent; font-size:.68rem; font-weight:800; cursor:pointer; }
+    .filter-btn.active { color:#243B35; border-color:transparent; background:#D7EEDD; }
+    .playlist { max-height:560px; margin:0; padding:0; overflow-y:auto; list-style:none; }
+    .playlist-group { padding:10px 17px 6px; border-top:1px solid var(--line); color:var(--blue); background:var(--surface-2); font-size:.66rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+    .playlist-group:first-child { border-top:0; }
+    .playlist-item { display:grid; grid-template-columns:42px 1fr auto; gap:12px; align-items:center; min-height:70px; padding:11px 17px; border-top:1px solid var(--line); cursor:pointer; transition:150ms ease; }
+    .playlist-item:hover { background:var(--surface-2); }
+    .playlist-item.active { background:rgba(43,92,166,0.088); }
+    .playlist-item[hidden],.playlist-group[hidden] { display:none; }
+    .play-icon { width:36px; height:36px; display:grid; place-items:center; border-radius:10px; color:var(--blue); background:rgba(43,92,166,0.11); }
+    .playlist-item.active .play-icon { color:#243B35; background:#D7EEDD; }
+    .playlist-copy strong,.playlist-copy span { display:block; }
+    .playlist-copy strong { font-size:.81rem; }
+    .playlist-copy span { margin-top:3px; color:var(--faint); font-size:.67rem; }
+    .lang { min-width:30px; padding:3px 7px; border-radius:7px; color:var(--cyan); background:rgba(39,118,91,0.11); font-size:.62rem; font-weight:800; text-align:center; }
+    .lang.en { color:var(--violet); background:rgba(93,74,168,0.132); }
+    .video-note { margin:0; padding:11px 17px; border-top:1px solid var(--line); color:var(--faint); font-size:.66rem; }
+
+    .chat-panel { position:sticky; top:90px; }
+    .chat-status { display:flex; align-items:center; gap:7px; color:var(--green)!important; }
+    .chat-status::before { content:""; width:7px; height:7px; border-radius:50%; background:var(--green); }
+    .chat-messages { height:470px; overflow-y:auto; display:flex; flex-direction:column; gap:12px; padding:17px; }
+    .message { max-width:88%; padding:11px 13px; border-radius:14px; font-size:.78rem; line-height:1.55; }
+    .message.ai { align-self:flex-start; border:1px solid var(--line); border-radius:4px 14px 14px 14px; background:var(--surface-2); }
+    .message.user { align-self:flex-end; border-radius:14px 4px 14px 14px; color:#243B35; background:linear-gradient(135deg,#D2E0FB,#D2E0FB); }
+    .quick-prompts { display:flex; gap:7px; overflow-x:auto; padding:0 15px 12px; }
+    .quick-prompt { flex:0 0 auto; min-height:33px; padding:0 10px; border:1px solid var(--line); border-radius:999px; color:var(--blue); background:transparent; font-size:.67rem; font-weight:700; cursor:pointer; }
+    .chat-form { display:grid; grid-template-columns:1fr 42px; gap:8px; padding:12px; border-top:1px solid var(--line); }
+    .chat-form input { min-width:0; height:42px; padding:0 13px; border:1px solid var(--line); border-radius:11px; color:var(--ink); background:var(--surface-2); outline:none; }
+    .chat-form button { border:0; border-radius:11px; color:#FFFFFF; background:#27765B; cursor:pointer; }
+    .chat-note { margin:0; padding:0 15px 14px; color:var(--faint); font-size:.63rem; text-align:center; }
+    footer { padding:25px 0 45px; border-top:1px solid var(--line); color:var(--faint); font-size:.74rem; }
+    .footer-inner { display:flex; justify-content:space-between; gap:20px; }
+
+
+    /* ===== Slide visualizations (added 2026-11-18) ===== */
+    .viz-split { display:grid; grid-template-columns:minmax(0,1fr) minmax(260px,420px); gap:34px; align-items:center; }
+    .viz-split.big-fig { grid-template-columns:minmax(0,1fr) minmax(300px,460px); }
+    .viz-split h2:not(.sm) { font-size:clamp(2.1rem,3.9vw,3.7rem); }
+    .viz-split p { max-width:none; }
+    .viz-fig { margin:0; }
+    .viz { display:block; width:100%; height:auto; overflow:visible; }
+    .viz-strip { margin-top:16px; }
+    .viz-strip.tight { margin-top:10px; }
+    .viz-strip.short svg { max-width:860px; margin:0 auto; }
+    .viz .flow { stroke-dasharray:6 7; animation:vizDash 1.6s linear infinite; }
+    @keyframes vizDash { to { stroke-dashoffset:-26; } }
+    @media (prefers-reduced-motion:reduce) { .viz .flow { animation:none; } }
+    .slide.dense { padding-top:clamp(24px,3.1vw,40px); padding-bottom:clamp(24px,3.1vw,40px); }
+    .slide.dense h2.sm { margin:12px 0 10px; }
+    .slide.dense .compare { margin-top:12px; }
+    .slide.dense .slide-grid { margin-top:12px; }
+    .slide.dense .quote-box { margin-top:12px; }
+    .slide.dense .slide-code { font-size:.8rem; line-height:1.55; padding:12px 16px; }
+    .slide.dense .s-table td, .slide.dense .s-table th { padding:7px 10px; }
+    .slide.dense .slide-list { margin-top:10px; } .slide.dense .slide-list li { padding:8px 14px; }
+    .slide.dense .compare-col { padding:14px 18px; } .slide.dense pre.tree { font-size:.8rem; line-height:1.55; }
+    .slide.dense .layer { padding-top:8px; padding-bottom:8px; } .slide.dense .layer-arrow { margin:0; padding:0; }
+    .slide.explain { background:linear-gradient(135deg,#F6F9F4,#D2E0FB); }
+    .slide.explain .slide-kicker { color:#856000; }
+    .slide.explain .slide-kicker::before { content:"Easy explanation · "; color:#856000; }
+    .slide-grid.steps .slide-card { position:relative; }
+    .slide-grid.steps .slide-card:not(:last-child)::after { content:"\203A"; position:absolute; right:-14px; top:50%; z-index:2; width:22px; height:22px; margin-top:-11px; border-radius:50%; background:#D2E0FB; color:#243B35; font-weight:900; line-height:21px; text-align:center; }
+    .resto { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:16px; }
+    .rs5 { display:flex; flex-direction:column; align-items:center; gap:6px; padding:16px 12px; border:1px solid color-mix(in srgb,var(--c) 50%,transparent); border-top:5px solid var(--c); border-radius:18px; background:rgba(255,255,255,0.67); text-align:center; }
+    .rs5 small { color:var(--c); font-size:.8rem; font-weight:900; font-family:ui-monospace,Menlo,monospace; }
+    .rs5 strong { color:#243B35; font-size:1.3rem; font-weight:900; }
+    .rs5 .q { color:#243B35; font-size:.95rem; font-weight:700; line-height:1.45; }
+    .rs5 .ex { margin-top:auto; padding-top:6px; color:#4A605A; font-size:.85rem; line-height:1.45; }
+    .lay-tag { display:inline-block; padding:2px 9px; border-radius:999px; font-size:.78rem; font-weight:900; color:#243B35; }
+    @media (max-width:980px) { .viz-split,.viz-split.big-fig { grid-template-columns:1fr; } .resto { grid-template-columns:repeat(2,1fr); } .slide-grid.steps .slide-card::after { display:none; } }
+    @media (max-width:980px) {
+      .hero-grid,.workspace-grid { grid-template-columns:1fr; }
+      .chat-panel { position:static; }
+      .day-nav { grid-template-columns:repeat(5,1fr); }
+      .slide-grid,.slide-grid.cols-5 { grid-template-columns:repeat(2,1fr); }
+      .lab-grid { grid-template-columns:repeat(2,1fr); }
+      .funnel-row { grid-template-columns:140px 1fr; }
+      .funnel-row span:last-child { grid-column:2; }
+    }
+    @media (max-width:650px) {
+      .shell { width:min(100% - 28px,1180px); }
+      .topbar-inner { min-height:64px; gap:8px; }
+      .brand span:last-child,.breadcrumb,.profile-copy { display:none; }
+      .profile { padding:0; border:0; background:transparent; }
+      .day-hero { padding-top:23px; }
+      .hero-copy,.day-summary { padding:25px 22px; }
+      .hero-copy h1 { font-size:clamp(2.2rem,12vw,3.6rem); }
+      .section-head { display:block; }
+      .section-head .section-lead { margin-top:11px; }
+      .slide-stage { min-height:560px; aspect-ratio:auto; }
+      .slide { padding:30px 22px; }
+      .slide h2 { font-size:2.3rem; }
+      .slide h2.sm { font-size:1.6rem; }
+      .slide-grid,.slide-grid.cols-3,.slide-grid.cols-5,.slide-list,.compare,.ice-bottom,.gap-box,.lab-grid { grid-template-columns:1fr; }
+      .funnel-row { grid-template-columns:1fr; margin-right:0!important; }
+      .funnel-row span:last-child { grid-column:auto; }
+      .slide-controls { grid-template-columns:auto 1fr auto; padding:0 10px; }
+      .slide-tools .fullscreen-btn { display:none; }
+      .day-nav { grid-template-columns:repeat(5,1fr); padding:9px; gap:5px; }
+      .day-link { min-height:55px; }
+      .chat-messages { height:420px; }
+      .footer-inner { display:block; }
+      .footer-inner span { display:block; margin-top:4px; }
+    }
+  
+    .hero-copy::after { content:"10"; }
+    .deck-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+    .deck-tab { display:flex; align-items:center; gap:10px; min-height:48px; padding:0 16px; border:1px solid var(--line); border-radius:14px; color:var(--muted); background:var(--surface); font-size:.82rem; font-weight:800; cursor:pointer; }
+    .deck-tab small { color:var(--faint); font-weight:700; }
+    .deck-tab.active { color:#243B35; border-color:transparent; background:#D7EEDD; }
+    .deck-tab.active small { color:#243B35; }
+    .slide.part2 { background:linear-gradient(135deg,#F6F9F4,#F6F9F4); }
+    .slide.part2 .slide-kicker { color:#27765B; }
+    .slide.divider { background:linear-gradient(135deg,#F6F9F4,#FFFFFF); }
+    .slide-code { margin:14px 0 0; padding:14px 16px; border:1px solid rgba(36,59,53,0.108); border-radius:13px; background:rgba(36,59,53,0.08); color:#243B35; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.74rem; line-height:1.6; white-space:pre-wrap; }
+    .slide-code .c { color:#2B5CA6; }
+    .slide-code .m { color:#4A605A; }
+    .pipe { display:flex; flex-wrap:wrap; align-items:center; gap:7px; margin-top:20px; }
+    .pipe code { padding:9px 12px; border:1px solid rgba(43,92,166,0.32); border-radius:10px; background:rgba(39,118,91,0.099); color:#243B35; font-family:ui-monospace,Menlo,monospace; font-size:.8rem; font-weight:700; }
+    .pipe code.h { border-color:rgba(133,96,0,0.5); background:rgba(133,96,0,0.11); color:#856000; }
+    .pipe b { color:#2B5CA6; }
+    .s-table { width:100%; margin-top:16px; border-collapse:collapse; font-size:.74rem; color:#4A605A; }
+    .s-table th { padding:8px 10px; color:#2B5CA6; text-align:left; font-size:.68rem; letter-spacing:.06em; border-bottom:1px solid rgba(36,59,53,0.162); }
+    .s-table td { padding:8px 10px; border-bottom:1px solid rgba(36,59,53,0.08); vertical-align:top; }
+    .s-table td code { color:#856000; font-family:ui-monospace,Menlo,monospace; }
+    .tree { margin:14px 0 0; padding:14px 18px; border:1px solid rgba(36,59,53,0.108); border-radius:13px; background:rgba(36,59,53,0.08); color:#4A605A; font-family:ui-monospace,Menlo,monospace; font-size:.76rem; line-height:1.75; white-space:pre; overflow-x:auto; }
+    .tree b { color:#27765B; }
+    .tree i { color:#4A605A; font-style:normal; }
+
+    .page-section { padding:10px 0 72px; }
+    .timeline { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:24px; }
+    .tl-card { padding:18px; border:1px solid var(--line); border-radius:18px; background:var(--surface); }
+    .tl-card .when { color:var(--blue); font-size:.68rem; font-weight:800; letter-spacing:.1em; }
+    .tl-card h3 { margin:6px 0; font-family:"Manrope",sans-serif; font-size:.98rem; }
+    .tl-card ul { margin:8px 0 0; padding-left:17px; color:var(--muted); font-size:.76rem; }
+    .tl-card .tag { display:inline-block; margin-top:10px; padding:3px 8px; border-radius:7px; color:var(--cyan); background:rgba(39,118,91,0.11); font-size:.66rem; font-weight:800; }
+    .tl-card.part2 .when { color:var(--green); }
+    .tl-card.ext { border-style:dashed; }
+    .tl-card.ext .when { color:var(--amber); }
+    .table-wrap { margin-top:22px; overflow-x:auto; border:1px solid var(--line); border-radius:18px; background:var(--surface); }
+    .data-table { width:100%; min-width:860px; border-collapse:collapse; font-size:.8rem; }
+    .data-table th { padding:12px 14px; color:var(--blue); background:var(--surface-2); text-align:left; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; }
+    .data-table td { padding:12px 14px; border-top:1px solid var(--line); color:var(--muted); vertical-align:top; }
+    .data-table td:first-child { color:var(--ink); font-weight:800; white-space:nowrap; }
+    .data-table code { padding:2px 6px; border-radius:6px; color:var(--cyan); background:rgba(39,118,91,0.11); font-size:.74rem; font-weight:700; white-space:nowrap; }
+    .data-table .out { color:var(--amber); font-weight:700; }
+    .cmd-filter { display:flex; flex-wrap:wrap; gap:6px; margin-top:20px; }
+    .prompt-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px; }
+    .ref-links { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:22px; }
+    .ref-card { display:flex; gap:14px; align-items:center; padding:18px 20px; border:1px solid var(--line); border-radius:18px; background:var(--surface); }
+    .ref-card:hover { border-color:var(--blue); }
+    .ref-card i { width:44px; height:44px; display:grid; place-items:center; border-radius:12px; color:#FFFFFF; background:linear-gradient(135deg,var(--blue),var(--cyan)); }
+    .ref-card strong,.ref-card span { display:block; }
+    .ref-card span { color:var(--muted); font-size:.78rem; }
+    @media (max-width:980px) { .timeline { grid-template-columns:repeat(2,1fr); } .prompt-grid,.ref-links { grid-template-columns:1fr; } }
+    @media (max-width:650px) { .timeline { grid-template-columns:1fr; } .s-table { font-size:.68rem; } }
+
+    .sched { display:grid; grid-template-columns:1.25fr 1fr; gap:14px; margin-top:24px; }
+    .sched-col { padding:20px; border:1px solid var(--line); border-radius:18px; background:var(--surface); }
+    .sched-col h3 { display:flex; align-items:center; gap:10px; margin:0 0 12px; font-family:"Manrope",sans-serif; font-size:1.02rem; }
+    .sched-col h3 span { padding:3px 9px; border-radius:8px; color:#FFFFFF; background:linear-gradient(135deg,var(--blue),var(--cyan)); font-size:.68rem; font-weight:800; }
+    .sched-col.pm h3 span { background:linear-gradient(135deg,var(--amber),#F6D5CF); }
+    .sched-row { display:grid; grid-template-columns:78px 1fr; gap:12px; padding:10px 0; border-top:1px solid var(--line); font-size:.82rem; }
+    .sched-row:first-of-type { border-top:0; }
+    .sched-row b { color:var(--blue); font-size:.74rem; }
+    .sched-col.pm .sched-row b { color:var(--amber); }
+    .sched-row span { color:var(--muted); }
+    .sched-row strong { display:block; color:var(--ink); }
+    .launch-btn { display:inline-flex; align-items:center; gap:10px; margin-top:14px; min-height:46px; padding:0 18px; border:0; border-radius:13px; color:#FFFFFF; background:#27765B; font-weight:800; font-size:.86rem; cursor:pointer; }
+    .check-list { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:22px; }
+    .check-item { display:flex; gap:12px; align-items:flex-start; padding:14px 16px; border:1px solid var(--line); border-radius:14px; background:var(--surface); font-size:.84rem; cursor:pointer; }
+    .check-item input { width:18px; height:18px; margin-top:2px; accent-color:var(--green); }
+    .check-item.done { border-color:rgba(39,118,91,0.5); background:linear-gradient(135deg,rgba(39,118,91,0.088),transparent),var(--surface); }
+    .check-item.done span { color:var(--muted); text-decoration:line-through; }
+    .check-progress { margin-top:12px; color:var(--green); font-weight:800; font-size:.84rem; }
+    .link-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:22px; }
+    .link-card { display:flex; gap:12px; align-items:flex-start; padding:16px; border:1px solid var(--line); border-radius:16px; background:var(--surface); transition:150ms ease; }
+    .link-card:hover { border-color:var(--blue); transform:translateY(-2px); }
+    .link-card i { flex:0 0 38px; height:38px; display:grid; place-items:center; border-radius:10px; color:var(--blue); background:rgba(43,92,166,0.11); }
+    .link-card.ext i { color:var(--violet); background:rgba(93,74,168,0.132); }
+    .link-card strong,.link-card span { display:block; }
+    .link-card strong { font-size:.86rem; }
+    .link-card span { margin-top:3px; color:var(--muted); font-size:.74rem; }
+    .link-card small { display:inline-block; margin-top:6px; color:var(--faint); font-size:.64rem; font-weight:800; letter-spacing:.08em; }
+    .setup-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:14px; margin-top:22px; }
+    .setup-card { padding:20px; border:1px solid var(--line); border-radius:18px; background:var(--surface); }
+    .setup-card h3 { margin:0 0 6px; font-family:"Manrope",sans-serif; font-size:1rem; }
+    .setup-card p { margin:0 0 12px; color:var(--muted); font-size:.78rem; }
+    .setup-card label { display:block; margin:10px 0 5px; color:var(--muted); font-size:.72rem; font-weight:800; }
+    .setup-card textarea,.setup-card input { width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:11px; color:var(--ink); background:var(--surface-2); font:inherit; font-size:.84rem; outline:none; }
+    .setup-card textarea { min-height:190px; resize:vertical; font-family:ui-monospace,Menlo,monospace; font-size:.78rem; line-height:1.7; }
+    .dur-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .key-list { margin:12px 0 0; padding:0; list-style:none; display:grid; gap:6px; font-size:.76rem; color:var(--muted); }
+    .key-list kbd { display:inline-block; min-width:26px; margin-right:8px; padding:2px 7px; border:1px solid var(--line); border-bottom-width:2px; border-radius:6px; color:var(--ink); background:var(--surface-2); font-family:ui-monospace,Menlo,monospace; font-size:.7rem; text-align:center; }
+    .video-wrap { display:grid; grid-template-columns:1.35fr .9fr; gap:0; }
+    .video-wrap { align-items:start; }
+    .video-wrap .playlist { max-height:430px; overflow-y:auto; border-left:1px solid var(--line); }
+    .video-wrap .player { height:auto; }
+
+    /* ===== Presentation stage ===== */
+    .stage { position:fixed; inset:0; z-index:1000; display:none; overflow:hidden; color:#243B35; font-family:"DM Sans",sans-serif; background:#F6F9F4; }
+    .stage.open { display:block; }
+    .stage-bg { position:absolute; inset:-20%; background:radial-gradient(circle at 20% 25%,rgba(43,92,166,0.418),transparent 38%),radial-gradient(circle at 80% 70%,rgba(93,74,168,0.352),transparent 40%),radial-gradient(circle at 60% 10%,rgba(39,118,91,0.242),transparent 35%); animation:drift 22s ease-in-out infinite alternate; }
+    .stage[data-phase="qa"] .stage-bg { background:radial-gradient(circle at 20% 25%,rgba(39,118,91,0.396),transparent 38%),radial-gradient(circle at 80% 70%,rgba(39,118,91,0.308),transparent 40%),radial-gradient(circle at 60% 10%,rgba(43,92,166,0.22),transparent 35%); }
+    .stage[data-phase="discuss"] .stage-bg { background:radial-gradient(circle at 20% 25%,rgba(133,96,0,0.33),transparent 38%),radial-gradient(circle at 80% 70%,rgba(168,58,69,0.308),transparent 40%),radial-gradient(circle at 60% 10%,rgba(93,74,168,0.242),transparent 35%); }
+    .stage[data-phase="break"] .stage-bg { background:radial-gradient(circle at 30% 30%,rgba(238,244,236,0.35),transparent 40%),radial-gradient(circle at 75% 70%,rgba(43,92,166,0.22),transparent 40%); }
+    @keyframes drift { from { transform:translate(0,0) rotate(0deg); } to { transform:translate(4%,-3%) rotate(6deg); } }
+    .stage-grid { position:absolute; inset:0; opacity:.35; background-image:linear-gradient(rgba(255,255,255,0.7) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.7) 1px,transparent 1px); background-size:56px 56px; }
+    .stage-day { position:absolute; right:-2vw; bottom:-8vh; color:rgba(36,59,53,0.04); font-family:"Manrope",sans-serif; font-size:42vh; font-weight:800; line-height:1; pointer-events:none; }
+    .stage-top { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:3vh 4vw; }
+    .stage-brand { display:flex; align-items:center; gap:14px; font-family:"Manrope",sans-serif; font-weight:800; font-size:clamp(.9rem,1.4vw,1.2rem); }
+    .stage-brand .mk { width:44px; height:44px; display:grid; place-items:center; border-radius:13px; color:#243B35; background:linear-gradient(145deg,#D2E0FB,#D2E0FB); }
+    .stage-brand small { display:block; color:rgba(36,59,53,0.6); font-size:.72em; font-weight:700; }
+    .stage-clock { color:rgba(36,59,53,0.75); font-family:ui-monospace,Menlo,monospace; font-size:clamp(1rem,1.6vw,1.4rem); }
+    .stage-main { position:absolute; inset:14vh 4vw 16vh; display:grid; grid-template-columns:1.15fr .85fr; gap:4vw; align-items:center; }
+    .stage-phase { display:inline-flex; align-items:center; gap:10px; padding:8px 16px; border-radius:999px; background:rgba(255,255,255,0.91); font-size:clamp(.8rem,1.3vw,1.1rem); font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .stage-phase::before { content:""; width:10px; height:10px; border-radius:50%; background:#D7EEDD; box-shadow:0 0 12px rgba(36,59,53,0.14); }
+    .stage.paused .stage-phase::before { background:#F5F0BB; box-shadow:0 0 12px rgba(36,59,53,0.14); }
+    .stage-order { margin-top:3vh; color:rgba(36,59,53,0.6); font-size:clamp(.9rem,1.5vw,1.3rem); font-weight:700; }
+    .stage-team { margin:1vh 0 0; font-family:"Manrope",sans-serif; font-size:clamp(2.6rem,7vw,6.6rem); font-weight:800; line-height:1.02; letter-spacing:-.04em; }
+    .stage-project { margin-top:2vh; color:rgba(36,59,53,0.82); font-size:clamp(1.1rem,2.2vw,2rem); }
+    .stage-questions { display:none; margin:3vh 0 0; padding:0; list-style:none; }
+    .stage-questions li { margin-top:1.4vh; padding:1.4vh 1.6vw; border-left:4px solid rgba(133,96,0,0.55); border-radius:0 12px 12px 0; background:rgba(255,255,255,0.79); font-size:clamp(.95rem,1.6vw,1.4rem); }
+    .stage[data-phase="discuss"] .stage-questions,.stage[data-phase="qa"] .stage-questions.qa { display:block; }
+    .stage[data-phase="discuss"] .stage-order,.stage[data-phase="break"] .stage-order { visibility:hidden; }
+    .timer-wrap { position:relative; width:min(38vw,62vh); aspect-ratio:1; justify-self:center; }
+    .timer-wrap svg { width:100%; height:100%; transform:rotate(-90deg); }
+    .timer-wrap circle { fill:none; stroke-width:10; }
+    .timer-track { stroke:rgba(36,59,53,0.1); }
+    .timer-ring { stroke:#27765B; stroke-linecap:round; transition:stroke-dashoffset .9s linear, stroke .3s; }
+    .stage.warn .timer-ring { stroke:#856000; }
+    .timer-wrap { border-radius:50%; box-shadow:0 0 60px rgba(36,59,53,0.063), inset 0 0 60px rgba(36,59,53,0.028); }
+    .stage.warn .timer-wrap { box-shadow:0 0 70px rgba(36,59,53,0.087), inset 0 0 60px rgba(36,59,53,0.035); }
+    .stage.over .timer-wrap { box-shadow:0 0 80px rgba(36,59,53,0.122), inset 0 0 60px rgba(36,59,53,0.042); }
+    .stage.over .timer-ring { stroke:#A83A45; }
+    .timer-text { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .timer-num { font-family:"Manrope",ui-monospace,monospace; font-size:clamp(3rem,9vw,9rem); font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-.03em; line-height:1; }
+    .stage.warn .timer-num { color:#856000; }
+    .stage.over .timer-num { color:#A83A45; animation:blink 1s steps(2) infinite; }
+    @keyframes blink { 50% { opacity:.45; } }
+    .timer-label { margin-top:1.4vh; color:rgba(36,59,53,0.65); font-size:clamp(.8rem,1.3vw,1.1rem); font-weight:700; letter-spacing:.1em; }
+    .stage-bottom { position:absolute; left:0; right:0; bottom:0; display:flex; justify-content:space-between; align-items:center; gap:20px; padding:2.4vh 4vw; background:linear-gradient(transparent,rgba(36,59,53,0.08)); }
+    .stage-next { color:rgba(36,59,53,0.72); font-size:clamp(.85rem,1.3vw,1.1rem); }
+    .stage-next b { color:#243B35; }
+    .stage-ctrl { display:flex; gap:8px; opacity:.2; transition:opacity .2s; }
+    .stage:hover .stage-ctrl,.stage-ctrl:focus-within { opacity:1; }
+    .stage-ctrl button { min-width:46px; height:46px; padding:0 14px; border:1px solid rgba(36,59,53,0.198); border-radius:12px; color:#243B35; background:rgba(255,255,255,0.79); font-size:.82rem; font-weight:800; cursor:pointer; }
+    .stage-ctrl button.primary { color:#FFFFFF; background:#27765B; border-color:transparent; }
+    .stage-ctrl button:hover { background:rgba(255,255,255,0.92); }
+    .stage-ctrl button.primary:hover { background:#D2E0FB; }
+    .stage-feedback { position:absolute; left:4vw; bottom:12vh; display:none; gap:10px; }
+    .stage[data-phase="qa"] .stage-feedback { display:flex; }
+    .stage-feedback span { padding:8px 14px; border-radius:999px; background:rgba(255,255,255,0.85); font-size:clamp(.75rem,1.1vw,.95rem); font-weight:700; }
+
+    @media (max-width:980px) { .sched,.setup-grid,.video-wrap { grid-template-columns:1fr; } .link-grid { grid-template-columns:1fr 1fr; } .stage-main { grid-template-columns:1fr; inset:12vh 5vw 18vh; text-align:center; } .timer-wrap { width:min(70vw,40vh); } }
+    @media (max-width:650px) { .check-list,.link-grid,.dur-grid { grid-template-columns:1fr; } .stage-ctrl button { min-width:40px; height:40px; padding:0 10px; } }
+
+    .hero-copy.grad { background:linear-gradient(135deg,rgba(133,96,0,0.176),rgba(93,74,168,0.132) 45%,transparent 70%),var(--surface); }
+    .hero-copy.grad::after { content:"🎓"; right:24px; bottom:-30px; font-size:10rem; opacity:.14; color:inherit; }
+    .confetti-btn { border:0; cursor:pointer; color:#FFFFFF !important; background:#27765B !important; }
+    .journey { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:24px; }
+    .j-card { position:relative; display:block; padding:16px; border:1px solid var(--line); border-radius:16px; background:var(--surface); transition:150ms ease; }
+    .j-card:hover { border-color:var(--blue); transform:translateY(-2px); }
+    .j-card .d { color:var(--blue); font-family:"Manrope",sans-serif; font-size:.72rem; font-weight:800; letter-spacing:.1em; }
+    .j-card.w2 .d { color:var(--green); }
+    .j-card strong { display:block; margin-top:4px; font-size:.86rem; }
+    .j-card span { display:block; margin-top:4px; color:var(--muted); font-size:.72rem; }
+    .j-card.today { border-color:var(--amber); background:linear-gradient(135deg,rgba(133,96,0,0.132),transparent),var(--surface); }
+    .j-card.today .d { color:var(--amber); }
+    .program { display:grid; gap:8px; margin-top:22px; }
+    .prog-row { display:grid; grid-template-columns:56px 1fr auto; gap:14px; align-items:center; padding:14px 18px; border:1px solid var(--line); border-radius:14px; background:var(--surface); }
+    .prog-row .no { width:40px; height:40px; display:grid; place-items:center; border-radius:12px; color:#243B35; background:linear-gradient(135deg,#F5F0BB,#F6D5CF); font-weight:800; }
+    .prog-row strong { display:block; font-size:.9rem; }
+    .prog-row span { color:var(--muted); font-size:.78rem; }
+    .prog-row em { color:var(--faint); font-style:normal; font-size:.74rem; font-weight:700; }
+    .survey-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px; }
+    .survey-card { position:relative; overflow:hidden; padding:28px; border:1px solid var(--line); border-radius:22px; background:var(--surface); box-shadow:var(--shadow); }
+    .survey-card::after { content:""; position:absolute; right:-40px; top:-40px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle,rgba(43,92,166,0.198),transparent 70%); }
+    .survey-card.post::after { background:radial-gradient(circle,rgba(93,74,168,0.22),transparent 70%); }
+    .survey-card .ic { width:52px; height:52px; display:grid; place-items:center; border-radius:15px; color:#FFFFFF; background:linear-gradient(135deg,var(--blue),var(--cyan)); font-size:1.3rem; }
+    .survey-card.post .ic { background:linear-gradient(135deg,var(--violet),#F6D5CF); color:#243B35; }
+    .survey-card h3 { margin:16px 0 6px; font-family:"Manrope",sans-serif; font-size:1.25rem; }
+    .survey-card p { margin:0; color:var(--muted); font-size:.86rem; }
+    .survey-card ul { margin:12px 0 0; padding-left:18px; color:var(--muted); font-size:.8rem; }
+    .survey-card .go { display:inline-flex; align-items:center; gap:10px; margin-top:18px; min-height:48px; padding:0 20px; border-radius:13px; color:#FFFFFF; background:linear-gradient(135deg,var(--blue),var(--cyan)); font-weight:800; font-size:.88rem; }
+    .survey-card.post .go { color:#243B35; background:linear-gradient(135deg,var(--violet),#F6D5CF); }
+    .survey-card .go.disabled { pointer-events:none; opacity:.45; filter:grayscale(.6); }
+    .survey-card .when { display:inline-block; margin-top:10px; padding:3px 9px; border-radius:8px; color:var(--amber); background:rgba(133,96,0,0.11); font-size:.7rem; font-weight:800; }
+    .grad-banner { margin-top:24px; padding:clamp(28px,5vw,56px); border-radius:26px; color:#243B35; text-align:center; background:radial-gradient(circle at 20% 20%,rgba(43,92,166,0.495),transparent 45%),radial-gradient(circle at 80% 80%,rgba(168,58,69,0.385),transparent 45%),linear-gradient(135deg,#F6F9F4,#FFFFFF); box-shadow:var(--shadow); }
+    .grad-banner h2 { margin:10px 0; font-family:"Manrope",sans-serif; font-size:clamp(1.8rem,4.5vw,3.4rem); letter-spacing:-.04em; line-height:1.1; }
+    .grad-banner p { max-width:720px; margin:0 auto; color:rgba(36,59,53,0.8); }
+    .grad-stats { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:24px; }
+    .grad-stats div { min-width:130px; padding:14px 18px; border:1px solid rgba(36,59,53,0.162); border-radius:16px; background:rgba(255,255,255,0.76); }
+    .grad-stats b { display:block; font-family:"Manrope",sans-serif; font-size:1.7rem; }
+    .grad-stats span { color:rgba(36,59,53,0.7); font-size:.74rem; }
+    #confetti { position:fixed; inset:0; z-index:2000; pointer-events:none; }
+    .stage[data-phase="ceremony"] .stage-bg { background:radial-gradient(circle at 20% 25%,rgba(133,96,0,0.462),transparent 40%),radial-gradient(circle at 80% 70%,rgba(168,58,69,0.396),transparent 42%),radial-gradient(circle at 55% 15%,rgba(93,74,168,0.352),transparent 38%); }
+    .stage[data-phase="ceremony"] .stage-main { grid-template-columns:1fr; text-align:center; }
+    .stage[data-phase="ceremony"] .timer-wrap,.stage[data-phase="ceremony"] .stage-order { display:none; }
+    .stage[data-phase="ceremony"] .stage-team { font-size:clamp(3rem,9vw,8.5rem); background:linear-gradient(90deg,#856000,#243B35,#5D4AA8); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .stage[data-phase="ceremony"] .stage-phase::before { background:#F5F0BB; box-shadow:0 0 12px rgba(36,59,53,0.14); }
+    .stage-cap { display:none; font-size:clamp(3rem,8vh,6rem); }
+    .stage[data-phase="ceremony"] .stage-cap { display:block; }
+    @media (max-width:980px) { .journey { grid-template-columns:repeat(2,1fr); } .survey-grid { grid-template-columns:1fr; } }
+    @media (max-width:650px) { .prog-row { grid-template-columns:48px 1fr; } .prog-row em { grid-column:2; } }
+  </style>
+  <link rel="stylesheet" href="daily-feedback.css" />
+  <script src="./shared/lms-header.js?v=20261118-unified"></script>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark">A</span><span>ACE AI SW</span></a>
+      <div class="breadcrumb"><a href="ai-project-10day.html">10-Day Course</a><i class="fa-solid fa-chevron-right"></i><strong>Day 10 · Graduation</strong></div>
+      <div class="top-actions">
+        <button class="icon-btn" type="button" data-open-stage title="Presentation mode" aria-label="Open presentation mode"><i class="fa-solid fa-person-chalkboard"></i></button>
+        <a class="icon-btn" href="ai-project-10day.html" title="10-Day Course Guide" aria-label="10-Day Course Guide"><i class="fa-regular fa-map"></i></a>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><i class="fa-regular fa-moon"></i></button>
+        <div class="profile"><span class="profile-avatar" id="profileAvatar">👤</span><span class="profile-copy"><strong id="profileName">Participant</strong><span id="profileId">ACE AI SW</span></span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="day-hero">
+      <div class="shell hero-grid">
+        <div class="hero-copy grad">
+          <span class="day-chip">DAY 10 · FRIDAY · FINAL PRESENTATION &amp; GRADUATION</span>
+          <h1>Congratulations<br />on graduating 🎓</h1>
+          <p>Over 10 days you took services apart with growth hacking, designed with gstack and docs, and built things yourself with AI. Today you <strong>present your own project</strong> and celebrate the journey together at the <strong>graduation ceremony</strong>.</p>
+          <div class="hero-quote"><i class="fa-solid fa-heart"></i> After the ceremony, please complete the <b>satisfaction survey</b> and <b>post-course survey</b> below. Your opinions shape the next course.</div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#survey"><i class="fa-solid fa-square-poll-vertical"></i> Take the surveys</a>
+            <button class="btn btn-primary" type="button" data-open-stage style="border:0;cursor:pointer"><i class="fa-solid fa-person-chalkboard"></i> Presentation Mode · Timer</button>
+            <button class="btn confetti-btn" type="button" id="celebrate"><i class="fa-solid fa-champagne-glasses"></i> Celebrate</button>
+          </div>
+        </div>
+        <aside class="day-summary"><span class="summary-label">Today</span><ul class="summary-list">
+          <li><i class="fa-solid fa-check"></i><span>Morning: final rehearsal and live demo setup check</span></li>
+          <li><i class="fa-solid fa-check"></i><span>Afternoon: 7-minute final talk each + 3-minute Q&A</span></li>
+          <li><i class="fa-solid fa-check"></i><span>Whole-class retro: the biggest thing learned in 10 days</span></li>
+          <li><i class="fa-solid fa-check"></i><span>Graduation: certificates · reflections · group photo</span></li>
+          <li><i class="fa-solid fa-check"></i><span>Complete the satisfaction · post-course surveys</span></li>
+        </ul><div class="deliverable"><strong>Final submission</strong><span>Slides · working project · README (how to run) · demo video (backup) · one-paragraph retro</span></div></aside>
+      </div>
+    </section>
+
+    <section class="page-section" id="schedule">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">Final Day</p><h2 class="section-title">Rehearsal in the morning · talks and graduation in the afternoon</h2></div><p class="section-lead">Run the talks in <b>presentation mode</b> below; show the graduation stage screen with the <kbd>G</kbd> key in presentation mode.</p></div>
+        <div class="sched">
+          <div class="sched-col"><h3><span>AM</span> Morning · final rehearsal</h3><div class="sched-row"><b>30 min</b><span><strong>Final check</strong>Demo setup · test data · backups</span></div><div class="sched-row"><b>60 min</b><span><strong>Rehearsal</strong>Practice the 7-min talk with a timer · peer feedback</span></div><div class="sched-row"><b>30 min</b><span><strong>Wrap-up</strong>Submit the final README · slides</span></div></div>
+          <div class="sched-col pm"><h3><span>PM</span> Afternoon · final talks and graduation</h3><div class="sched-row"><b>7 min each</b><span><strong>Final talk</strong>Problem · live demo · process · improvements · lessons</span></div><div class="sched-row"><b>3 min each</b><span><strong>Q&amp;A</strong>1 compliment · 1 question</span></div><div class="sched-row"><b>10 min</b><span><strong>Whole-class retro</strong>The biggest thing learned in 10 days</span></div><div class="sched-row"><b>80 min</b><span><strong>Graduation</strong>Certificates · reflections · surveys · group photo</span></div><button class="launch-btn" type="button" data-open-stage><i class="fa-solid fa-play"></i> Start presentation mode</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slides-section" id="slides" style="padding-top:20px">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">Briefing · 5 min</p><h2 class="section-title">Today's guide</h2></div><p class="section-lead">Move with ←/→; N key for lecture notes.</p></div>
+        <div class="slide-deck" id="slideDeck">
+          <div class="slide-stage" aria-live="polite">
+            <article class="slide dense active" data-note="Today isn't for building new features. In the morning do only rehearsal and demo setup checks; limit code changes to Critical defects."><div class="slide-inner">
+              <span class="slide-kicker">Day 10 · Final &amp; Graduation</span>
+              <h2 class="sm">A 10-day journey —<br /><span class="hl">today we show the result</span></h2>
+              <p>A day to present the project you built and celebrate each other's growth.</p>
+              <div class="viz-strip"><svg class="viz" viewBox="0 0 1000 270" role="img" aria-label="The 10-day journey climbing from Day 1 to the Day 10 final talk" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><path d="M40 230 L140 210 L240 190 L340 170 L440 150 L540 130 L640 110 L740 90 L840 70 L940 50" fill="none" stroke="rgba(36,59,53,0.18)" stroke-width="6" stroke-linecap="round"/><circle cx="40" cy="230" r="12" fill="#F6F9F4" stroke="#4A605A" stroke-width="3"/><text x="40" y="235" text-anchor="middle" fill="#243B35" font-size="11" font-weight="900" >1</text><text x="40" y="266" text-anchor="middle" fill="#4A605A" font-size="12" font-weight="800" >Orientation</text><circle cx="140" cy="210" r="12" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="3"/><text x="140" y="215" text-anchor="middle" fill="#243B35" font-size="11" font-weight="900" >2</text><text x="140" y="186" text-anchor="middle" fill="#2B5CA6" font-size="12" font-weight="800" >Growth hacking</text><circle cx="240" cy="190" r="12" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="3"/><text x="240" y="195" text-anchor="middle" fill="#243B35" font-size="11" font-weight="900" >3</text><text x="240" y="226" text-anchor="middle" fill="#2B5CA6" font-size="12" font-weight="800" >gstack · docs</text><circle cx="340" cy="170" r="12" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="3"/><text x="340" y="175" text-anchor="middle" fill="#243B35" font-size="11" font-weight="900" >4</text><text x="340" y="146" text-anchor="middle" fill="#2B5CA6" font-size="12" font-weight="800" >MD · AI development</text><circle cx="440" cy="150" r="12" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="3"/><text x="440" y="155" text-anchor="middle" fill="#243B35" font-size="11" font-weight="900" >5</text><text x="440" y="186" text-anchor="middle" fill="#2B5CA6" font-size="12" font-weight="800" >Back-end structure</text><circle cx="540" cy="130" r="12" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="3"/><text x="540" y="135" text-anchor="middle" fill="#243B35" font-size="11" font-weight="900" >6</text><text x="540" y="106" text-anchor="middle" fill="#5D4AA8" font-size="12" font-weight="800" >kickoff</text><circle cx="640" cy="110" r="12" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="3"/><text x="640" y="115" text-anchor="middle" fill="#243B35" font-size="11" font-weight="900" >7</text><text x="640" y="146" text-anchor="middle" fill="#5D4AA8" font-size="12" font-weight="800" >Design · mid-term talk</text><circle cx="740" cy="90" r="12" fill="#F6F9F4" stroke="#856000" stroke-width="3"/><text x="740" y="95" text-anchor="middle" fill="#243B35" font-size="11" font-weight="900" >8</text><text x="740" y="66" text-anchor="middle" fill="#856000" font-size="12" font-weight="800" >MVP Build</text><circle cx="840" cy="70" r="12" fill="#F6F9F4" stroke="#856000" stroke-width="3"/><text x="840" y="75" text-anchor="middle" fill="#243B35" font-size="11" font-weight="900" >9</text><text x="840" y="106" text-anchor="middle" fill="#856000" font-size="12" font-weight="800" >POC talk</text><circle cx="940" cy="50" r="18" fill="#D7EEDD" stroke="#27765B" stroke-width="3"/><text x="940" y="55" text-anchor="middle" fill="#243B35" font-size="13" font-weight="900" >10</text><text x="940" y="86" text-anchor="middle" fill="#27765B" font-size="14" font-weight="800" >Final talk</text><path d="M966 4 v30" stroke="#856000" stroke-width="3"/><path d="M966 4 l24 8 l-24 8z" fill="#F5F0BB"/></svg></div>
+              <div class="slide-grid steps"><div class="slide-card"><div style="display:flex;gap:10px;align-items:center"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="mic" font-family="Pretendard,DM Sans,sans-serif" style="height:44px;width:44px;display:block;margin:0;height:34px;width:34px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#856000" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></g></svg><strong>Morning</strong></div><span>Final rehearsal · demo check</span></div><div class="slide-card"><div style="display:flex;gap:10px;align-items:center"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="rocket" font-family="Pretendard,DM Sans,sans-serif" style="height:44px;width:44px;display:block;margin:0;height:34px;width:34px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#2B5CA6" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c4 3 5 8 3 13H9C7 10 8 5 12 2z"/><path d="M9 15l-3 3 1 3 3-2M15 15l3 3-1 3-3-2"/><circle cx="12" cy="9" r="1.5"/></g></svg><strong>present</strong></div><span>7 min each + 3 min Q&A</span></div><div class="slide-card"><div style="display:flex;gap:10px;align-items:center"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="badge" font-family="Pretendard,DM Sans,sans-serif" style="height:44px;width:44px;display:block;margin:0;height:34px;width:34px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#27765B" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#27765B" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M9 14l-2 7 5-3 5 3-2-7"/></g></svg><strong>Graduation</strong></div><span>Certificates · reflections</span></div><div class="slide-card"><div style="display:flex;gap:10px;align-items:center"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="chat" font-family="Pretendard,DM Sans,sans-serif" style="height:44px;width:44px;display:block;margin:0;height:34px;width:34px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#5D4AA8" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></g></svg><strong>Surveys</strong></div><span>Satisfaction · post-course surveys</span></div></div>
+            </div></article>
+            <article class="slide dense" data-note="Enter the talk order in presentation mode below, and the stage screen and timer move on automatically."><div class="slide-inner">
+              <span class="slide-kicker">Final presentation · 7 min</span>
+              <h2 class="sm">The final talk is <span class="hl">7 min · 5 scenes</span></h2>
+              <p>Add "feedback → improvement" and "lessons learned" to the Day 9 POC talk.</p>
+              <div class="viz-strip tight"><svg class="viz" viewBox="0 0 1000 82" role="img" aria-label="7-minute final talk: problem 1 min, demo 3 min, process 1 min, before/after 1 min, lessons 1 min" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="6" width="139" height="44" rx="10" fill="#F6D5CF" fill-opacity=".8"/><text x="71.42857142857143" y="34" text-anchor="middle" fill="#243B35" font-size="14" font-weight="900" >Problem · user · 1 min</text><rect x="145" y="6" width="425" height="44" rx="10" fill="#D2E0FB" fill-opacity=".8"/><text x="357.1428571428571" y="34" text-anchor="middle" fill="#243B35" font-size="14" font-weight="900" >Live demo · 3 min</text><rect x="573" y="6" width="139" height="44" rx="10" fill="#DFD8F6" fill-opacity=".8"/><text x="642.8571428571429" y="34" text-anchor="middle" fill="#243B35" font-size="14" font-weight="900" >How we built it · 1 min</text><rect x="716" y="6" width="139" height="44" rx="10" fill="#F5F0BB" fill-opacity=".8"/><text x="785.7142857142858" y="34" text-anchor="middle" fill="#243B35" font-size="14" font-weight="900" >Before/after · 1 min</text><rect x="859" y="6" width="139" height="44" rx="10" fill="#D7EEDD" fill-opacity=".8"/><text x="928.5714285714287" y="34" text-anchor="middle" fill="#243B35" font-size="14" font-weight="900" >Lessons · 1 min</text><rect x="716" y="56" width="282" height="22" rx="11" fill="rgba(133,96,0,0.165)" stroke="#856000" stroke-dasharray="4 3"/><text x="857.1428571428571" y="72" text-anchor="middle" fill="#856000" font-size="12" font-weight="800" >New parts added to the Day 9 POC</text></svg></div>
+              <div class="slide-grid cols-3"><div class="slide-card"><strong>1 min · Problem and user</strong><span>Whose problem did you solve, and what was it</span></div><div class="slide-card"><strong>3 min · Live demo</strong><span>The core flow as one person's story</span></div><div class="slide-card"><strong>1 min · How we built it</strong><span>Docs → AI → checks, the moment AI was wrong</span></div><div class="slide-card"><strong>1 min · Before/after</strong><span>How you applied POC feedback</span></div><div class="slide-card"><strong>1 min · Lessons · next steps</strong><span>What changed in 10 days</span></div></div>
+            </div></article>
+            <article class="slide dense" data-note="Link it to the Day 2 message (AI can't do everything) and make sure each person talks about &quot;a moment a human made the call.&quot;"><div class="slide-inner">
+              <span class="slide-kicker">What we look for</span>
+              <div class="viz-split"><div><h2 class="sm"><span class="hl">Four criteria</span> of a good final talk</h2>
+              <p>We look at the process and judgment, not just polish. A talk <b>balanced across all four directions</b> beats one that is high on just one.</p></div><figure class="viz-fig"><svg class="viz" viewBox="0 0 420 300" role="img" aria-label="Four criteria of a good final talk: working, evidence, AI and people, growth" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><path d="M210 40 L320 150 L210 260 L100 150Z" fill="none" stroke="rgba(36,59,53,0.15)"/><path d="M210 77 L283 150 L210 223 L137 150Z" fill="none" stroke="rgba(36,59,53,0.15)"/><path d="M210 114 L246 150 L210 186 L174 150Z" fill="none" stroke="rgba(36,59,53,0.15)"/><path d="M210 46 L298 150 L210 244 L111 150Z" fill="rgba(43,92,166,0.242)" stroke="#2B5CA6" stroke-width="2.5"/><text x="210.0" y="14.0" text-anchor="middle" fill="#2B5CA6" font-size="15" font-weight="900" >Working</text><text x="210.0" y="31.0" text-anchor="middle" fill="#243B35" font-size="11.5" font-weight="700" >Core flow really runs</text><text x="346.0" y="146.0" text-anchor="start" fill="#2B5CA6" font-size="15" font-weight="900" >Evidence</text><text x="346.0" y="163.0" text-anchor="start" fill="#243B35" font-size="11.5" font-weight="700" >Docs · tests · feedback</text><text x="210.0" y="288.0" text-anchor="middle" fill="#2B5CA6" font-size="15" font-weight="900" >AI and people</text><text x="210.0" y="305.0" text-anchor="middle" fill="#243B35" font-size="11.5" font-weight="700" >AI suggestion vs human call</text><text x="74.0" y="146.00000000000003" text-anchor="end" fill="#2B5CA6" font-size="15" font-weight="900" >Growth</text><text x="74.0" y="163.00000000000003" text-anchor="end" fill="#243B35" font-size="11.5" font-weight="700" >Day 2 → today</text></svg></figure></div>
+              <div class="slide-grid"><div class="slide-card"><div style="display:flex;gap:10px;align-items:center"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="zap" font-family="Pretendard,DM Sans,sans-serif" style="height:44px;width:44px;display:block;margin:0;height:34px;width:34px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#2B5CA6" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></g></svg><strong>Working</strong></div><span>The core flow really works</span></div><div class="slide-card"><div style="display:flex;gap:10px;align-items:center"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="doc" font-family="Pretendard,DM Sans,sans-serif" style="height:44px;width:44px;display:block;margin:0;height:34px;width:34px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#2B5CA6" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4M9 11h7M9 15h7M9 19h4"/></g></svg><strong>Evidence</strong></div><span>Explained with docs · tests · feedback</span></div><div class="slide-card"><div style="display:flex;gap:10px;align-items:center"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="users" font-family="Pretendard,DM Sans,sans-serif" style="height:44px;width:44px;display:block;margin:0;height:34px;width:34px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#5D4AA8" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-4 3-6 6.5-6s6 2 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4 1.8 4.5 5"/></g></svg><strong>AI and people</strong></div><span>Separates AI suggestions from human judgment</span></div><div class="slide-card"><div style="display:flex;gap:10px;align-items:center"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="chart" font-family="Pretendard,DM Sans,sans-serif" style="height:44px;width:44px;display:block;margin:0;height:34px;width:34px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#27765B" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#27765B" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M2 20h20"/></g></svg><strong>Growth</strong></div><span>The difference between me on Day 2 and me today</span></div></div>
+            </div></article>
+            <article class="slide dense" data-note="Show the survey links on screen right after the ceremony and have people answer on the spot; response rates go up."><div class="slide-inner">
+              <span class="slide-kicker">Graduation</span>
+              <div class="viz-split"><div><h2 class="sm"><span class="hl">Not the end but the start</span></h2>
+              <p>The project you built today becomes the first page of your portfolio.</p></div><figure class="viz-fig"><svg class="viz" viewBox="0 60 420 200" role="img" aria-label="A graduation cap: not the end, but the first page of a portfolio" font-family="Pretendard,DM Sans,sans-serif" style="" xmlns="http://www.w3.org/2000/svg"><path d="M110 120 L210 80 L310 120 L210 160z" fill="#F6F9F4" stroke="#856000" stroke-width="3"/><path d="M160 140 v40 c30 20 70 20 100 0 v-40" fill="none" stroke="#856000" stroke-width="3"/><path d="M300 124 v50" stroke="#856000" stroke-width="3"/><circle cx="300" cy="180" r="6" fill="#F5F0BB"/><text x="210" y="226" text-anchor="middle" fill="#243B35" font-size="16" font-weight="900" >Graduation isn't the end</text><text x="210" y="250" text-anchor="middle" fill="#27765B" font-size="16" font-weight="900" >First page of your portfolio</text></svg></figure></div>
+              <div class="slide-grid cols-3"><div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="book" font-family="Pretendard,DM Sans,sans-serif" style="height:44px;width:44px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#856000" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#856000" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a3 3 0 0 0-3 3"/><path d="M20 4v15h-6"/></g></svg><strong>Portfolio</strong><span>Tidy up README · demo video · retro post</span></div><div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="wrench" font-family="Pretendard,DM Sans,sans-serif" style="height:44px;width:44px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#2B5CA6" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6a4 4 0 0 0 5 5l-9 9a2 2 0 0 1-3-3l9-9a4 4 0 0 0-2-2z"/></g></svg><strong>Tools to keep using</strong><span>gstack · doc-based design · layered structure</span></div><div class="slide-card"><svg class="viz" viewBox="0 0 64 64" role="img" aria-label="chat" font-family="Pretendard,DM Sans,sans-serif" style="height:44px;width:44px;display:block;margin-bottom:6px" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="28" fill="#F6F9F4" stroke="#27765B" stroke-width="2.2"/><g transform="translate(18.0 18.0) scale(1.1666666666666667)" fill="none" stroke="#27765B" stroke-width="1.63" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></g></svg><strong>Leave feedback</strong><span>Take the satisfaction and post-course surveys</span></div></div>
+            </div></article>
+          </div>
+          <div class="slide-controls">
+            <button class="slide-nav-btn" id="prevSlide" type="button" aria-label="Previous slide"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="slide-progress-wrap"><span class="slide-counter" id="slideCounter">1 / 4</span><div class="slide-progress"><span id="slideProgress"></span></div></div>
+            <div class="slide-tools"><button class="slide-nav-btn" id="notesToggle" type="button" aria-label="Show lecture notes" aria-pressed="false" title="Lecture notes (N)"><i class="fa-regular fa-comment-dots"></i></button><button class="slide-nav-btn fullscreen-btn" id="fullscreenSlide" type="button" aria-label="Full-screen slides"><i class="fa-solid fa-expand"></i></button><button class="slide-nav-btn" id="nextSlide" type="button" aria-label="Next slide"><i class="fa-solid fa-chevron-right"></i></button></div>
+          </div>
+          <div class="slide-notes" id="slideNotes"><strong>NOTE</strong><span id="slideNoteText"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="checklist">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">Final Check</p><h2 class="section-title">Final check before the talk</h2></div><p class="section-lead">Ticks are saved in this browser.</p></div>
+        <div class="check-list"><label class="check-item"><input type="checkbox" data-check="d10-0" /><span>I did a final check of my slides and demo script</span></label><label class="check-item"><input type="checkbox" data-check="d10-1" /><span>I ran the demo from the start in a new browser</span></label><label class="check-item"><input type="checkbox" data-check="d10-2" /><span>We prepared backups (recorded video · screenshots)</span></label><label class="check-item"><input type="checkbox" data-check="d10-3" /><span>I finished a 7-minute rehearsal with a timer</span></label><label class="check-item"><input type="checkbox" data-check="d10-4" /><span>I prepared a before/after comparison of applying POC feedback</span></label><label class="check-item"><input type="checkbox" data-check="d10-5" /><span>I prepared 1 case where AI was wrong and I fixed it</span></label><label class="check-item"><input type="checkbox" data-check="d10-6" /><span>I tidied up the project README and how to run it</span></label><label class="check-item"><input type="checkbox" data-check="d10-7" /><span>I took the satisfaction and post-course surveys</span></label></div>
+        <div class="check-progress" id="checkProgress"></div>
+      </div>
+    </section>
+
+    <section class="page-section" id="present">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">Presentation Mode</p><h2 class="section-title">Talk order and timer</h2></div><p class="section-lead">Enter one person per line as <code>Name | Project name</code> and start presentation mode. After the last talk, it moves to the whole-class retro, then the graduation screen.</p></div>
+        <div class="setup-grid">
+          <div class="setup-card"><h3>Presentation order</h3><p>The names below are examples. Replace them with the real graduate list.</p>
+            <label for="teamInput">Presenter list</label><textarea id="teamInput" spellcheck="false">Tunde Bello | Project name
+Ada Okafor | Project name
+Chuku Eze | Project name
+Ngozi Adeyemi | Project name
+Taiwo Musa | Project name</textarea>
+            <label for="eventInput">Event title (shown at top of stage)</label><input id="eventInput" type="text" value="Final Presentation" />
+            <label for="gradTitle">Graduation screen text</label><input id="gradTitle" type="text" value="Congratulations, Graduates!" />
+            <label for="gradSub">Graduation screen subtitle</label><input id="gradSub" type="text" value="ACE AI SW Startup Training · AI Real Project 10-Day Course Completed" /></div>
+          <div class="setup-card"><h3>Time settings (min)</h3><p>Yellow 1 minute before the end · red with a chime at the end; overtime shows with +.</p>
+            <div class="dur-grid"><div><label for="d1">Final talk</label><input id="d1" type="number" min="1" max="60" value="7" /></div><div><label for="d2">Q&amp;A</label><input id="d2" type="number" min="0" max="60" value="3" /></div><div><label for="d3">Whole-class retro</label><input id="d3" type="number" min="1" max="90" value="10" /></div></div>
+            <label><input id="soundOn" type="checkbox" checked style="width:auto;margin-right:6px" />Use chime</label>
+            <button class="launch-btn" type="button" data-open-stage><i class="fa-solid fa-person-chalkboard"></i> Start presentation mode</button>
+            <ul class="key-list"><li><kbd>Space</kbd>Start / pause</li><li><kbd>→</kbd><kbd>←</kbd>Next / previous (talk → Q&amp;A → next person → retro → graduation)</li><li><kbd>R</kbd>Restart · <kbd>+</kbd><kbd>-</kbd> adjust 30 sec</li><li><kbd>D</kbd>Whole-class retro · <kbd>G</kbd>Graduation screen · <kbd>B</kbd>Waiting screen</li><li><kbd>F</kbd>Full screen · <kbd>Esc</kbd>Close</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="ceremony">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">Graduation Ceremony</p><h2 class="section-title">Graduation program</h2></div><p class="section-lead">Adjust times to the number of people. During the certificates, it helps to show the graduation screen (<kbd>G</kbd>) from presentation mode.</p></div>
+        <div class="program"><div class="prog-row"><span class="no">1</span><div><strong>Opening & course intro</strong><span>Looking back on 10 days · introducing participants</span></div><em>5 min</em></div><div class="prog-row"><span class="no">2</span><div><strong>Project highlights</strong><span>Replay memorable scenes from the final talks</span></div><em>10 min</em></div><div class="prog-row"><span class="no">3</span><div><strong>Certificates</strong><span>Call each graduate · present · photo</span></div><em>20 min</em></div><div class="prog-row"><span class="no">4</span><div><strong>Graduate reflections</strong><span>One-sentence reflection · future plans</span></div><em>15 min</em></div><div class="prog-row"><span class="no">5</span><div><strong>Encouragement & congratulations</strong><span>Messages from instructors · organizers</span></div><em>10 min</em></div><div class="prog-row"><span class="no">6</span><div><strong>Surveys</strong><span>Satisfaction · post-course survey (on site)</span></div><em>10 min</em></div><div class="prog-row"><span class="no">7</span><div><strong>Group photo & closing</strong><span>Commemorative photo together</span></div><em>10 min</em></div></div>
+        <div class="grad-banner">
+          <span class="eyebrow" style="color:#856000">ACE AI SW STARTUP TRAINING</span>
+          <h2>Thank you for these<br />10 days together</h2>
+          <p>You learned to observe problems, design with docs, build with AI and check with human eyes. This way of working will be your tool in any project ahead.</p>
+          <div class="grad-stats"><div><b>10</b><span>Days</span></div><div><b>1</b><span>Your own project</span></div><div><b>4</b><span>Talks · reviews</span></div><div><b>∞</b><span>Possibilities ahead</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="survey">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">Survey</p><h2 class="section-title">Satisfaction survey · post-course survey</h2></div><p class="section-lead">Surveys are used to improve training quality and measure results. Please answer during the time given at the ceremony.</p></div>
+        <div class="survey-grid">
+          <div class="survey-card"><div class="ic"><i class="fa-solid fa-face-smile"></i></div><h3>Course satisfaction survey</h3><p>Tell us how satisfied you are with the lectures, labs, instructors and overall running of the course.</p><ul><li>Time: about 5 min</li><li>Answers are used only to improve the course</li></ul><span class="when">On graduation day</span><br /><a class="go" href="https://docs.google.com/forms/d/e/1FAIpQLSdQtyqj6xdRtEPD631uO1hN-B8dl93VJ5EMPjdxfK-FHGkTiw/viewform" target="_blank" rel="noopener">Go to satisfaction survey <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+          <div class="survey-card post"><div class="ic"><i class="fa-solid fa-chart-line"></i></div><h3>Post-course survey (skill change)</h3><p>After the course, rate for yourself how much your AI use · design · development skills changed.</p><ul><li>Time: about 5–10 min</li><li>Results are measured against the pre-course survey</li></ul><span class="when">On graduation day</span><br /><a class="go" id="postSurveyLink" href="#" target="_blank" rel="noopener">Go to post-course survey <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="journey">
+      <div class="shell">
+        <div class="section-head"><div><p class="eyebrow">10-Day Journey</p><h2 class="section-title">Our 10 days</h2></div><p class="section-lead">Click a card to go to that day's learning page. You can come back anytime, even after graduating.</p></div>
+        <div class="journey"><a class="j-card w1" href="ai-project-day1.html"><span class="d">DAY 01</span><strong>Course intro · dev setup</strong><span>Setting up AI tools and the dev environment</span></a><a class="j-card w1" href="ai-project-day2.html"><span class="d">DAY 02</span><strong>Growth hacking · reverse engineering</strong><span>AI can't do everything — the GAP experience</span></a><a class="j-card w1" href="ai-project-day3.html"><span class="d">DAY 03</span><strong>gstack · doc-based design</strong><span>Conversation into specs, specs into a service</span></a><a class="j-card w1" href="ai-project-day4.html"><span class="d">DAY 04</span><strong>Doc-driven building</strong><span>Building in Antigravity from MD specs</span></a><a class="j-card w1" href="ai-project-day5.html"><span class="d">DAY 05</span><strong>Back end · layered structure</strong><span>MVC and Django layer design</span></a><a class="j-card w2" href="ai-project-day6.html"><span class="d">DAY 06</span><strong>Project kickoff</strong><span>Agree on problem · user · scope</span></a><a class="j-card w2" href="ai-project-day7.html"><span class="d">DAY 07</span><strong>Design &amp; mid-term talk</strong><span>Core flow · specs · feedback</span></a><a class="j-card w2" href="ai-project-day8.html"><span class="d">DAY 08</span><strong>MVP build &amp; integration</strong><span>A flow that works all the way</span></a><a class="j-card w2" href="ai-project-day9.html"><span class="d">DAY 09</span><strong>POC talk &amp; improvement</strong><span>Show, listen, fix</span></a><a class="j-card today" href="ai-project-day10.html"><span class="d">DAY 10</span><strong>Final talk · graduation</strong><span>Today! Show what we built</span></a></div>
+        <div class="link-grid" style="margin-top:18px">
+          <a class="link-card" href="real-benchmarking/index.html"><i class="fa-solid fa-magnifying-glass-chart"></i><div><strong>Real Benchmarking PBL</strong><span>Observing growth structure · reverse engineering · comparison</span><small>Keep going after graduation</small></div></a>
+          <a class="link-card" href="real-project-gstack/index.html"><i class="fa-solid fa-terminal"></i><div><strong>gstack Classroom</strong><span>Running an AI dev team from planning to QA</span><small>Keep going after graduation</small></div></a>
+          <a class="link-card" href="real-doc-driven-pbl/index.html"><i class="fa-solid fa-file-lines"></i><div><strong>Doc-driven service development PBL</strong><span>Conversation → spec → build → check</span><small>Keep going after graduation</small></div></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="day-nav-section" aria-labelledby="dayNavTitle">
+      <div class="shell"><p class="eyebrow" id="dayNavTitle">10-Day Course Navigation</p>
+<div class="day-nav">
+  <a class="day-link" href="ai-project-day1.html"><strong>Day 1</strong><span>Mon</span></a>
+  <a class="day-link" href="ai-project-day2.html"><strong>Day 2</strong><span>Tue</span></a>
+  <a class="day-link" href="ai-project-day3.html"><strong>Day 3</strong><span>Wed</span></a>
+  <a class="day-link" href="ai-project-day4.html"><strong>Day 4</strong><span>Thu</span></a>
+  <a class="day-link" href="ai-project-day5.html"><strong>Day 5</strong><span>Fri</span></a>
+  <a class="day-link" href="ai-project-day6.html"><strong>Day 6</strong><span>Mon</span></a>
+  <a class="day-link" href="ai-project-day7.html"><strong>Day 7</strong><span>Tue</span></a>
+  <a class="day-link" href="ai-project-day8.html"><strong>Day 8</strong><span>Wed</span></a>
+  <a class="day-link" href="ai-project-day9.html"><strong>Day 9</strong><span>Thu</span></a>
+  <a class="day-link active" href="ai-project-day10.html"><strong>Day 10</strong><span>Now</span></a>
+</div>
+      <p class="day-notice">Click the buttons above to go to the Day 1–10 learning pages.</p></div>
+    </section>
+  </main>
+
+  <section class="daily-feedback-section" aria-labelledby="dailyFeedbackTitle"><div class="shell"><div class="daily-feedback-card"><div class="daily-feedback-copy"><p class="daily-feedback-kicker"><i class="fa-regular fa-message"></i> Day 10 · Daily Feedback</p><h2 id="dailyFeedbackTitle">Today's Course Satisfaction Survey</h2><p>After Day 10 class, please answer a short survey. Your answers help us improve future courses and how they're run.</p><div class="daily-feedback-actions"><a class="daily-feedback-button" href="https://docs.google.com/forms/d/1YsTb73S5h6sYpIqm6mznz8F9IXsw-hHHmQ_bCHyfkVM/viewform" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Day 10 Survey</a><span class="daily-feedback-note">Join with the button or QR code</span></div></div><div class="daily-feedback-qr"><a href="https://docs.google.com/forms/d/1YsTb73S5h6sYpIqm6mznz8F9IXsw-hHHmQ_bCHyfkVM/viewform" target="_blank" rel="noopener noreferrer" aria-label="Open Day 10 satisfaction survey"><img src="https://api.qrserver.com/v1/create-qr-code/?size=312x312&amp;data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2F1YsTb73S5h6sYpIqm6mznz8F9IXsw-hHHmQ_bCHyfkVM%2Fviewform" alt="Day 10 Daily Feedback Survey QR code" loading="lazy" /></a><strong>SCAN TO OPEN</strong><span>Nigeria AI Training · Day 10</span></div></div></div></section>
+  <footer><div class="shell footer-inner"><strong>ACE AI SW Startup Training</strong><span>AI Real Project · Day 10 Final Presentation & Graduation</span></div></footer>
+
+  <div class="stage" id="stage" data-phase="break" role="dialog" aria-label="Presentation mode" tabindex="-1">
+    <div class="stage-bg"></div><div class="stage-grid"></div><div class="stage-day">D10</div>
+    <div class="stage-top"><div class="stage-brand"><span class="mk">A</span><span><span id="stEvent"></span><small>ACE AI SW Startup Training · Day 10</small></span></div><div class="stage-clock" id="stClock"></div></div>
+    <div class="stage-main">
+      <div>
+        <div class="stage-cap">🎓</div>
+        <span class="stage-phase" id="stPhase"></span>
+        <div class="stage-order" id="stOrder"></div>
+        <h1 class="stage-team" id="stTeam"></h1>
+        <div class="stage-project" id="stProject"></div>
+        <ul class="stage-questions" id="stQuestions"></ul>
+      </div>
+      <div class="timer-wrap"><svg viewBox="0 0 200 200" aria-hidden="true"><circle class="timer-track" cx="100" cy="100" r="90"></circle><circle class="timer-ring" id="stRing" cx="100" cy="100" r="90"></circle></svg>
+        <div class="timer-text"><div class="timer-num" id="stTime">00:00</div><div class="timer-label" id="stLabel"></div></div></div>
+    </div>
+    <div class="stage-feedback" id="stFeedback"></div>
+    <div class="stage-bottom"><div class="stage-next" id="stNext"></div>
+      <div class="stage-ctrl"><button type="button" data-act="prev" title="Previous (←)"><i class="fa-solid fa-backward-step"></i></button><button type="button" class="primary" data-act="toggle" id="stToggle" title="Start/Pause (Space)"><i class="fa-solid fa-play"></i></button><button type="button" data-act="next" title="Next (→)"><i class="fa-solid fa-forward-step"></i></button><button type="button" data-act="reset" title="Restart (R)"><i class="fa-solid fa-rotate-left"></i></button><button type="button" data-act="minus">−30s</button><button type="button" data-act="plus">+30s</button><button type="button" data-act="discuss" title="Whole-class retro (D)"><i class="fa-solid fa-comments"></i></button><button type="button" data-act="ceremony" title="Graduation (G)"><i class="fa-solid fa-graduation-cap"></i></button><button type="button" data-act="break" title="Waiting (B)"><i class="fa-solid fa-mug-hot"></i></button><button type="button" data-act="full" title="Full screen (F)"><i class="fa-solid fa-expand"></i></button><button type="button" data-act="close" title="Close (Esc)"><i class="fa-solid fa-xmark"></i></button></div></div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+      var CFG = {"day": 10, "event": "Final Presentation", "l1": "Final talk", "l2": "Q&amp;A", "qa": ["Memorable scene", "1 question", "A word of encouragement"], "discuss": ["What's the biggest thing you learned in 10 days?", "What habits of yours changed from working with AI?", "What service do you want to build next?", "What would you say to yourself on Day 2?"]};
+      /* 사후 설문 링크: 준비되면 아래 따옴표 안에 URL을 넣으세요 */
+      var POST_SURVEY_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdJ0quslSzp6tcVJzUh3kyHUY5yl9PVSx4lNgaQ4ws6uwuQ5Q/viewform?usp=header";
+      function store(k,v){ try { if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v); } catch(e) { return null; } }
+      var toggle=document.getElementById("themeToggle");
+      function syncTheme(){ var dark=document.documentElement.dataset.theme==="dark"; toggle.setAttribute("aria-pressed",String(dark)); toggle.innerHTML=dark?'<i class="fa-regular fa-sun"></i>':'<i class="fa-regular fa-moon"></i>'; }
+      toggle.addEventListener("click",function(){ var n=document.documentElement.dataset.theme==="dark"?"light":"dark"; document.documentElement.dataset.theme=n; store("lmsStudentHomeTheme",n); syncTheme(); }); syncTheme();
+      try { var session=JSON.parse(store("currentUserSession")||"null"); if(session&&Number(session.expiresAt||0)>Date.now()){ var user=JSON.parse(session.value||"{}"); if(user.name)document.getElementById("profileName").textContent=user.name; if(user.studentId||user.id)document.getElementById("profileId").textContent=user.studentId||user.id; if(user.avatar)document.getElementById("profileAvatar").textContent=user.avatar; } } catch(e) {}
+
+      // Post survey link
+      var ps=document.getElementById("postSurveyLink");
+      if(POST_SURVEY_URL){ ps.href=POST_SURVEY_URL; } else { ps.classList.add("disabled"); ps.removeAttribute("target"); ps.innerHTML='Link coming soon · announced on site <i class="fa-regular fa-clock"></i>'; }
+
+      // Slides
+      var slides=Array.from(document.querySelectorAll(".slide")),idx=0,counter=document.getElementById("slideCounter"),progress=document.getElementById("slideProgress"),prev=document.getElementById("prevSlide"),next=document.getElementById("nextSlide"),notes=document.getElementById("slideNotes"),noteText=document.getElementById("slideNoteText"),notesBtn=document.getElementById("notesToggle");
+      function showSlide(v){ idx=Math.max(0,Math.min(slides.length-1,v)); slides.forEach(function(s,i){s.classList.toggle("active",i===idx);}); counter.textContent=(idx+1)+" / "+slides.length; progress.style.width=((idx+1)/slides.length*100)+"%"; prev.disabled=idx===0; next.disabled=idx===slides.length-1; noteText.textContent=slides[idx].dataset.note||""; }
+      function toggleNotes(){ var o=notes.classList.toggle("open"); notesBtn.classList.toggle("on",o); notesBtn.setAttribute("aria-pressed",String(o)); }
+      prev.addEventListener("click",function(){showSlide(idx-1);}); next.addEventListener("click",function(){showSlide(idx+1);}); notesBtn.addEventListener("click",toggleNotes);
+      document.getElementById("fullscreenSlide").addEventListener("click",function(){ var d=document.getElementById("slideDeck"); if(!document.fullscreenElement&&d.requestFullscreen)d.requestFullscreen(); else if(document.exitFullscreen)document.exitFullscreen(); });
+      showSlide(0);
+
+      // Checklist
+      var checks=Array.from(document.querySelectorAll("[data-check]"));
+      function syncChecks(){ var done=0; checks.forEach(function(c){ c.closest(".check-item").classList.toggle("done",c.checked); if(c.checked)done++; }); document.getElementById("checkProgress").textContent=done+" / "+checks.length+" Completed"+(done===checks.length?" — all set! Have a great talk 🎉":""); }
+      checks.forEach(function(c){ c.checked=store("lmsCheck-"+c.dataset.check)==="1"; c.addEventListener("change",function(){ store("lmsCheck-"+c.dataset.check,c.checked?"1":"0"); syncChecks(); }); }); syncChecks();
+
+      // Confetti
+      var cv=document.getElementById("confetti"), cx=cv.getContext("2d"), parts=[], raf=null;
+      function resize(){ cv.width=innerWidth; cv.height=innerHeight; } resize(); addEventListener("resize",resize);
+      function burst(n){ var colors=["#856000","#A83A45","#2B5CA6","#27765B","#5D4AA8","#27765B","#243B35"]; for(var i=0;i<(n||180);i++) parts.push({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.4,vx:(Math.random()-.5)*3,vy:2+Math.random()*4,s:5+Math.random()*7,r:Math.random()*6,vr:(Math.random()-.5)*.25,c:colors[i%colors.length]}); if(!raf) loop(); }
+      function loop(){ cx.clearRect(0,0,cv.width,cv.height); parts=parts.filter(function(p){ return p.y<cv.height+30; }); parts.forEach(function(p){ p.x+=p.vx; p.y+=p.vy; p.vy+=.03; p.r+=p.vr; cx.save(); cx.translate(p.x,p.y); cx.rotate(p.r); cx.fillStyle=p.c; cx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); cx.restore(); }); raf=parts.length?requestAnimationFrame(loop):null; if(!raf) cx.clearRect(0,0,cv.width,cv.height); }
+      document.getElementById("celebrate").addEventListener("click",function(){ burst(220); });
+
+      // ===== Presentation stage =====
+      var K="lmsPresent-d10", teamInput=document.getElementById("teamInput"), eventInput=document.getElementById("eventInput"), gradTitle=document.getElementById("gradTitle"), gradSub=document.getElementById("gradSub"), soundOn=document.getElementById("soundOn");
+      var dIn=[document.getElementById("d1"),document.getElementById("d2"),document.getElementById("d3")];
+      try { var sv=JSON.parse(store(K)||"null"); if(sv){ teamInput.value=sv.teams; eventInput.value=sv.event; gradTitle.value=sv.gt||gradTitle.value; gradSub.value=sv.gs||gradSub.value; dIn[0].value=sv.d1; dIn[1].value=sv.d2; dIn[2].value=sv.d3; soundOn.checked=sv.sound!==false; } } catch(e) {}
+      function save(){ store(K,JSON.stringify({teams:teamInput.value,event:eventInput.value,gt:gradTitle.value,gs:gradSub.value,d1:dIn[0].value,d2:dIn[1].value,d3:dIn[2].value,sound:soundOn.checked})); }
+      [teamInput,eventInput,gradTitle,gradSub,soundOn].concat(dIn).forEach(function(el){ el.addEventListener("change",save); el.addEventListener("input",save); });
+      var stage=document.getElementById("stage"), $=function(id){return document.getElementById(id);}, ring=$("stRing"), C=2*Math.PI*90; ring.style.strokeDasharray=C;
+      var teams=[], t=0, phase="break", total=0, remain=0, running=false, timerId=null, lastTick=0, warned=false, ended=false;
+      function parseTeams(){ teams=teamInput.value.split("\n").map(function(l){return l.trim();}).filter(Boolean).map(function(l){ var p=l.split("|"); return {name:p[0].trim(),project:(p[1]||"").trim()}; }); if(!teams.length) teams=[{name:"Presenter",project:""}]; }
+      function mins(i){ return Math.max(0,parseFloat(dIn[i].value)||0); }
+      function phaseDur(p){ return p==="talk"?mins(0)*60:p==="qa"?mins(1)*60:p==="discuss"?mins(2)*60:0; }
+      function fmt(s){ var neg=s<0; s=Math.abs(Math.round(s)); var m=Math.floor(s/60), r=s%60; return (neg?"+":"")+(m<10?"0":"")+m+":"+(r<10?"0":"")+r; }
+      var actx=null; function beep(n,f){ if(!soundOn.checked) return; try { actx=actx||new (window.AudioContext||window.webkitAudioContext)(); for(var i=0;i<n;i++){ var o=actx.createOscillator(), g=actx.createGain(); o.frequency.value=f||880; o.connect(g); g.connect(actx.destination); var st=actx.currentTime+i*.32; g.gain.setValueAtTime(.0001,st); g.gain.exponentialRampToValueAtTime(.35,st+.02); g.gain.exponentialRampToValueAtTime(.0001,st+.25); o.start(st); o.stop(st+.27); } } catch(e) {} }
+      function setPhase(p){ phase=p; stage.dataset.phase=p; total=phaseDur(p); remain=total; warned=false; ended=false; if(p==="ceremony") burst(260); render(); }
+      function render(){
+        var tm=teams[t]||{name:"",project:""};
+        $("stEvent").textContent=eventInput.value||CFG.event;
+        $("stPhase").textContent={talk:CFG.l1,qa:CFG.l2,discuss:"Whole-class retro",break:"Starting soon",ceremony:"Graduation Ceremony"}[phase];
+        $("stOrder").textContent=(t+1)+" / "+teams.length+" talks";
+        var q=$("stQuestions"); q.innerHTML="";
+        if(phase==="discuss"){ $("stTeam").textContent="Whole-class retro"; $("stProject").textContent="Looking back on our 10-day journey together"; CFG.discuss.forEach(function(x){ var li=document.createElement("li"); li.textContent=x; q.appendChild(li); }); }
+        else if(phase==="break"){ $("stTeam").textContent=eventInput.value||CFG.event; $("stProject").textContent="Starting soon · first talk: "+(teams[0]?teams[0].name:""); }
+        else if(phase==="ceremony"){ $("stTeam").textContent=gradTitle.value; $("stProject").textContent=gradSub.value; }
+        else { $("stTeam").textContent=tm.name; $("stProject").textContent=tm.project; }
+        var fb=$("stFeedback"); fb.innerHTML=""; if(phase==="qa") CFG.qa.forEach(function(x){ var s=document.createElement("span"); s.textContent="💬 "+x; fb.appendChild(s); });
+        var nx=""; if(phase==="talk") nx="Next: <b>"+CFG.l2+"</b>"; else if(phase==="qa") nx=t+1<teams.length?"Next talk: <b>"+teams[t+1].name+"</b>"+(teams[t+1].project?" · "+teams[t+1].project:""):"Next: <b>Whole-class retro</b>"; else if(phase==="break") nx="Press Space to start the first talk"; else if(phase==="discuss") nx="Next: <b>Graduation</b> (→ or G)"; else nx="Congratulations, graduates 🎉 · press Space for confetti";
+        $("stNext").innerHTML=nx;
+        var showT=phase!=="break"&&phase!=="ceremony";
+        $("stTime").textContent=showT?fmt(remain):new Date().toTimeString().slice(0,5);
+        $("stLabel").textContent=showT?(remain<0?"Time's up":running?"Time left":"Paused · press Space to start"):"Current time";
+        var frac=total>0?Math.max(0,remain)/total:1; ring.style.strokeDashoffset=showT?C*(1-frac):0;
+        stage.classList.toggle("warn",showT&&remain>0&&remain<=60&&total>0); stage.classList.toggle("over",showT&&remain<=0&&total>0); stage.classList.toggle("paused",!running);
+        $("stToggle").innerHTML=running?'<i class="fa-solid fa-pause"></i>':'<i class="fa-solid fa-play"></i>';
+      }
+      function tick(){ var now=Date.now(); remain-=(now-lastTick)/1000; lastTick=now; if(!warned&&remain<=60&&total>60){ warned=true; beep(1,660); } if(!ended&&remain<=0){ ended=true; beep(3,988); } render(); }
+      function start(){ if(running||phase==="break"||phase==="ceremony") return; running=true; lastTick=Date.now(); timerId=setInterval(tick,250); render(); }
+      function pause(){ running=false; clearInterval(timerId); render(); }
+      function toggleRun(){ if(phase==="ceremony"){ burst(200); return; } if(phase==="break"){ setPhase("talk"); start(); return; } running?pause():start(); }
+      function advance(){ if(t+1<teams.length){ t++; setPhase("talk"); } else setPhase("discuss"); }
+      function nextStep(){ var was=running; pause(); if(phase==="break"){ t=0; setPhase("talk"); } else if(phase==="talk"){ if(mins(1)>0) setPhase("qa"); else advance(); } else if(phase==="qa") advance(); else if(phase==="discuss"){ setPhase("ceremony"); return; } else return; if(was&&phase!=="ceremony") start(); }
+      function prevStep(){ pause(); if(phase==="ceremony") setPhase("discuss"); else if(phase==="discuss"){ t=teams.length-1; setPhase(mins(1)>0?"qa":"talk"); } else if(phase==="qa") setPhase("talk"); else if(phase==="talk"&&t>0){ t--; setPhase(mins(1)>0?"qa":"talk"); } else setPhase("break"); }
+      function openStage(){ save(); parseTeams(); t=0; pause(); setPhase("break"); stage.classList.add("open"); document.body.style.overflow="hidden"; stage.focus(); var de=document.documentElement; if(de.requestFullscreen&&!document.fullscreenElement) de.requestFullscreen().catch(function(){}); }
+      function closeStage(){ pause(); stage.classList.remove("open"); document.body.style.overflow=""; if(document.fullscreenElement&&document.exitFullscreen) document.exitFullscreen(); }
+      document.querySelectorAll("[data-open-stage]").forEach(function(b){ b.addEventListener("click",openStage); });
+      stage.querySelectorAll("[data-act]").forEach(function(b){ b.addEventListener("click",function(){ act(b.dataset.act); }); });
+      function act(a){ if(a==="toggle") toggleRun(); else if(a==="next") nextStep(); else if(a==="prev") prevStep(); else if(a==="reset"){ pause(); setPhase(phase); } else if(a==="plus"){ remain+=30; if(remain>total) total=remain; if(remain>0) ended=false; render(); } else if(a==="minus"){ remain-=30; render(); } else if(a==="discuss"){ pause(); setPhase("discuss"); } else if(a==="ceremony"){ pause(); setPhase("ceremony"); } else if(a==="break"){ pause(); setPhase("break"); } else if(a==="full"){ if(!document.fullscreenElement&&document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); else if(document.exitFullscreen) document.exitFullscreen(); } else if(a==="close") closeStage(); }
+      setInterval(function(){ $("stClock").textContent=new Date().toTimeString().slice(0,5); if(stage.classList.contains("open")&&(phase==="break"||phase==="ceremony")) render(); },1000);
+      document.addEventListener("keydown",function(e){
+        var tag=(e.target.tagName||"").toLowerCase(); if(tag==="input"||tag==="textarea") return;
+        if(stage.classList.contains("open")){ var map={" ":"toggle","ArrowRight":"next","ArrowLeft":"prev","r":"reset","R":"reset","+":"plus","=":"plus","-":"minus","d":"discuss","D":"discuss","g":"ceremony","G":"ceremony","b":"break","B":"break","f":"full","F":"full","Escape":"close"}; if(map[e.key]){ e.preventDefault(); act(map[e.key]); } return; }
+        if(e.key==="ArrowLeft") showSlide(idx-1); if(e.key==="ArrowRight") showSlide(idx+1); if(e.key==="n"||e.key==="N") toggleNotes();
+      });
+    })();
+  </script>
+  <script src="shared/header-auth.js?v=20261118-project-logout"></script>
+</body>
+</html>

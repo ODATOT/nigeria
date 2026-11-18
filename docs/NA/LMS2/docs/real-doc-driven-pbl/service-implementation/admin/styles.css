@@ -1,31 +1,31 @@
 :root {
-  --bg-app: #f1f5f9;
-  --bg-surface: #ffffff;
-  --bg-subtle: #f8fafc;
-  --sidebar-bg: #0f172a;
-  --sidebar-hover: #1e293b;
-  --sidebar-active: #059669;
-  --text-main: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --primary: #059669;
-  --primary-hover: #047857;
-  --primary-light: #ecfdf5;
-  --accent: #ea580c;
-  --accent-light: #fff7ed;
-  --danger: #dc2626;
-  --danger-light: #fef2f2;
-  --warning: #d97706;
-  --warning-light: #fffbeb;
-  --info: #2563eb;
-  --info-light: #eff6ff;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
+  --bg-app: #F6F9F4;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #FFFFFF;
+  --sidebar-bg: #F6F9F4;
+  --sidebar-hover: #FFFFFF;
+  --sidebar-active: #D7EEDD;
+  --text-main: #243B35;
+  --text-secondary: #243B35;
+  --text-muted: #6B7F79;
+  --primary: #27765B;
+  --primary-hover: #27765B;
+  --primary-light: #D7EEDD;
+  --accent: #856000;
+  --accent-light: #F5F0BB;
+  --danger: #A83A45;
+  --danger-light: #F6D5CF;
+  --warning: #856000;
+  --warning-light: #F5F0BB;
+  --info: #2B5CA6;
+  --info-light: #D2E0FB;
+  --border: rgba(36,59,53,0.14);
+  --border-strong: rgba(36,59,53,0.14);
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.12);
+  --shadow-sm: 0 1px 3px rgba(36,59,53,0.021);
+  --shadow-md: 0 6px 20px rgba(36,59,53,0.042);
 }
 
 *,
@@ -51,8 +51,8 @@ body {
   position: absolute;
   top: -100px;
   left: 12px;
-  background: #000;
-  color: #fff;
+  background: #F6F9F4;
+  color: #243B35;
   padding: 8px 14px;
   border-radius: 6px;
   z-index: 9999;
@@ -68,7 +68,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background: linear-gradient(135deg, #F6F9F4 0%, #FFFFFF 100%);
 }
 .login-backdrop[hidden] {
   display: none !important;
@@ -79,7 +79,7 @@ body {
   background: var(--bg-surface);
   border-radius: var(--radius-lg);
   padding: 32px 28px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 20px 40px rgba(36,59,53,0.122);
 }
 .login-brand {
   display: flex;
@@ -156,7 +156,7 @@ body {
 .admin-sidebar {
   width: 230px;
   background: var(--sidebar-bg);
-  color: #f8fafc;
+  color: #243B35;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -166,7 +166,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  border-bottom: 1px solid #1e293b;
+  border-bottom: 1px solid rgba(36,59,53,0.14);
 }
 .brand-icon {
   font-size: 1.6rem;
@@ -181,7 +181,7 @@ body {
 }
 .brand-text span {
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: #4A605A;
 }
 .sidebar-nav {
   flex: 1;
@@ -202,7 +202,7 @@ body {
   border-radius: var(--radius-sm);
   border: none;
   background: transparent;
-  color: #cbd5e1;
+  color: #4A605A;
   font-size: 0.92rem;
   font-weight: 700;
   display: flex;
@@ -213,16 +213,16 @@ body {
 }
 .nav-item:hover {
   background: var(--sidebar-hover);
-  color: #fff;
+  color: #243B35;
 }
 .nav-item[aria-current="page"] {
   background: var(--sidebar-active);
-  color: #ffffff;
+  color: #243B35;
 }
 .nav-badge {
   margin-left: auto;
   background: var(--danger);
-  color: #fff;
+  color: #FFFFFF;
   font-size: 0.72rem;
   font-weight: 800;
   padding: 2px 7px;
@@ -233,7 +233,7 @@ body {
 }
 .sidebar-footer {
   padding: 14px;
-  border-top: 1px solid #1e293b;
+  border-top: 1px solid rgba(36,59,53,0.14);
 }
 
 /* 우측 영역 */
@@ -284,19 +284,19 @@ body {
 }
 .reception-pill.is-receiving {
   background: var(--primary-light);
-  color: #065f46;
-  border: 1px solid #a7f3d0;
+  color: #27765B;
+  border: 1px solid rgba(39,118,91,0.55);
 }
 .reception-pill.is-paused {
   background: var(--danger-light);
-  color: #991b1b;
-  border: 1px solid #fecaca;
+  color: #A83A45;
+  border: 1px solid rgba(168,58,69,0.55);
 }
 .btn-xs {
   padding: 3px 8px;
   border-radius: 4px;
   border: 1px solid currentColor;
-  background: #fff;
+  background: #FFFFFF;
   color: inherit;
   font-size: 0.75rem;
   font-weight: 800;
@@ -309,8 +309,8 @@ body {
   padding: 6px 12px;
   border-radius: 999px;
   background: var(--accent-light);
-  color: #9a3412;
-  border: 1px solid #fed7aa;
+  color: #856000;
+  border: 1px solid rgba(133,96,0,0.55);
   font-weight: 800;
   font-size: 0.85rem;
 }
@@ -320,7 +320,7 @@ body {
   gap: 5px;
   padding: 5px 10px;
   border-radius: 6px;
-  background: #f1f5f9;
+  background: #F6F9F4;
   border: 1px solid var(--border-strong);
   font-size: 0.78rem;
   font-weight: 700;
@@ -353,7 +353,7 @@ body {
 
 .offline-alert-bar {
   background: var(--danger);
-  color: #fff;
+  color: #FFFFFF;
   padding: 10px 20px;
   display: flex;
   align-items: center;
@@ -366,8 +366,8 @@ body {
   top: 74px;
   right: 24px;
   z-index: 60;
-  background: #0f172a;
-  color: #fff;
+  background: #F6F9F4;
+  color: #243B35;
   padding: 12px 18px;
   border-radius: var(--radius-md);
   font-weight: 700;
@@ -503,7 +503,7 @@ body {
   cursor: pointer;
 }
 .data-table tr.clickable-row:hover {
-  background: #f8fafc;
+  background: #FFFFFF;
 }
 
 /* 폼 & 버튼 */
@@ -526,7 +526,7 @@ body {
   border-radius: var(--radius-sm);
   font-family: inherit;
   font-size: 0.88rem;
-  background: #fff;
+  background: #FFFFFF;
 }
 .filter-bar {
   display: flex;
@@ -566,8 +566,8 @@ body {
   width: 100%;
 }
 .btn-primary {
-  background: var(--primary);
-  color: #fff;
+  background: #27765B;
+  color: #FFFFFF;
 }
 .btn-primary:hover:not(:disabled) {
   background: var(--primary-hover);
@@ -585,12 +585,12 @@ body {
 .btn-danger {
   background: var(--danger-light);
   color: var(--danger);
-  border-color: #fecaca;
+  border-color: rgba(168,58,69,0.55);
 }
 .btn-warning {
   background: var(--warning-light);
-  color: #92400e;
-  border-color: #fde68a;
+  color: #856000;
+  border-color: rgba(133,96,0,0.55);
 }
 
 /* 배지 */
@@ -605,28 +605,28 @@ body {
   white-space: nowrap;
 }
 .status-paid {
-  background: #dbeafe;
-  color: #1e40af;
+  background: #EEF4EC;
+  color: #2B5CA6;
 }
 .status-accepted {
-  background: #e0e7ff;
-  color: #3730a3;
+  background: #F6F9F4;
+  color: #2B5CA6;
 }
 .status-preparing {
-  background: #ffedd5;
-  color: #9a3412;
+  background: #EEF4EC;
+  color: #856000;
 }
 .status-ready {
-  background: #d1fae5;
-  color: #065f46;
+  background: #C4DFAA;
+  color: #27765B;
 }
 .status-pickedup {
-  background: #f1f5f9;
-  color: #475569;
+  background: #F6F9F4;
+  color: #243B35;
 }
 .status-cancelled {
-  background: #fee2e2;
-  color: #991b1b;
+  background: #F6F9F4;
+  color: #A83A45;
 }
 
 .alert-box {
@@ -638,18 +638,18 @@ body {
 }
 .alert-danger {
   background: var(--danger-light);
-  color: #991b1b;
-  border: 1px solid #fecaca;
+  color: #A83A45;
+  border: 1px solid rgba(168,58,69,0.55);
 }
 .alert-warning {
   background: var(--warning-light);
-  color: #92400e;
-  border: 1px solid #fde68a;
+  color: #856000;
+  border: 1px solid rgba(133,96,0,0.55);
 }
 .alert-info {
   background: var(--info-light);
-  color: #1e40af;
-  border: 1px solid #bfdbfe;
+  color: #2B5CA6;
+  border: 1px solid rgba(43,92,166,0.55);
 }
 
 /* 시간대별 막대 차트 */
@@ -687,7 +687,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: 80;
-  background: rgba(15, 23, 42, 0.55);
+  background: rgba(246,249,244,0.55);
   display: flex;
   align-items: center;
   justify-content: center;

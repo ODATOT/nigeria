@@ -1,6 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
   <!-- <script id="thankyou-redirect">window.location.replace("../thankyou.html");</script>
   <meta http-equiv="refresh" content="0; url=../thankyou.html" /> -->
 <meta charset="utf-8">
@@ -8,16 +39,16 @@
 <title>USD 40 Tool Support — Slide</title>
 <style>
   :root{
-    --ink:#161a1d;
-    --paper:#fbfaf7;
-    --rule:#cfcabd;
-    --mark:#1f5f4e;
-    --soft:#5c5f63;
+    --ink:#243B35;
+    --paper:#FFFFFF;
+    --rule:rgba(36,59,53,0.14);
+    --mark:#27765B;
+    --soft:#243B35;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{
-    background:#e8e6e0;
+    background:#EEF4EC;
     display:flex;align-items:center;justify-content:center;
     font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
     color:var(--ink);
@@ -57,7 +88,7 @@
   }
   .why{
     margin-top:2.4cqw;padding:1.6cqw 1.8cqw;
-    background:var(--mark);color:#f4f2ec;
+    background:var(--mark);color:#FFFFFF;
     font-size:1.4cqw;line-height:1.55;
   }
   .why strong{display:block;font-size:1.15cqw;letter-spacing:.14em;
@@ -79,16 +110,16 @@
     padding-top:.25cqw;
   }
   ol li b{font-weight:650}
-  ol li b.red{color:#c1121f;font-weight:700}
+  ol li b.red{color:#A83A45;font-weight:700}
   .hard{
     margin-top:1.5cqw;padding:1.2cqw 1.5cqw;
-    background:var(--ink);color:#f4f2ec;
+    background:var(--ink);color:#FFFFFF;
     font-size:1.45cqw;line-height:1.5;
   }
   .hard strong{display:block;font-size:1.15cqw;letter-spacing:.14em;
-    text-transform:uppercase;color:#e9c46a;margin-bottom:.5cqw;
+    text-transform:uppercase;color:#856000;margin-bottom:.5cqw;
     font-family:ui-sans-serif,system-ui,"Helvetica Neue",Arial,sans-serif;font-weight:700}
-  .hard b{color:#e9c46a}
+  .hard b{color:#856000}
   .alert{
     margin-top:1.1cqw;padding:1cqw 1.5cqw;border:1.5px solid var(--mark);
     font-size:1.3cqw;line-height:1.5;
@@ -105,6 +136,7 @@
     font-size:1.2cqw;color:var(--soft);
   }
 </style>
+  <script src="../shared/lms-header.js?v=20261118-unified"></script>
 </head>
 <body>
 <div class="stage">
