@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+  <script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          var m = window.location.pathname.match(/^(.*\/NA\/LMS2_ENG\/docs\/)/);
+          if (m) {
+            redirectPath = m[1] + 'login/login.html';
+          } else {
+            var idx = window.location.pathname.indexOf('LMS2_ENG/docs/');
+            if (idx !== -1) {
+              var sub = window.location.pathname.substring(idx + 'LMS2_ENG/docs/'.length);
+              var depth = (sub.match(/\//g) || []).length;
+              redirectPath = (depth > 0 ? '../'.repeat(depth) : '') + 'login/login.html';
+            } else if (window.location.pathname.indexOf('/day') !== -1 || window.location.pathname.indexOf('/announcement') !== -1 || window.location.pathname.indexOf('/project_day') !== -1) {
+              redirectPath = '../login/login.html';
+            }
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+  <title>Training Materials | ACE AI SW Startup Training</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="./materials/materials.css?v=20261119" />
+  <script src="./materials/catalog.js?v=20261119"></script>
+  <script src="./shared/lms-header.js?v=20261119-materials"></script>
+</head>
+<body>
+  <main>
+    <section class="mat-hero">
+      <div class="shell">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Learning Home</a><span class="sep">›</span><a href="index.html#support">Training Support</a><span class="sep">›</span><span>Training Materials</span></nav>
+        <p class="eyebrow">Training Materials</p>
+        <h1>Training Materials</h1>
+        <p class="lead">Pick a lecture deck and flip through the slides right here. Hover over a card to preview it, then click to open the slide viewer.</p>
+        <div class="hero-stats" id="heroStats"></div>
+      </div>
+    </section>
+
+    <section class="shell">
+      <div class="mat-toolbar">
+        <label class="search"><i class="fa-solid fa-magnifying-glass"></i><input id="q" type="search" placeholder="Search by title, topic or slide" aria-label="Search by title, topic or slide" /></label>
+        <span class="result-count" id="resultCount"></span>
+      </div>
+      <div class="deck-grid" id="grid"></div>
+    </section>
+  </main>
+
+  <script>
+  (function () {
+    "use strict";
+    var LANG = "en";
+    var T = {"decks": "{n} decks", "slides": "{n} slides", "lang_note": "Slides in English", "open": "View slides", "empty": "No materials match your search.", "count": "{n} materials", "slide_no": "Slide {n} of {t}", "no_notes": "No notes for this slide.", "copied": "Link copied.", "copy_prompt": "Copy this link"};
+    var decks = window.LMS_MATERIALS || [];
+    var grid = document.getElementById("grid");
+    var q = document.getElementById("q");
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+    function pad(n) { return (n < 10 ? "0" : "") + n; }
+    function thumb(d, n) { return "materials/thumbs/" + d.id + "/" + pad(n) + ".jpg"; }
+
+    var total = decks.reduce(function (s, d) { return s + d.count; }, 0);
+    document.getElementById("heroStats").innerHTML =
+      '<span class="chip ng"><i class="fa-solid fa-layer-group"></i>' + esc(T.decks.replace("{n}", decks.length)) + '</span>' +
+      '<span class="chip"><i class="fa-regular fa-images"></i>' + esc(T.slides.replace("{n}", total)) + '</span>' +
+      '<span class="chip"><i class="fa-solid fa-language"></i>' + esc(T.lang_note) + '</span>';
+
+    function card(d) {
+      var m = d[LANG];
+      return '<a class="deck-card" href="materials_viewer.html?deck=' + encodeURIComponent(d.id) + '" data-id="' + esc(d.id) + '">' +
+        '<div class="deck-cover">' +
+          '<img src="materials/thumbs/' + d.id + '/cover.jpg" alt="' + esc(m.title) + ' cover" loading="lazy" />' +
+          '<img class="peek" alt="" loading="lazy" />' +
+          '<span class="cover-progress"></span>' +
+          '<span class="cover-play"><span><i class="fa-solid fa-play"></i></span></span>' +
+          '<span class="cover-badge"><i class="fa-regular fa-images"></i>' + esc(T.slides.replace("{n}", d.count)) + '</span>' +
+        '</div>' +
+        '<div class="deck-body">' +
+          '<span class="deck-kicker">' + esc(m.kicker) + '</span>' +
+          '<h2 class="deck-title">' + esc(m.title) + '<small>' + esc(m.sub) + '</small></h2>' +
+          '<p class="deck-desc">' + esc(m.desc) + '</p>' +
+          '<div class="tags">' + m.tags.map(function (t) { return '<span class="tag">' + esc(t) + '</span>'; }).join("") + '</div>' +
+          '<div class="deck-foot"><span><i class="fa-solid fa-location-dot"></i> ' + esc(d.place) + ' · ' + esc(d.date) + '</span><strong>' + esc(T.open) + ' →</strong></div>' +
+        '</div></a>';
+    }
+
+    function haystack(d) {
+      var m = d[LANG];
+      return [m.title, m.sub, m.kicker, m.desc, m.tags.join(" "), d.slides.map(function (s) { return s.t; }).join(" ")].join(" ").toLowerCase();
+    }
+
+    function render() {
+      var term = (q.value || "").trim().toLowerCase();
+      var list = decks.filter(function (d) { return !term || haystack(d).indexOf(term) !== -1; });
+      grid.innerHTML = list.length ? list.map(card).join("") : '<p class="empty"><i class="fa-regular fa-folder-open"></i> ' + esc(T.empty) + '</p>';
+      document.getElementById("resultCount").textContent = T.count.replace("{n}", list.length);
+      bindPeek();
+    }
+
+    // Hover preview: cycle through the first slides like a flip-book
+    function bindPeek() {
+      grid.querySelectorAll(".deck-card").forEach(function (el) {
+        var d = decks.filter(function (x) { return x.id === el.dataset.id; })[0];
+        var img = el.querySelector("img.peek"), bar = el.querySelector(".cover-progress");
+        var timer = null, i = 1, max = Math.min(d.count, 8);
+        function step() {
+          i = i % max + 1;
+          img.src = thumb(d, i);
+          img.classList.remove("peek");
+          bar.style.width = (i / max * 100) + "%";
+        }
+        function start() { if (timer) return; i = 1; timer = setInterval(step, 900); step(); }
+        function stop() { clearInterval(timer); timer = null; img.classList.add("peek"); bar.style.width = "0"; }
+        el.addEventListener("mouseenter", start);
+        el.addEventListener("mouseleave", stop);
+        el.addEventListener("focus", start);
+        el.addEventListener("blur", stop);
+      });
+    }
+
+    q.addEventListener("input", render);
+    render();
+  })();
+  </script>
+</body>
+</html>

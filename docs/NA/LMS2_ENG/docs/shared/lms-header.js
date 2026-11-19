@@ -47,7 +47,7 @@
     var path = window.location.pathname.toLowerCase();
     if (/\/notice\.html$/.test(path)) return "notice";
     if (/\/attendance_qr\.html$/.test(path)) return "attendance";
-    if (/\/(qr_resources|survey|upload)\.html$/.test(path)) return "resources";
+    if (/\/(qr_resources|survey|upload|materials|materials_viewer)\.html$/.test(path)) return "resources";
     if (/\/homework_|\/certificate/.test(path)) return "challenge";
     if (/\/day\d+\//.test(path)) return "self";
     if (/\/ai-project-|\/project_day\//.test(path) || /\/real-/.test(path)) return "project";

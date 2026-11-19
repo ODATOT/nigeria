@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<script>try{localStorage.setItem("lmsStudentHomeTheme","light")}catch(e){}document.documentElement.dataset.theme="light";</script>
+<style id="lms-palette">#themeToggle,.theme-toggle{display:none!important}::selection{background:#D7EEDD;color:#243B35}</style>
+<script id="lms-contrast">(function(){var INK=[36,59,53],W=[255,255,255];
+function P(s){var m=s&&s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).filter(Boolean).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+function L(c){function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}return 0.2126*f(c[0])+0.7152*f(c[1])+0.0722*f(c[2])}
+function CR(a,b){var x=L(a),y=L(b);if(x<y){var t=x;x=y;y=t}return (x+0.05)/(y+0.05)}
+function bgOf(el){var e=el;while(e&&e.nodeType==1){var s=getComputedStyle(e),bi=s.backgroundImage;if(bi&&bi!='none'){if(bi.indexOf('url(')>-1)return null;var m=bi.match(/rgba?\([^)]+\)/g);if(m){var c=P(m[0]);if(c[3]>0.5)return [c,e]}}var b=P(s.backgroundColor);if(b&&b[3]>0.5)return [b,e];e=e.parentElement}return [[246,249,244,1],document.body]}
+
+function svgBg(t){var r=t.getBoundingClientRect();if(!r.width||r.bottom<0||r.top>innerHeight||r.right<0||r.left>innerWidth)return null;
+var st=document.elementsFromPoint(r.left+r.width/2,r.top+r.height/2);
+for(var k=0;k<st.length;k++){var e=st[k];if(e===t||t.contains(e)||e.contains(t)&&e.tagName.toLowerCase()=='text')continue;
+var tg=e.tagName.toLowerCase();if(e instanceof SVGElement){if(/^(rect|circle|ellipse|path|polygon)$/.test(tg)){var cs=getComputedStyle(e),f=P(cs.fill);if(f&&f[3]*parseFloat(cs.fillOpacity||1)*parseFloat(cs.opacity||1)>0.5)return f}continue}
+var b=bgOf(e);return b?b[0]:null}return null}
+function runSvg(){var ts=document.querySelectorAll('svg text');for(var i=0;i<ts.length;i++){var t=ts[i];var fg=P(getComputedStyle(t).fill);if(!fg)continue;var bg=svgBg(t);if(!bg)continue;
+if(CR(fg,bg)>=2.6)continue;var c=CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35';t.style.setProperty('fill',c,'important');
+var sp=t.querySelectorAll('tspan');for(var j=0;j<sp.length;j++){var g=P(getComputedStyle(sp[j]).fill);if(g&&CR(g,bg)<2.6)sp[j].style.setProperty('fill',c,'important')}}}
+var BTN=/btn|button|cta/i;
+function run(){if(!document.body)return;var els=document.body.getElementsByTagName('*');
+for(var i=0;i<els.length;i++){var el=els[i],tn=el.tagName;if(tn=='SCRIPT'||tn=='STYLE')continue;
+var has=false;for(var n=el.firstChild;n;n=n.nextSibling){if(n.nodeType==3&&n.textContent.trim()){has=true;break}}if(!has)continue;
+var cs=getComputedStyle(el);if((cs.webkitBackgroundClip||cs.backgroundClip)=='text')continue;
+var fg=P(cs.color);if(!fg||fg[3]<0.5)continue;var r=bgOf(el);if(!r)continue;var bg=r[0];
+if(CR(fg,bg)>=3)continue;
+var own=r[1],cls=(typeof own.className=='string'?own.className:'')+' '+(typeof el.className=='string'?el.className:'');
+if(BTN.test(cls)&&own!==document.body&&L(bg)>0.5&&L(fg)>0.8){own.style.setProperty('background','#27765B','important');own.style.setProperty('color','#FFFFFF','important');el.style.setProperty('color','#FFFFFF','important');continue}
+el.style.setProperty('color',CR(W,bg)>=CR(INK,bg)?'#FFFFFF':'#243B35','important')}}
+var t=0;function later(){if(t)return;t=setTimeout(function(){t=0;run();runSvg()},150)}
+document.addEventListener('DOMContentLoaded',function(){run();runSvg();setTimeout(later,600);setTimeout(later,2000);addEventListener('scroll',later,{passive:true});addEventListener('resize',later);
+new MutationObserver(later).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','data-part']});
+document.addEventListener('click',later,true);document.addEventListener('keyup',later,true)});})();</script>
+
+<script id="auth-guard">
+    (function() {
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+      }
+      
+      var loggedInUser = getCookie('currentUser');
+      
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      var isLoginPage = window.location.pathname.indexOf('login.html') !== -1;
+      
+      if (isLoginPage) {
+        if (loggedInUser) {
+          window.location.href = '../index.html';
+        }
+      } else {
+        if (!loggedInUser) {
+          var redirectPath = 'login/login.html';
+          var m = window.location.pathname.match(/^(.*\/NA\/LMS2\/docs\/)/);
+          if (m) {
+            redirectPath = m[1] + 'login/login.html';
+          } else {
+            var idx = window.location.pathname.indexOf('LMS2/docs/');
+            if (idx !== -1) {
+              var sub = window.location.pathname.substring(idx + 'LMS2/docs/'.length);
+              var depth = (sub.match(/\//g) || []).length;
+              redirectPath = (depth > 0 ? '../'.repeat(depth) : '') + 'login/login.html';
+            } else if (window.location.pathname.indexOf('/day') !== -1 || window.location.pathname.indexOf('/announcement') !== -1 || window.location.pathname.indexOf('/project_day') !== -1) {
+              redirectPath = '../login/login.html';
+            }
+          }
+          window.location.href = redirectPath;
+        }
+      }
+    })();
+  </script>
+
+  <script>
+    (function () {
+      function getCookie(name) {
+        var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        return match ? match[2] : null;
+      }
+      var loggedInUser = getCookie('currentUser');
+      if (!loggedInUser) {
+        var sessionStr = localStorage.getItem('currentUserSession');
+        if (sessionStr) {
+          try {
+            var session = JSON.parse(sessionStr);
+            if (Date.now() < session.expiresAt) {
+              loggedInUser = session.value;
+            } else {
+              localStorage.removeItem('currentUserSession');
+            }
+          } catch (e) { console.error(e); }
+        }
+      }
+      if (!loggedInUser) {
+        window.location.href = 'login/login.html';
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>공지사항 | ACE AI SW Startup Training</title>
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #2B5CA6;
+      --primary-hover: #2B5CA6;
+      --cyan: #2B5CA6;
+      --cyan-light: #2B5CA6;
+      --purple: #5D4AA8;
+      --amber: #856000;
+      --green: #27765B;
+      --bg-dark: #F6F9F4;
+      --bg-surface: #F6F9F4;
+      --bg-card: rgba(246,249,244,0.88);
+      --bg-card-hover: rgba(246,249,244,0.96);
+      --border-color: rgba(36,59,53,0.08);
+      --border-hover: rgba(43,92,166,0.35);
+      --text-main: #243B35;
+      --text-muted: #4A605A;
+      --text-dim: #4A605A;
+      --card-radius: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      background: var(--bg-dark);
+      background-image:
+        radial-gradient(circle at 15% 15%, rgba(43,92,166,0.132) 0%, transparent 45%),
+        radial-gradient(circle at 85% 20%, rgba(43,92,166,0.132) 0%, transparent 50%),
+        radial-gradient(circle at 50% 85%, rgba(39,118,91,0.088) 0%, transparent 55%),
+        linear-gradient(to bottom, #F6F9F4 0%, #F6F9F4 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 32px;
+      background: rgba(36,59,53,0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .nav-row-top {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-group .logo {
+      font-size: 1.18rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #243B35;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-group .logo::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #D2E0FB;
+      box-shadow: 0 0 12px rgba(36,59,53,0.14);
+    }
+
+    .nav-top-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-home-btn:hover {
+      background: rgba(255,255,255,0.85);
+      color: #243B35;
+      border-color: rgba(36,59,53,0.18);
+    }
+
+    .nav-notice-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #243B35;
+      background: linear-gradient(135deg, rgba(43,92,166,0.275), rgba(43,92,166,0.33));
+      border: 1px solid rgba(43,92,166,0.55);
+      padding: 6px 15px;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 0 14px rgba(36,59,53,0.087);
+    }
+
+    .nav-notice-btn .notice-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #27765B;
+      color: #FFFFFF;
+      font-size: 0.72rem;
+      font-weight: 800;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      box-shadow: 0 0 8px rgba(36,59,53,0.14);
+    }
+
+    .nav-login-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .nav-row-sub {
+      border-top: 1px solid rgba(36,59,53,0.08);
+      padding: 8px 0;
+      overflow-x: auto;
+    }
+
+    .subnav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+      white-space: nowrap;
+    }
+
+    .subnav-link {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .subnav-link:hover {
+      background: rgba(255,255,255,0.73);
+      color: #243B35;
+    }
+
+    .subnav-link.active {
+      background: rgba(43,92,166,0.165);
+      color: var(--cyan-light);
+      border: 1px solid rgba(43,92,166,0.35);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 24px 80px 24px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(246,249,244,0.85) 0%, rgba(246,249,244,0.95) 100%);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      padding: 36px 36px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 36px rgba(36,59,53,0.122);
+    }
+
+    .hero-banner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #D2E0FB, #D2E0FB, #D7EEDD);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cyan-light);
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(43,92,166,0.132);
+      border: 1px solid rgba(43,92,166,0.3);
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      color: #243B35;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #2B5CA6, #2B5CA6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    /* Notice Card */
+    .notice-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      padding: 36px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 12px 36px rgba(36,59,53,0.105);
+      position: relative;
+      transition: border-color 0.25s ease;
+    }
+
+    .notice-card:hover {
+      border-color: rgba(43,92,166,0.3);
+    }
+
+    .notice-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 28px;
+    }
+
+    .notice-meta-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .notice-tag-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #D2E0FB, #D2E0FB);
+      color: #243B35;
+      box-shadow: 0 2px 10px rgba(36,59,53,0.105);
+    }
+
+    .notice-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: rgba(39,118,91,0.165);
+      color: #27765B;
+      border: 1px solid rgba(39,118,91,0.3);
+    }
+
+    .notice-date {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .notice-title-main {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #243B35;
+      line-height: 1.4;
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+
+    /* Core Message Highlight Box */
+    .message-highlight-box {
+      background: linear-gradient(135deg, rgba(43,92,166,0.165), rgba(43,92,166,0.132));
+      border: 1.5px solid rgba(43,92,166,0.45);
+      border-left: 5px solid rgba(43,92,166,0.55);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      box-shadow: 0 8px 24px rgba(36,59,53,0.042);
+    }
+
+    .message-highlight-box .icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(43,92,166,0.22);
+      border: 1px solid rgba(43,92,166,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan-light);
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+
+    .message-highlight-box .text-wrap {
+      flex: 1;
+    }
+
+    .message-highlight-box .text-label {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--cyan-light);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .message-highlight-box .text-content {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #243B35;
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+
+    /* Notice Content Body */
+    .notice-body-text {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .notice-body-text p {
+      margin-bottom: 12px;
+    }
+
+    /* Two Columns: Action link & QR code */
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 28px;
+      background: rgba(246,249,244,0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 32px;
+    }
+
+    .action-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .action-section-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #243B35;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .action-section-title i {
+      color: var(--cyan-light);
+    }
+
+    .action-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    .link-display-box {
+      background: rgba(36,59,53,0.08);
+      border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      word-break: break-all;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #2B5CA6;
+      user-select: all;
+    }
+
+    .btn-submit-form {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: #27765B;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 18px rgba(36,59,53,0.105);
+    }
+
+    .btn-submit-form:hover {
+      background: linear-gradient(135deg, #D2E0FB, #D2E0FB);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(36,59,53,0.14);
+    }
+
+    /* QR Code Side */
+    .action-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 16px;
+      background: rgba(36,59,53,0.07);
+      border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 14px;
+    }
+
+    .qr-frame {
+      width: 220px;
+      height: 220px;
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 24px rgba(36,59,53,0.14);
+    }
+
+    .qr-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .qr-caption {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .qr-sub-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.73);
+      border: 1px solid var(--border-color);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .qr-sub-btn:hover {
+      background: rgba(255,255,255,0.91);
+      color: #243B35;
+    }
+
+    /* Notice Guidelines Box */
+    .guideline-box {
+      background: rgba(255,255,255,0.61);
+      border: 1px solid rgba(36,59,53,0.08);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-bottom: 32px;
+    }
+
+    .guideline-title {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: #243B35;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .guideline-title i {
+      color: var(--amber);
+    }
+
+    .guideline-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .guideline-list li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .guideline-list li i {
+      color: var(--cyan-light);
+      margin-top: 4px;
+      font-size: 0.75rem;
+    }
+
+    /* Page Bottom Actions */
+    .page-bottom-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.85);
+      color: #243B35;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: #F6F9F4;
+      border-top: 1px solid var(--border-color);
+      padding: 32px 20px;
+      text-align: center;
+      color: #4A605A;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      margin-top: auto;
+    }
+
+    /* AI Credit Support Notice (2026-11-19) */
+    .notice-card + .notice-card { margin-top: 28px; }
+    .credit-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+    .credit-stat {
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 18px 18px 16px;
+    }
+    .credit-stat .stat-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .credit-stat .stat-label i { color: var(--green); }
+    .credit-stat .stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #243B35;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+    .credit-stat .stat-value small {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .credit-stat.is-key {
+      background: rgba(39,118,91,0.1);
+      border-color: rgba(39,118,91,0.35);
+    }
+    .credit-stat.is-key .stat-value { color: #27765B; }
+    .credit-steps {
+      list-style: none;
+      counter-reset: step;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      background: rgba(246,249,244,0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 32px;
+    }
+    .credit-steps li {
+      counter-increment: step;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .credit-steps li::before {
+      content: counter(step);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: #27765B;
+      color: #FFFFFF;
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .credit-steps li strong {
+      display: block;
+      color: #243B35;
+      font-size: 0.96rem;
+      margin-bottom: 4px;
+    }
+    .credit-steps-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #243B35;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .credit-steps-title i { color: var(--green); }
+    @media (max-width: 820px) {
+      .credit-summary, .credit-steps { grid-template-columns: 1fr; }
+    }
+
+    /* Responsive */
+    @media (max-width: 820px) {
+      .action-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title {
+        font-size: 1.8rem;
+      }
+
+      .notice-card {
+        padding: 24px;
+      }
+    }
+  </style>
+  <script src="./shared/lms-header.js?v=20261118-unified"></script>
+</head>
+
+<body>
+  <!-- Top Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <!-- Row 1: Brand Logo & Actions -->
+      <div class="nav-row-top">
+        <div class="logo-group">
+          <a href="index.html" class="logo">ACE AI SW Startup Training</a>
+        </div>
+        <div class="nav-top-right">
+          <a href="index.html" class="nav-home-btn"><i class="fa-solid fa-house"></i> 과정 홈</a>
+          <a href="notice.html" class="nav-notice-btn" title="공지사항">
+            <span class="notice-icon-anim">📢</span> 공지사항
+            <span class="notice-badge">2</span>
+          </a>
+          <div id="nav-user-item" class="nav-auth-slot">
+            <a href="login/login.html" class="nav-login-btn">로그인</a>
+          </div>
+        </div>
+      </div>
+      <!-- Row 2: Subnav Links -->
+      <div class="nav-row-sub">
+        <ul class="subnav-links">
+          <li><a href="notice.html" class="subnav-link active">📢 공지사항</a></li>
+          <li><a href="homework_week1.html" class="subnav-link">📝 1~5day 과제</a></li>
+          <li><a href="homework_week2.html" class="subnav-link">⚡ 5~10day 과제</a></li>
+          <li><a href="homework_codex_field.html" class="subnav-link">💼 코덱스 현업 과제</a></li>
+          <li><a href="attendance_qr.html" class="subnav-link">📱 오프라인출석 QR</a></li>
+          <li><a href="qr_resources.html" class="subnav-link">🔗 수강생 QR 모음</a></li>
+          <li><a href="index.html#overview" class="subnav-link">💡 프로그램 소개</a></li>
+          <li><a href="index.html#curriculum" class="subnav-link">📚 10일 커리큘럼</a></li>
+          <li><a href="index.html#final" class="subnav-link">🏆 최종 결과</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+      <div class="eyebrow">
+        <i class="fa-solid fa-bullhorn"></i> NOTICE · ANNOUNCEMENT
+      </div>
+      <h1 class="hero-title">교육과정 <span>공지사항</span></h1>
+      <p class="hero-desc">
+        ACE AI SW Startup Training 교육과정의 주요 안내사항 및 필수 등록 정보를 전달해 드립니다.
+      </p>
+    </section>
+
+    <!-- AI Credit Support Notice (2026-11-19) -->
+    <article class="notice-card" id="ai-credit" aria-label="AI 크레딧 비용 지원 공지사항">
+      <div class="notice-header">
+        <div class="notice-meta-left">
+          <span class="notice-tag-badge"><i class="fa-solid fa-coins"></i> AI 크레딧 지원</span>
+          <span class="notice-status-badge"><i class="fa-solid fa-circle-check"></i> 최신 공지</span>
+        </div>
+        <div class="notice-date">
+          <i class="fa-regular fa-clock"></i> 2026.11.19 · 운영진 안내
+        </div>
+      </div>
+
+      <h2 class="notice-title-main">[공지] AI 크레딧 비용 지원 안내 (1인당 최대 $40)</h2>
+
+      <div class="message-highlight-box">
+        <div class="icon-wrap">
+          <i class="fa-solid fa-receipt"></i>
+        </div>
+        <div class="text-wrap">
+          <div class="text-label">핵심 안내사항</div>
+          <div class="text-content">
+            AI 크레딧 비용을 1인당 최대 $40까지 지원합니다. 결제 영수증을 제출하면 확인 후 현금으로 지급해 드립니다.
+          </div>
+        </div>
+      </div>
+
+      <div class="notice-body-text">
+        <p>
+          수강생 여러분, 안녕하세요.<br>
+          교육과정 실습에 필요한 AI 도구 이용 비용(AI 크레딧, 유료 플랜 결제 등)의 부담을 덜어 드리기 위해 운영진에서 비용을 지원합니다.
+        </p>
+        <p>
+          AI 크레딧을 결제한 뒤 <strong>영수증</strong>을 운영진에게 제출해 주세요. 확인이 끝나면 <strong>최대 $40</strong>까지 <strong>현금</strong>으로 돌려드립니다.
+        </p>
+      </div>
+
+      <div class="credit-summary">
+        <div class="credit-stat is-key">
+          <div class="stat-label"><i class="fa-solid fa-user"></i> 지원 금액</div>
+          <div class="stat-value">$40 <small>/ 1인당 최대</small></div>
+        </div>
+        <div class="credit-stat">
+          <div class="stat-label"><i class="fa-solid fa-money-bill-wave"></i> 지급 방식</div>
+          <div class="stat-value">현금 지급</div>
+        </div>
+        <div class="credit-stat">
+          <div class="stat-label"><i class="fa-solid fa-file-invoice"></i> 제출 서류</div>
+          <div class="stat-value">결제 영수증</div>
+        </div>
+      </div>
+
+      <div class="credit-steps-title"><i class="fa-solid fa-list-ol"></i> 신청 방법</div>
+      <ol class="credit-steps">
+        <li><strong>AI 크레딧 결제</strong>수업에 사용하는 AI 도구의 크레딧 또는 유료 플랜을 본인이 먼저 결제합니다.</li>
+        <li><strong>영수증 준비</strong>결제일, 결제 금액, 서비스명이 보이는 영수증(또는 결제 내역 캡처)을 준비합니다.</li>
+        <li><strong>운영진에게 제출</strong>영수증을 운영진에게 제출하면 확인 후 최대 $40을 현금으로 지급합니다.</li>
+      </ol>
+
+      <div class="guideline-box">
+        <div class="guideline-title">
+          <i class="fa-solid fa-circle-exclamation"></i> 지원 시 유의사항
+        </div>
+        <ul class="guideline-list">
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>지원 한도</strong>: 1인당 최대 $40입니다. 결제 금액이 $40보다 적으면 실제 결제한 금액만큼 지급하며, $40을 넘는 금액은 본인 부담입니다.</div>
+          </li>
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>영수증 필수</strong>: 영수증이 없으면 지급이 어렵습니다. 결제 금액과 날짜가 잘 보이도록 준비해 주세요.</div>
+          </li>
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>본인 결제</strong>: 수강생 본인이 결제한 AI 크레딧 비용에 한해 지원합니다.</div>
+          </li>
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>문의</strong>: 제출 방법이나 지원 대상 서비스가 궁금하면 운영진에게 문의해 주세요.</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="page-bottom-actions">
+        <a href="index.html" class="btn-secondary">
+          <i class="fa-solid fa-arrow-left"></i> 과정 메인 홈으로
+        </a>
+        <a href="#photo-notice" class="btn-secondary">
+          <i class="fa-solid fa-camera"></i> 프로필 사진 등록 공지 보기
+        </a>
+      </div>
+    </article>
+
+    <!-- Single Notice Card -->
+    <article class="notice-card" id="photo-notice" aria-label="프로필 사진 등록 공지사항">
+      <div class="notice-header">
+        <div class="notice-meta-left">
+          <span class="notice-tag-badge"><i class="fa-solid fa-camera"></i> 사진 등록 안내</span>
+          <span class="notice-status-badge"><i class="fa-solid fa-circle-check"></i> 이전 공지</span>
+        </div>
+        <div class="notice-date">
+          <i class="fa-regular fa-clock"></i> 2026.11.17 · 운영진 안내
+        </div>
+      </div>
+
+      <h2 class="notice-title-main">[공지] 로그인 페이지 프로필 사진 등록 안내</h2>
+
+      <!-- Core Highlight Message Box -->
+      <div class="message-highlight-box">
+        <div class="icon-wrap">
+          <i class="fa-solid fa-id-card"></i>
+        </div>
+        <div class="text-wrap">
+          <div class="text-label">핵심 안내사항</div>
+          <div class="text-content">
+            로그인페이지에서 자신의 사진 등록을 위해서 아래 링크를 통해서 사진 등록을 해 주세요
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail Explanation -->
+      <div class="notice-body-text">
+        <p>
+          수강생 여러분, 안녕하세요.<br>
+          교육과정 LMS 로그인 화면 및 학습자 프로필 카드에 본인의 프로필 이미지를 등록하여 표시할 수 있도록 사진 등록을 접수하고 있습니다.
+        </p>
+        <p>
+          아래의 <strong>구글 폼 링크</strong>를 클릭하여 사진을 제출하시거나, 제공된 <strong>QR 코드</strong>를 스마트폰 카메라로 스캔하여 스마트폰에 저장된 사진을 간편하게 업로드해 주시기 바랍니다.
+        </p>
+      </div>
+
+      <!-- Action Grid: Link & QR Code -->
+      <div class="action-grid">
+        <div class="action-left">
+          <div>
+            <div class="action-section-title">
+              <i class="fa-solid fa-link"></i> 사진 등록 링크 (구글 폼)
+            </div>
+            <p class="action-desc">
+              아래 버튼을 누르면 사진 등록 전용 구글 설문지 폼으로 연결됩니다. 이름과 사진 파일을 첨부하여 제출을 완료해 주세요.
+            </p>
+            <div class="link-display-box" title="구글 폼 URL">
+              https://docs.google.com/forms/d/e/1FAIpQLSdq7bgVerFQ55Uf2_orz_Mnqif8ABUvSY8Yjo9WI7OAQX7S5w/viewform
+            </div>
+          </div>
+          <div>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdq7bgVerFQ55Uf2_orz_Mnqif8ABUvSY8Yjo9WI7OAQX7S5w/viewform"
+               target="_blank" rel="noopener noreferrer" class="btn-submit-form">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> 사진 등록 구글 폼 열기
+            </a>
+          </div>
+        </div>
+
+        <!-- QR Code Area -->
+        <div class="action-right">
+          <div class="qr-frame">
+            <img src="img/qr/photo-submission-qr.png" alt="사진 등록 구글 폼 QR 코드" width="600" height="600" />
+          </div>
+          <p class="qr-caption">
+            스마트폰 기본 카메라로 비추어 스캔하면 모바일에서 즉시 사진을 제출할 수 있습니다.
+          </p>
+          <a href="img/qr/photo-submission-qr.png" download="photo_submission_qr.png" class="qr-sub-btn">
+            <i class="fa-solid fa-download"></i> QR 이미지 저장
+          </a>
+        </div>
+      </div>
+
+      <!-- Guidelines Box -->
+      <div class="guideline-box">
+        <div class="guideline-title">
+          <i class="fa-solid fa-circle-exclamation"></i> 사진 제출 시 유의사항
+        </div>
+        <ul class="guideline-list">
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>본인 확인 사진</strong>: 본인 식별이 용이한 선명한 단독 정면 사진(증명사진 또는 상반신 프로필)을 권장합니다.</div>
+          </li>
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>활용 목적</strong>: 제출된 사진은 LMS 로그인 시스템 프로필 표시 및 학습 출결 관리 목적으로만 안전하게 사용됩니다.</div>
+          </li>
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>이름 일치</strong>: 폼 제출 시 수강 신청하신 본인의 성명과 일치하게 입력해 주세요.</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Page Bottom Actions -->
+      <div class="page-bottom-actions">
+        <a href="index.html" class="btn-secondary">
+          <i class="fa-solid fa-arrow-left"></i> 과정 메인 홈으로
+        </a>
+        <a href="attendance_qr.html" class="btn-secondary">
+          <i class="fa-solid fa-qrcode"></i> 출석 QR 체크인 가기
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="margin-bottom: 6px; word-break: keep-all;">
+        <span>상호명: (주)에듀니티랩</span> | <span>대표자: 이기택</span> | <span>사업장주소: 서울 강남구 테헤란로21길 25 (역삼동, 태림빌딩) 태림빌딩 2층</span>
+      </div>
+      <div style="margin-bottom: 10px; word-break: keep-all;">
+        <span>연락처: (02)6240-0053</span> | <span>사업자등록번호: 132-86-35644</span> | <span>통신판매업신고번호: 제2024-서울강남-01134호</span>
+        | <span>이메일: with@edunlab.kr</span>
+      </div>
+      <div style="color: #6B7F79; font-size: 0.8rem; font-weight: 500;">
+        Copyright ⓒ Eduniety Lab. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Header Auth Slot update
+    function getCookie(name) {
+      var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+      return match ? match[2] : null;
+    }
+    function eraseCookie(name) {
+      document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+    var loggedInUser = getCookie('currentUser');
+    if (!loggedInUser) {
+      var sessionStr = localStorage.getItem('currentUserSession');
+      if (sessionStr) {
+        try {
+          var session = JSON.parse(sessionStr);
+          if (Date.now() < session.expiresAt) {
+            loggedInUser = session.value;
+          }
+        } catch (e) { }
+      }
+    }
+    if (loggedInUser) {
+      try {
+        var user = JSON.parse(loggedInUser);
+        var slot = document.getElementById('nav-user-item');
+        if (slot) {
+          slot.innerHTML = `
+            <div style="display:flex; align-items:center; gap:8px; background: rgba(43,92,166,0.11); border: 1px solid rgba(43,92,166,0.2); border-radius: 50px; padding: 6px 14px; font-size: 0.9rem; font-weight: 700; color: #2B5CA6; cursor: pointer;" onclick="logoutUser()" title="클릭하여 로그아웃">
+              <span>${user.avatar || '👤'}</span>
+              <span>${user.name || '수강생'}</span>
+            </div>
+          `;
+        }
+      } catch (e) { }
+    }
+    window.logoutUser = function() {
+      if (confirm('로그아웃 하시겠습니까?')) {
+        eraseCookie('currentUser');
+        localStorage.removeItem('currentUserSession');
+        localStorage.removeItem('currentUser');
+        window.location.reload();
+      }
+    };
+  </script>
+</body>
+
+</html>
+

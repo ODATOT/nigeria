@@ -745,6 +745,195 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
       margin-top: auto;
     }
 
+    /* AI Credit Support Notice (2026-11-19) */
+    .notice-card + .notice-card { margin-top: 28px; }
+    .credit-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+    .credit-stat {
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 18px 18px 16px;
+    }
+    .credit-stat .stat-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .credit-stat .stat-label i { color: var(--green); }
+    .credit-stat .stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #243B35;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+    .credit-stat .stat-value small {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .credit-stat.is-key {
+      background: rgba(39,118,91,0.1);
+      border-color: rgba(39,118,91,0.35);
+    }
+    .credit-stat.is-key .stat-value { color: #27765B; }
+    .credit-steps {
+      list-style: none;
+      counter-reset: step;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      background: rgba(246,249,244,0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 32px;
+    }
+    .credit-steps li {
+      counter-increment: step;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .credit-steps li::before {
+      content: counter(step);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: #27765B;
+      color: #FFFFFF;
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .credit-steps li strong {
+      display: block;
+      color: #243B35;
+      font-size: 0.96rem;
+      margin-bottom: 4px;
+    }
+    .credit-steps-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #243B35;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .credit-steps-title i { color: var(--green); }
+    @media (max-width: 820px) {
+      .credit-summary, .credit-steps { grid-template-columns: 1fr; }
+    }
+
+    /* Notice Slider (2026-11-19) */
+    .notice-slider { position: relative; }
+    .slider-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .slider-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .slider-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: rgba(255,255,255,0.7);
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .slider-tab:hover { color: #243B35; border-color: rgba(36,59,53,0.2); }
+    .slider-tab.is-active {
+      background: #27765B;
+      border-color: #27765B;
+      color: #FFFFFF;
+    }
+    .slider-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slider-counter {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 48px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .slider-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: rgba(255,255,255,0.85);
+      color: #243B35;
+      font-size: 1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(36,59,53,0.08);
+    }
+    .slider-btn:hover:not(:disabled) { background: #27765B; color: #FFFFFF; border-color: #27765B; }
+    .slider-btn:disabled { opacity: 0.35; cursor: default; }
+    .notice-track > .notice-card { display: none; margin-top: 0 !important; }
+    .notice-track > .notice-card.is-active { display: block; animation: noticeIn 0.35s ease; }
+    .notice-track > .notice-card.from-left.is-active { animation-name: noticeInLeft; }
+    @keyframes noticeIn { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+    @keyframes noticeInLeft { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .slider-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(36,59,53,0.18);
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.2s ease;
+    }
+    .slider-dot.is-active { width: 28px; background: #27765B; }
+    @media (prefers-reduced-motion: reduce) {
+      .notice-track > .notice-card.is-active { animation: none; }
+    }
+
     /* Responsive */
     @media (max-width: 820px) {
       .action-grid {
@@ -776,7 +965,7 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
           <a href="index.html" class="nav-home-btn"><i class="fa-solid fa-house"></i> Course Home</a>
           <a href="notice.html" class="nav-notice-btn" title="Notices">
             <span class="notice-icon-anim">📢</span> Notices
-            <span class="notice-badge">1</span>
+            <span class="notice-badge">2</span>
           </a>
           <div id="nav-user-item" class="nav-auth-slot">
             <a href="login/login.html" class="nav-login-btn">Log in</a>
@@ -813,12 +1002,115 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
       </p>
     </section>
 
+    <!-- Notice Slider: one notice at a time -->
+    <section class="notice-slider" id="noticeSlider" aria-roledescription="carousel" aria-label="Notice slides">
+      <div class="slider-toolbar">
+        <div class="slider-tabs" role="tablist"></div>
+        <div class="slider-nav">
+          <button type="button" class="slider-btn slider-prev" aria-label="Previous notice"><i class="fa-solid fa-chevron-left"></i></button>
+          <span class="slider-counter">1 / 1</span>
+          <button type="button" class="slider-btn slider-next" aria-label="Next notice"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+      </div>
+      <div class="notice-track">
+    <!-- AI Credit Support Notice (2026-11-19) -->
+    <article class="notice-card" id="ai-credit" aria-label="AI Credit Support Notice">
+      <div class="notice-header">
+        <div class="notice-meta-left">
+          <span class="notice-tag-badge"><i class="fa-solid fa-coins"></i> AI credit support</span>
+          <span class="notice-status-badge"><i class="fa-solid fa-circle-check"></i> Latest notice</span>
+        </div>
+        <div class="notice-date">
+          <i class="fa-regular fa-clock"></i> 2026.11.19 · From the course team
+        </div>
+      </div>
+
+      <h2 class="notice-title-main">[Notice] We'll cover your AI credit costs (up to $40 per person)</h2>
+
+      <div class="message-highlight-box">
+        <div class="icon-wrap">
+          <i class="fa-solid fa-receipt"></i>
+        </div>
+        <div class="text-wrap">
+          <div class="text-label">Key information</div>
+          <div class="text-content">
+            We will cover your AI credit costs up to $40 per person. Submit your payment receipt, and after we check it, we'll pay you back in cash.
+          </div>
+        </div>
+      </div>
+
+      <div class="notice-body-text">
+        <p>
+          Hello, everyone.<br>
+          To help with the cost of the AI tools you use in class (AI credits, paid plans, and so on), the course team will support part of the cost.
+        </p>
+        <p>
+          After you pay for AI credits, please submit your <strong>receipt</strong> to the course team. Once we check it, we'll pay you back <strong>up to $40</strong> in <strong>cash</strong>.
+        </p>
+      </div>
+
+      <div class="credit-summary">
+        <div class="credit-stat is-key">
+          <div class="stat-label"><i class="fa-solid fa-user"></i> Support amount</div>
+          <div class="stat-value">$40 <small>/ max per person</small></div>
+        </div>
+        <div class="credit-stat">
+          <div class="stat-label"><i class="fa-solid fa-money-bill-wave"></i> Paid as</div>
+          <div class="stat-value">Cash</div>
+        </div>
+        <div class="credit-stat">
+          <div class="stat-label"><i class="fa-solid fa-file-invoice"></i> What to submit</div>
+          <div class="stat-value">Payment receipt</div>
+        </div>
+      </div>
+
+      <div class="credit-steps-title"><i class="fa-solid fa-list-ol"></i> How to apply</div>
+      <ol class="credit-steps">
+        <li><strong>Pay for AI credits</strong>First, pay for the credits or paid plan of the AI tool you use in class.</li>
+        <li><strong>Get your receipt</strong>Prepare a receipt (or a screenshot of the payment) that shows the date, amount, and service name.</li>
+        <li><strong>Submit to the course team</strong>Give your receipt to the course team. After we check it, we'll pay you up to $40 in cash.</li>
+      </ol>
+
+      <div class="guideline-box">
+        <div class="guideline-title">
+          <i class="fa-solid fa-circle-exclamation"></i> Please note
+        </div>
+        <ul class="guideline-list">
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>Limit</strong>: up to $40 per person. If you paid less than $40, we'll pay back the amount you actually paid. Anything above $40 is on you.</div>
+          </li>
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>Receipt required</strong>: we can't pay you back without a receipt. Make sure the amount and date are easy to read.</div>
+          </li>
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>Your own payment</strong>: support covers only AI credit costs that you paid for yourself.</div>
+          </li>
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>Questions</strong>: if you're not sure how to submit or which services are covered, ask the course team.</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="page-bottom-actions">
+        <a href="index.html" class="btn-secondary">
+          <i class="fa-solid fa-arrow-left"></i> Back to course home
+        </a>
+        <a href="#photo-notice" class="btn-secondary">
+          <i class="fa-solid fa-camera"></i> See the profile photo notice
+        </a>
+      </div>
+    </article>
+
     <!-- Single Notice Card -->
-    <article class="notice-card" aria-label="Profile Photo Registration Notice">
+    <article class="notice-card" id="photo-notice" aria-label="Profile Photo Registration Notice">
       <div class="notice-header">
         <div class="notice-meta-left">
           <span class="notice-tag-badge"><i class="fa-solid fa-camera"></i> Photo registration</span>
-          <span class="notice-status-badge"><i class="fa-solid fa-circle-check"></i> Latest notice</span>
+          <span class="notice-status-badge"><i class="fa-solid fa-circle-check"></i> Earlier notice</span>
         </div>
         <div class="notice-date">
           <i class="fa-regular fa-clock"></i> 2026.11.17 · From the course team
@@ -918,6 +1210,9 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
         </a>
       </div>
     </article>
+      </div>
+      <div class="slider-dots"></div>
+    </section>
   </main>
 
   <!-- Footer -->
@@ -979,6 +1274,78 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
         window.location.reload();
       }
     };
+  </script>
+  <script>
+    // Notice Slider: show one notice at a time
+    (function () {
+      var root = document.getElementById('noticeSlider');
+      if (!root) return;
+      var slides = Array.prototype.slice.call(root.querySelectorAll('.notice-track > .notice-card'));
+      var tabsWrap = root.querySelector('.slider-tabs');
+      var dotsWrap = root.querySelector('.slider-dots');
+      var prev = root.querySelector('.slider-prev');
+      var next = root.querySelector('.slider-next');
+      var counter = root.querySelector('.slider-counter');
+      var cur = 0, tabs = [], dots = [];
+      slides.forEach(function (s, i) {
+        var badge = s.querySelector('.notice-tag-badge');
+        var t = document.createElement('button');
+        t.type = 'button'; t.className = 'slider-tab';
+        t.innerHTML = badge ? badge.innerHTML : String(i + 1);
+        t.addEventListener('click', function () { go(i); });
+        tabsWrap.appendChild(t); tabs.push(t);
+        var d = document.createElement('button');
+        d.type = 'button'; d.className = 'slider-dot';
+        d.setAttribute('aria-label', (i + 1) + ' / ' + slides.length);
+        d.addEventListener('click', function () { go(i); });
+        dotsWrap.appendChild(d); dots.push(d);
+      });
+      function go(i, noScroll) {
+        if (i < 0 || i >= slides.length) return;
+        var back = i < cur;
+        cur = i;
+        slides.forEach(function (s, k) {
+          s.classList.toggle('is-active', k === i);
+          s.classList.toggle('from-left', k === i && back);
+          s.setAttribute('aria-hidden', k === i ? 'false' : 'true');
+        });
+        tabs.forEach(function (t, k) { t.classList.toggle('is-active', k === i); });
+        dots.forEach(function (d, k) { d.classList.toggle('is-active', k === i); });
+        counter.textContent = (i + 1) + ' / ' + slides.length;
+        prev.disabled = i === 0;
+        next.disabled = i === slides.length - 1;
+        if (slides[i].id && history.replaceState) history.replaceState(null, '', '#' + slides[i].id);
+        if (!noScroll) {
+          var top = root.getBoundingClientRect().top + window.pageYOffset - 140;
+          if (window.pageYOffset > top) window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+      }
+      prev.addEventListener('click', function () { go(cur - 1); });
+      next.addEventListener('click', function () { go(cur + 1); });
+      document.addEventListener('keydown', function (e) {
+        var tag = (e.target.tagName || '').toLowerCase();
+        if (tag === 'input' || tag === 'textarea') return;
+        if (e.key === 'ArrowLeft') go(cur - 1);
+        if (e.key === 'ArrowRight') go(cur + 1);
+      });
+      var sx = null, sy = null;
+      root.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+      root.addEventListener('touchend', function (e) {
+        if (sx === null) return;
+        var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? cur + 1 : cur - 1);
+        sx = null;
+      }, { passive: true });
+      // in-page links to another notice (e.g. #photo-notice) switch slides
+      root.addEventListener('click', function (e) {
+        var a = e.target.closest('a[href^="#"]');
+        if (!a) return;
+        var idx = slides.findIndex(function (s) { return '#' + s.id === a.getAttribute('href'); });
+        if (idx > -1) { e.preventDefault(); go(idx); }
+      });
+      var start = slides.findIndex(function (s) { return s.id && '#' + s.id === location.hash; });
+      go(start > -1 ? start : 0, true);
+    })();
   </script>
 </body>
 
