@@ -749,7 +749,7 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
     .notice-card + .notice-card { margin-top: 28px; }
     .credit-summary {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 14px;
       margin-bottom: 30px;
     }
@@ -1013,94 +1013,121 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
         </div>
       </div>
       <div class="notice-track">
-    <!-- AI Credit Support Notice (2026-11-19) -->
-    <article class="notice-card" id="ai-credit" aria-label="AI Credit Support Notice">
+    <!-- AI Subscription Support Notice (2026-11-22 Updated) -->
+    <article class="notice-card" id="ai-credit" aria-label="AI Subscription Fee Reimbursement Notice">
       <div class="notice-header">
         <div class="notice-meta-left">
-          <span class="notice-tag-badge"><i class="fa-solid fa-coins"></i> AI credit support</span>
-          <span class="notice-status-badge"><i class="fa-solid fa-circle-check"></i> Latest notice</span>
+          <span class="notice-tag-badge"><i class="fa-solid fa-coins"></i> AI Subscription Support</span>
+          <span class="notice-status-badge"><i class="fa-solid fa-circle-check"></i> Latest Notice</span>
         </div>
         <div class="notice-date">
-          <i class="fa-regular fa-clock"></i> 2026.11.19 · From the course team
+          <i class="fa-regular fa-clock"></i> 2026.11.22 (Updated) · Course Administration
         </div>
       </div>
 
-      <h2 class="notice-title-main">[Notice] We'll cover your AI credit costs (up to $40 per person)</h2>
+      <h2 class="notice-title-main">[Notice] AI Subscription Fee Reimbursement (Up to $40 per Student)</h2>
 
       <div class="message-highlight-box">
         <div class="icon-wrap">
           <i class="fa-solid fa-receipt"></i>
         </div>
         <div class="text-wrap">
-          <div class="text-label">Key information</div>
+          <div class="text-label">Key Information</div>
           <div class="text-content">
-            We will cover your AI credit costs up to $40 per person. Submit your payment receipt, and after we check it, we'll pay you back in cash.
+            Upload your AI subscription receipt next week from <strong>Monday to Wednesday (Nov 30 – Dec 2)</strong> to receive up to <strong>$40 personal reimbursement</strong>. You can choose to be paid in <strong>Naira (₦) or USD ($)</strong>. Payouts will be processed individually on <strong>Thursday to Friday (Dec 3 – Dec 4)</strong>. (The upload portal will open next Monday.)
           </div>
         </div>
       </div>
 
       <div class="notice-body-text">
         <p>
-          Hello, everyone.<br>
-          To help with the cost of the AI tools you use in class (AI credits, paid plans, and so on), the course team will support part of the cost.
+          Hello, students!<br>
+          To support your practical learning and hands-on AI exercises, we will personally provide up to <strong>$40 reimbursement</strong> for your AI subscription or credit costs.
         </p>
         <p>
-          After you pay for AI credits, please submit your <strong>receipt</strong> to the course team. Once we check it, we'll pay you back <strong>up to $40</strong> in <strong>cash</strong>.
+          Please upload your AI tool payment receipt next week between <strong>Monday and Wednesday (Nov 30 – Dec 2)</strong>. After verification, reimbursements will be paid individually on <strong>Thursday and Friday (Dec 3 – Dec 4)</strong> in your preferred currency (<strong>Naira or USD</strong>).
         </p>
       </div>
 
       <div class="credit-summary">
         <div class="credit-stat is-key">
-          <div class="stat-label"><i class="fa-solid fa-user"></i> Support amount</div>
-          <div class="stat-value">$40 <small>/ max per person</small></div>
+          <div class="stat-label"><i class="fa-solid fa-hand-holding-dollar"></i> Support Amount</div>
+          <div class="stat-value">$40 <small>/ Max per student</small></div>
         </div>
         <div class="credit-stat">
-          <div class="stat-label"><i class="fa-solid fa-money-bill-wave"></i> Paid as</div>
-          <div class="stat-value">Cash</div>
+          <div class="stat-label"><i class="fa-solid fa-money-bill-wave"></i> Currency Option</div>
+          <div class="stat-value">Naira (₦) / USD ($) <small>Choice</small></div>
         </div>
         <div class="credit-stat">
-          <div class="stat-label"><i class="fa-solid fa-file-invoice"></i> What to submit</div>
-          <div class="stat-value">Payment receipt</div>
+          <div class="stat-label"><i class="fa-solid fa-calendar-check"></i> Upload Window</div>
+          <div class="stat-value">Mon, Nov 30 – Wed, Dec 2</div>
+        </div>
+        <div class="credit-stat">
+          <div class="stat-label"><i class="fa-solid fa-clock"></i> Individual Payout</div>
+          <div class="stat-value">Thu, Dec 3 – Fri, Dec 4</div>
         </div>
       </div>
 
-      <div class="credit-steps-title"><i class="fa-solid fa-list-ol"></i> How to apply</div>
+      <div style="background: rgba(39,118,91,0.07); border: 1px solid rgba(39,118,91,0.28); border-radius: 14px; padding: 20px 22px; margin-bottom: 28px;">
+        <div style="font-weight: 800; color: #243B35; font-size: 1.02rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-robot" style="color: #27765B;"></i> Eligible AI Tools &amp; Purchase Recommendation
+        </div>
+        <p style="margin: 0 0 10px; font-size: 0.94rem; color: #243B35; line-height: 1.6;">
+          Subscriptions for <strong>OpenAI (ChatGPT Plus/Team), Claude (Pro), or Google Gemini (Advanced)</strong> are all eligible for reimbursement with valid receipt submission.
+        </p>
+        <p style="margin: 0; font-size: 0.92rem; color: #27765B; font-weight: 700; line-height: 1.5;">
+          💡 Because our classroom labs will primarily utilize OpenAI, <u>please prioritize purchasing OpenAI</u> if possible.
+        </p>
+      </div>
+
+      <div class="credit-steps-title"><i class="fa-solid fa-list-ol"></i> Application &amp; Payout Steps</div>
       <ol class="credit-steps">
-        <li><strong>Pay for AI credits</strong>First, pay for the credits or paid plan of the AI tool you use in class.</li>
-        <li><strong>Get your receipt</strong>Prepare a receipt (or a screenshot of the payment) that shows the date, amount, and service name.</li>
-        <li><strong>Submit to the course team</strong>Give your receipt to the course team. After we check it, we'll pay you up to $40 in cash.</li>
+        <li><strong>Subscribe to AI Tool</strong>Subscribe to OpenAI, Claude, or Google Gemini (OpenAI prioritized for coursework).</li>
+        <li><strong>Upload Receipt (Nov 30 – Dec 2)</strong>Upload your receipt via the upload site opening next Monday and select Naira or USD.</li>
+        <li><strong>Individual Reimbursement (Dec 3 – Dec 4)</strong>Upon verification, receive up to $40 individually on Thursday or Friday.</li>
       </ol>
 
       <div class="guideline-box">
         <div class="guideline-title">
-          <i class="fa-solid fa-circle-exclamation"></i> Please note
+          <i class="fa-solid fa-circle-exclamation"></i> Important Guidelines
         </div>
         <ul class="guideline-list">
           <li>
             <i class="fa-solid fa-check"></i>
-            <div><strong>Limit</strong>: up to $40 per person. If you paid less than $40, we'll pay back the amount you actually paid. Anything above $40 is on you.</div>
+            <div><strong>Upload Deadline</strong>: Receipts must be uploaded between next Monday and Wednesday (Nov 30 – Dec 2). The upload site will open on Monday.</div>
           </li>
           <li>
             <i class="fa-solid fa-check"></i>
-            <div><strong>Receipt required</strong>: we can't pay you back without a receipt. Make sure the amount and date are easy to read.</div>
+            <div><strong>Currency Selection</strong>: When uploading, please select your preferred reimbursement currency: Naira (NGN, ₦) or US Dollars (USD, $).</div>
           </li>
           <li>
             <i class="fa-solid fa-check"></i>
-            <div><strong>Your own payment</strong>: support covers only AI credit costs that you paid for yourself.</div>
+            <div><strong>Maximum Support Limit</strong>: Up to $40 per student. If your payment is less than $40, you will be reimbursed the exact payment amount; any amount exceeding $40 is self-funded.</div>
           </li>
           <li>
             <i class="fa-solid fa-check"></i>
-            <div><strong>Questions</strong>: if you're not sure how to submit or which services are covered, ask the course team.</div>
+            <div><strong>Payout Schedule</strong>: Individual reimbursements will be disbursed on Thursday and Friday (Dec 3 – Dec 4) after review.</div>
+          </li>
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>Service Recommendation</strong>: OpenAI, Claude, and Google Gemini are all accepted, but OpenAI is strongly recommended for practical project tasks.</div>
+          </li>
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>Valid Receipt Required</strong>: Receipts or payment screenshots must clearly display the payment date, amount, plan, and service provider name.</div>
           </li>
         </ul>
       </div>
 
       <div class="page-bottom-actions">
+        <a href="upload.html" class="btn-primary" style="background:#27765B;color:#FFFFFF;border-radius:12px;padding:12px 22px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;">
+          <i class="fa-solid fa-cloud-arrow-up"></i> Upload Receipt Page (Opens Monday)
+        </a>
         <a href="index.html" class="btn-secondary">
-          <i class="fa-solid fa-arrow-left"></i> Back to course home
+          <i class="fa-solid fa-arrow-left"></i> Back to Course Home
         </a>
         <a href="#photo-notice" class="btn-secondary">
-          <i class="fa-solid fa-camera"></i> See the profile photo notice
+          <i class="fa-solid fa-camera"></i> View Profile Photo Notice
         </a>
       </div>
     </article>
