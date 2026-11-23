@@ -17,7 +17,7 @@
     { studentId: "AI-TOT-011", name: "Archibong Effiong Nsa", team: "AUP Digital Africa", avatar: "👨🏽‍💻" },
     { studentId: "AI-TOT-012", name: "Princess Elo Ahante", team: "HerCraft", avatar: "👩🏽‍💻" },
     { studentId: "AI-TOT-013", name: "Kolawole Allen Akoni", team: "Goreel", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-014", name: "Ameerah Muhammad Ashir", team: "Faidhaa Innovation Hub", avatar: "👩🏽‍💻" },
+    { studentId: "AI-TOT-014", name: "Zitamary Chidimma Anumenwe", team: "Foothills Consulting", avatar: "👩🏽‍💻" },
     { studentId: "AI-TOT-015", name: "Samira Abdulhamid Lawal", team: "Ummzie Nig Ltd", avatar: "👩🏽‍💻" }
   ];
   var isAuthenticating = false;
