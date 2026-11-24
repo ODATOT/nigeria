@@ -1007,20 +1007,38 @@ Product list and cart.</div><div class="p a"><h5>AFTER-01 · with analysis</h5><
         </div>
 
         <!-- Slide Deck Action / Download Bar -->
-        <div class="slide-download-bar" style="margin-top: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 24px; box-shadow: var(--shadow);">
-          <div style="display: flex; align-items: center; gap: 14px;">
-            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(39,118,91,0.12); color: #27765B; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;">
-              <i class="fa-solid fa-file-zipper"></i>
+        <div class="slide-download-bar" style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
+          <!-- Card 1: Jumia Sample Kit -->
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; box-shadow: var(--shadow);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(39,118,91,0.12); color: #27765B; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;">
+                <i class="fa-solid fa-file-zipper"></i>
+              </div>
+              <div>
+                <div style="font-weight: 800; font-size: 1.02rem; color: var(--ink); margin-bottom: 2px;">Day 2 Training Materials · Jumia Sample Kit</div>
+                <div style="font-size: 0.88rem; color: var(--muted);">Hands-on sample: mission1_jumia (Research logs, AI logs, GAP notes) · ZIP 16 KB</div>
+              </div>
             </div>
-            <div>
-              <div style="font-weight: 800; font-size: 1.05rem; color: var(--ink); margin-bottom: 3px;">Day 2 Training Materials · Jumia Sample Kit</div>
-              <div style="font-size: 0.92rem; color: var(--muted);">Hands-on sample project: mission1_jumia (Research logs, AI logs, GAP notes &amp; templates) · ZIP 16 KB</div>
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <a href="day2/day2_jumia_sample.zip" download="day2_jumia_sample.zip" class="btn btn-primary" style="text-decoration: none;">
+            <a href="day2/day2_jumia_sample.zip" download="day2_jumia_sample.zip" class="btn btn-primary" style="text-decoration: none; padding: 0 18px; min-height: 44px; font-size: 0.95rem;">
               <i class="fa-solid fa-download"></i>
-              <span>Download Training Materials (.ZIP)</span>
+              <span>Download Lab Kit (.ZIP)</span>
+            </a>
+          </div>
+
+          <!-- Card 2: Growth Hacking Talk PPTX -->
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; box-shadow: var(--shadow);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(209,72,54,0.12); color: #D14836; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;">
+                <i class="fa-solid fa-file-powerpoint"></i>
+              </div>
+              <div>
+                <div style="font-weight: 800; font-size: 1.02rem; color: var(--ink); margin-bottom: 2px;">Growth Hacking Lecture Slides (Talk Deck)</div>
+                <div style="font-size: 0.88rem; color: var(--muted);">Special lecture presentation slides (English) · PPTX 14 MB</div>
+              </div>
+            </div>
+            <a href="day2/Growth_Hacking_Talk_EN.pptx" download="Growth_Hacking_Talk_EN.pptx" class="btn btn-primary" style="text-decoration: none; padding: 0 18px; min-height: 44px; font-size: 0.95rem; background: #D14836;">
+              <i class="fa-solid fa-download"></i>
+              <span>Download Lecture (.PPTX)</span>
             </a>
           </div>
         </div>
