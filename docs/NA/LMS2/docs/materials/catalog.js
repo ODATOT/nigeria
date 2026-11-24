@@ -347,5 +347,199 @@ window.LMS_MATERIALS = [
    }
   ],
   "count": 31
+ },
+ {
+  "id": "growth-hacking",
+  "date": "2026-11",
+  "place": "Abuja",
+  "ko": {
+   "kicker": "특강 03 · Day 2 특별 강연",
+   "title": "Growth Hacking Talk",
+   "sub": "스타트업 그로스해킹 & AARRR",
+   "desc": "Day 2 실습과 연계된 특별 강연 자료: 데이터 기반 성장 프레임워크(AARRR), 성장 루프(Growth Loops), Jumia 사례 분석 및 스타트업 실행 전략을 담은 슬라이드입니다.",
+   "tags": [
+    "그로스해킹",
+    "AARRR",
+    "성장 루프",
+    "Jumia",
+    "Day 2",
+    "PPTX·PDF"
+   ]
+  },
+  "en": {
+   "kicker": "Special Lecture · Day 2 Talk",
+   "title": "Growth Hacking Talk",
+   "sub": "Startup Growth Hacking & AARRR",
+   "desc": "Special lecture presentation covering data-driven growth frameworks (AARRR), growth loops, retention, Jumia case analysis, and actionable startup strategies.",
+   "tags": [
+    "Growth Hacking",
+    "AARRR",
+    "Growth Loops",
+    "Jumia",
+    "Day 2",
+    "PPTX & PDF"
+   ]
+  },
+  "count": 36,
+  "files": [
+   {
+    "name": "Growth_Hacking_Talk_EN.pptx",
+    "ext": "PPTX",
+    "size": "14 MB",
+    "url": "day2/Growth_Hacking_Talk_EN.pptx"
+   },
+   {
+    "name": "Growth_Hacking_Talk_EN.pdf",
+    "ext": "PDF",
+    "size": "5.7 MB",
+    "url": "day2/Growth_Hacking_Talk_EN.pdf"
+   }
+  ],
+  "slides": [
+   {
+    "t": "Growth Hacking: How Far Have You Gone?",
+    "n": "Based on a real-world streaming service case. Introduction to the pain points and growth hacking mindset."
+   },
+   {
+    "t": "Real-World Startup Journey",
+    "n": "Navigating early-stage chaos and establishing rapid baseline metrics."
+   },
+   {
+    "t": "Key Growth Metrics & Retention",
+    "n": "Focusing on retention curves before scaling user acquisition."
+   },
+   {
+    "t": "Identifying the Drop-Offs",
+    "n": "Where and why users leave: finding critical friction points."
+   },
+   {
+    "t": "User Engagement Challenges",
+    "n": "Moving from passive visitors to engaged regular users."
+   },
+   {
+    "t": "Early Pivot & Strategy",
+    "n": "Rapid iteration and course corrections based on early feedback."
+   },
+   {
+    "t": "The Growth Hacking Mindset",
+    "n": "Combining product intuition with relentless data validation."
+   },
+   {
+    "t": "Hypotheses & Fast Experiments",
+    "n": "Building quick, low-cost experiments to test assumptions."
+   },
+   {
+    "t": "Traffic Channels & Funnel",
+    "n": "Mapping the acquisition funnel and identifying high-converting channels."
+   },
+   {
+    "t": "Defining the Core Problem",
+    "n": "Isolating the single most impactful bottleneck in the product."
+   },
+   {
+    "t": "AfreecaTV Case Background",
+    "n": "Real case study: streaming platform architecture and business dynamics."
+   },
+   {
+    "t": "Today's Story: Early Stabilization & Monetization",
+    "n": "Two core themes: fast operational stabilization and revamping the revenue model."
+   },
+   {
+    "t": "Solve It with Growth Hacking",
+    "n": "Formulating tactical growth hacks to drive product health."
+   },
+   {
+    "t": "5 Core Growth Goals",
+    "n": "The roadmap of 5 concrete objectives tackled during this phase."
+   },
+   {
+    "t": "Goal 1: Increase Play Time",
+    "n": "Maximizing viewer retention and session duration across categories."
+   },
+   {
+    "t": "Goal 2: Discover Hot Videos",
+    "n": "Surfacing viral and trending content to lift average views."
+   },
+   {
+    "t": "Goal 3: Find Monetization Points",
+    "n": "Locating high-intent user moments for revenue conversion."
+   },
+   {
+    "t": "Goal 4: Creator Independence & Revenue Sharing",
+    "n": "Empowering creators and aligning incentives through shared monetization."
+   },
+   {
+    "t": "Goal 5: Operational Verification & Feedback Loop",
+    "n": "Building real-time dashboards and metrics to verify interventions."
+   },
+   {
+    "t": "Analyzing Viewing Patterns from Real User Behavior",
+    "n": "Deep dive into time-series logs and behavioral cohort patterns."
+   },
+   {
+    "t": "Basics: The Core of the Service",
+    "n": "Strengthening fundamental product reliability before adding features."
+   },
+   {
+    "t": "Algorithmic Matching & Discovery",
+    "n": "Matching viewer interests with relevant content streams."
+   },
+   {
+    "t": "Cold Start & Hit Rate Reality",
+    "n": "Addressing new user drop-offs and algorithmic cold-start hurdles."
+   },
+   {
+    "t": "User Action Analysis: Watch Depth & Skips",
+    "n": "Measuring exact skip timestamps and drop-off thresholds in video playback."
+   },
+   {
+    "t": "Growth Automation: Dynamic Keywords & Playlists",
+    "n": "Automating keyword tagging and playlist rebalancing based on engagement."
+   },
+   {
+    "t": "Revenue Model: Finding Limits & Breakthroughs",
+    "n": "Overcoming structural revenue caps through innovative product design."
+   },
+   {
+    "t": "Monetization Boundaries",
+    "n": "Recognizing platform constraints and user willingness to pay."
+   },
+   {
+    "t": "Live Stream vs. VOD Monetization Gap",
+    "n": "Bridging the gap between live donation mechanics and on-demand video."
+   },
+   {
+    "t": "Architectural Workaround: Microservices & Agility",
+    "n": "Decoupling video playback pipelines to iterate without monolithic delays."
+   },
+   {
+    "t": "Membership & Billing Architecture (Phase 1)",
+    "n": "Implementing flexible subscription tiers and recurring payment gateways."
+   },
+   {
+    "t": "Streaming Infrastructure & RTMP (Phase 2)",
+    "n": "Optimizing video delivery networks and stream latency."
+   },
+   {
+    "t": "Tech Pipeline Integration (Phase 3)",
+    "n": "Unifying analytics, transcoding, and content moderation pipelines."
+   },
+   {
+    "t": "Revenue Flow & Settlement (Phase 4)",
+    "n": "Automating partner payouts, commission cuts, and transparent reporting."
+   },
+   {
+    "t": "Recommendation Engine & Data Pipeline",
+    "n": "Deploying data pipelines to fuel personalized recommendations."
+   },
+   {
+    "t": "Real Outcomes & Lessons Learned",
+    "n": "Key metrics achieved and hard-earned takeaways from production."
+   },
+   {
+    "t": "Conclusion: Sustainable Growth & Global Journey",
+    "n": "Summary of lessons: building sustainable, defensible growth engines."
+   }
+  ]
  }
 ];

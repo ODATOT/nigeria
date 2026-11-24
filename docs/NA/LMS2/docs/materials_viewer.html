@@ -167,8 +167,30 @@
     $("pageTotal").textContent = N;
     $("sideCount").textContent = N;
     $("progress").max = N;
-    $("downloadBtn").href = deckUrl;
-    $("downloadBtn").setAttribute("download", deck.id + ".html");
+    if (deck.files && deck.files.length) {
+      $("downloadBtn").href = deck.files[0].url;
+      $("downloadBtn").setAttribute("download", deck.files[0].name);
+      $("downloadBtn").innerHTML = '<i class="fa-solid fa-file-powerpoint"></i><span>PPTX 다운로드</span>';
+      
+      var pdfBtn = document.createElement("a");
+      pdfBtn.className = "btn";
+      pdfBtn.href = deck.files[1] ? deck.files[1].url : deck.files[0].url;
+      pdfBtn.setAttribute("download", deck.files[1] ? deck.files[1].name : "");
+      pdfBtn.target = "_blank";
+      pdfBtn.innerHTML = '<i class="fa-solid fa-file-pdf"></i><span>PDF 보기/다운로드</span>';
+      $("downloadBtn").parentNode.insertBefore(pdfBtn, $("downloadBtn").nextSibling);
+
+      var filesHtml = '<div style="margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap;">' +
+        deck.files.map(function (f) {
+          var icon = f.ext === 'PPTX' ? 'fa-file-powerpoint' : (f.ext === 'PDF' ? 'fa-file-pdf' : 'fa-file');
+          var bg = f.ext === 'PPTX' ? '#D14836' : (f.ext === 'PDF' ? '#C5221F' : 'var(--blue)');
+          return '<a href="' + esc(f.url) + '" download="' + esc(f.name) + '" class="btn" style="background:' + bg + '; color:#fff; border:0; padding:0 14px; font-size:0.88rem; text-decoration:none;"><i class="fa-solid ' + icon + '"></i> ' + esc(f.name) + ' (' + esc(f.size) + ')</a>';
+        }).join('') + '</div>';
+      $("desc").insertAdjacentHTML("afterend", filesHtml);
+    } else {
+      $("downloadBtn").href = deckUrl;
+      $("downloadBtn").setAttribute("download", deck.id + ".html");
+    }
 
     $("thumbs").innerHTML = deck.slides.map(function (s, i) {
       return '<button class="thumb" type="button" data-n="' + (i + 1) + '" title="' + esc((i + 1) + ". " + s.t) + '">' +
