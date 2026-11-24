@@ -8,7 +8,7 @@
     { studentId: "AI-TOT-002", name: "Umar Adam Ibrahim", team: "Nile University of Nigeria", avatar: "👨🏽‍💻" },
     { studentId: "AI-TOT-003", name: "IDRIS ADEIZA ALIYU", team: "Drisa Engineering Solutions Limited", avatar: "👨🏽‍💻" },
     { studentId: "AI-TOT-004", name: "Blessing Ozioma Iwuchukwu", team: "BiZmarrow Technologies", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-005", name: "Collins Anietie Nyong", team: "X", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-005", name: "Collins Anietie Nyong", team: "Youth for Change Initiative", avatar: "👨🏽‍💻" },
     { studentId: "AI-TOT-006", name: "Joshua Ityover Mishi", team: "Jobberman Nigeria", avatar: "👨🏽‍💻" },
     { studentId: "AI-TOT-007", name: "DUUNEBARI GOSPEL VAREBA", team: "ByteStreams Consulting Ltd", avatar: "👨🏽‍💻" },
     { studentId: "AI-TOT-008", name: "Frank Onyekachi Uchehara", team: "Frankbotics Technologies Limited", avatar: "👨🏽‍💻" },
