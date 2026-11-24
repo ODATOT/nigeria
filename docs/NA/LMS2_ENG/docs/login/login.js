@@ -6,19 +6,19 @@
   var students = [
     { studentId: "AI-TOT-001", name: "Neksummi Hammadu Matthias", team: "Nekslove Web Solutions", avatar: "👨🏽‍💻" },
     { studentId: "AI-TOT-002", name: "Umar Adam Ibrahim", team: "Nile University of Nigeria", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-003", name: "IDRIS ADEIZA ALIYU", team: "Drisa Engineering Solutions Limited", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-004", name: "Blessing Ozioma Iwuchukwu", team: "BiZmarrow Technologies", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-003", name: "IDRIS ADEIZA ALIYU", team: "Drisa Engineering Solutions Limited", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-003.jpg" },
+    { studentId: "AI-TOT-004", name: "Blessing Ozioma Iwuchukwu", team: "BiZmarrow Technologies", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-004.jpg" },
     { studentId: "AI-TOT-005", name: "Collins Anietie Nyong", team: "Youth for Change Initiative", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-006", name: "Joshua Ityover Mishi", team: "Jobberman Nigeria", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-007", name: "DUUNEBARI GOSPEL VAREBA", team: "ByteStreams Consulting Ltd", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-008", name: "Frank Onyekachi Uchehara", team: "Frankbotics Technologies Limited", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-009", name: "Oluwaseyi Adetunji Adebayo", team: "Coderina EdTech Foundation", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-006", name: "Joshua Ityover Mishi", team: "Jobberman Nigeria", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-006.jpg" },
+    { studentId: "AI-TOT-007", name: "DUUNEBARI GOSPEL VAREBA", team: "ByteStreams Consulting Ltd", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-007.png" },
+    { studentId: "AI-TOT-008", name: "Frank Onyekachi Uchehara", team: "Frankbotics Technologies Limited", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-008.jpg" },
+    { studentId: "AI-TOT-009", name: "Oluwaseyi Adetunji Adebayo", team: "Coderina EdTech Foundation", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-009.png" },
     { studentId: "AI-TOT-010", name: "Peter Oluwayomi Kolapo", team: "ECOWAS", avatar: "👨🏽‍💻" },
     { studentId: "AI-TOT-011", name: "Archibong Effiong Nsa", team: "AUP Digital Africa", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-012", name: "Princess Elo Ahante", team: "HerCraft", avatar: "👩🏽‍💻" },
+    { studentId: "AI-TOT-012", name: "Princess Elo Ahante", team: "HerCraft", avatar: "👩🏽‍💻", photo: "profile-photos/AI-TOT-012.png" },
     { studentId: "AI-TOT-013", name: "Kolawole Allen Akoni", team: "Goreel", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-014", name: "Zitamary Chidimma Anumenwe", team: "Foothills Consulting", avatar: "👩🏽‍💻" },
-    { studentId: "AI-TOT-015", name: "Samira Abdulhamid Lawal", team: "Ummzie Nig Ltd", avatar: "👩🏽‍💻" }
+    { studentId: "AI-TOT-014", name: "Zitamary Chidimma Anumenwe", team: "Foothills Consulting", avatar: "👩🏽‍💻", photo: "profile-photos/AI-TOT-014.jpg" },
+    { studentId: "AI-TOT-015", name: "Samira Abdulhamid Lawal", team: "Ummzie Nig Ltd", avatar: "👩🏽‍💻", photo: "profile-photos/AI-TOT-015.jpg" }
   ];
   var isAuthenticating = false;
   var activeRequestController = null;
@@ -83,8 +83,16 @@
 
     var avatarWrapper = document.createElement("span");
     avatarWrapper.className = "avatar-wrapper";
-    var avatar = document.createElement("span");
-    avatar.textContent = student.avatar;
+    var avatar = document.createElement(student.photo ? "img" : "span");
+    if (student.photo) {
+      avatar.className = "profile-photo";
+      avatar.src = student.photo;
+      avatar.alt = "";
+      avatar.loading = "lazy";
+      avatar.decoding = "async";
+    } else {
+      avatar.textContent = student.avatar;
+    }
     avatarWrapper.appendChild(avatar);
 
     var name = document.createElement("span");

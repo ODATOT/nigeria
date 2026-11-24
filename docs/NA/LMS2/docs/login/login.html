@@ -397,6 +397,15 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
       margin-bottom: 16px;
       box-shadow: inset 0 0 12px rgba(36,59,53,0.017);
       transition: all 0.3s;
+      overflow: hidden;
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
     }
 
     .profile-card:hover .avatar-wrapper {
@@ -656,7 +665,7 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
     <button class="cancel-btn" onclick="cancelAuth()">인증 취소</button>
   </div>
 
-  <script src="login.js?v=20261118-final-roster"></script>
+  <script src="login.js?v=20261124-profile-photos"></script>
   <footer class="site-footer">
     <div style="max-width: 1200px; margin: 0 auto;">
       <div style="margin-bottom: 6px; word-break: keep-all;">
