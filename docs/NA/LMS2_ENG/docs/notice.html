@@ -663,6 +663,37 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
 
     /* AI Credit Support Notice (2026-11-19) */
     .notice-card + .notice-card { margin-top: 28px; }
+    .credit-apply-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 64px;
+      padding: 16px 24px;
+      margin-bottom: 24px;
+      border-radius: 14px;
+      background: #146147;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(20,97,71,0.22);
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+      font-weight: 800;
+      line-height: 1.4;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .credit-apply-link:hover {
+      background: #0f4e39;
+      color: #fff;
+    }
+
+    .credit-apply-link:focus-visible {
+      outline: 3px solid #146147;
+      outline-offset: 3px;
+    }
+
+    .credit-apply-link i { flex-shrink: 0; }
+
     .credit-summary {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -937,7 +968,7 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
           <span class="notice-status-badge"><i class="fa-solid fa-circle-exclamation"></i> Mandatory Notice</span>
         </div>
         <div class="notice-date">
-          <i class="fa-regular fa-clock"></i> 2026.11.23 · Course Administration
+          <i class="fa-regular fa-clock"></i> <time datetime="2026-11-23">2026.11.23</time> · Course Administration
         </div>
       </div>
 
@@ -1032,7 +1063,7 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
           <i class="fa-solid fa-chart-line"></i> View Pre-Assessment Notice
         </a>
         <a href="#ai-credit" class="btn-secondary">
-          <i class="fa-solid fa-coins"></i> View AI Subscription Notice
+          <i class="fa-solid fa-coins"></i> AI Subscription Reimbursement (Applications Open)
         </a>
         <a href="index.html" class="btn-secondary">
           <i class="fa-solid fa-arrow-left"></i> Back to Course Home
@@ -1048,7 +1079,7 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
           <span class="notice-status-badge"><i class="fa-solid fa-circle-exclamation"></i> Mandatory Today</span>
         </div>
         <div class="notice-date">
-          <i class="fa-regular fa-clock"></i> 2026.11.22 · Course Administration
+          <i class="fa-regular fa-clock"></i> <time datetime="2026-11-22">2026.11.22</time> · Course Administration
         </div>
       </div>
 
@@ -1158,7 +1189,7 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
       </div>
     </article>
 
-    <!-- AI Subscription Support Notice (2026-11-22 Updated) -->
+    <!-- AI Subscription Support Notice (2026-11-25 Updated) -->
     <article class="notice-card" id="ai-credit" aria-label="AI Subscription Fee Reimbursement Notice">
       <div class="notice-header">
         <div class="notice-meta-left">
@@ -1166,11 +1197,17 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
           <span class="notice-status-badge"><i class="fa-solid fa-circle-check"></i> Key Notice</span>
         </div>
         <div class="notice-date">
-          <i class="fa-regular fa-clock"></i> 2026.11.22 (Updated) · Course Administration
+          <i class="fa-regular fa-clock"></i> <time datetime="2026-11-25">2026.11.25</time> (Updated) · Course Administration
         </div>
       </div>
 
       <h2 class="notice-title-main">[Notice] AI Subscription Fee Reimbursement (Up to $40 per Student)</h2>
+
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeEFbxpCekd88dXOjJetHYCGj8nH0zx7Mzf29fBYSSyCelqpQ/viewform?usp=publish-editor" class="credit-apply-link" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+        <span>Apply for AI Subscription Reimbursement</span>
+        <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+      </a>
 
       <div class="message-highlight-box">
         <div class="icon-wrap">
@@ -1179,18 +1216,17 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
         <div class="text-wrap">
           <div class="text-label">Key Information</div>
           <div class="text-content">
-            Upload your AI subscription receipt next week from <strong>Monday to Wednesday (Nov 30 – Dec 2)</strong> to receive up to <strong>$40 personal reimbursement</strong>. You can choose to be paid in <strong>Naira (₦) or USD ($)</strong>. Payouts will be processed individually on <strong>Thursday to Friday (Dec 3 – Dec 4)</strong>. (The upload portal will open next Monday.)
+            <strong>Applications are open now.</strong> If your receipt is ready, you can apply early. The official application period is <strong>30 November to 2 December 2026</strong>. After reviewing receipts, we will pay approved reimbursements of up to <strong>USD 40 per participant</strong> on <strong>3–4 December 2026</strong> in your chosen currency, Nigerian naira (NGN) or US dollars (USD).
           </div>
         </div>
       </div>
 
       <div class="notice-body-text">
         <p>
-          Hello, students!<br>
-          To support your practical learning and hands-on AI exercises, we will personally provide up to <strong>$40 reimbursement</strong> for your AI subscription or credit costs.
+          ACE AI SW Startup Training reimburses eligible AI subscription expenses for course practice.
         </p>
         <p>
-          Please upload your AI tool payment receipt next week between <strong>Monday and Wednesday (Nov 30 – Dec 2)</strong>. After verification, reimbursements will be paid individually on <strong>Thursday and Friday (Dec 3 – Dec 4)</strong> in your preferred currency (<strong>Naira or USD</strong>).
+          If you apply early, you do not need to submit again during the official application period. Sign in to your Google account to upload your receipt.
         </p>
       </div>
 
@@ -1204,8 +1240,8 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
           <div class="stat-value">Naira (₦) / USD ($) <small>Choice</small></div>
         </div>
         <div class="credit-stat">
-          <div class="stat-label"><i class="fa-solid fa-calendar-check"></i> Upload Window</div>
-          <div class="stat-value">Mon, Nov 30 – Wed, Dec 2</div>
+          <div class="stat-label"><i class="fa-solid fa-calendar-check"></i> Official Application Period</div>
+          <div class="stat-value">30 Nov – 2 Dec <small>Early applications open</small></div>
         </div>
         <div class="credit-stat">
           <div class="stat-label"><i class="fa-solid fa-clock"></i> Individual Payout</div>
@@ -1218,7 +1254,7 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
           <i class="fa-solid fa-robot" style="color: #27765B;"></i> Eligible AI Tools &amp; Purchase Recommendation
         </div>
         <p style="margin: 0 0 10px; font-size: 0.94rem; color: #243B35; line-height: 1.6;">
-          Subscriptions for <strong>OpenAI (ChatGPT Plus/Team), Claude (Pro), or Google Gemini (Advanced)</strong> are all eligible for reimbursement with valid receipt submission.
+          Subscriptions to <strong>OpenAI, Claude, Google Gemini, or other AI services</strong> are eligible with a valid receipt.
         </p>
         <p style="margin: 0; font-size: 0.92rem; color: #27765B; font-weight: 700; line-height: 1.5;">
           💡 Because our classroom labs will primarily utilize OpenAI, <u>please prioritize purchasing OpenAI</u> if possible.
@@ -1228,7 +1264,7 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
       <div class="credit-steps-title"><i class="fa-solid fa-list-ol"></i> Application &amp; Payout Steps</div>
       <ol class="credit-steps">
         <li><strong>Subscribe to AI Tool</strong>Subscribe to OpenAI, Claude, or Google Gemini (OpenAI prioritized for coursework).</li>
-        <li><strong>Upload Receipt (Nov 30 – Dec 2)</strong>Upload your receipt via the upload site opening next Monday and select Naira or USD.</li>
+        <li><strong>Apply and upload your receipt</strong>Enter your name, email address, phone number, and the amount and currency shown on your receipt. Attach the receipt and choose Nigerian naira or US dollars for your reimbursement.</li>
         <li><strong>Individual Reimbursement (Dec 3 – Dec 4)</strong>Upon verification, receive up to $40 individually on Thursday or Friday.</li>
       </ol>
 
@@ -1239,11 +1275,15 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
         <ul class="guideline-list">
           <li>
             <i class="fa-solid fa-check"></i>
-            <div><strong>Upload Deadline</strong>: Receipts must be uploaded between next Monday and Wednesday (Nov 30 – Dec 2). The upload site will open on Monday.</div>
+            <div><strong>Application deadline.</strong> Submit your application and receipt by <strong>Wednesday, 2 December 2026</strong>. You can apply early.</div>
           </li>
           <li>
             <i class="fa-solid fa-check"></i>
             <div><strong>Currency Selection</strong>: When uploading, please select your preferred reimbursement currency: Naira (NGN, ₦) or US Dollars (USD, $).</div>
+          </li>
+          <li>
+            <i class="fa-solid fa-check"></i>
+            <div><strong>Naira exchange rate.</strong> If you choose Nigerian naira (NGN), we will calculate your reimbursement using the <strong>USD-to-NGN exchange rate on Thursday, 3 December 2026</strong>.</div>
           </li>
           <li>
             <i class="fa-solid fa-check"></i>
@@ -1268,9 +1308,6 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
         <a href="#pre-survey" class="btn-secondary">
           <i class="fa-solid fa-chart-line"></i> View Pre-Assessment Notice
         </a>
-        <a href="upload.html" class="btn-primary" style="background:#27765B;color:#FFFFFF;border-radius:12px;padding:12px 22px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;">
-          <i class="fa-solid fa-cloud-arrow-up"></i> Upload Receipt Page (Opens Monday)
-        </a>
         <a href="#photo-notice" class="btn-secondary">
           <i class="fa-solid fa-camera"></i> View Profile Photo Notice
         </a>
@@ -1288,7 +1325,7 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
           <span class="notice-status-badge"><i class="fa-solid fa-circle-check"></i> Earlier notice</span>
         </div>
         <div class="notice-date">
-          <i class="fa-regular fa-clock"></i> 2026.11.17 · From the course team
+          <i class="fa-regular fa-clock"></i> <time datetime="2026-11-17">2026.11.17</time> · From the course team
         </div>
       </div>
 
@@ -1461,7 +1498,16 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
     (function () {
       var root = document.getElementById('noticeSlider');
       if (!root) return;
-      var slides = Array.prototype.slice.call(root.querySelectorAll('.notice-track > .notice-card'));
+      var track = root.querySelector('.notice-track');
+      var slides = Array.from(track.querySelectorAll('.notice-card'));
+      if (!slides.length) return;
+      // Set each notice's datetime to its publication or latest update date.
+      function noticeTimestamp(slide) {
+        var date = slide.querySelector('.notice-date time[datetime]');
+        return date ? Date.parse(date.dateTime) || 0 : 0;
+      }
+      slides.sort(function (a, b) { return noticeTimestamp(b) - noticeTimestamp(a); });
+      slides.forEach(function (slide) { track.appendChild(slide); });
       var tabsWrap = root.querySelector('.slider-tabs');
       var dotsWrap = root.querySelector('.slider-dots');
       var prev = root.querySelector('.slider-prev');
@@ -1495,7 +1541,9 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
         counter.textContent = (i + 1) + ' / ' + slides.length;
         prev.disabled = i === 0;
         next.disabled = i === slides.length - 1;
-        if (slides[i].id && history.replaceState) history.replaceState(null, '', '#' + slides[i].id);
+        if (!noScroll && slides[i].id && history.replaceState) {
+          history.replaceState(null, '', '#' + slides[i].id);
+        }
         if (!noScroll) {
           var top = root.getBoundingClientRect().top + window.pageYOffset - 140;
           if (window.pageYOffset > top) window.scrollTo({ top: top, behavior: 'smooth' });
