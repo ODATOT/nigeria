@@ -694,6 +694,36 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
 
     .credit-apply-link i { flex-shrink: 0; }
 
+    .demo-day-focus {
+      margin-bottom: 24px;
+      padding: clamp(16px, 3vw, 28px);
+      border-radius: 16px;
+      background: #14513d;
+      color: #fff;
+    }
+
+    .demo-day-time {
+      display: block;
+      color: #ffdb80;
+      font-size: clamp(1.75rem, 5vw, 2.75rem);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.2;
+    }
+
+    .demo-day-focus h3 { margin: 8px 0; font-size: 1.2rem; }
+    .demo-day-focus p { margin: 8px 0 0; line-height: 1.6; }
+
+    .demo-day-banner {
+      display: block;
+      width: 100%;
+      aspect-ratio: 3 / 1;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-bottom: 24px;
+    }
+
+     .credit-summary {
     .credit-summary {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -960,6 +990,40 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
         </div>
       </div>
       <div class="notice-track">
+    <article class="notice-card" id="ir-demo-day" aria-labelledby="ir-demo-day-title">
+      <div class="notice-header">
+        <div class="notice-meta-left">
+          <span class="notice-tag-badge"><i class="fa-solid fa-people-group" aria-hidden="true"></i> IR Demo Day</span>
+          <span class="notice-status-badge">Event notice</span>
+        </div>
+        <div class="notice-date">
+          <i class="fa-regular fa-clock" aria-hidden="true"></i> <time datetime="2026-11-25">2026.11.25</time> · Course Team
+        </div>
+      </div>
+
+      <h2 class="notice-title-main" id="ir-demo-day-title">IR Demo Day Networking · Friday, 27 November</h2>
+
+      <section class="demo-day-focus" aria-labelledby="ir-demo-day-networking">
+        <strong class="demo-day-time">16:00–17:00</strong>
+        <h3 id="ir-demo-day-networking">Networking · Our training group will join this session</h3>
+        <p>Join us for a complimentary dinner and informal conversations with the top 10 teams from the recent startup competition and Demo Day investors. The session includes one-to-one consultations and matching between teams and investors.</p>
+        <p><strong>Please let the course team know if you plan to join the 16:00 networking session so we can arrange enough meals.</strong></p>
+      </section>
+
+      <img class="demo-day-banner" src="img/ir-demo-day-networking-2026.jpg" alt="Illustration of founders and investors talking at a networking reception" width="1500" height="500">
+
+      <div class="guideline-box">
+        <h3 class="guideline-title">Full programme · Friday, 27 November 2026 · Nigeria time (WAT)</h3>
+        <ul class="guideline-list">
+          <li><span><strong>10:00–12:00</strong> · Rehearsal. Presentation order, equipment and PitchDay checks.</span></li>
+          <li><span><strong>12:00–13:00</strong> · Lunch</span></li>
+          <li><span><strong>13:00–16:00</strong> · Public IR. Presentations by 10 teams, investor scoring, Q&amp;A and audience evaluation.</span></li>
+          <li><span><strong>16:00–17:00 · Networking and complimentary dinner</strong></span></li>
+        </ul>
+      </div>
+    </article>
+
+     <!-- 1. Attendance, Allowance & Venue Entrance Notice (2026-11-23) -->
     <!-- 1. Attendance, Allowance & Venue Entrance Notice (2026-11-23) -->
     <article class="notice-card" id="attendance-notice" aria-label="Attendance Verification and Venue Entrance Notice">
       <div class="notice-header">

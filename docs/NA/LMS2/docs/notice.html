@@ -694,6 +694,36 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
 
     .credit-apply-link i { flex-shrink: 0; }
 
+    .demo-day-focus {
+      margin-bottom: 24px;
+      padding: clamp(16px, 3vw, 28px);
+      border-radius: 16px;
+      background: #14513d;
+      color: #fff;
+    }
+
+    .demo-day-time {
+      display: block;
+      color: #ffdb80;
+      font-size: clamp(1.75rem, 5vw, 2.75rem);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.2;
+    }
+
+    .demo-day-focus h3 { margin: 8px 0; font-size: 1.2rem; }
+    .demo-day-focus p { margin: 8px 0 0; line-height: 1.6; }
+
+    .demo-day-banner {
+      display: block;
+      width: 100%;
+      aspect-ratio: 3 / 1;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-bottom: 24px;
+    }
+
+     .credit-summary {
     .credit-summary {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -960,6 +990,40 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
         </div>
       </div>
       <div class="notice-track">
+    <article class="notice-card" id="ir-demo-day" aria-labelledby="ir-demo-day-title">
+      <div class="notice-header">
+        <div class="notice-meta-left">
+          <span class="notice-tag-badge"><i class="fa-solid fa-people-group" aria-hidden="true"></i> IR Demo Day</span>
+          <span class="notice-status-badge">행사 안내</span>
+        </div>
+        <div class="notice-date">
+          <i class="fa-regular fa-clock" aria-hidden="true"></i> <time datetime="2026-11-25">2026.11.25</time> · 운영진 안내
+        </div>
+      </div>
+
+      <h2 class="notice-title-main" id="ir-demo-day-title">IR Demo Day 네트워킹 참석 안내 · 11월 27일(금)</h2>
+
+      <section class="demo-day-focus" aria-labelledby="ir-demo-day-networking">
+        <strong class="demo-day-time">16:00–17:00</strong>
+        <h3 id="ir-demo-day-networking">네트워킹 · 우리 교육과정 참가 시간</h3>
+        <p>무료로 제공되는 저녁 식사를 즐기며 지난 창업경진대회 TOP 10 팀과 Demo Day 투자자분들과 자유롭게 이야기를 나눌 수 있습니다. 투자자와 참가 팀의 1:1 상담 및 매칭도 진행됩니다.</p>
+        <p><strong>식사 준비를 위해 16시 네트워킹에 참석하실 분은 운영진에게 참석 여부를 알려주세요.</strong></p>
+      </section>
+
+      <img class="demo-day-banner" src="img/ir-demo-day-networking-2026.jpg" alt="네트워킹 리셉션에서 대화하는 창업팀과 투자자들을 표현한 이미지" width="1500" height="500">
+
+      <div class="guideline-box">
+        <h3 class="guideline-title">전체 일정 · 2026년 11월 27일(금) · 나이지리아 현지 시간(WAT)</h3>
+        <ul class="guideline-list">
+          <li><span><strong>10:00–12:00</strong> · 리허설. 발표 순서, 장비 및 PitchDay 점검.</span></li>
+          <li><span><strong>12:00–13:00</strong> · 점심 식사</span></li>
+          <li><span><strong>13:00–16:00</strong> · 공개 IR. 10개 팀 발표, 투자자 심사, 질의응답 및 관객 평가.</span></li>
+          <li><span><strong>16:00–17:00 · 네트워킹 및 무료 저녁 식사</strong></span></li>
+        </ul>
+      </div>
+    </article>
+
+     <!-- 1. Attendance, Allowance & Venue Entrance Notice (2026-11-23) -->
     <!-- 1. Attendance, Allowance & Venue Entrance Notice (2026-11-23) -->
     <article class="notice-card" id="attendance-notice" aria-label="출석 인정 및 교육장 입실 안내 공지사항">
       <div class="notice-header">
