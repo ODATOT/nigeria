@@ -4,14 +4,14 @@
   var APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwPNW10w782cWrajXBFC4f7X1vhC_Qf_gLIWWgnCvPoc0khX9WUKkjpt6grzBcqGqbs/exec";
   var SESSION_HOURS = 10;
   var students = [
-    { studentId: "AI-TOT-001", name: "Neksummi Hammadu Matthias", team: "Nekslove Web Solutions", avatar: "👨🏽‍💻" },
-    { studentId: "AI-TOT-002", name: "Umar Adam Ibrahim", team: "Nile University of Nigeria", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-001", name: "Neksummi Hammadu Matthias", team: "Nekslove Web Solutions", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-001.jpg" },
+    { studentId: "AI-TOT-002", name: "Umar Adam Ibrahim", team: "Nile University of Nigeria", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-002.jpg" },
     { studentId: "AI-TOT-003", name: "IDRIS ADEIZA ALIYU", team: "Drisa Engineering Solutions Limited", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-003.jpg" },
     { studentId: "AI-TOT-004", name: "Blessing Ozioma Iwuchukwu", team: "BiZmarrow Technologies", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-004.jpg" },
     { studentId: "AI-TOT-005", name: "Collins Anietie Nyong", team: "Youth for Change Initiative", avatar: "👨🏽‍💻" },
     { studentId: "AI-TOT-006", name: "Joshua Ityover Mishi", team: "Jobberman Nigeria", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-006.jpg" },
     { studentId: "AI-TOT-007", name: "DUUNEBARI GOSPEL VAREBA", team: "ByteStreams Consulting Ltd", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-007.png" },
-    { studentId: "AI-TOT-008", name: "Frank Onyekachi Uchehara", team: "Frankbotics Technologies Limited", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-008.jpg" },
+    { studentId: "AI-TOT-008", name: "Frank Onyekachi Uchehara", team: "Frankbotics Technologies Limited", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-008.jpg?v=2" },
     { studentId: "AI-TOT-009", name: "Oluwaseyi Adetunji Adebayo", team: "Coderina EdTech Foundation", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-009.png" },
     { studentId: "AI-TOT-010", name: "Peter Oluwayomi Kolapo", team: "ECOWAS", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-010.jpg" },
     { studentId: "AI-TOT-011", name: "Archibong Effiong Nsa", team: "AUP Digital Africa", avatar: "👨🏽‍💻" },
