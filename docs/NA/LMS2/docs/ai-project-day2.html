@@ -598,128 +598,6 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
   </style>
   <link rel="stylesheet" href="daily-feedback.css" />
   <script src="./shared/lms-header.js?v=20261118-unified"></script>
-<style id="new-slides-18-37">
-.ns{
-  --bg:#f4f7f3; --card:#ffffff; --ink:#1d2a24; --muted:#5b6b63; --line:#dbe4de;
-  --green:#1f7a52; --green-soft:#dcefe4; --blue:#2c5ea8; --blue-soft:#e3ecf8;
-  --gold:#8a6400; --gold-soft:#f6edd2; --red:#b0383b; --red-soft:#f8e4e3;
-  --purple:#6a4bb0; --purple-soft:#ece6f8; --code:#f1f4f0;
-}
-.slide.ns .inner{max-width:1280px;margin:0 auto;position:relative}
-.slide.ns .kicker{font-size:15px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
-.slide.ns .kicker.g{color:var(--green)}
-.slide.ns h1{font-size:46px;line-height:1.1;margin:0 0 14px;letter-spacing:-.02em;font-weight:800}
-.slide.ns h1 em{font-style:normal;color:var(--green)}
-.slide.ns h1 .b{color:var(--blue)}
-.slide.ns h2{font-size:24px;margin:18px 0 10px}
-.slide.ns h3{font-size:19px;margin:0 0 8px}
-.slide.ns p,.slide.ns li{font-size:18px;line-height:1.5}
-.slide.ns .lead{font-size:21px;color:var(--muted);margin:0 0 20px;max-width:1100px}
-.slide.ns .grid{display:grid;gap:16px}
-.slide.ns .g2{grid-template-columns:1fr 1fr}
-.slide.ns .g3{grid-template-columns:repeat(3,1fr)}
-.slide.ns .g4{grid-template-columns:repeat(4,1fr)}
-.slide.ns .g5{grid-template-columns:repeat(5,1fr)}
-.slide.ns .g6{grid-template-columns:repeat(6,1fr)}
-.slide.ns .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
-.slide.ns .card p,.slide.ns .card li{font-size:16.5px}
-.slide.ns .card h3 small{font-weight:500;color:var(--muted);font-size:14px}
-.slide.ns .tint-g{background:var(--green-soft);border-color:#b9dcc8}
-.slide.ns .tint-b{background:var(--blue-soft);border-color:#c3d4ee}
-.slide.ns .tint-y{background:var(--gold-soft);border-color:#e6d7a8}
-.slide.ns .tint-r{background:var(--red-soft);border-color:#ecc3c1}
-.slide.ns .tint-p{background:var(--purple-soft);border-color:#d5caef}
-.slide.ns .bar-l{border-left:6px solid var(--green)}
-.slide.ns .id{font-family:"JetBrains Mono",monospace;font-weight:600;color:var(--gold);font-size:15px}
-.slide.ns code,.slide.ns .mono{font-family:"JetBrains Mono",monospace;font-size:15px;background:var(--code);padding:1px 6px;border-radius:6px}
-.slide.ns pre{font-family:"JetBrains Mono",monospace;font-size:14.5px;line-height:1.55;background:#fbfcfa;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0;white-space:pre-wrap}
-.slide.ns table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
-.slide.ns th,.slide.ns td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);font-size:15.5px;vertical-align:top}
-.slide.ns th{background:#eef3ef;font-weight:700}
-.slide.ns tr:last-child td{border-bottom:none}
-.slide.ns .goal{display:flex;gap:14px;align-items:center;background:var(--gold-soft);border-left:6px solid #b08a2a;border-radius:12px;padding:12px 18px;margin:0 0 18px}
-.slide.ns .goal b.tag{background:#fbf3d9;border-radius:8px;padding:4px 10px;font-size:15px}
-.slide.ns .goal span{font-size:19px;color:var(--gold);font-weight:600}
-.slide.ns .pills{display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
-.slide.ns .pill{border:1.5px solid #9ccab2;border-radius:999px;padding:6px 14px;font-weight:600;color:var(--green);font-size:15px;background:#fff}
-.slide.ns .pill.dark{background:var(--green-soft);border-color:var(--green-soft);color:#174c35;letter-spacing:.08em}
-.slide.ns .timer{position:absolute;right:0;top:0;border:2px solid #79b394;background:var(--green-soft);border-radius:16px;padding:12px 22px;font-family:"JetBrains Mono",monospace;font-size:34px;color:#174c35;cursor:pointer;user-select:none;display:flex;gap:12px;align-items:center}
-.slide.ns .timer.run{background:#fff7da;border-color:#c9a33b}
-.slide.ns .timer.done{background:var(--red-soft);border-color:var(--red);color:var(--red)}
-.slide.ns .timer small{font-family:Inter;font-size:12px;color:var(--muted);display:block}
-.slide.ns .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
-.slide.ns .step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px}
-.slide.ns .step .n{font-weight:800;color:var(--green);font-size:18px}
-.slide.ns .step b{display:block;font-size:17px;margin:4px 0}
-.slide.ns .step p{font-size:15.5px;margin:0;color:var(--muted)}
-.slide.ns .chain{display:flex;align-items:stretch;gap:8px;margin:10px 0}
-.slide.ns .chain .c{flex:1;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px;text-align:center}
-.slide.ns .chain .c b{display:block;font-family:"JetBrains Mono",monospace;font-size:17px}
-.slide.ns .chain .c span{font-size:13.5px;color:var(--muted)}
-.slide.ns .chain .arr{align-self:center;color:var(--muted);font-size:22px}
-.slide.ns .c.obs{border-color:var(--blue)}
-.slide.ns .c.obs b{color:var(--blue)}
-.slide.ns .c.prd{border-color:#3d6fc2}
-.slide.ns .c.prd b{color:#3d6fc2}
-.slide.ns .c.bm{border-color:var(--green)}
-.slide.ns .c.bm b{color:var(--green)}
-.slide.ns .c.adr{border-color:var(--purple)}
-.slide.ns .c.adr b{color:var(--purple)}
-.slide.ns .c.ai{border-color:#555}
-.slide.ns .c.ai b{color:#333}
-.slide.ns .c.cmp{border-color:var(--gold)}
-.slide.ns .c.cmp b{color:var(--gold)}
-.slide.ns .c.exp{border-color:#c25e2a}
-.slide.ns .c.exp b{color:#c25e2a}
-.slide.ns .bad h3{color:var(--red)}
-.slide.ns .good h3{color:var(--green)}
-.slide.ns .x{color:var(--red);font-weight:700}
-.slide.ns .v{color:var(--green);font-weight:700}
-.slide.ns .why{font-size:15.5px;color:var(--muted);margin-top:8px}
-.slide.ns .why b{color:var(--ink)}
-.slide.ns .say{border-left:5px solid var(--green);background:#fff;border-radius:0 12px 12px 0;padding:10px 16px;font-size:17.5px;font-style:italic;margin:12px 0}
-.slide.ns .note{font-size:14.5px;color:var(--muted)}
-.slide.ns .big-q{font-size:30px;font-weight:700;text-align:center;background:linear-gradient(90deg,#e3ecf8,#e4f1ea);border:1.5px solid #b9cbe6;border-radius:16px;padding:20px;margin:6px 0 18px}
-.slide.ns .ice{display:grid;grid-template-columns:1fr 1.25fr;gap:18px;align-items:stretch}
-.slide.ns .ice .top{background:#fff;border:2px solid #9bbbe0;border-radius:16px 16px 0 0;padding:14px 18px}
-.slide.ns .ice .under{background:linear-gradient(#d6e5f6,#a9c4e6);border-radius:0 0 16px 16px;padding:14px 18px;color:#14304f}
-.slide.ns .layer{display:grid;grid-template-columns:150px 1fr;gap:6px 12px;padding:7px 0;border-bottom:1px dashed #b7cbe2}
-.slide.ns .layer:last-child{border-bottom:none}
-.slide.ns .layer b{font-size:16px}
-.slide.ns .layer span{font-size:15.5px}
-.slide.ns .agenda td:first-child{font-weight:700;width:90px}
-.slide.ns .opt{display:inline-block;background:#eee8f8;color:var(--purple);border:1px dashed var(--purple);border-radius:999px;font-size:12.5px;font-weight:700;padding:1px 9px;margin-left:6px;vertical-align:middle;letter-spacing:.04em}
-.slide.ns details summary{cursor:pointer;margin-top:6px}
-.slide.ns .timer ~ h1{padding-right:230px}
-@media (max-width:900px){.slide.ns .timer ~ h1{padding-right:0}}
-.slide.ns .fileref{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:13.5px;background:var(--gold-soft);color:var(--gold);border-radius:6px;padding:2px 8px;margin:2px 4px 2px 0}
-@media (max-width:900px){.slide.ns .g2,.slide.ns .g3,.slide.ns .g4,.slide.ns .g5,.slide.ns .g6,.slide.ns .steps,.slide.ns .ice{grid-template-columns:1fr}.slide.ns .chain{flex-direction:column}.slide.ns .chain .arr{transform:rotate(90deg)}.slide.ns h1{font-size:32px}.slide.ns .timer{position:static;margin-bottom:12px;display:inline-flex}}
-.slide.ns{display:none;color:var(--ink);font-family:Inter,"DM Sans",system-ui,sans-serif;
- background-image:linear-gradient(#e6ece8 1px,transparent 1px),linear-gradient(90deg,#e6ece8 1px,transparent 1px);background-size:44px 44px;background-color:#f4f7f3}
-.slide.ns.active{display:block}
-.slide.ns .slide-inner{display:block;margin:0 auto;max-width:none;justify-content:flex-start}
-.slide.ns{padding:28px 40px!important}
-
-/* slides-only view: the deck fills the browser window, the rest of the LMS page is hidden */
-html,body{overflow:hidden!important;height:100%}
-body>*:not(main):not(script):not(style){display:none!important}
-#slideDeck{position:fixed!important;inset:0;z-index:99999;border-radius:0!important;border:0!important;display:flex;flex-direction:column;margin:0!important}
-#slideDeck .slide-stage{flex:1;aspect-ratio:auto!important;min-height:0}
-.slide-download-bar{display:none!important}
-main>*:not(#slides){display:none!important}
-#slides .section-head{display:none!important}
-.ns *{box-sizing:border-box}
-.ns h1{font-family:inherit;color:var(--ink)}
-.ns ul,.ns ol{margin-top:4px}
-.slide.ns p{max-width:none;margin:0 0 8px;line-height:1.5;word-break:normal;color:inherit}
-.slide.ns .lead{max-width:1100px;margin:0 0 20px;color:var(--muted)}
-.slide.ns .note,.slide.ns .why{color:var(--muted)}
-.slide.ns .grid,.slide.ns .steps{background:none;border:0;padding:0;box-shadow:none;text-align:left}
-.slide.ns .card,.slide.ns .step{text-align:left}
-.slide.ns li{display:list-item;padding:0;border:0;background:none;margin-top:4px}
-.slide.ns::before{opacity:0}
-
-</style>
 </head>
 <body>
   <header class="topbar">
@@ -761,7 +639,9 @@ main>*:not(#slides){display:none!important}
         <div class="section-head"><div><p class="eyebrow">HTML Presentation</p><h2 class="section-title">Day 2 발표 슬라이드 · 그로스해킹</h2></div><p class="section-lead">화살표 버튼이나 키보드 방향키(←/→)로 이동합니다. <i class="fa-regular fa-comment-dots"></i> 버튼(또는 N 키)을 누르면 슬라이드별 강의 노트가 열립니다.</p></div>
         <div class="slide-deck" id="slideDeck">
           <div class="slide-stage" aria-live="polite">
-<article class="slide active" data-note="오늘 하루의 큰 흐름: ① 그로스해킹을 배운다 ② 실제 서비스를 그로스해킹 관점으로 해체한다 ③ AI로 다시 만들어 본다 ④ 내 설계와 AI 결과가 다른 지점을 찾는다. 핵심 메시지는 마지막 줄 — AI는 빠른 손이지만 '무엇을 왜 만드는지'는 사람이 정한다."><div class="slide-inner">
+
+            <!-- 1 -->
+            <article class="slide active" data-note="오늘 하루의 큰 흐름: ① 그로스해킹을 배운다 ② 실제 서비스를 그로스해킹 관점으로 해체한다 ③ AI로 다시 만들어 본다 ④ 내 설계와 AI 결과가 다른 지점을 찾는다. 핵심 메시지는 마지막 줄 — AI는 빠른 손이지만 '무엇을 왜 만드는지'는 사람이 정한다."><div class="slide-inner">
               <div class="viz-split"><div>
               <span class="slide-kicker">ACE AI SW Startup Training · Day 2</span>
               <h2>Growth Hacking ×<br /><span class="hl">AI Reverse Engineering</span></h2>
@@ -775,7 +655,8 @@ main>*:not(#slides){display:none!important}
               </div>
             </div></article>
 
-<article class="slide dense alert" data-note="학생들에게 먼저 질문하세요: 'AI에게 Jumia 같은 앱을 만들어 달라고 하면 Jumia가 나올까?' 대부분 '비슷한 건 나온다'고 답합니다. 비슷한 '화면'은 나오지만, Jumia가 성장한 '이유'는 화면에 없다는 점을 오늘 하루 동안 증명해 볼 것이라고 예고합니다."><div class="slide-inner">
+            <!-- 2 -->
+            <article class="slide dense alert" data-note="학생들에게 먼저 질문하세요: 'AI에게 Jumia 같은 앱을 만들어 달라고 하면 Jumia가 나올까?' 대부분 '비슷한 건 나온다'고 답합니다. 비슷한 '화면'은 나오지만, Jumia가 성장한 '이유'는 화면에 없다는 점을 오늘 하루 동안 증명해 볼 것이라고 예고합니다."><div class="slide-inner">
               <span class="slide-kicker">Opening question</span>
               <div class="viz-split narrow-fig"><div>
               <h2 class="sm">“AI야, <span class="hl">Jumia 같은 앱</span> 만들어 줘.”<br />그러면 Jumia가 나올까요?</h2>
@@ -788,14 +669,16 @@ main>*:not(#slides){display:none!important}
               <div class="quote-box">화면은 복사할 수 있어도, <b>성장의 이유</b>는 복사되지 않습니다. 그 이유를 찾는 기술이 그로스해킹입니다.</div>
             </div></article>
 
-<article class="slide lab" data-note="실습 1. [미션 이해] 탭으로 4단계를 함께 읽고, [해 보기] 탭에서 프롬프트를 복사해 AI에 그대로 넣습니다. 결과 화면을 보며 5가지 신뢰 장치를 하나씩 눌러 '보였다/안 보였다'를 표시하면 점수가 나옵니다. [스스로 점검]은 학생이 직접 체크합니다. 이 BEFORE-01이 Hands-on 07의 AFTER-01과 비교할 기준선입니다."><div class="slide-inner">
+            <!-- LAB -->
+            <article class="slide lab" data-note="실습 1. [미션 이해] 탭으로 4단계를 함께 읽고, [해 보기] 탭에서 프롬프트를 복사해 AI에 그대로 넣습니다. 결과 화면을 보며 5가지 신뢰 장치를 하나씩 눌러 '보였다/안 보였다'를 표시하면 점수가 나옵니다. [스스로 점검]은 학생이 직접 체크합니다. 이 BEFORE-01이 Hands-on 07의 AFTER-01과 비교할 기준선입니다."><div class="slide-inner">
               <div class="lab-head"><div><div class="lab-meta"><span class="chip">HANDS-ON 01</span><span class="pill">10분</span><span class="pill">혼자 · AI 도구</span></div>
               <h2 class="sm">먼저 AI에게 <span class="hl">그냥</span> 시켜 보기</h2></div><button class="lab-timer" type="button" data-min="10" aria-label="10분 타이머 시작">▶ 10:00</button></div>
               <div class="lab-tabs" role="tablist"><button type="button" class="on" data-tab="0"><b>1</b>미션 이해</button><button type="button" data-tab="1"><b>2</b>해 보기</button><button type="button" data-tab="2"><b>3</b>스스로 점검<small class="tab-count">0/0</small></button></div><div class="lab-panel on" data-panel="0"><div class="lab-goal"><span>목표</span><span>분석 없이 AI가 만드는 <b>“평균적인 앱”</b>을 내 눈으로 확인한다</span></div><div class="flow4" style="--n:4"><div class="fstep"><span class="no">1</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9 17h6"/><circle cx="12" cy="3.5" r="1"/></svg></div><strong>AI 열기</strong><span>ChatGPT · Claude · Gemini 중 하나</span></div><div class="fstep"><span class="no">2</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg></div><strong>그대로 입력</strong><span>프롬프트를 고치지 않아요</span></div><div class="fstep"><span class="no">3</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div><strong>캡처 저장</strong><span>파일 이름 <code>BEFORE-01</code></span></div><div class="fstep"><span class="no">4</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div><strong>신뢰 장치 세기</strong><span>평점 · 후기 · 배송 등 5가지</span></div></div><div class="lab-box"><h4>무엇을 세나요? · 신뢰 장치 5가지</h4><div class="tgl-grid" style="--n:5"><div class="tgl" style="cursor:default"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>평점</div><div class="tgl" style="cursor:default"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>후기 수</div><div class="tgl" style="cursor:default"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M9 14l-2 7 5-3 5 3-2-7"/></svg>공식 스토어</div><div class="tgl" style="cursor:default"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h12v10H2zM14 10h4l3 3v3h-7z"/><circle cx="6" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>배송 · 반품</div><div class="tgl" style="cursor:default"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>판매자 인증</div></div></div></div><div class="lab-panel" data-panel="1"><div class="prompt-box"><span id="lab1prompt">Build an app like Jumia. Product list and cart.</span><button type="button" class="copy-btn" data-copytext="lab1prompt">복사</button></div><div class="lab-box" data-trust><h4>AI 결과 화면에 보이나요? · 눌러서 표시 (보임 → 안 보임 → 초기화)</h4><div class="tgl-grid" style="--n:5"><button type="button" class="tgl"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>평점<em>눌러서 확인</em></button><button type="button" class="tgl"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>후기 수<em>눌러서 확인</em></button><button type="button" class="tgl"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M9 14l-2 7 5-3 5 3-2-7"/></svg>공식 스토어<em>눌러서 확인</em></button><button type="button" class="tgl"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h12v10H2zM14 10h4l3 3v3h-7z"/><circle cx="6" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>배송 · 반품<em>눌러서 확인</em></button><button type="button" class="tgl"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>판매자 인증<em>눌러서 확인</em></button></div><div class="meter" style="margin-top:14px"><span class="lab-big" style="font-size:1.1rem">BEFORE-01 신뢰 장치</span><div class="bar"><i></i></div><b class="trust-score">0 / 5</b></div></div><div class="lab-row" style="--cols:1fr 1.6fr;flex:none"><input class="lab-in" placeholder="사용한 AI 예) ChatGPT" /><input class="lab-in" placeholder="첫 느낌: Jumia와 ______ 점이 다르다" /></div></div><div class="lab-panel" data-panel="2"><div class="self"><div class="checks"><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>프롬프트를 <b>고치지 않고</b> 그대로 넣었다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>결과를 캡처해 <code>BEFORE-01</code>로 저장했다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>신뢰 장치 5가지를 하나씩 확인했다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>Jumia와 다른 점을 <b>한 가지</b> 말할 수 있다</span></button></div><div class="ring-box"><svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(36,59,53,0.12)" stroke-width="12"/><circle class="ring-fg" cx="60" cy="60" r="50" fill="none" stroke="#27765B" stroke-width="12" stroke-linecap="round" stroke-dasharray="0 314.2" transform="rotate(-90 60 60)" style="transition:stroke-dasharray .4s"/><text class="ring-t" x="60" y="68" text-anchor="middle" fill="#243B35" font-size="26" font-weight="900" font-family="Pretendard,sans-serif">0/4</text></svg><div class="msg">체크하면서<br/>스스로 확인해 보세요</div></div></div>
               <div class="career"><b>취창업 연결</b><span>면접 단골 질문 <b>“AI가 앱을 만들어 주는데 왜 당신이 필요한가?”</b> — 오늘 BEFORE와 AFTER의 차이가 여러분의 답이 됩니다.</span></div></div>
             </div></article>
 
-<article class="slide dense" data-note="Growth hacking이라는 말은 2010년 Sean Ellis가 처음 사용했습니다(Dropbox, Eventbrite 초기 성장 담당). 핵심은 '성장'이라는 하나의 목표에 마케팅·제품·데이터·개발을 모두 동원하고, 빠른 실험으로 검증한다는 것. 해킹 = 불법 해킹이 아니라 '창의적이고 빠른 지름길'이라는 의미임을 강조하세요."><div class="slide-inner">
+            <!-- 3 -->
+            <article class="slide dense" data-note="Growth hacking이라는 말은 2010년 Sean Ellis가 처음 사용했습니다(Dropbox, Eventbrite 초기 성장 담당). 핵심은 '성장'이라는 하나의 목표에 마케팅·제품·데이터·개발을 모두 동원하고, 빠른 실험으로 검증한다는 것. 해킹 = 불법 해킹이 아니라 '창의적이고 빠른 지름길'이라는 의미임을 강조하세요."><div class="slide-inner">
               <span class="slide-kicker">What is growth hacking?</span>
               <div class="viz-split"><div>
               <h2 class="sm">그로스해킹 = 성장을 위한<br /><span class="hl">데이터 기반 빠른 실험</span></h2>
@@ -810,7 +693,8 @@ main>*:not(#slides){display:none!important}
               </div>
             </div></article>
 
-<article class="slide dense" data-note="전통 마케팅은 '알리는 것'에, 그로스해킹은 '사용자의 전체 여정'에 집중합니다. 특히 오늘 수업에서 중요한 포인트: 그로스해킹은 제품 안에 성장 장치를 심는다 — 즉 성장 장치는 화면 곳곳에 숨어 있다. 그래서 관찰하면 찾을 수 있다."><div class="slide-inner">
+            <!-- 4 -->
+            <article class="slide dense" data-note="전통 마케팅은 '알리는 것'에, 그로스해킹은 '사용자의 전체 여정'에 집중합니다. 특히 오늘 수업에서 중요한 포인트: 그로스해킹은 제품 안에 성장 장치를 심는다 — 즉 성장 장치는 화면 곳곳에 숨어 있다. 그래서 관찰하면 찾을 수 있다."><div class="slide-inner">
               <span class="slide-kicker">Traditional marketing vs Growth hacking</span>
               <h2 class="sm">성장 장치는 <span class="hl">제품 안에</span> 숨어 있다</h2>
               <div class="viz-strip short"><svg class="viz" viewBox="0 0 1020 116" role="img" aria-label="전통적 마케팅은 획득 단계만, 그로스해킹은 AARRR 전체를 다룬다" xmlns="http://www.w3.org/2000/svg"><defs><marker id="m4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#EEF4EC"/></marker></defs><rect x="10" y="36" width="186" height="38" rx="9" fill="rgba(43,92,166,0.11)" stroke="rgba(43,92,166,0.35)"/><text x="103.0" y="52" text-anchor="middle" fill="#2B5CA6" font-size="10" font-weight="800" letter-spacing="1">ACQUISITION</text><text x="103.0" y="67" text-anchor="middle" fill="#243B35" font-size="13" font-weight="700">획득</text><path d="M198 55 h13" stroke="#4A605A" stroke-width="1.5" marker-end="url(#m4)"/><rect x="213" y="36" width="186" height="38" rx="9" fill="rgba(43,92,166,0.11)" stroke="rgba(43,92,166,0.35)"/><text x="306.0" y="52" text-anchor="middle" fill="#2B5CA6" font-size="10" font-weight="800" letter-spacing="1">ACTIVATION</text><text x="306.0" y="67" text-anchor="middle" fill="#243B35" font-size="13" font-weight="700">활성화</text><path d="M401 55 h13" stroke="#4A605A" stroke-width="1.5" marker-end="url(#m4)"/><rect x="416" y="36" width="186" height="38" rx="9" fill="rgba(43,92,166,0.11)" stroke="rgba(43,92,166,0.35)"/><text x="509.0" y="52" text-anchor="middle" fill="#2B5CA6" font-size="10" font-weight="800" letter-spacing="1">RETENTION</text><text x="509.0" y="67" text-anchor="middle" fill="#243B35" font-size="13" font-weight="700">유지</text><path d="M604 55 h13" stroke="#4A605A" stroke-width="1.5" marker-end="url(#m4)"/><rect x="619" y="36" width="186" height="38" rx="9" fill="rgba(43,92,166,0.11)" stroke="rgba(43,92,166,0.35)"/><text x="712.0" y="52" text-anchor="middle" fill="#2B5CA6" font-size="10" font-weight="800" letter-spacing="1">REFERRAL</text><text x="712.0" y="67" text-anchor="middle" fill="#243B35" font-size="13" font-weight="700">추천</text><path d="M807 55 h13" stroke="#4A605A" stroke-width="1.5" marker-end="url(#m4)"/><rect x="822" y="36" width="186" height="38" rx="9" fill="rgba(43,92,166,0.11)" stroke="rgba(43,92,166,0.35)"/><text x="915.0" y="52" text-anchor="middle" fill="#2B5CA6" font-size="10" font-weight="800" letter-spacing="1">REVENUE</text><text x="915.0" y="67" text-anchor="middle" fill="#243B35" font-size="13" font-weight="700">수익</text><path d="M10 26 v-8 h186 v8" fill="none" stroke="#856000" stroke-width="2"/><text x="103.0" y="12" text-anchor="middle" fill="#856000" font-size="12" font-weight="800">전통적 마케팅의 범위</text><path d="M10 84 v8 h998 v-8" fill="none" stroke="#27765B" stroke-width="2"/><text x="509.0" y="110" text-anchor="middle" fill="#27765B" font-size="12.5" font-weight="800">그로스해킹의 범위 — 사용자 여정 전체</text></svg></div>
@@ -826,7 +710,8 @@ main>*:not(#slides){display:none!important}
               </ul>
             </div></article>
 
-<article class="slide dense" data-note="그로스해킹의 출발점은 PMF(Product-Market Fit). 사람들이 원하지 않는 제품을 성장시키려는 것은 '구멍 난 양동이에 물 붓기'. Sean Ellis 테스트: '이 제품을 더 이상 쓸 수 없다면 어떤 기분이겠습니까?'에 '매우 실망' 응답이 40% 이상이면 PMF의 신호로 봅니다. 질문: 여러분이 분석할 서비스는 왜 '매우 실망'이 많을까?"><div class="slide-inner">
+            <!-- 5 -->
+            <article class="slide dense" data-note="그로스해킹의 출발점은 PMF(Product-Market Fit). 사람들이 원하지 않는 제품을 성장시키려는 것은 '구멍 난 양동이에 물 붓기'. Sean Ellis 테스트: '이 제품을 더 이상 쓸 수 없다면 어떤 기분이겠습니까?'에 '매우 실망' 응답이 40% 이상이면 PMF의 신호로 봅니다. 질문: 여러분이 분석할 서비스는 왜 '매우 실망'이 많을까?"><div class="slide-inner">
               <span class="slide-kicker">Step 0 · Product-Market Fit</span>
               <div class="viz-split"><div>
               <h2 class="sm">성장 전에 먼저 확인할 것:<br /><span class="hl">사람들이 정말 원하는가?</span></h2>
@@ -840,7 +725,8 @@ main>*:not(#slides){display:none!important}
               </div>
             </div></article>
 
-<article class="slide lab" data-note="실습 2. [미션 이해]에서 질문을 크게 보여 주고, [해 보기]에서 앱을 고른 뒤 손을 든 학생 수를 +/− 로 입력합니다. 막대가 40% 점선을 넘으면 PMF 신호입니다. '매우 실망' 학생 2~3명에게 이유를 묻고 핵심 가치를 입력칸에 적습니다. 반 투표는 체험용이며 정식 PMF 설문은 실제 사용자 대상임을 짚어 주세요."><div class="slide-inner">
+            <!-- LAB -->
+            <article class="slide lab" data-note="실습 2. [미션 이해]에서 질문을 크게 보여 주고, [해 보기]에서 앱을 고른 뒤 손을 든 학생 수를 +/− 로 입력합니다. 막대가 40% 점선을 넘으면 PMF 신호입니다. '매우 실망' 학생 2~3명에게 이유를 묻고 핵심 가치를 입력칸에 적습니다. 반 투표는 체험용이며 정식 PMF 설문은 실제 사용자 대상임을 짚어 주세요."><div class="slide-inner">
               <div class="lab-head"><div><div class="lab-meta"><span class="chip">HANDS-ON 02</span><span class="pill">10분</span><span class="pill">반 전체 · 투표</span></div>
               <h2 class="sm">“이 앱이 내일 사라진다면?” <span class="hl">반 PMF 투표</span></h2></div><button class="lab-timer" type="button" data-min="10" aria-label="10분 타이머 시작">▶ 10:00</button></div>
               <div class="lab-tabs" role="tablist"><button type="button" class="on" data-tab="0"><b>1</b>미션 이해</button><button type="button" data-tab="1"><b>2</b>해 보기</button><button type="button" data-tab="2"><b>3</b>스스로 점검<small class="tab-count">0/0</small></button></div><div class="lab-panel on" data-panel="0"><div class="lab-goal"><span>목표</span><span>우리 반이 정말 아끼는 앱인지 <b>40% 기준</b>으로 직접 판단해 본다</span></div><div class="q-big">“이 앱을 내일부터 더 이상 쓸 수 없다면, 어떤 기분일까요?”</div><div class="q-opts"><div style="background:rgba(39,118,91,0.22);color:#27765B">매우 실망</div><div style="background:rgba(43,92,166,0.22);color:#2B5CA6">다소 실망</div><div style="background:rgba(238,244,236,0.2);color:#243B35">상관없음</div></div><div class="flow4" style="--n:4"><div class="fstep"><span class="no">1</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div><strong>앱 하나 고르기</strong><span>반이 가장 많이 쓰는 앱</span></div><div class="fstep"><span class="no">2</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V4h8v6M10 7l1.5 1.5L14 6"/></svg></div><strong>각자 손들기</strong><span>세 가지 중 하나만</span></div><div class="fstep"><span class="no">3</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M2 20h20"/></svg></div><strong>40% 확인</strong><span>“매우 실망”이 40% 이상?</span></div><div class="fstep"><span class="no">4</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></div><strong>이유 듣기</strong><span>핵심 가치 한 줄로</span></div></div></div><div class="lab-panel" data-panel="1"><div class="lab-box" data-vote style="flex:1;display:flex;flex-direction:column;gap:12px">
@@ -857,7 +743,8 @@ main>*:not(#slides){display:none!important}
               <div class="career"><b>창업 포인트</b><span>창업 아이디어도 같은 질문으로 검증할 수 있습니다. 친구 10명에게 물어보는 것이 <b>가장 싸고 빠른 시장 검증</b>입니다.</span></div></div>
             </div></article>
 
-<article class="slide dense" data-note="북극성 지표(North Star Metric)는 '사용자가 받은 가치'와 '회사의 성장'을 동시에 나타내는 단 하나의 지표. 아래 예시는 외부에서 추정한 학습용 가설입니다(공식 지표 아님) — 학생들이 직접 '내 서비스의 북극성은?'을 가설로 세워 보게 하세요. 매출이나 가입자 수는 결과일 뿐 좋은 북극성이 아닌 경우가 많다는 점도 짚어 주세요."><div class="slide-inner">
+            <!-- 6 -->
+            <article class="slide dense" data-note="북극성 지표(North Star Metric)는 '사용자가 받은 가치'와 '회사의 성장'을 동시에 나타내는 단 하나의 지표. 아래 예시는 외부에서 추정한 학습용 가설입니다(공식 지표 아님) — 학생들이 직접 '내 서비스의 북극성은?'을 가설로 세워 보게 하세요. 매출이나 가입자 수는 결과일 뿐 좋은 북극성이 아닌 경우가 많다는 점도 짚어 주세요."><div class="slide-inner">
               <span class="slide-kicker">North Star Metric</span>
               <div class="viz-split narrow-fig"><div>
               <h2 class="sm">모두가 바라보는 단 하나의 숫자,<br /><span class="hl">북극성 지표</span></h2>
@@ -874,14 +761,16 @@ main>*:not(#slides){display:none!important}
               </ul>
             </div></article>
 
-<article class="slide lab" data-note="실습 3. 짝 활동. [미션 이해]의 벤 다이어그램으로 기준을 먼저 확인합니다: 사용자 가치와 회사 성장이 '둘 다' 있어야 북극성입니다. [해 보기]에서 짝과 1분 토론 후 보기를 누르면 정답/오답과 이유가 나옵니다(학습용 가설). 정답 수가 표시됩니다. 허영 지표가 왜 나쁜지 반드시 말로 설명하게 하세요."><div class="slide-inner">
+            <!-- LAB -->
+            <article class="slide lab" data-note="실습 3. 짝 활동. [미션 이해]의 벤 다이어그램으로 기준을 먼저 확인합니다: 사용자 가치와 회사 성장이 '둘 다' 있어야 북극성입니다. [해 보기]에서 짝과 1분 토론 후 보기를 누르면 정답/오답과 이유가 나옵니다(학습용 가설). 정답 수가 표시됩니다. 허영 지표가 왜 나쁜지 반드시 말로 설명하게 하세요."><div class="slide-inner">
               <div class="lab-head"><div><div class="lab-meta"><span class="chip">HANDS-ON 03</span><span class="pill">10분</span><span class="pill">짝 · 퀴즈</span></div>
               <h2 class="sm">북극성 지표 맞히기: <span class="hl">가치인가, 허영인가?</span></h2></div><button class="lab-timer" type="button" data-min="10" aria-label="10분 타이머 시작">▶ 10:00</button></div>
               <div class="lab-tabs" role="tablist"><button type="button" class="on" data-tab="0"><b>1</b>미션 이해</button><button type="button" data-tab="1"><b>2</b>해 보기</button><button type="button" data-tab="2"><b>3</b>스스로 점검<small class="tab-count">0/0</small></button></div><div class="lab-panel on" data-panel="0"><div class="lab-goal"><span>목표</span><span>좋은 북극성 지표와 <b>허영 지표</b>를 구별하는 기준을 내 말로 설명한다</span></div><div class="lab-row" style="--cols:1fr 1fr"><div class="lab-box venn"><svg viewBox="0 0 420 200" width="100%" style="max-height:210px" role="img" aria-label="사용자 가치와 회사 성장이 겹치는 곳이 북극성 지표"><circle cx="160" cy="100" r="88" fill="#D7EEDD" fill-opacity=".18" stroke="#27765B" stroke-width="2.5"/><circle cx="260" cy="100" r="88" fill="#F5F0BB" fill-opacity=".16" stroke="#856000" stroke-width="2.5"/><text x="118" y="104" text-anchor="middle" fill="#27765B" font-size="19" font-weight="800" font-family="Pretendard,sans-serif">사용자 가치</text><text x="302" y="104" text-anchor="middle" fill="#856000" font-size="19" font-weight="800" font-family="Pretendard,sans-serif">회사 성장</text><path d="M210 66 l7 15 16 2 -12 11 3 16 -14 -8 -14 8 3 -16 -12 -11 16 -2z" fill="#FFFFFF"/><text x="210" y="138" text-anchor="middle" fill="#243B35" font-size="16" font-weight="900" font-family="Pretendard,sans-serif">북극성</text></svg></div><div class="lab-box"><h4>스스로 묻는 2가지 질문</h4><div class="lab-txt" style="display:grid;gap:12px"><div><b style="color:#27765B;font-size:1.15rem">① 사용자가 가치를 얻었나?</b><br/>이동했다 · 돈을 모았다 · 밥을 받았다</div><div><b style="color:#856000;font-size:1.15rem">② 회사가 성장했나?</b><br/>거래·수익·재방문으로 이어졌다</div><div style="color:#A83A45"><b>둘 중 하나라도 “아니오” → 허영 지표</b><br/>예) 다운로드 수, 가입자 수, 팔로워 수</div></div></div></div></div><div class="lab-panel" data-panel="1"><div class="quiz"><div class="quiz-card"><strong>Bolt</strong><small>차량 호출 · 이동</small><button type="button" class="quiz-opt" data-ok="0">앱 다운로드 수<span class="why">설치만 하고 안 타도 오릅니다.</span></button><button type="button" class="quiz-opt" data-ok="1">완료된 탑승 건수<span class="why">승객은 이동, 회사·기사는 수익. 둘 다 Yes!</span></button><button type="button" class="quiz-opt" data-ok="0">등록된 기사 수<span class="why">탑승이 없으면 가치가 생기지 않습니다.</span></button></div><div class="quiz-card"><strong>PiggyVest</strong><small>저축 · 투자</small><button type="button" class="quiz-opt" data-ok="0">누적 가입자 수<span class="why">가입 후 떠난 사람도 포함됩니다.</span></button><button type="button" class="quiz-opt" data-ok="1">저축 목표를 이어 가는 사용자 수<span class="why">사용자는 돈을 모으고, 회사는 예치금이 늘어요.</span></button><button type="button" class="quiz-opt" data-ok="0">앱 화면 조회 수<span class="why">가치가 생겼는지 알 수 없습니다.</span></button></div><div class="quiz-card"><strong>Chowdeck</strong><small>음식 배달</small><button type="button" class="quiz-opt" data-ok="1">제시간 배달 완료 주문 수<span class="why">고객·식당·라이더 모두 가치를 얻은 순간!</span></button><button type="button" class="quiz-opt" data-ok="0">입점 식당 수<span class="why">주문이 없으면 성장이 아닙니다.</span></button><button type="button" class="quiz-opt" data-ok="0">SNS 팔로워 수<span class="why">주문과 직접 연결되지 않습니다.</span></button></div></div><div class="lab-txt" style="display:flex;justify-content:space-between"><span style="color:#4A605A">※ 공개 정보로 세운 학습용 가설 · 공식 지표 아님</span><span class="quiz-score">정답 0 / 3</span></div></div><div class="lab-panel" data-panel="2"><div class="self"><div class="checks"><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>짝과 이유를 말한 뒤에 보기를 눌렀다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>3개 서비스 모두 정답을 찾았다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>허영 지표가 왜 나쁜지 <b>예시</b>로 설명할 수 있다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>내가 분석할 서비스의 북극성 가설을 한 줄 썼다</span></button></div><div class="ring-box"><svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(36,59,53,0.12)" stroke-width="12"/><circle class="ring-fg" cx="60" cy="60" r="50" fill="none" stroke="#27765B" stroke-width="12" stroke-linecap="round" stroke-dasharray="0 314.2" transform="rotate(-90 60 60)" style="transition:stroke-dasharray .4s"/><text class="ring-t" x="60" y="68" text-anchor="middle" fill="#243B35" font-size="26" font-weight="900" font-family="Pretendard,sans-serif">0/4</text></svg><div class="msg">체크하면서<br/>스스로 확인해 보세요</div></div></div>
               <div class="career"><b>취창업 연결</b><span>PM · 그로스 직무 면접 단골 질문 <b>“이 서비스의 North Star Metric은?”</b> — 허영 지표를 고르면 바로 탈락 신호입니다.</span></div></div>
             </div></article>
 
-<article class="slide" data-note="AARRR(해적 지표)은 Dave McClure가 제안한 프레임워크. 각 단계마다 '질문'과 '측정 지표'를 함께 말해 주세요. 관찰 미션에서는 각 단계에 해당하는 화면 장치를 OBS로 찾고, 찾지 못하면 '미관찰'로 표시합니다. 단계 사이에서 사용자가 빠져나가는 곳(이탈)이 곧 개선 기회입니다."><div class="slide-inner">
+            <!-- 7 -->
+            <article class="slide" data-note="AARRR(해적 지표)은 Dave McClure가 제안한 프레임워크. 각 단계마다 '질문'과 '측정 지표'를 함께 말해 주세요. 관찰 미션에서는 각 단계에 해당하는 화면 장치를 OBS로 찾고, 찾지 못하면 '미관찰'로 표시합니다. 단계 사이에서 사용자가 빠져나가는 곳(이탈)이 곧 개선 기회입니다."><div class="slide-inner">
               <span class="slide-kicker">AARRR · Pirate Metrics (Dave McClure)</span>
               <h2 class="sm">사용자 여정을 5단계로 쪼개 보기</h2>
               <div class="funnel shaped">
@@ -894,14 +783,16 @@ main>*:not(#slides){display:none!important}
               <p style="margin-top:12px;font-size:1.02rem;"><span style="color:#A83A45;font-weight:800">▼ 이탈</span> 단계 사이에서 사용자가 빠져나가는 지점 = <b style="color:#856000">가장 큰 성장 기회</b></p>
             </div></article>
 
-<article class="slide lab" data-note="실습 4. 혼자 → 짝. 자기 휴대폰 앱에서 다섯 단계마다 장치 하나를 찾아 캡처하고, [해 보기]에서 찾은 장치를 적은 뒤 '찾음'을 누릅니다. 못 찾으면 '미관찰'(지어내지 않기). 진행 막대로 스스로 몇 단계를 채웠는지 확인합니다. 마지막 3분은 짝과 비교. 데이터가 부족하면 이미 설치된 앱 화면과 앱스토어 페이지로 충분합니다."><div class="slide-inner">
+            <!-- LAB -->
+            <article class="slide lab" data-note="실습 4. 혼자 → 짝. 자기 휴대폰 앱에서 다섯 단계마다 장치 하나를 찾아 캡처하고, [해 보기]에서 찾은 장치를 적은 뒤 '찾음'을 누릅니다. 못 찾으면 '미관찰'(지어내지 않기). 진행 막대로 스스로 몇 단계를 채웠는지 확인합니다. 마지막 3분은 짝과 비교. 데이터가 부족하면 이미 설치된 앱 화면과 앱스토어 페이지로 충분합니다."><div class="slide-inner">
               <div class="lab-head"><div><div class="lab-meta"><span class="chip">HANDS-ON 04</span><span class="pill">15분</span><span class="pill">혼자 → 짝 · 휴대폰</span></div>
               <h2 class="sm">내 휴대폰에서 <span class="hl">AARRR 장치</span> 찾기</h2></div><button class="lab-timer" type="button" data-min="15" aria-label="15분 타이머 시작">▶ 15:00</button></div>
               <div class="lab-tabs" role="tablist"><button type="button" class="on" data-tab="0"><b>1</b>미션 이해</button><button type="button" data-tab="1"><b>2</b>해 보기</button><button type="button" data-tab="2"><b>3</b>스스로 점검<small class="tab-count">0/0</small></button></div><div class="lab-panel on" data-panel="0"><div class="lab-goal"><span>목표</span><span>내가 매일 쓰는 앱 속 <b>성장 장치 5개</b>를 사실(보이는 것)로 찾아낸다</span></div><div class="flow4" style="--n:4"><div class="fstep"><span class="no">1</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div><strong>앱 하나 열기</strong><span>Jumia · Jiji · OPay · Kuda · PiggyVest …</span></div><div class="fstep"><span class="no">2</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg></div><strong>단계마다 1개</strong><span>다섯 단계에서 장치 찾기</span></div><div class="fstep"><span class="no">3</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div><strong>캡처 · 번호</strong><span><code>OBS-001</code> 부터</span></div><div class="fstep"><span class="no">4</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-4 3-6 6.5-6s6 2 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4 1.8 4.5 5"/></svg></div><strong>짝과 비교</strong><span>가장 놀라운 장치 1개</span></div></div><div class="lab-box" style="padding:12px 16px"><h4>이런 것을 찾으면 돼요</h4><div class="tgl-grid" style="--n:5"><div class="tgl" style="padding:10px 8px;cursor:default;background:linear-gradient(135deg,#D2E0FB,#D2E0FB);color:#243B35;border:0"><span style="font-size:.72rem;letter-spacing:.06em;opacity:.75">ACQUISITION</span>획득<em style="color:#243B35;font-size:.86rem">앱스토어 리뷰 · 친구가 보낸 링크</em></div><div class="tgl" style="padding:10px 8px;cursor:default;background:linear-gradient(135deg,#D2E0FB,#D7EEDD);color:#243B35;border:0"><span style="font-size:.72rem;letter-spacing:.06em;opacity:.75">ACTIVATION</span>활성화<em style="color:#243B35;font-size:.86rem">첫 거래 보너스 · 가입 튜토리얼</em></div><div class="tgl" style="padding:10px 8px;cursor:default;background:linear-gradient(135deg,#D7EEDD,#C4DFAA);color:#243B35;border:0"><span style="font-size:.72rem;letter-spacing:.06em;opacity:.75">RETENTION</span>유지<em style="color:#243B35;font-size:.86rem">푸시 알림 · 저축 연속 기록</em></div><div class="tgl" style="padding:10px 8px;cursor:default;background:linear-gradient(135deg,#F5F0BB,#F5F0BB);color:#243B35;border:0"><span style="font-size:.72rem;letter-spacing:.06em;opacity:.75">REFERRAL</span>추천<em style="color:#243B35;font-size:.86rem">초대 코드 · 공유 버튼</em></div><div class="tgl" style="padding:10px 8px;cursor:default;background:linear-gradient(135deg,#F5F0BB,#F6D5CF);color:#243B35;border:0"><span style="font-size:.72rem;letter-spacing:.06em;opacity:.75">REVENUE</span>수익<em style="color:#243B35;font-size:.86rem">수수료 안내 · 유료 상단 노출</em></div></div></div></div><div class="lab-panel" data-panel="1"><div class="lab-box" data-aarrr style="flex:1;display:flex;flex-direction:column;gap:10px"><div class="aarrr"><div class="aar"><div class="stg" style="background:linear-gradient(90deg,#D2E0FB,#D2E0FB)"><small>ACQUISITION</small>획득</div><input class="lab-in" placeholder="예) 앱스토어 리뷰 · 친구가 보낸 링크" /><button type="button" class="st">눌러서 표시</button></div><div class="aar"><div class="stg" style="background:linear-gradient(90deg,#D2E0FB,#D7EEDD)"><small>ACTIVATION</small>활성화</div><input class="lab-in" placeholder="예) 첫 거래 보너스 · 가입 튜토리얼" /><button type="button" class="st">눌러서 표시</button></div><div class="aar"><div class="stg" style="background:linear-gradient(90deg,#D7EEDD,#C4DFAA)"><small>RETENTION</small>유지</div><input class="lab-in" placeholder="예) 푸시 알림 · 저축 연속 기록" /><button type="button" class="st">눌러서 표시</button></div><div class="aar"><div class="stg" style="background:linear-gradient(90deg,#F5F0BB,#F5F0BB)"><small>REFERRAL</small>추천</div><input class="lab-in" placeholder="예) 초대 코드 · 공유 버튼" /><button type="button" class="st">눌러서 표시</button></div><div class="aar"><div class="stg" style="background:linear-gradient(90deg,#F5F0BB,#F6D5CF)"><small>REVENUE</small>수익</div><input class="lab-in" placeholder="예) 수수료 안내 · 유료 상단 노출" /><button type="button" class="st">눌러서 표시</button></div></div><div class="meter"><span class="lab-big" style="font-size:1.05rem">내 AARRR 지도</span><div class="bar"><i></i></div><b class="aar-score">0 / 5</b></div></div></div><div class="lab-panel" data-panel="2"><div class="self"><div class="checks"><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>다섯 단계 모두 “찾음” 또는 “미관찰”로 표시했다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>보이는 <b>사실</b>만 적었다 (내 해석은 따로)</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>캡처마다 <code>OBS-001</code> 같은 번호를 붙였다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>짝과 비교해 가장 놀라운 장치 1개를 골랐다</span></button></div><div class="ring-box"><svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(36,59,53,0.12)" stroke-width="12"/><circle class="ring-fg" cx="60" cy="60" r="50" fill="none" stroke="#27765B" stroke-width="12" stroke-linecap="round" stroke-dasharray="0 314.2" transform="rotate(-90 60 60)" style="transition:stroke-dasharray .4s"/><text class="ring-t" x="60" y="68" text-anchor="middle" fill="#243B35" font-size="26" font-weight="900" font-family="Pretendard,sans-serif">0/4</text></svg><div class="msg">체크하면서<br/>스스로 확인해 보세요</div></div></div>
               <div class="career"><b>취창업 연결</b><span>캡처 + 해석을 정리하면 그대로 포트폴리오의 <b>“제품 분석(Product Teardown)”</b> 섹션이 됩니다.</span></div></div>
             </div></article>
 
-<article class="slide" data-note="퍼널은 한 번 지나가면 끝이지만, 성공한 서비스는 '루프'를 가집니다. 사용자의 행동이 서비스의 가치를 키우고, 그 가치가 다른 사용자를 끌어오는 순환. YouTube: 시청 → 데이터 → 더 좋은 추천 → 더 많은 시청 / Jiji: 판매자 광고 등록 → 지역 매물 증가 → 더 많은 구매자 방문. 루프가 멈추는 조건(예: 매물이 없으면 방문 안 함)도 함께 써야 합니다."><div class="slide-inner">
+            <!-- 8 -->
+            <article class="slide" data-note="퍼널은 한 번 지나가면 끝이지만, 성공한 서비스는 '루프'를 가집니다. 사용자의 행동이 서비스의 가치를 키우고, 그 가치가 다른 사용자를 끌어오는 순환. YouTube: 시청 → 데이터 → 더 좋은 추천 → 더 많은 시청 / Jiji: 판매자 광고 등록 → 지역 매물 증가 → 더 많은 구매자 방문. 루프가 멈추는 조건(예: 매물이 없으면 방문 안 함)도 함께 써야 합니다."><div class="slide-inner">
               <span class="slide-kicker">From funnel to growth loop</span>
               <div class="viz-split"><div>
               <h2 class="sm">퍼널은 끝나지만, <span class="hl">루프는 스스로 돈다</span></h2>
@@ -915,7 +806,8 @@ main>*:not(#slides){display:none!important}
               </div>
             </div></article>
 
-<article class="slide" data-note="유명한 그로스해킹 사례 3개. 공통점: 큰 광고비 없이 '제품 안의 작은 장치'로 성장. Dropbox – 친구 초대 시 양쪽 모두 추가 저장공간(제품 자체가 보상). Airbnb – 초기 등록 숙소를 Craigslist에도 올릴 수 있게 해 거대한 기존 사용자 풀을 활용. Hotmail – 모든 메일 하단에 'Get your free email at Hotmail' 문구 → 사용할수록 광고가 됨. 질문: 이 장치를 AI에게 시키지 않았다면 AI가 스스로 만들어 줬을까?"><div class="slide-inner">
+            <!-- 9 -->
+            <article class="slide" data-note="유명한 그로스해킹 사례 3개. 공통점: 큰 광고비 없이 '제품 안의 작은 장치'로 성장. Dropbox – 친구 초대 시 양쪽 모두 추가 저장공간(제품 자체가 보상). Airbnb – 초기 등록 숙소를 Craigslist에도 올릴 수 있게 해 거대한 기존 사용자 풀을 활용. Hotmail – 모든 메일 하단에 'Get your free email at Hotmail' 문구 → 사용할수록 광고가 됨. 질문: 이 장치를 AI에게 시키지 않았다면 AI가 스스로 만들어 줬을까?"><div class="slide-inner">
               <span class="slide-kicker">Classic growth hacks</span>
               <h2 class="sm">작은 장치 하나가 <span class="hl">폭발적 성장</span>을 만든 사례</h2>
               <div class="slide-grid cols-3">
@@ -926,7 +818,8 @@ main>*:not(#slides){display:none!important}
               <div class="quote-box">공통점: 광고비가 아니라 <b>제품 안의 작은 설계</b>. 그리고 이 설계는 “만들어 줘”라는 요청만으로는 AI가 떠올리지 않습니다.</div>
             </div></article>
 
-<article class="slide" data-note="그로스해킹은 한 번의 아이디어가 아니라 반복 사이클. 아이디어를 많이 내고 → ICE 점수(영향 Impact, 확신 Confidence, 용이성 Ease 각각 1~10)로 우선순위 → 작은 실험 → 데이터 분석 → 학습을 다음 아이디어로. 우리가 보는 완성된 서비스 화면은 수백~수천 번 실험의 '살아남은 결과'라는 점이 핵심 — AI는 이 실험 기록을 모릅니다."><div class="slide-inner">
+            <!-- 10 -->
+            <article class="slide" data-note="그로스해킹은 한 번의 아이디어가 아니라 반복 사이클. 아이디어를 많이 내고 → ICE 점수(영향 Impact, 확신 Confidence, 용이성 Ease 각각 1~10)로 우선순위 → 작은 실험 → 데이터 분석 → 학습을 다음 아이디어로. 우리가 보는 완성된 서비스 화면은 수백~수천 번 실험의 '살아남은 결과'라는 점이 핵심 — AI는 이 실험 기록을 모릅니다."><div class="slide-inner">
               <span class="slide-kicker">The growth experiment cycle</span>
               <h2 class="sm">성장은 아이디어가 아니라 <span class="hl">실험의 반복</span></h2>
               <div class="slide-grid steps">
@@ -945,505 +838,169 @@ main>*:not(#slides){display:none!important}
               </div>
             </div></article>
 
-<article class="slide lab" data-note="실습 5. 4~5명 팀. 5분 아이디어 → 5분 점수 → 5분 실험 카드. [해 보기]에서 아이디어와 I·C·E 점수(1~10)를 넣으면 오른쪽 순위 막대가 실시간으로 바뀌고 1위가 초록색으로 표시됩니다. 확신(C)은 근거(OBS, 인터뷰)가 있을 때만 높게 주게 하세요. 두 팀만 1위 실험을 30초씩 발표합니다."><div class="slide-inner">
+            <!-- LAB -->
+            <article class="slide lab" data-note="실습 5. 4~5명 팀. 5분 아이디어 → 5분 점수 → 5분 실험 카드. [해 보기]에서 아이디어와 I·C·E 점수(1~10)를 넣으면 오른쪽 순위 막대가 실시간으로 바뀌고 1위가 초록색으로 표시됩니다. 확신(C)은 근거(OBS, 인터뷰)가 있을 때만 높게 주게 하세요. 두 팀만 1위 실험을 30초씩 발표합니다."><div class="slide-inner">
               <div class="lab-head"><div><div class="lab-meta"><span class="chip">HANDS-ON 05</span><span class="pill">15분</span><span class="pill">팀 · ICE</span></div>
               <h2 class="sm">팀 실험 설계: <span class="hl">ICE 점수로 1위 고르기</span></h2></div><button class="lab-timer" type="button" data-min="15" aria-label="15분 타이머 시작">▶ 15:00</button></div>
               <div class="lab-tabs" role="tablist"><button type="button" class="on" data-tab="0"><b>1</b>미션 이해</button><button type="button" data-tab="1"><b>2</b>해 보기</button><button type="button" data-tab="2"><b>3</b>스스로 점검<small class="tab-count">0/0</small></button></div><div class="lab-panel on" data-panel="0"><div class="lab-goal"><span>목표</span><span><b>Jiji 구매자는 사기가 걱정돼 판매자에게 연락하지 않는다.</b> 연락 수를 늘릴 실험 1개를 고른다</span></div><div class="gauge3"><div class="g3"><span class="L" style="color:#2B5CA6">I</span><strong>Impact · 영향</strong><span>성공하면 연락 수가<br/>얼마나 크게 늘까?</span></div><div class="g3"><span class="L" style="color:#5D4AA8">C</span><strong>Confidence · 확신</strong><span>근거(OBS · 인터뷰)가<br/>있나?</span></div><div class="g3"><span class="L" style="color:#27765B">E</span><strong>Ease · 용이성</strong><span>적은 시간 · 비용으로<br/>바로 할 수 있나?</span></div></div><div class="lab-goal" style="background:rgba(43,92,166,0.11);border-color:rgba(43,92,166,0.55);color:#243B35"><span style="background:#D2E0FB">계산</span><span>ICE 점수 = (I + C + E) ÷ 3 &nbsp;→&nbsp; 점수가 가장 높은 아이디어부터 실험</span></div></div><div class="lab-panel" data-panel="1"><div class="lab-row" style="--cols:1.35fr 1fr"><div class="lab-box" data-ice><h4>아이디어 · 점수 (1~10)</h4><table class="ice-tbl"><thead><tr><th>아이디어</th><th>I</th><th>C</th><th>E</th></tr></thead><tbody><tr><td><input class="lab-in" type="text" placeholder="판매자 인증 배지를 목록에 표시" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td></tr><tr><td><input class="lab-in" type="text" placeholder="첫 연락 전 안전 수칙 팝업" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td></tr><tr><td><input class="lab-in" type="text" placeholder="아이디어 3" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td></tr><tr><td><input class="lab-in" type="text" placeholder="아이디어 4" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td></tr><tr><td><input class="lab-in" type="text" placeholder="아이디어 5" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td><td><input class="lab-in n" type="number" min="1" max="10" /></td></tr></tbody></table></div><div class="lab-box"><h4>실시간 순위</h4><div class="ice-rank"><div class="r"><b style="text-align:left;color:#27765B">1</b><div><span>판매자 인증 배지를 목록에 표시</span><div class="bar"><i></i></div></div><b class="v">–</b></div><div class="r"><b style="text-align:left;color:#27765B">2</b><div><span>첫 연락 전 안전 수칙 팝업</span><div class="bar"><i></i></div></div><b class="v">–</b></div><div class="r"><b style="text-align:left;color:#27765B">3</b><div><span>아이디어 3</span><div class="bar"><i></i></div></div><b class="v">–</b></div><div class="r"><b style="text-align:left;color:#27765B">4</b><div><span>아이디어 4</span><div class="bar"><i></i></div></div><b class="v">–</b></div><div class="r"><b style="text-align:left;color:#27765B">5</b><div><span>아이디어 5</span><div class="bar"><i></i></div></div><b class="v">–</b></div></div></div></div></div><div class="lab-panel" data-panel="2"><div class="self"><div class="checks"><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>팀에서 아이디어를 <b>5개</b> 냈다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>확신(C)은 근거가 있을 때만 높게 줬다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>1위 아이디어로 “~하면 ~가 오를 것이다” 가설을 썼다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>성공 기준(숫자)과 부작용 지표를 정했다</span></button></div><div class="ring-box"><svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(36,59,53,0.12)" stroke-width="12"/><circle class="ring-fg" cx="60" cy="60" r="50" fill="none" stroke="#27765B" stroke-width="12" stroke-linecap="round" stroke-dasharray="0 314.2" transform="rotate(-90 60 60)" style="transition:stroke-dasharray .4s"/><text class="ring-t" x="60" y="68" text-anchor="middle" fill="#243B35" font-size="26" font-weight="900" font-family="Pretendard,sans-serif">0/4</text></svg><div class="msg">체크하면서<br/>스스로 확인해 보세요</div></div></div>
               <div class="career"><b>취창업 연결</b><span>실험 가설 문서는 <b>그로스 마케터 · PM 포트폴리오의 핵심</b>입니다. “아이디어가 많다”보다 “근거로 우선순위를 정했다”가 훨씬 강합니다.</span></div></div>
             </div></article>
 
-<article class="slide ns" data-note="Today starts here. Four steps: observe, document, build with AI, compare. Read the ID table: every item gets an ID like a receipt number. ADR is optional."><div class="slide-inner">
-<div class="kicker">Reverse-engineering workflow · today starts here</div>
-<h1>Observe → Document → Build with AI → <em>Compare</em></h1>
-<p class="lead">Yesterday you <b>observed</b> (AARRR, loops, ICE). Today you turn that into <b>evidence</b>, write it down as <b>documents</b>, give the documents to <b>AI</b>, and <b>compare</b> the result with the original. Every item gets an ID, so every decision can be traced back.</p>
-<div class="grid g4">
-  <div class="card"><h3 style="color:var(--blue)">01 · Observe</h3><p>What did I <b>see</b>?<br>OBS cards · AARRR map · growth loop · EXP hypotheses</p><p class="id">OBS-### · EXP-###</p></div>
-  <div class="card"><h3 style="color:var(--blue)">02 · Document</h3><p>What will we <b>build</b>, how does it <b>earn</b>, and <b>how</b> do we build it?</p><p class="id">PRD-### · BM-### · ADR-###</p></div>
-  <div class="card"><h3 style="color:var(--blue)">03 · Build with AI</h3><p>Give the documents to AI as a <b>contract</b>. Build 1 core flow. Log what AI did.</p><p class="id">AI-### work log</p></div>
-  <div class="card"><h3 style="color:var(--blue)">04 · Compare</h3><p>Original vs our build: <b>same task, same device</b>. Where is the gap, and why?</p><p class="id">COMPARE table</p></div>
-</div>
-<h2>What each ID means</h2>
-<table>
-<tr><th>ID</th><th>Full name</th><th>Question it answers</th><th>YouTube example (one line)</th></tr>
-<tr><td class="id" style="color:var(--blue)">OBS</td><td>Observation</td><td>What did I <b>see</b> on the screen?</td><td>OBS-004: when a video ends, the next one starts after a short countdown</td></tr>
-<tr><td class="id" style="color:#c25e2a">EXP</td><td>Experiment hypothesis</td><td>What change could <b>grow</b> a number?</td><td>EXP-001: a countdown with a Cancel button raises 2nd-video rate</td></tr>
-<tr><td class="id" style="color:#3d6fc2">PRD</td><td>Product Requirements Document</td><td><b>What</b> do we build, for whom, and when is it done?</td><td>PRD-F1: Up-next list + 5-second autoplay countdown with Cancel</td></tr>
-<tr><td class="id" style="color:var(--green)">BM</td><td>Business Model</td><td><b>Who pays</b>, for what, and why does this feature matter for money?</td><td>BM-001: more videos per visit = more ad slots</td></tr>
-<tr><td class="id" style="color:var(--purple)">ADR<span class="opt">OPTIONAL</span></td><td>Architecture Decision Record</td><td><b>Why</b> did we choose this technical option?</td><td>ADR-001: mock JSON + localStorage, no real YouTube API</td></tr>
-<tr><td class="id" style="color:#333">AI</td><td>AI work log</td><td>What did AI do, and what did <b>we</b> keep or reject?</td><td>AI-001: AI added a sign-in wall; we rejected it (PRD scope)</td></tr>
-<tr><td class="id">CMP</td><td>Comparison</td><td>Did our build <b>work</b> like the original?</td><td>CMP-001: watch 2 videos in a row: original yes, ours yes</td></tr>
-</table>
-<p class="note">Samples for every ID: <span class="fileref">16p_OBS_sample.md</span><span class="fileref">16p_PRD_sample.md</span><span class="fileref">16p_BM_sample.md</span><span class="fileref">16p_ADR_sample.md</span><span class="fileref">16p_AI_LOG_sample.md</span><span class="fileref">16p_CMP_sample.md</span> · Blank forms in <code>templates/</code></p>
-</div></article>
+            <!-- 10b -->
+            <article class="slide dense" data-note="나이지리아 학생들에게 익숙한 3개 서비스로 진행합니다. Jumia(종합 이커머스), YouTube(영상 플랫폼), Jiji(지역 기반 중고·생활 거래 마켓플레이스). 학생들에게 '평소 어떤 서비스를 가장 많이 쓰는지' 물어보고, 1개를 선택하게 하세요. 관찰 포인트는 예시일 뿐이며, 화면에서 직접 확인한 것만 OBS로 기록합니다."><div class="slide-inner">
+              <span class="slide-kicker">Benchmark targets · Choose one</span>
+              <h2 class="sm">오늘 해체할 서비스: <span class="hl">Jumia · YouTube · Jiji</span></h2>
+              <p>서비스 하나, 대표 사용자 한 명, 대표 과업 하나만 선택합니다.</p>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><svg class="card-viz" viewBox="0 0 240 64" role="img" aria-label="쇼핑몰: 상품 평점, 장바구니, 공식 스토어, 할인" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="8" width="96" height="50" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="14" y="15" width="24" height="20" rx="3" fill="rgba(133,96,0,0.385)"/><text x="26" y="47" text-anchor="middle" fill="#856000" font-size="7.5" font-weight="800">★4.5</text><rect x="43" y="15" width="24" height="20" rx="3" fill="rgba(133,96,0,0.385)"/><text x="55" y="47" text-anchor="middle" fill="#856000" font-size="7.5" font-weight="800">★4.4</text><rect x="72" y="15" width="24" height="20" rx="3" fill="rgba(133,96,0,0.385)"/><text x="84" y="47" text-anchor="middle" fill="#856000" font-size="7.5" font-weight="800">★4.3</text><path d="M126 18 h10 l7 24 h26 l6 -16 h-36" fill="none" stroke="#856000" stroke-width="2.4" stroke-linejoin="round"/><circle cx="147" cy="49" r="3.5" fill="#F5F0BB"/><circle cx="165" cy="49" r="3.5" fill="#F5F0BB"/><rect x="186" y="14" width="48" height="16" rx="4" fill="#D2E0FB"/><text x="210" y="25.5" text-anchor="middle" fill="#243B35" font-size="8" font-weight="900">OFFICIAL</text><rect x="186" y="36" width="48" height="16" rx="4" fill="rgba(168,58,69,0.275)" stroke="#A83A45"/><text x="210" y="47.5" text-anchor="middle" fill="#A83A45" font-size="8" font-weight="900">-40%</text></svg><strong><i class="fa-solid fa-cart-shopping"></i> Jumia · jumia.com.ng</strong><span>종합 온라인 쇼핑몰</span><em>상품 발견 → 신뢰 확인 → 구매 → 배송</em><span>관찰 포인트: 플래시 세일, 공식 스토어, 평점·후기, 픽업 스테이션·배송 안내</span></div>
+                <div class="slide-card"><svg class="card-viz" viewBox="0 0 240 64" role="img" aria-label="영상 플랫폼: 재생 화면과 다음 영상 추천" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="120" height="52" rx="8" fill="rgba(168,58,69,0.132)" stroke="#A83A45"/><path d="M58 20 l18 12 l-18 12z" fill="#F6D5CF"/><rect x="14" y="50" width="104" height="3" rx="1.5" fill="rgba(255,255,255,0.92)"/><rect x="14" y="50" width="62" height="3" rx="1.5" fill="#F6D5CF"/><rect x="138" y="6" width="30" height="15" rx="3" fill="rgba(255,255,255,0.85)"/><rect x="174" y="8" width="56" height="4" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="174" y="15" width="36" height="3.5" rx="1.7" fill="rgba(255,255,255,0.85)"/><rect x="138" y="24" width="30" height="15" rx="3" fill="rgba(255,255,255,0.85)"/><rect x="174" y="26" width="56" height="4" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="174" y="33" width="36" height="3.5" rx="1.7" fill="rgba(255,255,255,0.85)"/><rect x="138" y="42" width="30" height="15" rx="3" fill="rgba(255,255,255,0.85)"/><rect x="174" y="44" width="56" height="4" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="174" y="51" width="36" height="3.5" rx="1.7" fill="rgba(255,255,255,0.85)"/><text x="153" y="17" text-anchor="middle" fill="#856000" font-size="7" font-weight="900">NEXT</text></svg><strong><i class="fa-brands fa-youtube"></i> YouTube · youtube.com</strong><span>영상 플랫폼</span><em>발견 → 시청 → 다음 영상 → 재방문</em><span>관찰 포인트: 추천 피드, 자동재생, 구독·알림, Shorts, 댓글</span></div>
+                <div class="slide-card"><svg class="card-viz" viewBox="0 0 240 64" role="img" aria-label="지역 마켓플레이스: 위치 기반 매물 목록과 판매자 인증" xmlns="http://www.w3.org/2000/svg"><path d="M30 10 c-12 0 -20 9 -20 19 c0 14 20 30 20 30 s20 -16 20 -30 c0 -10 -8 -19 -20 -19z" fill="rgba(39,118,91,0.22)" stroke="#27765B" stroke-width="2"/><circle cx="30" cy="29" r="6" fill="#D7EEDD"/><rect x="64" y="6" width="170" height="16" rx="4" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="68" y="9" width="14" height="10" rx="2" fill="rgba(39,118,91,0.385)"/><rect x="88" y="11" width="60" height="4" rx="2" fill="rgba(255,255,255,0.22)"/><text x="230" y="17.5" text-anchor="end" fill="#856000" font-size="7.5" font-weight="800">₦ 45,000</text><rect x="154" y="9" width="26" height="10" rx="3" fill="#D7EEDD"/><text x="167" y="16.5" text-anchor="middle" fill="#243B35" font-size="6.5" font-weight="900">인증</text><rect x="64" y="25" width="170" height="16" rx="4" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="68" y="28" width="14" height="10" rx="2" fill="rgba(39,118,91,0.385)"/><rect x="88" y="30" width="60" height="4" rx="2" fill="rgba(255,255,255,0.22)"/><text x="230" y="36.5" text-anchor="end" fill="#856000" font-size="7.5" font-weight="800">₦ 12,500</text><rect x="64" y="44" width="170" height="16" rx="4" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="68" y="47" width="14" height="10" rx="2" fill="rgba(39,118,91,0.385)"/><rect x="88" y="49" width="60" height="4" rx="2" fill="rgba(255,255,255,0.22)"/><text x="230" y="55.5" text-anchor="end" fill="#856000" font-size="7.5" font-weight="800">₦ 230,000</text></svg><strong><i class="fa-solid fa-tags"></i> Jiji · jiji.ng</strong><span>지역 기반 거래 마켓플레이스</span><em>지역 선택 → 매물 발견 → 신뢰 확인 → 판매자 연락</em><span>관찰 포인트: 지역·가격 필터, 판매자 피드백·인증, 안전 거래 팁, 유료 상단 노출</span></div>
+              </div>
+              <div class="quote-box">내부 알고리즘·매출·정책은 공식 출처가 없으면 <b>사실이 아니라 가설</b>로 씁니다.</div>
+            </div></article>
 
-<article class="slide ns" data-note="Why document? AI has no memory between chats; the document is the memory, the contract and the team&#x27;s plan. Read the quote at the bottom."><div class="slide-inner">
-<div class="kicker">Why document?</div>
-<h1>With AI, <em>the document is the product plan</em></h1>
-<p class="lead">AI writes code fast. But AI only knows what you give it. <b>Document-driven development</b> means: write down <i>what, why and how</i> first, then let AI build from the documents.</p>
-<div class="grid g2">
-  <div class="card tint-r bad"><h3>✕ Chat-driven: "just ask"</h3>
-  <pre>"Make a video app like YouTube."
-"Add a subscribe button."
-"No, make it look better."
-"Why did you remove the list?"</pre>
-  <ul>
-  <li>AI <b>guesses</b> → you get the average app</li>
-  <li>Decisions are lost in a long chat</li>
-  <li>New chat = AI forgets everything</li>
-  <li>Teammates can't see why something was built</li>
-  </ul></div>
-  <div class="card tint-g good"><h3>✓ Document-driven</h3>
-  <pre>docs/PRD_BM.md  what we build, for whom, done-when,
-                what we fake + who pays (3 lines)
-docs/OBS_LOG.md the evidence behind each feature
-"Read the 2 attached files. Build F1–F3."</pre>
-  <ul>
-  <li>AI builds <b>your</b> design, not a guess</li>
-  <li>Same documents → same result in any tool, any chat</li>
-  <li>Teammates and investors can read the plan</li>
-  <li>When something breaks, you can trace why</li>
-  </ul></div>
-</div>
-<div class="grid g4" style="margin-top:16px">
-  <div class="card"><h3>1 · Memory</h3><p>AI has no memory between chats. Documents are the memory.</p></div>
-  <div class="card"><h3>2 · Contract</h3><p>"Done when…" tells AI and the team when to stop.</p></div>
-  <div class="card"><h3>3 · Teamwork</h3><p>Three people, one plan. Nobody depends on one person's chat history.</p></div>
-  <div class="card"><h3>4 · Investors</h3><p>A POC with PRD + BM shows a <b>business</b>, not just screens.</p></div>
-</div>
-<div class="say">"If it isn't written down, AI doesn't know it, your team doesn't know it, and next week you won't remember it."</div>
-</div></article>
+            <!-- 11 -->
+            <article class="slide dense" data-note="관찰 실습 가이드. 3개 서비스 중 하나를 고르고, 대표 사용자 한 명과 대표 과업 하나로 범위를 고정합니다. 관찰한 '사실'과 나의 '해석'을 반드시 분리 — 예) 사실: 상품 카드에 후기 수가 보인다 / 해석: 상세 진입 전 불확실성을 줄이는 것으로 보인다. 내부 알고리즘·매출은 공식 출처 없으면 가설로만 씁니다."><div class="slide-inner">
+              <span class="slide-kicker">Mission 01 · Observe</span>
+              <h2 class="sm">관찰로 성장 장치를 찾아라: <span class="hl">사실 ≠ 해석</span></h2>
+              <div class="viz-strip"><svg class="viz" viewBox="0 0 1000 64" role="img" aria-label="관찰 세션 시간 배분: 첫 방문 30분, 대표 과업 45분, 재방문 장치 30분, 총 105분" xmlns="http://www.w3.org/2000/svg"><rect x="2.0" y="8" width="281.7" height="34" rx="9" fill="#D2E0FB" fill-opacity=".22" stroke="#2B5CA6"/><text x="142.9" y="30" text-anchor="middle" fill="#243B35" font-size="14" font-weight="800">첫 방문 <tspan fill="#2B5CA6">30분</tspan></text><rect x="287.7" y="8" width="424.6" height="34" rx="9" fill="#D2E0FB" fill-opacity=".22" stroke="#2B5CA6"/><text x="500.0" y="30" text-anchor="middle" fill="#243B35" font-size="14" font-weight="800">대표 과업 <tspan fill="#2B5CA6">45분</tspan></text><rect x="716.3" y="8" width="281.7" height="34" rx="9" fill="#D7EEDD" fill-opacity=".22" stroke="#27765B"/><text x="857.1" y="30" text-anchor="middle" fill="#243B35" font-size="14" font-weight="800">재방문 장치 <tspan fill="#27765B">30분</tspan></text><text x="14" y="60" text-anchor="middle" fill="#4A605A" font-size="11">0분</text><text x="286" y="60" text-anchor="middle" fill="#4A605A" font-size="11">30분</text><text x="714" y="60" text-anchor="middle" fill="#4A605A" font-size="11">75분</text><text x="982" y="60" text-anchor="middle" fill="#4A605A" font-size="11">105분</text></svg></div>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong>첫 방문 · 30분</strong><span>로그아웃 상태에서 5초 인상, 가치 제안, CTA 기록</span></div>
+                <div class="slide-card"><strong>대표 과업 · 45분</strong><span>클릭·스크롤·입력 수, 신뢰 요소, 이탈 요소 기록</span></div>
+                <div class="slide-card"><strong>재방문 장치 · 30분</strong><span>저장·구독·알림·후기·공유가 다음 방문으로 이어지는 지점</span></div>
+              </div>
+              <div class="compare arrowed">
+                <div class="compare-col good"><h4>관찰한 사실 (OBS)</h4><ul><li>“상품 카드에 평점과 후기 수가 표시된다.”</li><li>날짜 · URL · 기기 · 캡처를 함께 기록</li></ul></div>
+                <div class="compare-col"><h4>나의 해석 (가설)</h4><ul><li>“상세 진입 전 구매 불안을 줄이는 것으로 보인다.”</li><li>AARRR 중 어느 단계에 영향을 주는지 표시</li></ul></div>
+              </div>
+            </div></article>
 
-<article class="slide ns" data-note="Each step needs the one before it. Read 3 rows: what goes wrong if you skip OBS, PRD or the compare step?"><div class="slide-inner">
-<div class="kicker">Why this order?</div>
-<h1>Each step needs the step <em>before it</em></h1>
-<p class="lead">You can't decide what to build before you know what works. You can't choose technology before you know what to build. You can't measure success without the original to compare with.</p>
-<div class="chain">
-  <div class="c obs"><b>OBS</b><span>evidence first</span></div><div class="arr">→</div>
-  <div class="c exp"><b>LOOP·EXP</b><span>why it grows</span></div><div class="arr">→</div>
-  <div class="c prd"><b>PRD</b><span>what to build</span></div><div class="arr">→</div>
-  <div class="c bm"><b>BM</b><span>is it worth it?</span></div><div class="arr">→</div>
-  <div class="c adr"><b>ADR</b><span>how to build (optional)</span></div><div class="arr">→</div>
-  <div class="c ai"><b>AI-###</b><span>build</span></div><div class="arr">→</div>
-  <div class="c cmp"><b>CMP</b><span>did it work?</span></div>
-</div>
-<table style="margin-top:14px">
-<tr><th>If you skip…</th><th>What goes wrong</th><th>Example</th></tr>
-<tr><td><b>OBS</b></td><td>Features come from opinions</td><td>"Let's add dark mode, it's cool." Nobody knows if it helps growth.</td></tr>
-<tr><td><b>LOOP / EXP</b></td><td>You copy screens but not the reason they work</td><td>You build Subscribe, but nothing ever brings the user back.</td></tr>
-<tr><td><b>PRD</b></td><td>AI decides the scope</td><td>AI adds login, comments and upload. Two hours gone, core flow unfinished.</td></tr>
-<tr><td><b>BM</b></td><td>A nice app with no business</td><td>Investors ask "who pays?" and there's no answer.</td></tr>
-<tr><td><b>ADR</b></td><td>Too big or wrong technology</td><td>"Let's use the real YouTube API." Keys, quotas, copyright: the POC never runs.</td></tr>
-<tr><td><b>CMP</b></td><td>No learning</td><td>"It looks similar" is not a result. Which features were lost, and why?</td></tr>
-</table>
-<div class="say">"Observe before you decide. Decide before you build. Compare before you celebrate."</div>
-</div></article>
+            <!-- 12 -->
+            <article class="slide dense" data-note="real-benchmarking 워크스페이스의 4개 미션 흐름과 같습니다. 오늘은 미션 1~2를 중심으로 하되, 핵심 경험을 위해 '작은 AI 재구현 + 비교'까지 한 번 돌려 봅니다. 추적 ID(OBS→PRD→BM→ADR→CMP)로 모든 결정이 근거에 연결되도록 합니다."><div class="slide-inner">
+              <span class="slide-kicker">Reverse engineering workflow</span>
+              <h2 class="sm">관찰 → 문서 → AI 구현 → 비교</h2>
+              <p>리얼 벤치마킹 PBL의 4단계 미션. 모든 결정은 ID로 근거에 연결됩니다.</p>
+              <div class="slide-grid steps">
+                <div class="slide-card"><strong>01 · 관찰</strong><span>OBS 10건+ · AARRR 맵 · 성장 루프 · EXP 가설</span><em>OBS-###</em></div>
+                <div class="slide-card"><strong>02 · 문서</strong><span>OPPORTUNITY · BUSINESS_MODEL · BASE_ARCHITECTURE</span><em>PRD · BM · ADR</em></div>
+                <div class="slide-card"><strong>03 · AI 구현</strong><span>문서를 계약으로 AI와 대표 흐름 1개 구현</span><em>AI-### 작업 기록</em></div>
+                <div class="slide-card"><strong>04 · 비교</strong><span>원본 vs 구현, 같은 과업·조건으로 차이 증명</span><em>CMP-###</em></div>
+              </div>
+              <div class="viz-strip"><svg class="viz" viewBox="0 -6 1000 152" role="img" aria-label="OBS, PRD, BM, ADR, CMP 문서가 ID로 연결되는 추적 체계" xmlns="http://www.w3.org/2000/svg"><defs><marker id="m12" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#EEF4EC"/></marker><marker id="m12b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#F5F0BB"/></marker></defs><path d="M30 30 h70 l18 18 v52 h-88z" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2"/><path d="M100 30 v18 h18" fill="none" stroke="#2B5CA6" stroke-width="2"/><rect x="42" y="60" width="56" height="4" rx="2" fill="#D2E0FB" fill-opacity=".45"/><rect x="42" y="69" width="44" height="4" rx="2" fill="#D2E0FB" fill-opacity=".45"/><rect x="42" y="78" width="32" height="4" rx="2" fill="#D2E0FB" fill-opacity=".45"/><text x="74" y="122" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800">OBS-001</text><text x="74" y="140" text-anchor="middle" fill="#2B5CA6" font-size="12" font-weight="700">관찰 사실</text><path class="flow" d="M130 65 H218" stroke="#4A605A" stroke-width="2" marker-end="url(#m12)"/><path d="M230 30 h70 l18 18 v52 h-88z" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2"/><path d="M300 30 v18 h18" fill="none" stroke="#2B5CA6" stroke-width="2"/><rect x="242" y="60" width="56" height="4" rx="2" fill="#D2E0FB" fill-opacity=".45"/><rect x="242" y="69" width="44" height="4" rx="2" fill="#D2E0FB" fill-opacity=".45"/><rect x="242" y="78" width="32" height="4" rx="2" fill="#D2E0FB" fill-opacity=".45"/><text x="274" y="122" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800">PRD-001</text><text x="274" y="140" text-anchor="middle" fill="#2B5CA6" font-size="12" font-weight="700">요구사항</text><path class="flow" d="M330 65 H418" stroke="#4A605A" stroke-width="2" marker-end="url(#m12)"/><path d="M430 30 h70 l18 18 v52 h-88z" fill="#F6F9F4" stroke="#27765B" stroke-width="2"/><path d="M500 30 v18 h18" fill="none" stroke="#27765B" stroke-width="2"/><rect x="442" y="60" width="56" height="4" rx="2" fill="#D7EEDD" fill-opacity=".45"/><rect x="442" y="69" width="44" height="4" rx="2" fill="#D7EEDD" fill-opacity=".45"/><rect x="442" y="78" width="32" height="4" rx="2" fill="#D7EEDD" fill-opacity=".45"/><text x="474" y="122" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800">BM-001</text><text x="474" y="140" text-anchor="middle" fill="#27765B" font-size="12" font-weight="700">비즈니스 모델</text><path class="flow" d="M530 65 H618" stroke="#4A605A" stroke-width="2" marker-end="url(#m12)"/><path d="M630 30 h70 l18 18 v52 h-88z" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2"/><path d="M700 30 v18 h18" fill="none" stroke="#5D4AA8" stroke-width="2"/><rect x="642" y="60" width="56" height="4" rx="2" fill="#DFD8F6" fill-opacity=".45"/><rect x="642" y="69" width="44" height="4" rx="2" fill="#DFD8F6" fill-opacity=".45"/><rect x="642" y="78" width="32" height="4" rx="2" fill="#DFD8F6" fill-opacity=".45"/><text x="674" y="122" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800">ADR-001</text><text x="674" y="140" text-anchor="middle" fill="#5D4AA8" font-size="12" font-weight="700">설계 결정</text><path class="flow" d="M730 65 H818" stroke="#4A605A" stroke-width="2" marker-end="url(#m12)"/><path d="M830 30 h70 l18 18 v52 h-88z" fill="#F6F9F4" stroke="#856000" stroke-width="2"/><path d="M900 30 v18 h18" fill="none" stroke="#856000" stroke-width="2"/><rect x="842" y="60" width="56" height="4" rx="2" fill="#F5F0BB" fill-opacity=".45"/><rect x="842" y="69" width="44" height="4" rx="2" fill="#F5F0BB" fill-opacity=".45"/><rect x="842" y="78" width="32" height="4" rx="2" fill="#F5F0BB" fill-opacity=".45"/><text x="874" y="122" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800">CMP-001</text><text x="874" y="140" text-anchor="middle" fill="#856000" font-size="12" font-weight="700">비교 결과</text><path d="M874 26 C874 -4 74 -4 74 24" fill="none" stroke="#856000" stroke-width="1.6" stroke-dasharray="5 5" marker-end="url(#m12b)"/><text x="474" y="8" text-anchor="middle" fill="#856000" font-size="11.5" font-weight="700">모든 비교 결과는 관찰 근거까지 거꾸로 추적 가능</text></svg></div>
+            </div></article>
 
-<article class="slide ns" data-note="Same AI, different prompt. The good prompt attaches the documents and asks AI to summarise first."><div class="slide-inner">
-<div class="kicker">Prompt = your analysis</div>
-<h1>Prompt quality = <span class="b">depth of growth-hacking analysis</span></h1>
-<p class="lead">A good prompt is not clever words. It is your OBS, EXP and documents, packed together. That's why we write documents first.</p>
-<div class="grid g2">
-  <div class="card tint-r bad"><h3>✕ Request without analysis</h3>
-  <pre>Build me a video site like YouTube.
-With a video player and a list.</pre>
-  <ul><li>Result: an average video page you've seen everywhere</li><li>No autoplay logic, no reason to come back, no way to earn</li></ul></div>
-  <div class="card tint-g good"><h3>✓ Request with analysis</h3>
-  <pre>Read the attached files: PRD_BM.md and OBS_LOG.md.
-Role: web development partner (HTML/CSS/JS).
-Goal: first-time viewers watch a 2nd video (Activation).
-Evidence: OBS-004 (autoplay countdown), OBS-006 (subscribe),
-          OBS-009 (share to WhatsApp)
-Experiment: EXP-001 countdown with Cancel button
-Done when: 360px phone, empty + error states, F1–F3 work
-Don't: copy YouTube's logo, name, colours or text;
-       add login or features not in PRD.
-First, list the features you will build and their IDs,
-then wait for my OK.</pre></div>
-</div>
-<div class="grid g3" style="margin-top:14px">
-  <div class="card"><h3>Goal ← AARRR</h3><p>Which stage are we improving?</p></div>
-  <div class="card"><h3>Evidence ← OBS / EXP</h3><p>Why this feature exists.</p></div>
-  <div class="card"><h3>Files ← PRD / BM / (ADR)</h3><p>The full contract, attached (slide 33).</p></div>
-</div>
-</div></article>
+            <!-- 13 -->
+            <article class="slide dense alert" data-note="이 수업의 핵심 슬라이드. 빙산 비유: AI는 수면 위(보이는 화면)만 보고 만든다. 수면 아래 — 실험 데이터, 네트워크 효과, 운영 정책, 사용자 맥락, 비즈니스 제약 — 는 프롬프트에 없으면 존재하지 않는 것처럼 취급한다. 그래서 AI 결과는 '그럴듯한 평균'이 된다. 이 차이를 메우는 것이 그로스해킹 분석이다."><div class="slide-inner">
+              <span class="slide-kicker">Why AI can’t rebuild it the same way</span>
+              <h2 class="sm">AI는 <span class="hl">빙산의 윗부분</span>만 보고 만든다</h2>
+              <div class="viz-split fig-left"><figure class="viz-fig"><svg class="viz" viewBox="0 0 280 352" role="img" aria-label="빙산 그림: 수면 위의 화면은 AI가 보고, 수면 아래의 실험·데이터·운영·맥락·제약·의도는 보지 못한다" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w13" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D2E0FB" stop-opacity=".85"/><stop offset="1" stop-color="#F6F9F4" stop-opacity=".95"/></linearGradient><linearGradient id="i13" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EEF4EC"/><stop offset="1" stop-color="#D2E0FB"/></linearGradient><linearGradient id="b13" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D2E0FB"/><stop offset="1" stop-color="#F6F9F4"/></linearGradient></defs><rect x="0" y="92" width="280" height="268" fill="url(#w13)"/><path d="M112 92 L132 40 L146 52 L158 30 L182 92Z" fill="url(#i13)"/><path d="M112 92 L182 92 L230 150 L246 240 L214 318 L150 346 L80 320 L42 236 L58 150Z" fill="url(#F6D5CF)" stroke="rgba(43,92,166,0.35)"/><path d="M0 92 q20 -6 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#2B5CA6" stroke-width="1.6"/><text x="6" y="22" fill="#2B5CA6" font-size="11.5" font-weight="800">AI가 보는 것</text><text x="6" y="38" fill="#4A605A" font-size="10">화면 · UI · 기능</text><path d="M80 30 L122 52" stroke="#2B5CA6" stroke-dasharray="3 3"/><text x="144" y="140" text-anchor="middle" fill="#243B35" font-size="12" font-weight="700">실험의 역사</text><text x="144" y="170" text-anchor="middle" fill="#243B35" font-size="12" font-weight="700">데이터·네트워크</text><text x="144" y="200" text-anchor="middle" fill="#243B35" font-size="12" font-weight="700">운영·신뢰 정책</text><text x="144" y="230" text-anchor="middle" fill="#243B35" font-size="12" font-weight="700">사용자 맥락</text><text x="144" y="260" text-anchor="middle" fill="#243B35" font-size="12" font-weight="700">비즈니스 제약</text><text x="144" y="290" text-anchor="middle" fill="#243B35" font-size="12" font-weight="700">설계 의도 (Why)</text><text x="272" y="112" text-anchor="end" fill="#856000" font-size="11" font-weight="800">AI가 못 보는 것</text></svg></figure>
+              <div class="iceberg side">
+                <div class="ice-top"><b>보이는 것 (AI가 만드는 것)</b>화면 레이아웃 · 버튼 · 카드 · 일반적인 기능 · 흔한 패턴</div>
+                <div class="ice-bottom">
+                  <div><strong>실험의 역사</strong>수천 번의 A/B 테스트로 살아남은 순서·문구·배치</div>
+                  <div><strong>데이터 · 네트워크 효과</strong>후기, 매물, 시청 기록처럼 사용자가 쌓아 온 가치</div>
+                  <div><strong>운영과 신뢰 정책</strong>검수, 신고, 판매자 인증, 공식 스토어 보증 같은 보이지 않는 운영</div>
+                  <div><strong>사용자 맥락</strong>누가, 언제, 어떤 불안을 안고 들어오는가</div>
+                  <div><strong>비즈니스 제약</strong>수수료, 광고, 파트너, 법·규제가 만든 결정</div>
+                  <div><strong>의도 (Why)</strong>“왜 이 장치가 여기에 있는가”에 대한 설계 의도</div>
+                </div>
+              </div></div>
+              <div class="quote-box">프롬프트에 없는 것은, AI에게 <b>존재하지 않는 것</b>입니다. 그래서 결과는 “그럴듯한 평균”이 됩니다.</div>
+            </div></article>
 
-<article class="slide ns" data-note="YouTube is the shared example (no team presented it). Follow one feature through the chain, then read it backwards from the compare result."><div class="slide-inner">
-<div class="kicker">Worked example · YouTube</div>
-<h1>Follow <em>one feature</em> through the whole chain</h1>
-<p class="lead">Nobody presented YouTube yesterday, so we use it as the shared example. Feature: <b>"the next video starts by itself"</b>.</p>
-<div class="chain">
-  <div class="c obs"><b>OBS-004</b><span>Fact: when a video ends, the next one starts after a short countdown. An "Up next" list shows more videos.</span></div><div class="arr">→</div>
-  <div class="c exp"><b>LOOP + EXP-001</b><span>watch → more data → better next video → watch longer. EXP: countdown + Cancel raises 2nd-video rate 10%</span></div><div class="arr">→</div>
-  <div class="c prd"><b>PRD-F1</b><span>Up-next list (same topic) + 5-second countdown with Cancel. Done when it works at 360px.</span></div>
-</div>
-<div class="chain">
-  <div class="c bm"><b>BM-001</b><span>More videos per visit = more ad slots (OBS-010). F1 supports revenue.</span></div><div class="arr">→</div>
-  <div class="c adr"><b>ADR-001 (optional)</b><span>Mock JSON of 8 videos, next video = same tag. No real API, no real videos.</span></div><div class="arr">→</div>
-  <div class="c ai"><b>AI-001</b><span>AI built F1. It added a sign-in wall → rejected (not in PRD).</span></div><div class="arr">→</div>
-  <div class="c cmp"><b>CMP-001 · 002</b><span>"Watch 2 videos": both yes. "Next video fits my interest": original yes, ours no (Data layer).</span></div>
-</div>
-<div class="grid g2" style="margin-top:12px">
-  <div class="card tint-y"><h3>Read it backwards</h3><p>CMP-002 says our "next video" is not personal. Why? ADR-001 uses a simple tag rule. Why? There's no viewing data in a POC (iceberg: <b>Data</b>). That is a <b>reason</b>, not a failure.</p></div>
-  <div class="card"><h3>Sample files (download)</h3><p><span class="fileref">16p_OBS_sample.md</span><span class="fileref">16p_PRD_sample.md</span><span class="fileref">16p_BM_sample.md</span><span class="fileref">16p_ADR_sample.md</span><span class="fileref">16p_AI_LOG_sample.md</span><span class="fileref">16p_CMP_sample.md</span></p><p class="note">All use the same IDs, so you can follow the chain across files.</p></div>
-</div>
-</div></article>
+            <!-- LAB -->
+            <article class="slide lab" data-note="실습 6. 팀 게임. 카드마다 2분: 팀이 '이 장치 뒤에 숨은 것'을 6가지 중에서 골라 누르고 '정답 확인'을 누르면 맞힌 것(초록), 놓친 것(점선), 틀린 것(빨강)이 표시됩니다. 정답은 하나가 아니므로 근거를 잘 말한 팀에 추가 점수를 주세요. 결론: 이 숨은 것들을 프롬프트에 써야 AI가 비슷하게라도 만든다."><div class="slide-inner">
+              <div class="lab-head"><div><div class="lab-meta"><span class="chip">HANDS-ON 06</span><span class="pill">10분</span><span class="pill">팀 · 게임</span></div>
+              <h2 class="sm">빙산 아래 맞히기: <span class="hl">이 장치 뒤에 무엇이 있나?</span></h2></div><button class="lab-timer" type="button" data-min="10" aria-label="10분 타이머 시작">▶ 10:00</button></div>
+              <div class="lab-tabs" role="tablist"><button type="button" class="on" data-tab="0"><b>1</b>미션 이해</button><button type="button" data-tab="1"><b>2</b>해 보기</button><button type="button" data-tab="2"><b>3</b>스스로 점검<small class="tab-count">0/0</small></button></div><div class="lab-panel on" data-panel="0"><div class="lab-goal"><span>목표</span><span>화면 속 장치 하나 뒤에 숨은 <b>6가지 요소</b>를 찾아내는 눈을 기른다</span></div><div class="ice-legend"><div style="--c:#2B5CA6"><b>실험</b>수많은 A/B 테스트</div><div style="--c:#5D4AA8"><b>데이터</b>사용자가 쌓은 기록</div><div style="--c:#27765B"><b>운영</b>검수 · 신고 · 인증</div><div style="--c:#856000"><b>맥락</b>누가 · 어떤 불안</div><div style="--c:#A83A45"><b>제약</b>수수료 · 협상 · 법</div><div style="--c:#856000"><b>의도</b>왜 여기에 있나</div></div><div class="flow4" style="--n:4"><div class="fstep"><span class="no">1</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div><strong>장치 보기</strong><span>화면 속 장치 1개</span></div><div class="fstep"><span class="no">2</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-4 3-6 6.5-6s6 2 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4 1.8 4.5 5"/></svg></div><strong>팀 토론</strong><span>숨은 요소를 고르기</span></div><div class="fstep"><span class="no">3</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></div><strong>정답 확인</strong><span>맞힘 · 놓침 · 틀림</span></div><div class="fstep"><span class="no">4</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/></svg></div><strong>프롬프트에 메모</strong><span>다음 실습에 사용</span></div></div></div><div class="lab-panel" data-panel="1"><div class="reveal"><div class="reveal-card" data-ans="운영,맥락,의도"><div class="scr"><span style="background:#D7EEDD">Jiji</span>판매자 인증 배지</div><div class="lab-txt" style="font-size:.98rem">숨은 요소를 <b>골라 보세요</b> (여러 개 가능)</div><div class="pick"><button type="button" data-c="실험">실험</button><button type="button" data-c="데이터">데이터</button><button type="button" data-c="운영">운영</button><button type="button" data-c="맥락">맥락</button><button type="button" data-c="제약">제약</button><button type="button" data-c="의도">의도</button></div><button type="button" class="go">정답 확인</button><div class="res"></div><div class="ans-txt"><b style="color:#856000">운영</b> 신원 확인 · 검수 인력 · 신고 처리<br/><b style="color:#856000">맥락</b> 사기를 걱정하는 중고 구매자<br/><b style="color:#856000">의도</b> “연락해도 안전하다”는 신호</div></div><div class="reveal-card" data-ans="실험,제약,의도"><div class="scr"><span style="background:#F5F0BB">Jumia</span>플래시 세일 남은 시간</div><div class="lab-txt" style="font-size:.98rem">숨은 요소를 <b>골라 보세요</b> (여러 개 가능)</div><div class="pick"><button type="button" data-c="실험">실험</button><button type="button" data-c="데이터">데이터</button><button type="button" data-c="운영">운영</button><button type="button" data-c="맥락">맥락</button><button type="button" data-c="제약">제약</button><button type="button" data-c="의도">의도</button></div><button type="button" class="go">정답 확인</button><div class="res"></div><div class="ans-txt"><b style="color:#856000">실험</b> 타이머 위치·문구를 바꿔 본 결과<br/><b style="color:#856000">제약</b> 브랜드 할인 협상 · 재고<br/><b style="color:#856000">의도</b> “지금 사야 한다”는 긴급성</div></div><div class="reveal-card" data-ans="데이터,의도,맥락"><div class="scr"><span style="background:#F6D5CF">YouTube</span>다음 영상 자동재생</div><div class="lab-txt" style="font-size:.98rem">숨은 요소를 <b>골라 보세요</b> (여러 개 가능)</div><div class="pick"><button type="button" data-c="실험">실험</button><button type="button" data-c="데이터">데이터</button><button type="button" data-c="운영">운영</button><button type="button" data-c="맥락">맥락</button><button type="button" data-c="제약">제약</button><button type="button" data-c="의도">의도</button></div><button type="button" class="go">정답 확인</button><div class="res"></div><div class="ans-txt"><b style="color:#856000">데이터</b> 시청 기록으로 학습한 추천<br/><b style="color:#856000">의도</b> 다음 영상까지 이어 보기<br/><b style="color:#856000">맥락</b> 데이터 요금 걱정 → 끄기 옵션</div></div></div></div><div class="lab-panel" data-panel="2"><div class="self"><div class="checks"><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>카드 3개 모두 팀이 먼저 고른 뒤 정답을 확인했다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>놓친 요소(점선)가 왜 숨어 있는지 이해했다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>우리 서비스 장치 1개의 숨은 요소를 말할 수 있다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>숨은 요소 1개를 다음 실습 프롬프트에 쓸 메모로 남겼다</span></button></div><div class="ring-box"><svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(36,59,53,0.12)" stroke-width="12"/><circle class="ring-fg" cx="60" cy="60" r="50" fill="none" stroke="#27765B" stroke-width="12" stroke-linecap="round" stroke-dasharray="0 314.2" transform="rotate(-90 60 60)" style="transition:stroke-dasharray .4s"/><text class="ring-t" x="60" y="68" text-anchor="middle" fill="#243B35" font-size="26" font-weight="900" font-family="Pretendard,sans-serif">0/4</text></svg><div class="msg">체크하면서<br/>스스로 확인해 보세요</div></div></div>
+              <div class="career"><b>창업 포인트</b><span>창업할 때 <b>화면은 누구나 베낄 수 있습니다.</b> 경쟁력은 빙산 아래 — 운영, 데이터, 현지 사용자 이해에서 나옵니다.</span></div></div>
+            </div></article>
 
-<article class="slide ns" data-note="An OBS card has only 5 lines. Fact in green (anyone can check), interpretation in blue (always &#x27;(hypothesis)&#x27;). Blank form: 26p_OBS_template.md."><div class="slide-inner">
-<div class="kicker">Step 01 · Observe</div>
-<h1>An OBS card has only <em>5 lines</em></h1>
-<p class="lead">Your notes from yesterday become OBS cards. One card = one fact, written so a stranger can check it.</p>
-<table>
-<tr><th style="width:230px">Line</th><th>What to write</th><th>YouTube example (OBS-004)</th></tr>
-<tr><td><b>ID · title</b></td><td>Next number + short name of the feature</td><td>OBS-004 · Next video starts by itself</td></tr>
-<tr><td><b>When / where / device</b></td><td>Date and time · which screen · phone or laptop, logged in or not</td><td>25 Nov 10:12 · watch page, end of video · Android app, logged out</td></tr>
-<tr><td style="background:var(--green-soft)"><b>Fact</b></td><td>Only what anyone can check. Numbers, exact words on screen.</td><td>When the video ended, a [5]-second countdown showed the next video with a "Cancel" button.</td></tr>
-<tr><td style="background:var(--blue-soft)"><b>Interpretation</b></td><td>Why it might be there. Always starts with "(hypothesis)".</td><td>(hypothesis) Removing the question "what next?" keeps people watching.</td></tr>
-<tr><td><b>Stage · Screenshot</b></td><td>One AARRR stage · screenshot file named with the ID</td><td>Activation · evidence/OBS-004.png</td></tr>
-</table>
-<div class="grid g2" style="margin-top:14px">
-<div class="card tint-g"><h3>That's all</h3><p>No other fields. If you don't know something, write <b>"not observed"</b>. Never guess.</p></div>
-<div class="card"><h3>Example + blank form</h3><p><span class="fileref">16p_OBS_sample.md</span> (filled) · <span class="fileref">26p_OBS_template.md</span> (blank)</p><p class="note">One file <code>research/OBS_LOG.md</code>: a 3-column summary table on top (ID · what we saw · stage), then the cards.</p></div>
-</div>
-</div></article>
+            <!-- 14 -->
+            <article class="slide" data-note="실습 시연: 왼쪽 프롬프트와 오른쪽 프롬프트를 실제로 AI에 넣고 결과를 나란히 보여 주세요. 왼쪽은 흔한 쇼핑몰이 나오고, 오른쪽은 분석한 성장 장치가 반영됩니다. 하지만 오른쪽도 여러분이 설계한 것과 100% 같지는 않을 것 — 그 차이를 기록하는 것이 오늘의 미션."><div class="slide-inner">
+              <span class="slide-kicker">Prompt = your analysis</span>
+              <h2 class="sm">프롬프트의 품질 = <span class="hl">그로스해킹 분석의 깊이</span></h2>
+              <div class="compare">
+                <div class="compare-col bad"><h4><i class="fa-solid fa-xmark"></i> 분석 없이 요청</h4><pre>Jumia 같은 쇼핑몰 만들어 줘.
+상품 목록이랑 장바구니 있게.</pre><ul style="margin-top:10px"><li>결과: 어디서나 본 듯한 평균적 쇼핑몰</li><li>성장 장치·신뢰 장치 없음</li></ul><div class="viz-strip" style="margin-top:14px"><svg class="viz" viewBox="0 0 350 80" role="img" aria-label="분석 없이 요청한 결과: 신뢰 정보가 없는 평균적인 상품 카드" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="78" height="72" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="12" y="11" width="62" height="30" rx="4" fill="rgba(255,255,255,0.82)"/><rect x="12" y="48" width="46" height="5" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="12" y="59" width="28" height="5" rx="2" fill="rgba(255,255,255,0.91)"/><rect x="88" y="4" width="78" height="72" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="96" y="11" width="62" height="30" rx="4" fill="rgba(255,255,255,0.82)"/><rect x="96" y="48" width="46" height="5" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="96" y="59" width="28" height="5" rx="2" fill="rgba(255,255,255,0.91)"/><rect x="172" y="4" width="78" height="72" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="180" y="11" width="62" height="30" rx="4" fill="rgba(255,255,255,0.82)"/><rect x="180" y="48" width="46" height="5" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="180" y="59" width="28" height="5" rx="2" fill="rgba(255,255,255,0.91)"/><text x="262" y="34" fill="#A83A45" font-size="10.5" font-weight="800">신뢰 정보 없음</text><text x="262" y="50" fill="#4A605A" font-size="9.5">어디서나 본</text><text x="262" y="63" fill="#4A605A" font-size="9.5">평균적 카드</text></svg></div></div>
+                <div class="compare-col good"><h4><i class="fa-solid fa-check"></i> 분석을 넣은 요청</h4><pre>역할: Next.js 개발 파트너
+목표: 첫 방문자가 신뢰 정보를 보고 상세로 이동
+근거: OBS-003(카드 평점·후기 수), OBS-007(배송·반품 안내)
+지킬 문서: PRD-001 / BM-002 / ADR-001
+완료 기준: 빈 결과·오류 상태, 360px 모바일
+금지: 원본 로고·이미지·문구 복제, 새 기능 추가
+먼저 계획과 수정 파일을 제안해 줘.</pre><div class="viz-strip" style="margin-top:12px"><svg class="viz" viewBox="0 0 350 80" role="img" aria-label="분석을 넣은 요청의 결과: 평점, 후기 수, 반품 안내가 반영된 상품 카드" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="78" height="72" rx="8" fill="rgba(39,118,91,0.066)" stroke="rgba(39,118,91,0.4)"/><rect x="12" y="11" width="62" height="26" rx="4" fill="rgba(255,255,255,0.82)"/><rect x="12" y="42" width="46" height="5" rx="2" fill="rgba(255,255,255,0.2)"/><text x="12" y="58" fill="#856000" font-size="8.5" font-weight="800">★4.6 (200)</text><rect x="12" y="63" width="40" height="9" rx="2" fill="rgba(43,92,166,0.275)"/><text x="32" y="70" text-anchor="middle" fill="#2B5CA6" font-size="6.5" font-weight="800">무료반품</text><rect x="88" y="4" width="78" height="72" rx="8" fill="rgba(39,118,91,0.066)" stroke="rgba(39,118,91,0.4)"/><rect x="96" y="11" width="62" height="26" rx="4" fill="rgba(255,255,255,0.82)"/><rect x="96" y="42" width="46" height="5" rx="2" fill="rgba(255,255,255,0.2)"/><text x="96" y="58" fill="#856000" font-size="8.5" font-weight="800">★4.5 (160)</text><rect x="96" y="63" width="40" height="9" rx="2" fill="rgba(43,92,166,0.275)"/><text x="116" y="70" text-anchor="middle" fill="#2B5CA6" font-size="6.5" font-weight="800">무료반품</text><rect x="172" y="4" width="78" height="72" rx="8" fill="rgba(39,118,91,0.066)" stroke="rgba(39,118,91,0.4)"/><rect x="180" y="11" width="62" height="26" rx="4" fill="rgba(255,255,255,0.82)"/><rect x="180" y="42" width="46" height="5" rx="2" fill="rgba(255,255,255,0.2)"/><text x="180" y="58" fill="#856000" font-size="8.5" font-weight="800">★4.4 (120)</text><rect x="180" y="63" width="40" height="9" rx="2" fill="rgba(43,92,166,0.275)"/><text x="200" y="70" text-anchor="middle" fill="#2B5CA6" font-size="6.5" font-weight="800">무료반품</text><text x="262" y="30" fill="#27765B" font-size="10.5" font-weight="800">OBS-003 반영</text><text x="262" y="46" fill="#4A605A" font-size="9.5">평점·후기 수</text><text x="262" y="59" fill="#27765B" font-size="10.5" font-weight="800">OBS-007 반영</text><text x="262" y="74" fill="#4A605A" font-size="9.5">배송·반품 안내</text></svg></div></div>
+              </div>
+            </div></article>
 
-<article class="slide ns" data-note="Live quiz: cover the green cards, read each red card, ask &#x27;fact or not? what&#x27;s wrong?&#x27;, then reveal."><div class="slide-inner">
-<div class="kicker">Step 01 · Observe</div>
-<h1>Good OBS vs <span class="b">bad OBS</span></h1>
-<div class="grid g2">
-  <div class="card tint-r"><p><span class="x">✕</span> "YouTube's design is clean and easy to use."</p><p class="why"><b>Opinion.</b> Nobody can check "clean".</p></div>
-  <div class="card tint-g"><p><span class="v">✓</span> "The Home screen shows 8 videos in 2 columns and one Shorts row."</p><p class="why"><b>Fact.</b> Anyone can count it.</p></div>
-  <div class="card tint-r"><p><span class="x">✕</span> "YouTube uses AI to track us and make us addicted."</p><p class="why"><b>Hidden motive.</b> Not on the screen. Can't be proved.</p></div>
-  <div class="card tint-g"><p><span class="v">✓</span> Fact: "After 3 cooking videos, the Home screen shows 5 cooking videos." Interpretation: "(hypothesis) Watch history shapes Home."</p><p class="why"><b>Fact and guess separated</b>, guess labelled.</p></div>
-  <div class="card tint-r"><p><span class="x">✕</span> "Subscribe, share and comments help retention."</p><p class="why"><b>Three facts in one card</b>, no detail. Split into three cards.</p></div>
-  <div class="card tint-g"><p><span class="v">✓</span> OBS-006 Subscribe + bell · OBS-009 Share panel · OBS-005 Comments</p><p class="why"><b>One card, one fact.</b> Each can link to a different stage.</p></div>
-  <div class="card tint-r"><p><span class="x">✕</span> "There's an ad and you can skip it." (no date, no device, no screenshot)</p><p class="why"><b>Can't be verified.</b> Ads differ by country, device, time.</p></div>
-  <div class="card tint-g"><p><span class="v">✓</span> "2026-11-25 10:20, Android app, logged out: a [15]-second ad, 'Skip' after [5] s. evidence/OBS-010-ad.png"</p><p class="why"><b>Checkable.</b> Context + numbers + proof.</p></div>
-</div>
-</div></article>
+            <!-- LAB -->
+            <article class="slide lab" data-note="실습 7. 혼자. [미션 이해]에서 BEFORE와 AFTER 프롬프트의 차이(노란 부분)를 함께 읽습니다. [해 보기]에서 빈칸을 채우면 오른쪽에 완성 프롬프트가 실시간으로 만들어지고, 복사해 같은 AI에 넣습니다. 결과의 신뢰 장치 수를 BEFORE와 함께 입력하면 막대로 비교됩니다. 그래도 다른 부분이 다음 슬라이드 GAP 실험의 재료입니다."><div class="slide-inner">
+              <div class="lab-head"><div><div class="lab-meta"><span class="chip">HANDS-ON 07</span><span class="pill">20분</span><span class="pill">혼자 · AI 도구</span></div>
+              <h2 class="sm">프롬프트 다시 쓰기: <span class="hl">BEFORE → AFTER</span></h2></div><button class="lab-timer" type="button" data-min="20" aria-label="20분 타이머 시작">▶ 20:00</button></div>
+              <div class="lab-tabs" role="tablist"><button type="button" class="on" data-tab="0"><b>1</b>미션 이해</button><button type="button" data-tab="1"><b>2</b>해 보기</button><button type="button" data-tab="2"><b>3</b>스스로 점검<small class="tab-count">0/0</small></button></div><div class="lab-panel on" data-panel="0"><div class="lab-goal"><span>목표</span><span>오늘 찾은 <b>근거(OBS · EXP)</b>를 넣으면 AI 결과가 어떻게 달라지는지 직접 비교한다</span></div><div class="bvsa"><div class="p b"><h5>BEFORE-01 · 분석 없음</h5>Build an app like Jumia.
+Product list and cart.</div><div class="p a"><h5>AFTER-01 · 분석을 넣음</h5><mark>목표</mark>: 첫 방문자가 평점·후기 수를 보고 상세로 이동
+<mark>근거</mark>: OBS-003, OBS-007
+<mark>실험</mark>: EXP-001 판매자 인증 배지
+<mark>완료</mark>: 360px 모바일 · 오류 상태
+<mark>금지</mark>: 원본 로고·문구 복제</div></div><div class="flow4" style="--n:4"><div class="fstep"><span class="no">1</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4M9 11h7M9 15h7M9 19h4"/></svg></div><strong>BEFORE 꺼내기</strong><span>Hands-on 01 캡처</span></div><div class="fstep"><span class="no">2</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg></div><strong>빈칸 채우기</strong><span>OBS · EXP 번호로</span></div><div class="fstep"><span class="no">3</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9 17h6"/><circle cx="12" cy="3.5" r="1"/></svg></div><strong>AI에 넣기</strong><span>같은 AI · 같은 조건</span></div><div class="fstep"><span class="no">4</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="7" height="16" rx="1.5"/><rect x="14" y="4" width="7" height="16" rx="1.5"/><path d="M10 12h4"/></svg></div><strong>개수 비교</strong><span>BEFORE vs AFTER</span></div></div></div><div class="lab-panel" data-panel="1"><div class="lab-row" style="--cols:1fr 1fr"><div class="lab-box" data-pb style="display:flex;flex-direction:column;gap:10px"><div class="pb"><label>목표<input class="lab-in" data-f="goal" placeholder="첫 방문자가 ___ 를 보고 ___ 한다" /></label><label>근거 1<input class="lab-in" data-f="obs1" placeholder="OBS-003 상품 카드 평점·후기 수" /></label><label>근거 2<input class="lab-in" data-f="obs2" placeholder="OBS-007 배송·반품 안내" /></label><label>실험<input class="lab-in" data-f="exp" placeholder="EXP-001 판매자 인증 배지 표시" /></label></div><div class="ba" style="margin-top:4px"><div class="ba-row"><span>BEFORE</span><div class="bar"><i style="background:#F6D5CF"></i></div><input class="lab-in" type="number" min="0" max="5" data-ba="0" placeholder="0" /></div><div class="ba-row"><span>AFTER</span><div class="bar"><i style="background:#D7EEDD"></i></div><input class="lab-in" type="number" min="0" max="5" data-ba="1" placeholder="0" /></div><div class="ba-cmp">신뢰 장치 개수(0~5)를 넣어 비교하세요</div></div></div><div class="lab-box" style="display:flex;flex-direction:column"><h4 style="justify-content:space-between">완성 프롬프트 · 실시간<button type="button" class="copy-btn" data-copytext="lab7prompt">복사</button></h4><pre class="pb-out" id="lab7prompt"></pre></div></div></div><div class="lab-panel" data-panel="2"><div class="self"><div class="checks"><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>빈칸을 <b>OBS · EXP 번호</b>로 모두 채웠다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>같은 AI에 넣고 <code>AFTER-01</code>로 캡처했다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>BEFORE와 AFTER의 신뢰 장치 수를 비교했다</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>그래도 다르게 나온 부분 1개를 GAP 실험용으로 골랐다</span></button></div><div class="ring-box"><svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(36,59,53,0.12)" stroke-width="12"/><circle class="ring-fg" cx="60" cy="60" r="50" fill="none" stroke="#27765B" stroke-width="12" stroke-linecap="round" stroke-dasharray="0 314.2" transform="rotate(-90 60 60)" style="transition:stroke-dasharray .4s"/><text class="ring-t" x="60" y="68" text-anchor="middle" fill="#243B35" font-size="26" font-weight="900" font-family="Pretendard,sans-serif">0/4</text></svg><div class="msg">체크하면서<br/>스스로 확인해 보세요</div></div></div>
+              <div class="career"><b>취창업 연결</b><span>좋은 프롬프트는 곧 <b>좋은 기획서</b>입니다. 개발 외주를 맡기거나 팀과 협업할 때도 그대로 쓸 수 있습니다.</span></div></div>
+            </div></article>
 
-<article class="slide ns" data-note="Five rules for honest evidence. &#x27;Not observed&#x27; is a good answer; never let AI fill a gap."><div class="slide-inner">
-<div class="kicker">Step 01 · Observe · cautions</div>
-<h1>Five rules for <em>honest evidence</em></h1>
-<div class="grid g2">
-<div>
-  <div class="card" style="margin-bottom:12px"><h3>1 · Use the three sessions as three lenses</h3>
-  <table>
-  <tr><th>Session</th><th>Look for</th><th>YouTube</th></tr>
-  <tr><td>First visit<br><small>logged out</small></td><td>5-second promise, main button (CTA)</td><td>Search bar, Home grid, "Sign in"</td></tr>
-  <tr><td>Typical task</td><td>Clicks, scrolls, trust, where you want to leave</td><td>Watch → ad → next video</td></tr>
-  <tr><td>Return</td><td>What brings you back</td><td>Subscribe, bell, history, Home</td></tr>
-  </table>
-  <p class="note">Your yesterday notes probably cover one lens. Tag each card with its session and see which lens is missing.</p></div>
-  <div class="card"><h3>2 · The disagreement test</h3><p>Could a classmate disagree? → <b>interpretation</b>. Can anyone check it on screen? → <b>fact</b>.</p></div>
-</div>
-<div>
-  <div class="card" style="margin-bottom:12px"><h3>3 · Hypothesis words</h3><p>Algorithms, money, company policy: write "<b>(hypothesis)</b>", "<b>it seems</b>", "<b>may</b>", unless an official page says it. Add the link if it does.</p></div>
-  <div class="card" style="margin-bottom:12px"><h3>4 · "Not observed" is a good answer</h3><p>No evidence for Referral? Write <b>Not observed</b>. Never fill a gap with a guess, and never let AI fill it. AI invents facts.</p></div>
-  <div class="card tint-r"><h3>5 · Privacy and copying</h3><p>Blur names, faces, phone numbers in screenshots. Don't copy logos, images or text into your build. Public screens only: no hacking, no scraping.</p></div>
-</div>
-</div>
-</div></article>
+            <!-- 15 -->
+            <article class="slide dense" data-note="오늘의 핵심 경험 실습. ① AI에게 넘기기 전에 내 설계(대표 흐름, 성장 장치 3개)를 먼저 종이에 적는다 ② 같은 내용을 AI에게 요청 ③ 결과를 내 설계와 비교해 GAP을 기록 ④ 차이를 4가지로 분류하고 '왜 다르게 나왔는지' 원인을 쓴다. 원인은 대부분 '내가 프롬프트에 쓰지 않은 것' 혹은 'AI가 평균으로 채운 것'입니다."><div class="slide-inner">
+              <span class="slide-kicker">Core experience · GAP experiment</span>
+              <h2 class="sm">내 설계 vs AI 결과,<br /><span class="hl">어디가 다르게 나왔는가?</span></h2>
+              <div class="slide-grid steps">
+                <div class="slide-card"><strong>① 먼저 설계</strong><span>AI 사용 전, 대표 흐름과 성장 장치 3개를 직접 그린다</span></div>
+                <div class="slide-card"><strong>② AI 재구현</strong><span>같은 내용을 프롬프트로 요청해 결과물을 받는다</span></div>
+                <div class="slide-card"><strong>③ GAP 기록</strong><span>장치별로 “설계했던 것 / AI가 만든 것”을 나란히 적는다</span></div>
+                <div class="slide-card"><strong>④ 원인 분석</strong><span>왜 다른가? 프롬프트 누락? AI의 평균화? 내 설계 오류?</span></div>
+              </div>
+              <div class="viz-strip short"><svg class="viz" viewBox="0 0 1000 172" role="img" aria-label="GAP 기록 예시: 평점 표시는 유지, 배송 안내는 개선, 공식 스토어 배지는 손실, 플래시 세일은 변형" xmlns="http://www.w3.org/2000/svg"><text x="190" y="13" text-anchor="middle" fill="#4A605A" font-size="12" font-weight="800">내 설계 (AI 사용 전)</text><text x="810" y="13" text-anchor="middle" fill="#4A605A" font-size="12" font-weight="800">AI 결과</text><text x="500" y="13" text-anchor="middle" fill="#4A605A" font-size="11">예시 · Jumia (설명용)</text><rect x="20" y="24" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><text x="36" y="45" fill="#243B35" font-size="13">상품 카드에 평점·후기 수</text><rect x="640" y="24" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="#27765B"/><text x="656" y="45" fill="#243B35" font-size="13">평점·후기 수 표시</text><path d="M362 40 H640" stroke="#27765B" stroke-width="2"/><rect x="462" y="28" width="76" height="24" rx="12" fill="#F6F9F4" stroke="#27765B" stroke-width="2"/><text x="500" y="44.5" text-anchor="middle" fill="#27765B" font-size="12" font-weight="900">유지</text><rect x="20" y="61" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><text x="36" y="82" fill="#243B35" font-size="13">배송 안내를 상세 하단에</text><rect x="640" y="61" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="#2B5CA6"/><text x="656" y="82" fill="#243B35" font-size="13">배송·반품 요약을 카드에 노출</text><path d="M362 77 H640" stroke="#2B5CA6" stroke-width="2"/><rect x="462" y="65" width="76" height="24" rx="12" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2"/><text x="500" y="81.5" text-anchor="middle" fill="#2B5CA6" font-size="12" font-weight="900">개선</text><rect x="20" y="98" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><text x="36" y="119" fill="#243B35" font-size="13">공식 스토어 배지</text><rect x="640" y="98" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="#A83A45" stroke-dasharray="4 4"/><text x="656" y="119" fill="#4A605A" font-size="13">(없음) 판매자 구분 없음</text><path d="M362 114 H640" stroke="#A83A45" stroke-width="2" stroke-dasharray="4 4"/><rect x="462" y="102" width="76" height="24" rx="12" fill="#F6F9F4" stroke="#A83A45" stroke-width="2"/><text x="500" y="118.5" text-anchor="middle" fill="#A83A45" font-size="12" font-weight="900">손실</text><rect x="20" y="135" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><text x="36" y="156" fill="#243B35" font-size="13">플래시 세일 남은 시간</text><rect x="640" y="135" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="#856000"/><text x="656" y="156" fill="#243B35" font-size="13">일반 할인 % 배너</text><path d="M362 151 H640" stroke="#856000" stroke-width="2"/><rect x="462" y="139" width="76" height="24" rx="12" fill="#F6F9F4" stroke="#856000" stroke-width="2"/><text x="500" y="155.5" text-anchor="middle" fill="#856000" font-size="12" font-weight="900">변형</text></svg></div>
+              <div class="gap-legend">
+                <span><i class="dot" style="background:#D7EEDD"></i><b style="color:#27765B">유지</b> 설계 의도가 그대로 구현됨</span>
+                <span><i class="dot" style="background:#D2E0FB"></i><b style="color:#2B5CA6">개선</b> AI가 더 나은 대안 제시 (근거 확인 필수)</span>
+                <span><i class="dot" style="background:#F6D5CF"></i><b style="color:#A83A45">손실</b> 성장 장치가 빠지거나 흔한 패턴으로 대체</span>
+                <span><i class="dot" style="background:#F5F0BB"></i><b style="color:#856000">변형</b> 의도와 다른 형태 — 사람이 판단</span>
+              </div>
+            </div></article>
 
-<article class="slide ns" data-note="Yesterday&#x27;s loop and ICE are the bridge: every loop arrow carries an OBS, the top EXP becomes PRD feature F1 with its metric."><div class="slide-inner">
-<div class="kicker">Connecting yesterday</div>
-<h1>OBS → growth loop → EXP → <em>a PRD feature</em></h1>
-<p class="lead">Yesterday's loop and ICE were not separate exercises. They are the bridge between "what I saw" and "what we build".</p>
-<div class="grid g2">
-<div class="card"><h3>1 · The loop is made of OBS</h3>
-<pre>[Viewer watches a video]            OBS-004
-  → [YouTube learns what they like]  OBS-007 (hypothesis)
-  → [Better "Up next" and Home]      OBS-004, OBS-007
-  → [Viewer watches longer, shares]  OBS-009
-  → [Friends arrive by link]         OBS-002  → back to start
-Stop: recommendations feel repetitive; mobile data too costly</pre>
-<p class="note">Every arrow carries an OBS ID. An arrow with no OBS = "(hypothesis)".</p></div>
-<div class="card"><h3>2 · EXP attacks the weakest arrow or a stop condition</h3>
-<p>Weak point: viewers on expensive data stop after one video.</p>
-<pre>EXP-001  If the autoplay countdown shows a Cancel button
-         and the next video's length,
-         then 2nd-video rate goes up 10%,
-         because viewers keep control (OBS-004).
-         Watch: complaints, early exits.   ICE 8·6·8 = 7.3</pre></div>
-</div>
-<div class="card tint-g" style="margin-top:14px"><h3>3 · The top EXP becomes a PRD feature, with its metric</h3>
-<pre>PRD-F1  Up-next list + 5-second autoplay countdown with Cancel
-        Based on: OBS-004, EXP-001   Stage: Activation
-        Success metric: % of sessions with 2+ videos (from EXP-001)</pre>
-<p class="note">So the CMP step later can ask: did F1 do what EXP-001 predicted? Sample: <span class="fileref">24p_GROWTH_LOOP_EXP_sample.md</span></p></div>
-</div></article>
+            <!-- 16 -->
+            <article class="slide" data-note="오늘 제출할 산출물 정리. 최소 기준을 분명히 안내하세요. 자세한 템플릿과 체크리스트는 real-benchmarking 워크스페이스(페이지 상단 버튼)에서 받을 수 있습니다."><div class="slide-inner">
+              <span class="slide-kicker">Day 2 mission</span>
+              <h2 class="sm">오늘의 산출물</h2>
+              <div class="slide-grid">
+                <div class="slide-card"><div class="card-head"><strong>산출물 1 · OBS</strong><svg viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="21" fill="none" stroke="rgba(36,59,53,0.1)" stroke-width="5"/><circle cx="27" cy="27" r="21" fill="none" stroke="#2B5CA6" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.9 131.9" transform="rotate(-90 27 27)"/><text x="27" y="28" text-anchor="middle" fill="#243B35" font-size="13" font-weight="900" font-family="Pretendard,sans-serif">10+</text><text x="27" y="39" text-anchor="middle" fill="#2B5CA6" font-size="7.5" font-weight="700" font-family="Pretendard,sans-serif">건</text></svg></div><span>관찰 기록 10건 이상 (사실/해석 분리, 캡처·URL 포함)</span></div>
+                <div class="slide-card"><div class="card-head"><strong>산출물 2 · AARRR 맵</strong><svg viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="21" fill="none" stroke="rgba(36,59,53,0.1)" stroke-width="5"/><circle cx="27" cy="27" r="21" fill="none" stroke="#2B5CA6" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.9 131.9" transform="rotate(-90 27 27)"/><text x="27" y="28" text-anchor="middle" fill="#243B35" font-size="13" font-weight="900" font-family="Pretendard,sans-serif">5</text><text x="27" y="39" text-anchor="middle" fill="#2B5CA6" font-size="7.5" font-weight="700" font-family="Pretendard,sans-serif">단계</text></svg></div><span>5단계 장치 + 성장 루프 + 루프 정지 조건</span></div>
+                <div class="slide-card"><div class="card-head"><strong>산출물 3 · AI 재구현</strong><svg viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="21" fill="none" stroke="rgba(36,59,53,0.1)" stroke-width="5"/><circle cx="27" cy="27" r="21" fill="none" stroke="#27765B" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.9 131.9" transform="rotate(-90 27 27)"/><text x="27" y="28" text-anchor="middle" fill="#243B35" font-size="13" font-weight="900" font-family="Pretendard,sans-serif">1</text><text x="27" y="39" text-anchor="middle" fill="#27765B" font-size="7.5" font-weight="700" font-family="Pretendard,sans-serif">흐름</text></svg></div><span>대표 흐름 1개, 프롬프트와 AI-### 작업 기록</span></div>
+                <div class="slide-card"><div class="card-head"><strong>산출물 4 · GAP 표</strong><svg viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="21" fill="none" stroke="rgba(36,59,53,0.1)" stroke-width="5"/><circle cx="27" cy="27" r="21" fill="none" stroke="#856000" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.9 131.9" transform="rotate(-90 27 27)"/><text x="27" y="28" text-anchor="middle" fill="#243B35" font-size="13" font-weight="900" font-family="Pretendard,sans-serif">5+</text><text x="27" y="39" text-anchor="middle" fill="#856000" font-size="7.5" font-weight="700" font-family="Pretendard,sans-serif">건</text></svg></div><span>설계 vs AI 차이 5건 이상 + 원인 + 다음 실험</span></div>
+              </div>
+              <ul class="slide-list">
+                <li><i class="fa-solid fa-check"></i>서비스 1개 · 사용자 1명 · 과업 1개로 범위 고정</li>
+                <li><i class="fa-solid fa-check"></i>원본 로고·이미지·문구·코드 복제 금지</li>
+                <li><i class="fa-solid fa-check"></i>공개 화면과 공식 자료만 사용</li>
+                <li><i class="fa-solid fa-check"></i>AI가 만든 주장은 사람이 검증하고 기록</li>
+              </ul>
+            </div></article>
 
-<article class="slide ns" data-note="Roles for 3 people, 5 files, each with a filled example and a blank form. Decide roles in 30 seconds."><div class="slide-inner">
-<div class="kicker g">Team project · how we work</div>
-<h1>One team, one service, <em>one shared folder</em></h1>
-<div class="grid g3">
-  <div class="card tint-b"><h3>Evidence lead <small>+ Tester</small></h3><p>Owns <code>OBS_LOG.md</code>; later runs the same task on both and fills <code>COMPARE.md</code></p></div>
-  <div class="card tint-g"><h3>Product lead <small>+ Business</small></h3><p>Owns <code>PRD_BM.md</code>; keeps scope to 3 features and answers "who pays?"</p></div>
-  <div class="card tint-p"><h3>Tech lead <small>+ AI driver</small></h3><p>Runs the AI build, writes <code>AI_LOG.md</code> (ADR part in PRD_BM.md is optional)</p></div>
-</div>
-<div class="grid g2" style="margin-top:8px">
-<div class="card"><h3>Folder (same for every team): 5 files</h3>
-<pre>team-name/
-  research/  ICEBERG_NOTES.md  OBS_LOG.md
-             evidence/OBS-001.png ...
-  docs/      PRD_BM.md
-  build/     (AI-built code)  AI_LOG.md  COMPARE.md</pre></div>
-<div class="card"><h3>Team rules</h3>
-<ul style="margin:0;padding-left:20px">
-<li>Start from the blank form: just fill the blanks · everyone reviews one file they don't own</li>
-<li>Decisions live in documents, not in WhatsApp · timer ends = save what you have</li>
-<li>Every feature → the OBS it's based on</li>
-</ul></div>
-</div>
-<h2>Today's hands-on plan</h2>
-<table>
-<tr><th>Lab</th><th>Team lab</th><th>Time</th><th>Output</th><th>Blank form</th></tr>
-<tr><td>1</td><td>Notes → OBS cards (slide 26)</td><td>15 min</td><td>OBS_LOG.md (6–10 cards + loop + EXP-001)</td><td>26p_OBS_template.md</td></tr>
-<tr><td>2</td><td>Iceberg notes (slide 31)</td><td>10 min</td><td>ICEBERG_NOTES.md (3–5 rows)</td><td>31p_ICEBERG_template.md</td></tr>
-<tr><td>3</td><td>PRD + BM (slide 32)</td><td>25 min</td><td>PRD_BM.md (1 page)</td><td>32p_PRD_BM_template.md</td></tr>
-<tr><td>4</td><td>AI build with attached files (slide 33)</td><td>25 min</td><td>build/ + AI_LOG.md</td><td>33p_PROMPT_AILOG_template.md</td></tr>
-<tr><td>5</td><td>Compare (slide 34)</td><td>15 min</td><td>COMPARE.md (5 rows)</td><td>34p_COMPARE_template.md</td></tr>
-</table>
-</div></article>
+            <!-- 17 -->
+            <article class="slide" data-note="마무리. 오늘 경험한 '차이'가 곧 사람의 역할이라는 메시지로 끝냅니다. AI 시대에 더 중요해지는 역량은 코드 타이핑이 아니라 '무엇이 성장을 만드는지 보는 눈'과 그것을 명확한 문서·프롬프트로 전달하는 능력."><div class="slide-inner">
+              <span class="slide-kicker">Takeaway</span>
+              <div class="viz-split"><div>
+              <h2>AI는 빠른 손,<br /><span class="hl">그로스해킹은 눈과 두뇌.</span></h2>
+              <p>AI가 만능처럼 보여도, 무엇을 왜 만들어야 하는지는 알려 주지 않습니다. 성장 구조를 정확히 보는 사람이 AI를 가장 잘 씁니다.</p>
+              </div><figure class="viz-fig"><svg class="viz" viewBox="0 0 380 276" role="img" aria-label="AI의 빠른 손과 사람의 눈과 두뇌가 합쳐져 성장하는 제품이 된다" xmlns="http://www.w3.org/2000/svg"><defs><marker id="m17" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#D7EEDD"/></marker></defs><circle cx="86" cy="96" r="70" fill="rgba(43,92,166,0.132)" stroke="#2B5CA6" stroke-width="2"/><path d="M70 70 l-14 26 h18 l-10 26 l28 -36 h-18 l12 -16z" fill="#D2E0FB"/><text x="86" y="140" text-anchor="middle" fill="#243B35" font-size="14" font-weight="800">AI · 빠른 손</text><text x="86" y="156" text-anchor="middle" fill="#4A605A" font-size="10">속도 · 구현</text><text x="190" y="104" text-anchor="middle" fill="#243B35" font-size="30" font-weight="300">+</text><circle cx="294" cy="96" r="70" fill="rgba(133,96,0,0.132)" stroke="#856000" stroke-width="2"/><path d="M262 92 q32 -30 64 0 q-32 30 -64 0z" fill="none" stroke="#856000" stroke-width="2.5"/><circle cx="294" cy="92" r="10" fill="#F5F0BB"/><circle cx="297" cy="89" r="3" fill="#F6F9F4"/><text x="294" y="140" text-anchor="middle" fill="#243B35" font-size="14" font-weight="800">사람 · 눈과 두뇌</text><text x="294" y="156" text-anchor="middle" fill="#4A605A" font-size="10">방향 · 근거 · 판단</text><path class="flow" d="M120 172 Q190 210 190 222" fill="none" stroke="#27765B" stroke-width="2.2" marker-end="url(#m17)"/><path class="flow" d="M260 172 Q190 210 190 222" fill="none" stroke="#27765B" stroke-width="2.2" marker-end="url(#m17)"/><rect class="pulse" x="110" y="230" width="160" height="40" rx="20" fill="rgba(39,118,91,0.176)" stroke="#27765B" stroke-width="2"/><text x="190" y="255" text-anchor="middle" fill="#27765B" font-size="14" font-weight="900">성장하는 제품 ↗</text></svg></figure></div>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong>보는 눈</strong><span>화면 뒤의 성장 장치와 루프를 찾는다</span></div>
+                <div class="slide-card"><strong>말하는 힘</strong><span>분석을 문서와 프롬프트로 정확히 전달한다</span></div>
+                <div class="slide-card"><strong>판단하는 책임</strong><span>AI 결과를 근거로 채택·수정·기각한다</span></div>
+              </div>
+            </div></article>
 
-<article class="slide ns" data-note="TEAM LAB 1 (15 min). Right after the roles slide. Each member fills 2-3 five-line cards from yesterday&#x27;s notes; last 4 minutes: loop + EXP-001 at the bottom of the file."><div class="slide-inner">
-<div class="pills"><span class="pill dark">TEAM LAB 1</span><span class="pill">15 min</span><span class="pill">Team · Evidence lead</span></div>
-<div class="timer" data-min="15">▶ <span>15:00</span></div>
-<h1>Turn yesterday's notes into <em>OBS cards</em></h1>
-<div class="goal"><b class="tag">Goal</b><span>6–10 five-line cards a stranger could check, plus the loop and EXP-001 from yesterday</span></div>
-<div class="grid g2">
-<div class="card"><h3>How to split the work</h3>
-<ul style="margin:0;padding-left:20px">
-<li>Open <code>26p_OBS_template.md</code>. Each member fills 2–3 cards from yesterday's notes</li>
-<li>Evidence lead fills the summary table (ID · what we saw · stage)</li>
-<li>Nothing for a stage? Write "not observed". That's fine</li>
-<li>Last 4 minutes: copy yesterday's loop into the form, add OBS IDs, write EXP-001 from your ICE winner</li>
-</ul></div>
-<div class="card"><h3>Example: from yesterday's note to a card</h3>
-<pre>Yesterday: "Jiji has safety tips"
-Today:
-OBS-005 · Safety tips before contact
-When/where/device: 24 Nov 11:30 · ad page · Android
-Fact: Before "Show contact", a box lists [4] safety
-      tips, e.g. "[Never pay in advance]".
-Interpretation: (hypothesis) lowers scam fear, so
-      first-time buyers dare to contact.
-Stage: Activation · evidence/OBS-005.png</pre></div>
-</div>
-<div class="steps">
-  <div class="step"><span class="n">1</span><b>Collect notes</b><p>Yesterday's screenshots + notes</p></div>
-  <div class="step"><span class="n">2</span><b>Fill 5 lines</b><p>One fact per card (slide 21)</p></div>
-  <div class="step"><span class="n">3</span><b>Swap and check</b><p>"Can I see this on the screenshot?"</p></div>
-  <div class="step"><span class="n">4</span><b>Loop + EXP-001</b><p>Bottom of the same file</p></div>
-</div>
-<p class="note">Example <span class="fileref">16p_OBS_sample.md</span><span class="fileref">24p_GROWTH_LOOP_EXP_sample.md</span> · Blank <span class="fileref">26p_OBS_template.md</span> · Messy notes? <span class="fileref">AI_FORMAT_HELPER_prompt.md</span> lets AI format them without inventing.</p>
-</div></article>
-
-<article class="slide ns" data-note="PRD = what we build; BM = 3 lines about money; ADR optional. Do the quick test at the bottom: the room shouts PRD, BM or FAKE."><div class="slide-inner">
-<div class="kicker">Step 02 · Document</div>
-<h1>Which earlier work goes into <span style="color:#3d6fc2">PRD</span>, <span style="color:var(--green)">BM</span>, <span style="color:var(--purple)">ADR</span>?</h1>
-<p class="lead">Each document answers <b>one question</b> and takes <b>different inputs</b> from your OBS, loop, EXP and iceberg notes. One page each.</p>
-<div class="grid g3">
-<div class="card" style="border-top:6px solid #3d6fc2"><h3>PRD · What do we build?</h3>
-<p><b>Takes from:</b> OBS of the features you copy · <b>EXP</b> (top idea + metric) · iceberg <b>Context, Intent, Experiments</b></p>
-<p><b>PRD-lite:</b> user · goal (1 AARRR stage) · success number · F1–F3 with "Based on" · done when · <b>what we fake</b> · not in this version</p>
-<pre>F1 Autoplay countdown + Cancel
-   Based on: OBS-004, EXP-001</pre></div>
-<div class="card" style="border-top:6px solid var(--green)"><h3>BM · Who pays, and why would they?</h3>
-<p><b>Takes from:</b> <b>Revenue</b> OBS (ads, fees, paid listings) · <b>Referral/Acquisition</b> OBS (cost to get users) · iceberg <b>Constraints</b> (costs, contracts, law) · the <b>loop</b> (how growth turns into money)</p>
-<p><b>Just 3 lines:</b> 1 who pays the original, for what · 2 which of our features helps that money · 3 if ours were real, who would pay us</p>
-<pre>Advertisers pay per view (OBS-010, hypothesis)
-F1 → more videos per visit → more ad slots</pre></div>
-<div class="card" style="border-top:6px solid var(--purple)"><h3>ADR · How do we build it? <span class="opt">OPTIONAL</span></h3>
-<p><b>Takes from:</b> PRD scope · time (1 day) · iceberg <b>Data, Operations</b> (what we must fake)</p>
-<p><b>Sections:</b> context · options · decision · why · what we lose</p>
-<pre>Plain HTML/JS + mock JSON
-Lose: personal recommendations</pre>
-<p class="note"><b>No engineer in the team?</b> Skip ADR. Add 3 lines at the end of PRD: <i>"We build with: [tool]. We fake: [data, ads…]. We can't have: [personal picks…]."</i></p></div>
-</div>
-<div class="card tint-y" style="margin-top:14px"><h3>Quick test: where does this note go?</h3>
-<table>
-<tr><th>Note</th><th>Goes to</th><th>Why</th></tr>
-<tr><td>"Countdown shows video length; viewers' data is costly"</td><td>PRD</td><td>Changes what we build (feature detail)</td></tr>
-<tr><td>"Ads before video; advertisers pay per view"</td><td>BM</td><td>About who pays</td></tr>
-<tr><td>"Sharing brings new viewers for free"</td><td>BM (+ PRD F3)</td><td>Lowers the cost to get users; F3 builds it</td></tr>
-<tr><td>"No viewing history in a POC; next video = same topic"</td><td>PRD "what we fake" (or ADR)</td><td>About how we build and what we fake</td></tr>
-</table></div>
-<p class="note">PRD and BM go in <b>one file</b>: <code>docs/PRD_BM.md</code>. Example <span class="fileref">16p_PRD_sample.md</span><span class="fileref">16p_BM_sample.md</span><span class="fileref">16p_ADR_sample.md</span> (optional) · Blank <span class="fileref">32p_PRD_BM_template.md</span></p>
-</div></article>
-
-<article class="slide ns" data-note="Test for any line in any document: &#x27;which ID is this based on?&#x27; No answer = broken chain."><div class="slide-inner">
-<div class="kicker">How the steps connect</div>
-<h1>A good chain vs <span class="b">a broken chain</span></h1>
-<table>
-<tr><th style="width:120px">Link</th><th class="x">✕ Broken</th><th class="v">✓ Connected</th><th>Why it matters</th></tr>
-<tr><td><b>OBS → PRD</b></td><td>"F4: dark mode" (no OBS)</td><td>"F1: autoplay countdown. Based on OBS-004, EXP-001"</td><td>An orphan feature eats build time and teaches nothing</td></tr>
-<tr><td><b>EXP → PRD</b></td><td>EXP-001 written, then forgotten</td><td>PRD-F1 uses EXP-001's metric as its success metric</td><td>Otherwise you can't say if the feature worked</td></tr>
-<tr><td><b>OBS → BM</b></td><td>"We will earn ₦5 million in month 1"</td><td>"Ads before videos (OBS-010) → advertisers pay (hypothesis)"</td><td>Investors trust evidence, not wishes</td></tr>
-<tr><td><b>PRD → ADR</b></td><td>"Microservices + Kubernetes + real YouTube API"</td><td>"Mock JSON, because PRD scope is 1 flow and we have 1 day"</td><td>Tech must fit the scope and the time</td></tr>
-<tr><td><b>Docs → AI</b></td><td>Docs written, prompt says "make a YouTube app"</td><td>Docs attached, prompt says "build F1–F3 from PRD_BM.md"</td><td>Unread documents are wasted work</td></tr>
-<tr><td><b>Build → CMP</b></td><td>"It looks similar to YouTube"</td><td>"Same task, same phone: 2 videos in a row: both yes. Personal picks: original yes, ours no (ADR-001)"</td><td>A gap with a cause = learning</td></tr>
-</table>
-<div class="say">"Pick any line in any document and ask: which ID is this based on? If nobody can answer, the chain is broken."</div>
-</div></article>
-
-<article class="slide ns" data-note="The iceberg: AI sees the menu board, not the kitchen. Six hidden layers."><div class="slide-inner">
-<div class="kicker">Why can't AI rebuild it the same way?</div>
-<h1>You see the menu, <em>not the kitchen</em></h1>
-<p class="lead">Think of a busy <b>buka</b> (local restaurant) near an office area. Copy its menu board and plates, and you still don't have the restaurant.</p>
-<div class="ice">
-<div>
-  <div class="top"><h3>Above the water: what you see</h3><p style="margin:0">Menu board · prices · plates of jollof, amala, egusi · the counter · the queue at 1 pm</p></div>
-  <div class="under"><h3 style="color:#14304f">Below the water: what makes it work</h3><p style="margin:0">Everything on the right. A new restaurant that copies only the menu usually closes within months, just like most new apps.</p></div>
-</div>
-<div class="card">
-  <div class="layer"><b>Experiments</b><span>Tried 5 soups, kept the 3 that sell. Changed the portion size twice. <i>Ask: what was tested?</i></span></div>
-  <div class="layer"><b>Data</b><span>Knows regulars, what sells on Fridays, how much rice to cook. <i>Ask: what has it learned over time?</i></span></div>
-  <div class="layer"><b>Operations</b><span>Market at 5 am, cooks, cleaning, the cashier who handles transfers. <i>Ask: which people work behind it?</i></span></div>
-  <div class="layer"><b>Context</b><span>Office workers want food in 10 minutes, under ₦2,500. <i>Ask: who uses it, and what worries them?</i></span></div>
-  <div class="layer"><b>Constraints</b><span>Gas prices, rent, health rules, supplier deals. <i>Ask: what money or rules limit it?</i></span></div>
-  <div class="layer"><b>Intent</b><span>Fast, cheap lunch so workers come back every day. <i>Ask: why is it like this?</i></span></div>
-</div>
-</div>
-<div class="say">"AI sees the menu board. If you don't tell it about the kitchen, it builds a menu board with no kitchen. What isn't in your documents doesn't exist for AI."</div>
-</div></article>
-
-<article class="slide ns" data-note="YouTube iceberg: copy the visible pattern, fake data and operations, can&#x27;t copy years of data and contracts."><div class="slide-inner">
-<div class="kicker">The iceberg on YouTube</div>
-<h1>Three YouTube features, <em>and what's under them</em></h1>
-<table>
-<tr><th>Feature (what you see)</th><th>Hidden layers (hypothesis)</th><th>What a POC can do instead</th></tr>
-<tr><td><b>Autoplay countdown</b><br><span class="id">OBS-004</span></td><td><b>Data:</b> watch history picks the next video<br><b>Experiments:</b> countdown length was tested<br><b>Intent:</b> longer sessions<br><b>Context:</b> phones, costly data</td><td>Next video = same tag (simple rule). 5-second countdown + Cancel. Show video length.</td></tr>
-<tr><td><b>Subscribe + bell</b><br><span class="id">OBS-006</span></td><td><b>Data:</b> subscriber lists<br><b>Operations:</b> notification system, spam limits<br><b>Intent:</b> bring viewers back without search</td><td>Save subscriptions in localStorage. Show a "new" badge on the Home page. No real notifications.</td></tr>
-<tr><td><b>Ad with "Skip after 5 s"</b><br><span class="id">OBS-010</span></td><td><b>Constraints:</b> advertiser contracts, pay per view<br><b>Experiments:</b> 5 seconds was tested<br><b>Intent:</b> balance viewers and advertisers</td><td>Mock ad slot with a skip button after 5 s. No real ads. BM explains who would pay.</td></tr>
-</table>
-<div class="grid g3" style="margin-top:14px">
-  <div class="card tint-b"><h3>You can copy</h3><p>The visible pattern: a countdown, a button, a list.</p></div>
-  <div class="card tint-y"><h3>You can fake</h3><p>Data and operations with mock data and simple rules. Say so in ADR.</p></div>
-  <div class="card tint-r"><h3>You can't copy</h3><p>Years of data, staff and contracts. Write it as an expected gap in CMP.</p></div>
-</div>
-</div></article>
-
-<article class="slide ns" data-note="TEAM LAB 2 (10 min). Use the features in your OBS_LOG. 4 columns only; &#x27;Goes to&#x27; is one word: PRD, BM or FAKE. Blank: 31p_ICEBERG_template.md."><div class="slide-inner">
-<div class="pills"><span class="pill dark">TEAM LAB 2</span><span class="pill">10 min</span><span class="pill">Team · notes</span></div>
-<div class="timer" data-min="10">▶ <span>10:00</span></div>
-<h1>Iceberg notes → <em>into your documents</em></h1>
-<div class="goal"><b class="tag">Goal</b><span>For 3–5 features of your service: what is hidden underneath, and where does it go?</span></div>
-<div class="card"><h3>One row per hidden part · only 4 columns</h3>
-<table>
-<tr><th>Feature (OBS)</th><th>Hidden part (hypothesis)</th><th>Goes to</th><th>Sentence for the document</th></tr>
-<tr><td>Next video starts by itself (OBS-004)</td><td>Viewers are on phones with costly data</td><td><b>PRD</b></td><td>"Countdown shows the next video's length and a Cancel button."</td></tr>
-<tr><td>Next video starts by itself (OBS-004)</td><td>Watch history picks the next video</td><td><b>FAKE</b></td><td>"Next video = another video on the same topic (sample data)."</td></tr>
-<tr><td>Ad + Skip (OBS-010)</td><td>Advertisers pay per view</td><td><b>BM</b></td><td>"Advertisers pay for views; more videos per visit = more ads."</td></tr>
-</table></div>
-<div class="grid g3" style="margin-top:12px">
-  <div class="card" style="border-top:6px solid #3d6fc2"><h3>PRD</h3><p>Changes <b>what we build</b>: who the user is, why, a feature detail</p></div>
-  <div class="card" style="border-top:6px solid var(--green)"><h3>BM</h3><p>About <b>money</b>: who pays, what it costs</p></div>
-  <div class="card" style="border-top:6px solid var(--purple)"><h3>FAKE</h3><p>Data, people or systems we <b>can't have</b> → "What we fake" line in the PRD</p></div>
-</div>
-<div class="steps">
-  <div class="step"><span class="n">1</span><b>Pick 3–5 features</b><p>The ones you want to build</p></div>
-  <div class="step"><span class="n">2</span><b>Ask "what's hidden?"</b><p>Use the 6 layers (slide 29) as ideas</p></div>
-  <div class="step"><span class="n">3</span><b>PRD, BM or FAKE?</b><p>One word</p></div>
-  <div class="step"><span class="n">4</span><b>Write the sentence</b><p>You paste it into PRD_BM.md in Lab 3</p></div>
-</div>
-<p class="note">Example <span class="fileref">31p_ICEBERG_NOTES_sample.md</span> · Blank <span class="fileref">31p_ICEBERG_template.md</span> · No sentence = the note never reaches AI.</p>
-</div></article>
-
-<article class="slide ns" data-note="TEAM LAB 3 (25 min). One page PRD_BM.md: PRD-lite + BM in 3 lines. ADR only if someone has IT experience."><div class="slide-inner">
-<div class="pills"><span class="pill dark">TEAM LAB 3</span><span class="pill">25 min</span><span class="pill">Team · Product lead</span></div>
-<div class="timer" data-min="25">▶ <span>25:00</span></div>
-<h1><span style="color:#3d6fc2">PRD</span> + <span style="color:var(--green)">BM</span> in <em>one page</em></h1>
-<div class="goal"><b class="tag">Goal</b><span>One file PRD_BM.md: 3 features with the OBS they come from, and 3 lines about money</span></div>
-<div class="grid g3">
-  <div class="card" style="border-top:6px solid #3d6fc2"><h3>PRD-lite</h3><p>User · Goal (1 stage) · Success number (from EXP-001)<br>Table F1–F3: feature · based on · hidden part<br>Done when · <b>What we fake</b> (paste FAKE notes) · Not in this version</p></div>
-  <div class="card" style="border-top:6px solid var(--green)"><h3>BM in 3 lines</h3><p>1 Who pays the original, for what?<br>2 Which of our features helps that money?<br>3 If ours were real, who would pay us?<br><small>Mark every guess "(hypothesis)".</small></p></div>
-  <div class="card" style="border-top:6px dashed var(--purple)"><h3>ADR <span class="opt">OPTIONAL</span></h3><p>Only if someone has IT experience: 5 short lines at the bottom of the form.<br><b>No engineer?</b> Skip it. "What we fake" is enough.</p></div>
-</div>
-<div class="steps">
-  <div class="step"><span class="n">0–4</span><b>Agree on scope</b><p>Whole team: 1 user, 3 features</p></div>
-  <div class="step"><span class="n">4–18</span><b>Fill the blanks</b><p>Product: PRD part · Evidence: BM lines · Tech: What we fake</p></div>
-  <div class="step"><span class="n">18–23</span><b>Cross-check</b><p>"Which OBS is this feature based on?"</p></div>
-  <div class="step"><span class="n">23–25</span><b>Save</b><p>docs/PRD_BM.md</p></div>
-</div>
-<p class="note">Example <span class="fileref">16p_PRD_sample.md</span><span class="fileref">16p_BM_sample.md</span><span class="fileref">16p_ADR_sample.md</span> (optional) · Blank <span class="fileref">32p_PRD_BM_template.md</span> · Watch for: features with no OBS, money with no evidence, too much for one day.</p>
-</div></article>
-
-<article class="slide ns" data-note="TEAM LAB 4 (25 min). Attach PRD_BM.md and OBS_LOG.md; check AI&#x27;s 5-line summary before it builds; fill the AI log."><div class="slide-inner">
-<div class="pills"><span class="pill dark">TEAM LAB 4</span><span class="pill">25 min</span><span class="pill">Team · Tech lead drives</span></div>
-<div class="timer" data-min="25">▶ <span>25:00</span></div>
-<h1>Build with AI: <em>attach the documents</em>, don't retype them</h1>
-<div class="goal"><b class="tag">Goal</b><span>AI builds your 3 features from PRD_BM.md, and you log what you kept and rejected</span></div>
-<div class="grid g2">
-<div class="card"><h3>A · Chat AI (ChatGPT, Claude, Gemini)</h3>
-<ol style="margin:0;padding-left:20px">
-<li>New chat. Click <b>+</b> or the <b>paperclip</b> 📎</li>
-<li>Upload <code>PRD_BM.md</code> and <code>OBS_LOG.md</code> (text only, no screenshots)</li>
-<li>Paste the prompt below</li>
-<li><b>Check AI's summary</b>: does it name F1–F3 and their OBS? If not, it didn't read the files</li>
-</ol>
-<p class="note">Upload not allowed? Paste each file between markers:<br><code>=== PRD_BM.md ===</code> … <code>=== END ===</code></p></div>
-<div class="card"><h3>B · Codex or Antigravity (works in a folder)</h3>
-<ol style="margin:0;padding-left:20px">
-<li>Put the files in <code>docs/</code> inside your project folder</li>
-<li>In the prompt, write the paths: <code>docs/PRD_BM.md</code>, <code>docs/OBS_LOG.md</code> (often <b>@</b> lets you pick a file)</li>
-<li>Ask for the plan first, then OK it</li>
-<li>Commit with Git after each working step (Day 1 safe loop)</li>
-</ol></div>
-</div>
-<pre style="margin-top:12px">Read the attached files first: PRD_BM.md and OBS_LOG.md.
-1. In 5 lines, tell me: the user, the goal, features F1–F3 and the OBS each is based on.
-2. Wait for my OK.
-3. Then build only F1–F3 as one simple web page (HTML, CSS, JavaScript) with sample data.
-Done when: every "Done when" line in PRD_BM.md works on a 360px phone screen.
-Don't: copy the original's name, logo, colours, pictures or text. Don't add login or extra features.</pre>
-<p class="note">Then fill the AI log: summary correct? · built · kept · changed · rejected. Example <span class="fileref">33p_PROMPT_sample.md</span><span class="fileref">16p_AI_LOG_sample.md</span> · Blank <span class="fileref">33p_PROMPT_AILOG_template.md</span></p>
-</div></article>
-
-<article class="slide ns" data-note="TEAM LAB 5 (15 min). One table, 5 rows. Every &#x27;No&#x27; or &#x27;Partly&#x27; gets A, B or C. A is the easiest fix."><div class="slide-inner">
-<div class="pills"><span class="pill dark">TEAM LAB 5</span><span class="pill">15 min</span><span class="pill">Team · Evidence lead tests</span></div>
-<div class="timer" data-min="15">▶ <span>15:00</span></div>
-<h1>Compare: <em>same task, same phone</em>, one table</h1>
-<div class="goal"><b class="tag">Goal</b><span>5 rows: where your build matches the original, and one letter for every difference</span></div>
-<table>
-<tr><th>#</th><th>Check</th><th>Original</th><th>Ours</th><th>Same?</th><th>Why different?</th></tr>
-<tr><td class="id">1</td><td>F1 next video starts by itself</td><td>Yes, [5]-s countdown</td><td>Yes, 5-s + length + Cancel</td><td>Yes</td><td>—</td></tr>
-<tr><td class="id">2</td><td>Next video fits my interest</td><td>Yes, feels personal</td><td>Same topic only</td><td>No</td><td><b>C</b> (no watch history)</td></tr>
-<tr><td class="id">3</td><td>F2 subscribe → see new videos</td><td>Feed + notification</td><td>"new" label only</td><td>Partly</td><td><b>C</b> (no notifications)</td></tr>
-<tr><td class="id">4</td><td>F3 share to WhatsApp</td><td>Yes, [2] taps</td><td>Yes, 1 tap</td><td>Yes</td><td>—</td></tr>
-<tr><td class="id">5</td><td>Video length on every card</td><td>Yes</td><td>No</td><td>No</td><td><b>A</b> (not in our PRD)</td></tr>
-</table>
-<div class="grid g3" style="margin-top:12px">
-  <div class="card tint-y"><h3>A · not in our documents</h3><p>Easiest to fix: add one line to PRD_BM.md, ask AI again.</p></div>
-  <div class="card tint-b"><h3>B · AI's usual pattern</h3><p>AI did the "average" thing. Write it more clearly or reject it.</p></div>
-  <div class="card tint-p"><h3>C · hidden part we can't copy</h3><p>Data, people, money. Expected, and a good thing to say to investors.</p></div>
-</div>
-<div class="say">"A difference with a reason is learning. A difference without a reason is just a bug."</div>
-<p class="note">Example <span class="fileref">16p_CMP_sample.md</span> · Blank <span class="fileref">34p_COMPARE_template.md</span></p>
-</div></article>
-
-<article class="slide ns" data-note="Wrap-up: eyes to see, power to explain, responsibility to judge. Each team proves &#x27;AI is not magic&#x27; in one sentence with its own results. Photograph the board."><div class="slide-inner">
-<div class="kicker g">Wrap-up</div>
-<h1>Eyes to see, power to explain, <em>responsibility to judge</em></h1>
-<div class="grid g3">
-  <div class="card tint-b"><h3>Eyes to see</h3><p>OBS cards: facts anyone can check.</p></div>
-  <div class="card tint-g"><h3>Power to explain</h3><p>Loop, EXP and PRD_BM: why it grows and what we build.</p></div>
-  <div class="card tint-y"><h3>Responsibility to judge</h3><p>AI log and compare: what we kept, rejected, and why.</p></div>
-</div>
-<h2>Team output checklist: 5 files</h2>
-<table>
-<tr><th>File</th><th>Minimum</th></tr>
-<tr><td>research/ICEBERG_NOTES.md</td><td>3 rows, each with PRD / BM / FAKE and a sentence</td></tr>
-<tr><td>research/OBS_LOG.md (+ evidence/)</td><td>6+ five-line cards with screenshots · loop with IDs · EXP-001</td></tr>
-<tr><td>docs/PRD_BM.md</td><td>F1–F3 each with an OBS · Done when · What we fake · BM 3 lines (ADR optional)</td></tr>
-<tr><td>build/ code + AI_LOG.md</td><td>F1–F3 run on a phone · AI-001 with kept / rejected</td></tr>
-<tr><td>build/COMPARE.md</td><td>5 rows · every "No" or "Partly" has A, B or C</td></tr>
-</table>
-<div class="big-q" style="margin-top:16px">Prove "AI is not magic" in one sentence, using your team's own results.</div>
-</div></article>
           </div>
           <div class="slide-controls">
             <button class="slide-nav-btn" id="prevSlide" type="button" aria-label="이전 슬라이드"><i class="fa-solid fa-chevron-left"></i></button>
-            <div class="slide-progress-wrap"><span class="slide-counter" id="slideCounter">1 / 35</span><div class="slide-progress"><span id="slideProgress"></span></div></div>
+            <div class="slide-progress-wrap"><span class="slide-counter" id="slideCounter">1 / 25</span><div class="slide-progress"><span id="slideProgress"></span></div></div>
             <div class="slide-tools"><button class="slide-nav-btn" id="notesToggle" type="button" aria-label="강의 노트 보기" aria-pressed="false" title="강의 노트 (N)"><i class="fa-regular fa-comment-dots"></i></button><button class="slide-nav-btn fullscreen-btn" id="fullscreenSlide" type="button" aria-label="슬라이드 전체 화면"><i class="fa-solid fa-expand"></i></button><button class="slide-nav-btn" id="nextSlide" type="button" aria-label="다음 슬라이드"><i class="fa-solid fa-chevron-right"></i></button></div>
           </div>
           <div class="slide-notes" id="slideNotes"><strong>LECTURE NOTE</strong><span id="slideNoteText"></span></div>
@@ -1772,18 +1329,5 @@ Don't: copy the original's name, logo, colours, pictures or text. Don't add logi
     })();
 </script>
   <script src="shared/header-auth.js?v=20261118-project-logout"></script>
-<script>(function(){
-function fitOne(sl){var inn=sl.querySelector('.slide-inner');if(!inn||!sl.classList.contains('active'))return;
- var lo=0.5,hi=Math.max(0.6,sl.clientWidth/1180);inn.style.zoom=hi;
- if(sl.scrollHeight<=sl.clientHeight+2)return;
- for(var k=0;k<14;k++){var mid=(lo+hi)/2;inn.style.zoom=mid;if(sl.scrollHeight<=sl.clientHeight+2)lo=mid;else hi=mid;}
- inn.style.zoom=lo;}
-function fit(){document.querySelectorAll('.slide.ns.active').forEach(fitOne);}
-var mo=new MutationObserver(function(){setTimeout(fit,0);});document.querySelectorAll('.slide.ns').forEach(function(s){mo.observe(s,{attributes:true,attributeFilter:['class']});});
-addEventListener('resize',fit);document.addEventListener('fullscreenchange',function(){setTimeout(fit,50);});setTimeout(fit,300);document.querySelectorAll('.ns .timer').forEach(function(t){var total=(+t.dataset.min)*60,left=total,h=null,out=t.querySelector('span');
-function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
-t.title='Click: start / pause · Double-click: reset';
-t.addEventListener('click',function(){if(h){clearInterval(h);h=null;t.classList.remove('run');t.firstChild.textContent='▶ ';return;}if(left<=0)return;t.classList.add('run');t.firstChild.textContent='❚❚ ';h=setInterval(function(){left--;out.textContent=fmt(left);if(left<=0){clearInterval(h);h=null;t.classList.remove('run');t.classList.add('done');}},1000);});
-t.addEventListener('dblclick',function(){clearInterval(h);h=null;left=total;out.textContent=fmt(left);t.classList.remove('run','done');t.firstChild.textContent='▶ ';});});})();</script>
 </body>
 </html>

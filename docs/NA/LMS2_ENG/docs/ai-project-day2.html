@@ -598,128 +598,6 @@ document.addEventListener('click',later,true);document.addEventListener('keyup',
   </style>
   <link rel="stylesheet" href="daily-feedback.css" />
   <script src="./shared/lms-header.js?v=20261118-unified"></script>
-<style id="new-slides-18-37">
-.ns{
-  --bg:#f4f7f3; --card:#ffffff; --ink:#1d2a24; --muted:#5b6b63; --line:#dbe4de;
-  --green:#1f7a52; --green-soft:#dcefe4; --blue:#2c5ea8; --blue-soft:#e3ecf8;
-  --gold:#8a6400; --gold-soft:#f6edd2; --red:#b0383b; --red-soft:#f8e4e3;
-  --purple:#6a4bb0; --purple-soft:#ece6f8; --code:#f1f4f0;
-}
-.slide.ns .inner{max-width:1280px;margin:0 auto;position:relative}
-.slide.ns .kicker{font-size:15px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
-.slide.ns .kicker.g{color:var(--green)}
-.slide.ns h1{font-size:46px;line-height:1.1;margin:0 0 14px;letter-spacing:-.02em;font-weight:800}
-.slide.ns h1 em{font-style:normal;color:var(--green)}
-.slide.ns h1 .b{color:var(--blue)}
-.slide.ns h2{font-size:24px;margin:18px 0 10px}
-.slide.ns h3{font-size:19px;margin:0 0 8px}
-.slide.ns p,.slide.ns li{font-size:18px;line-height:1.5}
-.slide.ns .lead{font-size:21px;color:var(--muted);margin:0 0 20px;max-width:1100px}
-.slide.ns .grid{display:grid;gap:16px}
-.slide.ns .g2{grid-template-columns:1fr 1fr}
-.slide.ns .g3{grid-template-columns:repeat(3,1fr)}
-.slide.ns .g4{grid-template-columns:repeat(4,1fr)}
-.slide.ns .g5{grid-template-columns:repeat(5,1fr)}
-.slide.ns .g6{grid-template-columns:repeat(6,1fr)}
-.slide.ns .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
-.slide.ns .card p,.slide.ns .card li{font-size:16.5px}
-.slide.ns .card h3 small{font-weight:500;color:var(--muted);font-size:14px}
-.slide.ns .tint-g{background:var(--green-soft);border-color:#b9dcc8}
-.slide.ns .tint-b{background:var(--blue-soft);border-color:#c3d4ee}
-.slide.ns .tint-y{background:var(--gold-soft);border-color:#e6d7a8}
-.slide.ns .tint-r{background:var(--red-soft);border-color:#ecc3c1}
-.slide.ns .tint-p{background:var(--purple-soft);border-color:#d5caef}
-.slide.ns .bar-l{border-left:6px solid var(--green)}
-.slide.ns .id{font-family:"JetBrains Mono",monospace;font-weight:600;color:var(--gold);font-size:15px}
-.slide.ns code,.slide.ns .mono{font-family:"JetBrains Mono",monospace;font-size:15px;background:var(--code);padding:1px 6px;border-radius:6px}
-.slide.ns pre{font-family:"JetBrains Mono",monospace;font-size:14.5px;line-height:1.55;background:#fbfcfa;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0;white-space:pre-wrap}
-.slide.ns table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
-.slide.ns th,.slide.ns td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);font-size:15.5px;vertical-align:top}
-.slide.ns th{background:#eef3ef;font-weight:700}
-.slide.ns tr:last-child td{border-bottom:none}
-.slide.ns .goal{display:flex;gap:14px;align-items:center;background:var(--gold-soft);border-left:6px solid #b08a2a;border-radius:12px;padding:12px 18px;margin:0 0 18px}
-.slide.ns .goal b.tag{background:#fbf3d9;border-radius:8px;padding:4px 10px;font-size:15px}
-.slide.ns .goal span{font-size:19px;color:var(--gold);font-weight:600}
-.slide.ns .pills{display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
-.slide.ns .pill{border:1.5px solid #9ccab2;border-radius:999px;padding:6px 14px;font-weight:600;color:var(--green);font-size:15px;background:#fff}
-.slide.ns .pill.dark{background:var(--green-soft);border-color:var(--green-soft);color:#174c35;letter-spacing:.08em}
-.slide.ns .timer{position:absolute;right:0;top:0;border:2px solid #79b394;background:var(--green-soft);border-radius:16px;padding:12px 22px;font-family:"JetBrains Mono",monospace;font-size:34px;color:#174c35;cursor:pointer;user-select:none;display:flex;gap:12px;align-items:center}
-.slide.ns .timer.run{background:#fff7da;border-color:#c9a33b}
-.slide.ns .timer.done{background:var(--red-soft);border-color:var(--red);color:var(--red)}
-.slide.ns .timer small{font-family:Inter;font-size:12px;color:var(--muted);display:block}
-.slide.ns .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
-.slide.ns .step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px}
-.slide.ns .step .n{font-weight:800;color:var(--green);font-size:18px}
-.slide.ns .step b{display:block;font-size:17px;margin:4px 0}
-.slide.ns .step p{font-size:15.5px;margin:0;color:var(--muted)}
-.slide.ns .chain{display:flex;align-items:stretch;gap:8px;margin:10px 0}
-.slide.ns .chain .c{flex:1;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px;text-align:center}
-.slide.ns .chain .c b{display:block;font-family:"JetBrains Mono",monospace;font-size:17px}
-.slide.ns .chain .c span{font-size:13.5px;color:var(--muted)}
-.slide.ns .chain .arr{align-self:center;color:var(--muted);font-size:22px}
-.slide.ns .c.obs{border-color:var(--blue)}
-.slide.ns .c.obs b{color:var(--blue)}
-.slide.ns .c.prd{border-color:#3d6fc2}
-.slide.ns .c.prd b{color:#3d6fc2}
-.slide.ns .c.bm{border-color:var(--green)}
-.slide.ns .c.bm b{color:var(--green)}
-.slide.ns .c.adr{border-color:var(--purple)}
-.slide.ns .c.adr b{color:var(--purple)}
-.slide.ns .c.ai{border-color:#555}
-.slide.ns .c.ai b{color:#333}
-.slide.ns .c.cmp{border-color:var(--gold)}
-.slide.ns .c.cmp b{color:var(--gold)}
-.slide.ns .c.exp{border-color:#c25e2a}
-.slide.ns .c.exp b{color:#c25e2a}
-.slide.ns .bad h3{color:var(--red)}
-.slide.ns .good h3{color:var(--green)}
-.slide.ns .x{color:var(--red);font-weight:700}
-.slide.ns .v{color:var(--green);font-weight:700}
-.slide.ns .why{font-size:15.5px;color:var(--muted);margin-top:8px}
-.slide.ns .why b{color:var(--ink)}
-.slide.ns .say{border-left:5px solid var(--green);background:#fff;border-radius:0 12px 12px 0;padding:10px 16px;font-size:17.5px;font-style:italic;margin:12px 0}
-.slide.ns .note{font-size:14.5px;color:var(--muted)}
-.slide.ns .big-q{font-size:30px;font-weight:700;text-align:center;background:linear-gradient(90deg,#e3ecf8,#e4f1ea);border:1.5px solid #b9cbe6;border-radius:16px;padding:20px;margin:6px 0 18px}
-.slide.ns .ice{display:grid;grid-template-columns:1fr 1.25fr;gap:18px;align-items:stretch}
-.slide.ns .ice .top{background:#fff;border:2px solid #9bbbe0;border-radius:16px 16px 0 0;padding:14px 18px}
-.slide.ns .ice .under{background:linear-gradient(#d6e5f6,#a9c4e6);border-radius:0 0 16px 16px;padding:14px 18px;color:#14304f}
-.slide.ns .layer{display:grid;grid-template-columns:150px 1fr;gap:6px 12px;padding:7px 0;border-bottom:1px dashed #b7cbe2}
-.slide.ns .layer:last-child{border-bottom:none}
-.slide.ns .layer b{font-size:16px}
-.slide.ns .layer span{font-size:15.5px}
-.slide.ns .agenda td:first-child{font-weight:700;width:90px}
-.slide.ns .opt{display:inline-block;background:#eee8f8;color:var(--purple);border:1px dashed var(--purple);border-radius:999px;font-size:12.5px;font-weight:700;padding:1px 9px;margin-left:6px;vertical-align:middle;letter-spacing:.04em}
-.slide.ns details summary{cursor:pointer;margin-top:6px}
-.slide.ns .timer ~ h1{padding-right:230px}
-@media (max-width:900px){.slide.ns .timer ~ h1{padding-right:0}}
-.slide.ns .fileref{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:13.5px;background:var(--gold-soft);color:var(--gold);border-radius:6px;padding:2px 8px;margin:2px 4px 2px 0}
-@media (max-width:900px){.slide.ns .g2,.slide.ns .g3,.slide.ns .g4,.slide.ns .g5,.slide.ns .g6,.slide.ns .steps,.slide.ns .ice{grid-template-columns:1fr}.slide.ns .chain{flex-direction:column}.slide.ns .chain .arr{transform:rotate(90deg)}.slide.ns h1{font-size:32px}.slide.ns .timer{position:static;margin-bottom:12px;display:inline-flex}}
-.slide.ns{display:none;color:var(--ink);font-family:Inter,"DM Sans",system-ui,sans-serif;
- background-image:linear-gradient(#e6ece8 1px,transparent 1px),linear-gradient(90deg,#e6ece8 1px,transparent 1px);background-size:44px 44px;background-color:#f4f7f3}
-.slide.ns.active{display:block}
-.slide.ns .slide-inner{display:block;margin:0 auto;max-width:none;justify-content:flex-start}
-.slide.ns{padding:28px 40px!important}
-
-/* slides-only view: the deck fills the browser window, the rest of the LMS page is hidden */
-html,body{overflow:hidden!important;height:100%}
-body>*:not(main):not(script):not(style){display:none!important}
-#slideDeck{position:fixed!important;inset:0;z-index:99999;border-radius:0!important;border:0!important;display:flex;flex-direction:column;margin:0!important}
-#slideDeck .slide-stage{flex:1;aspect-ratio:auto!important;min-height:0}
-.slide-download-bar{display:none!important}
-main>*:not(#slides){display:none!important}
-#slides .section-head{display:none!important}
-.ns *{box-sizing:border-box}
-.ns h1{font-family:inherit;color:var(--ink)}
-.ns ul,.ns ol{margin-top:4px}
-.slide.ns p{max-width:none;margin:0 0 8px;line-height:1.5;word-break:normal;color:inherit}
-.slide.ns .lead{max-width:1100px;margin:0 0 20px;color:var(--muted)}
-.slide.ns .note,.slide.ns .why{color:var(--muted)}
-.slide.ns .grid,.slide.ns .steps{background:none;border:0;padding:0;box-shadow:none;text-align:left}
-.slide.ns .card,.slide.ns .step{text-align:left}
-.slide.ns li{display:list-item;padding:0;border:0;background:none;margin-top:4px}
-.slide.ns::before{opacity:0}
-
-</style>
 </head>
 <body>
   <header class="topbar">
@@ -968,501 +846,161 @@ Success: click rate +10% or more</pre><svg class="viz" viewBox="0 0 150 146" rol
               <div class="career"><b>Career link</b><span>Experiment hypothesis docs are <b>the core of a growth marketer or PM portfolio</b>. "We set priorities with evidence" is much stronger than "we have lots of ideas".</span></div></div>
             </div></article>
 
-            <!-- 16 (new) -->
-            <article class="slide ns" data-note="Today starts here. Four steps: observe, document, build with AI, compare. Read the ID table: every item gets an ID like a receipt number. ADR is optional."><div class="slide-inner">
-<div class="kicker">Reverse-engineering workflow · today starts here</div>
-<h1>Observe → Document → Build with AI → <em>Compare</em></h1>
-<p class="lead">Yesterday you <b>observed</b> (AARRR, loops, ICE). Today you turn that into <b>evidence</b>, write it down as <b>documents</b>, give the documents to <b>AI</b>, and <b>compare</b> the result with the original. Every item gets an ID, so every decision can be traced back.</p>
-<div class="grid g4">
-  <div class="card"><h3 style="color:var(--blue)">01 · Observe</h3><p>What did I <b>see</b>?<br>OBS cards · AARRR map · growth loop · EXP hypotheses</p><p class="id">OBS-### · EXP-###</p></div>
-  <div class="card"><h3 style="color:var(--blue)">02 · Document</h3><p>What will we <b>build</b>, how does it <b>earn</b>, and <b>how</b> do we build it?</p><p class="id">PRD-### · BM-### · ADR-###</p></div>
-  <div class="card"><h3 style="color:var(--blue)">03 · Build with AI</h3><p>Give the documents to AI as a <b>contract</b>. Build 1 core flow. Log what AI did.</p><p class="id">AI-### work log</p></div>
-  <div class="card"><h3 style="color:var(--blue)">04 · Compare</h3><p>Original vs our build: <b>same task, same device</b>. Where is the gap, and why?</p><p class="id">COMPARE table</p></div>
-</div>
-<h2>What each ID means</h2>
-<table>
-<tr><th>ID</th><th>Full name</th><th>Question it answers</th><th>YouTube example (one line)</th></tr>
-<tr><td class="id" style="color:var(--blue)">OBS</td><td>Observation</td><td>What did I <b>see</b> on the screen?</td><td>OBS-004: when a video ends, the next one starts after a short countdown</td></tr>
-<tr><td class="id" style="color:#c25e2a">EXP</td><td>Experiment hypothesis</td><td>What change could <b>grow</b> a number?</td><td>EXP-001: a countdown with a Cancel button raises 2nd-video rate</td></tr>
-<tr><td class="id" style="color:#3d6fc2">PRD</td><td>Product Requirements Document</td><td><b>What</b> do we build, for whom, and when is it done?</td><td>PRD-F1: Up-next list + 5-second autoplay countdown with Cancel</td></tr>
-<tr><td class="id" style="color:var(--green)">BM</td><td>Business Model</td><td><b>Who pays</b>, for what, and why does this feature matter for money?</td><td>BM-001: more videos per visit = more ad slots</td></tr>
-<tr><td class="id" style="color:var(--purple)">ADR<span class="opt">OPTIONAL</span></td><td>Architecture Decision Record</td><td><b>Why</b> did we choose this technical option?</td><td>ADR-001: mock JSON + localStorage, no real YouTube API</td></tr>
-<tr><td class="id" style="color:#333">AI</td><td>AI work log</td><td>What did AI do, and what did <b>we</b> keep or reject?</td><td>AI-001: AI added a sign-in wall; we rejected it (PRD scope)</td></tr>
-<tr><td class="id">CMP</td><td>Comparison</td><td>Did our build <b>work</b> like the original?</td><td>CMP-001: watch 2 videos in a row: original yes, ours yes</td></tr>
-</table>
-<p class="note">Samples for every ID: <span class="fileref">16p_OBS_sample.md</span><span class="fileref">16p_PRD_sample.md</span><span class="fileref">16p_BM_sample.md</span><span class="fileref">16p_ADR_sample.md</span><span class="fileref">16p_AI_LOG_sample.md</span><span class="fileref">16p_CMP_sample.md</span> · Blank forms in <code>templates/</code></p>
-</div></article>
-            <!-- 17 (new) -->
-            <article class="slide ns" data-note="Why document? AI has no memory between chats; the document is the memory, the contract and the team&#x27;s plan. Read the quote at the bottom."><div class="slide-inner">
-<div class="kicker">Why document?</div>
-<h1>With AI, <em>the document is the product plan</em></h1>
-<p class="lead">AI writes code fast. But AI only knows what you give it. <b>Document-driven development</b> means: write down <i>what, why and how</i> first, then let AI build from the documents.</p>
-<div class="grid g2">
-  <div class="card tint-r bad"><h3>✕ Chat-driven: "just ask"</h3>
-  <pre>"Make a video app like YouTube."
-"Add a subscribe button."
-"No, make it look better."
-"Why did you remove the list?"</pre>
-  <ul>
-  <li>AI <b>guesses</b> → you get the average app</li>
-  <li>Decisions are lost in a long chat</li>
-  <li>New chat = AI forgets everything</li>
-  <li>Teammates can't see why something was built</li>
-  </ul></div>
-  <div class="card tint-g good"><h3>✓ Document-driven</h3>
-  <pre>docs/PRD_BM.md  what we build, for whom, done-when,
-                what we fake + who pays (3 lines)
-docs/OBS_LOG.md the evidence behind each feature
-"Read the 2 attached files. Build F1–F3."</pre>
-  <ul>
-  <li>AI builds <b>your</b> design, not a guess</li>
-  <li>Same documents → same result in any tool, any chat</li>
-  <li>Teammates and investors can read the plan</li>
-  <li>When something breaks, you can trace why</li>
-  </ul></div>
-</div>
-<div class="grid g4" style="margin-top:16px">
-  <div class="card"><h3>1 · Memory</h3><p>AI has no memory between chats. Documents are the memory.</p></div>
-  <div class="card"><h3>2 · Contract</h3><p>"Done when…" tells AI and the team when to stop.</p></div>
-  <div class="card"><h3>3 · Teamwork</h3><p>Three people, one plan. Nobody depends on one person's chat history.</p></div>
-  <div class="card"><h3>4 · Investors</h3><p>A POC with PRD + BM shows a <b>business</b>, not just screens.</p></div>
-</div>
-<div class="say">"If it isn't written down, AI doesn't know it, your team doesn't know it, and next week you won't remember it."</div>
-</div></article>
-            <!-- 18 (new) -->
-            <article class="slide ns" data-note="Each step needs the one before it. Read 3 rows: what goes wrong if you skip OBS, PRD or the compare step?"><div class="slide-inner">
-<div class="kicker">Why this order?</div>
-<h1>Each step needs the step <em>before it</em></h1>
-<p class="lead">You can't decide what to build before you know what works. You can't choose technology before you know what to build. You can't measure success without the original to compare with.</p>
-<div class="chain">
-  <div class="c obs"><b>OBS</b><span>evidence first</span></div><div class="arr">→</div>
-  <div class="c exp"><b>LOOP·EXP</b><span>why it grows</span></div><div class="arr">→</div>
-  <div class="c prd"><b>PRD</b><span>what to build</span></div><div class="arr">→</div>
-  <div class="c bm"><b>BM</b><span>is it worth it?</span></div><div class="arr">→</div>
-  <div class="c adr"><b>ADR</b><span>how to build (optional)</span></div><div class="arr">→</div>
-  <div class="c ai"><b>AI-###</b><span>build</span></div><div class="arr">→</div>
-  <div class="c cmp"><b>CMP</b><span>did it work?</span></div>
-</div>
-<table style="margin-top:14px">
-<tr><th>If you skip…</th><th>What goes wrong</th><th>Example</th></tr>
-<tr><td><b>OBS</b></td><td>Features come from opinions</td><td>"Let's add dark mode, it's cool." Nobody knows if it helps growth.</td></tr>
-<tr><td><b>LOOP / EXP</b></td><td>You copy screens but not the reason they work</td><td>You build Subscribe, but nothing ever brings the user back.</td></tr>
-<tr><td><b>PRD</b></td><td>AI decides the scope</td><td>AI adds login, comments and upload. Two hours gone, core flow unfinished.</td></tr>
-<tr><td><b>BM</b></td><td>A nice app with no business</td><td>Investors ask "who pays?" and there's no answer.</td></tr>
-<tr><td><b>ADR</b></td><td>Too big or wrong technology</td><td>"Let's use the real YouTube API." Keys, quotas, copyright: the POC never runs.</td></tr>
-<tr><td><b>CMP</b></td><td>No learning</td><td>"It looks similar" is not a result. Which features were lost, and why?</td></tr>
-</table>
-<div class="say">"Observe before you decide. Decide before you build. Compare before you celebrate."</div>
-</div></article>
-            <!-- 19 (new) -->
-            <article class="slide ns" data-note="Same AI, different prompt. The good prompt attaches the documents and asks AI to summarise first."><div class="slide-inner">
-<div class="kicker">Prompt = your analysis</div>
-<h1>Prompt quality = <span class="b">depth of growth-hacking analysis</span></h1>
-<p class="lead">A good prompt is not clever words. It is your OBS, EXP and documents, packed together. That's why we write documents first.</p>
-<div class="grid g2">
-  <div class="card tint-r bad"><h3>✕ Request without analysis</h3>
-  <pre>Build me a video site like YouTube.
-With a video player and a list.</pre>
-  <ul><li>Result: an average video page you've seen everywhere</li><li>No autoplay logic, no reason to come back, no way to earn</li></ul></div>
-  <div class="card tint-g good"><h3>✓ Request with analysis</h3>
-  <pre>Read the attached files: PRD_BM.md and OBS_LOG.md.
-Role: web development partner (HTML/CSS/JS).
-Goal: first-time viewers watch a 2nd video (Activation).
-Evidence: OBS-004 (autoplay countdown), OBS-006 (subscribe),
-          OBS-009 (share to WhatsApp)
-Experiment: EXP-001 countdown with Cancel button
-Done when: 360px phone, empty + error states, F1–F3 work
-Don't: copy YouTube's logo, name, colours or text;
-       add login or features not in PRD.
-First, list the features you will build and their IDs,
-then wait for my OK.</pre></div>
-</div>
-<div class="grid g3" style="margin-top:14px">
-  <div class="card"><h3>Goal ← AARRR</h3><p>Which stage are we improving?</p></div>
-  <div class="card"><h3>Evidence ← OBS / EXP</h3><p>Why this feature exists.</p></div>
-  <div class="card"><h3>Files ← PRD / BM / (ADR)</h3><p>The full contract, attached (slide 33).</p></div>
-</div>
-</div></article>
-            <!-- 20 (new) -->
-            <article class="slide ns" data-note="YouTube is the shared example (no team presented it). Follow one feature through the chain, then read it backwards from the compare result."><div class="slide-inner">
-<div class="kicker">Worked example · YouTube</div>
-<h1>Follow <em>one feature</em> through the whole chain</h1>
-<p class="lead">Nobody presented YouTube yesterday, so we use it as the shared example. Feature: <b>"the next video starts by itself"</b>.</p>
-<div class="chain">
-  <div class="c obs"><b>OBS-004</b><span>Fact: when a video ends, the next one starts after a short countdown. An "Up next" list shows more videos.</span></div><div class="arr">→</div>
-  <div class="c exp"><b>LOOP + EXP-001</b><span>watch → more data → better next video → watch longer. EXP: countdown + Cancel raises 2nd-video rate 10%</span></div><div class="arr">→</div>
-  <div class="c prd"><b>PRD-F1</b><span>Up-next list (same topic) + 5-second countdown with Cancel. Done when it works at 360px.</span></div>
-</div>
-<div class="chain">
-  <div class="c bm"><b>BM-001</b><span>More videos per visit = more ad slots (OBS-010). F1 supports revenue.</span></div><div class="arr">→</div>
-  <div class="c adr"><b>ADR-001 (optional)</b><span>Mock JSON of 8 videos, next video = same tag. No real API, no real videos.</span></div><div class="arr">→</div>
-  <div class="c ai"><b>AI-001</b><span>AI built F1. It added a sign-in wall → rejected (not in PRD).</span></div><div class="arr">→</div>
-  <div class="c cmp"><b>CMP-001 · 002</b><span>"Watch 2 videos": both yes. "Next video fits my interest": original yes, ours no (Data layer).</span></div>
-</div>
-<div class="grid g2" style="margin-top:12px">
-  <div class="card tint-y"><h3>Read it backwards</h3><p>CMP-002 says our "next video" is not personal. Why? ADR-001 uses a simple tag rule. Why? There's no viewing data in a POC (iceberg: <b>Data</b>). That is a <b>reason</b>, not a failure.</p></div>
-  <div class="card"><h3>Sample files (download)</h3><p><span class="fileref">16p_OBS_sample.md</span><span class="fileref">16p_PRD_sample.md</span><span class="fileref">16p_BM_sample.md</span><span class="fileref">16p_ADR_sample.md</span><span class="fileref">16p_AI_LOG_sample.md</span><span class="fileref">16p_CMP_sample.md</span></p><p class="note">All use the same IDs, so you can follow the chain across files.</p></div>
-</div>
-</div></article>
-            <!-- 21 (new) -->
-            <article class="slide ns" data-note="An OBS card has only 5 lines. Fact in green (anyone can check), interpretation in blue (always &#x27;(hypothesis)&#x27;). Blank form: 26p_OBS_template.md."><div class="slide-inner">
-<div class="kicker">Step 01 · Observe</div>
-<h1>An OBS card has only <em>5 lines</em></h1>
-<p class="lead">Your notes from yesterday become OBS cards. One card = one fact, written so a stranger can check it.</p>
-<table>
-<tr><th style="width:230px">Line</th><th>What to write</th><th>YouTube example (OBS-004)</th></tr>
-<tr><td><b>ID · title</b></td><td>Next number + short name of the feature</td><td>OBS-004 · Next video starts by itself</td></tr>
-<tr><td><b>When / where / device</b></td><td>Date and time · which screen · phone or laptop, logged in or not</td><td>25 Nov 10:12 · watch page, end of video · Android app, logged out</td></tr>
-<tr><td style="background:var(--green-soft)"><b>Fact</b></td><td>Only what anyone can check. Numbers, exact words on screen.</td><td>When the video ended, a [5]-second countdown showed the next video with a "Cancel" button.</td></tr>
-<tr><td style="background:var(--blue-soft)"><b>Interpretation</b></td><td>Why it might be there. Always starts with "(hypothesis)".</td><td>(hypothesis) Removing the question "what next?" keeps people watching.</td></tr>
-<tr><td><b>Stage · Screenshot</b></td><td>One AARRR stage · screenshot file named with the ID</td><td>Activation · evidence/OBS-004.png</td></tr>
-</table>
-<div class="grid g2" style="margin-top:14px">
-<div class="card tint-g"><h3>That's all</h3><p>No other fields. If you don't know something, write <b>"not observed"</b>. Never guess.</p></div>
-<div class="card"><h3>Example + blank form</h3><p><span class="fileref">16p_OBS_sample.md</span> (filled) · <span class="fileref">26p_OBS_template.md</span> (blank)</p><p class="note">One file <code>research/OBS_LOG.md</code>: a 3-column summary table on top (ID · what we saw · stage), then the cards.</p></div>
-</div>
-</div></article>
-            <!-- 22 (new) -->
-            <article class="slide ns" data-note="Live quiz: cover the green cards, read each red card, ask &#x27;fact or not? what&#x27;s wrong?&#x27;, then reveal."><div class="slide-inner">
-<div class="kicker">Step 01 · Observe</div>
-<h1>Good OBS vs <span class="b">bad OBS</span></h1>
-<div class="grid g2">
-  <div class="card tint-r"><p><span class="x">✕</span> "YouTube's design is clean and easy to use."</p><p class="why"><b>Opinion.</b> Nobody can check "clean".</p></div>
-  <div class="card tint-g"><p><span class="v">✓</span> "The Home screen shows 8 videos in 2 columns and one Shorts row."</p><p class="why"><b>Fact.</b> Anyone can count it.</p></div>
-  <div class="card tint-r"><p><span class="x">✕</span> "YouTube uses AI to track us and make us addicted."</p><p class="why"><b>Hidden motive.</b> Not on the screen. Can't be proved.</p></div>
-  <div class="card tint-g"><p><span class="v">✓</span> Fact: "After 3 cooking videos, the Home screen shows 5 cooking videos." Interpretation: "(hypothesis) Watch history shapes Home."</p><p class="why"><b>Fact and guess separated</b>, guess labelled.</p></div>
-  <div class="card tint-r"><p><span class="x">✕</span> "Subscribe, share and comments help retention."</p><p class="why"><b>Three facts in one card</b>, no detail. Split into three cards.</p></div>
-  <div class="card tint-g"><p><span class="v">✓</span> OBS-006 Subscribe + bell · OBS-009 Share panel · OBS-005 Comments</p><p class="why"><b>One card, one fact.</b> Each can link to a different stage.</p></div>
-  <div class="card tint-r"><p><span class="x">✕</span> "There's an ad and you can skip it." (no date, no device, no screenshot)</p><p class="why"><b>Can't be verified.</b> Ads differ by country, device, time.</p></div>
-  <div class="card tint-g"><p><span class="v">✓</span> "2026-11-25 10:20, Android app, logged out: a [15]-second ad, 'Skip' after [5] s. evidence/OBS-010-ad.png"</p><p class="why"><b>Checkable.</b> Context + numbers + proof.</p></div>
-</div>
-</div></article>
-            <!-- 23 (new) -->
-            <article class="slide ns" data-note="Five rules for honest evidence. &#x27;Not observed&#x27; is a good answer; never let AI fill a gap."><div class="slide-inner">
-<div class="kicker">Step 01 · Observe · cautions</div>
-<h1>Five rules for <em>honest evidence</em></h1>
-<div class="grid g2">
-<div>
-  <div class="card" style="margin-bottom:12px"><h3>1 · Use the three sessions as three lenses</h3>
-  <table>
-  <tr><th>Session</th><th>Look for</th><th>YouTube</th></tr>
-  <tr><td>First visit<br><small>logged out</small></td><td>5-second promise, main button (CTA)</td><td>Search bar, Home grid, "Sign in"</td></tr>
-  <tr><td>Typical task</td><td>Clicks, scrolls, trust, where you want to leave</td><td>Watch → ad → next video</td></tr>
-  <tr><td>Return</td><td>What brings you back</td><td>Subscribe, bell, history, Home</td></tr>
-  </table>
-  <p class="note">Your yesterday notes probably cover one lens. Tag each card with its session and see which lens is missing.</p></div>
-  <div class="card"><h3>2 · The disagreement test</h3><p>Could a classmate disagree? → <b>interpretation</b>. Can anyone check it on screen? → <b>fact</b>.</p></div>
-</div>
-<div>
-  <div class="card" style="margin-bottom:12px"><h3>3 · Hypothesis words</h3><p>Algorithms, money, company policy: write "<b>(hypothesis)</b>", "<b>it seems</b>", "<b>may</b>", unless an official page says it. Add the link if it does.</p></div>
-  <div class="card" style="margin-bottom:12px"><h3>4 · "Not observed" is a good answer</h3><p>No evidence for Referral? Write <b>Not observed</b>. Never fill a gap with a guess, and never let AI fill it. AI invents facts.</p></div>
-  <div class="card tint-r"><h3>5 · Privacy and copying</h3><p>Blur names, faces, phone numbers in screenshots. Don't copy logos, images or text into your build. Public screens only: no hacking, no scraping.</p></div>
-</div>
-</div>
-</div></article>
-            <!-- 24 (new) -->
-            <article class="slide ns" data-note="Yesterday&#x27;s loop and ICE are the bridge: every loop arrow carries an OBS, the top EXP becomes PRD feature F1 with its metric."><div class="slide-inner">
-<div class="kicker">Connecting yesterday</div>
-<h1>OBS → growth loop → EXP → <em>a PRD feature</em></h1>
-<p class="lead">Yesterday's loop and ICE were not separate exercises. They are the bridge between "what I saw" and "what we build".</p>
-<div class="grid g2">
-<div class="card"><h3>1 · The loop is made of OBS</h3>
-<pre>[Viewer watches a video]            OBS-004
-  → [YouTube learns what they like]  OBS-007 (hypothesis)
-  → [Better "Up next" and Home]      OBS-004, OBS-007
-  → [Viewer watches longer, shares]  OBS-009
-  → [Friends arrive by link]         OBS-002  → back to start
-Stop: recommendations feel repetitive; mobile data too costly</pre>
-<p class="note">Every arrow carries an OBS ID. An arrow with no OBS = "(hypothesis)".</p></div>
-<div class="card"><h3>2 · EXP attacks the weakest arrow or a stop condition</h3>
-<p>Weak point: viewers on expensive data stop after one video.</p>
-<pre>EXP-001  If the autoplay countdown shows a Cancel button
-         and the next video's length,
-         then 2nd-video rate goes up 10%,
-         because viewers keep control (OBS-004).
-         Watch: complaints, early exits.   ICE 8·6·8 = 7.3</pre></div>
-</div>
-<div class="card tint-g" style="margin-top:14px"><h3>3 · The top EXP becomes a PRD feature, with its metric</h3>
-<pre>PRD-F1  Up-next list + 5-second autoplay countdown with Cancel
-        Based on: OBS-004, EXP-001   Stage: Activation
-        Success metric: % of sessions with 2+ videos (from EXP-001)</pre>
-<p class="note">So the CMP step later can ask: did F1 do what EXP-001 predicted? Sample: <span class="fileref">24p_GROWTH_LOOP_EXP_sample.md</span></p></div>
-</div></article>
-            <!-- 25 (new) -->
-            <article class="slide ns" data-note="Roles for 3 people, 5 files, each with a filled example and a blank form. Decide roles in 30 seconds."><div class="slide-inner">
-<div class="kicker g">Team project · how we work</div>
-<h1>One team, one service, <em>one shared folder</em></h1>
-<div class="grid g3">
-  <div class="card tint-b"><h3>Evidence lead <small>+ Tester</small></h3><p>Owns <code>OBS_LOG.md</code>; later runs the same task on both and fills <code>COMPARE.md</code></p></div>
-  <div class="card tint-g"><h3>Product lead <small>+ Business</small></h3><p>Owns <code>PRD_BM.md</code>; keeps scope to 3 features and answers "who pays?"</p></div>
-  <div class="card tint-p"><h3>Tech lead <small>+ AI driver</small></h3><p>Runs the AI build, writes <code>AI_LOG.md</code> (ADR part in PRD_BM.md is optional)</p></div>
-</div>
-<div class="grid g2" style="margin-top:8px">
-<div class="card"><h3>Folder (same for every team): 5 files</h3>
-<pre>team-name/
-  research/  ICEBERG_NOTES.md  OBS_LOG.md
-             evidence/OBS-001.png ...
-  docs/      PRD_BM.md
-  build/     (AI-built code)  AI_LOG.md  COMPARE.md</pre></div>
-<div class="card"><h3>Team rules</h3>
-<ul style="margin:0;padding-left:20px">
-<li>Start from the blank form: just fill the blanks · everyone reviews one file they don't own</li>
-<li>Decisions live in documents, not in WhatsApp · timer ends = save what you have</li>
-<li>Every feature → the OBS it's based on</li>
-</ul></div>
-</div>
-<h2>Today's hands-on plan</h2>
-<table>
-<tr><th>Lab</th><th>Team lab</th><th>Time</th><th>Output</th><th>Blank form</th></tr>
-<tr><td>1</td><td>Notes → OBS cards (slide 26)</td><td>15 min</td><td>OBS_LOG.md (6–10 cards + loop + EXP-001)</td><td>26p_OBS_template.md</td></tr>
-<tr><td>2</td><td>Iceberg notes (slide 31)</td><td>10 min</td><td>ICEBERG_NOTES.md (3–5 rows)</td><td>31p_ICEBERG_template.md</td></tr>
-<tr><td>3</td><td>PRD + BM (slide 32)</td><td>25 min</td><td>PRD_BM.md (1 page)</td><td>32p_PRD_BM_template.md</td></tr>
-<tr><td>4</td><td>AI build with attached files (slide 33)</td><td>25 min</td><td>build/ + AI_LOG.md</td><td>33p_PROMPT_AILOG_template.md</td></tr>
-<tr><td>5</td><td>Compare (slide 34)</td><td>15 min</td><td>COMPARE.md (5 rows)</td><td>34p_COMPARE_template.md</td></tr>
-</table>
-</div></article>
-            <!-- 26 (new) -->
-            <article class="slide ns" data-note="TEAM LAB 1 (15 min). Right after the roles slide. Each member fills 2-3 five-line cards from yesterday&#x27;s notes; last 4 minutes: loop + EXP-001 at the bottom of the file."><div class="slide-inner">
-<div class="pills"><span class="pill dark">TEAM LAB 1</span><span class="pill">15 min</span><span class="pill">Team · Evidence lead</span></div>
-<div class="timer" data-min="15">▶ <span>15:00</span></div>
-<h1>Turn yesterday's notes into <em>OBS cards</em></h1>
-<div class="goal"><b class="tag">Goal</b><span>6–10 five-line cards a stranger could check, plus the loop and EXP-001 from yesterday</span></div>
-<div class="grid g2">
-<div class="card"><h3>How to split the work</h3>
-<ul style="margin:0;padding-left:20px">
-<li>Open <code>26p_OBS_template.md</code>. Each member fills 2–3 cards from yesterday's notes</li>
-<li>Evidence lead fills the summary table (ID · what we saw · stage)</li>
-<li>Nothing for a stage? Write "not observed". That's fine</li>
-<li>Last 4 minutes: copy yesterday's loop into the form, add OBS IDs, write EXP-001 from your ICE winner</li>
-</ul></div>
-<div class="card"><h3>Example: from yesterday's note to a card</h3>
-<pre>Yesterday: "Jiji has safety tips"
-Today:
-OBS-005 · Safety tips before contact
-When/where/device: 24 Nov 11:30 · ad page · Android
-Fact: Before "Show contact", a box lists [4] safety
-      tips, e.g. "[Never pay in advance]".
-Interpretation: (hypothesis) lowers scam fear, so
-      first-time buyers dare to contact.
-Stage: Activation · evidence/OBS-005.png</pre></div>
-</div>
-<div class="steps">
-  <div class="step"><span class="n">1</span><b>Collect notes</b><p>Yesterday's screenshots + notes</p></div>
-  <div class="step"><span class="n">2</span><b>Fill 5 lines</b><p>One fact per card (slide 21)</p></div>
-  <div class="step"><span class="n">3</span><b>Swap and check</b><p>"Can I see this on the screenshot?"</p></div>
-  <div class="step"><span class="n">4</span><b>Loop + EXP-001</b><p>Bottom of the same file</p></div>
-</div>
-<p class="note">Example <span class="fileref">16p_OBS_sample.md</span><span class="fileref">24p_GROWTH_LOOP_EXP_sample.md</span> · Blank <span class="fileref">26p_OBS_template.md</span> · Messy notes? <span class="fileref">AI_FORMAT_HELPER_prompt.md</span> lets AI format them without inventing.</p>
-</div></article>
-            <!-- 27 (new) -->
-            <article class="slide ns" data-note="PRD = what we build; BM = 3 lines about money; ADR optional. Do the quick test at the bottom: the room shouts PRD, BM or FAKE."><div class="slide-inner">
-<div class="kicker">Step 02 · Document</div>
-<h1>Which earlier work goes into <span style="color:#3d6fc2">PRD</span>, <span style="color:var(--green)">BM</span>, <span style="color:var(--purple)">ADR</span>?</h1>
-<p class="lead">Each document answers <b>one question</b> and takes <b>different inputs</b> from your OBS, loop, EXP and iceberg notes. One page each.</p>
-<div class="grid g3">
-<div class="card" style="border-top:6px solid #3d6fc2"><h3>PRD · What do we build?</h3>
-<p><b>Takes from:</b> OBS of the features you copy · <b>EXP</b> (top idea + metric) · iceberg <b>Context, Intent, Experiments</b></p>
-<p><b>PRD-lite:</b> user · goal (1 AARRR stage) · success number · F1–F3 with "Based on" · done when · <b>what we fake</b> · not in this version</p>
-<pre>F1 Autoplay countdown + Cancel
-   Based on: OBS-004, EXP-001</pre></div>
-<div class="card" style="border-top:6px solid var(--green)"><h3>BM · Who pays, and why would they?</h3>
-<p><b>Takes from:</b> <b>Revenue</b> OBS (ads, fees, paid listings) · <b>Referral/Acquisition</b> OBS (cost to get users) · iceberg <b>Constraints</b> (costs, contracts, law) · the <b>loop</b> (how growth turns into money)</p>
-<p><b>Just 3 lines:</b> 1 who pays the original, for what · 2 which of our features helps that money · 3 if ours were real, who would pay us</p>
-<pre>Advertisers pay per view (OBS-010, hypothesis)
-F1 → more videos per visit → more ad slots</pre></div>
-<div class="card" style="border-top:6px solid var(--purple)"><h3>ADR · How do we build it? <span class="opt">OPTIONAL</span></h3>
-<p><b>Takes from:</b> PRD scope · time (1 day) · iceberg <b>Data, Operations</b> (what we must fake)</p>
-<p><b>Sections:</b> context · options · decision · why · what we lose</p>
-<pre>Plain HTML/JS + mock JSON
-Lose: personal recommendations</pre>
-<p class="note"><b>No engineer in the team?</b> Skip ADR. Add 3 lines at the end of PRD: <i>"We build with: [tool]. We fake: [data, ads…]. We can't have: [personal picks…]."</i></p></div>
-</div>
-<div class="card tint-y" style="margin-top:14px"><h3>Quick test: where does this note go?</h3>
-<table>
-<tr><th>Note</th><th>Goes to</th><th>Why</th></tr>
-<tr><td>"Countdown shows video length; viewers' data is costly"</td><td>PRD</td><td>Changes what we build (feature detail)</td></tr>
-<tr><td>"Ads before video; advertisers pay per view"</td><td>BM</td><td>About who pays</td></tr>
-<tr><td>"Sharing brings new viewers for free"</td><td>BM (+ PRD F3)</td><td>Lowers the cost to get users; F3 builds it</td></tr>
-<tr><td>"No viewing history in a POC; next video = same topic"</td><td>PRD "what we fake" (or ADR)</td><td>About how we build and what we fake</td></tr>
-</table></div>
-<p class="note">PRD and BM go in <b>one file</b>: <code>docs/PRD_BM.md</code>. Example <span class="fileref">16p_PRD_sample.md</span><span class="fileref">16p_BM_sample.md</span><span class="fileref">16p_ADR_sample.md</span> (optional) · Blank <span class="fileref">32p_PRD_BM_template.md</span></p>
-</div></article>
-            <!-- 28 (new) -->
-            <article class="slide ns" data-note="Test for any line in any document: &#x27;which ID is this based on?&#x27; No answer = broken chain."><div class="slide-inner">
-<div class="kicker">How the steps connect</div>
-<h1>A good chain vs <span class="b">a broken chain</span></h1>
-<table>
-<tr><th style="width:120px">Link</th><th class="x">✕ Broken</th><th class="v">✓ Connected</th><th>Why it matters</th></tr>
-<tr><td><b>OBS → PRD</b></td><td>"F4: dark mode" (no OBS)</td><td>"F1: autoplay countdown. Based on OBS-004, EXP-001"</td><td>An orphan feature eats build time and teaches nothing</td></tr>
-<tr><td><b>EXP → PRD</b></td><td>EXP-001 written, then forgotten</td><td>PRD-F1 uses EXP-001's metric as its success metric</td><td>Otherwise you can't say if the feature worked</td></tr>
-<tr><td><b>OBS → BM</b></td><td>"We will earn ₦5 million in month 1"</td><td>"Ads before videos (OBS-010) → advertisers pay (hypothesis)"</td><td>Investors trust evidence, not wishes</td></tr>
-<tr><td><b>PRD → ADR</b></td><td>"Microservices + Kubernetes + real YouTube API"</td><td>"Mock JSON, because PRD scope is 1 flow and we have 1 day"</td><td>Tech must fit the scope and the time</td></tr>
-<tr><td><b>Docs → AI</b></td><td>Docs written, prompt says "make a YouTube app"</td><td>Docs attached, prompt says "build F1–F3 from PRD_BM.md"</td><td>Unread documents are wasted work</td></tr>
-<tr><td><b>Build → CMP</b></td><td>"It looks similar to YouTube"</td><td>"Same task, same phone: 2 videos in a row: both yes. Personal picks: original yes, ours no (ADR-001)"</td><td>A gap with a cause = learning</td></tr>
-</table>
-<div class="say">"Pick any line in any document and ask: which ID is this based on? If nobody can answer, the chain is broken."</div>
-</div></article>
-            <!-- 29 (new) -->
-            <article class="slide ns" data-note="The iceberg: AI sees the menu board, not the kitchen. Six hidden layers."><div class="slide-inner">
-<div class="kicker">Why can't AI rebuild it the same way?</div>
-<h1>You see the menu, <em>not the kitchen</em></h1>
-<p class="lead">Think of a busy <b>buka</b> (local restaurant) near an office area. Copy its menu board and plates, and you still don't have the restaurant.</p>
-<div class="ice">
-<div>
-  <div class="top"><h3>Above the water: what you see</h3><p style="margin:0">Menu board · prices · plates of jollof, amala, egusi · the counter · the queue at 1 pm</p></div>
-  <div class="under"><h3 style="color:#14304f">Below the water: what makes it work</h3><p style="margin:0">Everything on the right. A new restaurant that copies only the menu usually closes within months, just like most new apps.</p></div>
-</div>
-<div class="card">
-  <div class="layer"><b>Experiments</b><span>Tried 5 soups, kept the 3 that sell. Changed the portion size twice. <i>Ask: what was tested?</i></span></div>
-  <div class="layer"><b>Data</b><span>Knows regulars, what sells on Fridays, how much rice to cook. <i>Ask: what has it learned over time?</i></span></div>
-  <div class="layer"><b>Operations</b><span>Market at 5 am, cooks, cleaning, the cashier who handles transfers. <i>Ask: which people work behind it?</i></span></div>
-  <div class="layer"><b>Context</b><span>Office workers want food in 10 minutes, under ₦2,500. <i>Ask: who uses it, and what worries them?</i></span></div>
-  <div class="layer"><b>Constraints</b><span>Gas prices, rent, health rules, supplier deals. <i>Ask: what money or rules limit it?</i></span></div>
-  <div class="layer"><b>Intent</b><span>Fast, cheap lunch so workers come back every day. <i>Ask: why is it like this?</i></span></div>
-</div>
-</div>
-<div class="say">"AI sees the menu board. If you don't tell it about the kitchen, it builds a menu board with no kitchen. What isn't in your documents doesn't exist for AI."</div>
-</div></article>
-            <!-- 30 (new) -->
-            <article class="slide ns" data-note="YouTube iceberg: copy the visible pattern, fake data and operations, can&#x27;t copy years of data and contracts."><div class="slide-inner">
-<div class="kicker">The iceberg on YouTube</div>
-<h1>Three YouTube features, <em>and what's under them</em></h1>
-<table>
-<tr><th>Feature (what you see)</th><th>Hidden layers (hypothesis)</th><th>What a POC can do instead</th></tr>
-<tr><td><b>Autoplay countdown</b><br><span class="id">OBS-004</span></td><td><b>Data:</b> watch history picks the next video<br><b>Experiments:</b> countdown length was tested<br><b>Intent:</b> longer sessions<br><b>Context:</b> phones, costly data</td><td>Next video = same tag (simple rule). 5-second countdown + Cancel. Show video length.</td></tr>
-<tr><td><b>Subscribe + bell</b><br><span class="id">OBS-006</span></td><td><b>Data:</b> subscriber lists<br><b>Operations:</b> notification system, spam limits<br><b>Intent:</b> bring viewers back without search</td><td>Save subscriptions in localStorage. Show a "new" badge on the Home page. No real notifications.</td></tr>
-<tr><td><b>Ad with "Skip after 5 s"</b><br><span class="id">OBS-010</span></td><td><b>Constraints:</b> advertiser contracts, pay per view<br><b>Experiments:</b> 5 seconds was tested<br><b>Intent:</b> balance viewers and advertisers</td><td>Mock ad slot with a skip button after 5 s. No real ads. BM explains who would pay.</td></tr>
-</table>
-<div class="grid g3" style="margin-top:14px">
-  <div class="card tint-b"><h3>You can copy</h3><p>The visible pattern: a countdown, a button, a list.</p></div>
-  <div class="card tint-y"><h3>You can fake</h3><p>Data and operations with mock data and simple rules. Say so in ADR.</p></div>
-  <div class="card tint-r"><h3>You can't copy</h3><p>Years of data, staff and contracts. Write it as an expected gap in CMP.</p></div>
-</div>
-</div></article>
-            <!-- 31 (new) -->
-            <article class="slide ns" data-note="TEAM LAB 2 (10 min). Use the features in your OBS_LOG. 4 columns only; &#x27;Goes to&#x27; is one word: PRD, BM or FAKE. Blank: 31p_ICEBERG_template.md."><div class="slide-inner">
-<div class="pills"><span class="pill dark">TEAM LAB 2</span><span class="pill">10 min</span><span class="pill">Team · notes</span></div>
-<div class="timer" data-min="10">▶ <span>10:00</span></div>
-<h1>Iceberg notes → <em>into your documents</em></h1>
-<div class="goal"><b class="tag">Goal</b><span>For 3–5 features of your service: what is hidden underneath, and where does it go?</span></div>
-<div class="card"><h3>One row per hidden part · only 4 columns</h3>
-<table>
-<tr><th>Feature (OBS)</th><th>Hidden part (hypothesis)</th><th>Goes to</th><th>Sentence for the document</th></tr>
-<tr><td>Next video starts by itself (OBS-004)</td><td>Viewers are on phones with costly data</td><td><b>PRD</b></td><td>"Countdown shows the next video's length and a Cancel button."</td></tr>
-<tr><td>Next video starts by itself (OBS-004)</td><td>Watch history picks the next video</td><td><b>FAKE</b></td><td>"Next video = another video on the same topic (sample data)."</td></tr>
-<tr><td>Ad + Skip (OBS-010)</td><td>Advertisers pay per view</td><td><b>BM</b></td><td>"Advertisers pay for views; more videos per visit = more ads."</td></tr>
-</table></div>
-<div class="grid g3" style="margin-top:12px">
-  <div class="card" style="border-top:6px solid #3d6fc2"><h3>PRD</h3><p>Changes <b>what we build</b>: who the user is, why, a feature detail</p></div>
-  <div class="card" style="border-top:6px solid var(--green)"><h3>BM</h3><p>About <b>money</b>: who pays, what it costs</p></div>
-  <div class="card" style="border-top:6px solid var(--purple)"><h3>FAKE</h3><p>Data, people or systems we <b>can't have</b> → "What we fake" line in the PRD</p></div>
-</div>
-<div class="steps">
-  <div class="step"><span class="n">1</span><b>Pick 3–5 features</b><p>The ones you want to build</p></div>
-  <div class="step"><span class="n">2</span><b>Ask "what's hidden?"</b><p>Use the 6 layers (slide 29) as ideas</p></div>
-  <div class="step"><span class="n">3</span><b>PRD, BM or FAKE?</b><p>One word</p></div>
-  <div class="step"><span class="n">4</span><b>Write the sentence</b><p>You paste it into PRD_BM.md in Lab 3</p></div>
-</div>
-<p class="note">Example <span class="fileref">31p_ICEBERG_NOTES_sample.md</span> · Blank <span class="fileref">31p_ICEBERG_template.md</span> · No sentence = the note never reaches AI.</p>
-</div></article>
-            <!-- 32 (new) -->
-            <article class="slide ns" data-note="TEAM LAB 3 (25 min). One page PRD_BM.md: PRD-lite + BM in 3 lines. ADR only if someone has IT experience."><div class="slide-inner">
-<div class="pills"><span class="pill dark">TEAM LAB 3</span><span class="pill">25 min</span><span class="pill">Team · Product lead</span></div>
-<div class="timer" data-min="25">▶ <span>25:00</span></div>
-<h1><span style="color:#3d6fc2">PRD</span> + <span style="color:var(--green)">BM</span> in <em>one page</em></h1>
-<div class="goal"><b class="tag">Goal</b><span>One file PRD_BM.md: 3 features with the OBS they come from, and 3 lines about money</span></div>
-<div class="grid g3">
-  <div class="card" style="border-top:6px solid #3d6fc2"><h3>PRD-lite</h3><p>User · Goal (1 stage) · Success number (from EXP-001)<br>Table F1–F3: feature · based on · hidden part<br>Done when · <b>What we fake</b> (paste FAKE notes) · Not in this version</p></div>
-  <div class="card" style="border-top:6px solid var(--green)"><h3>BM in 3 lines</h3><p>1 Who pays the original, for what?<br>2 Which of our features helps that money?<br>3 If ours were real, who would pay us?<br><small>Mark every guess "(hypothesis)".</small></p></div>
-  <div class="card" style="border-top:6px dashed var(--purple)"><h3>ADR <span class="opt">OPTIONAL</span></h3><p>Only if someone has IT experience: 5 short lines at the bottom of the form.<br><b>No engineer?</b> Skip it. "What we fake" is enough.</p></div>
-</div>
-<div class="steps">
-  <div class="step"><span class="n">0–4</span><b>Agree on scope</b><p>Whole team: 1 user, 3 features</p></div>
-  <div class="step"><span class="n">4–18</span><b>Fill the blanks</b><p>Product: PRD part · Evidence: BM lines · Tech: What we fake</p></div>
-  <div class="step"><span class="n">18–23</span><b>Cross-check</b><p>"Which OBS is this feature based on?"</p></div>
-  <div class="step"><span class="n">23–25</span><b>Save</b><p>docs/PRD_BM.md</p></div>
-</div>
-<p class="note">Example <span class="fileref">16p_PRD_sample.md</span><span class="fileref">16p_BM_sample.md</span><span class="fileref">16p_ADR_sample.md</span> (optional) · Blank <span class="fileref">32p_PRD_BM_template.md</span> · Watch for: features with no OBS, money with no evidence, too much for one day.</p>
-</div></article>
-            <!-- 33 (new) -->
-            <article class="slide ns" data-note="TEAM LAB 4 (25 min). Attach PRD_BM.md and OBS_LOG.md; check AI&#x27;s 5-line summary before it builds; fill the AI log."><div class="slide-inner">
-<div class="pills"><span class="pill dark">TEAM LAB 4</span><span class="pill">25 min</span><span class="pill">Team · Tech lead drives</span></div>
-<div class="timer" data-min="25">▶ <span>25:00</span></div>
-<h1>Build with AI: <em>attach the documents</em>, don't retype them</h1>
-<div class="goal"><b class="tag">Goal</b><span>AI builds your 3 features from PRD_BM.md, and you log what you kept and rejected</span></div>
-<div class="grid g2">
-<div class="card"><h3>A · Chat AI (ChatGPT, Claude, Gemini)</h3>
-<ol style="margin:0;padding-left:20px">
-<li>New chat. Click <b>+</b> or the <b>paperclip</b> 📎</li>
-<li>Upload <code>PRD_BM.md</code> and <code>OBS_LOG.md</code> (text only, no screenshots)</li>
-<li>Paste the prompt below</li>
-<li><b>Check AI's summary</b>: does it name F1–F3 and their OBS? If not, it didn't read the files</li>
-</ol>
-<p class="note">Upload not allowed? Paste each file between markers:<br><code>=== PRD_BM.md ===</code> … <code>=== END ===</code></p></div>
-<div class="card"><h3>B · Codex or Antigravity (works in a folder)</h3>
-<ol style="margin:0;padding-left:20px">
-<li>Put the files in <code>docs/</code> inside your project folder</li>
-<li>In the prompt, write the paths: <code>docs/PRD_BM.md</code>, <code>docs/OBS_LOG.md</code> (often <b>@</b> lets you pick a file)</li>
-<li>Ask for the plan first, then OK it</li>
-<li>Commit with Git after each working step (Day 1 safe loop)</li>
-</ol></div>
-</div>
-<pre style="margin-top:12px">Read the attached files first: PRD_BM.md and OBS_LOG.md.
-1. In 5 lines, tell me: the user, the goal, features F1–F3 and the OBS each is based on.
-2. Wait for my OK.
-3. Then build only F1–F3 as one simple web page (HTML, CSS, JavaScript) with sample data.
-Done when: every "Done when" line in PRD_BM.md works on a 360px phone screen.
-Don't: copy the original's name, logo, colours, pictures or text. Don't add login or extra features.</pre>
-<p class="note">Then fill the AI log: summary correct? · built · kept · changed · rejected. Example <span class="fileref">33p_PROMPT_sample.md</span><span class="fileref">16p_AI_LOG_sample.md</span> · Blank <span class="fileref">33p_PROMPT_AILOG_template.md</span></p>
-</div></article>
-            <!-- 34 (new) -->
-            <article class="slide ns" data-note="TEAM LAB 5 (15 min). One table, 5 rows. Every &#x27;No&#x27; or &#x27;Partly&#x27; gets A, B or C. A is the easiest fix."><div class="slide-inner">
-<div class="pills"><span class="pill dark">TEAM LAB 5</span><span class="pill">15 min</span><span class="pill">Team · Evidence lead tests</span></div>
-<div class="timer" data-min="15">▶ <span>15:00</span></div>
-<h1>Compare: <em>same task, same phone</em>, one table</h1>
-<div class="goal"><b class="tag">Goal</b><span>5 rows: where your build matches the original, and one letter for every difference</span></div>
-<table>
-<tr><th>#</th><th>Check</th><th>Original</th><th>Ours</th><th>Same?</th><th>Why different?</th></tr>
-<tr><td class="id">1</td><td>F1 next video starts by itself</td><td>Yes, [5]-s countdown</td><td>Yes, 5-s + length + Cancel</td><td>Yes</td><td>—</td></tr>
-<tr><td class="id">2</td><td>Next video fits my interest</td><td>Yes, feels personal</td><td>Same topic only</td><td>No</td><td><b>C</b> (no watch history)</td></tr>
-<tr><td class="id">3</td><td>F2 subscribe → see new videos</td><td>Feed + notification</td><td>"new" label only</td><td>Partly</td><td><b>C</b> (no notifications)</td></tr>
-<tr><td class="id">4</td><td>F3 share to WhatsApp</td><td>Yes, [2] taps</td><td>Yes, 1 tap</td><td>Yes</td><td>—</td></tr>
-<tr><td class="id">5</td><td>Video length on every card</td><td>Yes</td><td>No</td><td>No</td><td><b>A</b> (not in our PRD)</td></tr>
-</table>
-<div class="grid g3" style="margin-top:12px">
-  <div class="card tint-y"><h3>A · not in our documents</h3><p>Easiest to fix: add one line to PRD_BM.md, ask AI again.</p></div>
-  <div class="card tint-b"><h3>B · AI's usual pattern</h3><p>AI did the "average" thing. Write it more clearly or reject it.</p></div>
-  <div class="card tint-p"><h3>C · hidden part we can't copy</h3><p>Data, people, money. Expected, and a good thing to say to investors.</p></div>
-</div>
-<div class="say">"A difference with a reason is learning. A difference without a reason is just a bug."</div>
-<p class="note">Example <span class="fileref">16p_CMP_sample.md</span> · Blank <span class="fileref">34p_COMPARE_template.md</span></p>
-</div></article>
-            <!-- 35 (new) -->
-            <article class="slide ns" data-note="Wrap-up: eyes to see, power to explain, responsibility to judge. Each team proves &#x27;AI is not magic&#x27; in one sentence with its own results. Photograph the board."><div class="slide-inner">
-<div class="kicker g">Wrap-up</div>
-<h1>Eyes to see, power to explain, <em>responsibility to judge</em></h1>
-<div class="grid g3">
-  <div class="card tint-b"><h3>Eyes to see</h3><p>OBS cards: facts anyone can check.</p></div>
-  <div class="card tint-g"><h3>Power to explain</h3><p>Loop, EXP and PRD_BM: why it grows and what we build.</p></div>
-  <div class="card tint-y"><h3>Responsibility to judge</h3><p>AI log and compare: what we kept, rejected, and why.</p></div>
-</div>
-<h2>Team output checklist: 5 files</h2>
-<table>
-<tr><th>File</th><th>Minimum</th></tr>
-<tr><td>research/ICEBERG_NOTES.md</td><td>3 rows, each with PRD / BM / FAKE and a sentence</td></tr>
-<tr><td>research/OBS_LOG.md (+ evidence/)</td><td>6+ five-line cards with screenshots · loop with IDs · EXP-001</td></tr>
-<tr><td>docs/PRD_BM.md</td><td>F1–F3 each with an OBS · Done when · What we fake · BM 3 lines (ADR optional)</td></tr>
-<tr><td>build/ code + AI_LOG.md</td><td>F1–F3 run on a phone · AI-001 with kept / rejected</td></tr>
-<tr><td>build/COMPARE.md</td><td>5 rows · every "No" or "Partly" has A, B or C</td></tr>
-</table>
-<div class="big-q" style="margin-top:16px">Prove "AI is not magic" in one sentence, using your team's own results.</div>
-</div></article>
+            <!-- 10b -->
+            <article class="slide dense" data-note="We use 3 services Nigerian students know well: Jumia (general e-commerce), YouTube (video platform) and Jiji (local marketplace for used and everyday goods). Ask students which service they use most and have them choose one. The observation points are only examples — record as OBS only what you actually see on screen."><div class="slide-inner">
+              <span class="slide-kicker">Benchmark targets · Choose one</span>
+              <h2 class="sm">Services to break down today: <span class="hl">Jumia · YouTube · Jiji</span></h2>
+              <p>Choose just one service, one typical user and one typical task.</p>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><svg class="card-viz" viewBox="0 0 240 64" role="img" aria-label="Online store: product ratings, cart, official store, discounts" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="8" width="96" height="50" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="14" y="15" width="24" height="20" rx="3" fill="rgba(133,96,0,0.385)"/><text x="26" y="47" text-anchor="middle" fill="#856000" font-size="7.5" font-weight="800">★4.5</text><rect x="43" y="15" width="24" height="20" rx="3" fill="rgba(133,96,0,0.385)"/><text x="55" y="47" text-anchor="middle" fill="#856000" font-size="7.5" font-weight="800">★4.4</text><rect x="72" y="15" width="24" height="20" rx="3" fill="rgba(133,96,0,0.385)"/><text x="84" y="47" text-anchor="middle" fill="#856000" font-size="7.5" font-weight="800">★4.3</text><path d="M126 18 h10 l7 24 h26 l6 -16 h-36" fill="none" stroke="#856000" stroke-width="2.4" stroke-linejoin="round"/><circle cx="147" cy="49" r="3.5" fill="#F5F0BB"/><circle cx="165" cy="49" r="3.5" fill="#F5F0BB"/><rect x="186" y="14" width="48" height="16" rx="4" fill="#D2E0FB"/><text x="210" y="25.5" text-anchor="middle" fill="#243B35" font-size="8" font-weight="900">OFFICIAL</text><rect x="186" y="36" width="48" height="16" rx="4" fill="rgba(168,58,69,0.275)" stroke="#A83A45"/><text x="210" y="47.5" text-anchor="middle" fill="#A83A45" font-size="8" font-weight="900">-40%</text></svg><strong><i class="fa-solid fa-cart-shopping"></i> Jumia · jumia.com.ng</strong><span>General online store</span><em>Find product → check trust → buy → delivery</em><span>What to look at: flash sales, official stores, ratings and reviews, pickup stations and delivery info</span></div>
+                <div class="slide-card"><svg class="card-viz" viewBox="0 0 240 64" role="img" aria-label="Video platform: player screen and next-video recommendations" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="120" height="52" rx="8" fill="rgba(168,58,69,0.132)" stroke="#A83A45"/><path d="M58 20 l18 12 l-18 12z" fill="#F6D5CF"/><rect x="14" y="50" width="104" height="3" rx="1.5" fill="rgba(255,255,255,0.92)"/><rect x="14" y="50" width="62" height="3" rx="1.5" fill="#F6D5CF"/><rect x="138" y="6" width="30" height="15" rx="3" fill="rgba(255,255,255,0.85)"/><rect x="174" y="8" width="56" height="4" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="174" y="15" width="36" height="3.5" rx="1.7" fill="rgba(255,255,255,0.85)"/><rect x="138" y="24" width="30" height="15" rx="3" fill="rgba(255,255,255,0.85)"/><rect x="174" y="26" width="56" height="4" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="174" y="33" width="36" height="3.5" rx="1.7" fill="rgba(255,255,255,0.85)"/><rect x="138" y="42" width="30" height="15" rx="3" fill="rgba(255,255,255,0.85)"/><rect x="174" y="44" width="56" height="4" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="174" y="51" width="36" height="3.5" rx="1.7" fill="rgba(255,255,255,0.85)"/><text x="153" y="17" text-anchor="middle" fill="#856000" font-size="7" font-weight="900">NEXT</text></svg><strong><i class="fa-brands fa-youtube"></i> YouTube · youtube.com</strong><span>Video platform</span><em>Discover → watch → next video → return visit</em><span>What to look at: recommended feed, autoplay, subscribe/notifications, Shorts, comments</span></div>
+                <div class="slide-card"><svg class="card-viz" viewBox="0 0 240 64" role="img" aria-label="Local marketplace: location-based listings and seller verification" xmlns="http://www.w3.org/2000/svg"><path d="M30 10 c-12 0 -20 9 -20 19 c0 14 20 30 20 30 s20 -16 20 -30 c0 -10 -8 -19 -20 -19z" fill="rgba(39,118,91,0.22)" stroke="#27765B" stroke-width="2"/><circle cx="30" cy="29" r="6" fill="#D7EEDD"/><rect x="64" y="6" width="170" height="16" rx="4" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="68" y="9" width="14" height="10" rx="2" fill="rgba(39,118,91,0.385)"/><rect x="88" y="11" width="60" height="4" rx="2" fill="rgba(255,255,255,0.22)"/><text x="230" y="17.5" text-anchor="end" fill="#856000" font-size="7.5" font-weight="800">₦ 45,000</text><rect x="154" y="9" width="26" height="10" rx="3" fill="#D7EEDD"/><text x="167" y="16.5" text-anchor="middle" fill="#243B35" font-size="6.5" font-weight="900">Verified</text><rect x="64" y="25" width="170" height="16" rx="4" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="68" y="28" width="14" height="10" rx="2" fill="rgba(39,118,91,0.385)"/><rect x="88" y="30" width="60" height="4" rx="2" fill="rgba(255,255,255,0.22)"/><text x="230" y="36.5" text-anchor="end" fill="#856000" font-size="7.5" font-weight="800">₦ 12,500</text><rect x="64" y="44" width="170" height="16" rx="4" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="68" y="47" width="14" height="10" rx="2" fill="rgba(39,118,91,0.385)"/><rect x="88" y="49" width="60" height="4" rx="2" fill="rgba(255,255,255,0.22)"/><text x="230" y="55.5" text-anchor="end" fill="#856000" font-size="7.5" font-weight="800">₦ 230,000</text></svg><strong><i class="fa-solid fa-tags"></i> Jiji · jiji.ng</strong><span>Local trading marketplace</span><em>Choose area → find listing → check trust → contact seller</em><span>What to look at: area and price filters, seller feedback and verification, safe-trading tips, paid top listings</span></div>
+              </div>
+              <div class="quote-box">Write internal algorithms, revenue and policies as <b>hypotheses, not facts</b>, unless there is an official source.</div>
+            </div></article>
 
+            <!-- 11 -->
+            <article class="slide dense" data-note="Observation lab guide. Pick one of the 3 services and fix the scope to one typical user and one typical task. Always separate the observed &quot;fact&quot; from your &quot;interpretation&quot; — e.g. fact: the product card shows the review count / interpretation: it seems to reduce uncertainty before opening the detail page. Write internal algorithms and revenue only as hypotheses unless there's an official source."><div class="slide-inner">
+              <span class="slide-kicker">Mission 01 · Observe</span>
+              <h2 class="sm">Find growth features by observing: <span class="hl">fact ≠ interpretation</span></h2>
+              <div class="viz-strip"><svg class="viz" viewBox="0 0 1000 64" role="img" aria-label="Observation session timing: first visit 30 min, typical task 45 min, return features 30 min, 105 min total" xmlns="http://www.w3.org/2000/svg"><rect x="2.0" y="8" width="281.7" height="34" rx="9" fill="#D2E0FB" fill-opacity=".22" stroke="#2B5CA6"/><text x="142.9" y="30" text-anchor="middle" fill="#243B35" font-size="14" font-weight="800">First visit <tspan fill="#2B5CA6">30 min</tspan></text><rect x="287.7" y="8" width="424.6" height="34" rx="9" fill="#D2E0FB" fill-opacity=".22" stroke="#2B5CA6"/><text x="500.0" y="30" text-anchor="middle" fill="#243B35" font-size="14" font-weight="800">Typical task <tspan fill="#2B5CA6">45 min</tspan></text><rect x="716.3" y="8" width="281.7" height="34" rx="9" fill="#D7EEDD" fill-opacity=".22" stroke="#27765B"/><text x="857.1" y="30" text-anchor="middle" fill="#243B35" font-size="14" font-weight="800">Return features <tspan fill="#27765B">30 min</tspan></text><text x="14" y="60" text-anchor="middle" fill="#4A605A" font-size="11">0 min</text><text x="286" y="60" text-anchor="middle" fill="#4A605A" font-size="11">30 min</text><text x="714" y="60" text-anchor="middle" fill="#4A605A" font-size="11">75 min</text><text x="982" y="60" text-anchor="middle" fill="#4A605A" font-size="11">105 min</text></svg></div>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong>First visit · 30 min</strong><span>Logged out: record your 5-second impression, value proposition and CTA</span></div>
+                <div class="slide-card"><strong>Typical task · 45 min</strong><span>Record clicks, scrolls and inputs, trust elements and drop-off points</span></div>
+                <div class="slide-card"><strong>Return features · 30 min</strong><span>Where saving, subscribing, notifications, reviews and sharing lead to the next visit</span></div>
+              </div>
+              <div class="compare arrowed">
+                <div class="compare-col good"><h4>Observed fact (OBS)</h4><ul><li>"Product cards show the rating and number of reviews."</li><li>Record date · URL · device · screenshot together</li></ul></div>
+                <div class="compare-col"><h4>My interpretation (hypothesis)</h4><ul><li>"It seems to reduce buying worries before opening the detail page."</li><li>Mark which AARRR stage it affects</li></ul></div>
+              </div>
+            </div></article>
+
+            <!-- 12 -->
+            <article class="slide dense" data-note="This matches the 4-mission flow of the real-benchmarking workspace. Today we focus on missions 1–2, but for the key experience we also run one &quot;small AI rebuild + comparison&quot;. Use trace IDs (OBS→PRD→BM→ADR→CMP) so every decision links to evidence."><div class="slide-inner">
+              <span class="slide-kicker">Reverse engineering workflow</span>
+              <h2 class="sm">Observe → Document → Build with AI → Compare</h2>
+              <p>The 4-step mission of Real Benchmarking PBL. Every decision links to evidence by ID.</p>
+              <div class="slide-grid steps">
+                <div class="slide-card"><strong>01 · Observe</strong><span>10+ OBS · AARRR map · growth loop · EXP hypothesis</span><em>OBS-###</em></div>
+                <div class="slide-card"><strong>02 · Document</strong><span>OPPORTUNITY · BUSINESS_MODEL · BASE_ARCHITECTURE</span><em>PRD · BM · ADR</em></div>
+                <div class="slide-card"><strong>03 · Build with AI</strong><span>Use the docs as a contract and build 1 core flow with AI</span><em>AI-### work log</em></div>
+                <div class="slide-card"><strong>04 · Compare</strong><span>Original vs build — prove the gap with the same task and conditions</span><em>CMP-###</em></div>
+              </div>
+              <div class="viz-strip"><svg class="viz" viewBox="0 -6 1000 152" role="img" aria-label="Tracing system where OBS, PRD, BM, ADR and CMP documents link by ID" xmlns="http://www.w3.org/2000/svg"><defs><marker id="m12" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#EEF4EC"/></marker><marker id="m12b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#F5F0BB"/></marker></defs><path d="M30 30 h70 l18 18 v52 h-88z" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2"/><path d="M100 30 v18 h18" fill="none" stroke="#2B5CA6" stroke-width="2"/><rect x="42" y="60" width="56" height="4" rx="2" fill="#D2E0FB" fill-opacity=".45"/><rect x="42" y="69" width="44" height="4" rx="2" fill="#D2E0FB" fill-opacity=".45"/><rect x="42" y="78" width="32" height="4" rx="2" fill="#D2E0FB" fill-opacity=".45"/><text x="74" y="122" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800">OBS-001</text><text x="74" y="140" text-anchor="middle" fill="#2B5CA6" font-size="12" font-weight="700">Observed facts</text><path class="flow" d="M130 65 H218" stroke="#4A605A" stroke-width="2" marker-end="url(#m12)"/><path d="M230 30 h70 l18 18 v52 h-88z" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2"/><path d="M300 30 v18 h18" fill="none" stroke="#2B5CA6" stroke-width="2"/><rect x="242" y="60" width="56" height="4" rx="2" fill="#D2E0FB" fill-opacity=".45"/><rect x="242" y="69" width="44" height="4" rx="2" fill="#D2E0FB" fill-opacity=".45"/><rect x="242" y="78" width="32" height="4" rx="2" fill="#D2E0FB" fill-opacity=".45"/><text x="274" y="122" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800">PRD-001</text><text x="274" y="140" text-anchor="middle" fill="#2B5CA6" font-size="12" font-weight="700">Requirements</text><path class="flow" d="M330 65 H418" stroke="#4A605A" stroke-width="2" marker-end="url(#m12)"/><path d="M430 30 h70 l18 18 v52 h-88z" fill="#F6F9F4" stroke="#27765B" stroke-width="2"/><path d="M500 30 v18 h18" fill="none" stroke="#27765B" stroke-width="2"/><rect x="442" y="60" width="56" height="4" rx="2" fill="#D7EEDD" fill-opacity=".45"/><rect x="442" y="69" width="44" height="4" rx="2" fill="#D7EEDD" fill-opacity=".45"/><rect x="442" y="78" width="32" height="4" rx="2" fill="#D7EEDD" fill-opacity=".45"/><text x="474" y="122" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800">BM-001</text><text x="474" y="140" text-anchor="middle" fill="#27765B" font-size="12" font-weight="700">Business model</text><path class="flow" d="M530 65 H618" stroke="#4A605A" stroke-width="2" marker-end="url(#m12)"/><path d="M630 30 h70 l18 18 v52 h-88z" fill="#F6F9F4" stroke="#5D4AA8" stroke-width="2"/><path d="M700 30 v18 h18" fill="none" stroke="#5D4AA8" stroke-width="2"/><rect x="642" y="60" width="56" height="4" rx="2" fill="#DFD8F6" fill-opacity=".45"/><rect x="642" y="69" width="44" height="4" rx="2" fill="#DFD8F6" fill-opacity=".45"/><rect x="642" y="78" width="32" height="4" rx="2" fill="#DFD8F6" fill-opacity=".45"/><text x="674" y="122" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800">ADR-001</text><text x="674" y="140" text-anchor="middle" fill="#5D4AA8" font-size="12" font-weight="700">Design decisions</text><path class="flow" d="M730 65 H818" stroke="#4A605A" stroke-width="2" marker-end="url(#m12)"/><path d="M830 30 h70 l18 18 v52 h-88z" fill="#F6F9F4" stroke="#856000" stroke-width="2"/><path d="M900 30 v18 h18" fill="none" stroke="#856000" stroke-width="2"/><rect x="842" y="60" width="56" height="4" rx="2" fill="#F5F0BB" fill-opacity=".45"/><rect x="842" y="69" width="44" height="4" rx="2" fill="#F5F0BB" fill-opacity=".45"/><rect x="842" y="78" width="32" height="4" rx="2" fill="#F5F0BB" fill-opacity=".45"/><text x="874" y="122" text-anchor="middle" fill="#243B35" font-size="13.5" font-weight="800">CMP-001</text><text x="874" y="140" text-anchor="middle" fill="#856000" font-size="12" font-weight="700">Comparison results</text><path d="M874 26 C874 -4 74 -4 74 24" fill="none" stroke="#856000" stroke-width="1.6" stroke-dasharray="5 5" marker-end="url(#m12b)"/><text x="474" y="8" text-anchor="middle" fill="#856000" font-size="11.5" font-weight="700">Every comparison result can be traced back to its observed evidence</text></svg></div>
+            </div></article>
+
+            <!-- 13 -->
+            <article class="slide dense alert" data-note="The key slide of this class. Iceberg analogy: AI builds from only what's above water (visible screens). What's below — experiment data, network effects, operations policy, user context, business limits — is treated as if it doesn't exist unless it's in the prompt. So the AI result becomes a &quot;plausible average&quot;. Growth-hacking analysis fills this gap."><div class="slide-inner">
+              <span class="slide-kicker">Why AI can’t rebuild it the same way</span>
+              <h2 class="sm">AI builds from only <span class="hl">the tip of the iceberg</span></h2>
+              <div class="viz-split fig-left"><figure class="viz-fig"><svg class="viz" viewBox="0 0 280 352" role="img" aria-label="Iceberg: AI sees the screens above water, but not the experiments, data, operations, context, limits and intent below" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w13" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D2E0FB" stop-opacity=".85"/><stop offset="1" stop-color="#F6F9F4" stop-opacity=".95"/></linearGradient><linearGradient id="i13" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EEF4EC"/><stop offset="1" stop-color="#D2E0FB"/></linearGradient><linearGradient id="b13" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D2E0FB"/><stop offset="1" stop-color="#F6F9F4"/></linearGradient></defs><rect x="0" y="92" width="280" height="268" fill="url(#w13)"/><path d="M112 92 L132 40 L146 52 L158 30 L182 92Z" fill="url(#i13)"/><path d="M112 92 L182 92 L230 150 L246 240 L214 318 L150 346 L80 320 L42 236 L58 150Z" fill="url(#F6D5CF)" stroke="rgba(43,92,166,0.35)"/><path d="M0 92 q20 -6 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#2B5CA6" stroke-width="1.6"/><text x="6" y="22" fill="#2B5CA6" font-size="11.5" font-weight="800">What AI sees</text><text x="6" y="38" fill="#4A605A" font-size="10">Screens · UI · features</text><path d="M80 30 L122 52" stroke="#2B5CA6" stroke-dasharray="3 3"/><text x="144" y="140" text-anchor="middle" fill="#243B35" font-size="12" font-weight="700">History of experiments</text><text x="144" y="170" text-anchor="middle" fill="#243B35" font-size="12" font-weight="700">Data · network</text><text x="144" y="200" text-anchor="middle" fill="#243B35" font-size="12" font-weight="700">Operations · trust policy</text><text x="144" y="230" text-anchor="middle" fill="#243B35" font-size="12" font-weight="700">User context</text><text x="144" y="260" text-anchor="middle" fill="#243B35" font-size="12" font-weight="700">Business limits</text><text x="144" y="290" text-anchor="middle" fill="#243B35" font-size="12" font-weight="700">Design intent (Why)</text><text x="272" y="112" text-anchor="end" fill="#856000" font-size="11" font-weight="800">What AI can't see</text></svg></figure>
+              <div class="iceberg side">
+                <div class="ice-top"><b>What's visible (what AI builds)</b>Screen layout · buttons · cards · common features · familiar patterns</div>
+                <div class="ice-bottom">
+                  <div><strong>History of experiments</strong>Order, wording and placement that survived thousands of A/B tests</div>
+                  <div><strong>Data · network effects</strong>Value users built up, like reviews, listings and watch history</div>
+                  <div><strong>Operations & trust policy</strong>Invisible operations like moderation, reporting, seller verification and official-store guarantees</div>
+                  <div><strong>User context</strong>Who comes in, when, and with what worries</div>
+                  <div><strong>Business limits</strong>Decisions shaped by fees, ads, partners, laws and regulations</div>
+                  <div><strong>Intent (Why)</strong>The design intent behind "why this feature is here"</div>
+                </div>
+              </div></div>
+              <div class="quote-box">What isn't in the prompt <b>doesn't exist</b> for AI. So the result becomes a "plausible average".</div>
+            </div></article>
+
+            <!-- LAB -->
+            <article class="slide lab" data-note="Lab 6. Team game. 2 minutes per card: the team taps which of the 6 hidden things are behind the feature, then taps &quot;Check answer&quot; to see hits (green), misses (dotted) and wrong picks (red). There is no single answer, so give bonus points to teams who explain their reasons well. Conclusion: you must write these hidden things into the prompt for AI to build something even close."><div class="slide-inner">
+              <div class="lab-head"><div><div class="lab-meta"><span class="chip">HANDS-ON 06</span><span class="pill">10 min</span><span class="pill">Team · game</span></div>
+              <h2 class="sm">Guess what's under the iceberg: <span class="hl">what's behind this feature?</span></h2></div><button class="lab-timer" type="button" data-min="10" aria-label="Start 10-min timer">▶ 10:00</button></div>
+              <div class="lab-tabs" role="tablist"><button type="button" class="on" data-tab="0"><b>1</b>Understand the mission</button><button type="button" data-tab="1"><b>2</b>Try it</button><button type="button" data-tab="2"><b>3</b>Self-check<small class="tab-count">0/0</small></button></div><div class="lab-panel on" data-panel="0"><div class="lab-goal"><span>Goal</span><span>Train your eye to find the <b>6 hidden elements</b> behind one feature on the screen</span></div><div class="ice-legend"><div style="--c:#2B5CA6"><b>Experiments</b>Many A/B tests</div><div style="--c:#5D4AA8"><b>Data</b>Records users built up</div><div style="--c:#27765B"><b>Operations</b>Moderation · reports · verification</div><div style="--c:#856000"><b>Context</b>Who · what worries</div><div style="--c:#A83A45"><b>Constraints</b>Fees · deals · law</div><div style="--c:#856000"><b>Intent</b>Why is it here</div></div><div class="flow4" style="--n:4"><div class="fstep"><span class="no">1</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div><strong>Look at the feature</strong><span>1 feature on screen</span></div><div class="fstep"><span class="no">2</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-4 3-6 6.5-6s6 2 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4 1.8 4.5 5"/></svg></div><strong>Team discussion</strong><span>Pick hidden elements</span></div><div class="fstep"><span class="no">3</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></div><strong>Check answer</strong><span>Hit · missed · wrong</span></div><div class="fstep"><span class="no">4</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/></svg></div><strong>Note it for the prompt</strong><span>Use in the next lab</span></div></div></div><div class="lab-panel" data-panel="1"><div class="reveal"><div class="reveal-card" data-ans="Operations,Context,Intent"><div class="scr"><span style="background:#D7EEDD">Jiji</span>Verified-seller badge</div><div class="lab-txt" style="font-size:.98rem"><b>Pick</b> the hidden elements (more than one is OK)</div><div class="pick"><button type="button" data-c="Experiments">Experiments</button><button type="button" data-c="Data">Data</button><button type="button" data-c="Operations">Operations</button><button type="button" data-c="Context">Context</button><button type="button" data-c="Constraints">Constraints</button><button type="button" data-c="Intent">Intent</button></div><button type="button" class="go">Check answer</button><div class="res"></div><div class="ans-txt"><b style="color:#856000">Operations</b> ID checks · moderators · report handling<br/><b style="color:#856000">Context</b> Used-goods buyers worried about scams<br/><b style="color:#856000">Intent</b> A signal that "it's safe to contact"</div></div><div class="reveal-card" data-ans="Experiments,Constraints,Intent"><div class="scr"><span style="background:#F5F0BB">Jumia</span>Flash-sale countdown</div><div class="lab-txt" style="font-size:.98rem"><b>Pick</b> the hidden elements (more than one is OK)</div><div class="pick"><button type="button" data-c="Experiments">Experiments</button><button type="button" data-c="Data">Data</button><button type="button" data-c="Operations">Operations</button><button type="button" data-c="Context">Context</button><button type="button" data-c="Constraints">Constraints</button><button type="button" data-c="Intent">Intent</button></div><button type="button" class="go">Check answer</button><div class="res"></div><div class="ans-txt"><b style="color:#856000">Experiments</b> Results of testing timer position and wording<br/><b style="color:#856000">Constraints</b> Brand discount deals · stock<br/><b style="color:#856000">Intent</b> Urgency: "buy now"</div></div><div class="reveal-card" data-ans="Data,Intent,Context"><div class="scr"><span style="background:#F6D5CF">YouTube</span>Autoplay next video</div><div class="lab-txt" style="font-size:.98rem"><b>Pick</b> the hidden elements (more than one is OK)</div><div class="pick"><button type="button" data-c="Experiments">Experiments</button><button type="button" data-c="Data">Data</button><button type="button" data-c="Operations">Operations</button><button type="button" data-c="Context">Context</button><button type="button" data-c="Constraints">Constraints</button><button type="button" data-c="Intent">Intent</button></div><button type="button" class="go">Check answer</button><div class="res"></div><div class="ans-txt"><b style="color:#856000">Data</b> Recommendations learned from watch history<br/><b style="color:#856000">Intent</b> Keep watching the next video<br/><b style="color:#856000">Context</b> Worry about data costs → option to turn off</div></div></div></div><div class="lab-panel" data-panel="2"><div class="self"><div class="checks"><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>For all 3 cards, the team chose first and then checked the answer</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>I understand why the missed elements (dotted) are hidden</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>I can name the hidden elements behind 1 feature of our service</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>I noted 1 hidden element to use in the next lab's prompt</span></button></div><div class="ring-box"><svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(36,59,53,0.12)" stroke-width="12"/><circle class="ring-fg" cx="60" cy="60" r="50" fill="none" stroke="#27765B" stroke-width="12" stroke-linecap="round" stroke-dasharray="0 314.2" transform="rotate(-90 60 60)" style="transition:stroke-dasharray .4s"/><text class="ring-t" x="60" y="68" text-anchor="middle" fill="#243B35" font-size="26" font-weight="900" font-family="Pretendard,sans-serif">0/4</text></svg><div class="msg">Tick the boxes<br/>to check yourself</div></div></div>
+              <div class="career"><b>Startup tip</b><span>When you start a business, <b>anyone can copy your screens.</b> Your edge comes from below the iceberg — operations, data and understanding local users.</span></div></div>
+            </div></article>
+
+            <!-- 14 -->
+            <article class="slide" data-note="Lab demo: put the left and right prompts into AI and show the results side by side. The left gives an ordinary store; the right reflects the growth features you analyzed. But even the right one won't be 100% the same as your design — recording that difference is today's mission."><div class="slide-inner">
+              <span class="slide-kicker">Prompt = your analysis</span>
+              <h2 class="sm">Prompt quality = <span class="hl">depth of growth-hacking analysis</span></h2>
+              <div class="compare">
+                <div class="compare-col bad"><h4><i class="fa-solid fa-xmark"></i> Request without analysis</h4><pre>Build me an online store like Jumia.
+With a product list and a cart.</pre><ul style="margin-top:10px"><li>Result: an average store you've seen everywhere</li><li>No growth or trust features</li></ul><div class="viz-strip" style="margin-top:14px"><svg class="viz" viewBox="0 0 350 80" role="img" aria-label="Result of a request without analysis: an average product card with no trust info" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="78" height="72" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="12" y="11" width="62" height="30" rx="4" fill="rgba(255,255,255,0.82)"/><rect x="12" y="48" width="46" height="5" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="12" y="59" width="28" height="5" rx="2" fill="rgba(255,255,255,0.91)"/><rect x="88" y="4" width="78" height="72" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="96" y="11" width="62" height="30" rx="4" fill="rgba(255,255,255,0.82)"/><rect x="96" y="48" width="46" height="5" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="96" y="59" width="28" height="5" rx="2" fill="rgba(255,255,255,0.91)"/><rect x="172" y="4" width="78" height="72" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><rect x="180" y="11" width="62" height="30" rx="4" fill="rgba(255,255,255,0.82)"/><rect x="180" y="48" width="46" height="5" rx="2" fill="rgba(255,255,255,0.2)"/><rect x="180" y="59" width="28" height="5" rx="2" fill="rgba(255,255,255,0.91)"/><text x="262" y="34" fill="#A83A45" font-size="10.5" font-weight="800">No trust info</text><text x="262" y="50" fill="#4A605A" font-size="9.5">Seen everywhere</text><text x="262" y="63" fill="#4A605A" font-size="9.5">Average card</text></svg></div></div>
+                <div class="compare-col good"><h4><i class="fa-solid fa-check"></i> Request with analysis</h4><pre>Role: Next.js development partner
+Goal: first-time visitors see trust info and open the detail page
+Evidence: OBS-003 (card rating & review count), OBS-007 (delivery & returns info)
+Docs to follow: PRD-001 / BM-002 / ADR-001
+Done when: empty and error states, 360px mobile
+Don't: copy original logos, images or text; add new features
+First, propose a plan and the files to change.</pre><div class="viz-strip" style="margin-top:12px"><svg class="viz" viewBox="0 0 350 80" role="img" aria-label="Result of a request with analysis: a product card with rating, review count and returns info" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="78" height="72" rx="8" fill="rgba(39,118,91,0.066)" stroke="rgba(39,118,91,0.4)"/><rect x="12" y="11" width="62" height="26" rx="4" fill="rgba(255,255,255,0.82)"/><rect x="12" y="42" width="46" height="5" rx="2" fill="rgba(255,255,255,0.2)"/><text x="12" y="58" fill="#856000" font-size="8.5" font-weight="800">★4.6 (200)</text><rect x="12" y="63" width="40" height="9" rx="2" fill="rgba(43,92,166,0.275)"/><text x="32" y="70" text-anchor="middle" fill="#2B5CA6" font-size="6.5" font-weight="800">Free returns</text><rect x="88" y="4" width="78" height="72" rx="8" fill="rgba(39,118,91,0.066)" stroke="rgba(39,118,91,0.4)"/><rect x="96" y="11" width="62" height="26" rx="4" fill="rgba(255,255,255,0.82)"/><rect x="96" y="42" width="46" height="5" rx="2" fill="rgba(255,255,255,0.2)"/><text x="96" y="58" fill="#856000" font-size="8.5" font-weight="800">★4.5 (160)</text><rect x="96" y="63" width="40" height="9" rx="2" fill="rgba(43,92,166,0.275)"/><text x="116" y="70" text-anchor="middle" fill="#2B5CA6" font-size="6.5" font-weight="800">Free returns</text><rect x="172" y="4" width="78" height="72" rx="8" fill="rgba(39,118,91,0.066)" stroke="rgba(39,118,91,0.4)"/><rect x="180" y="11" width="62" height="26" rx="4" fill="rgba(255,255,255,0.82)"/><rect x="180" y="42" width="46" height="5" rx="2" fill="rgba(255,255,255,0.2)"/><text x="180" y="58" fill="#856000" font-size="8.5" font-weight="800">★4.4 (120)</text><rect x="180" y="63" width="40" height="9" rx="2" fill="rgba(43,92,166,0.275)"/><text x="200" y="70" text-anchor="middle" fill="#2B5CA6" font-size="6.5" font-weight="800">Free returns</text><text x="262" y="30" fill="#27765B" font-size="10.5" font-weight="800">OBS-003 applied</text><text x="262" y="46" fill="#4A605A" font-size="9.5">Rating · review count</text><text x="262" y="59" fill="#27765B" font-size="10.5" font-weight="800">OBS-007 applied</text><text x="262" y="74" fill="#4A605A" font-size="9.5">Delivery · returns info</text></svg></div></div>
+              </div>
+            </div></article>
+
+            <!-- LAB -->
+            <article class="slide lab" data-note="Lab 7. Solo. In [Understand the mission], read the difference between the BEFORE and AFTER prompts (yellow parts) together. In [Try it], fill the blanks and the full prompt builds live on the right; copy it into the same AI. Enter the number of trust features in the result along with BEFORE, and bars compare them. Whatever still differs becomes material for the GAP lab on the next slide."><div class="slide-inner">
+              <div class="lab-head"><div><div class="lab-meta"><span class="chip">HANDS-ON 07</span><span class="pill">20 min</span><span class="pill">Solo · AI tool</span></div>
+              <h2 class="sm">Rewrite the prompt: <span class="hl">BEFORE → AFTER</span></h2></div><button class="lab-timer" type="button" data-min="20" aria-label="Start 20-min timer">▶ 20:00</button></div>
+              <div class="lab-tabs" role="tablist"><button type="button" class="on" data-tab="0"><b>1</b>Understand the mission</button><button type="button" data-tab="1"><b>2</b>Try it</button><button type="button" data-tab="2"><b>3</b>Self-check<small class="tab-count">0/0</small></button></div><div class="lab-panel on" data-panel="0"><div class="lab-goal"><span>Goal</span><span>Compare for yourself how the AI result changes when you add today's <b>evidence (OBS · EXP)</b></span></div><div class="bvsa"><div class="p b"><h5>BEFORE-01 · no analysis</h5>Build an app like Jumia.
+Product list and cart.</div><div class="p a"><h5>AFTER-01 · with analysis</h5><mark>Goal</mark>: first-time visitors see rating and review count and open the detail page
+<mark>Evidence</mark>: OBS-003, OBS-007
+<mark>Experiments</mark>: EXP-001 verified-seller badge
+<mark>Completed</mark>: 360px mobile · error states
+<mark>Don't</mark>: copy original logos or text</div></div><div class="flow4" style="--n:4"><div class="fstep"><span class="no">1</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4M9 11h7M9 15h7M9 19h4"/></svg></div><strong>Get your BEFORE</strong><span>Hands-on 01 screenshot</span></div><div class="fstep"><span class="no">2</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg></div><strong>Fill the blanks</strong><span>With OBS · EXP numbers</span></div><div class="fstep"><span class="no">3</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9 17h6"/><circle cx="12" cy="3.5" r="1"/></svg></div><strong>Put it into AI</strong><span>Same AI · same conditions</span></div><div class="fstep"><span class="no">4</span><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="7" height="16" rx="1.5"/><rect x="14" y="4" width="7" height="16" rx="1.5"/><path d="M10 12h4"/></svg></div><strong>Compare counts</strong><span>BEFORE vs AFTER</span></div></div></div><div class="lab-panel" data-panel="1"><div class="lab-row" style="--cols:1fr 1fr"><div class="lab-box" data-pb style="display:flex;flex-direction:column;gap:10px"><div class="pb"><label>Goal<input class="lab-in" data-f="goal" placeholder="First-time visitors see ___ and then ___" /></label><label>Evidence 1<input class="lab-in" data-f="obs1" placeholder="OBS-003 product card rating & review count" /></label><label>Evidence 2<input class="lab-in" data-f="obs2" placeholder="OBS-007 delivery & returns info" /></label><label>Experiments<input class="lab-in" data-f="exp" placeholder="EXP-001 show verified-seller badge" /></label></div><div class="ba" style="margin-top:4px"><div class="ba-row"><span>BEFORE</span><div class="bar"><i style="background:#F6D5CF"></i></div><input class="lab-in" type="number" min="0" max="5" data-ba="0" placeholder="0" /></div><div class="ba-row"><span>AFTER</span><div class="bar"><i style="background:#D7EEDD"></i></div><input class="lab-in" type="number" min="0" max="5" data-ba="1" placeholder="0" /></div><div class="ba-cmp">Enter the number of trust features (0–5) to compare</div></div></div><div class="lab-box" style="display:flex;flex-direction:column"><h4 style="justify-content:space-between">Full prompt · live<button type="button" class="copy-btn" data-copytext="lab7prompt">Copy</button></h4><pre class="pb-out" id="lab7prompt"></pre></div></div></div><div class="lab-panel" data-panel="2"><div class="self"><div class="checks"><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>I filled every blank with <b>OBS · EXP numbers</b></span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>I put it into the same AI and saved a screenshot as <code>AFTER-01</code></span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>I compared the number of trust features in BEFORE and AFTER</span></button><button type="button" class="chk"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg></i><span>I picked 1 part that still came out differently for the GAP lab</span></button></div><div class="ring-box"><svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(36,59,53,0.12)" stroke-width="12"/><circle class="ring-fg" cx="60" cy="60" r="50" fill="none" stroke="#27765B" stroke-width="12" stroke-linecap="round" stroke-dasharray="0 314.2" transform="rotate(-90 60 60)" style="transition:stroke-dasharray .4s"/><text class="ring-t" x="60" y="68" text-anchor="middle" fill="#243B35" font-size="26" font-weight="900" font-family="Pretendard,sans-serif">0/4</text></svg><div class="msg">Tick the boxes<br/>to check yourself</div></div></div>
+              <div class="career"><b>Career link</b><span>A good prompt is a <b>good planning document</b>. You can use it as-is when you outsource development or work with a team.</span></div></div>
+            </div></article>
+
+            <!-- 15 -->
+            <article class="slide dense" data-note="Today's key hands-on experience. ① Before handing it to AI, write your own design (core flow, 3 growth features) on paper ② ask AI for the same thing ③ compare the result with your design and record the GAP ④ sort the differences into 4 types and write &quot;why it came out differently&quot;. The cause is usually &quot;something I didn't write in the prompt&quot; or &quot;something AI filled with the average&quot;."><div class="slide-inner">
+              <span class="slide-kicker">Core experience · GAP experiment</span>
+              <h2 class="sm">My design vs the AI result:<br /><span class="hl">where did it come out differently?</span></h2>
+              <div class="slide-grid steps">
+                <div class="slide-card"><strong>① Design first</strong><span>Before using AI, draw the core flow and 3 growth features yourself</span></div>
+                <div class="slide-card"><strong>② Rebuild with AI</strong><span>Request the same thing in a prompt and get the result</span></div>
+                <div class="slide-card"><strong>③ Record the GAP</strong><span>For each feature, write "what I designed / what AI built" side by side</span></div>
+                <div class="slide-card"><strong>④ Find the cause</strong><span>Why is it different? Missing from the prompt? AI averaging? My design error?</span></div>
+              </div>
+              <div class="viz-strip short"><svg class="viz" viewBox="0 0 1000 172" role="img" aria-label="GAP example: rating display kept, delivery info improved, official-store badge lost, flash sale changed" xmlns="http://www.w3.org/2000/svg"><text x="190" y="13" text-anchor="middle" fill="#4A605A" font-size="12" font-weight="800">My design (before AI)</text><text x="810" y="13" text-anchor="middle" fill="#4A605A" font-size="12" font-weight="800">AI result</text><text x="500" y="13" text-anchor="middle" fill="#4A605A" font-size="11">Example · Jumia (for illustration)</text><rect x="20" y="24" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><text x="36" y="45" fill="#243B35" font-size="13">Rating & review count on product card</text><rect x="640" y="24" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="#27765B"/><text x="656" y="45" fill="#243B35" font-size="13">Shows rating & review count</text><path d="M362 40 H640" stroke="#27765B" stroke-width="2"/><rect x="462" y="28" width="76" height="24" rx="12" fill="#F6F9F4" stroke="#27765B" stroke-width="2"/><text x="500" y="44.5" text-anchor="middle" fill="#27765B" font-size="12" font-weight="900">Retention</text><rect x="20" y="61" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><text x="36" y="82" fill="#243B35" font-size="13">Delivery info at bottom of detail page</text><rect x="640" y="61" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="#2B5CA6"/><text x="656" y="82" fill="#243B35" font-size="13">Delivery & returns summary on the card</text><path d="M362 77 H640" stroke="#2B5CA6" stroke-width="2"/><rect x="462" y="65" width="76" height="24" rx="12" fill="#F6F9F4" stroke="#2B5CA6" stroke-width="2"/><text x="500" y="81.5" text-anchor="middle" fill="#2B5CA6" font-size="12" font-weight="900">Improved</text><rect x="20" y="98" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><text x="36" y="119" fill="#243B35" font-size="13">Official-store badge</text><rect x="640" y="98" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="#A83A45" stroke-dasharray="4 4"/><text x="656" y="119" fill="#4A605A" font-size="13">(none) No seller types</text><path d="M362 114 H640" stroke="#A83A45" stroke-width="2" stroke-dasharray="4 4"/><rect x="462" y="102" width="76" height="24" rx="12" fill="#F6F9F4" stroke="#A83A45" stroke-width="2"/><text x="500" y="118.5" text-anchor="middle" fill="#A83A45" font-size="12" font-weight="900">Lost</text><rect x="20" y="135" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="rgba(36,59,53,0.18)"/><text x="36" y="156" fill="#243B35" font-size="13">Flash-sale countdown</text><rect x="640" y="135" width="340" height="32" rx="8" fill="rgba(255,255,255,0.7)" stroke="#856000"/><text x="656" y="156" fill="#243B35" font-size="13">General discount % banner</text><path d="M362 151 H640" stroke="#856000" stroke-width="2"/><rect x="462" y="139" width="76" height="24" rx="12" fill="#F6F9F4" stroke="#856000" stroke-width="2"/><text x="500" y="155.5" text-anchor="middle" fill="#856000" font-size="12" font-weight="900">Changed</text></svg></div>
+              <div class="gap-legend">
+                <span><i class="dot" style="background:#D7EEDD"></i><b style="color:#27765B">Kept</b> The design intent was built as-is</span>
+                <span><i class="dot" style="background:#D2E0FB"></i><b style="color:#2B5CA6">Improved</b> AI suggested a better option (check the evidence)</span>
+                <span><i class="dot" style="background:#F6D5CF"></i><b style="color:#A83A45">Lost</b> A growth feature was dropped or replaced by a common pattern</span>
+                <span><i class="dot" style="background:#F5F0BB"></i><b style="color:#856000">Changed</b> A different form than intended — a person decides</span>
+              </div>
+            </div></article>
+
+            <!-- 16 -->
+            <article class="slide" data-note="Summary of today's outputs. Make the minimum standard clear. Detailed templates and checklists are in the real-benchmarking workspace (button at the top of the page)."><div class="slide-inner">
+              <span class="slide-kicker">Day 2 mission</span>
+              <h2 class="sm">Today's Outputs</h2>
+              <div class="slide-grid">
+                <div class="slide-card"><div class="card-head"><strong>Output 1 · OBS</strong><svg viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="21" fill="none" stroke="rgba(36,59,53,0.1)" stroke-width="5"/><circle cx="27" cy="27" r="21" fill="none" stroke="#2B5CA6" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.9 131.9" transform="rotate(-90 27 27)"/><text x="27" y="28" text-anchor="middle" fill="#243B35" font-size="13" font-weight="900" font-family="Pretendard,sans-serif">10+</text><text x="27" y="39" text-anchor="middle" fill="#2B5CA6" font-size="7.5" font-weight="700" font-family="Pretendard,sans-serif">items</text></svg></div><span>At least 10 observations (fact/interpretation separated, with screenshot and URL)</span></div>
+                <div class="slide-card"><div class="card-head"><strong>Output 2 · AARRR map</strong><svg viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="21" fill="none" stroke="rgba(36,59,53,0.1)" stroke-width="5"/><circle cx="27" cy="27" r="21" fill="none" stroke="#2B5CA6" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.9 131.9" transform="rotate(-90 27 27)"/><text x="27" y="28" text-anchor="middle" fill="#243B35" font-size="13" font-weight="900" font-family="Pretendard,sans-serif">5</text><text x="27" y="39" text-anchor="middle" fill="#2B5CA6" font-size="7.5" font-weight="700" font-family="Pretendard,sans-serif">stages</text></svg></div><span>Features for 5 stages + growth loop + loop stop condition</span></div>
+                <div class="slide-card"><div class="card-head"><strong>Output 3 · AI rebuild</strong><svg viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="21" fill="none" stroke="rgba(36,59,53,0.1)" stroke-width="5"/><circle cx="27" cy="27" r="21" fill="none" stroke="#27765B" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.9 131.9" transform="rotate(-90 27 27)"/><text x="27" y="28" text-anchor="middle" fill="#243B35" font-size="13" font-weight="900" font-family="Pretendard,sans-serif">1</text><text x="27" y="39" text-anchor="middle" fill="#27765B" font-size="7.5" font-weight="700" font-family="Pretendard,sans-serif">flow</text></svg></div><span>1 core flow, with the prompt and AI-### work log</span></div>
+                <div class="slide-card"><div class="card-head"><strong>Output 4 · GAP table</strong><svg viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="21" fill="none" stroke="rgba(36,59,53,0.1)" stroke-width="5"/><circle cx="27" cy="27" r="21" fill="none" stroke="#856000" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.9 131.9" transform="rotate(-90 27 27)"/><text x="27" y="28" text-anchor="middle" fill="#243B35" font-size="13" font-weight="900" font-family="Pretendard,sans-serif">5+</text><text x="27" y="39" text-anchor="middle" fill="#856000" font-size="7.5" font-weight="700" font-family="Pretendard,sans-serif">items</text></svg></div><span>At least 5 design vs AI differences + causes + next experiment</span></div>
+              </div>
+              <ul class="slide-list">
+                <li><i class="fa-solid fa-check"></i>Fix scope: 1 service · 1 user · 1 task</li>
+                <li><i class="fa-solid fa-check"></i>Don't copy original logos, images, text or code</li>
+                <li><i class="fa-solid fa-check"></i>Use only public screens and official materials</li>
+                <li><i class="fa-solid fa-check"></i>People check and record any claim AI makes</li>
+              </ul>
+            </div></article>
+
+            <!-- 17 -->
+            <article class="slide" data-note="Wrap-up. End with the message that the &quot;difference&quot; you experienced today is the human role. In the AI era, the skill that matters more is not typing code, but &quot;the eye to see what creates growth&quot; and the ability to communicate it clearly in docs and prompts."><div class="slide-inner">
+              <span class="slide-kicker">Takeaway</span>
+              <div class="viz-split"><div>
+              <h2>AI is the fast hands,<br /><span class="hl">growth hacking is the eyes and brain.</span></h2>
+              <p>AI may seem like it can do anything, but it won't tell you what to build or why. The people who see the growth structure clearly use AI best.</p>
+              </div><figure class="viz-fig"><svg class="viz" viewBox="0 0 380 276" role="img" aria-label="AI's fast hands plus human eyes and brain make a product that grows" xmlns="http://www.w3.org/2000/svg"><defs><marker id="m17" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#D7EEDD"/></marker></defs><circle cx="86" cy="96" r="70" fill="rgba(43,92,166,0.132)" stroke="#2B5CA6" stroke-width="2"/><path d="M70 70 l-14 26 h18 l-10 26 l28 -36 h-18 l12 -16z" fill="#D2E0FB"/><text x="86" y="140" text-anchor="middle" fill="#243B35" font-size="14" font-weight="800">AI · fast hands</text><text x="86" y="156" text-anchor="middle" fill="#4A605A" font-size="10">Speed · building</text><text x="190" y="104" text-anchor="middle" fill="#243B35" font-size="30" font-weight="300">+</text><circle cx="294" cy="96" r="70" fill="rgba(133,96,0,0.132)" stroke="#856000" stroke-width="2"/><path d="M262 92 q32 -30 64 0 q-32 30 -64 0z" fill="none" stroke="#856000" stroke-width="2.5"/><circle cx="294" cy="92" r="10" fill="#F5F0BB"/><circle cx="297" cy="89" r="3" fill="#F6F9F4"/><text x="294" y="140" text-anchor="middle" fill="#243B35" font-size="14" font-weight="800">People · eyes and brain</text><text x="294" y="156" text-anchor="middle" fill="#4A605A" font-size="10">Direction · evidence · judgment</text><path class="flow" d="M120 172 Q190 210 190 222" fill="none" stroke="#27765B" stroke-width="2.2" marker-end="url(#m17)"/><path class="flow" d="M260 172 Q190 210 190 222" fill="none" stroke="#27765B" stroke-width="2.2" marker-end="url(#m17)"/><rect class="pulse" x="110" y="230" width="160" height="40" rx="20" fill="rgba(39,118,91,0.176)" stroke="#27765B" stroke-width="2"/><text x="190" y="255" text-anchor="middle" fill="#27765B" font-size="14" font-weight="900">A growing product ↗</text></svg></figure></div>
+              <div class="slide-grid cols-3">
+                <div class="slide-card"><strong>Eyes to see</strong><span>Find the growth features and loops behind the screen</span></div>
+                <div class="slide-card"><strong>Power to explain</strong><span>Communicate your analysis clearly in docs and prompts</span></div>
+                <div class="slide-card"><strong>Responsibility to judge</strong><span>Accept, change or reject AI results based on evidence</span></div>
+              </div>
+            </div></article>
 
           </div>
           <div class="slide-controls">
             <button class="slide-nav-btn" id="prevSlide" type="button" aria-label="Previous slide"><i class="fa-solid fa-chevron-left"></i></button>
-            <div class="slide-progress-wrap"><span class="slide-counter" id="slideCounter">1 / 35</span><div class="slide-progress"><span id="slideProgress"></span></div></div>
+            <div class="slide-progress-wrap"><span class="slide-counter" id="slideCounter">1 / 25</span><div class="slide-progress"><span id="slideProgress"></span></div></div>
             <div class="slide-tools"><button class="slide-nav-btn" id="notesToggle" type="button" aria-label="View lecture notes" aria-pressed="false" title="Lecture notes (N)"><i class="fa-regular fa-comment-dots"></i></button><button class="slide-nav-btn fullscreen-btn" id="fullscreenSlide" type="button" aria-label="Full-screen slides"><i class="fa-solid fa-expand"></i></button><button class="slide-nav-btn" id="nextSlide" type="button" aria-label="Next slide"><i class="fa-solid fa-chevron-right"></i></button></div>
           </div>
           <div class="slide-notes" id="slideNotes"><strong>LECTURE NOTE</strong><span id="slideNoteText"></span></div>
@@ -1791,18 +1329,5 @@ Don't: copy the original's name, logo, colours, pictures or text. Don't add logi
     })();
 </script>
   <script src="shared/header-auth.js?v=20261118-project-logout"></script>
-<script>(function(){
-function fitOne(sl){var inn=sl.querySelector('.slide-inner');if(!inn||!sl.classList.contains('active'))return;
- var lo=0.5,hi=Math.max(0.6,sl.clientWidth/1180);inn.style.zoom=hi;
- if(sl.scrollHeight<=sl.clientHeight+2)return;
- for(var k=0;k<14;k++){var mid=(lo+hi)/2;inn.style.zoom=mid;if(sl.scrollHeight<=sl.clientHeight+2)lo=mid;else hi=mid;}
- inn.style.zoom=lo;}
-function fit(){document.querySelectorAll('.slide.ns.active').forEach(fitOne);}
-var mo=new MutationObserver(function(){setTimeout(fit,0);});document.querySelectorAll('.slide.ns').forEach(function(s){mo.observe(s,{attributes:true,attributeFilter:['class']});});
-addEventListener('resize',fit);document.addEventListener('fullscreenchange',function(){setTimeout(fit,50);});setTimeout(fit,300);document.querySelectorAll('.ns .timer').forEach(function(t){var total=(+t.dataset.min)*60,left=total,h=null,out=t.querySelector('span');
-function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
-t.title='Click: start / pause · Double-click: reset';
-t.addEventListener('click',function(){if(h){clearInterval(h);h=null;t.classList.remove('run');t.firstChild.textContent='▶ ';return;}if(left<=0)return;t.classList.add('run');t.firstChild.textContent='❚❚ ';h=setInterval(function(){left--;out.textContent=fmt(left);if(left<=0){clearInterval(h);h=null;t.classList.remove('run');t.classList.add('done');}},1000);});
-t.addEventListener('dblclick',function(){clearInterval(h);h=null;left=total;out.textContent=fmt(left);t.classList.remove('run','done');t.firstChild.textContent='▶ ';});});})();</script>
 </body>
 </html>
