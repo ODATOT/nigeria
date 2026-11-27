@@ -14,7 +14,7 @@
     { studentId: "AI-TOT-008", name: "Frank Onyekachi Uchehara", team: "Frankbotics Technologies Limited", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-008.jpg?v=2" },
     { studentId: "AI-TOT-009", name: "Oluwaseyi Adetunji Adebayo", team: "Coderina EdTech Foundation", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-009.png" },
     { studentId: "AI-TOT-010", name: "Peter Oluwayomi Kolapo", team: "ECOWAS", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-010.jpg" },
-    { studentId: "AI-TOT-011", name: "Archibong Effiong Nsa", team: "AUP Digital Africa", avatar: "👨🏽‍💻" },
+    { studentId: "AI-TOT-011", name: "Archibong Effiong Nsa", team: "AUP Digital Africa", avatar: "👨🏽‍💻", photo: "profile-photos/AI-TOT-011.jpg" },
     { studentId: "AI-TOT-012", name: "Princess Elo Ahante", team: "HerCraft", avatar: "👩🏽‍💻", photo: "profile-photos/AI-TOT-012.png" },
     { studentId: "AI-TOT-013", name: "Kolawole Allen Akoni", team: "Goreel", avatar: "👨🏽‍💻" },
     { studentId: "AI-TOT-014", name: "Zitamary Chidimma Anumenwe", team: "Foothills Consulting", avatar: "👩🏽‍💻", photo: "profile-photos/AI-TOT-014.jpg" },
